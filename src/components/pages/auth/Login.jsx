@@ -4,7 +4,7 @@ import axios from 'axios'
 const Login = () => {
     return (
         <h1 className="text-3xl font-bold underline">
-            Hello world!
+            hi world!
         </h1>
     )
 }
