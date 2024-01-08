@@ -51,8 +51,8 @@ const Sidebar = () => {
     ];
     const [open, setOpen] = useState(true);
     return (
-        <main className="">
-            <div className="flex justify-start">
+        <div className="grid grid-rows-3 grid-flow-col gap-0">
+            <div className="row-span-3">
                 <div className={`bg-[#0e0e0e] min-h-screen ${open ? 'w-60' : "w-16"}
                 duration-500 text-gray-100 px-4`}>
                     <div className="py-3 flex justify-end">
@@ -89,104 +89,349 @@ const Sidebar = () => {
 
                     </div>
                 </div>
-                <div className="">
-                    <nav className="bg-gray-800">
-                        <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
-                            <div className="relative flex h-16 items-center justify-between">
-                                <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
-                                    {/* <!-- Mobile menu button--> */}
-                                    <button type="button" className="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white" aria-controls="mobile-menu" aria-expanded="false">
-                                        <span className="absolute -inset-0.5"></span>
-                                        <span className="sr-only">Open main menu</span>
-                                        {/* <!--
-            Icon when menu is closed.
- 
-            Menu open: "hidden", Menu closed: "block"
-          --> */}
-                                        <svg className="block h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
-                                        </svg>
-                                        {/* <!--
-            Icon when menu is open.
- 
-            Menu open: "block", Menu closed: "hidden"
-          --> */}
-                                        <svg className="hidden h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-                                        </svg>
-                                    </button>
+            </div>
+            {/* <div className="col-span-3">
+                <nav class="bg-gray-800">
+                    <div class="mx-auto max-w-screen px-2 sm:px-6 lg:px-8">
+                        <div class="relative flex h-16 items-center justify-between">
+                            <div class="absolute inset-y-0 left-0 flex items-center sm:hidden">
+                                <button type="button" class="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white" aria-controls="mobile-menu" aria-expanded="false">
+                                    <span class="absolute -inset-0.5"></span>
+                                    <span class="sr-only">Open main menu</span>
+                                    <svg class="block h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+                                    </svg>
+                                    <svg class="hidden h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                                    </svg>
+                                </button>
+                            </div>
+                            <div class="flex flex-1 items-center justify-between sm:items-stretch sm:justify-start">
+                                <div class="flex flex-shrink-0 items-center">
+                                    <img class="h-8 w-auto" src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500" alt="Your Company" />
                                 </div>
-                                <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
-                                    <div className="flex flex-shrink-0 items-center">
-                                        <img className="h-8 w-auto" src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500" alt="Your Company" />
+                            </div>
+                            <div class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+                                <button type="button" class="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
+                                    <span class="absolute -inset-1.5"></span>
+                                    <span class="sr-only">View notifications</span>
+                                    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" />
+                                    </svg>
+                                </button>
+                                <div class="relative ml-3">
+                                    <div>
+                                        <button type="button" class="relative flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800" id="user-menu-button" aria-expanded="false" aria-haspopup="true">
+                                            <span class="absolute -inset-1.5"></span>
+                                            <span class="sr-only">Open user menu</span>
+                                            <img class="h-8 w-8 rounded-full" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="" />
+                                        </button>
                                     </div>
-                                    <div className="hidden sm:ml-6 sm:block">
-                                        <div className="flex space-x-4">
-                                            {/* <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" --> */}
-                                            <a href="#" className="bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium" aria-current="page">Dashboard</a>
-                                            <a href="#" className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">Team</a>
-                                            <a href="#" className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">Projects</a>
-                                            <a href="#" className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">Calendar</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-                                    <button type="button" className="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
-                                        <span className="absolute -inset-1.5"></span>
-                                        <span className="sr-only">View notifications</span>
-                                        <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" />
-                                        </svg>
-                                    </button>
-
-                                    {/* <!-- Profile dropdown --> */}
-                                    <div className="relative ml-3">
-                                        <div>
-                                            <button type="button" className="relative flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800" id="user-menu-button" aria-expanded="false" aria-haspopup="true">
-                                                <span className="absolute -inset-1.5"></span>
-                                                <span className="sr-only">Open user menu</span>
-                                                <img className="h-8 w-8 rounded-full" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="" />
-                                            </button>
-                                        </div>
-
-                                        {/* <!--
-            Dropdown menu, show/hide based on menu state.
- 
-            Entering: "transition ease-out duration-100"
-              From: "transform opacity-0 scale-95"
-              To: "transform opacity-100 scale-100"
-            Leaving: "transition ease-in duration-75"
-              From: "transform opacity-100 scale-100"
-              To: "transform opacity-0 scale-95"
-          --> */}
-                                        <div className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1">
-                                            {/* <!-- Active: "bg-gray-100", Not Active: "" --> */}
-                                            <a href="#" className="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-0">Your Profile</a>
-                                            <a href="#" className="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-1">Settings</a>
-                                            <a href="#" className="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-2">Sign out</a>
-                                        </div>
+                                    <div class="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1">
+                                        <a href="#" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-0">Your Profile</a>
+                                        <a href="#" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-1">Settings</a>
+                                        <a href="#" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-2">Sign out</a>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                    </div>
+                </nav>
+            </div> */}
+            <div className="row-span-2 col-span-12">
+                <div className='text-center mt-8'>
+                    <p class="text-md">Monday, January 08</p>
+                    <h2 class=" text-4xl font-bold dark:text-white">Good Morning, Bhavitha</h2>
+                    <div className='flex justify-center mt-6'>
+                        <div className="border-r-2 border-black-100">
+                            <h5 className='mr-4 ml-4'>Total Tasks</h5>
+                            <p className='mr-4 ml-4'>1,000</p>
+                        </div>
+                        <div className="border-r-2 border-dark">
+                            <h5 className='mr-4 ml-4'>Completed Tasks</h5>
+                            <p className='mr-4 ml-4'>1,000</p>
+                        </div>
 
-                        {/* <!-- Mobile menu, show/hide based on menu state. --> */}
-                        <div className="sm:hidden" id="mobile-menu">
-                            <div className="space-y-1 px-2 pb-3 pt-2">
-                                {/* <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" --> */}
-                                <a href="#" className="bg-gray-900 text-white block rounded-md px-3 py-2 text-base font-medium" aria-current="page">Dashboard</a>
-                                <a href="#" className="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium">Team</a>
-                                <a href="#" className="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium">Projects</a>
-                                <a href="#" className="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium">Calendar</a>
+                        <div className="border-r-2 border-100">
+                            <h5 className='mr-4 ml-4'>Upcoming Tasks</h5>
+                            <p className='mr-4 ml-4'>1,000</p>
+                        </div>
+                        <div className="">
+                            <h5 className='mr-4 ml-4'>Overdue Tasks</h5>
+                            <p className='mr-4 ml-4'>1,000</p>
+                        </div>
+                    </div>
+                </div>
+                <div className='flex flex-wrap justify-center gap-4 mt-5'>
+                    <div className='flex flex-col overflow-hidden w-full sm:w-96  '>
+                        <div class="w-full max-w-md p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700">
+                            <div class="flex items-center justify-between mb-4">
+                                <h5 class="text-xl font-bold leading-none text-gray-900 dark:text-white">Entities</h5>
+                                <a href="#" class="text-sm font-medium text-white-600 hover:underline dark:text-white-500">
+                                    <button class="inline-flex items-center justify-center whitespace-nowrap rounded-2xl text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground shadow hover:bg-primary/90 h-9 px-4 py-2 shrink-0 bg-orange-400 text-white gap-1">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5 ">
+                                            <path d="M10.75 4.75a.75.75 0 0 0-1.5 0v4.5h-4.5a.75.75 0 0 0 0 1.5h4.5v4.5a.75.75 0 0 0 1.5 0v-4.5h4.5a.75.75 0 0 0 0-1.5h-4.5v-4.5Z" />
+                                        </svg>
+                                        Create</button>
+                                </a>
+                            </div>
+                            <div className='flex gap-4'>
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+                                    <path fill-rule="evenodd" d="M9 3.5a5.5 5.5 0 1 0 0 11 5.5 5.5 0 0 0 0-11ZM2 9a7 7 0 1 1 12.452 4.391l3.328 3.329a.75.75 0 1 1-1.06 1.06l-3.329-3.328A7 7 0 0 1 2 9Z" clip-rule="evenodd" />
+                                </svg>
+                                <p>Search Entity</p>
+
+                            </div><hr className='w-60 my-2' />
+                            <div class="flow-root">
+                                <ul role="list" class="divide-y divide-gray-200 dark:divide-gray-700">
+                                    <li class="py-3 sm:py-4">
+                                        <div class="flex items-center">
+                                            <div class="flex-shrink-0">
+                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+                                                    <path fill-rule="evenodd" d="M16.403 12.652a3 3 0 0 0 0-5.304 3 3 0 0 0-3.75-3.751 3 3 0 0 0-5.305 0 3 3 0 0 0-3.751 3.75 3 3 0 0 0 0 5.305 3 3 0 0 0 3.75 3.751 3 3 0 0 0 5.305 0 3 3 0 0 0 3.751-3.75Zm-2.546-4.46a.75.75 0 0 0-1.214-.883l-3.483 4.79-1.88-1.88a.75.75 0 1 0-1.06 1.061l2.5 2.5a.75.75 0 0 0 1.137-.089l4-5.5Z" clip-rule="evenodd" />
+                                                </svg>
+
+                                            </div>
+                                            <div class="flex-1 min-w-0 ms-4">
+                                                <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
+                                                    Kapil Knowledge Hub Private Limited
+                                                </p>
+
+                                            </div>
+                                            <div class="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
+                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+                                                    <path d="M6.3 2.84A1.5 1.5 0 0 0 4 4.11v11.78a1.5 1.5 0 0 0 2.3 1.27l9.344-5.891a1.5 1.5 0 0 0 0-2.538L6.3 2.841Z" />
+                                                </svg>
+
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="py-3 sm:py-4">
+                                        <div class="flex items-center ">
+                                            <div class="flex-shrink-0">
+                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+                                                    <path fill-rule="evenodd" d="M16.403 12.652a3 3 0 0 0 0-5.304 3 3 0 0 0-3.75-3.751 3 3 0 0 0-5.305 0 3 3 0 0 0-3.751 3.75 3 3 0 0 0 0 5.305 3 3 0 0 0 3.75 3.751 3 3 0 0 0 5.305 0 3 3 0 0 0 3.751-3.75Zm-2.546-4.46a.75.75 0 0 0-1.214-.883l-3.483 4.79-1.88-1.88a.75.75 0 1 0-1.06 1.061l2.5 2.5a.75.75 0 0 0 1.137-.089l4-5.5Z" clip-rule="evenodd" />
+                                                </svg>
+
+                                            </div>
+                                            <div class="flex-1 min-w-0 ms-4">
+                                                <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
+                                                    Kapil Properties
+                                                </p>
+
+                                            </div>
+                                            <div class="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
+                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+                                                    <path d="M6.3 2.84A1.5 1.5 0 0 0 4 4.11v11.78a1.5 1.5 0 0 0 2.3 1.27l9.344-5.891a1.5 1.5 0 0 0 0-2.538L6.3 2.841Z" />
+                                                </svg>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="py-3 sm:py-4">
+                                        <div class="flex items-center">
+                                            <div class="flex-shrink-0">
+                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+                                                    <path fill-rule="evenodd" d="M16.403 12.652a3 3 0 0 0 0-5.304 3 3 0 0 0-3.75-3.751 3 3 0 0 0-5.305 0 3 3 0 0 0-3.751 3.75 3 3 0 0 0 0 5.305 3 3 0 0 0 3.75 3.751 3 3 0 0 0 5.305 0 3 3 0 0 0 3.751-3.75Zm-2.546-4.46a.75.75 0 0 0-1.214-.883l-3.483 4.79-1.88-1.88a.75.75 0 1 0-1.06 1.061l2.5 2.5a.75.75 0 0 0 1.137-.089l4-5.5Z" clip-rule="evenodd" />
+                                                </svg>
+
+                                            </div>
+                                            <div class="flex-1 min-w-0 ms-4">
+                                                <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
+                                                    Kapil Chits
+                                                </p>
+
+                                            </div>
+                                            <div class="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
+                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+                                                    <path d="M6.3 2.84A1.5 1.5 0 0 0 4 4.11v11.78a1.5 1.5 0 0 0 2.3 1.27l9.344-5.891a1.5 1.5 0 0 0 0-2.538L6.3 2.841Z" />
+                                                </svg>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="py-3 sm:py-4">
+                                        <div class="flex items-center ">
+                                            <div class="flex-shrink-0">
+                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+                                                    <path fill-rule="evenodd" d="M16.403 12.652a3 3 0 0 0 0-5.304 3 3 0 0 0-3.75-3.751 3 3 0 0 0-5.305 0 3 3 0 0 0-3.751 3.75 3 3 0 0 0 0 5.305 3 3 0 0 0 3.75 3.751 3 3 0 0 0 5.305 0 3 3 0 0 0 3.751-3.75Zm-2.546-4.46a.75.75 0 0 0-1.214-.883l-3.483 4.79-1.88-1.88a.75.75 0 1 0-1.06 1.061l2.5 2.5a.75.75 0 0 0 1.137-.089l4-5.5Z" clip-rule="evenodd" />
+                                                </svg>
+
+                                            </div>
+                                            <div class="flex-1 min-w-0 ms-4">
+                                                <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
+                                                    Kapil IT Solutions
+                                                </p>
+
+                                            </div>
+                                            <div class="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
+                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+                                                    <path d="M6.3 2.84A1.5 1.5 0 0 0 4 4.11v11.78a1.5 1.5 0 0 0 2.3 1.27l9.344-5.891a1.5 1.5 0 0 0 0-2.538L6.3 2.841Z" />
+                                                </svg>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="pt-3 pb-0 sm:pt-4">
+                                        <div class="flex items-center ">
+                                            <div class="flex-shrink-0">
+                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+                                                    <path fill-rule="evenodd" d="M16.403 12.652a3 3 0 0 0 0-5.304 3 3 0 0 0-3.75-3.751 3 3 0 0 0-5.305 0 3 3 0 0 0-3.751 3.75 3 3 0 0 0 0 5.305 3 3 0 0 0 3.75 3.751 3 3 0 0 0 5.305 0 3 3 0 0 0 3.751-3.75Zm-2.546-4.46a.75.75 0 0 0-1.214-.883l-3.483 4.79-1.88-1.88a.75.75 0 1 0-1.06 1.061l2.5 2.5a.75.75 0 0 0 1.137-.089l4-5.5Z" clip-rule="evenodd" />
+                                                </svg>
+
+                                            </div>
+                                            <div class="flex-1 min-w-0 ms-4">
+                                                <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
+                                                    Taaza Panta
+                                                </p>
+
+                                            </div>
+                                            <div class="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
+                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+                                                    <path d="M6.3 2.84A1.5 1.5 0 0 0 4 4.11v11.78a1.5 1.5 0 0 0 2.3 1.27l9.344-5.891a1.5 1.5 0 0 0 0-2.538L6.3 2.841Z" />
+                                                </svg>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
                             </div>
                         </div>
-                    </nav>
 
+                    </div>
+                    <div className='flex flex-col overflow-hidden w-full sm:w-96  '>
+
+
+                        <div class="w-full max-w-md p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700">
+                            <div class="flex items-center justify-between mb-4">
+                                <h5 class="text-xl font-bold leading-none text-gray-900 dark:text-white">Users</h5>
+                                <a href="#" class="text-sm font-medium text-white-600 hover:underline dark:text-white-500">
+                                    <button class="inline-flex items-center justify-center whitespace-nowrap rounded-2xl text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground shadow hover:bg-primary/90 h-9 px-4 py-2 shrink-0 bg-orange-400 text-white gap-1">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5 ">
+                                            <path d="M10.75 4.75a.75.75 0 0 0-1.5 0v4.5h-4.5a.75.75 0 0 0 0 1.5h4.5v4.5a.75.75 0 0 0 1.5 0v-4.5h4.5a.75.75 0 0 0 0-1.5h-4.5v-4.5Z" />
+                                        </svg>
+                                        Create</button>
+                                </a>
+                            </div>
+                            <div className='flex gap-4'>
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+                                    <path fill-rule="evenodd" d="M9 3.5a5.5 5.5 0 1 0 0 11 5.5 5.5 0 0 0 0-11ZM2 9a7 7 0 1 1 12.452 4.391l3.328 3.329a.75.75 0 1 1-1.06 1.06l-3.329-3.328A7 7 0 0 1 2 9Z" clip-rule="evenodd" />
+                                </svg>
+                                <p>Search User</p>
+
+                            </div><hr className='w-60 my-2' />
+                            <div class="flow-root">
+                                <ul role="list" class="divide-y divide-gray-200 dark:divide-gray-700">
+                                    <li class="py-3 sm:py-4">
+                                        <div class="flex items-center">
+                                            <div class="flex-shrink-0">
+                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+                                                    <path fill-rule="evenodd" d="M16.403 12.652a3 3 0 0 0 0-5.304 3 3 0 0 0-3.75-3.751 3 3 0 0 0-5.305 0 3 3 0 0 0-3.751 3.75 3 3 0 0 0 0 5.305 3 3 0 0 0 3.75 3.751 3 3 0 0 0 5.305 0 3 3 0 0 0 3.751-3.75Zm-2.546-4.46a.75.75 0 0 0-1.214-.883l-3.483 4.79-1.88-1.88a.75.75 0 1 0-1.06 1.061l2.5 2.5a.75.75 0 0 0 1.137-.089l4-5.5Z" clip-rule="evenodd" />
+                                                </svg>
+
+                                            </div>
+                                            <div class="flex-1 min-w-0 ms-4">
+                                                <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
+                                                    Bhaskar
+                                                </p>
+
+                                            </div>
+                                            <div class="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
+                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+                                                    <path d="M6.3 2.84A1.5 1.5 0 0 0 4 4.11v11.78a1.5 1.5 0 0 0 2.3 1.27l9.344-5.891a1.5 1.5 0 0 0 0-2.538L6.3 2.841Z" />
+                                                </svg>
+
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="py-3 sm:py-4">
+                                        <div class="flex items-center ">
+                                            <div class="flex-shrink-0">
+                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+                                                    <path fill-rule="evenodd" d="M16.403 12.652a3 3 0 0 0 0-5.304 3 3 0 0 0-3.75-3.751 3 3 0 0 0-5.305 0 3 3 0 0 0-3.751 3.75 3 3 0 0 0 0 5.305 3 3 0 0 0 3.75 3.751 3 3 0 0 0 5.305 0 3 3 0 0 0 3.751-3.75Zm-2.546-4.46a.75.75 0 0 0-1.214-.883l-3.483 4.79-1.88-1.88a.75.75 0 1 0-1.06 1.061l2.5 2.5a.75.75 0 0 0 1.137-.089l4-5.5Z" clip-rule="evenodd" />
+                                                </svg>
+
+                                            </div>
+                                            <div class="flex-1 min-w-0 ms-4">
+                                                <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
+                                                    Bala Krishna
+                                                </p>
+
+                                            </div>
+                                            <div class="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
+                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+                                                    <path d="M6.3 2.84A1.5 1.5 0 0 0 4 4.11v11.78a1.5 1.5 0 0 0 2.3 1.27l9.344-5.891a1.5 1.5 0 0 0 0-2.538L6.3 2.841Z" />
+                                                </svg>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="py-3 sm:py-4">
+                                        <div class="flex items-center">
+                                            <div class="flex-shrink-0">
+                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+                                                    <path fill-rule="evenodd" d="M16.403 12.652a3 3 0 0 0 0-5.304 3 3 0 0 0-3.75-3.751 3 3 0 0 0-5.305 0 3 3 0 0 0-3.751 3.75 3 3 0 0 0 0 5.305 3 3 0 0 0 3.75 3.751 3 3 0 0 0 5.305 0 3 3 0 0 0 3.751-3.75Zm-2.546-4.46a.75.75 0 0 0-1.214-.883l-3.483 4.79-1.88-1.88a.75.75 0 1 0-1.06 1.061l2.5 2.5a.75.75 0 0 0 1.137-.089l4-5.5Z" clip-rule="evenodd" />
+                                                </svg>
+
+                                            </div>
+                                            <div class="flex-1 min-w-0 ms-4">
+                                                <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
+                                                    Bhavitha
+                                                </p>
+
+                                            </div>
+                                            <div class="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
+                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+                                                    <path d="M6.3 2.84A1.5 1.5 0 0 0 4 4.11v11.78a1.5 1.5 0 0 0 2.3 1.27l9.344-5.891a1.5 1.5 0 0 0 0-2.538L6.3 2.841Z" />
+                                                </svg>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="py-3 sm:py-4">
+                                        <div class="flex items-center ">
+                                            <div class="flex-shrink-0">
+                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+                                                    <path fill-rule="evenodd" d="M16.403 12.652a3 3 0 0 0 0-5.304 3 3 0 0 0-3.75-3.751 3 3 0 0 0-5.305 0 3 3 0 0 0-3.751 3.75 3 3 0 0 0 0 5.305 3 3 0 0 0 3.75 3.751 3 3 0 0 0 5.305 0 3 3 0 0 0 3.751-3.75Zm-2.546-4.46a.75.75 0 0 0-1.214-.883l-3.483 4.79-1.88-1.88a.75.75 0 1 0-1.06 1.061l2.5 2.5a.75.75 0 0 0 1.137-.089l4-5.5Z" clip-rule="evenodd" />
+                                                </svg>
+
+                                            </div>
+                                            <div class="flex-1 min-w-0 ms-4">
+                                                <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
+                                                    Irshad
+                                                </p>
+
+                                            </div>
+                                            <div class="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
+                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+                                                    <path d="M6.3 2.84A1.5 1.5 0 0 0 4 4.11v11.78a1.5 1.5 0 0 0 2.3 1.27l9.344-5.891a1.5 1.5 0 0 0 0-2.538L6.3 2.841Z" />
+                                                </svg>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="pt-3 pb-0 sm:pt-4">
+                                        <div class="flex items-center ">
+                                            <div class="flex-shrink-0">
+                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+                                                    <path fill-rule="evenodd" d="M16.403 12.652a3 3 0 0 0 0-5.304 3 3 0 0 0-3.75-3.751 3 3 0 0 0-5.305 0 3 3 0 0 0-3.751 3.75 3 3 0 0 0 0 5.305 3 3 0 0 0 3.75 3.751 3 3 0 0 0 5.305 0 3 3 0 0 0 3.751-3.75Zm-2.546-4.46a.75.75 0 0 0-1.214-.883l-3.483 4.79-1.88-1.88a.75.75 0 1 0-1.06 1.061l2.5 2.5a.75.75 0 0 0 1.137-.089l4-5.5Z" clip-rule="evenodd" />
+                                                </svg>
+
+                                            </div>
+                                            <div class="flex-1 min-w-0 ms-4">
+                                                <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
+                                                    Bhavitha
+                                                </p>
+
+                                            </div>
+                                            <div class="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
+                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+                                                    <path d="M6.3 2.84A1.5 1.5 0 0 0 4 4.11v11.78a1.5 1.5 0 0 0 2.3 1.27l9.344-5.891a1.5 1.5 0 0 0 0-2.538L6.3 2.841Z" />
+                                                </svg>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+                    </div>
                 </div>
             </div>
-
-
-        </main>
+        </div>
     );
 }
 
