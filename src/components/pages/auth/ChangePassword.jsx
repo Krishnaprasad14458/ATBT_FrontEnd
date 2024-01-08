@@ -1,9 +1,13 @@
-function ChangePassword() {
-    return (
-        <div>
-            <h1>ChangePassword</h1>
-        </div>
-    );
+import React from 'react';
+
+const ChangePassword = () => {
+  return (
+    <div>
+      <h2> push change </h2>
+
+      
+    </div>
+  );
 }
 
 export default ChangePassword;
