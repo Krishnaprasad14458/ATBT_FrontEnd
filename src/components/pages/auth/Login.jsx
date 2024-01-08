@@ -1,29 +1,26 @@
 
-import React, { useState } from 'react'
-
+import React, { useContext, useState } from 'react'
+import { AuthContext } from '../../contexts/authContext';
 import login_bg from './../../common/Images/login_bg.jpg';
 import logo from './../../common/Images/logo.png';
-import axios from 'axios';
+
 
 const Login = () => {
+    const { adminLogin } = useContext(AuthContext);
     const [formData, setFormData] = useState({ email: '', password: '' })
     const handleFormData = (e) => {
-        const {
-            name, value
-        } = e.target;
+        const {name, value} = e.target;
         setFormData((previous) => ({ ...previous, [name]: value }))
     }
-    const handleSubmit = (e) => {
+    const loginHandler = (e) => {
         e.preventDefault();
-        axios.post("http://44.218.50.19:3000/adminlogin", formData).then((res) => {
-            console.log(res)
+        console.log(formData)
+        if (!formData.email.trim() || !formData.password.trim()) {
+        } else {
+          adminLogin(formData);
         }
-        ).catch((err) => {
-            console.log("err", err)
-        }
-        )
-
-    }
+      };
+    
     return (
         <main className="relative flex flex-1 flex-col overflow-hidden sm:px-6 lg:px-8">
             <img src={login_bg} alt="background image" className="absolute left-1/2 top-0 -ml-[47.5rem] w-[122.5rem] max-w-none" />
@@ -48,7 +45,7 @@ const Login = () => {
                                 <div className="flex items-center justify-between">
                                     <label htmlFor="password" className="block text-sm font-medium leading-6 text-gray-900">Password</label>
                                     <div className="text-sm">
-                                        <a href="/resetpassword" className="font-semibold text-orange-600 hover:text-orange-500">Forgot password?</a>
+                                        <a href="/changepassword" className="font-semibold text-orange-600 hover:text-orange-500">Forgot password?</a>
                                     </div>
                                 </div>
                                 <div className="mt-2">
@@ -57,7 +54,7 @@ const Login = () => {
                             </div>
 
                             <div>
-                                <button type="submit" onClick={handleSubmit}
+                                <button type="submit" onClick={loginHandler}
                                     className="flex w-full justify-center rounded-md bg-orange-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600">Sign in</button>
                             </div>
                         </form>

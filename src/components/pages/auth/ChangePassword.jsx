@@ -1,20 +1,26 @@
 
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import login_bg from './../../common/Images/login_bg.jpg';
 import logo from './../../common/Images/logo.png';
-import axios from 'axios';
+import { AuthContext } from '../../contexts/authContext';
+import { useParams } from 'react-router-dom';
 
 function ChangePassword() {
-
+    const { id } = useParams();
+    const { resetPassword } = useContext(AuthContext);
     const [password, setPassword] = useState('')
     const [confirmPassword, setConfirmPassword] = useState("")
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        if (password == confirmPassword) {
+        if (password === confirmPassword) {
             console.log("password", password, "confirmPassword", confirmPassword);
+            resetPassword({
+                id,password
+            })
         } else { console.log("error") }
     }
+
     return (
         <main className="relative flex flex-1 flex-col overflow-hidden sm:px-6 lg:px-8">
             <img src={login_bg} alt="background image" className="absolute left-1/2 top-0 -ml-[47.5rem] w-[122.5rem] max-w-none" />

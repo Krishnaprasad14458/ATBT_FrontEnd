@@ -16,7 +16,7 @@ function App() {
         <Route path="/resetpassword" element={<ResetPassword />} />
         <Route path="/sidebar" element={<Sidebar />} />
       </Routes>
-
+   
     </div>
   );
 }
