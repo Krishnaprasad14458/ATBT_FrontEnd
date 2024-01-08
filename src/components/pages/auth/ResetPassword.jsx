@@ -1,16 +1,21 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 
-import axios from 'axios';
 import login_bg from './../../common/Images/login_bg.jpg';
 import logo from './../../common/Images/logo.png';
+import { AuthContext } from '../../contexts/authContext';
+
 
 function ResetPassword() {
+    const { changePassword } = useContext(AuthContext);
     const [email, setEmail] = useState("");
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log(email);
-    }
+        if (!email.trim()) {
+        } else {
+            changePassword({email});
+        }
+      };
     return (
         <main className="relative flex flex-1 flex-col overflow-hidden sm:px-6 lg:px-8">
             <img src={login_bg} alt="background image" className="absolute left-1/2 top-0 -ml-[47.5rem] w-[122.5rem] max-w-none" />

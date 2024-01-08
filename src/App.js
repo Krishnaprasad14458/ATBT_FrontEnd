@@ -9,14 +9,12 @@ import Sidebar from './components/common/Sidebar/Sidebar';
 function App() {
   return (
     <div className="App">
-      <BrowserRouter>
-        <Sidebar />
-        <Routes>
-          <Route path="/" element={<Login />} />
-          <Route path="/changepassword" element={<ChangePassword />} />
-          <Route path="/resetpassword" element={<ResetPassword />} />
-        </Routes>
-      </BrowserRouter>
+      <Sidebar />
+      <Routes>
+        <Route path="/" element={<Login />} />
+        <Route path="/resetpassword/:id" element={<ChangePassword />} />
+        <Route path="/changepassword" element={<ResetPassword />} />
+      </Routes>
     </div>
   );
 }
