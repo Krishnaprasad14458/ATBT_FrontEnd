@@ -1,6 +1,6 @@
 
 import React, { useContext, useState } from 'react'
-import { AuthContext } from '../../contexts/authContext';
+import { AuthContext } from '../../../contexts/authContext';
 import login_bg from './../../common/Images/login_bg.jpg';
 import logo from './../../common/Images/logo.png';
 
