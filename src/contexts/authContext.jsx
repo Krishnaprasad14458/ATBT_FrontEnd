@@ -21,7 +21,6 @@ const AuthProvider = ({ children }) => {
 
   const adminLogin = async (loginData) => {
     try {
-      // const { status, data } = await axios.post(`http://3.111.0.222/adminlogin`, loginData);
       const { status, data } = await toast.promise(
         axios.post(`http://3.111.0.222/adminlogin`, loginData),
         {
@@ -113,6 +112,7 @@ const changePassword = async (emailData) => {
     localStorage.removeItem("data");
     authDispatch({ type: "SET_USER", payload: {} });
     authDispatch({ type: "SET_TOKEN", payload: "" });
+    navigate("/");
   };
 
   useEffect(() => {
