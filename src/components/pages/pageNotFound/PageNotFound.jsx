@@ -1,14 +1,14 @@
 import { useNavigate } from "react-router-dom";
+import './notFound.css';
 
 const PageNotFound = () => {
   const navigate = useNavigate();
   document.title = "Page Not Found";
   return (
-    <div>
+    <div className="not-found">
       <div>
-        <h1>404 - Page Not Found</h1>
-        <p>Oops! It looks like the page you're trying to access doesn't exist.</p>
-        <p>Don't worry, you can navigate back to the home page or try another route.</p>
+        <h1>404</h1>
+        <p>Page not found</p>
         <button onClick={() => navigate("/")}>Back to Home</button>
       </div>
     </div>
