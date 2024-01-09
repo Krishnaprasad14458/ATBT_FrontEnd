@@ -1,17 +1,35 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
+import "react-toastify/dist/ReactToastify.css";
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
+import { ToastContainer } from "react-toastify";
 import AuthProvider from './contexts/authContext';
+import UserDataProvider from './contexts/usersDataContext';
+
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <BrowserRouter>
       <AuthProvider>
-        <App />
+        <UserDataProvider>
+          <App />
+          <ToastContainer
+            position="top-right"
+            autoClose={1000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+          />
+        </UserDataProvider>
       </AuthProvider>
     </BrowserRouter>
   </React.StrictMode>
