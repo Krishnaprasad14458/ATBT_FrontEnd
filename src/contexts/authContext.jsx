@@ -32,7 +32,7 @@ const AuthProvider = ({ children }) => {
           error: 'Wrong Credentials 🤯',
         },
       )
-      console.log(data)
+      console.log(data, status)
       if (status === 200) {
         localStorage.setItem(
           "data",
