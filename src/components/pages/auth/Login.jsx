@@ -1,17 +1,22 @@
 
 import React, { useContext, useState } from 'react'
 import { AuthContext } from '../../../contexts/authContext';
+import { UserDataContext } from '../../../contexts/usersDataContext';
 import login_bg from './../../common/Images/login_bg.jpg';
 import logo from './../../common/Images/logo.png';
+import axios from 'axios';
 
 
 const Login = () => {
     const { adminLogin } = useContext(AuthContext);
+    const { usersState } = useContext(UserDataContext);
+    console.log(usersState,"uss")
     const [formData, setFormData] = useState({ email: '', password: '' })
     const handleFormData = (e) => {
         const {name, value} = e.target;
         setFormData((previous) => ({ ...previous, [name]: value }))
     }
+    
     const loginHandler = (e) => {
         e.preventDefault();
         console.log(formData)
