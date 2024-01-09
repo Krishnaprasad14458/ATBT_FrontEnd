@@ -6,6 +6,7 @@ import ResetPassword from './components/pages/auth/ResetPassword';
 import Sidebar from './components/common/Sidebar/Sidebar';
 import RequireAuth from './components/requireAuth/RequireAuth';
 import PageNotFound from './components/pages/pageNotFound/PageNotFound';
+import Reports from './components/pages/reports/Reports';
 
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
         <Route path="/resetpassword" element={<ResetPassword />} />
         <Route element={<RequireAuth />}>
           <Route path="/sidebar" element={<Sidebar />} />
+          <Route path="/reports" element={<Reports />} />
         </Route>
         <Route path="/*" element={<PageNotFound />} />
       </Routes>
