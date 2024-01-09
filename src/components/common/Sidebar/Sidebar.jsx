@@ -1,19 +1,25 @@
 import React, { useState } from 'react'
+import { Fragment } from 'react'
+import { Menu, Transition } from '@headlessui/react'
+import { ChevronDownIcon } from '@heroicons/react/20/solid'
 
+function classNames(...classes) {
+    return classes.filter(Boolean).join(' ')
+}
 const Sidebar = () => {
 
     const menus = [
         {
             name: "Home", link: "/", icon: <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5">
                 <path fill-rule="evenodd" d="M9.293 2.293a1 1 0 0 1 1.414 0l7 7A1 1 0 0 1 17 11h-1v6a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1v-3a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v3a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-6H3a1 1 0 0 1-.707-1.707l7-7Z" clip-rule="evenodd" />
-            </svg>
+            </svg>, active: true,
 
 
         },
         {
             name: "Entities", link: "/", icon: <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5">
                 <path fill-rule="evenodd" d="M8 1a.75.75 0 0 1 .75.75V6h-1.5V1.75A.75.75 0 0 1 8 1Zm-.75 5v3.296l-.943-1.048a.75.75 0 1 0-1.114 1.004l2.25 2.5a.75.75 0 0 0 1.114 0l2.25-2.5a.75.75 0 0 0-1.114-1.004L8.75 9.296V6h2A2.25 2.25 0 0 1 13 8.25v4.5A2.25 2.25 0 0 1 10.75 15h-5.5A2.25 2.25 0 0 1 3 12.75v-4.5A2.25 2.25 0 0 1 5.25 6h2ZM7 16.75v-.25h3.75a3.75 3.75 0 0 0 3.75-3.75V10h.25A2.25 2.25 0 0 1 17 12.25v4.5A2.25 2.25 0 0 1 14.75 19h-5.5A2.25 2.25 0 0 1 7 16.75Z" clip-rule="evenodd" />
-            </svg>
+            </svg>, active: false,
 
         },
         {
@@ -49,32 +55,34 @@ const Sidebar = () => {
         },
 
     ];
+
     const [open, setOpen] = useState(true);
     return (
-        <div className="grid grid-rows-3 grid-flow-col gap-0">
-            <div className="row-span-3">
-                <div className={`bg-[#0e0e0e] min-h-screen ${open ? 'w-60' : "w-16"}
+        <div className="flex">
+            <div className={`bg-[#0e0e0e] min-h-screen ${open ? 'w-60' : "w-16"}
                 duration-500 text-gray-100 px-4`}>
-                    <div className="py-3 flex justify-end">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-                            className="w-6 h-6 cusrsor-pointer" size={26} onClick={() => setOpen(!open)}>
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5M12 17.25h8.25" />
-                        </svg>
-                    </div>
-                    <div className="mt-2 flex-col gap-4 relative" >
-                        {
-                            menus?.map((menu, i) => (
-                                <a href={menu?.link} key={i} className='group flex items-center text-sm gap-3.5 font-medium p-2 hover:bg-gray-800 rounded-md'>
-                                    <div size={26}>
-                                        {menu?.icon}
-                                    </div>
-                                    <h3
-                                        style={{
-                                            transitionDelay: `${i + 3}00ms`,
-                                        }}
-                                        className={`whitespace-pre duration-500 font-sans
+                <div className="py-3 flex justify-end">
+
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                        className="w-6 h-6 cusrsor-pointer" size={26} onClick={() => setOpen(!open)}>
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5M12 17.25h8.25" />
+                    </svg>
+
+                </div>
+                <div className="mt-2 flex-col gap-4 relative" >
+                    {
+                        menus?.map((menu, i) => (
+                            <a href={menu?.link} key={i} className='group flex items-center text-sm gap-3.5 font-medium p-2 hover:bg-gray-800 rounded-md'>
+                                <div size={26}>
+                                    {menu?.icon}
+                                </div>
+                                <h3
+                                    style={{
+                                        transitionDelay: `${i + 3}00ms`,
+                                    }}
+                                    className={`whitespace-pre duration-500 font-sans
                                      ${!open && `opacity-0 translate-x-20 overflow-hidden`}`}>  {menu?.name}</h3>
-                                    <h3 className={` ${open && 'hidden'} absolute left-20
+                                <h3 className={` ${open && 'hidden'} absolute left-20
                                      bg-white font-semibold
                                      whitespace-pre text-gray-900 rounded-md drop-shadow-lg
                                      px-0 py-0 w-0
@@ -83,16 +91,14 @@ const Sidebar = () => {
                                       group-hover:left-14 group-hover:duration-300
                                       group-hover:w-fit`}>{menu?.name}</h3>
 
-                                </a>
-                            ))
-                        }
-
-                    </div>
+                            </a>
+                        ))
+                    }
                 </div>
             </div>
-            {/* <div className="col-span-3">
-                <nav class="bg-gray-800">
-                    <div class="mx-auto max-w-screen px-2 sm:px-6 lg:px-8">
+            <div className="flex-1 w-full ">
+                <nav class="bg-[#0e0e0e] z-10">
+                    <div class="w-full px-2 sm:px-6 lg:px-8">
                         <div class="relative flex h-16 items-center justify-between">
                             <div class="absolute inset-y-0 left-0 flex items-center sm:hidden">
                                 <button type="button" class="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white" aria-controls="mobile-menu" aria-expanded="false">
@@ -108,330 +114,372 @@ const Sidebar = () => {
                             </div>
                             <div class="flex flex-1 items-center justify-between sm:items-stretch sm:justify-start">
                                 <div class="flex flex-shrink-0 items-center">
-                                    <img class="h-8 w-auto" src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500" alt="Your Company" />
+                                    <button class="inline-flex items-center justify-center whitespace-nowrap rounded-2xl text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground shadow hover:bg-primary/90 h-9 px-4 py-2 shrink-0 bg-orange-400 text-white gap-1">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5 ">
+                                            <path d="M10.75 4.75a.75.75 0 0 0-1.5 0v4.5h-4.5a.75.75 0 0 0 0 1.5h4.5v4.5a.75.75 0 0 0 1.5 0v-4.5h4.5a.75.75 0 0 0 0-1.5h-4.5v-4.5Z" />
+                                        </svg>
+                                        Create</button>
                                 </div>
                             </div>
                             <div class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-                                <button type="button" class="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
+                                <button type="button" class="me-3 relative rounded-full bg-gray-800 p-1 text-stone-50 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
                                     <span class="absolute -inset-1.5"></span>
                                     <span class="sr-only">View notifications</span>
                                     <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" />
                                     </svg>
                                 </button>
-                                <div class="relative ml-3">
+                                <Menu as="div" className="relative inline-block text-left">
                                     <div>
-                                        <button type="button" class="relative flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800" id="user-menu-button" aria-expanded="false" aria-haspopup="true">
-                                            <span class="absolute -inset-1.5"></span>
-                                            <span class="sr-only">Open user menu</span>
+                                        <Menu.Button className="inline-flex w-full justify-center gap-x-1.5 rounded">
                                             <img class="h-8 w-8 rounded-full" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="" />
-                                        </button>
+                                            {/* <ChevronDownIcon className="-mr-1 h-5 w-5 text-gray-400" aria-hidden="true" /> */}
+                                        </Menu.Button>
                                     </div>
-                                    <div class="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1">
-                                        <a href="#" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-0">Your Profile</a>
-                                        <a href="#" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-1">Settings</a>
-                                        <a href="#" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-2">Sign out</a>
-                                    </div>
-                                </div>
+
+                                    <Transition
+                                        as={Fragment}
+                                        enter="transition ease-out duration-100"
+                                        enterFrom="transform opacity-0 scale-95"
+                                        enterTo="transform opacity-100 scale-100"
+                                        leave="transition ease-in duration-75"
+                                        leaveFrom="transform opacity-100 scale-100"
+                                        leaveTo="transform opacity-0 scale-95"
+                                    >
+                                        <Menu.Items className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                                            <div className="py-1">
+                                                <Menu.Item>
+                                                    {({ active }) => (
+                                                        <a
+                                                            href="#"
+                                                            className={classNames(
+                                                                active ? 'bg-gray-200 text-gray-900' : 'text-gray-700',
+                                                                'block px-4 py-2 text-sm'
+                                                            )}
+                                                        >
+                                                             Profile
+                                                        </a>
+                                                    )}
+                                                </Menu.Item>
+                                                <Menu.Item>
+                                                    {({ active }) => (
+                                                        <a
+                                                            href="#"
+                                                            className={classNames(
+                                                                active ? 'bg-gray-200 text-gray-900' : 'text-gray-700',
+                                                                'block px-4 py-2 text-sm'
+                                                            )}
+                                                        >
+                                                           Account Settings
+                                                        </a>
+                                                    )}
+                                                </Menu.Item>
+                                                <Menu.Item>
+                                                    {({ active }) => (
+                                                        <a
+                                                            href="/changepassword/:id"
+                                                            className={classNames(
+                                                                active ? 'bg-gray-200 text-gray-900' : 'text-gray-700',
+                                                                'block px-4 py-2 text-sm'
+                                                            )}
+                                                        >
+                                                          Change Password
+                                                        </a>
+                                                    )}
+                                                </Menu.Item>
+                                                <form method="POST" action="#">
+                                                    <Menu.Item>
+                                                        {({ active }) => (
+                                                            <button
+                                                                type="submit"
+                                                                className={classNames(
+                                                                    active ? 'bg-gray-200 text-gray-900' : 'text-gray-700',
+                                                                    'block w-full px-4 py-2 text-left text-sm'
+                                                                )}
+                                                            >
+                                                                Sign out
+                                                            </button>
+                                                        )}
+                                                    </Menu.Item>
+                                                </form>
+                                            </div>
+                                        </Menu.Items>
+                                    </Transition>
+                                </Menu>
+
                             </div>
                         </div>
                     </div>
                 </nav>
-            </div> */}
-            <div className="row-span-2 col-span-12">
-                <div className='text-center mt-8'>
-                    <p class="text-md">Monday, January 08</p>
-                    <h2 class=" text-4xl font-bold dark:text-white">Good Morning, Bhavitha</h2>
-                    <div className='flex justify-center mt-6'>
-                        <div className="border-r-2 border-black-100">
-                            <h5 className='mr-4 ml-4'>Total Tasks</h5>
-                            <p className='mr-4 ml-4'>1,000</p>
-                        </div>
-                        <div className="border-r-2 border-dark">
-                            <h5 className='mr-4 ml-4'>Completed Tasks</h5>
-                            <p className='mr-4 ml-4'>1,000</p>
-                        </div>
+                <div className="">
+                    <div className='text-center mt-8'>
+                        <p class="text-md">Monday, January 08</p>
+                        <h2 class=" text-4xl font-bold dark:text-white">Good Morning, Bhavitha</h2>
+                        <div className='flex justify-center mt-6'>
+                            <div className="border-r-2 border-black-100">
+                                <h5 className='mr-4 ml-4'>Total Tasks</h5>
+                                <p className='mr-4 ml-4'>1,000</p>
+                            </div>
+                            <div className="border-r-2 border-dark">
+                                <h5 className='mr-4 ml-4'>Completed Tasks</h5>
+                                <p className='mr-4 ml-4'>1,000</p>
+                            </div>
 
-                        <div className="border-r-2 border-100">
-                            <h5 className='mr-4 ml-4'>Upcoming Tasks</h5>
-                            <p className='mr-4 ml-4'>1,000</p>
-                        </div>
-                        <div className="">
-                            <h5 className='mr-4 ml-4'>Overdue Tasks</h5>
-                            <p className='mr-4 ml-4'>1,000</p>
+                            <div className="border-r-2 border-100">
+                                <h5 className='mr-4 ml-4'>Upcoming Tasks</h5>
+                                <p className='mr-4 ml-4'>1,000</p>
+                            </div>
+                            <div className="">
+                                <h5 className='mr-4 ml-4'>Overdue Tasks</h5>
+                                <p className='mr-4 ml-4'>1,000</p>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div className='flex flex-wrap justify-center gap-4 mt-5'>
-                    <div className='flex flex-col overflow-hidden w-full sm:w-96  '>
-                        <div class="w-full max-w-md p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700">
-                            <div class="flex items-center justify-between mb-4">
-                                <h5 class="text-xl font-bold leading-none text-gray-900 dark:text-white">Entities</h5>
-                                <a href="#" class="text-sm font-medium text-white-600 hover:underline dark:text-white-500">
-                                    <button class="inline-flex items-center justify-center whitespace-nowrap rounded-2xl text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground shadow hover:bg-primary/90 h-9 px-4 py-2 shrink-0 bg-orange-400 text-white gap-1">
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5 ">
-                                            <path d="M10.75 4.75a.75.75 0 0 0-1.5 0v4.5h-4.5a.75.75 0 0 0 0 1.5h4.5v4.5a.75.75 0 0 0 1.5 0v-4.5h4.5a.75.75 0 0 0 0-1.5h-4.5v-4.5Z" />
-                                        </svg>
-                                        Create</button>
-                                </a>
-                            </div>
-                            <div className='flex gap-4'>
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
-                                    <path fill-rule="evenodd" d="M9 3.5a5.5 5.5 0 1 0 0 11 5.5 5.5 0 0 0 0-11ZM2 9a7 7 0 1 1 12.452 4.391l3.328 3.329a.75.75 0 1 1-1.06 1.06l-3.329-3.328A7 7 0 0 1 2 9Z" clip-rule="evenodd" />
-                                </svg>
-                                <p>Search Entity</p>
-
-                            </div><hr className='w-60 my-2' />
-                            <div class="flow-root">
-                                <ul role="list" class="divide-y divide-gray-200 dark:divide-gray-700">
-                                    <li class="py-3 sm:py-4">
-                                        <div class="flex items-center">
-                                            <div class="flex-shrink-0">
-                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
-                                                    <path fill-rule="evenodd" d="M16.403 12.652a3 3 0 0 0 0-5.304 3 3 0 0 0-3.75-3.751 3 3 0 0 0-5.305 0 3 3 0 0 0-3.751 3.75 3 3 0 0 0 0 5.305 3 3 0 0 0 3.75 3.751 3 3 0 0 0 5.305 0 3 3 0 0 0 3.751-3.75Zm-2.546-4.46a.75.75 0 0 0-1.214-.883l-3.483 4.79-1.88-1.88a.75.75 0 1 0-1.06 1.061l2.5 2.5a.75.75 0 0 0 1.137-.089l4-5.5Z" clip-rule="evenodd" />
-                                                </svg>
-
+                    <div className='flex flex-wrap justify-center gap-4 mt-8'>
+                        <div className='flex flex-col overflow-hidden sm:w-96' style={{ width: "28rem" }}>
+                            <div class="max-w-md w-full p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700">
+                                <div class="flex items-center justify-between mb-4">
+                                    <h5 class="text-xl font-bold leading-none text-gray-900 dark:text-white">Entities</h5>
+                                    <a href="#" class="text-sm font-medium text-white-600 hover:underline dark:text-white-500">
+                                        <button class="inline-flex items-center justify-center whitespace-nowrap rounded-2xl text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground shadow hover:bg-primary/90 h-9 px-4 py-2 shrink-0 bg-orange-400 text-white gap-1">
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5 ">
+                                                <path d="M10.75 4.75a.75.75 0 0 0-1.5 0v4.5h-4.5a.75.75 0 0 0 0 1.5h4.5v4.5a.75.75 0 0 0 1.5 0v-4.5h4.5a.75.75 0 0 0 0-1.5h-4.5v-4.5Z" />
+                                            </svg>
+                                            Create</button>
+                                    </a>
+                                </div>
+                                <div className='flex gap-4'>
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+                                        <path fill-rule="evenodd" d="M9 3.5a5.5 5.5 0 1 0 0 11 5.5 5.5 0 0 0 0-11ZM2 9a7 7 0 1 1 12.452 4.391l3.328 3.329a.75.75 0 1 1-1.06 1.06l-3.329-3.328A7 7 0 0 1 2 9Z" clip-rule="evenodd" />
+                                    </svg>
+                                    <p>Search Entity</p>
+                                </div><hr className='w-60 my-2' />
+                                <div class="flow-root">
+                                    <ul role="list" class="divide-y divide-gray-200 dark:divide-gray-700">
+                                        <li class="py-3 sm:py-4">
+                                            <div class="flex items-center">
+                                                <div class="flex-shrink-0">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+                                                        <path fill-rule="evenodd" d="M16.403 12.652a3 3 0 0 0 0-5.304 3 3 0 0 0-3.75-3.751 3 3 0 0 0-5.305 0 3 3 0 0 0-3.751 3.75 3 3 0 0 0 0 5.305 3 3 0 0 0 3.75 3.751 3 3 0 0 0 5.305 0 3 3 0 0 0 3.751-3.75Zm-2.546-4.46a.75.75 0 0 0-1.214-.883l-3.483 4.79-1.88-1.88a.75.75 0 1 0-1.06 1.061l2.5 2.5a.75.75 0 0 0 1.137-.089l4-5.5Z" clip-rule="evenodd" />
+                                                    </svg>
+                                                </div>
+                                                <div class="flex-1 min-w-0 ms-4">
+                                                    <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
+                                                        Kapil Knowledge Hub Private Limited
+                                                    </p>
+                                                </div>
+                                                <div class="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+                                                        <path d="M6.3 2.84A1.5 1.5 0 0 0 4 4.11v11.78a1.5 1.5 0 0 0 2.3 1.27l9.344-5.891a1.5 1.5 0 0 0 0-2.538L6.3 2.841Z" />
+                                                    </svg>
+                                                </div>
                                             </div>
-                                            <div class="flex-1 min-w-0 ms-4">
-                                                <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
-                                                    Kapil Knowledge Hub Private Limited
-                                                </p>
-
+                                        </li>
+                                        <li class="py-3 sm:py-4">
+                                            <div class="flex items-center ">
+                                                <div class="flex-shrink-0">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+                                                        <path fill-rule="evenodd" d="M16.403 12.652a3 3 0 0 0 0-5.304 3 3 0 0 0-3.75-3.751 3 3 0 0 0-5.305 0 3 3 0 0 0-3.751 3.75 3 3 0 0 0 0 5.305 3 3 0 0 0 3.75 3.751 3 3 0 0 0 5.305 0 3 3 0 0 0 3.751-3.75Zm-2.546-4.46a.75.75 0 0 0-1.214-.883l-3.483 4.79-1.88-1.88a.75.75 0 1 0-1.06 1.061l2.5 2.5a.75.75 0 0 0 1.137-.089l4-5.5Z" clip-rule="evenodd" />
+                                                    </svg>
+                                                </div>
+                                                <div class="flex-1 min-w-0 ms-4">
+                                                    <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
+                                                        Kapil Properties
+                                                    </p>
+                                                </div>
+                                                <div class="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+                                                        <path d="M6.3 2.84A1.5 1.5 0 0 0 4 4.11v11.78a1.5 1.5 0 0 0 2.3 1.27l9.344-5.891a1.5 1.5 0 0 0 0-2.538L6.3 2.841Z" />
+                                                    </svg>
+                                                </div>
                                             </div>
-                                            <div class="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
-                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
-                                                    <path d="M6.3 2.84A1.5 1.5 0 0 0 4 4.11v11.78a1.5 1.5 0 0 0 2.3 1.27l9.344-5.891a1.5 1.5 0 0 0 0-2.538L6.3 2.841Z" />
-                                                </svg>
-
+                                        </li>
+                                        <li class="py-3 sm:py-4">
+                                            <div class="flex items-center">
+                                                <div class="flex-shrink-0">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+                                                        <path fill-rule="evenodd" d="M16.403 12.652a3 3 0 0 0 0-5.304 3 3 0 0 0-3.75-3.751 3 3 0 0 0-5.305 0 3 3 0 0 0-3.751 3.75 3 3 0 0 0 0 5.305 3 3 0 0 0 3.75 3.751 3 3 0 0 0 5.305 0 3 3 0 0 0 3.751-3.75Zm-2.546-4.46a.75.75 0 0 0-1.214-.883l-3.483 4.79-1.88-1.88a.75.75 0 1 0-1.06 1.061l2.5 2.5a.75.75 0 0 0 1.137-.089l4-5.5Z" clip-rule="evenodd" />
+                                                    </svg>
+                                                </div>
+                                                <div class="flex-1 min-w-0 ms-4">
+                                                    <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
+                                                        Kapil Chits
+                                                    </p>
+                                                </div>
+                                                <div class="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+                                                        <path d="M6.3 2.84A1.5 1.5 0 0 0 4 4.11v11.78a1.5 1.5 0 0 0 2.3 1.27l9.344-5.891a1.5 1.5 0 0 0 0-2.538L6.3 2.841Z" />
+                                                    </svg>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </li>
-                                    <li class="py-3 sm:py-4">
-                                        <div class="flex items-center ">
-                                            <div class="flex-shrink-0">
-                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
-                                                    <path fill-rule="evenodd" d="M16.403 12.652a3 3 0 0 0 0-5.304 3 3 0 0 0-3.75-3.751 3 3 0 0 0-5.305 0 3 3 0 0 0-3.751 3.75 3 3 0 0 0 0 5.305 3 3 0 0 0 3.75 3.751 3 3 0 0 0 5.305 0 3 3 0 0 0 3.751-3.75Zm-2.546-4.46a.75.75 0 0 0-1.214-.883l-3.483 4.79-1.88-1.88a.75.75 0 1 0-1.06 1.061l2.5 2.5a.75.75 0 0 0 1.137-.089l4-5.5Z" clip-rule="evenodd" />
-                                                </svg>
-
+                                        </li>
+                                        <li class="py-3 sm:py-4">
+                                            <div class="flex items-center ">
+                                                <div class="flex-shrink-0">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+                                                        <path fill-rule="evenodd" d="M16.403 12.652a3 3 0 0 0 0-5.304 3 3 0 0 0-3.75-3.751 3 3 0 0 0-5.305 0 3 3 0 0 0-3.751 3.75 3 3 0 0 0 0 5.305 3 3 0 0 0 3.75 3.751 3 3 0 0 0 5.305 0 3 3 0 0 0 3.751-3.75Zm-2.546-4.46a.75.75 0 0 0-1.214-.883l-3.483 4.79-1.88-1.88a.75.75 0 1 0-1.06 1.061l2.5 2.5a.75.75 0 0 0 1.137-.089l4-5.5Z" clip-rule="evenodd" />
+                                                    </svg>
+                                                </div>
+                                                <div class="flex-1 min-w-0 ms-4">
+                                                    <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
+                                                        Kapil IT Solutions
+                                                    </p>
+                                                </div>
+                                                <div class="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+                                                        <path d="M6.3 2.84A1.5 1.5 0 0 0 4 4.11v11.78a1.5 1.5 0 0 0 2.3 1.27l9.344-5.891a1.5 1.5 0 0 0 0-2.538L6.3 2.841Z" />
+                                                    </svg>
+                                                </div>
                                             </div>
-                                            <div class="flex-1 min-w-0 ms-4">
-                                                <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
-                                                    Kapil Properties
-                                                </p>
-
+                                        </li>
+                                        <li class="pt-3 pb-0 sm:pt-4">
+                                            <div class="flex items-center ">
+                                                <div class="flex-shrink-0">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+                                                        <path fill-rule="evenodd" d="M16.403 12.652a3 3 0 0 0 0-5.304 3 3 0 0 0-3.75-3.751 3 3 0 0 0-5.305 0 3 3 0 0 0-3.751 3.75 3 3 0 0 0 0 5.305 3 3 0 0 0 3.75 3.751 3 3 0 0 0 5.305 0 3 3 0 0 0 3.751-3.75Zm-2.546-4.46a.75.75 0 0 0-1.214-.883l-3.483 4.79-1.88-1.88a.75.75 0 1 0-1.06 1.061l2.5 2.5a.75.75 0 0 0 1.137-.089l4-5.5Z" clip-rule="evenodd" />
+                                                    </svg>
+                                                </div>
+                                                <div class="flex-1 min-w-0 ms-4">
+                                                    <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
+                                                        Taaza Panta
+                                                    </p>
+                                                </div>
+                                                <div class="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+                                                        <path d="M6.3 2.84A1.5 1.5 0 0 0 4 4.11v11.78a1.5 1.5 0 0 0 2.3 1.27l9.344-5.891a1.5 1.5 0 0 0 0-2.538L6.3 2.841Z" />
+                                                    </svg>
+                                                </div>
                                             </div>
-                                            <div class="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
-                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
-                                                    <path d="M6.3 2.84A1.5 1.5 0 0 0 4 4.11v11.78a1.5 1.5 0 0 0 2.3 1.27l9.344-5.891a1.5 1.5 0 0 0 0-2.538L6.3 2.841Z" />
-                                                </svg>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="py-3 sm:py-4">
-                                        <div class="flex items-center">
-                                            <div class="flex-shrink-0">
-                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
-                                                    <path fill-rule="evenodd" d="M16.403 12.652a3 3 0 0 0 0-5.304 3 3 0 0 0-3.75-3.751 3 3 0 0 0-5.305 0 3 3 0 0 0-3.751 3.75 3 3 0 0 0 0 5.305 3 3 0 0 0 3.75 3.751 3 3 0 0 0 5.305 0 3 3 0 0 0 3.751-3.75Zm-2.546-4.46a.75.75 0 0 0-1.214-.883l-3.483 4.79-1.88-1.88a.75.75 0 1 0-1.06 1.061l2.5 2.5a.75.75 0 0 0 1.137-.089l4-5.5Z" clip-rule="evenodd" />
-                                                </svg>
-
-                                            </div>
-                                            <div class="flex-1 min-w-0 ms-4">
-                                                <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
-                                                    Kapil Chits
-                                                </p>
-
-                                            </div>
-                                            <div class="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
-                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
-                                                    <path d="M6.3 2.84A1.5 1.5 0 0 0 4 4.11v11.78a1.5 1.5 0 0 0 2.3 1.27l9.344-5.891a1.5 1.5 0 0 0 0-2.538L6.3 2.841Z" />
-                                                </svg>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="py-3 sm:py-4">
-                                        <div class="flex items-center ">
-                                            <div class="flex-shrink-0">
-                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
-                                                    <path fill-rule="evenodd" d="M16.403 12.652a3 3 0 0 0 0-5.304 3 3 0 0 0-3.75-3.751 3 3 0 0 0-5.305 0 3 3 0 0 0-3.751 3.75 3 3 0 0 0 0 5.305 3 3 0 0 0 3.75 3.751 3 3 0 0 0 5.305 0 3 3 0 0 0 3.751-3.75Zm-2.546-4.46a.75.75 0 0 0-1.214-.883l-3.483 4.79-1.88-1.88a.75.75 0 1 0-1.06 1.061l2.5 2.5a.75.75 0 0 0 1.137-.089l4-5.5Z" clip-rule="evenodd" />
-                                                </svg>
-
-                                            </div>
-                                            <div class="flex-1 min-w-0 ms-4">
-                                                <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
-                                                    Kapil IT Solutions
-                                                </p>
-
-                                            </div>
-                                            <div class="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
-                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
-                                                    <path d="M6.3 2.84A1.5 1.5 0 0 0 4 4.11v11.78a1.5 1.5 0 0 0 2.3 1.27l9.344-5.891a1.5 1.5 0 0 0 0-2.538L6.3 2.841Z" />
-                                                </svg>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="pt-3 pb-0 sm:pt-4">
-                                        <div class="flex items-center ">
-                                            <div class="flex-shrink-0">
-                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
-                                                    <path fill-rule="evenodd" d="M16.403 12.652a3 3 0 0 0 0-5.304 3 3 0 0 0-3.75-3.751 3 3 0 0 0-5.305 0 3 3 0 0 0-3.751 3.75 3 3 0 0 0 0 5.305 3 3 0 0 0 3.75 3.751 3 3 0 0 0 5.305 0 3 3 0 0 0 3.751-3.75Zm-2.546-4.46a.75.75 0 0 0-1.214-.883l-3.483 4.79-1.88-1.88a.75.75 0 1 0-1.06 1.061l2.5 2.5a.75.75 0 0 0 1.137-.089l4-5.5Z" clip-rule="evenodd" />
-                                                </svg>
-
-                                            </div>
-                                            <div class="flex-1 min-w-0 ms-4">
-                                                <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
-                                                    Taaza Panta
-                                                </p>
-
-                                            </div>
-                                            <div class="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
-                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
-                                                    <path d="M6.3 2.84A1.5 1.5 0 0 0 4 4.11v11.78a1.5 1.5 0 0 0 2.3 1.27l9.344-5.891a1.5 1.5 0 0 0 0-2.538L6.3 2.841Z" />
-                                                </svg>
-                                            </div>
-                                        </div>
-                                    </li>
-                                </ul>
+                                        </li>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
-
-                    </div>
-                    <div className='flex flex-col overflow-hidden w-full sm:w-96  '>
-
-
-                        <div class="w-full max-w-md p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700">
-                            <div class="flex items-center justify-between mb-4">
-                                <h5 class="text-xl font-bold leading-none text-gray-900 dark:text-white">Users</h5>
-                                <a href="#" class="text-sm font-medium text-white-600 hover:underline dark:text-white-500">
-                                    <button class="inline-flex items-center justify-center whitespace-nowrap rounded-2xl text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground shadow hover:bg-primary/90 h-9 px-4 py-2 shrink-0 bg-orange-400 text-white gap-1">
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5 ">
-                                            <path d="M10.75 4.75a.75.75 0 0 0-1.5 0v4.5h-4.5a.75.75 0 0 0 0 1.5h4.5v4.5a.75.75 0 0 0 1.5 0v-4.5h4.5a.75.75 0 0 0 0-1.5h-4.5v-4.5Z" />
-                                        </svg>
-                                        Create</button>
-                                </a>
-                            </div>
-                            <div className='flex gap-4'>
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
-                                    <path fill-rule="evenodd" d="M9 3.5a5.5 5.5 0 1 0 0 11 5.5 5.5 0 0 0 0-11ZM2 9a7 7 0 1 1 12.452 4.391l3.328 3.329a.75.75 0 1 1-1.06 1.06l-3.329-3.328A7 7 0 0 1 2 9Z" clip-rule="evenodd" />
-                                </svg>
-                                <p>Search User</p>
-
-                            </div><hr className='w-60 my-2' />
-                            <div class="flow-root">
-                                <ul role="list" class="divide-y divide-gray-200 dark:divide-gray-700">
-                                    <li class="py-3 sm:py-4">
-                                        <div class="flex items-center">
-                                            <div class="flex-shrink-0">
-                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
-                                                    <path fill-rule="evenodd" d="M16.403 12.652a3 3 0 0 0 0-5.304 3 3 0 0 0-3.75-3.751 3 3 0 0 0-5.305 0 3 3 0 0 0-3.751 3.75 3 3 0 0 0 0 5.305 3 3 0 0 0 3.75 3.751 3 3 0 0 0 5.305 0 3 3 0 0 0 3.751-3.75Zm-2.546-4.46a.75.75 0 0 0-1.214-.883l-3.483 4.79-1.88-1.88a.75.75 0 1 0-1.06 1.061l2.5 2.5a.75.75 0 0 0 1.137-.089l4-5.5Z" clip-rule="evenodd" />
-                                                </svg>
-
+                        <div className='flex flex-col overflow-hidden sm:w-96' style={{ width: "28rem" }}>
+                            <div class="max-w-md w-full p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700">
+                                <div class="flex items-center justify-between mb-4">
+                                    <h5 class="text-xl font-bold leading-none text-gray-900 dark:text-white">Entities</h5>
+                                    <a href="#" class="text-sm font-medium text-white-600 hover:underline dark:text-white-500">
+                                        <button class="inline-flex items-center justify-center whitespace-nowrap rounded-2xl text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground shadow hover:bg-primary/90 h-9 px-4 py-2 shrink-0 bg-orange-400 text-white gap-1">
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5 ">
+                                                <path d="M10.75 4.75a.75.75 0 0 0-1.5 0v4.5h-4.5a.75.75 0 0 0 0 1.5h4.5v4.5a.75.75 0 0 0 1.5 0v-4.5h4.5a.75.75 0 0 0 0-1.5h-4.5v-4.5Z" />
+                                            </svg>
+                                            Create</button>
+                                    </a>
+                                </div>
+                                <div className='flex gap-4'>
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+                                        <path fill-rule="evenodd" d="M9 3.5a5.5 5.5 0 1 0 0 11 5.5 5.5 0 0 0 0-11ZM2 9a7 7 0 1 1 12.452 4.391l3.328 3.329a.75.75 0 1 1-1.06 1.06l-3.329-3.328A7 7 0 0 1 2 9Z" clip-rule="evenodd" />
+                                    </svg>
+                                    <p>Search Entity</p>
+                                </div><hr className='w-60 my-2' />
+                                <div class="flow-root">
+                                    <ul role="list" class="divide-y divide-gray-200 dark:divide-gray-700">
+                                        <li class="py-3 sm:py-4">
+                                            <div class="flex items-center">
+                                                <div class="flex-shrink-0">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+                                                        <path fill-rule="evenodd" d="M16.403 12.652a3 3 0 0 0 0-5.304 3 3 0 0 0-3.75-3.751 3 3 0 0 0-5.305 0 3 3 0 0 0-3.751 3.75 3 3 0 0 0 0 5.305 3 3 0 0 0 3.75 3.751 3 3 0 0 0 5.305 0 3 3 0 0 0 3.751-3.75Zm-2.546-4.46a.75.75 0 0 0-1.214-.883l-3.483 4.79-1.88-1.88a.75.75 0 1 0-1.06 1.061l2.5 2.5a.75.75 0 0 0 1.137-.089l4-5.5Z" clip-rule="evenodd" />
+                                                    </svg>
+                                                </div>
+                                                <div class="flex-1 min-w-0 ms-4">
+                                                    <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
+                                                        Kapil Knowledge Hub Private Limited
+                                                    </p>
+                                                </div>
+                                                <div class="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+                                                        <path d="M6.3 2.84A1.5 1.5 0 0 0 4 4.11v11.78a1.5 1.5 0 0 0 2.3 1.27l9.344-5.891a1.5 1.5 0 0 0 0-2.538L6.3 2.841Z" />
+                                                    </svg>
+                                                </div>
                                             </div>
-                                            <div class="flex-1 min-w-0 ms-4">
-                                                <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
-                                                    Bhaskar
-                                                </p>
-
+                                        </li>
+                                        <li class="py-3 sm:py-4">
+                                            <div class="flex items-center ">
+                                                <div class="flex-shrink-0">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+                                                        <path fill-rule="evenodd" d="M16.403 12.652a3 3 0 0 0 0-5.304 3 3 0 0 0-3.75-3.751 3 3 0 0 0-5.305 0 3 3 0 0 0-3.751 3.75 3 3 0 0 0 0 5.305 3 3 0 0 0 3.75 3.751 3 3 0 0 0 5.305 0 3 3 0 0 0 3.751-3.75Zm-2.546-4.46a.75.75 0 0 0-1.214-.883l-3.483 4.79-1.88-1.88a.75.75 0 1 0-1.06 1.061l2.5 2.5a.75.75 0 0 0 1.137-.089l4-5.5Z" clip-rule="evenodd" />
+                                                    </svg>
+                                                </div>
+                                                <div class="flex-1 min-w-0 ms-4">
+                                                    <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
+                                                        Kapil Properties
+                                                    </p>
+                                                </div>
+                                                <div class="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+                                                        <path d="M6.3 2.84A1.5 1.5 0 0 0 4 4.11v11.78a1.5 1.5 0 0 0 2.3 1.27l9.344-5.891a1.5 1.5 0 0 0 0-2.538L6.3 2.841Z" />
+                                                    </svg>
+                                                </div>
                                             </div>
-                                            <div class="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
-                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
-                                                    <path d="M6.3 2.84A1.5 1.5 0 0 0 4 4.11v11.78a1.5 1.5 0 0 0 2.3 1.27l9.344-5.891a1.5 1.5 0 0 0 0-2.538L6.3 2.841Z" />
-                                                </svg>
-
+                                        </li>
+                                        <li class="py-3 sm:py-4">
+                                            <div class="flex items-center">
+                                                <div class="flex-shrink-0">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+                                                        <path fill-rule="evenodd" d="M16.403 12.652a3 3 0 0 0 0-5.304 3 3 0 0 0-3.75-3.751 3 3 0 0 0-5.305 0 3 3 0 0 0-3.751 3.75 3 3 0 0 0 0 5.305 3 3 0 0 0 3.75 3.751 3 3 0 0 0 5.305 0 3 3 0 0 0 3.751-3.75Zm-2.546-4.46a.75.75 0 0 0-1.214-.883l-3.483 4.79-1.88-1.88a.75.75 0 1 0-1.06 1.061l2.5 2.5a.75.75 0 0 0 1.137-.089l4-5.5Z" clip-rule="evenodd" />
+                                                    </svg>
+                                                </div>
+                                                <div class="flex-1 min-w-0 ms-4">
+                                                    <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
+                                                        Kapil Chits
+                                                    </p>
+                                                </div>
+                                                <div class="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+                                                        <path d="M6.3 2.84A1.5 1.5 0 0 0 4 4.11v11.78a1.5 1.5 0 0 0 2.3 1.27l9.344-5.891a1.5 1.5 0 0 0 0-2.538L6.3 2.841Z" />
+                                                    </svg>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </li>
-                                    <li class="py-3 sm:py-4">
-                                        <div class="flex items-center ">
-                                            <div class="flex-shrink-0">
-                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
-                                                    <path fill-rule="evenodd" d="M16.403 12.652a3 3 0 0 0 0-5.304 3 3 0 0 0-3.75-3.751 3 3 0 0 0-5.305 0 3 3 0 0 0-3.751 3.75 3 3 0 0 0 0 5.305 3 3 0 0 0 3.75 3.751 3 3 0 0 0 5.305 0 3 3 0 0 0 3.751-3.75Zm-2.546-4.46a.75.75 0 0 0-1.214-.883l-3.483 4.79-1.88-1.88a.75.75 0 1 0-1.06 1.061l2.5 2.5a.75.75 0 0 0 1.137-.089l4-5.5Z" clip-rule="evenodd" />
-                                                </svg>
-
+                                        </li>
+                                        <li class="py-3 sm:py-4">
+                                            <div class="flex items-center ">
+                                                <div class="flex-shrink-0">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+                                                        <path fill-rule="evenodd" d="M16.403 12.652a3 3 0 0 0 0-5.304 3 3 0 0 0-3.75-3.751 3 3 0 0 0-5.305 0 3 3 0 0 0-3.751 3.75 3 3 0 0 0 0 5.305 3 3 0 0 0 3.75 3.751 3 3 0 0 0 5.305 0 3 3 0 0 0 3.751-3.75Zm-2.546-4.46a.75.75 0 0 0-1.214-.883l-3.483 4.79-1.88-1.88a.75.75 0 1 0-1.06 1.061l2.5 2.5a.75.75 0 0 0 1.137-.089l4-5.5Z" clip-rule="evenodd" />
+                                                    </svg>
+                                                </div>
+                                                <div class="flex-1 min-w-0 ms-4">
+                                                    <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
+                                                        Kapil IT Solutions
+                                                    </p>
+                                                </div>
+                                                <div class="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+                                                        <path d="M6.3 2.84A1.5 1.5 0 0 0 4 4.11v11.78a1.5 1.5 0 0 0 2.3 1.27l9.344-5.891a1.5 1.5 0 0 0 0-2.538L6.3 2.841Z" />
+                                                    </svg>
+                                                </div>
                                             </div>
-                                            <div class="flex-1 min-w-0 ms-4">
-                                                <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
-                                                    Bala Krishna
-                                                </p>
-
+                                        </li>
+                                        <li class="pt-3 pb-0 sm:pt-4">
+                                            <div class="flex items-center ">
+                                                <div class="flex-shrink-0">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+                                                        <path fill-rule="evenodd" d="M16.403 12.652a3 3 0 0 0 0-5.304 3 3 0 0 0-3.75-3.751 3 3 0 0 0-5.305 0 3 3 0 0 0-3.751 3.75 3 3 0 0 0 0 5.305 3 3 0 0 0 3.75 3.751 3 3 0 0 0 5.305 0 3 3 0 0 0 3.751-3.75Zm-2.546-4.46a.75.75 0 0 0-1.214-.883l-3.483 4.79-1.88-1.88a.75.75 0 1 0-1.06 1.061l2.5 2.5a.75.75 0 0 0 1.137-.089l4-5.5Z" clip-rule="evenodd" />
+                                                    </svg>
+                                                </div>
+                                                <div class="flex-1 min-w-0 ms-4">
+                                                    <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
+                                                        Taaza Panta
+                                                    </p>
+                                                </div>
+                                                <div class="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+                                                        <path d="M6.3 2.84A1.5 1.5 0 0 0 4 4.11v11.78a1.5 1.5 0 0 0 2.3 1.27l9.344-5.891a1.5 1.5 0 0 0 0-2.538L6.3 2.841Z" />
+                                                    </svg>
+                                                </div>
                                             </div>
-                                            <div class="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
-                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
-                                                    <path d="M6.3 2.84A1.5 1.5 0 0 0 4 4.11v11.78a1.5 1.5 0 0 0 2.3 1.27l9.344-5.891a1.5 1.5 0 0 0 0-2.538L6.3 2.841Z" />
-                                                </svg>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="py-3 sm:py-4">
-                                        <div class="flex items-center">
-                                            <div class="flex-shrink-0">
-                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
-                                                    <path fill-rule="evenodd" d="M16.403 12.652a3 3 0 0 0 0-5.304 3 3 0 0 0-3.75-3.751 3 3 0 0 0-5.305 0 3 3 0 0 0-3.751 3.75 3 3 0 0 0 0 5.305 3 3 0 0 0 3.75 3.751 3 3 0 0 0 5.305 0 3 3 0 0 0 3.751-3.75Zm-2.546-4.46a.75.75 0 0 0-1.214-.883l-3.483 4.79-1.88-1.88a.75.75 0 1 0-1.06 1.061l2.5 2.5a.75.75 0 0 0 1.137-.089l4-5.5Z" clip-rule="evenodd" />
-                                                </svg>
-
-                                            </div>
-                                            <div class="flex-1 min-w-0 ms-4">
-                                                <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
-                                                    Bhavitha
-                                                </p>
-
-                                            </div>
-                                            <div class="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
-                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
-                                                    <path d="M6.3 2.84A1.5 1.5 0 0 0 4 4.11v11.78a1.5 1.5 0 0 0 2.3 1.27l9.344-5.891a1.5 1.5 0 0 0 0-2.538L6.3 2.841Z" />
-                                                </svg>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="py-3 sm:py-4">
-                                        <div class="flex items-center ">
-                                            <div class="flex-shrink-0">
-                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
-                                                    <path fill-rule="evenodd" d="M16.403 12.652a3 3 0 0 0 0-5.304 3 3 0 0 0-3.75-3.751 3 3 0 0 0-5.305 0 3 3 0 0 0-3.751 3.75 3 3 0 0 0 0 5.305 3 3 0 0 0 3.75 3.751 3 3 0 0 0 5.305 0 3 3 0 0 0 3.751-3.75Zm-2.546-4.46a.75.75 0 0 0-1.214-.883l-3.483 4.79-1.88-1.88a.75.75 0 1 0-1.06 1.061l2.5 2.5a.75.75 0 0 0 1.137-.089l4-5.5Z" clip-rule="evenodd" />
-                                                </svg>
-
-                                            </div>
-                                            <div class="flex-1 min-w-0 ms-4">
-                                                <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
-                                                    Irshad
-                                                </p>
-
-                                            </div>
-                                            <div class="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
-                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
-                                                    <path d="M6.3 2.84A1.5 1.5 0 0 0 4 4.11v11.78a1.5 1.5 0 0 0 2.3 1.27l9.344-5.891a1.5 1.5 0 0 0 0-2.538L6.3 2.841Z" />
-                                                </svg>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="pt-3 pb-0 sm:pt-4">
-                                        <div class="flex items-center ">
-                                            <div class="flex-shrink-0">
-                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
-                                                    <path fill-rule="evenodd" d="M16.403 12.652a3 3 0 0 0 0-5.304 3 3 0 0 0-3.75-3.751 3 3 0 0 0-5.305 0 3 3 0 0 0-3.751 3.75 3 3 0 0 0 0 5.305 3 3 0 0 0 3.75 3.751 3 3 0 0 0 5.305 0 3 3 0 0 0 3.751-3.75Zm-2.546-4.46a.75.75 0 0 0-1.214-.883l-3.483 4.79-1.88-1.88a.75.75 0 1 0-1.06 1.061l2.5 2.5a.75.75 0 0 0 1.137-.089l4-5.5Z" clip-rule="evenodd" />
-                                                </svg>
-
-                                            </div>
-                                            <div class="flex-1 min-w-0 ms-4">
-                                                <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
-                                                    Bhavitha
-                                                </p>
-
-                                            </div>
-                                            <div class="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
-                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
-                                                    <path d="M6.3 2.84A1.5 1.5 0 0 0 4 4.11v11.78a1.5 1.5 0 0 0 2.3 1.27l9.344-5.891a1.5 1.5 0 0 0 0-2.538L6.3 2.841Z" />
-                                                </svg>
-                                            </div>
-                                        </div>
-                                    </li>
-                                </ul>
+                                        </li>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
-
                     </div>
                 </div>
             </div>
+
         </div>
+
     );
 }
 
