@@ -5,8 +5,13 @@ import logo from '../../Images/logo.png';
 import { AuthContext } from '../../contexts/authContext';
 import { useParams } from 'react-router-dom';
 import { Link } from 'react-router-dom'
+import Swal from 'sweetalert2'
+import { toast } from 'react-toastify';
 function ChangePassword() {
-    const { id } = useParams();
+    // const { id } = useParams();
+    // console.log(id)
+    // hard coding user id for initial testion on single admin user
+    const id = 13
     const { resetPassword } = useContext(AuthContext);
     const [password, setPassword] = useState('')
     const [confirmPassword, setConfirmPassword] = useState("")
@@ -18,7 +23,9 @@ function ChangePassword() {
             resetPassword({
                 id,password
             })
-        } else { console.log("error") }
+        } else { 
+            toast.error("Passwords did not match!");
+         }
     }
 
     return (
