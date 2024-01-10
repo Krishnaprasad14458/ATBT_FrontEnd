@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
+import logo from '../../../Images/logo.png'
 import { Link } from 'react-router-dom';
 const Sidebar = () => {
 
@@ -56,21 +57,22 @@ const Sidebar = () => {
         <div className='sidebar'>
             <main className="bg-white-500 flex ">
 
-                <div >
+                <div className='relative'>
                     <div className={`bg-[#475569] min-h-screen ${open ? 'w-60' : "w-16"}
 duration-500 text-gray-100 px-2`}>
-                        <div className="py-3 flex justify-end">
+                        <div className="pt-3 flex justify-between">
+                            <img src={logo} alt='Infoz IT' className={`w-28 ms-8 p-0 ${open ? '' : 'hidden'}`} />
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-                                class="w-6 h-6 cusrsor-pointer" onClick={() => setOpen(!open)} >
+                                class="w-6 h-6 cusrsor-pointer mt-2" onClick={() => setOpen(!open)} >
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5M12 17.25h8.25" />
                             </svg>
                         </div>
-                        <div className="mt-2 flex-col gap-4 relative" >
+                        <div className={`mt-1 flex-col gap-4 relative ${open ? '' : 'mt-7'}`} >
                             {
                                 menus?.map((menu, i) => (
                                     <a href={menu?.link} key={i}
                                         className={`group flex items-center text-sm gap-3.5 font-semibold p-2 leading-normal
-                                         hover:bg-gray-800 rounded-md
+                                         hover:bg-slate-400  rounded-md
                                          ${menu?.name.isActive ? 'bg-orange-500' : 'black' // Apply orange color for active menu
                                             }`}>
                                         <div style={{ width: "1.5rem", height: "1.5rem" }}>
@@ -83,19 +85,22 @@ duration-500 text-gray-100 px-2`}>
                                             }}
                                             className={`whitespace-pre duration-500 font-sans
                      ${!open && `opacity-0 translate-x-20 overflow-hidden `}`}>  {menu?.name}</h3>
-                                        <h3 className={` ${open && 'hidden'} absolute left-30
-                     bg-black font-semibold
-                     whitespace-pre text-white rounded-md drop-shadow-lg
+                                        <h3 className={` ${open && 'hidden'} absolute left-20
+                     bg-white font-semibold
+                     whitespace-pre text-black rounded-md drop-shadow-lg 
                      px-0 py-0 w-0
-                      overflow-hidden
-                     group-hover:px-5 group-hover:py-3
-                      group-hover:left-10 group-hover:duration-300
+                      overflow-hidden 
+                     group-hover:px-2 group-hover:py-1
+                      group-hover:left-14 group-hover:duration-300
                       group-hover:w-fit`}>{menu?.name}</h3>
 
                                     </a>
                                 ))
                             }
 
+                        </div>
+                        <div className={`absolute inset-x-0 bottom-0  ${open ? '' : 'hidden'}`}><hr className='text-white' />
+                            <p className='text-center'>&copy; 2024 rights reserved <br /> @Infoz IT </p>
                         </div>
                     </div>
                 </div>
