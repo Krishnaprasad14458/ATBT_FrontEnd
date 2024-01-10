@@ -32,7 +32,7 @@ function App() {
             <Route path='/boardmeetings' element={<BoardMeetings />} />
             <Route path='/settings' element={<Settings />} />
             <Route path='/tasks' element={<Tasks />} />
-            <Route path='/teams' element={<Teams/>} />
+            <Route path='/teams' element={<Teams />} />
           </Route>
           <Route path="/*" element={<PageNotFound />} />
         </Routes>
