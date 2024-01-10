@@ -1,4 +1,5 @@
 import React from 'react';
+import './Dashboard.css';
 import login_bg from '../../../Images/login_bg.jpg';
 import logo from '../../../Images/logo.png';
 import { Fragment, useState } from 'react'
@@ -188,29 +189,26 @@ function Dashboard() {
 
         <p class="text-md">Monday, January 08</p>
 
-        <h2 class=" text-4xl font-bold dark:text-white">Good Morning, Bhavitha</h2>
+        <h2 class=" text-4xl font-bold dark:text-white">Good Morning , Bhavitha</h2>
 
-        <div className='flex justify-center mt-6'>
+        <div className='flex flex-wrap mt-4 justify-center'>
 
-          <div className="border-r-2 border-black-100">
+          <div className="tota_tasks border-r-2 border-black-100 bg-gray-100 p-2 rounded-s-full">
 
-            <h5 className='mr-4 ml-4'>Total Tasks</h5>
+            <h5 className='mr-4 ml-4 px-2'>Total Tasks</h5>
 
-            <p className='mr-4 ml-4'>1,000</p>
-
-          </div>
-
-          <div className="border-r-2 border-dark">
-
-            <h5 className='mr-4 ml-4'>Completed Tasks</h5>
-
-            <p className='mr-4 ml-4'>1,000</p>
+            <p className='mr-4 ml-4 px-2'>1,000</p>
 
           </div>
 
+          <div className=" completed_tasks border-r-2 border-black-100 bg-gray-100 p-2">
 
+            <h5 className='mr-4 ml-4 px-2'>Completed Tasks</h5>
 
-          <div className="border-r-2 border-100">
+            <p className='mr-4 ml-4 px-2'>1,000</p>
+
+          </div>
+          <div className=" upcoming_tasks border-r-2 border-black-100 bg-gray-100 p-2">
 
             <h5 className='mr-4 ml-4'>Upcoming Tasks</h5>
 
@@ -218,11 +216,11 @@ function Dashboard() {
 
           </div>
 
-          <div className="">
+          <div className=" overdue_tasks border-r-2 border-black-100 bg-gray-100 p-2 rounded-e-full">
 
-            <h5 className='mr-4 ml-4'>Overdue Tasks</h5>
+            <h5 className='mr-4 ml-4 px-2'>Overdue Tasks</h5>
 
-            <p className='mr-4 ml-4'>1,000</p>
+            <p className='mr-4 ml-4 px-2'>1,000</p>
 
           </div>
 
@@ -295,10 +293,12 @@ function Dashboard() {
                 </svg>
                 <p>Search Entity</p>
 
-              </div><hr className='w-60 my-2' />
-              <div class="flow-root">
+                </div><hr className='w-60 mt-2' />
+              </div>
+              <hr className='p-0' />
+              <div class="flow-root p-3 sm:px-6 sm:pb-2 sm:pt-2">
                 <ul role="list" class="divide-y divide-gray-200 dark:divide-gray-700">
-                  <li class="py-3 sm:py-4">
+                  <li class="py-2 sm:py-2">
                     <div class="flex items-center">
                       <div class="flex-shrink-0">
                         <img class="w-8 h-8 rounded-full" src={login_bg} alt="Neil image" />
@@ -318,7 +318,7 @@ function Dashboard() {
                       </div>
                     </div>
                   </li>
-                  <li class="py-3 sm:py-4">
+                  <li class="py-2 sm:py-2">
                     <div class="flex items-center ">
                       <div class="flex-shrink-0">
                         <img class="w-8 h-8 rounded-full" src={logo} alt="Neil image" />
@@ -337,7 +337,7 @@ function Dashboard() {
                       </div>
                     </div>
                   </li>
-                  <li class="py-3 sm:py-4">
+                  <li class="py-2 sm:py-2">
                     <div class="flex items-center">
                       <div class="flex-shrink-0">
                         <img class="w-8 h-8 rounded-full" src={logo} alt="Neil image" />
@@ -356,7 +356,7 @@ function Dashboard() {
                       </div>
                     </div>
                   </li>
-                  <li class="py-3 sm:py-4">
+                  <li class="py-2 sm:py-2">
                     <div class="flex items-center ">
                       <div class="flex-shrink-0">
                         <img class="w-8 h-8 rounded-full" src={logo} alt="Neil image" />
