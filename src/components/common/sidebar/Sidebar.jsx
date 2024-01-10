@@ -67,7 +67,7 @@ duration-500 text-gray-100 px-2`}>
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5M12 17.25h8.25" />
                             </svg>
                         </div>
-                        <div className={`mt-1 flex-col gap-4 relative ${open ? '' : 'mt-7'}`} >
+                        <div className={`mt-3 flex-col gap-4 relative ${open ? '' : 'mt-7'}`} >
                             {
                                 menus?.map((menu, i) => (
                                     <a href={menu?.link} key={i}
@@ -75,7 +75,7 @@ duration-500 text-gray-100 px-2`}>
                                          hover:bg-slate-400  rounded-md
                                          ${menu?.name.isActive ? 'bg-orange-500' : 'black' // Apply orange color for active menu
                                             }`}>
-                                        <div style={{ width: "1.5rem", height: "1.5rem" }}>
+                                        <div style={{ width: "1.5rem", height: "1.5rem", marginLeft: "5px" }}>
                                             {menu?.icon}
                                         </div>
                                         <h3
@@ -100,7 +100,7 @@ duration-500 text-gray-100 px-2`}>
 
                         </div>
                         <div className={`absolute inset-x-0 bottom-0  ${open ? '' : 'hidden'}`}><hr className='text-white' />
-                            <p className='text-center'>&copy; 2024 rights reserved <br /> @Infoz IT </p>
+                            <p className='text-center'>Developed by @Infoz IT V0.1 <br /> &copy; 2024 rights reserved </p>
                         </div>
                     </div>
                 </div>
