@@ -20,7 +20,7 @@ import React, {
   
     const getUsersData = async () => {
       try {
-        const { status, data } = await axios.get("http://3.111.0.222/userdata");
+        const { status, data } = await axios.get("https://www.atbtbeta.teksacademy.com/userdata");
         if (status === 201) {
           console.log(data,"ud")
           usersDispatch({

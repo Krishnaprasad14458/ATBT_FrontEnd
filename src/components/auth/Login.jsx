@@ -1,11 +1,11 @@
 
 import React, { useContext, useState } from 'react'
-import { AuthContext } from '../../../contexts/authContext';
-import { UserDataContext } from '../../../contexts/usersDataContext';
-import login_bg from './../../common/Images/login_bg.jpg';
-import logo from './../../common/Images/logo.png';
+import { AuthContext } from '../../contexts/authContext';
+import { UserDataContext } from '../../contexts/usersDataContext';
+import login_bg from '../../Images/login_bg.jpg';
+import logo from '../../Images/logo.png';
 import axios from 'axios';
-
+import { Link } from 'react-router-dom'
 
 const Login = () => {
     const { adminLogin } = useContext(AuthContext);
@@ -50,7 +50,7 @@ const Login = () => {
                                 <div className="flex items-center justify-between">
                                     <label htmlFor="password" className="block text-sm font-medium leading-6 text-gray-900">Password</label>
                                     <div className="text-sm">
-                                        <a href="/changepassword" className="font-semibold text-orange-600 hover:text-orange-500">Forgot password?</a>
+                                        <Link to="/changepassword" className="font-semibold text-orange-600 hover:text-orange-500">Forgot password?</Link>
                                     </div>
                                 </div>
                                 <div className="mt-2">

@@ -1,10 +1,11 @@
 import React from 'react'
-import UserChart from '../../common/charts/UserChart'
-
+import UserChart from '../../charts/UserChart'
+import { Link } from 'react-router-dom'
 function Reports() {
   return (
     <div>
         <UserChart/>
+        <h1>reports</h1>
     </div>
   )
 }
