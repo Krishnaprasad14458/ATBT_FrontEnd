@@ -70,7 +70,7 @@ duration-500 text-gray-100 px-2`}>
                         <div className={`mt-3 flex-col gap-4 relative ${open ? '' : 'mt-7'}`} >
                             {
                                 menus?.map((menu, i) => (
-                                    <a href={menu?.link} key={i}
+                                    <Link to={menu?.link} key={i}
                                         className={`group flex items-center text-sm gap-3.5 font-semibold p-2 leading-normal
                                          hover:bg-slate-400  rounded-md
                                          ${menu?.name.isActive ? 'bg-orange-500' : 'black' // Apply orange color for active menu
@@ -94,7 +94,7 @@ duration-500 text-gray-100 px-2`}>
                       group-hover:left-14 group-hover:duration-300
                       group-hover:w-fit`}>{menu?.name}</h3>
 
-                                    </a>
+                                    </Link>
                                 ))
                             }
 
