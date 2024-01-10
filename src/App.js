@@ -16,6 +16,7 @@ import Tasks from './components/pages/task/Tasks';
 import Settings from './components/pages/settings/Settings';
 import { useContext } from 'react';
 import { AuthContext } from './contexts/authContext';
+import Users from './components/pages/users/Users';
 
 function App() {
   const { authState } = useContext(AuthContext);
@@ -36,6 +37,7 @@ function App() {
             <Route path='/settings' element={<Settings />} />
             <Route path='/tasks' element={<Tasks />} />
             <Route path='/teams' element={<Teams />} />
+            <Route path='/users' element={<Users />} />
           </Route>
           <Route path="/*" element={<PageNotFound />} />
         </Routes>
@@ -43,6 +45,7 @@ function App() {
     </div>
   );
 }
+
 
 export default App;
 
