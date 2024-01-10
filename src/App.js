@@ -14,13 +14,16 @@ import BoardMeetings from './components/pages/boardMeetings/BoardMeetings';
 import Teams from './components/pages/teams/Teams';
 import Tasks from './components/pages/task/Tasks';
 import Settings from './components/pages/settings/Settings';
+import { useContext } from 'react';
+import { AuthContext } from './contexts/authContext';
 
 function App() {
+  const { authState } = useContext(AuthContext);
   return (
     <div className="app">
-      <Sidebar />
+      {authState.token ? <Sidebar /> : null}
       <main className="content" style={{ overflow: "auto" }}>
-        <TopBar />
+        {authState.token ? <TopBar /> : null}
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/changepassword" element={<ChangePassword />} />

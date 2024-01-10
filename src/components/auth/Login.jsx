@@ -50,7 +50,7 @@ const Login = () => {
                                 <div className="flex items-center justify-between">
                                     <label htmlFor="password" className="block text-sm font-medium leading-6 text-gray-900">Password</label>
                                     <div className="text-sm">
-                                        <Link to="/changepassword" className="font-semibold text-orange-600 hover:text-orange-500">Forgot password?</Link>
+                                        <Link to="/resetpassword" className="font-semibold text-orange-600 hover:text-orange-500">Forgot password?</Link>
                                     </div>
                                 </div>
                                 <div className="mt-2">
