@@ -1,10 +1,10 @@
 
 import React, { useContext, useState } from 'react'
-import login_bg from './../../common/Images/login_bg.jpg';
-import logo from './../../common/Images/logo.png';
-import { AuthContext } from '../../../contexts/authContext';
+import login_bg from '../../Images/login_bg.jpg';
+import logo from '../../Images/logo.png';
+import { AuthContext } from '../../contexts/authContext';
 import { useParams } from 'react-router-dom';
-
+import { Link } from 'react-router-dom'
 function ChangePassword() {
     const { id } = useParams();
     const { resetPassword } = useContext(AuthContext);
