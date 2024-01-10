@@ -1,0 +1,46 @@
+/* 'sm': '640px',
+      // => */
+@media (max-width: 640px) {
+
+    .tota_tasks,
+    .completed_tasks,
+    .upcoming_tasks,
+    .overdue_tasks {
+        padding: 0;
+        background-color: white;
+        border-radius: none;
+        border: none;
+    }
+
+    .cards-width {
+        width: 28rem;
+    }
+
+
+}
+
+@media (max-width: 768px) {
+
+    .tota_tasks,
+    .completed_tasks,
+    .upcoming_tasks {
+        background-color: white;
+        border-radius: none;
+    }
+
+    .overdue_tasks {
+        border: none;
+        background-color: white;
+        border-radius: none;
+    }
+
+}
+
+/* 'lg': '1024px',
+      // => @media (min-width: 1024px) { ... } */
+/* 
+      'xl': '1280px',
+      // => @media (min-width: 1280px) { ... } */
+/* 
+      '2xl': '1536px',
+      // => @media (min-width: 1536px) { ... } */
