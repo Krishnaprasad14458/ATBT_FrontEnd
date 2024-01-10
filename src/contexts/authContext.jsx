@@ -22,7 +22,7 @@ const AuthProvider = ({ children }) => {
   const adminLogin = async (loginData) => {
     try {
       const { status, data } = await toast.promise(
-        axios.post(`http://3.111.0.222/adminlogin`, loginData),
+        axios.post(`https://www.atbtbeta.teksacademy.com/adminlogin`, loginData),
         {
           pending: 'logging In...',
           success: {render({data: {data: {adminData: {fullname}}}}){
@@ -51,7 +51,7 @@ const changePassword = async (emailData) => {
     console.log(emailData, "npd")
     try {
       const { status, data } = await toast.promise(
-        axios.post(`http://3.111.0.222/changepassword`, emailData),
+        axios.post(`https://www.atbtbeta.teksacademy.com/changepassword`, emailData),
         {
           pending: 'verifying email',
           success: {render({data: {data: {message}}}){
@@ -82,7 +82,7 @@ const changePassword = async (emailData) => {
       if(id === 13) return toast.error("unautorized Access 🤯");
       
       const { status, data } = await toast.promise(
-        axios.put(`http://3.111.0.222/resetpassword/${id}`, {password}),
+        axios.put(`https://www.atbtbeta.teksacademy.com/resetpassword/${id}`, {password}),
         {
           pending: 'verifying data',
           success: {render({data: {data: {updated}}}){
