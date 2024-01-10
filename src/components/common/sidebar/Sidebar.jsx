@@ -58,10 +58,10 @@ const Sidebar = () => {
 
                 <div >
                     <div className={`bg-[#475569] min-h-screen ${open ? 'w-60' : "w-16"}
-duration-500 text-gray-100 px-4`}>
+duration-500 text-gray-100 px-2`}>
                         <div className="py-3 flex justify-end">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-                                class="w-6 h-6 cusrsor-pointer" size={26} onClick={() => setOpen(!open)}>
+                                class="w-6 h-6 cusrsor-pointer" onClick={() => setOpen(!open)} >
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5M12 17.25h8.25" />
                             </svg>
                         </div>
@@ -83,13 +83,13 @@ duration-500 text-gray-100 px-4`}>
                                             }}
                                             className={`whitespace-pre duration-500 font-sans
                      ${!open && `opacity-0 translate-x-20 overflow-hidden `}`}>  {menu?.name}</h3>
-                                        <h3 className={` ${open && 'hidden'} absolute left-20
+                                        <h3 className={` ${open && 'hidden'} absolute left-30
                      bg-black font-semibold
-                     whitespace-pre text-gray-900 rounded-md drop-shadow-lg
+                     whitespace-pre text-white rounded-md drop-shadow-lg
                      px-0 py-0 w-0
                       overflow-hidden
-                     group-hover:px-2 group-hover:py-1
-                      group-hover:left-14 group-hover:duration-300
+                     group-hover:px-5 group-hover:py-3
+                      group-hover:left-10 group-hover:duration-300
                       group-hover:w-fit`}>{menu?.name}</h3>
 
                                     </a>
