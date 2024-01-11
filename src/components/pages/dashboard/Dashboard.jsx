@@ -1,59 +1,221 @@
 import React from 'react';
-import './Dashboard.css';
 import login_bg from '../../../Images/login_bg.jpg';
 import logo from '../../../Images/logo.png';
-import { Fragment } from 'react'
+import { Fragment, useState } from 'react'
 import { Menu, Transition } from '@headlessui/react'
 import { ChevronDownIcon } from '@heroicons/react/20/solid'
 import { Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom';
+
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 function Dashboard() {
+  const navigate=useNavigate()
+  const data = [1, 2, 3, 4, 5]
+  // --modal
+  const [isModalOpen, setModalOpen] = useState(false);
+
+  const openModal = () => setModalOpen(true);
+  const closeModal = () => setModalOpen(false);
+
+  const [isOpen, setIsOpen] = useState(false);
+  // const [designation, setDesignation] = useState('');
+  // const [selectedOption2, setSelectedOption2] = useState('');
+  // const [selectedOption3, setSelectedOption3] = useState('');
+
+  const designationOptions = ['Option 1A', 'Option 1B', 'Option 1C'];
+  const departmentOptions = ['Option 2A', 'Option 2B', 'Option 2C'];
+  const branchOptions = ['Option 3A', 'Option 3B', 'Option 3C'];
+
+  const [fullname, setFullname] = useState('');
+  const [email, setEmail] = useState('');
+  const [phonenumber, setPhonenumber] = useState('');
+  const [designation, setDesignation] = useState('');
+  const [department, setDepartment] = useState('');
+  const [reportto, setReportto] = useState('');
+  const [profile, setProfile] = useState('');
+  const [branch, setBranch] = useState('');
+
+  const handleDesignationChange = (e) => {
+    setDesignation(e.target.value);
+  };
+
+  const handleDepartmentChange = (e) => {
+    setDepartment(e.target.value);
+  };
+
+  const handleBranchChange = (e) => {
+    setBranch(e.target.value);
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const newErrors = {};
+
+    if (!fullname) {
+      alert("please enter the name");
+      return;
+    }
+    if (!email) {
+      alert("please  enter email id");
+      return;
+    } else {
+      const emailPattern = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
+      if (!emailPattern.test(email)) {
+        alert("Invalid Email Address");
+        return;
+        // errors.email = 'Invalid email address';
+      }
+    }
+    if (!phonenumber) {
+      alert("please enter mobilenumber");
+      return;
+    } else {
+      if (phonenumber.length != 10) {
+        alert("incorrect mobile number");
+        return;
+      }
+    }
+    if (!designation) {
+      alert("please enter the designation");
+      return;
+    }
+    if (!department) {
+      alert("please enter the department");
+      return;
+    }
+    if (!reportto) {
+      alert("please enter the reportto");
+      return;
+    }
+    if (!profile) {
+      alert("please enter the profile");
+      return;
+    }
+    if (!branch) {
+      alert("please enter the branch");
+      return;
+    }
+
+    if (Object.keys(newErrors).length === 0) {
+      let user = {
+        fullname,
+        email,
+        phonenumber,
+        designation,
+        department,
+        reportto,
+        profile,
+        branch,
+        // user_remarks_history,
+        // user_status,
+      };
+
+      console.log("User Data:", user); // Log the user data being sent
+      user = [user];
+      const dataWithTitleCase = user.map((item) => {
+        const newItem = {};
+
+        for (const key in item) {
+          if (Object.prototype.hasOwnProperty.call(item, key)) {
+            if (typeof item[key] === "string" && key !== "email") {
+              newItem[key] = item[key]
+                .split(" ")
+                .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+                .join(" ");
+            } else {
+              newItem[key] = item[key];
+            }
+          }
+        }
+
+        return newItem;
+      });
+      user = dataWithTitleCase[0];
+
+      const response = await fetch(
+        `${process.env.REACT_APP_API_URL}/createUser`,
+        {
+          method: "POST",
+          body: JSON.stringify(user),
+
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      console.log("Response:", response); // Log the response from the server
+
+      const json = await response.json();
+
+      console.log("JSON Response:", json); // Log the parsed JSON response
+
+      if (json.Status == "exists") {
+        alert("Email already exists.");
+        return false;
+      }
+      if (response.ok) {
+        // let parseJson = json;
+        // parseJson.user_remarks_history = JSON.parse(json.user_remarks_history);
+        // console.log(parseJson);
+
+        const id = json.Result.insertId;
+        json.reqBody.id = id;
+        // dispatch({ type: "CREATE_USER", payload: json.reqBody });
+
+        console.log("User created successfully.", user);
+        alert("User created successfully.");
+        // Reset the form fields
+        setFullname("");
+        setEmail("");
+        setPhonenumber("");
+        setDesignation("");
+        setDepartment("");
+        setReportto("");
+        setProfile("");
+        setBranch("");
+        navigate("/usersdata");
+      }
+    }
+  };
   return (
     <div className="container p-3 bg-[#f8fafc] ">
       <h1 className='m-3 font-semibold'>Home</h1>
       <div className='text-center '>
-
+ 
         <p class="text-md">Monday, January 08</p>
-
         <h4 class=" text-2xl font-bold dark:text-white">Good Morning , Bhavitha</h4>
 
         <div className='flex flex-wrap mt-4 justify-center'>
-
-          <div className="tota_tasks border-r-2 border-black-100 bg-gray-100 p-2 rounded-s-full">
+ 
+          <div className="tota_tasks border-r-2 border-black-100 bg-gray-100 p-2 rounded-s
 
             <h6 className='mr-4 ml-4 px-2 text-xs'>Total Tasks</h6>
 
             <p className='mr-4 ml-4 px-2 '>1,000</p>
-
           </div>
-
+ 
           <div className=" completed_tasks border-r-2 border-black-100 bg-gray-100 p-2">
-
             <h5 className='mr-4 ml-4 px-2 text-sm'>Completed Tasks</h5>
-
             <p className='mr-4 ml-4 px-2'>1,000</p>
-
+ 
           </div>
           <div className=" upcoming_tasks border-r-2 border-black-100 bg-gray-100 p-2">
-
             <h5 className='mr-4 ml-4 text-sm '>Upcoming Tasks</h5>
-
             <p className='mr-4 ml-4'>1,000</p>
-
+ 
           </div>
-
+ 
           <div className=" overdue_tasks border-r-2 border-black-100 bg-gray-100 p-2 rounded-e-full">
-
             <h5 className='mr-4 ml-4 px-2 text-sm'>Overdue Tasks</h5>
-
             <p className='mr-4 ml-4 px-2'>1,000</p>
-
+ 
           </div>
-
+ 
         </div>
-
+ 
       </div>
       <div className="mt-8">
         <div className='grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-col-2 gap-2'>
@@ -173,15 +335,15 @@ function Dashboard() {
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
                           <path d="M6.3 2.84A1.5 1.5 0 0 0 4 4.11v11.78a1.5 1.5 0 0 0 2.3 1.27l9.344-5.891a1.5 1.5 0 0 0 0-2.538L6.3 2.841Z" />
                         </svg>
+
                       </div>
-                    </div>
-                  </li>
+                    </li>
+                  ))}
                 </ul>
               </div>
 
 
             </div>
-
           </div>
 
           <div class="w-full p-4 text-center bg-white border border-gray-200 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700">
@@ -300,18 +462,16 @@ function Dashboard() {
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
                           <path d="M6.3 2.84A1.5 1.5 0 0 0 4 4.11v11.78a1.5 1.5 0 0 0 2.3 1.27l9.344-5.891a1.5 1.5 0 0 0 0-2.538L6.3 2.841Z" />
                         </svg>
+
                       </div>
-                    </div>
-                  </li>
+                    </li>
+                  ))}
                 </ul>
               </div>
 
 
             </div>
-
           </div>
-
-
         </div>
       </div>
     </div>
