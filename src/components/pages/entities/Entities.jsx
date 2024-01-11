@@ -11,7 +11,7 @@ function Entities() {
   return (
 
 
-    <div className='container  p-3'>
+    <div className='container  p-3 bg-[#f8fafc] h-screen'>
       <h1 className='m-3 font-semibold'>Entities</h1>
       <div className='flex flex-wrap justify-between gap-2'>
         <div className='flex flex-col w-96'>
@@ -114,22 +114,22 @@ function Entities() {
               <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700 border-collapse border border-[#e5e7eb] rounded-md ">
                 <thead>
                   <tr>
-                    <th scope="col" class="px-6 py-3 text-center text-md font-semibold text-orange-500  border-collapse border border-[#e5e7eb] ">Entity Name</th>
-                    <th scope="col" class="px-6 py-3 text-center text-md font-semibold text-orange-500  border-collapse border border-[#e5e7eb]">Total Tasks</th>
-                    <th scope="col" class="px-6 py-3 text-center text-md font-semibold text-orange-500  border-collapse border border-[#e5e7eb]">Completed Tasks</th>
-                    <th scope="col" class="px-6 py-3 text-center text-md font-semibold text-orange-500  border-collapse border border-[#e5e7eb] ">Upcoming Tasks</th>
-                    <th scope="col" class="px-6 py-3 text-center text-md font-semibold text-orange-500  border-collapse border border-[#e5e7eb] ">Overdue Tasks</th>
-                    <th scope="col" class="px-6 py-3 text-center text-md font-semibold text-orange-500  border-collapse border border-[#e5e7eb] ">Actions </th>
+                    <th scope="col" class="px-6 py-3 text-center text-md font-semibold text-white bg-orange-500  border-collapse border border-[#e5e7eb] ">Entity Name</th>
+                    <th scope="col" class="px-6 py-3 text-center text-md font-semibold text-white bg-orange-500   border-collapse border border-[#e5e7eb]">Total Tasks</th>
+                    <th scope="col" class="px-6 py-3 text-center text-md font-semibold text-white bg-orange-500  border-collapse border border-[#e5e7eb]">Completed Tasks</th>
+                    <th scope="col" class="px-6 py-3 text-center text-md font-semibold text-white bg-orange-500  border-collapse border border-[#e5e7eb] ">Upcoming Tasks</th>
+                    <th scope="col" class="px-6 py-3 text-center text-md font-semibold text-white bg-orange-500   border-collapse border border-[#e5e7eb] ">Overdue Tasks</th>
+                    <th scope="col" class="px-6 py-3 text-center text-md font-semibold text-white bg-orange-500   border-collapse border border-[#e5e7eb] ">Actions </th>
                   </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
                   <tr class="hover:bg-gray-100 dark:hover:bg-gray-700">
-                    <td class="px-6 py-4 whitespace-nowrap text-center  text-sm font-medium text-gray-800 border-collapse border border-[#e5e7eb]">Infoz IT</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-center  text-sm font-medium text-gray-800 border-collapse border border-[#e5e7eb]">5,000</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-center  text-sm font-medium text-gray-800 border-collapse border border-[#e5e7eb]">2,000</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-center  text-sm font-medium text-gray-800 border-collapse border border-[#e5e7eb]">2,000</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-center  text-sm font-medium text-gray-800 border-collapse border border-[#e5e7eb]">1,000</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-center  text-sm font-medium text-gray-800 border-collapse border border-[#e5e7eb] flex justify-evenly">
+                    <td class="px-6 py-3 whitespace-nowrap text-center  text-sm font-medium text-gray-800 border-collapse border border-[#e5e7eb]">Infoz IT</td>
+                    <td class="px-6 py-3 whitespace-nowrap text-center  text-sm font-medium text-gray-800 border-collapse border border-[#e5e7eb]">5,000</td>
+                    <td class="px-6 py-3 whitespace-nowrap text-center  text-sm font-medium text-gray-800 border-collapse border border-[#e5e7eb]">2,000</td>
+                    <td class="px-6 py-3 whitespace-nowrap text-center  text-sm font-medium text-gray-800 border-collapse border border-[#e5e7eb]">2,000</td>
+                    <td class="px-6 py-3 whitespace-nowrap text-center  text-sm font-medium text-gray-800 border-collapse border border-[#e5e7eb]">1,000</td>
+                    <td class="px-6 py-3 whitespace-nowrap text-center  text-sm font-medium text-gray-800 border-collapse border border-[#e5e7eb] flex justify-evenly">
                       <button type="button" class="inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
                           <path d="M10 12.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z" />
@@ -152,12 +152,12 @@ function Entities() {
                   </tr>
 
                   <tr class="hover:bg-gray-100 dark:hover:bg-gray-700">
-                    <td class="px-6 py-4 whitespace-nowrap text-center  text-sm font-medium text-gray-800 border-collapse border border-[#e5e7eb]">Kapil Knowledge Hub Private Limited</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-center  text-sm font-medium text-gray-800 border-collapse border border-[#e5e7eb]">5,000</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-center  text-sm font-medium text-gray-800 border-collapse border border-[#e5e7eb]">2,000</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-center  text-sm font-medium text-gray-800 border-collapse border border-[#e5e7eb]">2,000</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-center  text-sm font-medium text-gray-800 border-collapse border border-[#e5e7eb]">1,000</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-center  text-sm font-medium text-gray-800 border-collapse border border-[#e5e7eb] flex justify-evenly">
+                    <td class="px-6 py-3 whitespace-nowrap text-center  text-sm font-medium text-gray-800 border-collapse border border-[#e5e7eb]">Kapil Knowledge Hub Private Limited</td>
+                    <td class="px-6 py-3 whitespace-nowrap text-center  text-sm font-medium text-gray-800 border-collapse border border-[#e5e7eb]">5,000</td>
+                    <td class="px-6 py-3 whitespace-nowrap text-center  text-sm font-medium text-gray-800 border-collapse border border-[#e5e7eb]">2,000</td>
+                    <td class="px-6 py-3 whitespace-nowrap text-center  text-sm font-medium text-gray-800 border-collapse border border-[#e5e7eb]">2,000</td>
+                    <td class="px-6 py-3 whitespace-nowrap text-center  text-sm font-medium text-gray-800 border-collapse border border-[#e5e7eb]">1,000</td>
+                    <td class="px-6 py-3 whitespace-nowrap text-center  text-sm font-medium text-gray-800 border-collapse border border-[#e5e7eb] flex justify-evenly">
                       <button type="button" class="inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
                           <path d="M10 12.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z" />
@@ -180,12 +180,12 @@ function Entities() {
                   </tr>
 
                   <tr class="hover:bg-gray-100 dark:hover:bg-gray-700">
-                    <td class="px-6 py-4 whitespace-nowrap text-center  text-sm font-medium text-gray-800 border-collapse border border-[#e5e7eb]">Kapil Knowledge Hub Private Limited</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-center  text-sm font-medium text-gray-800 border-collapse border border-[#e5e7eb]">5,000</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-center  text-sm font-medium text-gray-800 border-collapse border border-[#e5e7eb]">2,000</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-center  text-sm font-medium text-gray-800 border-collapse border border-[#e5e7eb]">2,000</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-center  text-sm font-medium text-gray-800 border-collapse border border-[#e5e7eb]">1,000</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-center  text-sm font-medium text-gray-800 border-collapse border border-[#e5e7eb] flex justify-evenly">
+                    <td class="px-6 py-3 whitespace-nowrap text-center  text-sm font-medium text-gray-800 border-collapse border border-[#e5e7eb]">Kapil Knowledge Hub Private Limited</td>
+                    <td class="px-6 py-3 whitespace-nowrap text-center  text-sm font-medium text-gray-800 border-collapse border border-[#e5e7eb]">5,000</td>
+                    <td class="px-6 py-3 whitespace-nowrap text-center  text-sm font-medium text-gray-800 border-collapse border border-[#e5e7eb]">2,000</td>
+                    <td class="px-6 py-3 whitespace-nowrap text-center  text-sm font-medium text-gray-800 border-collapse border border-[#e5e7eb]">2,000</td>
+                    <td class="px-6 py-3 whitespace-nowrap text-center  text-sm font-medium text-gray-800 border-collapse border border-[#e5e7eb]">1,000</td>
+                    <td class="px-6 py-3 whitespace-nowrap text-center  text-sm font-medium text-gray-800 border-collapse border border-[#e5e7eb] flex justify-evenly">
                       <button type="button" class="inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
                           <path d="M10 12.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z" />
@@ -208,12 +208,12 @@ function Entities() {
                   </tr>
 
                   <tr class="hover:bg-gray-100 dark:hover:bg-gray-700">
-                    <td class="px-6 py-4 whitespace-nowrap text-center  text-sm font-medium text-gray-800 border-collapse border border-[#e5e7eb]">Kapil Properties</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-center  text-sm font-medium text-gray-800 border-collapse border border-[#e5e7eb]">5,000</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-center  text-sm font-medium text-gray-800 border-collapse border border-[#e5e7eb]">2,000</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-center  text-sm font-medium text-gray-800 border-collapse border border-[#e5e7eb]">2,000</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-center  text-sm font-medium text-gray-800 border-collapse border border-[#e5e7eb]">1,000</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-center  text-sm font-medium text-gray-800 border-collapse border border-[#e5e7eb] flex justify-evenly">
+                    <td class="px-6 py-3 whitespace-nowrap text-center  text-sm font-medium text-gray-800 border-collapse border border-[#e5e7eb]">Kapil Properties</td>
+                    <td class="px-6 py-3 whitespace-nowrap text-center  text-sm font-medium text-gray-800 border-collapse border border-[#e5e7eb]">5,000</td>
+                    <td class="px-6 py-3 whitespace-nowrap text-center  text-sm font-medium text-gray-800 border-collapse border border-[#e5e7eb]">2,000</td>
+                    <td class="px-6 py-3 whitespace-nowrap text-center  text-sm font-medium text-gray-800 border-collapse border border-[#e5e7eb]">2,000</td>
+                    <td class="px-6 py-3 whitespace-nowrap text-center  text-sm font-medium text-gray-800 border-collapse border border-[#e5e7eb]">1,000</td>
+                    <td class="px-6 py-3 whitespace-nowrap text-center  text-sm font-medium text-gray-800 border-collapse border border-[#e5e7eb] flex justify-evenly">
                       <button type="button" class="inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
                           <path d="M10 12.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z" />
@@ -236,12 +236,12 @@ function Entities() {
                   </tr>
 
                   <tr class="hover:bg-gray-100 dark:hover:bg-gray-700">
-                    <td class="px-6 py-4 whitespace-nowrap text-center  text-sm font-medium text-gray-800 border-collapse border border-[#e5e7eb]">Kapil Chits</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-center  text-sm font-medium text-gray-800 border-collapse border border-[#e5e7eb]">5,000</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-center  text-sm font-medium text-gray-800 border-collapse border border-[#e5e7eb]">2,000</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-center  text-sm font-medium text-gray-800 border-collapse border border-[#e5e7eb]">2,000</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-center  text-sm font-medium text-gray-800 border-collapse border border-[#e5e7eb]">1,000</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-center  text-sm font-medium text-gray-800 border-collapse border border-[#e5e7eb] flex justify-evenly">
+                    <td class="px-6 py-3 whitespace-nowrap text-center  text-sm font-medium text-gray-800 border-collapse border border-[#e5e7eb]">Kapil Chits</td>
+                    <td class="px-6 py-3 whitespace-nowrap text-center  text-sm font-medium text-gray-800 border-collapse border border-[#e5e7eb]">5,000</td>
+                    <td class="px-6 py-3 whitespace-nowrap text-center  text-sm font-medium text-gray-800 border-collapse border border-[#e5e7eb]">2,000</td>
+                    <td class="px-6 py-3 whitespace-nowrap text-center  text-sm font-medium text-gray-800 border-collapse border border-[#e5e7eb]">2,000</td>
+                    <td class="px-6 py-3 whitespace-nowrap text-center  text-sm font-medium text-gray-800 border-collapse border border-[#e5e7eb]">1,000</td>
+                    <td class="px-6 py-3 whitespace-nowrap text-center  text-sm font-medium text-gray-800 border-collapse border border-[#e5e7eb] flex justify-evenly">
                       <button type="button" class="inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
                           <path d="M10 12.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z" />

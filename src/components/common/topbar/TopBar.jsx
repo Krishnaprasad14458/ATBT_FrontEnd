@@ -12,8 +12,7 @@ export default function TopBar() {
 
   return (
     <div className='topbar w-full'>
-
-      <nav class="bg-[#475569] ">
+      <nav class="bg-white shadow-md ">
         <div class="mx-auto max-w-screen px-2 sm:px-6 lg:px-8">
           <div class="relative flex h-16 items-center justify-between">
 

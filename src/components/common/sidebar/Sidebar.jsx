@@ -54,25 +54,25 @@ const Sidebar = () => {
     const [open, setOpen] = useState(true);
     const [active, setActive] = useState("Home")
     return (
-        <div className='sidebar'>
+        <div className='sidebar h-screen'>
             <main className="bg-white-500 flex ">
 
                 <div className='relative'>
-                    <div className={`bg-[#475569] min-h-screen ${open ? 'w-60' : "w-16"}
+                    <div className={`bg-white min-h-screen ${open ? 'w-60' : "w-16"}
 duration-500 text-gray-100 px-2`}>
                         <div className="pt-3 flex justify-between">
                             <img src={logo} alt='Infoz IT' className={`w-28 ms-8 p-0 ${open ? '' : 'hidden'}`} />
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-                                class="w-6 h-6 cusrsor-pointer mt-2" onClick={() => setOpen(!open)} >
+                                class="w-6 h-6 cusrsor-pointer mt-2 text-black" onClick={() => setOpen(!open)} >
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5M12 17.25h8.25" />
                             </svg>
                         </div>
-                        <div className={`mt-3 flex-col gap-4 relative ${open ? '' : 'mt-7'}`} >
+                        <div className={`mt-3 flex-col gap-4 text-black relative ${open ? '' : 'mt-7'}`} >
                             {
                                 menus?.map((menu, i) => (
                                     <Link to={menu?.link} key={i}
                                         className={`group flex items-center text-sm gap-3.5 font-semibold p-2 leading-normal
-                                         hover:bg-slate-400  rounded-md
+                                         hover:bg-orange-400 hover:text-white rounded-md
                                          ${menu?.name.isActive ? 'bg-orange-500' : 'black' // Apply orange color for active menu
                                             }`}>
                                         <div style={{ width: "1.5rem", height: "1.5rem", marginLeft: "5px" }}>
@@ -83,7 +83,7 @@ duration-500 text-gray-100 px-2`}>
                                                 transitionDelay: `${i + 3}00ms`,
 
                                             }}
-                                            className={`whitespace-pre duration-500 font-sans
+                                            className={`whitespace-pre duration-500 font-sans 
                      ${!open && `opacity-0 translate-x-20 overflow-hidden `}`}>  {menu?.name}</h3>
                                         <h3 className={` ${open && 'hidden'} absolute left-20
                      bg-white font-semibold
@@ -99,8 +99,8 @@ duration-500 text-gray-100 px-2`}>
                             }
 
                         </div>
-                        <div className={`absolute inset-x-0 bottom-0  ${open ? '' : 'hidden'}`}><hr className='text-white' />
-                            <p className='text-center'>Developed by @Infoz IT V0.1 <br /> &copy; 2024 rights reserved </p>
+                        <div className={`absolute inset-x-0 bottom-0  ${open ? '' : 'hidden'}`}><hr className='text-black' />
+                            <p className='text-center text-black'>Developed by @Infoz IT V0.1 <br /> &copy; 2024 rights reserved </p>
                         </div>
                     </div>
                 </div>
