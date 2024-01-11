@@ -12,7 +12,7 @@ function Entities() {
 
 
     <div className='container  p-3 bg-[#f8fafc] h-screen'>
-      <h1 className='m-3 font-semibold'>Entities</h1>
+      <h1 className='m-3 font-semibold text-lg'>Entities</h1>
       <div className='flex flex-wrap justify-between gap-2'>
         <div className='flex flex-col w-96'>
           <label for="default-search" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>

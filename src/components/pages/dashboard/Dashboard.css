@@ -7,11 +7,20 @@
     .upcoming_tasks,
     .overdue_tasks {
         padding: 0;
+
         background-color: #f8fafc;
         border-radius: none;
         border: none;
     }
 
+    .welcome_user {
+        font-size: 1.125rem;
+        font-weight: 600;
+    }
+
+    .date_time {
+        font-size: 0.75rem;
+    }
 
 
 
