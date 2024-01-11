@@ -7,14 +7,12 @@
     .upcoming_tasks,
     .overdue_tasks {
         padding: 0;
-        background-color: white;
+        background-color: #f8fafc;
         border-radius: none;
         border: none;
     }
 
-    .cards-width {
-        width: 28rem;
-    }
+
 
 
 }
@@ -24,13 +22,13 @@
     .tota_tasks,
     .completed_tasks,
     .upcoming_tasks {
-        background-color: white;
+        background-color: #f8fafc;
         border-radius: none;
     }
 
     .overdue_tasks {
         border: none;
-        background-color: white;
+        background-color: #f8fafc;
         border-radius: none;
     }
 

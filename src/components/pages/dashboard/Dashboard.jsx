@@ -11,34 +11,34 @@ function classNames(...classes) {
 }
 function Dashboard() {
   return (
-    <div className="container p-3">
+    <div className="container p-3 bg-[#f8fafc] ">
       <h1 className='m-3 font-semibold'>Home</h1>
       <div className='text-center '>
 
         <p class="text-md">Monday, January 08</p>
 
-        <h2 class=" text-4xl font-bold dark:text-white">Good Morning , Bhavitha</h2>
+        <h4 class=" text-2xl font-bold dark:text-white">Good Morning , Bhavitha</h4>
 
         <div className='flex flex-wrap mt-4 justify-center'>
 
           <div className="tota_tasks border-r-2 border-black-100 bg-gray-100 p-2 rounded-s-full">
 
-            <h5 className='mr-4 ml-4 px-2'>Total Tasks</h5>
+            <h6 className='mr-4 ml-4 px-2 text-xs'>Total Tasks</h6>
 
-            <p className='mr-4 ml-4 px-2'>1,000</p>
+            <p className='mr-4 ml-4 px-2 '>1,000</p>
 
           </div>
 
           <div className=" completed_tasks border-r-2 border-black-100 bg-gray-100 p-2">
 
-            <h5 className='mr-4 ml-4 px-2'>Completed Tasks</h5>
+            <h5 className='mr-4 ml-4 px-2 text-sm'>Completed Tasks</h5>
 
             <p className='mr-4 ml-4 px-2'>1,000</p>
 
           </div>
           <div className=" upcoming_tasks border-r-2 border-black-100 bg-gray-100 p-2">
 
-            <h5 className='mr-4 ml-4'>Upcoming Tasks</h5>
+            <h5 className='mr-4 ml-4 text-sm '>Upcoming Tasks</h5>
 
             <p className='mr-4 ml-4'>1,000</p>
 
@@ -46,7 +46,7 @@ function Dashboard() {
 
           <div className=" overdue_tasks border-r-2 border-black-100 bg-gray-100 p-2 rounded-e-full">
 
-            <h5 className='mr-4 ml-4 px-2'>Overdue Tasks</h5>
+            <h5 className='mr-4 ml-4 px-2 text-sm'>Overdue Tasks</h5>
 
             <p className='mr-4 ml-4 px-2'>1,000</p>
 
@@ -56,10 +56,10 @@ function Dashboard() {
 
       </div>
       <div className="mt-8">
-        <div className='flex flex-wrap gap-4 justify-evenly'>
-          <div className='flex flex-col overflow-hidden sm:w-96' style={{ width: "28rem" }}>
-            <div class="max-w-md w-full  bg-white border border-gray-200 rounded-lg shadow  dark:bg-gray-800 dark:border-gray-700">
-              <div className='p-3 sm:px-6 sm:py-4'>
+        <div className='grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-col-2 gap-2'>
+          <div class="w-full p-4 text-center bg-white border border-gray-200 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700">
+            <div className='grid1-item overflow-hidden sm:w-full' >
+              <div className='p-3 sm:px-4 sm:py-2'>
                 <div class="flex items-center justify-between mb-4">
                   <h5 class="text-xl font-bold leading-none text-gray-900 dark:text-white">Entities</h5>
                   <Link to="#" class="text-sm font-medium text-white-600 hover:underline dark:text-white-500">
@@ -79,7 +79,7 @@ function Dashboard() {
                 </div><hr className='w-60 mt-2' />
               </div>
               <hr className='p-0' />
-              <div class="flow-root p-3 sm:px-6 sm:pb-2 sm:pt-2">
+              <div class="flow-root p-3 sm:px-4 sm:py-2">
                 <ul role="list" class="divide-y divide-gray-200 dark:divide-gray-700">
                   <li class="py-2 sm:py-2">
                     <div class="flex items-center">
@@ -88,7 +88,7 @@ function Dashboard() {
 
                       </div>
                       <div class="flex-1 min-w-0 ms-4">
-                        <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
+                        <p class="text-sm font-medium text-gray-900 text-start truncate dark:text-white">
                           Kapil Knowledge Hub Private Limited
                         </p>
 
@@ -108,7 +108,7 @@ function Dashboard() {
 
                       </div>
                       <div class="flex-1 min-w-0 ms-4">
-                        <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
+                        <p class="text-sm font-medium text-gray-900 text-start truncate dark:text-white">
                           Kapil Properties
                         </p>
 
@@ -127,7 +127,7 @@ function Dashboard() {
 
                       </div>
                       <div class="flex-1 min-w-0 ms-4">
-                        <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
+                        <p class="text-sm font-medium text-start text-gray-900 truncate dark:text-white">
                           Kapil Chits
                         </p>
 
@@ -145,7 +145,7 @@ function Dashboard() {
                         <img class="w-8 h-8 rounded-full" src={logo} alt="Neil image" />
                       </div>
                       <div class="flex-1 min-w-0 ms-4">
-                        <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
+                        <p class="text-sm font-medium text-start text-gray-900 truncate dark:text-white">
                           Kapil IT Solutions
                         </p>
 
@@ -164,7 +164,7 @@ function Dashboard() {
 
                       </div>
                       <div class="flex-1 min-w-0 ms-4">
-                        <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
+                        <p class="text-sm font-medium text-gray-900 text-start truncate dark:text-white">
                           Taaza Panta
                         </p>
 
@@ -178,12 +178,15 @@ function Dashboard() {
                   </li>
                 </ul>
               </div>
+
+
             </div>
 
           </div>
-          <div className='flex flex-col overflow-hidden sm:w-96' style={{ width: "28rem" }}>
-            <div class="max-w-md w-full  bg-white border border-gray-200 rounded-lg shadow  dark:bg-gray-800 dark:border-gray-700">
-              <div className='p-3 sm:px-6 sm:py-4'>
+
+          <div class="w-full p-4 text-center bg-white border border-gray-200 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700">
+            <div className='grid1-item overflow-hidden sm:w-full' >
+              <div className='p-3 sm:px-4 sm:py-2'>
                 <div class="flex items-center justify-between mb-4">
                   <h5 class="text-xl font-bold leading-none text-gray-900 dark:text-white">Entities</h5>
                   <Link to="#" class="text-sm font-medium text-white-600 hover:underline dark:text-white-500">
@@ -203,7 +206,7 @@ function Dashboard() {
                 </div><hr className='w-60 mt-2' />
               </div>
               <hr className='p-0' />
-              <div class="flow-root p-3 sm:px-6 sm:pb-2 sm:pt-2">
+              <div class="flow-root p-3 sm:px-4 sm:py-2">
                 <ul role="list" class="divide-y divide-gray-200 dark:divide-gray-700">
                   <li class="py-2 sm:py-2">
                     <div class="flex items-center">
@@ -212,7 +215,7 @@ function Dashboard() {
 
                       </div>
                       <div class="flex-1 min-w-0 ms-4">
-                        <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
+                        <p class="text-sm font-medium text-gray-900 text-start truncate dark:text-white">
                           Kapil Knowledge Hub Private Limited
                         </p>
 
@@ -232,7 +235,7 @@ function Dashboard() {
 
                       </div>
                       <div class="flex-1 min-w-0 ms-4">
-                        <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
+                        <p class="text-sm font-medium text-gray-900 text-start truncate dark:text-white">
                           Kapil Properties
                         </p>
 
@@ -251,7 +254,7 @@ function Dashboard() {
 
                       </div>
                       <div class="flex-1 min-w-0 ms-4">
-                        <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
+                        <p class="text-sm font-medium text-start text-gray-900 truncate dark:text-white">
                           Kapil Chits
                         </p>
 
@@ -269,7 +272,7 @@ function Dashboard() {
                         <img class="w-8 h-8 rounded-full" src={logo} alt="Neil image" />
                       </div>
                       <div class="flex-1 min-w-0 ms-4">
-                        <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
+                        <p class="text-sm font-medium text-start text-gray-900 truncate dark:text-white">
                           Kapil IT Solutions
                         </p>
 
@@ -288,7 +291,7 @@ function Dashboard() {
 
                       </div>
                       <div class="flex-1 min-w-0 ms-4">
-                        <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
+                        <p class="text-sm font-medium text-gray-900 text-start truncate dark:text-white">
                           Taaza Panta
                         </p>
 
@@ -302,9 +305,13 @@ function Dashboard() {
                   </li>
                 </ul>
               </div>
+
+
             </div>
 
           </div>
+
+
         </div>
       </div>
     </div>
