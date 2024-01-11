@@ -18,6 +18,10 @@ import { useContext } from 'react';
 import { AuthContext } from './contexts/authContext';
 import Users from './components/pages/users/Users';
 import UserProfile from './components/pages/userProfile/UserProfile';
+import EntityForm from './components/createForm/createEntityForm/EntityForm';
+import UserForm from './components/createForm/createUserForm/UserForm';
+import BoardMeetingForm from './components/createForm/createBoardMeetingForm/BoardMeetingForm';
+import TaskForm from './components/createForm/createTaskForm/TaskForm';
 
 function App() {
   const { authState } = useContext(AuthContext);
@@ -49,6 +53,10 @@ function App() {
               <Route path="teams" element={<UserProfile />} />
               <Route path="enteties" element={<UserProfile />} />
             </Route>
+            <Route path='/entityform' element={<EntityForm />} />
+            <Route path='/userform' element={<UserForm/>} />
+            <Route path='/boardmeetingform' element={<BoardMeetingForm/>} />
+            <Route path='/taskform' element={<TaskForm/>} />
           </Route>
           <Route path="/*" element={<PageNotFound />} />
         </Routes>
