@@ -71,19 +71,16 @@ duration-500 text-gray-100 px-2`}>
                             {
                                 menus?.map((menu, i) => (
                                     <Link to={menu?.link} key={i}
-                                        className={`group flex items-center text-sm gap-3.5 font-semibold p-2 leading-normal
-                                         hover:bg-orange-400 hover:text-white rounded-md
+                                        className={`group flex items-center text-md gap-3.5 font-semibold p-2 leading-normal
+                                         hover:bg-orange-500 hover:text-white rounded-md
                                          ${menu?.name.isActive ? 'bg-orange-500' : 'black' // Apply orange color for active menu
                                             }`}>
                                         <div style={{ width: "1.5rem", height: "1.5rem", marginLeft: "5px" }}>
                                             {menu?.icon}
                                         </div>
                                         <h3
-                                            style={{
-                                                transitionDelay: `${i + 3}00ms`,
 
-                                            }}
-                                            className={`whitespace-pre duration-500 font-sans 
+                                            className={`whitespace-pre  font-sans  
                      ${!open && `opacity-0 translate-x-20 overflow-hidden `}`}>  {menu?.name}</h3>
                                         <h3 className={` ${open && 'hidden'} absolute left-20
                      bg-white font-semibold
@@ -91,7 +88,7 @@ duration-500 text-gray-100 px-2`}>
                      px-0 py-0 w-0
                       overflow-hidden 
                      group-hover:px-2 group-hover:py-1
-                      group-hover:left-14 group-hover:duration-300
+                      group-hover:left-14
                       group-hover:w-fit`}>{menu?.name}</h3>
 
                                     </Link>
@@ -100,7 +97,7 @@ duration-500 text-gray-100 px-2`}>
 
                         </div>
                         <div className={`absolute inset-x-0 bottom-0  ${open ? '' : 'hidden'}`}><hr className='text-black' />
-                            <p className='text-center text-black'>Developed by @Infoz IT V0.1 <br /> &copy; 2024 rights reserved </p>
+                            <p className='text-center text-black text-sm'>Developed by @Infoz IT V0.1 <br /> &copy; 2024 rights reserved </p>
                         </div>
                     </div>
                 </div>
