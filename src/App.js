@@ -17,6 +17,7 @@ import Settings from './components/pages/settings/Settings';
 import { useContext } from 'react';
 import { AuthContext } from './contexts/authContext';
 import Users from './components/pages/users/Users';
+import UserProfile from './components/pages/userProfile/UserProfile';
 
 function App() {
   const { authState } = useContext(AuthContext);
@@ -38,6 +39,16 @@ function App() {
             <Route path='/tasks' element={<Tasks />} />
             <Route path='/teams' element={<Teams />} />
             <Route path='/users' element={<Users />} />
+            <Route
+              path="/userProfile/:id"
+              element={
+                <UserProfile />
+              }
+            >
+              <Route path="tasks" element={<UserProfile />} />
+              <Route path="teams" element={<UserProfile />} />
+              <Route path="enteties" element={<UserProfile />} />
+            </Route>
           </Route>
           <Route path="/*" element={<PageNotFound />} />
         </Routes>
