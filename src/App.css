@@ -49,3 +49,17 @@ App-logo {
   top: 0;
   z-index: 1;
 }
+
+/* 'sm': '640px',
+      // => */
+@media (max-width: 640px) {
+  .filter_pagination {
+    text-align: start;
+  }
+}
+
+@media (max-width: 768px) {
+  .filter_pagination {
+    text-align: start;
+  }
+}
