@@ -7,6 +7,7 @@ import Swal from 'sweetalert2'
 
 export const AuthContext = createContext();
 
+
 const AuthProvider = ({ children }) => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -21,6 +22,7 @@ const AuthProvider = ({ children }) => {
   const [authState, authDispatch] = useReducer(authReducer, initialAuth);
 
   const adminLogin = async (loginData) => {
+    console.log(loginData, "lg")
     try {
       const { status, data } = await toast.promise(
         axios.post(`https://www.atbtbeta.teksacademy.com/adminlogin`, loginData),
