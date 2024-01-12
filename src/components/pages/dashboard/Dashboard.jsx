@@ -15,14 +15,14 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
-function Dashboard() {  
-  const [search,setSearch] = useState("")
+function Dashboard() {
+  const [search, setSearch] = useState("")
   const performSearch = (e) => {
     usersDispatch({
       type: "SET_SEARCH",
       payload: e.target.value
     })
-    
+
   };
   getDate();
   const navigate = useNavigate()
@@ -30,10 +30,10 @@ function Dashboard() {
   const { usersState: { users, pagination }, usersDispatch } = useContext(UserDataContext);
   console.log(pagination, 'pgnation')
 
-// function Dashboard() {
-//   const navigate = useNavigate()
-//   const data = [1, 2, 3, 4, 5]
-//   const { usersState: { users } } = useContext(UserDataContext);
+  // function Dashboard() {
+  //   const navigate = useNavigate()
+  //   const data = [1, 2, 3, 4, 5]
+  //   const { usersState: { users } } = useContext(UserDataContext);
 
   // --modal
   const [isModalOpen, setModalOpen] = useState(false);
@@ -258,30 +258,29 @@ function Dashboard() {
               </div>
               <hr />
               <div class="flow-root p-3 sm:px-6 sm:py-2">
-                <ul role="list" class="divide-y divide-gray-200 dark:divide-gray-700">
-                  {console.log(pagination?.paginatedUsers)}
-                  {pagination?.paginatedUsers === "no data to show for this page"? (                    <li class="py-2 sm:py-2">
-                      <Link>
-                        <div class="flex items-center">
-                          <div class="flex-shrink-0">
-                            <img class="w-8 h-8 rounded-full" src={logo} alt="Neil image" />
+                {/* <ul role="list" class="divide-y divide-gray-200 dark:divide-gray-700">
+                  {pagination?.paginatedUsers === "no data to show for this page" ? (<li class="py-2 sm:py-2">
+                    <Link>
+                      <div class="flex items-center">
+                        <div class="flex-shrink-0">
+                          <img class="w-8 h-8 rounded-full" src={logo} alt="Neil image" />
 
-                          </div>
-                          <div class="flex-1 min-w-0 ms-4">
-                            <p class="text-sm font-medium text-gray-900 text-start truncate dark:text-white">
-                              no user found
-                            </p>
-
-                          </div>
-                          <div class="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
-                              <path d="M6.3 2.84A1.5 1.5 0 0 0 4 4.11v11.78a1.5 1.5 0 0 0 2.3 1.27l9.344-5.891a1.5 1.5 0 0 0 0-2.538L6.3 2.841Z" />
-                            </svg>
-
-                          </div>
                         </div>
-                      </Link>
-                    </li>) : pagination?.paginatedUsers?.map(user => (
+                        <div class="flex-1 min-w-0 ms-4">
+                          <p class="text-sm font-medium text-gray-900 text-start truncate dark:text-white">
+                            no user found
+                          </p>
+
+                        </div>
+                        <div class="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+                            <path d="M6.3 2.84A1.5 1.5 0 0 0 4 4.11v11.78a1.5 1.5 0 0 0 2.3 1.27l9.344-5.891a1.5 1.5 0 0 0 0-2.538L6.3 2.841Z" />
+                          </svg>
+
+                        </div>
+                      </div>
+                    </Link>
+                  </li>) : pagination?.paginatedUsers?.map(user => (
                     <li class="py-2 sm:py-2">
                       <Link>
                         <div class="flex items-center">
@@ -305,7 +304,7 @@ function Dashboard() {
                       </Link>
                     </li>
                   ))}
-                </ul>
+                </ul> */}
               </div>
               <hr />
             </div>
@@ -349,7 +348,7 @@ function Dashboard() {
 
                     {/* Current: "z-10 bg-indigo-600 text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600", Default: "text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:outline-offset-0" */}
 
-                     {/* Array.from({ length: 5 }).map((_, index) => (
+                    {/* Array.from({ length: 5 }).map((_, index) => (
                       <a
                         key={index}
                         href="#"
