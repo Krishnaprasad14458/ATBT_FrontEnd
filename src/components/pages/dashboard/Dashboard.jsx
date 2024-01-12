@@ -15,6 +15,7 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
+
 function Dashboard() {  
   const [search,setSearch] = useState("")
   // const performSearch = (e) => {
@@ -31,20 +32,29 @@ function Dashboard() {
     });
   }, 300);
   const debouncedSetSearch = debounce((e) => {
+
+// function Dashboard() {
+//   const [search, setSearch] = useState("")
+//   const performSearch = (e) => {
+
     usersDispatch({
       type: "SET_SEARCH",
       payload: e.target.value
     })
   }, 500);
+
+
+//   };
+
   getDate();
   const navigate = useNavigate()
   const data = [1, 2, 3, 4, 5]
   const { usersState: { users, pagination }, usersDispatch } = useContext(UserDataContext);
 
-// function Dashboard() {
-//   const navigate = useNavigate()
-//   const data = [1, 2, 3, 4, 5]
-//   const { usersState: { users } } = useContext(UserDataContext);
+  // function Dashboard() {
+  //   const navigate = useNavigate()
+  //   const data = [1, 2, 3, 4, 5]
+  //   const { usersState: { users } } = useContext(UserDataContext);
 
   // --modal
   const [isModalOpen, setModalOpen] = useState(false);
@@ -269,6 +279,7 @@ function Dashboard() {
               </div>
               <hr />
               <div class="flow-root p-3 sm:px-6 sm:py-2">
+
                 <ul role="list" class="divide-y divide-gray-200 dark:divide-gray-700">
                   {pagination?.paginatedUsers === "no data to show for this page"? (                    
                   <li class="py-2 sm:py-2">
@@ -278,23 +289,24 @@ function Dashboard() {
                           <div class="flex-shrink-0">
                             <img class="w-8 h-8 rounded-full" src={logo} alt="Neil image" />
 
-                          </div>
-                          <div class="flex-1 min-w-0 ms-4">
-                            <p class="text-sm font-medium text-gray-900 text-start truncate dark:text-white">
-                              no user found
-                            </p>
 
-                          </div>
-                          <div class="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
-                              <path d="M6.3 2.84A1.5 1.5 0 0 0 4 4.11v11.78a1.5 1.5 0 0 0 2.3 1.27l9.344-5.891a1.5 1.5 0 0 0 0-2.538L6.3 2.841Z" />
-                            </svg>
+                        </div>
+                        <div class="flex-1 min-w-0 ms-4">
+                          <p class="text-sm font-medium text-gray-900 text-start truncate dark:text-white">
+                            no user found
+                          </p>
 
-                          </div>
+                        </div>
+                        <div class="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+                            <path d="M6.3 2.84A1.5 1.5 0 0 0 4 4.11v11.78a1.5 1.5 0 0 0 2.3 1.27l9.344-5.891a1.5 1.5 0 0 0 0-2.538L6.3 2.841Z" />
+                          </svg>
+
                         </div>
                       </Link> */}
                     </li>) : pagination?.paginatedUsers?.map(user => (
                     <li class="py-2 sm:py-2" key={user.id}>
+
                       <Link>
                         <div class="flex items-center">
                           <div class="flex-shrink-0">
@@ -317,7 +329,7 @@ function Dashboard() {
                       </Link>
                     </li>
                   ))}
-                </ul>
+                </ul> */}
               </div>
               <hr />
             </div>
@@ -359,6 +371,7 @@ function Dashboard() {
                       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5" aria-hidden="true">
                         <path fill-rule="evenodd" d="M11.78 5.22a.75.75 0 0 1 0 1.06L8.06 10l3.72 3.72a.75.75 0 1 1-1.06 1.06l-4.25-4.25a.75.75 0 0 1 0-1.06l4.25-4.25a.75.75 0 0 1 1.06 0Z" clip-rule="evenodd" />
                       </svg>
+
                     </button>
                     <button
                     disabled={pagination.currentPage === pagination.totalPages}
@@ -367,6 +380,7 @@ function Dashboard() {
                       //   payload: ++pagination.currentPage
                       // })}
                       onClick={() => debouncedSetPage(pagination.currentPage + 1)}
+
                       href="#"
                       className="relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
                     >
