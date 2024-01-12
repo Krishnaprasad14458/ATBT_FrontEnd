@@ -1,15 +1,17 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Fragment, useRef, useState } from 'react'
 import { Menu, Transition } from '@headlessui/react'
 import { ChevronDownIcon } from '@heroicons/react/20/solid'
 import { Link } from 'react-router-dom';
+
 import './TopBar.css';
+import { AuthContext } from '../../../contexts/authContext';
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 export default function TopBar() {
-
+  const { userLogout } = useContext(AuthContext);
   return (
     <div className='topbar w-full'>
       <nav class="bg-white shadow-md ">
@@ -56,7 +58,7 @@ export default function TopBar() {
                       <Menu.Item>
                         {({ active }) => (
                           <Link
-                            to="#"
+                          to={`/userProfile/${13}/teams`}
                             className={classNames(
                               active ? 'bg-gray-200 text-gray-900' : 'text-gray-700',
                               'block px-4 py-2 text-sm'
@@ -66,10 +68,10 @@ export default function TopBar() {
                           </Link>
                         )}
                       </Menu.Item>
-                      <Menu.Item>
+                      {/* <Menu.Item>
                         {({ active }) => (
                           <Link
-                            to="#"
+                            to={`/userProfile/${13}`}
                             className={classNames(
                               active ? 'bg-gray-200 text-gray-900' : 'text-gray-700',
                               'block px-4 py-2 text-sm'
@@ -78,17 +80,17 @@ export default function TopBar() {
                             Account Settings
                           </Link>
                         )}
-                      </Menu.Item>
+                      </Menu.Item> */}
                       <Menu.Item>
                         {({ active }) => (
                           <Link
-                            to="/changepassword"
+                            to="/resetpassword"
                             className={classNames(
                               active ? 'bg-gray-200 text-gray-900' : 'text-gray-700',
                               'block px-4 py-2 text-sm'
                             )}
                           >
-                            Change Password
+                            Reset Password
                           </Link>
                         )}
                       </Menu.Item>
@@ -96,6 +98,7 @@ export default function TopBar() {
                         <Menu.Item>
                           {({ active }) => (
                             <button
+                              onClick={()=> userLogout()}
                               type="submit"
                               className={classNames(
                                 active ? 'bg-gray-200 text-gray-900' : 'text-gray-700',
