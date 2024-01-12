@@ -9,26 +9,47 @@ import { ChevronDownIcon } from '@heroicons/react/20/solid'
 import { Link } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom';
 import { UserDataContext } from '../../../contexts/usersDataContext';
-import { getDate } from '../../../utils/date';
+import { debounce, getDate } from '../../../utils/date';
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
-function Dashboard() {
-  const [search, setSearch] = useState("")
-  const performSearch = (e) => {
+
+function Dashboard() {  
+  const [search,setSearch] = useState("")
+  // const performSearch = (e) => {
+  //   usersDispatch({
+  //     type: "SET_SEARCH",
+  //     payload: e.target.value
+  //   })
+    
+  // };
+  const debouncedSetPage = debounce((newPage) => {
+    usersDispatch({
+      type: "SET_CUSTOM_PAGE",
+      payload: newPage
+    });
+  }, 300);
+  const debouncedSetSearch = debounce((e) => {
+
+// function Dashboard() {
+//   const [search, setSearch] = useState("")
+//   const performSearch = (e) => {
+
     usersDispatch({
       type: "SET_SEARCH",
       payload: e.target.value
     })
+  }, 500);
 
-  };
+
+//   };
+
   getDate();
   const navigate = useNavigate()
   const data = [1, 2, 3, 4, 5]
   const { usersState: { users, pagination }, usersDispatch } = useContext(UserDataContext);
-  console.log(pagination, 'pgnation')
 
   // function Dashboard() {
   //   const navigate = useNavigate()
@@ -240,7 +261,7 @@ function Dashboard() {
             <div className='grid1-item overflow-hidden sm:w-full' >
               <div className='p-4 sm:px-6 sm:pt-2'>
                 <div class="flex items-center justify-between mb-2">
-                  <h5 class="text-lg font-semibold leading-none text-gray-800 dark:text-white">Entities</h5>
+                  <h5 class="text-lg font-semibold leading-none text-gray-800 dark:text-white">Users {pagination.loading?'...':null}</h5>
                   <Link to="#" class="text-sm font-medium text-white-600 hover:underline dark:text-white-500">
                     <button class="inline-flex items-center justify-center whitespace-nowrap rounded-2xl text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-500 text-primary-foreground shadow hover:bg-primary/90 h-9 px-4 py-2 shrink-0 bg-orange-400 text-white gap-1">
                       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5 ">
@@ -253,17 +274,21 @@ function Dashboard() {
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
                     <path fill-rule="evenodd" d="M9 3.5a5.5 5.5 0 1 0 0 11 5.5 5.5 0 0 0 0-11ZM2 9a7 7 0 1 1 12.452 4.391l3.328 3.329a.75.75 0 1 1-1.06 1.06l-3.329-3.328A7 7 0 0 1 2 9Z" clip-rule="evenodd" />
                   </svg>
-                  <input onChange={performSearch} type="search" id="gsearch" name="gsearch" className='border-none focus:outline-none appearance-none focus:border-none' placeholder='Search here....' />
+                  <input onChange={(e) => debouncedSetSearch(e)} type="search" id="gsearch" name="gsearch" className='border-none focus:outline-none appearance-none focus:border-none' placeholder='Search here....' />
                 </div><hr className='w-60 my-1' />
               </div>
               <hr />
               <div class="flow-root p-3 sm:px-6 sm:py-2">
-                {/* <ul role="list" class="divide-y divide-gray-200 dark:divide-gray-700">
-                  {pagination?.paginatedUsers === "no data to show for this page" ? (<li class="py-2 sm:py-2">
-                    <Link>
-                      <div class="flex items-center">
-                        <div class="flex-shrink-0">
-                          <img class="w-8 h-8 rounded-full" src={logo} alt="Neil image" />
+
+                <ul role="list" class="divide-y divide-gray-200 dark:divide-gray-700">
+                  {pagination?.paginatedUsers === "no data to show for this page"? (                    
+                  <li class="py-2 sm:py-2">
+                    <p>No user found</p>
+                      {/* <Link>
+                        <div class="flex items-center">
+                          <div class="flex-shrink-0">
+                            <img class="w-8 h-8 rounded-full" src={logo} alt="Neil image" />
+
 
                         </div>
                         <div class="flex-1 min-w-0 ms-4">
@@ -278,10 +303,10 @@ function Dashboard() {
                           </svg>
 
                         </div>
-                      </div>
-                    </Link>
-                  </li>) : pagination?.paginatedUsers?.map(user => (
-                    <li class="py-2 sm:py-2">
+                      </Link> */}
+                    </li>) : pagination?.paginatedUsers?.map(user => (
+                    <li class="py-2 sm:py-2" key={user.id}>
+
                       <Link>
                         <div class="flex items-center">
                           <div class="flex-shrink-0">
@@ -325,18 +350,20 @@ function Dashboard() {
               </div>
               <div className="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
                 <div>
-                  <p className="text-sm text-gray-700">
-                    Showing <span className="font-medium">1</span> to <span className="font-medium">10</span> of{' '}
-                    <span className="font-medium">97</span> results
-                  </p>
+                  {pagination?.paginatedUsers === "no data to show for this page"?null :<p className="text-sm text-gray-700">
+                    Showing <span className="font-medium">{pagination?.currentPage}</span> of
+                    <span className="font-medium"> {pagination?.totalPages}</span> pages
+                  </p>}
                 </div>
                 <div>
                   <nav className="isolate inline-flex -space-x-px rounded-md shadow-sm" aria-label="Pagination">
-                    <a
-                      onClick={() => usersDispatch({
-                        type: "SET_CUSTOM_PAGE",
-                        payload: --pagination.currentPage
-                      })}
+                    <button
+                    disabled={pagination.currentPage == 1}
+                      // onClick={() => usersDispatch({
+                      //   type: "SET_CUSTOM_PAGE",
+                      //   payload: --pagination.currentPage
+                      // })}
+                      onClick={() => debouncedSetPage(pagination.currentPage - 1)}
                       href="#"
                       className="relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
                     >
@@ -344,66 +371,16 @@ function Dashboard() {
                       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5" aria-hidden="true">
                         <path fill-rule="evenodd" d="M11.78 5.22a.75.75 0 0 1 0 1.06L8.06 10l3.72 3.72a.75.75 0 1 1-1.06 1.06l-4.25-4.25a.75.75 0 0 1 0-1.06l4.25-4.25a.75.75 0 0 1 1.06 0Z" clip-rule="evenodd" />
                       </svg>
-                    </a>
 
-                    {/* Current: "z-10 bg-indigo-600 text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600", Default: "text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:outline-offset-0" */}
+                    </button>
+                    <button
+                    disabled={pagination.currentPage === pagination.totalPages}
+                      // onClick={() => usersDispatch({
+                      //   type: "SET_CUSTOM_PAGE",
+                      //   payload: ++pagination.currentPage
+                      // })}
+                      onClick={() => debouncedSetPage(pagination.currentPage + 1)}
 
-                    {/* Array.from({ length: 5 }).map((_, index) => (
-                      <a
-                        key={index}
-                        href="#"
-                        aria-current="page"
-                        className="inline-flex items-center bg-orange-500 px-4 py-2 text-sm font-semibold text-white"
-                      >
-                        {index + 1}
-                      </a>
-                    )) */}
-
-                    <a
-                      href="#"
-                      aria-current="page"
-                      className="relative z-10 inline-flex items-center bg-orange-500 px-4 py-2 text-sm font-semibold text-white focus:z-20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                    >
-                      1
-                    </a>
-                    <a
-                      href="#"
-                      className="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
-                    >
-                      2
-                    </a>
-                    <a
-                      href="#"
-                      className="relative hidden items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 md:inline-flex"
-                    >
-                      3
-                    </a>
-                    <span className="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-700 ring-1 ring-inset ring-gray-300 focus:outline-offset-0">
-                      ...
-                    </span>
-                    <a
-                      href="#"
-                      className="relative hidden items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 md:inline-flex"
-                    >
-                      8
-                    </a>
-                    <a
-                      href="#"
-                      className="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
-                    >
-                      9
-                    </a>
-                    <a
-                      href="#"
-                      className="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
-                    >
-                      10
-                    </a>
-                    <a
-                      onClick={() => usersDispatch({
-                        type: "SET_CUSTOM_PAGE",
-                        payload: ++pagination.currentPage
-                      })}
                       href="#"
                       className="relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
                     >
@@ -411,9 +388,8 @@ function Dashboard() {
                       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5" aria-hidden="true">
                         <path fill-rule="evenodd" d="M8.22 5.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 0 1-1.06-1.06L11.94 10 8.22 6.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
                       </svg>
-
                       {/* <ChevronRightIcon className="h-5 w-5" aria-hidden="true" /> */}
-                    </a>
+                    </button>
                   </nav>
                 </div>
               </div>

@@ -9,7 +9,6 @@ import React, {
   export const UserDataContext = createContext();
 
   const apiToken = process.env.REACT_APP_API_TOKEN;
-console.log(apiToken, "envToken")
 
 
   const UserDataProvider = ({ children }) => {
@@ -20,6 +19,7 @@ console.log(apiToken, "envToken")
         currentPage:1,
         search: "",
         totalPages: null,
+        loading: false,
       }
     };
   
@@ -33,7 +33,6 @@ console.log(apiToken, "envToken")
         const { status, data } = await axios.get("https://www.atbtbeta.teksacademy.com/userdata",{
           headers:{ authorization: apiToken },
         });
-        console.log(data)
         if (status === 201) {
           usersDispatch({
             type: "SET_USERS_DATA",
@@ -47,11 +46,17 @@ console.log(apiToken, "envToken")
 
     const getPaginatedUsersData = async (pageNo=1,search="") => {
       try {
+        usersDispatch({
+          type: "SET_LOADING"
+        })
         const { status, data } = await axios.post(`https://www.atbtbeta.teksacademy.com/userdata?page=${pageNo}&search=${search}`);
         if (status === 201) {
           usersDispatch({
             type: "SET_PAGINATED_USERS",
             payload: data
+          })
+          usersDispatch({
+            type: "SET_LOADING"
           })
         }
       } catch (error) {

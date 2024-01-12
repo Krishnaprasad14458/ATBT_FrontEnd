@@ -36,6 +36,15 @@ const userDataReducer = (state, action) => {
                 }
             }
 
+        case "SET_LOADING":
+            return {
+                ...state,
+                pagination: {
+                    ...state.pagination,
+                    loading: !state.pagination.loading
+                },
+            };
+
         default:
             return state;
     }
