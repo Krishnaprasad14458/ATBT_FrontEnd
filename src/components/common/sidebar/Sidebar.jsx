@@ -97,8 +97,8 @@ duration-500 text-gray-100 px-2`}>
                             }
 
                         </div>
-                        <div className={`absolute inset-x-0 bottom-0  ${open ? '' : 'hidden'}`}><hr className='text-black' />
-                            <p className='text-center text-black text-sm'>Developed by @Infoz IT V0.1 <br /> &copy; 2024 rights reserved </p>
+                        <div className={`absolute inset-x-0 bottom-0  ${open ? '' : 'hidden'}`}>
+                            <p className='text-center text-gray-500 text-sm'>Developed by @Infoz IT V0.1  </p>
                         </div>
                     </div>
                 </div>
