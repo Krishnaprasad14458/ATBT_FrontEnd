@@ -46,17 +46,21 @@ function App() {
             <Route path='/settings' element={<Settings />} />
             <Route path='/teams' element={<Teams />} />
             <Route path='/entities' element={<Entities />}>
-              <Route path="new" element={<EntityForm />} />
+              <Route path="otl" element={<EntityForm />} />
             </Route>
+            <Route path="/entities/new" element={<EntityForm />} />
             <Route path='/boardmeetings' element={<BoardMeetings />}>
-              <Route path="new" element={<BoardMeetingForm />} />
+              <Route path="otl" element={<BoardMeetingForm />} />
             </Route>
+            <Route path="/boardmeetings/new" element={<BoardMeetingForm />} />
             <Route path='/tasks' element={<Tasks />} >
-              <Route path="new" element={<TaskForm />} />
+              <Route path="otl" element={<TaskForm />} />
             </Route>
+            <Route path="tasks/new" element={<TaskForm />} />
             <Route path='/users' element={<Users />} >
-              <Route path="new" element={<UserForm />} />
+              <Route path="otl" element={<UserForm />} />
             </Route>
+            <Route path="/users/new" element={<UserForm />} />
             <Route
               path="/userProfile/:id"
               element={
@@ -67,10 +71,6 @@ function App() {
               <Route path="teams" element={<UserTeams />} />
               <Route path="enteties" element={<UserEntities />} />
             </Route>
-            <Route path='/entityform' element={<EntityForm />} />
-            <Route path='/userform' element={<UserForm />} />
-            <Route path='/boardmeetingform' element={<BoardMeetingForm />} />
-            <Route path='/taskform' element={<TaskForm />} />
           </Route>
           <Route path="/*" element={<PageNotFound />} />
         </Routes>

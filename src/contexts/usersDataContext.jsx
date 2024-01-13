@@ -28,21 +28,21 @@ import React, {
       initialState
     );
 
-    const getUsersData = async () => {
-      try {
-        const { status, data } = await axios.get("https://www.atbtbeta.teksacademy.com/userdata",{
-          headers:{ authorization: apiToken },
-        });
-        if (status === 201) {
-          usersDispatch({
-            type: "SET_USERS_DATA",
-            payload: data,
-          });
-        }
-      } catch (error) {
-        console.error(error);
-      }
-    };
+    // const getUsersData = async () => {
+    //   try {
+    //     const { status, data } = await axios.get("https://www.atbtbeta.teksacademy.com/userdata",{
+    //       headers:{ authorization: apiToken },
+    //     });
+    //     if (status === 201) {
+    //       usersDispatch({
+    //         type: "SET_USERS_DATA",
+    //         payload: data,
+    //       });
+    //     }
+    //   } catch (error) {
+    //     console.error(error);
+    //   }
+    // };
 
     const getPaginatedUsersData = async (pageNo=1,search="") => {
       try {
@@ -76,7 +76,7 @@ import React, {
     };
   
     useEffect(() => {
-      getUsersData();
+      // getUsersData();
       getPaginatedUsersData(usersState?.pagination?.currentPage,usersState?.pagination?.search);
       // eslint-disable-next-line
     }, [usersDispatch,usersState?.pagination?.currentPage,usersState?.pagination?.search]);
@@ -86,7 +86,7 @@ import React, {
         value={{
           usersState,
           usersDispatch,
-          getUsersData,
+          // getUsersData,
           getUser,
           getPaginatedUsersData,
         }}
