@@ -10,7 +10,6 @@ import { Link } from 'react-router-dom'
 const Login = () => {
     const { adminLogin } = useContext(AuthContext);
     const { usersState } = useContext(UserDataContext);
-    console.log(usersState,"uss")
     const [formData, setFormData] = useState({ email: '', password: '' })
     const handleFormData = (e) => {
         const {name, value} = e.target;

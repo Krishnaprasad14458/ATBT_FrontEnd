@@ -7,6 +7,7 @@ import Swal from 'sweetalert2'
 
 export const AuthContext = createContext();
 
+
 const AuthProvider = ({ children }) => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -28,14 +29,12 @@ const AuthProvider = ({ children }) => {
           pending: 'logging In...',
           success: {
             render({ data: { data: { adminData: { fullname } } } }) {
-              console.log(fullname)
               return `Welcome ${fullname}`
             }
           },
           error: 'Wrong Credentials 🤯',
         },
       )
-      console.log(data, status)
       if (status === 200) {
         localStorage.setItem(
           "data",
@@ -51,7 +50,6 @@ const AuthProvider = ({ children }) => {
   };
 
   const changePassword = async ({ email }) => {
-    console.log(email, "npd")
     try {
       const { status, data } = await toast.promise(
         axios.post(`https://www.atbtbeta.teksacademy.com/api/send-email?email=${email}`),
@@ -59,14 +57,12 @@ const AuthProvider = ({ children }) => {
           pending: 'verifying email',
           success: {
             render({ data: { data: { message } } }) {
-              console.log(message)
               return `${message}`
             }
           },
           error: 'invalid email 🤯',
         },
       )
-      console.log(data, status)
       if (status === 200) {
         navigate("/login");
         Swal.fire({
@@ -88,14 +84,12 @@ const AuthProvider = ({ children }) => {
           pending: 'verifying data',
           success: {
             render({ data: { data: { updated } } }) {
-              console.log(updated)
               return `Password Updated`
             }
           },
           error: 'unautorized Access 🤯',
         },
       )
-      console.log(data)
       //   if (status === 200) {
       //     localStorage.setItem(
       //       "data",

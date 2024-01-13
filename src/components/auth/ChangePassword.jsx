@@ -19,7 +19,6 @@ function ChangePassword() {
     const handleSubmit = (e) => {
         e.preventDefault();
         if (password === confirmPassword) {
-            console.log("password", password, "confirmPassword", confirmPassword);
             resetPassword({
                 id,password
             })
