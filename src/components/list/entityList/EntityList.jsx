@@ -1,16 +1,16 @@
 import React from 'react'
 import defprop from '../../../Images/defprof.svg'
 
-function DashboardList({user}) {
+function EntityList({entity}) {
   return (
     <div class="flex items-center">
     <div class="flex-shrink-0">
-      <img class="w-8 h-8 rounded-full" src={user?.image ?? defprop} alt="Neil image" />
+      <img class="w-8 h-8 rounded-full" src={defprop} alt="Neil image" />
 
     </div>
     <div class="flex-1 min-w-0 ms-4">
       <p class="text-sm font-medium text-gray-900 text-start truncate dark:text-white">
-        {user.fullname || user.name}
+        {entity.entity}
       </p>
 
     </div>
@@ -24,4 +24,4 @@ function DashboardList({user}) {
   )
 }
 
-export default DashboardList
+export default EntityList
