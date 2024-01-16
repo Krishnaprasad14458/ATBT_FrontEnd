@@ -1,12 +1,11 @@
 import React, { useContext } from 'react'
-import { debounce, getDate } from '../../../../utils/date';
+import { debounce, getDate } from '../../../../utils/utils';
 import { UserDataContext } from '../../../../contexts/usersDataContext';
 import { Link } from 'react-router-dom';
 import DashboardList from '../../../list/dashboardList/DashboardList';
 
 function UserDashboard() {
     const localStorageData = JSON.parse(localStorage.getItem("data"));
-    console.log(localStorageData)
     const debouncedSetPage = debounce((newPage) => {
       usersDispatch({
         type: "SET_CUSTOM_PAGE",
