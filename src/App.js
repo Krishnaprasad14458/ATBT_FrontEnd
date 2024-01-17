@@ -22,6 +22,7 @@ import EntityForm from './components/createForm/createEntityForm/EntityForm';
 import UserForm from './components/createForm/createUserForm/UserForm';
 import BoardMeetingForm from './components/createForm/createBoardMeetingForm/BoardMeetingForm';
 import TaskForm from './components/createForm/createTaskForm/TaskForm';
+import MyCalendar from './components/pages/task/MyCalendar';
 import UserTasks from './components/pages/userProfile/userTabs/UserTasks';
 import UserTeams from './components/pages/userProfile/userTabs/UserTeams';
 import UserEntities from './components/pages/userProfile/userTabs/UserEntities';
@@ -79,6 +80,7 @@ function App() {
               <Route path="teams" element={<UserTeams />} />
               <Route path="enteties" element={<UserEntities />} />
             </Route>
+            <Route path='/mycalendar' element={<MyCalendar />} />
           </Route>
           <Route path="/*" element={<PageNotFound />} />
         </Routes>
