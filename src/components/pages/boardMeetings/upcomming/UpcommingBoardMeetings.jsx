@@ -12,7 +12,6 @@ function UpcommingBoardMeetings() {
       payload: newPage
     });
   }, 300);
-
   const debouncedSetSearch = debounce((e) => {
     entitiesDispatch({
       type: "SET_SEARCH",

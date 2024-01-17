@@ -1,6 +1,3 @@
-
-
-
 import React, { useState, Fragment, useRef, useEffect } from 'react';
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 import 'react-big-calendar/lib/css/react-big-calendar.css';

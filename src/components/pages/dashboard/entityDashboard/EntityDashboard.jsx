@@ -1,10 +1,16 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { debounce, getDate } from '../../../../utils/utils';
 import { EntitiesDataContext } from '../../../../contexts/entitiesDataContext';
 import { Link } from 'react-router-dom';
 import EntityList from '../../../list/entityList/EntityList';
 
 function EntityDashboard() {
+  useEffect(()=>{
+    (() => entitiesDispatch({
+  type: 'SET_PER_PAGE',
+  payload: 5
+}))();
+},[])
     const debouncedSetPage = debounce((newPage) => {
       entitiesDispatch({
         type: "SET_CUSTOM_PAGE",
