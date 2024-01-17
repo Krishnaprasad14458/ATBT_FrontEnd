@@ -3,9 +3,11 @@ import { items } from '../../../../utils/db'
 import { Outlet, Link } from 'react-router-dom';
 import { EntitiesDataContext } from '../../../../contexts/entitiesDataContext';
 import { debounce } from '../../../../utils/utils';
+import useInitializePerPage from '../../../../hooks/initializePerPage/useInitializePerPage';
 
 function CompletedBoardMeetings() {
   const { entitiesState: { entities, pagination }, entitiesDispatch } = useContext(EntitiesDataContext);
+  useInitializePerPage(entitiesDispatch, 10);
   const debouncedSetPage = debounce((newPage) => {
     entitiesDispatch({
       type: "SET_CUSTOM_PAGE",
