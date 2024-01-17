@@ -14,7 +14,7 @@ function Tasks() {
 
   return (
     <div className=' p-2 bg-[#f8fafc] h-screen'>
-      <h1 className='m-3 font-semibold text-lg'>Board Meeting</h1>
+      <h1 className='m-3 font-semibold text-lg'>Tasks</h1>
       <Outlet />
     </div>
   );
