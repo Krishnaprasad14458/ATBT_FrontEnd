@@ -18,8 +18,8 @@ const EntitiesDataProvider = ({ children }) => {
       pagination:{
         paginatedEntities:[],
         currentPage:1,
-        perPage:5,
         totalPages: null,
+        perPage: 5,
         loading: false,
         search: "",
       }
@@ -49,8 +49,6 @@ const EntitiesDataProvider = ({ children }) => {
             }
         })
       };
-
-  
     useEffect(() => {
       getpaginatedEntitiesData(entitiesState?.pagination?.currentPage,entitiesState?.pagination?.search,entitiesState?.pagination?.perPage);
       // eslint-disable-next-line

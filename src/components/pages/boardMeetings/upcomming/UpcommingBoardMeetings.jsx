@@ -12,7 +12,6 @@ function UpcommingBoardMeetings() {
       payload: newPage
     });
   }, 300);
-
   const debouncedSetSearch = debounce((e) => {
     entitiesDispatch({
       type: "SET_SEARCH",
@@ -99,7 +98,7 @@ function UpcommingBoardMeetings() {
             </svg>
 
           </button>
-          <p>{pagination.currentPage}</p>
+          <button className="border w-8 border-gray-300">{pagination.currentPage}</button>
           <button
             disabled={pagination.currentPage === pagination.totalPages}
             onClick={() => debouncedSetPage(pagination.currentPage + 1)}
