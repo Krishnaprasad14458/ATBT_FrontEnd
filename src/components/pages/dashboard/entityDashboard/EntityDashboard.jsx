@@ -1,32 +1,15 @@
-import React, { useContext, useEffect } from 'react'
-import { debounce, getDate } from '../../../../utils/utils';
+import React, { useContext } from 'react'
 import { EntitiesDataContext } from '../../../../contexts/entitiesDataContext';
 import { Link } from 'react-router-dom';
 import EntityList from '../../../list/entityList/EntityList';
+import useInitializePerPage from '../../../../hooks/initializePerPage/useInitializePerPage';
+import useDebounce from '../../../../hooks/debounce/useDebounce';
 
 function EntityDashboard() {
-  useEffect(() => {
-    (() => entitiesDispatch({
-      type: 'SET_PER_PAGE',
-      payload: 5
-    }))();
-  }, [])
-  const debouncedSetPage = debounce((newPage) => {
-    entitiesDispatch({
-      type: "SET_CUSTOM_PAGE",
-      payload: newPage
-    });
-  }, 300);
-
-  const debouncedSetSearch = debounce((e) => {
-    entitiesDispatch({
-      type: "SET_SEARCH",
-      payload: e.target.value
-    })
-  }, 500);
-
-  getDate();
   const { entitiesState: { entities, pagination }, entitiesDispatch } = useContext(EntitiesDataContext);
+  const {debouncedSetPage, debouncedSetSearch} = useDebounce()
+  useInitializePerPage(entitiesDispatch, 5);;
+
   return (
     <div class="w-full  text-center bg-white border border-gray-200 rounded-lg shadow sm:pt-4 dark:bg-gray-800 dark:border-gray-700">
       <div className='grid1-item overflow-hidden sm:w-full'>
