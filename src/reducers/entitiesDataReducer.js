@@ -27,6 +27,15 @@ const entitesDataReducer = (state, action) => {
                 },
             };
 
+        case "SET_PER_PAGE":
+            return {
+                ...state,
+                pagination: {
+                    ...state.pagination,
+                    perPage: action.payload
+                },
+            };
+
         case "SET_CUSTOM_PAGE":
             return {
                 ...state,
