@@ -24,7 +24,7 @@ function BoardMeetings() {
           }
           activeClassName={'border-b-4 border-orange-600  text-black'}
           to="/boardmeetings/upcomming">
-          Upcomingg
+          Upcoming
         </NavLink>
       </div>
       <Outlet />
