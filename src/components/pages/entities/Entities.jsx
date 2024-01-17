@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Link, Outlet } from 'react-router-dom'
 import { EntitiesDataContext } from '../../../contexts/entitiesDataContext';
 import { debounce } from '../../../utils/utils';
@@ -8,6 +8,14 @@ function classNames(...classes) {
 
 function Entities() {
   const { entitiesState: { entities, pagination }, entitiesDispatch } = useContext(EntitiesDataContext);
+
+  useEffect(()=>{
+      (() => entitiesDispatch({
+    type: 'SET_PER_PAGE',
+    payload: 10
+  }))();
+  },[])
+
   const debouncedSetPage = debounce((newPage) => {
     entitiesDispatch({
       type: "SET_CUSTOM_PAGE",
@@ -37,7 +45,6 @@ function Entities() {
           </div>
         </div>
       </div >
-
 
       <div class="mt-6 overflow-x-auto ">
         <div class="p-1.5 min-w-full inline-block align-middle">

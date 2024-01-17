@@ -30,7 +30,6 @@ export default function TopBar() {
                         Create</button>
                     </Menu.Button>
                   </div>
-
                   <Transition
                     as={Fragment}
                     enter="transition ease-out duration-100"
