@@ -74,7 +74,7 @@ duration-500 text-gray-100 px-2`}>
                                         onClick={(e) => { setActive(menu.name) }}
                                         className={`group flex items-center text-md gap-3.5 font-semibold p-2 leading-normal
                                          hover:bg-orange-600 hover:text-white rounded-md
-                                         ${menu?.name === active ? 'text-orange-500' : 'black'  // Apply orange color for active menu
+                                         ${menu?.name === active ? 'text-orange-600' : 'black'  // Apply orange color for active menu
                                             }`}>
                                         <div style={{ width: "1.5rem", height: "1.5rem", marginLeft: "5px" }}>
                                             {menu?.icon}
