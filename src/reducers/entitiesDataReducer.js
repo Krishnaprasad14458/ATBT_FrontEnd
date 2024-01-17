@@ -1,18 +1,18 @@
-const userDataReducer = (state, action) => {
+const entitesDataReducer = (state, action) => {
     switch (action.type) {
-        case "SET_USERS_DATA":
+        case "SET_ENTITIES_DATA":
             return {
                 ...state,
-                users: action.payload,
+                entities: action.payload,
             };
 
-        case "SET_PAGINATED_USERS":
+        case "SET_PAGINATED_ENTITIES":
             const reducerData = action.payload;
             return {
                 ...state,
                 pagination: {
                     ...state.pagination,
-                    paginatedUsers: reducerData.data,
+                    paginatedEntities: reducerData.data,
                     currentPage: reducerData.currentPage,
                     totalPages: reducerData.totalPages
                 },
@@ -36,18 +36,9 @@ const userDataReducer = (state, action) => {
                 }
             }
 
-        case "SET_LOADING":
-            return {
-                ...state,
-                pagination: {
-                    ...state.pagination,
-                    loading: !state.pagination.loading
-                },
-            };
-
         default:
             return state;
     }
-};
+}
 
-export default userDataReducer;
+export default entitesDataReducer;

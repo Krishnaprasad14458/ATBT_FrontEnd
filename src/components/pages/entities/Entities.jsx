@@ -1,298 +1,26 @@
-import React, { useEffect, useState } from 'react';
-import { Fragment } from 'react'
-import { Menu, Transition } from '@headlessui/react'
-import { ChevronDownIcon } from '@heroicons/react/20/solid'
-import { Link } from 'react-router-dom'
+import React, { useContext } from 'react';
+import { Link, Outlet } from 'react-router-dom'
+import { EntitiesDataContext } from '../../../contexts/entitiesDataContext';
+import { debounce } from '../../../utils/utils';
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
 function Entities() {
-  const [itemsPerPage, setitemsPerPage] = useState(10)
+  const { entitiesState: { entities, pagination }, entitiesDispatch } = useContext(EntitiesDataContext);
+  const debouncedSetPage = debounce((newPage) => {
+    entitiesDispatch({
+      type: "SET_CUSTOM_PAGE",
+      payload: newPage
+    });
+  }, 300);
 
-  const items = [
-    { id: "KCOO1", venue: 'kapil towers', entity: 'Kapil Chits', date: '11-02-2023', time: '03:00pm' },
-    { id: "KCOO12", venue: 'kapil ', entity: 'Kapil ', date: '11-12-2023', time: '04:00pm' },
-    { id: "KCOO1", venue: 'kapil towers', entity: 'Kapil Chits', date: '11-02-2023', time: '03:00pm' },
-    { id: "KCOO12", venue: 'kapil ', entity: 'Kapil ', date: '11-12-2023', time: '04:00pm' },
-    { id: "KCOO13", venue: 'kapilfds towers', entity: 'Kapilfgf Chits', date: '11-02-2013', time: '03:10pm' },
-    { id: "KCOO1", venue: 'kapil towers', entity: 'Kapil Chits', date: '11-02-2023', time: '03:00pm' },
-    { id: "KCOO12", venue: 'kapil ', entity: 'Kapil ', date: '11-12-2023', time: '04:00pm' },
-    { id: "KCOO1", venue: 'kapil towers', entity: 'Kapil Chits', date: '11-02-2023', time: '03:00pm' },
-    { id: "KCOO12", venue: 'kapil ', entity: 'Kapil ', date: '11-12-2023', time: '04:00pm' },
-    { id: "KCOO13", venue: 'kapilfds towers', entity: 'Kapilfgf Chits', date: '11-02-2013', time: '03:10pm' },
-    { id: "KCOO1", venue: 'kapil towers', entity: 'Kapil Chits', date: '11-02-2023', time: '03:00pm' },
-    { id: "KCOO12", venue: 'kapil ', entity: 'Kapil ', date: '11-12-2023', time: '04:00pm' },
-    { id: "KCOO1", venue: 'kapil towers', entity: 'Kapil Chits', date: '11-02-2023', time: '03:00pm' },
-    { id: "KCOO12", venue: 'kapil ', entity: 'Kapil ', date: '11-12-2023', time: '04:00pm' },
-    { id: "KCOO13", venue: 'kapilfds towers', entity: 'Kapilfgf Chits', date: '11-02-2013', time: '03:10pm' },
-    { id: "KCOO1", venue: 'kapil towers', entity: 'Kapil Chits', date: '11-02-2023', time: '03:00pm' },
-    { id: "KCOO12", venue: 'kapil ', entity: 'Kapil ', date: '11-12-2023', time: '04:00pm' },
-    { id: "KCOO1", venue: 'kapil towers', entity: 'Kapil Chits', date: '11-02-2023', time: '03:00pm' },
-    { id: "KCOO12", venue: 'kapil ', entity: 'Kapil ', date: '11-12-2023', time: '04:00pm' },
-    { id: "KCOO13", venue: 'kapilfds towers', entity: 'Kapilfgf Chits', date: '11-02-2013', time: '03:10pm' },
-    { id: "KCOO1", venue: 'kapil towers', entity: 'Kapil Chits', date: '11-02-2023', time: '03:00pm' },
-    { id: "KCOO12", venue: 'kapil ', entity: 'Kapil ', date: '11-12-2023', time: '04:00pm' },
-    { id: "KCOO1", venue: 'kapil towers', entity: 'Kapil Chits', date: '11-02-2023', time: '03:00pm' },
-    { id: "KCOO12", venue: 'kapil ', entity: 'Kapil ', date: '11-12-2023', time: '04:00pm' },
-    { id: "KCOO13", venue: 'kapilfds towers', entity: 'Kapilfgf Chits', date: '11-02-2013', time: '03:10pm' },
-    { id: "KCOO1", venue: 'kapil towers', entity: 'Kapil Chits', date: '11-02-2023', time: '03:00pm' },
-    { id: "KCOO12", venue: 'kapil ', entity: 'Kapil ', date: '11-12-2023', time: '04:00pm' },
-    { id: "KCOO1", venue: 'kapil towers', entity: 'Kapil Chits', date: '11-02-2023', time: '03:00pm' },
-    { id: "KCOO12", venue: 'kapil ', entity: 'Kapil ', date: '11-12-2023', time: '04:00pm' },
-    { id: "KCOO13", venue: 'kapilfds towers', entity: 'Kapilfgf Chits', date: '11-02-2013', time: '03:10pm' },
-    { id: "KCOO1", venue: 'kapil towers', entity: 'Kapil Chits', date: '11-02-2023', time: '03:00pm' },
-    { id: "KCOO12", venue: 'kapil ', entity: 'Kapil ', date: '11-12-2023', time: '04:00pm' },
-    { id: "KCOO1", venue: 'kapil towers', entity: 'Kapil Chits', date: '11-02-2023', time: '03:00pm' },
-    { id: "KCOO12", venue: 'kapil ', entity: 'Kapil ', date: '11-12-2023', time: '04:00pm' },
-    { id: "KCOO13", venue: 'kapilfds towers', entity: 'Kapilfgf Chits', date: '11-02-2013', time: '03:10pm' },
-    { id: "KCOO1", venue: 'kapil towers', entity: 'Kapil Chits', date: '11-02-2023', time: '03:00pm' },
-    { id: "KCOO12", venue: 'kapil ', entity: 'Kapil ', date: '11-12-2023', time: '04:00pm' },
-    { id: "KCOO1", venue: 'kapil towers', entity: 'Kapil Chits', date: '11-02-2023', time: '03:00pm' },
-    { id: "KCOO12", venue: 'kapil ', entity: 'Kapil ', date: '11-12-2023', time: '04:00pm' },
-    { id: "KCOO13", venue: 'kapilfds towers', entity: 'Kapilfgf Chits', date: '11-02-2013', time: '03:10pm' },
-    { id: "KCOO1", venue: 'kapil towers', entity: 'Kapil Chits', date: '11-02-2023', time: '03:00pm' },
-    { id: "KCOO12", venue: 'kapil ', entity: 'Kapil ', date: '11-12-2023', time: '04:00pm' },
-    { id: "KCOO1", venue: 'kapil towers', entity: 'Kapil Chits', date: '11-02-2023', time: '03:00pm' },
-    { id: "KCOO12", venue: 'kapil ', entity: 'Kapil ', date: '11-12-2023', time: '04:00pm' },
-    { id: "KCOO13", venue: 'kapilfds towers', entity: 'Kapilfgf Chits', date: '11-02-2013', time: '03:10pm' },
-    { id: "KCOO1", venue: 'kapil towers', entity: 'Kapil Chits', date: '11-02-2023', time: '03:00pm' },
-    { id: "KCOO12", venue: 'kapil ', entity: 'Kapil ', date: '11-12-2023', time: '04:00pm' },
-    { id: "KCOO1", venue: 'kapil towers', entity: 'Kapil Chits', date: '11-02-2023', time: '03:00pm' },
-    { id: "KCOO12", venue: 'kapil ', entity: 'Kapil ', date: '11-12-2023', time: '04:00pm' },
-    { id: "KCOO13", venue: 'kapilfds towers', entity: 'Kapilfgf Chits', date: '11-02-2013', time: '03:10pm' },
-    { id: "KCOO12", venue: 'kapil ', entity: 'Kapil ', date: '11-12-2023', time: '04:00pm' },
-    { id: "KCOO1", venue: 'kapil towers', entity: 'Kapil Chits', date: '11-02-2023', time: '03:00pm' },
-    { id: "KCOO12", venue: 'kapil ', entity: 'Kapil ', date: '11-12-2023', time: '04:00pm' },
-    { id: "KCOO13", venue: 'kapilfds towers', entity: 'Kapilfgf Chits', date: '11-02-2013', time: '03:10pm' },
-    { id: "KCOO1", venue: 'kapil towers', entity: 'Kapil Chits', date: '11-02-2023', time: '03:00pm' },
-    { id: "KCOO12", venue: 'kapil ', entity: 'Kapil ', date: '11-12-2023', time: '04:00pm' },
-    { id: "KCOO1", venue: 'kapil towers', entity: 'Kapil Chits', date: '11-02-2023', time: '03:00pm' },
-    { id: "KCOO12", venue: 'kapil ', entity: 'Kapil ', date: '11-12-2023', time: '04:00pm' },
-    { id: "KCOO1", venue: 'kapil towers', entity: 'Kapil Chits', date: '11-02-2023', time: '03:00pm' },
-    { id: "KCOO12", venue: 'kapil ', entity: 'Kapil ', date: '11-12-2023', time: '04:00pm' },
-    { id: "KCOO13", venue: 'kapilfds towers', entity: 'Kapilfgf Chits', date: '11-02-2013', time: '03:10pm' },
-    { id: "KCOO1", venue: 'kapil towers', entity: 'Kapil Chits', date: '11-02-2023', time: '03:00pm' },
-    { id: "KCOO12", venue: 'kapil ', entity: 'Kapil ', date: '11-12-2023', time: '04:00pm' },
-    { id: "KCOO1", venue: 'kapil towers', entity: 'Kapil Chits', date: '11-02-2023', time: '03:00pm' },
-    { id: "KCOO12", venue: 'kapil ', entity: 'Kapil ', date: '11-12-2023', time: '04:00pm' },
-    { id: "KCOO13", venue: 'kapilfds towers', entity: 'Kapilfgf Chits', date: '11-02-2013', time: '03:10pm' },
-    { id: "KCOO1", venue: 'kapil towers', entity: 'Kapil Chits', date: '11-02-2023', time: '03:00pm' },
-    { id: "KCOO12", venue: 'kapil ', entity: 'Kapil ', date: '11-12-2023', time: '04:00pm' },
-    { id: "KCOO1", venue: 'kapil towers', entity: 'Kapil Chits', date: '11-02-2023', time: '03:00pm' },
-    { id: "KCOO12", venue: 'kapil ', entity: 'Kapil ', date: '11-12-2023', time: '04:00pm' },
-    { id: "KCOO13", venue: 'kapilfds towers', entity: 'Kapilfgf Chits', date: '11-02-2013', time: '03:10pm' },
-    { id: "KCOO1", venue: 'kapil towers', entity: 'Kapil Chits', date: '11-02-2023', time: '03:00pm' },
-    { id: "KCOO12", venue: 'kapil ', entity: 'Kapil ', date: '11-12-2023', time: '04:00pm' },
-    { id: "KCOO1", venue: 'kapil towers', entity: 'Kapil Chits', date: '11-02-2023', time: '03:00pm' },
-    { id: "KCOO12", venue: 'kapil ', entity: 'Kapil ', date: '11-12-2023', time: '04:00pm' },
-    { id: "KCOO13", venue: 'kapilfds towers', entity: 'Kapilfgf Chits', date: '11-02-2013', time: '03:10pm' },
-    { id: "KCOO12", venue: 'kapil ', entity: 'Kapil ', date: '11-12-2023', time: '04:00pm' },
-    { id: "KCOO1", venue: 'kapil towers', entity: 'Kapil Chits', date: '11-02-2023', time: '03:00pm' },
-    { id: "KCOO12", venue: 'kapil ', entity: 'Kapil ', date: '11-12-2023', time: '04:00pm' },
-    { id: "KCOO13", venue: 'kapilfds towers', entity: 'Kapilfgf Chits', date: '11-02-2013', time: '03:10pm' },
-    { id: "KCOO1", venue: 'kapil towers', entity: 'Kapil Chits', date: '11-02-2023', time: '03:00pm' },
-    { id: "KCOO12", venue: 'kapil ', entity: 'Kapil ', date: '11-12-2023', time: '04:00pm' },
-    { id: "KCOO1", venue: 'kapil towers', entity: 'Kapil Chits', date: '11-02-2023', time: '03:00pm' },
-    { id: "KCOO12", venue: 'kapil ', entity: 'Kapil ', date: '11-12-2023', time: '04:00pm' },
-    { id: "KCOO1", venue: 'kapil towers', entity: 'Kapil Chits', date: '11-02-2023', time: '03:00pm' },
-    { id: "KCOO12", venue: 'kapil ', entity: 'Kapil ', date: '11-12-2023', time: '04:00pm' },
-    { id: "KCOO13", venue: 'kapilfds towers', entity: 'Kapilfgf Chits', date: '11-02-2013', time: '03:10pm' },
-    { id: "KCOO1", venue: 'kapil towers', entity: 'Kapil Chits', date: '11-02-2023', time: '03:00pm' },
-    { id: "KCOO12", venue: 'kapil ', entity: 'Kapil ', date: '11-12-2023', time: '04:00pm' },
-    { id: "KCOO1", venue: 'kapil towers', entity: 'Kapil Chits', date: '11-02-2023', time: '03:00pm' },
-    { id: "KCOO12", venue: 'kapil ', entity: 'Kapil ', date: '11-12-2023', time: '04:00pm' },
-    { id: "KCOO13", venue: 'kapilfds towers', entity: 'Kapilfgf Chits', date: '11-02-2013', time: '03:10pm' },
-    { id: "KCOO1", venue: 'kapil towers', entity: 'Kapil Chits', date: '11-02-2023', time: '03:00pm' },
-    { id: "KCOO12", venue: 'kapil ', entity: 'Kapil ', date: '11-12-2023', time: '04:00pm' },
-    { id: "KCOO1", venue: 'kapil towers', entity: 'Kapil Chits', date: '11-02-2023', time: '03:00pm' },
-    { id: "KCOO12", venue: 'kapil ', entity: 'Kapil ', date: '11-12-2023', time: '04:00pm' },
-    { id: "KCOO13", venue: 'kapilfds towers', entity: 'Kapilfgf Chits', date: '11-02-2013', time: '03:10pm' },
-    { id: "KCOO1", venue: 'kapil towers', entity: 'Kapil Chits', date: '11-02-2023', time: '03:00pm' },
-    { id: "KCOO12", venue: 'kapil ', entity: 'Kapil ', date: '11-12-2023', time: '04:00pm' },
-    { id: "KCOO1", venue: 'kapil towers', entity: 'Kapil Chits', date: '11-02-2023', time: '03:00pm' },
-    { id: "KCOO12", venue: 'kapil ', entity: 'Kapil ', date: '11-12-2023', time: '04:00pm' },
-    { id: "KCOO13", venue: 'kapilfds towers', entity: 'Kapilfgf Chits', date: '11-02-2013', time: '03:10pm' },
-    { id: "KCOO12", venue: 'kapil ', entity: 'Kapil ', date: '11-12-2023', time: '04:00pm' },
-    { id: "KCOO1", venue: 'kapil towers', entity: 'Kapil Chits', date: '11-02-2023', time: '03:00pm' },
-    { id: "KCOO12", venue: 'kapil ', entity: 'Kapil ', date: '11-12-2023', time: '04:00pm' },
-    { id: "KCOO13", venue: 'kapilfds towers', entity: 'Kapilfgf Chits', date: '11-02-2013', time: '03:10pm' },
-    { id: "KCOO1", venue: 'kapil towers', entity: 'Kapil Chits', date: '11-02-2023', time: '03:00pm' },
-    { id: "KCOO12", venue: 'kapil ', entity: 'Kapil ', date: '11-12-2023', time: '04:00pm' },
-    { id: "KCOO1", venue: 'kapil towers', entity: 'Kapil Chits', date: '11-02-2023', time: '03:00pm' },
-    { id: "KCOO12", venue: 'kapil ', entity: 'Kapil ', date: '11-12-2023', time: '04:00pm' },
-    { id: "KCOO1", venue: 'kapil towers', entity: 'Kapil Chits', date: '11-02-2023', time: '03:00pm' },
-    { id: "KCOO12", venue: 'kapil ', entity: 'Kapil ', date: '11-12-2023', time: '04:00pm' },
-    { id: "KCOO13", venue: 'kapilfds towers', entity: 'Kapilfgf Chits', date: '11-02-2013', time: '03:10pm' },
-    { id: "KCOO1", venue: 'kapil towers', entity: 'Kapil Chits', date: '11-02-2023', time: '03:00pm' },
-    { id: "KCOO12", venue: 'kapil ', entity: 'Kapil ', date: '11-12-2023', time: '04:00pm' },
-    { id: "KCOO1", venue: 'kapil towers', entity: 'Kapil Chits', date: '11-02-2023', time: '03:00pm' },
-    { id: "KCOO12", venue: 'kapil ', entity: 'Kapil ', date: '11-12-2023', time: '04:00pm' },
-    { id: "KCOO13", venue: 'kapilfds towers', entity: 'Kapilfgf Chits', date: '11-02-2013', time: '03:10pm' },
-    { id: "KCOO1", venue: 'kapil towers', entity: 'Kapil Chits', date: '11-02-2023', time: '03:00pm' },
-    { id: "KCOO12", venue: 'kapil ', entity: 'Kapil ', date: '11-12-2023', time: '04:00pm' },
-    { id: "KCOO1", venue: 'kapil towers', entity: 'Kapil Chits', date: '11-02-2023', time: '03:00pm' },
-    { id: "KCOO12", venue: 'kapil ', entity: 'Kapil ', date: '11-12-2023', time: '04:00pm' },
-    { id: "KCOO13", venue: 'kapilfds towers', entity: 'Kapilfgf Chits', date: '11-02-2013', time: '03:10pm' },
-    { id: "KCOO1", venue: 'kapil towers', entity: 'Kapil Chits', date: '11-02-2023', time: '03:00pm' },
-    { id: "KCOO12", venue: 'kapil ', entity: 'Kapil ', date: '11-12-2023', time: '04:00pm' },
-    { id: "KCOO1", venue: 'kapil towers', entity: 'Kapil Chits', date: '11-02-2023', time: '03:00pm' },
-    { id: "KCOO12", venue: 'kapil ', entity: 'Kapil ', date: '11-12-2023', time: '04:00pm' },
-    { id: "KCOO13", venue: 'kapilfds towers', entity: 'Kapilfgf Chits', date: '11-02-2013', time: '03:10pm' },
-    { id: "KCOO12", venue: 'kapil ', entity: 'Kapil ', date: '11-12-2023', time: '04:00pm' },
-    { id: "KCOO1", venue: 'kapil towers', entity: 'Kapil Chits', date: '11-02-2023', time: '03:00pm' },
-    { id: "KCOO12", venue: 'kapil ', entity: 'Kapil ', date: '11-12-2023', time: '04:00pm' },
-    { id: "KCOO13", venue: 'kapilfds towers', entity: 'Kapilfgf Chits', date: '11-02-2013', time: '03:10pm' },
-    { id: "KCOO1", venue: 'kapil towers', entity: 'Kapil Chits', date: '11-02-2023', time: '03:00pm' },
-    { id: "KCOO12", venue: 'kapil ', entity: 'Kapil ', date: '11-12-2023', time: '04:00pm' },
-    { id: "KCOO1", venue: 'kapil towers', entity: 'Kapil Chits', date: '11-02-2023', time: '03:00pm' },
-    { id: "KCOO12", venue: 'kapil ', entity: 'Kapil ', date: '11-12-2023', time: '04:00pm' },
-    { id: "KCOO1", venue: 'kapil towers', entity: 'Kapil Chits', date: '11-02-2023', time: '03:00pm' },
-    { id: "KCOO12", venue: 'kapil ', entity: 'Kapil ', date: '11-12-2023', time: '04:00pm' },
-    { id: "KCOO13", venue: 'kapilfds towers', entity: 'Kapilfgf Chits', date: '11-02-2013', time: '03:10pm' },
-    { id: "KCOO1", venue: 'kapil towers', entity: 'Kapil Chits', date: '11-02-2023', time: '03:00pm' },
-    { id: "KCOO12", venue: 'kapil ', entity: 'Kapil ', date: '11-12-2023', time: '04:00pm' },
-    { id: "KCOO1", venue: 'kapil towers', entity: 'Kapil Chits', date: '11-02-2023', time: '03:00pm' },
-    { id: "KCOO12", venue: 'kapil ', entity: 'Kapil ', date: '11-12-2023', time: '04:00pm' },
-    { id: "KCOO13", venue: 'kapilfds towers', entity: 'Kapilfgf Chits', date: '11-02-2013', time: '03:10pm' },
-    { id: "KCOO1", venue: 'kapil towers', entity: 'Kapil Chits', date: '11-02-2023', time: '03:00pm' },
-    { id: "KCOO12", venue: 'kapil ', entity: 'Kapil ', date: '11-12-2023', time: '04:00pm' },
-    { id: "KCOO1", venue: 'kapil towers', entity: 'Kapil Chits', date: '11-02-2023', time: '03:00pm' },
-    { id: "KCOO12", venue: 'kapil ', entity: 'Kapil ', date: '11-12-2023', time: '04:00pm' },
-    { id: "KCOO13", venue: 'kapilfds towers', entity: 'Kapilfgf Chits', date: '11-02-2013', time: '03:10pm' },
-    { id: "KCOO1", venue: 'kapil towers', entity: 'Kapil Chits', date: '11-02-2023', time: '03:00pm' },
-    { id: "KCOO12", venue: 'kapil ', entity: 'Kapil ', date: '11-12-2023', time: '04:00pm' },
-    { id: "KCOO1", venue: 'kapil towers', entity: 'Kapil Chits', date: '11-02-2023', time: '03:00pm' },
-    { id: "KCOO12", venue: 'kapil ', entity: 'Kapil ', date: '11-12-2023', time: '04:00pm' },
-    { id: "KCOO13", venue: 'kapilfds towers', entity: 'Kapilfgf Chits', date: '11-02-2013', time: '03:10pm' },
-    { id: "KCOO12", venue: 'kapil ', entity: 'Kapil ', date: '11-12-2023', time: '04:00pm' },
-    { id: "KCOO1", venue: 'kapil towers', entity: 'Kapil Chits', date: '11-02-2023', time: '03:00pm' },
-    { id: "KCOO12", venue: 'kapil ', entity: 'Kapil ', date: '11-12-2023', time: '04:00pm' },
-    { id: "KCOO13", venue: 'kapilfds towers', entity: 'Kapilfgf Chits', date: '11-02-2013', time: '03:10pm' },
-    { id: "KCOO1", venue: 'kapil towers', entity: 'Kapil Chits', date: '11-02-2023', time: '03:00pm' },
-    { id: "KCOO12", venue: 'kapil ', entity: 'Kapil ', date: '11-12-2023', time: '04:00pm' },
-    { id: "KCOO1", venue: 'kapil towers', entity: 'Kapil Chits', date: '11-02-2023', time: '03:00pm' },
-    { id: "KCOO12", venue: 'kapil ', entity: 'Kapil ', date: '11-12-2023', time: '04:00pm' },
-    { id: "KCOO1", venue: 'kapil towers', entity: 'Kapil Chits', date: '11-02-2023', time: '03:00pm' },
-    { id: "KCOO12", venue: 'kapil ', entity: 'Kapil ', date: '11-12-2023', time: '04:00pm' },
-    { id: "KCOO13", venue: 'kapilfds towers', entity: 'Kapilfgf Chits', date: '11-02-2013', time: '03:10pm' },
-    { id: "KCOO1", venue: 'kapil towers', entity: 'Kapil Chits', date: '11-02-2023', time: '03:00pm' },
-    { id: "KCOO12", venue: 'kapil ', entity: 'Kapil ', date: '11-12-2023', time: '04:00pm' },
-    { id: "KCOO1", venue: 'kapil towers', entity: 'Kapil Chits', date: '11-02-2023', time: '03:00pm' },
-    { id: "KCOO12", venue: 'kapil ', entity: 'Kapil ', date: '11-12-2023', time: '04:00pm' },
-    { id: "KCOO13", venue: 'kapilfds towers', entity: 'Kapilfgf Chits', date: '11-02-2013', time: '03:10pm' },
-    { id: "KCOO1", venue: 'kapil towers', entity: 'Kapil Chits', date: '11-02-2023', time: '03:00pm' },
-    { id: "KCOO12", venue: 'kapil ', entity: 'Kapil ', date: '11-12-2023', time: '04:00pm' },
-    { id: "KCOO1", venue: 'kapil towers', entity: 'Kapil Chits', date: '11-02-2023', time: '03:00pm' },
-    { id: "KCOO12", venue: 'kapil ', entity: 'Kapil ', date: '11-12-2023', time: '04:00pm' },
-    { id: "KCOO13", venue: 'kapilfds towers', entity: 'Kapilfgf Chits', date: '11-02-2013', time: '03:10pm' },
-    { id: "KCOO1", venue: 'kapil towers', entity: 'Kapil Chits', date: '11-02-2023', time: '03:00pm' },
-    { id: "KCOO12", venue: 'kapil ', entity: 'Kapil ', date: '11-12-2023', time: '04:00pm' },
-    { id: "KCOO1", venue: 'kapil towers', entity: 'Kapil Chits', date: '11-02-2023', time: '03:00pm' },
-    { id: "KCOO12", venue: 'kapil ', entity: 'Kapil ', date: '11-12-2023', time: '04:00pm' },
-    { id: "KCOO13", venue: 'kapilfds towers', entity: 'Kapilfgf Chits', date: '11-02-2013', time: '03:10pm' },
-    { id: "KCOO12", venue: 'kapil ', entity: 'Kapil ', date: '11-12-2023', time: '04:00pm' },
-    { id: "KCOO1", venue: 'kapil towers', entity: 'Kapil Chits', date: '11-02-2023', time: '03:00pm' },
-    { id: "KCOO12", venue: 'kapil ', entity: 'Kapil ', date: '11-12-2023', time: '04:00pm' },
-    { id: "KCOO13", venue: 'kapilfds towers', entity: 'Kapilfgf Chits', date: '11-02-2013', time: '03:10pm' },
-    { id: "KCOO1", venue: 'kapil towers', entity: 'Kapil Chits', date: '11-02-2023', time: '03:00pm' },
-    { id: "KCOO12", venue: 'kapil ', entity: 'Kapil ', date: '11-12-2023', time: '04:00pm' },
-    { id: "KCOO1", venue: 'kapil towers', entity: 'Kapil Chits', date: '11-02-2023', time: '03:00pm' },
-    { id: "KCOO12", venue: 'kapil ', entity: 'Kapil ', date: '11-12-2023', time: '04:00pm' },
-    { id: "KCOO1", venue: 'kapil towers', entity: 'Kapil Chits', date: '11-02-2023', time: '03:00pm' },
-    { id: "KCOO12", venue: 'kapil ', entity: 'Kapil ', date: '11-12-2023', time: '04:00pm' },
-    { id: "KCOO13", venue: 'kapilfds towers', entity: 'Kapilfgf Chits', date: '11-02-2013', time: '03:10pm' },
-    { id: "KCOO1", venue: 'kapil towers', entity: 'Kapil Chits', date: '11-02-2023', time: '03:00pm' },
-    { id: "KCOO12", venue: 'kapil ', entity: 'Kapil ', date: '11-12-2023', time: '04:00pm' },
-    { id: "KCOO1", venue: 'kapil towers', entity: 'Kapil Chits', date: '11-02-2023', time: '03:00pm' },
-    { id: "KCOO12", venue: 'kapil ', entity: 'Kapil ', date: '11-12-2023', time: '04:00pm' },
-    { id: "KCOO13", venue: 'kapilfds towers', entity: 'Kapilfgf Chits', date: '11-02-2013', time: '03:10pm' },
-    { id: "KCOO1", venue: 'kapil towers', entity: 'Kapil Chits', date: '11-02-2023', time: '03:00pm' },
-    { id: "KCOO12", venue: 'kapil ', entity: 'Kapil ', date: '11-12-2023', time: '04:00pm' },
-    { id: "KCOO1", venue: 'kapil towers', entity: 'Kapil Chits', date: '11-02-2023', time: '03:00pm' },
-    { id: "KCOO12", venue: 'kapil ', entity: 'Kapil ', date: '11-12-2023', time: '04:00pm' },
-    { id: "KCOO13", venue: 'kapilfds towers', entity: 'Kapilfgf Chits', date: '11-02-2013', time: '03:10pm' },
-    { id: "KCOO1", venue: 'kapil towers', entity: 'Kapil Chits', date: '11-02-2023', time: '03:00pm' },
-    { id: "KCOO12", venue: 'kapil ', entity: 'Kapil ', date: '11-12-2023', time: '04:00pm' },
-    { id: "KCOO1", venue: 'kapil towers', entity: 'Kapil Chits', date: '11-02-2023', time: '03:00pm' },
-    { id: "KCOO12", venue: 'kapil ', entity: 'Kapil ', date: '11-12-2023', time: '04:00pm' },
-    { id: "KCOO13", venue: 'kapilfds towers', entity: 'Kapilfgf Chits', date: '11-02-2013', time: '03:10pm' },
-    { id: "KCOO12", venue: 'kapil ', entity: 'Kapil ', date: '11-12-2023', time: '04:00pm' },
-    { id: "KCOO1", venue: 'kapil towers', entity: 'Kapil Chits', date: '11-02-2023', time: '03:00pm' },
-    { id: "KCOO12", venue: 'kapil ', entity: 'Kapil ', date: '11-12-2023', time: '04:00pm' },
-    { id: "KCOO13", venue: 'kapilfds towers', entity: 'Kapilfgf Chits', date: '11-02-2013', time: '03:10pm' },
-    { id: "KCOO1", venue: 'kapil towers', entity: 'Kapil Chits', date: '11-02-2023', time: '03:00pm' },
-    { id: "KCOO12", venue: 'kapil ', entity: 'Kapil ', date: '11-12-2023', time: '04:00pm' },
-    { id: "KCOO1", venue: 'kapil towers', entity: 'Kapil Chits', date: '11-02-2023', time: '03:00pm' },
-    { id: "KCOO12", venue: 'kapil ', entity: 'Kapil ', date: '11-12-2023', time: '04:00pm' },
-    { id: "KCOO1", venue: 'kapil towers', entity: 'Kapil Chits', date: '11-02-2023', time: '03:00pm' },
-    { id: "KCOO12", venue: 'kapil ', entity: 'Kapil ', date: '11-12-2023', time: '04:00pm' },
-    { id: "KCOO13", venue: 'kapilfds towers', entity: 'Kapilfgf Chits', date: '11-02-2013', time: '03:10pm' },
-    { id: "KCOO1", venue: 'kapil towers', entity: 'Kapil Chits', date: '11-02-2023', time: '03:00pm' },
-    { id: "KCOO12", venue: 'kapil ', entity: 'Kapil ', date: '11-12-2023', time: '04:00pm' },
-    { id: "KCOO1", venue: 'kapil towers', entity: 'Kapil Chits', date: '11-02-2023', time: '03:00pm' },
-    { id: "KCOO12", venue: 'kapil ', entity: 'Kapil ', date: '11-12-2023', time: '04:00pm' },
-    { id: "KCOO13", venue: 'kapilfds towers', entity: 'Kapilfgf Chits', date: '11-02-2013', time: '03:10pm' },
-    { id: "KCOO1", venue: 'kapil towers', entity: 'Kapil Chits', date: '11-02-2023', time: '03:00pm' },
-    { id: "KCOO12", venue: 'kapil ', entity: 'Kapil ', date: '11-12-2023', time: '04:00pm' },
-    { id: "KCOO1", venue: 'kapil towers', entity: 'Kapil Chits', date: '11-02-2023', time: '03:00pm' },
-    { id: "KCOO12", venue: 'kapil ', entity: 'Kapil ', date: '11-12-2023', time: '04:00pm' },
-    { id: "KCOO13", venue: 'kapilfds towers', entity: 'Kapilfgf Chits', date: '11-02-2013', time: '03:10pm' },
-    { id: "KCOO1", venue: 'kapil towers', entity: 'Kapil Chits', date: '11-02-2023', time: '03:00pm' },
-    { id: "KCOO12", venue: 'kapil ', entity: 'Kapil ', date: '11-12-2023', time: '04:00pm' },
-    { id: "KCOO1", venue: 'kapil towers', entity: 'Kapil Chits', date: '11-02-2023', time: '03:00pm' },
-    { id: "KCOO12", venue: 'kapil ', entity: 'Kapil ', date: '11-12-2023', time: '04:00pm' },
-    { id: "KCOO13", venue: 'kapilfds towers', entity: 'Kapilfgf Chits', date: '11-02-2013', time: '03:10pm' },
-    { id: "KCOO12", venue: 'kapil ', entity: 'Kapil ', date: '11-12-2023', time: '04:00pm' },
-    { id: "KCOO1", venue: 'kapil towers', entity: 'Kapil Chits', date: '11-02-2023', time: '03:00pm' },
-    { id: "KCOO12", venue: 'kapil ', entity: 'Kapil ', date: '11-12-2023', time: '04:00pm' },
-    { id: "KCOO13", venue: 'kapilfds towers', entity: 'Kapilfgf Chits', date: '11-02-2013', time: '03:10pm' },
-    { id: "KCOO1", venue: 'kapil towers', entity: 'Kapil Chits', date: '11-02-2023', time: '03:00pm' },
-    { id: "KCOO12", venue: 'kapil ', entity: 'Kapil ', date: '11-12-2023', time: '04:00pm' },
-    { id: "KCOO1", venue: 'kapil towers', entity: 'Kapil Chits', date: '11-02-2023', time: '03:00pm' },
-
-  ]
-  const [currentPage, setCurrentPage] = useState(1);
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = items.slice(indexOfFirstItem, indexOfLastItem);
-  const totalPages = Math.ceil(items.length / itemsPerPage);
-  const handlePageChange = (page) => {
-    setCurrentPage(page);
-  };
-  const visiblePages = 6;
-  const renderPageNumbers = () => {
-    const pageNumbers = [];
-    const startPage = Math.max(1, currentPage - Math.floor(visiblePages / 2));
-    const endPage = Math.min(totalPages, startPage + visiblePages - 1);
-    for (let i = startPage; i <= endPage; i++) {
-      pageNumbers.push(
-        <a
-          key={i}
-          href="#"
-          className={`relative inline-flex items-center ${i === currentPage ? 'bg-orange-500 text-white' : 'text-gray-900'} px-4 py-2 text-sm font-semibold ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0`}
-          onClick={() => handlePageChange(i)}
-        >
-          {i}
-        </a>
-      );
-    }
-    if (startPage > 1) {
-      pageNumbers.unshift(
-        <span key="ellipsis-start" className="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 focus:z-20 focus:outline-offset-0">
-          ...
-        </span>
-      );
-    }
-    if (endPage < totalPages) {
-      pageNumbers.push(
-        <span key="ellipsis-end" className="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 focus:z-20 focus:outline-offset-0">
-          ...
-        </span>
-      );
-    }
-    return pageNumbers;
-  };
+  const debouncedSetSearch = debounce((e) => {
+    entitiesDispatch({
+      type: "SET_SEARCH",
+      payload: e.target.value
+    })
+  }, 500);
   return (
     <div className=' p-2 bg-[#f8fafc] overflow-hidden'>
       <div className='grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-3 xl:grid-col-3 gap-2'>
@@ -305,101 +33,9 @@ function Entities() {
                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
               </svg>
             </div>
-            <input type="search" id="default-search" class="block w-full px-4 py-2 ps-10 text-sm border-2 border-gray-200  rounded-2xl bg-gray-50  focus:outline-none " placeholder="Search here..." required />
+            <input onChange={(e) => debouncedSetSearch(e)} type="search" id="default-search" class="block w-full px-4 py-2 ps-10 text-sm border-2 border-gray-200  rounded-2xl bg-gray-50  focus:outline-none " placeholder="Search here..." required />
           </div>
         </div>
-        <div className='grid1-item mx-3 mt-2 filter_pagination text-end'>
-          <select onChange={e => setitemsPerPage(e.target.value)} className=" me-3 p-1 bg-gray-50 rounded-md shadow-sm ring-1 ring-inset ring-gray-200 hover:bg-gray-50">
-            <option value="10">10</option>
-            <option value="25">25</option>
-            <option value="50">50</option>
-            <option value="100">100</option>
-            <option value="250">250</option>
-            <option value="500">500</option>
-            <option value="750">750</option>
-            <option value="1000">1000</option>
-          </select>
-
-          <Menu as="div" className="relative inline-block ">
-            <div className=''>
-
-              <Menu.Button className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-gray-50 px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-200 hover:bg-gray-50">
-                Filters
-                <ChevronDownIcon className="-mr-1 h-5 w-5 text-gray-400" aria-hidden="true" />
-              </Menu.Button>
-            </div>
-
-            <Transition
-              as={Fragment}
-              enter="transition ease-out duration-100"
-              enterFrom="transform opacity-0 scale-95"
-              enterTo="transform opacity-100 scale-100"
-              leave="transition ease-in duration-75"
-              leaveFrom="transform opacity-100 scale-100"
-              leaveTo="transform opacity-0 scale-95"
-            >
-              <Menu.Items className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                <div className="py-1">
-                  <Menu.Item>
-                    {({ active }) => (
-                      <Link
-                        to="#"
-                        className={classNames(
-                          active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                          'block px-4 py-2 text-sm'
-                        )}
-                      >
-                        Account settings
-                      </Link>
-                    )}
-                  </Menu.Item>
-                  <Menu.Item>
-                    {({ active }) => (
-                      <Link
-                        to="#"
-                        className={classNames(
-                          active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                          'block px-4 py-2 text-sm'
-                        )}
-                      >
-                        Support
-                      </Link>
-                    )}
-                  </Menu.Item>
-                  <Menu.Item>
-                    {({ active }) => (
-                      <Link
-                        to="#"
-                        className={classNames(
-                          active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                          'block px-4 py-2 text-sm'
-                        )}
-                      >
-                        License
-                      </Link>
-                    )}
-                  </Menu.Item>
-                  <form method="POST" action="#">
-                    <Menu.Item>
-                      {({ active }) => (
-                        <button
-                          type="submit"
-                          className={classNames(
-                            active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                            'block w-full px-4 py-2 text-left text-sm'
-                          )}
-                        >
-                          Sign out
-                        </button>
-                      )}
-                    </Menu.Item>
-                  </form>
-                </div>
-              </Menu.Items>
-            </Transition>
-          </Menu>
-
-        </div >
       </div >
 
 
@@ -419,13 +55,11 @@ function Entities() {
                 </tr>
               </thead>
               <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
-                {items.length > 0 && currentItems.map((item, index) => (
-
+                {pagination?.paginatedEntities?.map((item, index) => (
                   <tr class="hover:bg-gray-100 dark:hover:bg-gray-700">
-
-                    <td class="px-6 py-3 whitespace-nowrap text-center  text-sm font-medium text-gray-800 border-collapse border border-[#e5e7eb]">{indexOfFirstItem + index + 1}</td>
+                    <td class="px-6 py-3 whitespace-nowrap text-center  text-sm font-medium text-gray-800 border-collapse border border-[#e5e7eb]">{(pagination.currentPage + index)}</td>
                     <td class="px-6 py-3 whitespace-nowrap text-center  text-sm font-medium text-gray-800 border-collapse border border-[#e5e7eb]">{item.id}</td>
-                    <td class="px-6 py-3 whitespace-nowrap text-center  text-sm font-medium text-gray-800 border-collapse border border-[#e5e7eb]">{item.entity}</td>
+                    <td class="px-6 py-3 whitespace-nowrap text-center  text-sm font-medium text-gray-800 border-collapse border border-[#e5e7eb] hover:text-orange-500 hover:underline"><Link to="/taskform">{item.entity}</Link></td>
                     <td class="px-6 py-3 whitespace-nowrap text-center  text-sm font-medium text-gray-800 border-collapse border border-[#e5e7eb]">{item.date}</td>
                     <td class="px-6 py-3 whitespace-nowrap text-center  text-sm font-medium text-gray-800 border-collapse border border-[#e5e7eb]">{item.time}</td>
                     <td class="px-6 py-3 whitespace-nowrap text-center  text-sm font-medium text-gray-800 border-collapse border border-[#e5e7eb]">{item.venue}</td>
@@ -457,55 +91,34 @@ function Entities() {
         </div>
       </div>
       <div className="flex items-center justify-between  px-4 pt-3 pb-4 sm:px-6">
-        <div className="flex flex-1 justify-between sm:hidden">
-          <a
+        <section className="isolate inline-flex -space-x-px rounded-md shadow-sm" aria-label="Pagination">
+          <button
+            disabled={pagination.currentPage == 1}
+            onClick={() => debouncedSetPage(pagination.currentPage - 1)}
             href="#"
-            className="relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
+            className="relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
           >
-            Previous
-          </a>
-          <a
-            href="#"
-            className="relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
-          >
-            Next
-          </a>
-        </div>
-        <div className="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
-          <div>
-            <p className="text-sm text-gray-700">
-              <span className="font-medium">{indexOfFirstItem + 1}</span> to{' '}
-              <span className="font-medium">{indexOfLastItem}</span> of{' '}
-              <span className="font-medium">{items.length}</span>
-            </p>
-          </div>
-          <div>
-            <nav className="isolate inline-flex -space-x-px rounded-md shadow-sm" aria-label="Pagination">
-              <a
-                href="#"
-                className={`relative inline-flex items-center rounded-l-md px-1 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${currentPage === 1 ? 'opacity-50 pointer-events-none' : ''}`}
-                onClick={() => handlePageChange(currentPage - 1)}
-              >
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5" aria-hidden="true">
-                  <path fill-rule="evenodd" d="M11.78 5.22a.75.75 0 0 1 0 1.06L8.06 10l3.72 3.72a.75.75 0 1 1-1.06 1.06l-4.25-4.25a.75.75 0 0 1 0-1.06l4.25-4.25a.75.75 0 0 1 1.06 0Z" clip-rule="evenodd" />
-                </svg>
-              </a>
-              {renderPageNumbers()}
-              <a
-                href="#"
-                className={`relative inline-flex items-center rounded-r-md px-1 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${currentPage === totalPages ? 'opacity-50 pointer-events-none' : ''}`}
-                onClick={() => handlePageChange(currentPage + 1)}
-              >
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5" aria-hidden="true">
-                  <path fill-rule="evenodd" d="M8.22 5.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 0 1-1.06-1.06L11.94 10 8.22 6.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
-                </svg>
-              </a>
-            </nav>
-          </div>
-        </div>
-      </div>
-    </div >
+            <span className="sr-only">Previous</span>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5" aria-hidden="true">
+              <path fill-rule="evenodd" d="M11.78 5.22a.75.75 0 0 1 0 1.06L8.06 10l3.72 3.72a.75.75 0 1 1-1.06 1.06l-4.25-4.25a.75.75 0 0 1 0-1.06l4.25-4.25a.75.75 0 0 1 1.06 0Z" clip-rule="evenodd" />
+            </svg>
 
+          </button>
+          <p>{pagination.currentPage}</p>
+          <button
+            disabled={pagination.currentPage === pagination.totalPages}
+            onClick={() => debouncedSetPage(pagination.currentPage + 1)}
+            className="relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
+          >
+            <span className="sr-only">Next</span>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5" aria-hidden="true">
+              <path fill-rule="evenodd" d="M8.22 5.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 0 1-1.06-1.06L11.94 10 8.22 6.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
+            </svg>
+          </button>
+        </section>
+      </div>
+      <Outlet />
+    </div >
   );
 }
 

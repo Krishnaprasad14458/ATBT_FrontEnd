@@ -8,6 +8,8 @@ import { BrowserRouter } from 'react-router-dom';
 import { ToastContainer } from "react-toastify";
 import AuthProvider from './contexts/authContext';
 import UserDataProvider from './contexts/usersDataContext';
+import EntitiesDataProvider from './contexts/entitiesDataContext';
+
 
 
 
@@ -17,18 +19,20 @@ root.render(
     <BrowserRouter>
       <AuthProvider>
         <UserDataProvider>
-          <App />
-          <ToastContainer
-            position="top-right"
-            autoClose={1000}
-            hideProgressBar={false}
-            newestOnTop={false}
-            closeOnClick
-            rtl={false}
-            pauseOnFocusLoss
-            draggable
-            pauseOnHover
-          />
+          <EntitiesDataProvider>
+            <App />
+            <ToastContainer
+              position="top-right"
+              autoClose={1000}
+              hideProgressBar={false}
+              newestOnTop={false}
+              closeOnClick
+              rtl={false}
+              pauseOnFocusLoss
+              draggable
+              pauseOnHover
+            />
+          </EntitiesDataProvider>
         </UserDataProvider>
       </AuthProvider>
     </BrowserRouter>

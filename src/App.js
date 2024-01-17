@@ -1,4 +1,4 @@
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route, useLocation } from 'react-router-dom'
 import './App.css';
 import ChangePassword from './components/auth/ChangePassword';
 import Login from './components/auth/Login';
@@ -23,42 +23,63 @@ import UserForm from './components/createForm/createUserForm/UserForm';
 import BoardMeetingForm from './components/createForm/createBoardMeetingForm/BoardMeetingForm';
 import TaskForm from './components/createForm/createTaskForm/TaskForm';
 import MyCalendar from './components/pages/task/MyCalendar';
+import UserTasks from './components/pages/userProfile/userTabs/UserTasks';
+import UserTeams from './components/pages/userProfile/userTabs/UserTeams';
+import UserEntities from './components/pages/userProfile/userTabs/UserEntities';
+import CompletedBoardMeetings from './components/pages/boardMeetings/completed/CompletedBoardMeetings';
+import UpcommingBoardMeetings from './components/pages/boardMeetings/upcomming/UpcommingBoardMeetings';
+import CompletedTasks from './components/pages/task/completed/CompletedTasks';
+import UpcommingTasks from './components/pages/task/upcomming/UpcommingTasks';
+import OverdueTasks from './components/pages/task/overdue/OverdueTasks';
+
 
 function App() {
   const { authState } = useContext(AuthContext);
+  const location = useLocation();
+  const isChangePasswordRoute = location.pathname === '/resetpassword';
   return (
     <div className="app">
-      {authState.token ? <Sidebar /> : null}
+      {!isChangePasswordRoute && authState.token ? <Sidebar /> : null}
       <main className="content" style={{ overflow: "auto" }}>
-        {authState.token ? <TopBar /> : null}
+        {!isChangePasswordRoute && authState.token ? <TopBar /> : null}
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/changepassword" element={<ChangePassword />} />
           <Route path="/resetpassword" element={<ResetPassword />} />
           <Route element={<RequireAuth />}>
-            <Route path="/reports" element={<Reports />} />
             <Route path="/" element={<Dashboard />} />
-            <Route path='/entities' element={<Entities />} />
-            <Route path='/boardmeetings' element={<BoardMeetings />} />
+            <Route path="/reports" element={<Reports />} />
             <Route path='/settings' element={<Settings />} />
-            <Route path='/tasks' element={<Tasks />} />
             <Route path='/teams' element={<Teams />} />
-            <Route path='/users' element={<Users />} />
-
+            <Route path='/entities' element={<Entities />}>
+              <Route path="otl" element={<EntityForm />} />
+            </Route>
+            <Route path="/entities/new" element={<EntityForm />} />
+            <Route path='/boardmeetings' element={<BoardMeetings />}>
+              <Route path="completed" element={<CompletedBoardMeetings />} />
+              <Route path="upcomming" element={<UpcommingBoardMeetings />} />
+            </Route>
+            <Route path="/boardmeetings/new" element={<BoardMeetingForm />} />
+            <Route path='/tasks' element={<Tasks />} >
+              <Route path="upcomming" element={<UpcommingTasks />} />
+              <Route path="completed" element={<CompletedTasks />} />
+              <Route path="overdue" element={<OverdueTasks />} />
+            </Route>
+            <Route path="tasks/new" element={<TaskForm />} />
+            <Route path='/users' element={<Users />} >
+              <Route path="otl" element={<UserForm />} />
+            </Route>
+            <Route path="/users/new" element={<UserForm />} />
             <Route
               path="/userProfile/:id"
               element={
                 <UserProfile />
               }
             >
-              <Route path="tasks" element={<UserProfile />} />
-              <Route path="teams" element={<UserProfile />} />
-              <Route path="enteties" element={<UserProfile />} />
+              <Route path="tasks" element={<UserTasks />} />
+              <Route path="teams" element={<UserTeams />} />
+              <Route path="enteties" element={<UserEntities />} />
             </Route>
-            <Route path='/entityform' element={<EntityForm />} />
-            <Route path='/userform' element={<UserForm />} />
-            <Route path='/boardmeetingform' element={<BoardMeetingForm />} />
-            <Route path='/taskform' element={<TaskForm />} />
             <Route path='/mycalendar' element={<MyCalendar />} />
           </Route>
           <Route path="/*" element={<PageNotFound />} />
