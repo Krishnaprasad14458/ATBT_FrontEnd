@@ -5,28 +5,28 @@ import { Link } from 'react-router-dom';
 import EntityList from '../../../list/entityList/EntityList';
 
 function EntityDashboard() {
-  useEffect(()=>{
+  useEffect(() => {
     (() => entitiesDispatch({
-  type: 'SET_PER_PAGE',
-  payload: 5
-}))();
-},[])
-    const debouncedSetPage = debounce((newPage) => {
-      entitiesDispatch({
-        type: "SET_CUSTOM_PAGE",
-        payload: newPage
-      });
-    }, 300);
-  
-    const debouncedSetSearch = debounce((e) => {
-      entitiesDispatch({
-        type: "SET_SEARCH",
-        payload: e.target.value
-      })
-    }, 500);
-  
-    getDate();
-    const { entitiesState: { entities, pagination }, entitiesDispatch } = useContext(EntitiesDataContext);
+      type: 'SET_PER_PAGE',
+      payload: 5
+    }))();
+  }, [])
+  const debouncedSetPage = debounce((newPage) => {
+    entitiesDispatch({
+      type: "SET_CUSTOM_PAGE",
+      payload: newPage
+    });
+  }, 300);
+
+  const debouncedSetSearch = debounce((e) => {
+    entitiesDispatch({
+      type: "SET_SEARCH",
+      payload: e.target.value
+    })
+  }, 500);
+
+  getDate();
+  const { entitiesState: { entities, pagination }, entitiesDispatch } = useContext(EntitiesDataContext);
   return (
     <div class="w-full  text-center bg-white border border-gray-200 rounded-lg shadow sm:pt-4 dark:bg-gray-800 dark:border-gray-700">
       <div className='grid1-item overflow-hidden sm:w-full'>
@@ -34,7 +34,7 @@ function EntityDashboard() {
           <div class="flex items-center justify-between mb-2">
             <h5 class="text-lg font-semibold leading-none text-gray-800 dark:text-white">Entities {pagination.loading ? '...' : null}</h5>
             <Link to="/entities/new" class="text-sm font-medium text-white-600 hover:underline dark:text-white-500">
-              <button class="inline-flex items-center justify-center whitespace-nowrap rounded-2xl text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-500 text-primary-foreground shadow hover:bg-primary/90 h-9 px-4 py-2 shrink-0 bg-orange-400 text-white gap-1">
+              <button class="inline-flex items-center justify-center whitespace-nowrap rounded-2xl text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 text-primary-foreground shadow hover:bg-primary/90 h-9 px-4 py-2 shrink-0 bg-orange-600 text-white gap-1">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5 ">
                   <path d="M10.75 4.75a.75.75 0 0 0-1.5 0v4.5h-4.5a.75.75 0 0 0 0 1.5h4.5v4.5a.75.75 0 0 0 1.5 0v-4.5h4.5a.75.75 0 0 0 0-1.5h-4.5v-4.5Z" />
                 </svg>
