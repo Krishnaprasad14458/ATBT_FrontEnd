@@ -13,7 +13,7 @@
 // export default UserProfile
 
 import React, { useContext, useMemo, useCallback } from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, NavLink, Outlet, useParams } from 'react-router-dom';
 import { UserDataContext } from '../../../contexts/usersDataContext';
 
 function UserProfile() {
@@ -41,6 +41,30 @@ function UserProfile() {
       </div>
       <div>
         <strong>Email:</strong> {user.email}
+      </div>
+      <div>
+        <ul>
+          <li>
+          <NavLink
+            to={`/userProfile/${id}/teams`}
+          >
+            My Teams
+          </NavLink>
+          <NavLink
+            to={`/userProfile/${id}/enteties`}
+          >
+            My Entities
+          </NavLink>
+          <NavLink
+            to={`/userProfile/${id}/tasks`}
+          >
+            My Tasks
+          </NavLink>
+          </li>
+        </ul>
+        <div>
+          <Outlet />
+        </div>
       </div>
     </div>
   );
