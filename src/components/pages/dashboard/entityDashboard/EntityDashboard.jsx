@@ -7,8 +7,8 @@ import useDebounce from '../../../../hooks/debounce/useDebounce';
 
 function EntityDashboard() {
   const { entitiesState: { entities, pagination }, entitiesDispatch } = useContext(EntitiesDataContext);
-  const {debouncedSetPage, debouncedSetSearch} = useDebounce()
-  useInitializePerPage(entitiesDispatch, 5);;
+  useInitializePerPage(entitiesDispatch, 5);
+  const {debouncedSetPage, debouncedSetSearch} = useDebounce(entitiesDispatch);
 
   return (
     <div class="w-full  text-center bg-white border border-gray-200 rounded-lg shadow sm:pt-4 dark:bg-gray-800 dark:border-gray-700">

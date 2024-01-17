@@ -1,19 +1,16 @@
-import { useContext } from 'react';
-import { UserDataContext } from '../../contexts/usersDataContext';
 import { debounce } from '../../utils/utils';
 
-function useDebounce() {
-  const { usersDispatch } = useContext(UserDataContext);
+function useDebounce(dispatch) {
 
   const debouncedSetPage = debounce((newPage) => {
-    usersDispatch({
+    dispatch({
       type: "SET_CUSTOM_PAGE",
       payload: newPage
     });
   }, 300);
 
   const debouncedSetSearch = debounce((e) => {
-    usersDispatch({
+    dispatch({
       type: "SET_SEARCH",
       payload: e.target.value
     })
