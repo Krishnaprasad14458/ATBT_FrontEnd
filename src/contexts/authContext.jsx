@@ -49,6 +49,36 @@ const AuthProvider = ({ children }) => {
     }
   };
 
+  const createUser = async (userData) => {
+    try {
+      const { status, data } = await toast.promise(
+        axios.post(`https://www.atbtbeta.teksacademy.com/createuser`, userData),
+        {
+          pending: 'Creating User...',
+          success: {
+            render({data: {data: {reqBody: {name}}}}) {
+              console.log(name)
+              return `user ${name} created`
+            }
+          },
+          error: 'Check user details 🤯',
+        },
+      )
+      // if (status === 200) {
+        // localStorage.setItem(
+        //   "data",
+        //   JSON.stringify({ user: data?.adminData, token: data?.token })
+        // );
+        // authDispatch({ type: "SET_USER", payload: data?.adminData });
+        // authDispatch({ type: "SET_TOKEN", payload: data?.token });
+        // navigate(location?.state?.from?.pathname || "/sidebar");
+      // }
+    } 
+    catch (e) {
+      console.error(e);
+    }
+  };
+
   const changePassword = async ({ email }) => {
     try {
       const { status, data } = await toast.promise(
@@ -121,7 +151,7 @@ const AuthProvider = ({ children }) => {
 
   return (
     <AuthContext.Provider
-      value={{ authState, adminLogin, changePassword, resetPassword, userLogout, localStorageData }}
+      value={{ authState, adminLogin, createUser, changePassword, resetPassword, userLogout, localStorageData }}
     >
       {children}
     </AuthContext.Provider>
