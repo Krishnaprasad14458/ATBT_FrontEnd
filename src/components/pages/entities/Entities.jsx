@@ -1,34 +1,20 @@
 import React, { useContext, useEffect } from 'react';
 import { Link, Outlet } from 'react-router-dom'
 import { EntitiesDataContext } from '../../../contexts/entitiesDataContext';
-import { debounce } from '../../../utils/utils';
 import './Entities.css';
 import { Fragment, useState } from 'react';
 import { Menu, Transition } from '@headlessui/react';
 import { ChevronDownIcon } from '@heroicons/react/20/solid';
 import useInitializePerPage from '../../../hooks/initializePerPage/useInitializePerPage';
+import useDebounce from '../../../hooks/debounce/useDebounce';
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
 function Entities() {
   const { entitiesState: { entities, pagination }, entitiesDispatch } = useContext(EntitiesDataContext);
-
   useInitializePerPage(entitiesDispatch, 10);
-
-  const debouncedSetPage = debounce((newPage) => {
-    entitiesDispatch({
-      type: "SET_CUSTOM_PAGE",
-      payload: newPage
-    });
-  }, 300);
-
-  const debouncedSetSearch = debounce((e) => {
-    entitiesDispatch({
-      type: "SET_SEARCH",
-      payload: e.target.value
-    })
-  }, 500);
+  const {debouncedSetPage, debouncedSetSearch} = useDebounce(entitiesDispatch);
 
   const handlePerPageChange = (event) => {
     const selectedValue = parseInt(event.target.value, 10);
