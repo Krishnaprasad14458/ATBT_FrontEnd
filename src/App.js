@@ -22,6 +22,7 @@ import EntityForm from './components/createForm/createEntityForm/EntityForm';
 import UserForm from './components/createForm/createUserForm/UserForm';
 import BoardMeetingForm from './components/createForm/createBoardMeetingForm/BoardMeetingForm';
 import TaskForm from './components/createForm/createTaskForm/TaskForm';
+import MyCalendar from './components/pages/task/MyCalendar';
 
 function App() {
   const { authState } = useContext(AuthContext);
@@ -43,6 +44,7 @@ function App() {
             <Route path='/tasks' element={<Tasks />} />
             <Route path='/teams' element={<Teams />} />
             <Route path='/users' element={<Users />} />
+
             <Route
               path="/userProfile/:id"
               element={
@@ -54,9 +56,10 @@ function App() {
               <Route path="enteties" element={<UserProfile />} />
             </Route>
             <Route path='/entityform' element={<EntityForm />} />
-            <Route path='/userform' element={<UserForm/>} />
-            <Route path='/boardmeetingform' element={<BoardMeetingForm/>} />
-            <Route path='/taskform' element={<TaskForm/>} />
+            <Route path='/userform' element={<UserForm />} />
+            <Route path='/boardmeetingform' element={<BoardMeetingForm />} />
+            <Route path='/taskform' element={<TaskForm />} />
+            <Route path='/mycalendar' element={<MyCalendar />} />
           </Route>
           <Route path="/*" element={<PageNotFound />} />
         </Routes>
