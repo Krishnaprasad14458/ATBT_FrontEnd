@@ -112,7 +112,7 @@ function UpcommingTasks() {
       <div className="w-full mt-4">
         <div className="flex justify-start">
           <div
-            className={`cursor-pointer px-5 py-2 font-semibold ${activeTab === 1 ? 'border-b-4 border-orange-600  text-black' : 'bg-white'
+            className={`cursor-pointer px-5 py-2 font-semibold ${activeTab === 1 ? 'border-b-4 border-orange-600  text-black' :""
               }`}
             onClick={() => handleTabClick(1)}>Completed
           </div>
