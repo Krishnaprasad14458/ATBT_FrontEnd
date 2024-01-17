@@ -13,6 +13,10 @@
         border: none;
     }
 
+    .dashboard-main {
+        padding: 0;
+    }
+
     .welcome_user {
         font-size: 1.125rem;
         font-weight: 600;

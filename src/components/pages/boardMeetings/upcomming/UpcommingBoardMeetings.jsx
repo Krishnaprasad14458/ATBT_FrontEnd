@@ -20,20 +20,8 @@ function UpcommingBoardMeetings() {
   }, 500);
   return (
     <>
-      <div className='grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-3 xl:grid-col-3 gap-2'>
-        <div className='grid1-item mx-3 mt-2 text-start'>
-          <label for="default-search" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
-          <div class="relative">
-            <div class="absolute inset-y-0 start-0 flex items-center p-2 pointer-events-none">
-              <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
-              </svg>
-            </div>
-            <input onChange={(e) => debouncedSetSearch(e)} type="search" id="default-search" class="block w-full px-4 py-2 ps-10 text-sm border-2 border-gray-200  rounded-2xl bg-gray-50  focus:outline-none " placeholder="Search here..." required />
-          </div>
-        </div>
-      </div >
-      <div class="mt-6 overflow-x-auto ">
+    
+      <div class="mt-5 overflow-x-auto ">
         <div class="p-1.5 min-w-full inline-block align-middle">
           <div class="overflow-hidden ">
             <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700 border-collapse border border-[#e5e7eb] rounded-md ">
@@ -98,7 +86,7 @@ function UpcommingBoardMeetings() {
             </svg>
 
           </button>
-          <p>{pagination.currentPage}</p>
+          <button className="border w-8 border-gray-300">{pagination.currentPage}</button>
           <button
             disabled={pagination.currentPage === pagination.totalPages}
             onClick={() => debouncedSetPage(pagination.currentPage + 1)}
