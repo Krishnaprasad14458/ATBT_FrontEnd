@@ -5,8 +5,8 @@ import DashboardList from '../../../list/dashboardList/DashboardList';
 import useDebounce from '../../../../hooks/debounce/useDebounce';
 
 function UserDashboard() {
-  const { usersState: { users, pagination }} = useContext(UserDataContext);
-  const {debouncedSetPage, debouncedSetSearch} = useDebounce()
+  const { usersState: { users, pagination },usersDispatch} = useContext(UserDataContext);
+  const {debouncedSetPage, debouncedSetSearch} = useDebounce(usersDispatch)
   return (
     <div class="w-full  text-center bg-white border border-gray-200 rounded-lg shadow sm:pt-4 dark:bg-gray-800 dark:border-gray-700">
       <div className='grid1-item overflow-hidden sm:w-full'>
