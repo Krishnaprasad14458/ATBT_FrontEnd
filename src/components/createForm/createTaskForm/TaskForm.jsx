@@ -1,8 +1,11 @@
-import React from 'react';
+import React, { useState, Fragment, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Fragment, useState } from 'react';
-import { Menu, Transition } from '@headlessui/react';
+import { Menu, Transition, Dialog } from '@headlessui/react';
 import { ChevronDownIcon } from '@heroicons/react/20/solid';
+import { Calendar, momentLocalizer } from 'react-big-calendar';
+import 'react-big-calendar/lib/css/react-big-calendar.css';
+import moment from 'moment';
+import { ExclamationTriangleIcon } from '@heroicons/react/24/outline'
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
@@ -13,11 +16,56 @@ function TaskForm() {
   const handleTabClick = (tabNumber) => {
     setActiveTab(tabNumber);
   };
+
+  // for calendar
+  const localizer = momentLocalizer(moment);
+  const [open, setOpen] = useState(false)
+
+  const cancelButtonRef = useRef(null)
+
+  const [events, setEvents] = useState([
+    {
+      title: 'Event 1',
+      start: new Date(2024, 0, 17, 10, 0),
+      end: new Date(2024, 0, 17, 12, 0),
+    },
+
+  ]);
+  useEffect(() => {
+    console.log("events", events)
+  }, [events])
+  const [newtask, setNewTask] = useState("")
+  const [newtaskStartDate, setnewtaskStartDate] = useState("")
+
+  const [newtaskEndDate, setnewtaskEndDate] = useState("")
+
+
+  const handleSelect = ({ start, end }) => {
+    setOpen(true);
+    setnewtaskStartDate(start);
+    setnewtaskEndDate(end);
+    setNewTask("");
+  };
+
+  const handleSave = () => {
+    setOpen(false);
+
+    if (newtask) {
+      const newEvent = {
+        title: newtask,
+        start: newtaskStartDate,
+        end: newtaskEndDate,
+      };
+      setEvents([...events, newEvent]);
+      setNewTask("");
+    }
+  };
+  // end
   return (
     <div className=' p-2 bg-[#f8fafc] overflow-hidden'>
       <div className='grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-3 xl:grid-col-3 gap-2'>
         <h1 className='mx-3 mt-2  font-semibold text-lg grid1-item'>Tasks</h1>
-        <div className=' grid1-item w-96'>
+        <div className=' grid1-item w-96 mt-2'>
           <label for="default-search" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
           <div class="relative">
             <div class="absolute inset-y-0 start-0 flex items-center p-2 pointer-events-none">
@@ -28,7 +76,7 @@ function TaskForm() {
             <input type="search" id="default-search" class="block w-full px-4 py-2 ps-10 text-sm border-2 border-gray-200  rounded-2xl bg-gray-50  focus:outline-none " placeholder="Search here..." required />
           </div>
         </div>
-        <div className='grid1-item text-end'>
+        <div className='grid1-item mt-2 text-end'>
           <Menu as="div" className="relative inline-block ">
             <div className=''>
               <Menu.Button className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-gray-50 px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-200 hover:bg-gray-50">
@@ -135,7 +183,87 @@ function TaskForm() {
       </div>
 
       {activeTab === 1 && <div className='mt-5'> dsjfmsjdfmjdsmfjd </div>}
-      {activeTab === 2 && <div> dsjfmsjdfmjdsmfjd dsgsdgsdfgsdfgdf</div>}
+      {activeTab === 2 && <div>
+
+        <Calendar
+          className='my-4'
+          localizer={localizer}
+          events={events}
+          startAccessor="start"
+          endAccessor="end"
+          style={{ height: 500 }}
+          selectable
+          onSelectSlot={handleSelect}
+        />
+
+
+        <Transition.Root show={open} as={Fragment}>
+          <Dialog as="div" className="relative z-10" initialFocus={cancelButtonRef} onClose={setOpen}>
+            <Transition.Child
+              as={Fragment}
+              enter="ease-out duration-300"
+              enterFrom="opacity-0"
+              enterTo="opacity-100"
+              leave="ease-in duration-200"
+              leaveFrom="opacity-100"
+              leaveTo="opacity-0"
+            >
+              <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
+            </Transition.Child>
+
+            <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
+              <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+                <Transition.Child
+                  as={Fragment}
+                  enter="ease-out duration-300"
+                  enterFrom="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                  enterTo="opacity-100 translate-y-0 sm:scale-100"
+                  leave="ease-in duration-200"
+                  leaveFrom="opacity-100 translate-y-0 sm:scale-100"
+                  leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                >
+                  <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
+                    <div className="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
+                      <div className="sm:flex sm:items-start">
+                        <div className="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
+                          <ExclamationTriangleIcon className="h-6 w-6 text-red-600" aria-hidden="true" />
+                        </div>
+                        <div className="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
+                          <Dialog.Title as="h3" className="text-base font-semibold leading-6 text-gray-900">
+                            Create New Task
+                          </Dialog.Title>
+                          <div className="mt-2">
+                            <input placeholder='enter task here' onChange={(e) => setNewTask(e.target.value)} />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
+                      <button
+                        type="button"
+                        className="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto"
+                        onClick={() => setOpen(false)}
+                        ref={cancelButtonRef}
+                      >
+                        Cancel
+                      </button>
+                      <button
+                        type="button"
+                        className="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 sm:ml-3 sm:w-auto"
+                        onClick={handleSave}
+                      >
+                        Save
+                      </button>
+
+                    </div>
+                  </Dialog.Panel>
+                </Transition.Child>
+              </div>
+            </div>
+          </Dialog>
+        </Transition.Root>
+
+      </div>}
     </div>
   );
 }
