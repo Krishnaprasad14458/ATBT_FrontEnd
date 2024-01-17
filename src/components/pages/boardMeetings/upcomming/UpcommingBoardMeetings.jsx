@@ -20,8 +20,8 @@ function UpcommingBoardMeetings() {
   }, 500);
   return (
     <>
-    
-      <div class="mt-5 overflow-x-auto ">
+
+      <div class="mt-4 overflow-x-auto ">
         <div class="p-1.5 min-w-full inline-block align-middle">
           <div class="overflow-hidden ">
             <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700 border-collapse border border-[#e5e7eb] rounded-md ">
@@ -29,7 +29,7 @@ function UpcommingBoardMeetings() {
                 <tr>
                   <th scope="col" class="px-6 py-2 text-center text-md font-semibold text-white bg-orange-600  border-collapse border border-[#e5e7eb] ">S.no</th>
                   <th scope="col" class="px-6 py-2 text-center text-md font-semibold text-white bg-orange-600  border-collapse border border-[#e5e7eb] ">Id</th>
-                  <th scope="col" class="px-6 py-2 text-center text-md font-semibold text-white bg-orange-600   border-collapse border border-[#e5e7eb]">Entity</th>
+                  <th scope="col" class="px-6 py-2 text-center text-md font-semibold text-white bg-orange-600   border-collapse border border-[#e5e7eb]">Entity </th>
                   <th scope="col" class="px-6 py-2 text-center text-md font-semibold text-white bg-orange-600   border-collapse border border-[#e5e7eb]">Date</th>
                   <th scope="col" class="px-6 py-2 text-center text-md font-semibold text-white bg-orange-600  border-collapse border border-[#e5e7eb] ">Time</th>
                   <th scope="col" class="px-6 py-2 text-center text-md font-semibold text-white bg-orange-600   border-collapse border border-[#e5e7eb] ">Venue</th>
@@ -39,13 +39,13 @@ function UpcommingBoardMeetings() {
               <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
                 {pagination?.paginatedEntities?.map((item, index) => (
                   <tr class="hover:bg-gray-100 dark:hover:bg-gray-700">
-                    <td class="px-6 py-3 whitespace-nowrap text-center  text-sm font-medium text-gray-800 border-collapse border border-[#e5e7eb]">{(pagination.currentPage + index)}</td>
-                    <td class="px-6 py-3 whitespace-nowrap text-center  text-sm font-medium text-gray-800 border-collapse border border-[#e5e7eb]">{item.id}</td>
-                    <td class="px-6 py-3 whitespace-nowrap text-center  text-sm font-medium text-gray-800 border-collapse border border-[#e5e7eb] hover:text-orange-500 hover:underline"><Link to="/taskform">{item.entity}</Link></td>
-                    <td class="px-6 py-3 whitespace-nowrap text-center  text-sm font-medium text-gray-800 border-collapse border border-[#e5e7eb]">{item.date}</td>
-                    <td class="px-6 py-3 whitespace-nowrap text-center  text-sm font-medium text-gray-800 border-collapse border border-[#e5e7eb]">{item.time}</td>
-                    <td class="px-6 py-3 whitespace-nowrap text-center  text-sm font-medium text-gray-800 border-collapse border border-[#e5e7eb]">{item.venue}</td>
-                    <td class="px-6 py-3 whitespace-nowrap text-center  text-sm font-medium text-gray-800  flex justify-evenly">
+                    <td class="px-6 py-2.5 whitespace-nowrap text-center  text-sm font-medium text-gray-800 border-collapse border border-[#e5e7eb]">{(pagination.currentPage + index)}</td>
+                    <td class="px-6 py-2.5 whitespace-nowrap text-center  text-sm font-medium text-gray-800 border-collapse border border-[#e5e7eb]">{item.id}</td>
+                    <td class="px-6 py-2.5 whitespace-nowrap text-center  text-sm font-medium text-gray-800 border-collapse border border-[#e5e7eb] hover:text-orange-500 hover:underline"><Link to="/taskform">{item.entity}</Link></td>
+                    <td class="px-6 py-2.5 whitespace-nowrap text-center  text-sm font-medium text-gray-800 border-collapse border border-[#e5e7eb]">{item.date}</td>
+                    <td class="px-6 py-2.5 whitespace-nowrap text-center  text-sm font-medium text-gray-800 border-collapse border border-[#e5e7eb]">{item.time}</td>
+                    <td class="px-6 py-2.5 whitespace-nowrap text-center  text-sm font-medium text-gray-800 border-collapse border border-[#e5e7eb]">{item.venue}</td>
+                    <td class="px-6 py-2.5 whitespace-nowrap text-center  text-sm font-medium text-gray-800  flex justify-evenly">
                       <button type="button" class="inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
                           <path d="M10 12.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z" />
@@ -72,13 +72,13 @@ function UpcommingBoardMeetings() {
           </div>
         </div>
       </div>
-      <div className="flex items-center justify-between  px-4 pt-3 pb-4 sm:px-6">
+      <div className="flex justify-end item-end px-4 pt-3 pb-2 sm:px-6">
         <section className="isolate inline-flex -space-x-px rounded-md shadow-sm" aria-label="Pagination">
           <button
             disabled={pagination.currentPage == 1}
             onClick={() => debouncedSetPage(pagination.currentPage - 1)}
             href="#"
-            className="relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
+            className="relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-orange-600 hover:text-white focus:z-20 focus:outline-offset-0"
           >
             <span className="sr-only">Previous</span>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5" aria-hidden="true">
@@ -90,7 +90,7 @@ function UpcommingBoardMeetings() {
           <button
             disabled={pagination.currentPage === pagination.totalPages}
             onClick={() => debouncedSetPage(pagination.currentPage + 1)}
-            className="relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
+            className="relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-orange-600 hover:text-white focus:z-20 focus:outline-offset-0"
           >
             <span className="sr-only">Next</span>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5" aria-hidden="true">
