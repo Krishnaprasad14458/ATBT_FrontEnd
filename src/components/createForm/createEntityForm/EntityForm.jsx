@@ -1,8 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 function EntityForm() {
+  const [activeTab, setActiveTab] = useState(1);
+
+  const handleTabClick = (tabNumber) => {
+    setActiveTab(tabNumber);
+  };
   return (
-    <div className='container p-3 bg-[#f8fafc] '>
+
+    <div className='container p-3 bg-[#f8fafc]'>
       {/* <p className="font-lg font-semibold p-3">Entity Form</p> */}
       <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-4">
         <div class="col-span-1 p-3">
@@ -33,14 +39,30 @@ function EntityForm() {
           </form>
         </div>
         <div class="col-span-2 p-3">
-          <div class="rounded-md overflow-hidden shadow-md h-screen">
-            <div class="p-4">
-              <h2 class="text-xl font-semibold text-gray-800">Entity Name</h2>
+          <div className='relative'>
+            <div className="flex justify-start absolute top-3 left-16">
+              <p class="text-md font-semibold text-gray-800 ms-2">Entity Name</p>
+              <div
+                className={`cursor-pointer px-5 py-1 text-sm font-semibold absolute top-6 left-18 ${activeTab === 1 ? 'border-b-4 border-orange-600  text-black' : ''
+                  }`}
+                onClick={() => handleTabClick(1)}>Profile
+              </div>
 
+              <div
+                className={`cursor-pointer px-5 py-1 text-sm font-semibold absolute top-6 left-24 ${activeTab === 2 ? 'border-b-4 border-orange-600 text-black' : ''
+                  }`}
+                onClick={() => handleTabClick(2)}>Calendar
+              </div>
             </div>
+            {activeTab === 1 && <div className="mt-4">
+              <img src='https://d3ki9tyy5l5ruj.cloudfront.net/obj/efa34dcd90db1f5a77cc3f1bb864dd3d91def55d/List,%20no%20avatars.png' className='' alt='' />
+            </div>
+            }
+            {activeTab === 2 && <div className="mt-4">
+              <img src='https://d3ki9tyy5l5ruj.cloudfront.net/obj/63306c12043b0a783a7ff409222ce80cc48e1dc1/Calendar,%20no%20avatars.png' className='' alt='' />
+            </div>}
           </div>
         </div>
-
       </div>
     </div>
   );
