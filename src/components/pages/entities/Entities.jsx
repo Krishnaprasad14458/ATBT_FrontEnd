@@ -104,7 +104,7 @@ function Entities() {
             </svg>
 
           </button>
-          <p>{pagination.currentPage}</p>
+          <button className="border w-8 border-gray-300">{pagination.currentPage}</button>
           <button
             disabled={pagination.currentPage === pagination.totalPages}
             onClick={() => debouncedSetPage(pagination.currentPage + 1)}
