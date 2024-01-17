@@ -9,7 +9,6 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
-
 function Dashboard() {
   const localStorageData = JSON.parse(localStorage.getItem("data"));
   return (
