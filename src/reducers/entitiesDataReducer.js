@@ -23,7 +23,8 @@ const entitesDataReducer = (state, action) => {
                 ...state,
                 pagination: {
                     ...state.pagination,
-                    search: action.payload
+                    search: action.payload,
+                    currentPage: 1,
                 },
             };
 
