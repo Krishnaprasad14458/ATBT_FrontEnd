@@ -44,7 +44,7 @@ function App() {
         {!isChangePasswordRoute && authState.token ? <TopBar /> : null}
         <Routes>
           <Route path="/login" element={<Login />} />
-          <Route path="/changepassword" element={<ChangePassword />} />
+          <Route path="/changepassword/:id" element={<ChangePassword />} />
           <Route path="/resetpassword" element={<ResetPassword />} />
           <Route element={<RequireAuth />}>
             <Route path="/" element={<Dashboard />} />
