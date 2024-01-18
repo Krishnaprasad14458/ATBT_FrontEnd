@@ -8,10 +8,8 @@ import { Link } from 'react-router-dom'
 import Swal from 'sweetalert2'
 import { toast } from 'react-toastify';
 function ChangePassword() {
-    // const { id } = useParams();
-    // console.log(id)
-    // hard coding user id for initial testion on single admin user
-    const id = 13
+    const { id } = useParams();
+    console.log(id)
     const { resetPassword } = useContext(AuthContext);
     const [password, setPassword] = useState('')
     const [confirmPassword, setConfirmPassword] = useState("")
