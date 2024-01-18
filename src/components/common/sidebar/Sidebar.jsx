@@ -54,7 +54,7 @@ const Sidebar = () => {
     const [open, setOpen] = useState(true);
     const [active, setActive] = useState("Home")
     return (
-        <div className='sidebar h-screen'>
+        <div className='sidebar'>
             <main className="bg-white-500 flex ">
 
                 <div className='relative'>
@@ -72,11 +72,11 @@ duration-500 text-gray-100 px-2`}>
                                 menus?.map((menu, i) => (
                                     <Link to={menu?.link} key={i}
                                         onClick={(e) => { setActive(menu.name) }}
-                                        className={`group flex items-center text-md gap-3.5 font-semibold p-2 leading-normal
+                                        className={`group flex items-center text-sm gap-3.5 font-semibold p-2 leading-normal
                                          hover:bg-orange-600 hover:text-white rounded-md
                                          ${menu?.name === active ? 'text-orange-600' : 'black'  // Apply orange color for active menu
                                             }`}>
-                                        <div style={{ width: "1.5rem", height: "1.5rem", marginLeft: "5px" }}>
+                                        <div style={{ width: "1rem", height: "1rem", marginLeft: "5px" }}>
                                             {menu?.icon}
                                         </div>
                                         <h3
@@ -97,7 +97,7 @@ duration-500 text-gray-100 px-2`}>
                             }
 
                         </div>
-                        <div className={`absolute inset-x-0 bottom-0  ${open ? '' : 'hidden'}`}>
+                        <div className={`absolute inset-x-0 bottom-2 ${open ? '' : 'hidden'}`}>
                             <p className='text-center text-gray-500 text-sm'>Developed by @Infoz IT V0.1  </p>
                         </div>
                     </div>
