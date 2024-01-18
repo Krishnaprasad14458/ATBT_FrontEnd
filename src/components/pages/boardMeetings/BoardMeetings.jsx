@@ -23,11 +23,11 @@ function BoardMeetings() {
                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
               </svg>
             </div>
-            <input type="search" id="default-search" class="block w-full px-4 py-2 ps-10 text-sm border-2 border-gray-200  rounded-2xl bg-gray-50  focus:outline-none " placeholder="Search here..." required />
+            <input type="search" id="default-search" class="block w-full px-4 py-2 ps-10 text-sm border-2 border-gray-200  rounded-md bg-gray-50  focus:outline-none " placeholder="Search here..." required />
           </div>
         </div>
         <div className='grid1-item mt-2 text-end filter_pagination'>
-          <select className="me-3 gap-x-1.5 rounded-md bg-gray-50 px-1 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-200 hover:bg-gray-50">
+          <select className="me-3 gap-x-1.5 focus:outline-none rounded-md bg-gray-50 px-1 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-200 hover:bg-gray-50">
             <option value="10">10</option>
             <option value="25">25</option>
             <option value="50">50</option>
@@ -102,7 +102,7 @@ function BoardMeetings() {
         </div>
       </div>
 
-      <div className="flex justify-start">
+      <div className="flex justify-start mt-5">
         <NavLink
           className={({ isActive, isPending }) =>
             isPending ? "cursor-pointer px-5 py-1 font-semibold pending" :

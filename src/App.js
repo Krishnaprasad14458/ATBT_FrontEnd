@@ -40,7 +40,7 @@ function App() {
   return (
     <div className="app">
       {!isChangePasswordRoute && authState.token ? <Sidebar /> : null}
-      <main className="content" style={{ overflow: "auto" }}>
+      <main className="content h-screen bg-[#f8fafc]" style={{ overflow: "auto" }}>
         {!isChangePasswordRoute && authState.token ? <TopBar /> : null}
         <Routes>
           <Route path="/login" element={<Login />} />
