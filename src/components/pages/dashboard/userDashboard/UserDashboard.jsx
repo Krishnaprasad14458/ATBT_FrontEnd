@@ -1,27 +1,12 @@
 import React, { useContext } from 'react'
-import { debounce, getDate } from '../../../../utils/utils';
 import { UserDataContext } from '../../../../contexts/usersDataContext';
 import { Link } from 'react-router-dom';
 import DashboardList from '../../../list/dashboardList/DashboardList';
+import useDebounce from '../../../../hooks/debounce/useDebounce';
 
 function UserDashboard() {
-  const localStorageData = JSON.parse(localStorage.getItem("data"));
-  const debouncedSetPage = debounce((newPage) => {
-    usersDispatch({
-      type: "SET_CUSTOM_PAGE",
-      payload: newPage
-    });
-  }, 300);
-
-  const debouncedSetSearch = debounce((e) => {
-    usersDispatch({
-      type: "SET_SEARCH",
-      payload: e.target.value
-    })
-  }, 500);
-
-  getDate();
-  const { usersState: { users, pagination }, usersDispatch } = useContext(UserDataContext);
+  const { usersState: { users, pagination },usersDispatch} = useContext(UserDataContext);
+  const {debouncedSetPage, debouncedSetSearch} = useDebounce(usersDispatch)
   return (
     <div class="w-full  text-center bg-white border border-gray-200 rounded-lg shadow sm:pt-4 dark:bg-gray-800 dark:border-gray-700">
       <div className='grid1-item overflow-hidden sm:w-full'>

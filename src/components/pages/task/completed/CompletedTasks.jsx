@@ -10,11 +10,11 @@ function classNames(...classes) {
 const tempdata = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0];
 
 function CompletedTasks() {
-  const [activeTab, setActiveTab] = useState(1);
+  // const [activeTab, setActiveTab] = useState(1);
 
-  const handleTabClick = (tabNumber) => {
-    setActiveTab(tabNumber);
-  };
+  // const handleTabClick = (tabNumber) => {
+  //   setActiveTab(tabNumber);
+  // };
   return (
     <>
       <div className="w-full mt-4">

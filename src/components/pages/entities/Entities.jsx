@@ -1,38 +1,28 @@
 import React, { useContext, useEffect } from 'react';
 import { Link, Outlet } from 'react-router-dom'
 import { EntitiesDataContext } from '../../../contexts/entitiesDataContext';
-import { debounce } from '../../../utils/utils';
 import './Entities.css';
 import { Fragment, useState } from 'react';
 import { Menu, Transition } from '@headlessui/react';
 import { ChevronDownIcon } from '@heroicons/react/20/solid';
+import useInitializePerPage from '../../../hooks/initializePerPage/useInitializePerPage';
+import useDebounce from '../../../hooks/debounce/useDebounce';
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
 function Entities() {
   const { entitiesState: { entities, pagination }, entitiesDispatch } = useContext(EntitiesDataContext);
+  useInitializePerPage(entitiesDispatch, 10);
+  const {debouncedSetPage, debouncedSetSearch} = useDebounce(entitiesDispatch);
 
-  useEffect(() => {
-    (() => entitiesDispatch({
+  const handlePerPageChange = (event) => {
+    const selectedValue = parseInt(event.target.value, 10);
+    entitiesDispatch({
       type: 'SET_PER_PAGE',
-      payload: 10
-    }))();
-  }, [])
-
-  const debouncedSetPage = debounce((newPage) => {
-    entitiesDispatch({
-      type: "SET_CUSTOM_PAGE",
-      payload: newPage
+      payload: selectedValue
     });
-  }, 300);
-
-  const debouncedSetSearch = debounce((e) => {
-    entitiesDispatch({
-      type: "SET_SEARCH",
-      payload: e.target.value
-    })
-  }, 500);
+  };
   return (
     <div className=' p-2 bg-[#f8fafc] overflow-hidden '>
       <div className='grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-3 xl:grid-col-3 gap-2'>
@@ -49,15 +39,14 @@ function Entities() {
           </div>
         </div>
         <div className='grid1-item mt-2 text-end filter_pagination'>
-          <select className="me-3 gap-x-1.5 rounded-md bg-gray-50 px-1 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-200 hover:bg-gray-50">
-            <option value="10">10</option>
-            <option value="25">25</option>
-            <option value="50">50</option>
-            <option value="100">100</option>
-            <option value="250">250</option>
-            <option value="500">500</option>
-
-          </select>
+          <select defaultValue="10" onChange={handlePerPageChange} className="me-3 gap-x-1.5 rounded-md bg-gray-50 px-1 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-200 hover:bg-gray-50">
+      <option value="10">10</option>
+      <option value="25">25</option>
+      <option value="50">50</option>
+      <option value="100">100</option>
+      <option value="250">250</option>
+      <option value="500">500</option>
+    </select>
           <Menu as="div" className="relative inline-block me-2 ">
             <div className=''>
               <Menu.Button className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-gray-50 px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-200 hover:bg-gray-50">
@@ -176,7 +165,7 @@ function Entities() {
           </div>
         </div>
       </div>
-      <div className=" flex justify-end item-end px-4 pt-3 sm:px-6">
+      <div className=" flex justify-end inset-x-0 bottom-0 px-4 pt-3 sm:px-6">
         <section className="isolate inline-flex -space-x-px rounded-md shadow-sm" aria-label="Pagination">
           <button
             disabled={pagination.currentPage == 1}
