@@ -1,9 +1,9 @@
-import React, { useContext } from 'react'
-import { EntitiesDataContext } from '../../../../contexts/entitiesDataContext';
 import { Link } from 'react-router-dom';
+import React, { useContext } from 'react';
 import EntityList from '../../../list/entityList/EntityList';
-import useInitializePerPage from '../../../../hooks/initializePerPage/useInitializePerPage';
 import useDebounce from '../../../../hooks/debounce/useDebounce';
+import { EntitiesDataContext } from '../../../../contexts/entitiesDataContext';
+import useInitializePerPage from '../../../../hooks/initializePerPage/useInitializePerPage';
 
 function EntityDashboard() {
   const { entitiesState: { entities, pagination }, entitiesDispatch } = useContext(EntitiesDataContext);
