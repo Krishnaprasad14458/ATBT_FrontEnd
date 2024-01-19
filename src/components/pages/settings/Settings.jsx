@@ -27,7 +27,7 @@ function Settings() {
   const handleChooseFileClick = () => {
     document.getElementById('fileInput').click();
   };
-  // toggles
+  
 
   return (
     <div className='container p-3 bg-[#f8fafc] '>
