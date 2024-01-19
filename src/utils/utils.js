@@ -19,3 +19,10 @@ export function debounce(func, delay) {
     }, delay);
   };
 }
+
+
+export const formatDate = (createdAt) => {
+  const parsedDate = new Date(createdAt);
+  const options = { year: 'numeric', month: 'long', day: 'numeric' };
+  return parsedDate.toLocaleDateString(undefined, options);
+};
