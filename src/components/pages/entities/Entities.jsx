@@ -24,10 +24,11 @@ function Entities() {
     });
   };
   return (
-    <div className=' p-2 bg-[#f8fafc] overflow-hidden '>
-      <div className='grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-3 xl:grid-col-3 gap-2 '>
-        <h1 className='mx-3 mt-2  font-semibold text-lg grid1-item'>Entities</h1>
-        <div className='grid1-item mx-3 mt-2 text-start'>
+    <div className=' p-2 bg-[#f8fafc] overflow-hidden'>
+      {/* search & filter */}
+      <div className='grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-3 xl:grid-col-3 gap-2 mt-2'>
+        <h1 className='mx-3 font-semibold text-lg grid1-item'>Entities</h1>
+        <div className='grid1-item mx-3 text-start'>
           <label for="default-search" className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
           <div className="relative">
             <div className="absolute inset-y-0 start-0 flex items-center p-2 pointer-events-none">
@@ -38,7 +39,7 @@ function Entities() {
             <input onChange={(e) => debouncedSetSearch(e)} type="search" id="default-search" className="block w-full px-4 py-2 ps-10 text-sm border-2 border-gray-200  rounded-2xl bg-gray-50  focus:outline-none " placeholder="Search here..." required />
           </div>
         </div>
-        <div className='grid1-item mt-2 text-end filter_pagination  '>
+        <div className='grid1-item text-end filter_pagination  '>
           <select defaultValue="10" onChange={handlePerPageChange} className="focus:outline-none me-3 gap-x-1.5 rounded-md bg-gray-50 px-1 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-200 hover:bg-gray-50">
             <option value="10">10</option>
             <option value="25">25</option>
@@ -113,14 +114,13 @@ function Entities() {
 
         </div>
       </div >
-
-      <div className="mt-8">
+      {/* table */}
+      <div className="mt-3">
         <div className="p-1.5 min-w-full inline-block align-middle">
-          <div className="overflow-y-scroll max-h-[531px]">
+          <div className="overflow-y-scroll max-h-[520px]">
             <table className=" w-full table-auto min-w-full divide-y divide-gray-200 dark:divide-gray-700 border-collapse border border-[#e5e7eb] rounded-md ">
               <thead className='sticky top-0'>
                 <tr>
-                  <th scope="col" className="px-6 py-2 text-center text-md font-semibold text-white bg-orange-600  border-collapse border border-[#e5e7eb] ">S.no</th>
                   <th scope="col" className="px-6 py-2 text-center text-md font-semibold text-white bg-orange-600  border-collapse border border-[#e5e7eb] ">Id</th>
                   <th scope="col" className="px-6 py-2 text-center text-md font-semibold text-white bg-orange-600   border-collapse border border-[#e5e7eb]">Entity</th>
                   <th scope="col" className="px-6 py-2 text-center text-md font-semibold text-white bg-orange-600   border-collapse border border-[#e5e7eb]">Date</th>
@@ -129,16 +129,15 @@ function Entities() {
                   <th scope="col" className="px-6 py-2 text-center text-md font-semibold text-white bg-orange-600   border-collapse border border-[#e5e7eb] ">Actions </th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-200 dark:divide-gray-700 h-">
+              <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
                 {pagination?.paginatedEntities?.map((item, index) => (
                   <tr className="hover:bg-gray-100 dark:hover:bg-gray-700">
-                    <td className="px-6 py-3 whitespace-nowrap text-center  text-sm font-medium text-gray-800 border-collapse border border-[#e5e7eb]">{(pagination.currentPage + index)}</td>
-                    <td className="px-6 py-3 whitespace-nowrap text-center  text-sm font-medium text-gray-800 border-collapse border border-[#e5e7eb]">{item.id}</td>
-                    <td className="px-6 py-3 whitespace-nowrap text-center  text-sm font-medium text-gray-800 border-collapse border border-[#e5e7eb] hover:text-orange-500 "><Link to="/taskform">{item.entity}</Link></td>
-                    <td className="px-6 py-3 whitespace-nowrap text-center  text-sm font-medium text-gray-800 border-collapse border border-[#e5e7eb]">{item.date}</td>
-                    <td className="px-6 py-3 whitespace-nowrap text-center  text-sm font-medium text-gray-800 border-collapse border border-[#e5e7eb]">{item.time}</td>
-                    <td className="px-6 py-3 whitespace-nowrap text-center  text-sm font-medium text-gray-800 border-collapse border border-[#e5e7eb]">{item.venue}</td>
-                    <td className="px-6 py-3 whitespace-nowrap text-center  text-sm font-medium text-gray-800  flex justify-evenly">
+                    <td className="px-6 py-2.5 whitespace-nowrap text-center  text-sm font-medium text-gray-800 border-collapse border border-[#e5e7eb]">{item.id}</td>
+                    <td className="px-6 py-2.5 whitespace-nowrap text-center  text-sm font-medium text-gray-800 border-collapse border border-[#e5e7eb] hover:text-orange-500 "><Link to="/taskform">{item.entity}</Link></td>
+                    <td className="px-6 py-2.5 whitespace-nowrap text-center  text-sm font-medium text-gray-800 border-collapse border border-[#e5e7eb]">{item.date}</td>
+                    <td className="px-6 py-2.5 whitespace-nowrap text-center  text-sm font-medium text-gray-800 border-collapse border border-[#e5e7eb]">{item.time}</td>
+                    <td className="px-6 py-2.5 whitespace-nowrap text-center  text-sm font-medium text-gray-800 border-collapse border border-[#e5e7eb]">{item.venue}</td>
+                    <td className="px-6 py-2.5 whitespace-nowrap text-center  text-sm font-medium text-gray-800  flex justify-evenly">
                       <button type="button" className="inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5">
                           <path d="M10 12.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z" />
@@ -165,6 +164,7 @@ function Entities() {
           </div>
         </div>
       </div>
+      {/* pagination */}
       <div className="flex justify-end absolute inset-x-0 bottom-2 px-4 pt-3 sm:px-6">
         <section className="isolate inline-flex -space-x-px rounded-md shadow-sm" aria-label="Pagination">
           <button
