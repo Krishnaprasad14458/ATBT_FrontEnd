@@ -7,14 +7,14 @@ const Sidebar = () => {
         {
             name: "Home", link: "/", icon: <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5">
                 <path fill-rule="evenodd" d="M9.293 2.293a1 1 0 0 1 1.414 0l7 7A1 1 0 0 1 17 11h-1v6a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1v-3a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v3a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-6H3a1 1 0 0 1-.707-1.707l7-7Z" clip-rule="evenodd" />
-            </svg>, active: true,
+            </svg>
 
 
         },
         {
             name: "Entities", link: "/entities", icon: <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5">
                 <path fill-rule="evenodd" d="M8 1a.75.75 0 0 1 .75.75V6h-1.5V1.75A.75.75 0 0 1 8 1Zm-.75 5v3.296l-.943-1.048a.75.75 0 1 0-1.114 1.004l2.25 2.5a.75.75 0 0 0 1.114 0l2.25-2.5a.75.75 0 0 0-1.114-1.004L8.75 9.296V6h2A2.25 2.25 0 0 1 13 8.25v4.5A2.25 2.25 0 0 1 10.75 15h-5.5A2.25 2.25 0 0 1 3 12.75v-4.5A2.25 2.25 0 0 1 5.25 6h2ZM7 16.75v-.25h3.75a3.75 3.75 0 0 0 3.75-3.75V10h.25A2.25 2.25 0 0 1 17 12.25v4.5A2.25 2.25 0 0 1 14.75 19h-5.5A2.25 2.25 0 0 1 7 16.75Z" clip-rule="evenodd" />
-            </svg>, active: false,
+            </svg>
 
         },
         {
@@ -54,7 +54,7 @@ const Sidebar = () => {
     const [open, setOpen] = useState(true);
     const [active, setActive] = useState("Home")
     return (
-        <div className='sidebar h-screen'>
+        <div className='sidebar'>
             <main className="bg-white-500 flex ">
 
                 <div className='relative'>
@@ -72,11 +72,12 @@ duration-500 text-gray-100 px-2`}>
                                 menus?.map((menu, i) => (
                                     <Link to={menu?.link} key={i}
                                         onClick={(e) => { setActive(menu.name) }}
-                                        className={`group flex items-center text-md gap-3.5 font-semibold p-2 leading-normal
+                                        className={`group flex items-center text-sm gap-3.5 font-semibold p-2 leading-normal
+                                 
                                          hover:bg-orange-600 hover:text-white rounded-md
                                          ${menu?.name === active ? 'text-orange-600' : 'black'  // Apply orange color for active menu
                                             }`}>
-                                        <div style={{ width: "1.5rem", height: "1.5rem", marginLeft: "5px" }}>
+                                        <div style={{ width: "1rem", height: "1rem", marginLeft: "5px" }}>
                                             {menu?.icon}
                                         </div>
                                         <h3
@@ -97,7 +98,7 @@ duration-500 text-gray-100 px-2`}>
                             }
 
                         </div>
-                        <div className={`absolute inset-x-0 bottom-0  ${open ? '' : 'hidden'}`}>
+                        <div className={`absolute inset-x-0 bottom-2 ${open ? '' : 'hidden'}`}>
                             <p className='text-center text-gray-500 text-sm'>Developed by @Infoz IT V0.1  </p>
                         </div>
                     </div>

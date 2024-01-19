@@ -37,7 +37,7 @@ function Dashboard() {
         </div>
       </div>
       <div className="mt-8">
-        <div className='grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-col-2 gap-10 px-6 dashboard-main'>
+        <div className='grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-col-2 gap-10 px-7 dashboard-main'>
           <EntityDashboard />
           <UserDashboard />
         </div>

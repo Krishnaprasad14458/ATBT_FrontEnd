@@ -72,7 +72,7 @@ function UpcommingBoardMeetings() {
           </div>
         </div>
       </div>
-      <div className="flex justify-end item-end px-4 pt-3 pb-2 sm:px-6">
+      <div className="flex justify-end  absolute inset-x-0 bottom-2 px-4 pt-3 sm:px-6">
         <section className="isolate inline-flex -space-x-px rounded-md shadow-sm" aria-label="Pagination">
           <button
             disabled={pagination.currentPage == 1}
