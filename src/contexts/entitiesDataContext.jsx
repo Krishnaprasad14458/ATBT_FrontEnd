@@ -31,24 +31,39 @@ const EntitiesDataProvider = ({ children }) => {
     );
 
     const getpaginatedEntitiesData = async (pageNo=1,search="",perPage=5) => {
-        const searchedEntities = items?.filter((entity) => {
-            return entity.entity.toLowerCase().includes(search)
-          },
-          )
-          const totalPages = Math.ceil(searchedEntities.length / perPage);
-          const paginatedResults = searchedEntities.slice(
-            (pageNo - 1) * perPage,
-            pageNo * perPage,
-          );
-        return entitiesDispatch({
-            type: "SET_PAGINATED_ENTITIES",
-            payload: {
-                data: paginatedResults,
-                currentPage: pageNo,
-                totalPages: totalPages
-            }
-        })
+      try {
+        const { status, data } = await axios.get(`https://atbtmain.teksacademy.com/entite/list`);
+        console.log(data.Entites);
+        const searchedEntities = data.Entites?.filter((entity) => {
+          return entity.Entite_Name.toLowerCase().includes(search)
+        },
+        )
+        const totalPages = Math.ceil(searchedEntities.length / perPage);
+        const paginatedResults = searchedEntities.slice(
+          (pageNo - 1) * perPage,
+          pageNo * perPage,
+        );
+      return entitiesDispatch({
+          type: "SET_PAGINATED_ENTITIES",
+          payload: {
+              data: paginatedResults,
+              currentPage: pageNo,
+              totalPages: totalPages
+          }
+      })
+      } catch (error) {
+        console.error(error);
+      }
       };
+
+      const deleteEntitybyId = async(id)=> {
+        try {
+          const data = await axios.delete(`https://atbtmain.teksacademy.com/entite/delete/${id}`)
+          console.log(data, "delete")
+        } catch (error) {
+         console.log(error) 
+        }
+      }
     useEffect(() => {
       getpaginatedEntitiesData(entitiesState?.pagination?.currentPage,entitiesState?.pagination?.search,entitiesState?.pagination?.perPage);
       // eslint-disable-next-line
@@ -60,6 +75,7 @@ const EntitiesDataProvider = ({ children }) => {
           entitiesState,
           entitiesDispatch,
           getpaginatedEntitiesData,
+          deleteEntitybyId,
         }}
       >
         {children}
