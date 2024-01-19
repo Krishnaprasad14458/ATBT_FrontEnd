@@ -31,6 +31,7 @@ import UpcommingBoardMeetings from './components/pages/boardMeetings/upcomming/U
 import CompletedTasks from './components/pages/task/completed/CompletedTasks';
 import UpcommingTasks from './components/pages/task/upcomming/UpcommingTasks';
 import OverdueTasks from './components/pages/task/overdue/OverdueTasks';
+import EntityLandingPage from './components/pages/entities/EntityLandingPage';
 
 
 function App() {
@@ -53,7 +54,9 @@ function App() {
             <Route path='/teams' element={<Teams />} />
             <Route path='/entities' element={<Entities />}>
               <Route path="otl" element={<EntityForm />} />
+
             </Route>
+            <Route path="/entitylandingpage" element={<EntityLandingPage />} />
             <Route path="/entities/new" element={<EntityForm />} />
             <Route path='/boardmeetings' element={<BoardMeetings />}>
               <Route path="completed" element={<CompletedBoardMeetings />} />
