@@ -22,6 +22,7 @@ const AuthProvider = ({ children }) => {
   const [authState, authDispatch] = useReducer(authReducer, initialAuth);
 
   const adminLogin = async (loginData) => {
+    console.log(loginData)
     try {
       const { status, data } = await toast.promise(
         axios.post(`https://www.atbtbeta.teksacademy.com/adminlogin`, loginData),
@@ -56,7 +57,7 @@ const AuthProvider = ({ children }) => {
         {
           pending: 'Creating User...',
           success: {
-            render({data: {data: {reqBody: {name}}}}) {
+            render({data: {data: {reqBody: {name = ""}}}}) {
               console.log(name)
               return `user ${name} created`
             }
