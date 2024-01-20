@@ -24,8 +24,8 @@ function UserForm() {
   return (
     <div>
       <div className='container p-3 bg-[#f8fafc] '>
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-4">
-          <div class="col-span-1 p-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-4">
+          <div className="col-span-1 p-3">
             <p className="text-lg font-semibold">New User</p>
             <form className="space-y-3 mt-4" method="POST">
               <div>
@@ -74,14 +74,14 @@ function UserForm() {
               </div> */}
               {/* <div>
                 <label htmlFor="designation" className="block text-sm font-medium leading-6 text-gray-900">Select Entity</label>
-                <div class="relative inline-block text-left w-full">
-                  <select class="block appearance-none p-3 w-full rounded-md border border-1 border-gray-400 py-1.5 text-gray-900 shadow-sm  placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6">
+                <div className="relative inline-block text-left w-full">
+                  <select className="block appearance-none p-3 w-full rounded-md border border-1 border-gray-400 py-1.5 text-gray-900 shadow-sm  placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6">
                     <option value="option1">Option 1</option>
                     <option value="option2">Option 2</option>
                     <option value="option3">Option 3</option>
                   </select>
-                  <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                     </svg>
                   </div>
@@ -94,14 +94,14 @@ function UserForm() {
               </div>
             </form>
           </div>
-          <div class="col-span-2 p-3">
-            <div class="rounded-md overflow-hidden shadow-md">
-              <div class="p-4">
-                <h2 class="text-md text-gray-800">User Details</h2>
-                <h3 class="text-md text-gray-800">Name: {userDetails?.name}</h3>
-                <h3 class="text-md text-gray-800">Email: {userDetails?.email}</h3>
-                <h3 class="text-md text-gray-800">Phone: {userDetails?.phonenumber}</h3>
-                <h3 class="text-md text-gray-800">Designation: {userDetails?.designation}</h3>
+          <div className="col-span-2 p-3">
+            <div className="rounded-md overflow-hidden shadow-md">
+              <div className="p-4">
+                <h2 className="text-md text-gray-800">User Details</h2>
+                <h3 className="text-md text-gray-800">Name: {userDetails?.name}</h3>
+                <h3 className="text-md text-gray-800">Email: {userDetails?.email}</h3>
+                <h3 className="text-md text-gray-800">Phone: {userDetails?.phonenumber}</h3>
+                <h3 className="text-md text-gray-800">Designation: {userDetails?.designation}</h3>
               </div>
             </div>
           </div>
