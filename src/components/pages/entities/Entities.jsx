@@ -131,6 +131,7 @@ function Entities() {
               </thead>
               <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
                 {pagination?.paginatedEntities?.map((item, index) => (
+
                   <tr class="hover:bg-gray-100 dark:hover:bg-gray-700">
                     <td class="px-6 py-3 whitespace-nowrap text-center  text-sm font-medium text-gray-800 border-collapse border border-[#e5e7eb]">{item.id}</td>
                     <td class="px-6 py-3 whitespace-nowrap text-center  text-sm font-medium text-gray-800 border-collapse border border-[#e5e7eb] hover:text-orange-500 "><Link to="/taskform">{item.Entite_Name}</Link></td>
