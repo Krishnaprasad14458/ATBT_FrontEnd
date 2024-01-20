@@ -34,8 +34,8 @@ function EntityForm() {
     <div className='container p-2 bg-[#f8fafc]'>
       {/* <p className="font-lg font-semibold p-3">Entity Form</p> */}
       <p className="text-lg font-semibold">New Entity</p>
-      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-4 mt-3">
-        <div class="col-span-1">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-4 mt-3">
+        <div className="col-span-1">
           <form className="space-y-3" method="POST">
             <div>
               <label htmlFor="name" className="block text-sm font-medium leading-6 text-gray-900">Entity Name</label>
@@ -56,7 +56,7 @@ function EntityForm() {
             <div>
               <label htmlFor="name" className=" block text-sm font-medium leading-6 text-gray-900">Description</label>
               <div className=''>
-                <textarea class="resize-none border rounded-md p-2 w-full h-28 border-1 border-gray-400 focus:outline-none focus:border-orange-400"></textarea>
+                <textarea className="resize-none border rounded-md p-2 w-full h-28 border-1 border-gray-400 focus:outline-none focus:border-orange-400"></textarea>
               </div>
             </div>
             <div>
@@ -71,7 +71,7 @@ function EntityForm() {
             </div>
           </form>
         </div>
-        <div class="col-span-2 shadow-lg p-4">
+        <div className="col-span-2 shadow-lg p-4">
           <div className="flex mb-2">
             <div className="group h-16">
               {imageSrc ? (
@@ -88,7 +88,7 @@ function EntityForm() {
                 />
               )}
             </div>
-            <p class="text-lg font-semibold text-gray-800 mt-4">Bhavitha</p>
+            <p className="text-lg font-semibold text-gray-800 mt-4">Bhavitha</p>
           </div>
           <div className='border-2 h-26 p-2'>
             <p className='text-sm'>The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).</p>

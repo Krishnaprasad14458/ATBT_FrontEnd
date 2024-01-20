@@ -15,8 +15,8 @@ function Dashboard() {
     <div className="container p-2 bg-[#f8fafc] ">
       <h1 className='m-2 font-semibold text-lg'>Home</h1>
       <div className='text-center'>
-        <h6 class="text-sm date_time">{getDate()}</h6>
-        <h4 class=" text-2xl font-normal dark:text-white welcome_user">Welcome {localStorageData.user.fullname}</h4>
+        <h6 className="text-sm date_time">{getDate()}</h6>
+        <h4 className=" text-2xl font-normal dark:text-white welcome_user">Welcome {localStorageData.user.fullname}</h4>
         <div className='flex flex-wrap mt-2 justify-center'>
           <div className="tota_tasks border-r-2 border-black-100 bg-gray-100 p-2 rounded-s-full">
             <h6 className='mr-4 ml-4 px-2 pt-1 text-xs text-[#929297]'>Total Tasks</h6>
