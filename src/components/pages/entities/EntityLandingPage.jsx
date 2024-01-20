@@ -67,65 +67,64 @@ const EntityLandingPage = () => {
             setNewTask("");
         }
     };
+
     return (
         <div className="container p-2 bg-[#f8fafc]">
-            <h1 className='mx-3 my-2  font-semibold text-lg grid1-item'>Entity Landing Page</h1>
+            {/* <h1 className='font-semibold text-lg grid1-item'>Entity Landing Page</h1> */}
             {/* entity name and entity logo */}
             <div className='flex gap-3'>
-                <img class="w-8 h-8 rounded-full mx-3 my-2" src={defprop} alt="Neil image" />
-                <h4 className='my-3'> Infoz IT</h4>
+                <img class="w-8 h-8 rounded-full mx-2 mt-2" src={defprop} alt="Neil image" />
+                <h4 className='my-3'>Infoz IT</h4>
             </div>
             <div className=''>
                 <div className='flex'>
-
-
                     <div
-                        className={`cursor-pointer px-5 py-1 text-sm  ${activeTab === 1 ? 'border-b-2 border-orange-600 text-black' : ''
+                        className={`cursor-pointer px-1 py-1 text-md font-semibold  ${activeTab === 1 ? 'border-b-2 border-orange-600 text-black' : ''
                             }`}
                         onClick={() => handleTabClick(1)}>Overview
                     </div>
 
                     <div
-                        className={`cursor-pointer px-5 py-1 text-sm font-medium  ${activeTab === 2 ? 'border-b-2 border-orange-600 text-black' : ''
+                        className={`cursor-pointer px-5 py-1 text-md font-semibold  ${activeTab === 2 ? 'border-b-2 border-orange-600 text-black' : ''
                             }`}
                         onClick={() => handleTabClick(2)}>
 
                         List
                     </div>
                     <div
-                        className={`cursor-pointer px-5 py-1 text-sm font-medium  ${activeTab === 3 ? 'border-b-2 border-orange-600 text-black' : ''
+                        className={`cursor-pointer px-5 py-1 text-md font-semibold  ${activeTab === 3 ? 'border-b-2 border-orange-600 text-black' : ''
                             }`}
                         onClick={() => handleTabClick(3)}>Calendar
                     </div>
                     <div
-                        className={`cursor-pointer px-5 py-1 text-sm font-medium ${activeTab === 4 ? 'border-b-2 border-orange-600 text-black' : ''
+                        className={`cursor-pointer px-5 py-1 text-md font-semibold ${activeTab === 4 ? 'border-b-2 border-orange-600 text-black' : ''
                             }`}
                         onClick={() => handleTabClick(4)}>Dashboard
                     </div>
                     <div
-                        className={`cursor-pointer px-5 py-1 text-sm font-medium  ${activeTab === 5 ? 'border-b-2 border-orange-600 text-black' : ''
+                        className={`cursor-pointer px-5 py-1 text-md font-semibold  ${activeTab === 5 ? 'border-b-2 border-orange-600 text-black' : ''
                             }`}
                         onClick={() => handleTabClick(5)}>Messages
                     </div>
                     <div
-                        className={`cursor-pointer px-5 py-1 text-sm font-medium  ${activeTab === 6 ? 'border-b-2 border-orange-600 text-black' : ''
+                        className={`cursor-pointer px-5 py-1 text-md font-semibold  ${activeTab === 6 ? 'border-b-2 border-orange-600 text-black' : ''
                             }`}
                         onClick={() => handleTabClick(6)}>files
                     </div>
                 </div><hr />
             </div>
             {activeTab === 1 && <div className="mt-4">
-                <form className="space-y-4 px-4 mt-4 grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-col-2 gap-2" method="POST">
+                <form className="space-y-4 grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-col-2 gap-2" method="POST">
                     <div className='grid1-item'>
                         <div>
                             <label htmlFor="name" className="block text-sm font-medium leading-6 text-gray-900">Entity Name</label>
-                            <div className="mt-2">
+                            <div className="">
                                 <input id="name" name="name" type="text" autoComplete="name" required className="p-3 block w-full rounded-md border border-1 border-gray-400 py-1.5 text-gray-900 appearance-none shadow-sm  placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6" />
                             </div>
                         </div>
                         <div>
                             <label htmlFor="name" className="block text-sm font-medium leading-6 text-gray-900">Description</label>
-                            <div className='mt-2'>
+                            <div className=''>
                                 <textarea class="resize-none border rounded-md p-2 w-full h-32 border-1 border-gray-400 focus:outline-none focus:border-orange-400"></textarea>
                             </div>
                         </div>
@@ -140,7 +139,7 @@ const EntityLandingPage = () => {
                             </div>
                             <div className='grid1-item flex'>
                                 <img class="w-8 h-8 rounded-full mx-3 my-2" src={defprop} alt="Neil image" />
-                                <h4 className='my-3'>Laskhmi</h4>
+                                <h4 className='my-3'>Lakshmi</h4>
                             </div>
                         </div>
                         <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3'>
@@ -180,12 +179,12 @@ const EntityLandingPage = () => {
                                 <img class="w-8 h-8 rounded-full mx-3 my-2" src={defprop} alt="Neil image" />
                                 <h4 className='my-3'> Moiz</h4>
                             </div>
-                            <div className='grid1-item flex ms-4 gap-2'>
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5 mt-4">
+                            <div className='grid1-item flex'>
+                                <img class="w-8 h-8 rounded-full mx-3 my-2" src={defprop} alt="Neil image" />
+                                {/* <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5 mt-4">
                                     <path d="M10.75 4.75a.75.75 0 0 0-1.5 0v4.5h-4.5a.75.75 0 0 0 0 1.5h4.5v4.5a.75.75 0 0 0 1.5 0v-4.5h4.5a.75.75 0 0 0 0-1.5h-4.5v-4.5Z" />
-                                </svg>
-
-                                <h4 className='my-3'>more</h4>
+                                </svg> */}
+                                <p className='mt-4'> 2 more</p>
                             </div>
                         </div>
 
@@ -194,8 +193,8 @@ const EntityLandingPage = () => {
                 </form>
             </div>
             }
-            {activeTab === 2 && <div className="mt-4">
-                <div className='mt-2 flex justify-end'>
+            {activeTab === 2 && <div className="">
+                <div className='flex justify-end'>
 
                     <Menu as="div" className="relative inline-block ms-3 mt-1">
                         <div className=''>
@@ -332,23 +331,36 @@ const EntityLandingPage = () => {
                     </div>
                 </div>
 
-                <table class="min-w-full mt-3 divide-y divide-gray-200 dark:divide-gray-700 border-collapse border border-[#e5e7eb] rounded-md ">
+                <table class="min-w-full mt-1 divide-y divide-gray-200 dark:divide-gray-700 border-collapse border border-[#e5e7eb] rounded-md ">
                     <thead>
                         <tr >
-                            <th scope="col" class="px-6 py-2 text-center text-md font-semibold text-white bg-orange-600  border-collapse border border-[#e5e7eb] ">Task Name</th>
-                            <th scope="col" class="px-6 py-2 text-center text-md font-semibold text-white bg-orange-600  border-collapse border border-[#e5e7eb] ">Assigne</th>
-                            <th scope="col" class="px-6 py-2 text-center text-md font-semibold text-white bg-orange-600   border-collapse border border-[#e5e7eb]">Due Date</th>
-                            <th scope="col" class="px-6 py-2 text-center text-md font-semibold text-white bg-orange-600   border-collapse border border-[#e5e7eb]">Board Meeting</th>
-                            <th scope="col" class="px-6 py-2 text-center text-md font-semibold text-white bg-orange-600  border-collapse border border-[#e5e7eb] ">Priority</th>
-                            <th scope="col" class="px-6 py-2 text-center text-md font-semibold text-white bg-orange-600   border-collapse border border-[#e5e7eb] ">Status</th>
-                            <th scope="col" class="px-6 py-2 text-center text-md font-semibold text-white bg-orange-600   border-collapse border border-[#e5e7eb] ">Create by User </th>
-                            <th scope="col" class="px-6 py-2 text-center text-md font-semibold text-white bg-orange-600   border-collapse border border-[#e5e7eb] ">Update by Admin </th>
+                            <th scope="col" class="px-6 py-2 text-center text-sm text-white bg-orange-600  border-collapse border border-[#e5e7eb] ">Task Name</th>
+                            <th scope="col" class="px-6 py-2 text-center text-sm text-white bg-orange-600  border-collapse border border-[#e5e7eb] ">Assign</th>
+                            <th scope="col" class="px-6 py-2 text-center text-sm text-white bg-orange-600   border-collapse border border-[#e5e7eb]">Due Date</th>
+                            <th scope="col" class="px-6 py-2 text-center text-sm text-white bg-orange-600   border-collapse border border-[#e5e7eb]">Board Meeting</th>
+                            <th scope="col" class="px-6 py-2 text-center text-sm text-white bg-orange-600  border-collapse border border-[#e5e7eb] ">Priority</th>
+                            <th scope="col" class="px-6 py-2 text-center text-sm text-white bg-orange-600   border-collapse border border-[#e5e7eb] ">Status</th>
+                            <th scope="col" class="px-6 py-2 text-center text-sm text-white bg-orange-600   border-collapse border border-[#e5e7eb] ">Create by User </th>
+                            <th scope="col" class="px-6 py-2 text-center text-sm text-white bg-orange-600   border-collapse border border-[#e5e7eb] ">Update by Admin </th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-gray-200 dark:divide-gray-700 h-">
-
+                    <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
                     </tbody>
                 </table>
+                <div>
+                    <div className='flex flex-start mt-2'>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5">
+                            <path fillRule="evenodd" d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z" clipRule="evenodd" />
+                        </svg>
+                        <p className='text-md ms-2 font-semibold mb-3'>To Do</p>
+                    </div>
+                    <div className='flex flex-start border-t-2 border-gray-200'>
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                        </svg>
+                        <p className='ms-2'>Draft project brief</p>
+                    </div>
+                </div>
             </div>}
             {activeTab === 3 && <div className="mt-4">
                 <div>
