@@ -34,8 +34,8 @@ function EntityForm() {
     <div className='container p-3 bg-[#f8fafc]'>
       {/* <p className="font-lg font-semibold p-3">Entity Form</p> */}
       <p className="text-lg font-semibold">New Entity</p>
-      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-4 mt-3">
-        <div class="col-span-1">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-4 mt-3">
+        <div className="col-span-1">
           <form className="space-y-3" method="POST">
             <div>
               <label htmlFor="name" className="block text-md font-medium leading-6 my-2 text-gray-900">Entity Name</label>
@@ -56,7 +56,7 @@ function EntityForm() {
             <div>
               <label htmlFor="name" className=" block text-md my-2 font-medium leading-6 text-gray-900">Description</label>
               <div className=''>
-                <textarea class="resize-none bg-gray-50 rounded-md p-2 w-full h-28 border-2 border-gray-200 focus:outline-none focus:border-orange-400"></textarea>
+                <textarea className="resize-none border rounded-md p-2 w-full h-28 border-1 border-gray-400 focus:outline-none focus:border-orange-400"></textarea>
               </div>
             </div>
             <div>
@@ -71,8 +71,8 @@ function EntityForm() {
             </div>
           </form>
         </div>
-        <div class="col-span-2 shadow-lg border-2 p-4">
-          <div className="flex  gap-4">
+        <div className="col-span-2 shadow-lg p-4">
+          <div className="flex mb-2">
             <div className="group h-16">
               {imageSrc ? (
                 <img
@@ -89,7 +89,7 @@ function EntityForm() {
                 // />
               )}
             </div>
-            <p class="text-lg font-semibold text-gray-800 mt-2">Bhavitha</p>
+            <p className="text-lg font-semibold text-gray-800 mt-4">Bhavitha</p>
           </div>
           <hr />
           {/* <div className='border-2 h-26 p-2'>

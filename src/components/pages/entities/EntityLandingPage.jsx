@@ -73,7 +73,7 @@ const EntityLandingPage = () => {
             {/* <h1 className='font-semibold text-lg grid1-item'>Entity Landing Page</h1> */}
             {/* entity name and entity logo */}
             <div className='flex gap-3'>
-                <img class="w-8 h-8 rounded-full mx-2 mt-2" src={defprop} alt="Neil image" />
+                <img className="w-8 h-8 rounded-full mx-2 mt-2" src={defprop} alt="Neil image" />
                 <h4 className='my-3'>Infoz IT</h4>
             </div>
             <div className=''>
@@ -125,63 +125,63 @@ const EntityLandingPage = () => {
                         <div>
                             <label htmlFor="name" className="block text-sm font-medium leading-6 text-gray-900">Description</label>
                             <div className=''>
-                                <textarea class="resize-none border rounded-md p-2 w-full h-32 border-1 border-gray-400 focus:outline-none focus:border-orange-400"></textarea>
+                                <textarea className="resize-none border rounded-md p-2 w-full h-32 border-1 border-gray-400 focus:outline-none focus:border-orange-400"></textarea>
                             </div>
                         </div>
                         <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3'>
                             <div className='grid1-item flex'>
-                                <img class="w-8 h-8 rounded-full mx-3 my-2" src={defprop} alt="Neil image" />
+                                <img className="w-8 h-8 rounded-full mx-3 my-2" src={defprop} alt="Neil image" />
                                 <h4 className='my-3'> Bhavitha</h4>
                             </div>
                             <div className='grid1-item flex'>
-                                <img class="w-8 h-8 rounded-full mx-3 my-2" src={defprop} alt="Neil image" />
+                                <img className="w-8 h-8 rounded-full mx-3 my-2" src={defprop} alt="Neil image" />
                                 <h4 className='my-3'> Irshad</h4>
                             </div>
                             <div className='grid1-item flex'>
-                                <img class="w-8 h-8 rounded-full mx-3 my-2" src={defprop} alt="Neil image" />
+                                <img className="w-8 h-8 rounded-full mx-3 my-2" src={defprop} alt="Neil image" />
                                 <h4 className='my-3'>Lakshmi</h4>
                             </div>
                         </div>
                         <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3'>
                             <div className='grid1-item flex'>
-                                <img class="w-8 h-8 rounded-full mx-3 my-2" src={defprop} alt="Neil image" />
+                                <img className="w-8 h-8 rounded-full mx-3 my-2" src={defprop} alt="Neil image" />
                                 <h4 className='my-3'> Niraj</h4>
                             </div>
                             <div className='grid1-item flex'>
-                                <img class="w-8 h-8 rounded-full mx-3 my-2" src={defprop} alt="Neil image" />
+                                <img className="w-8 h-8 rounded-full mx-3 my-2" src={defprop} alt="Neil image" />
                                 <h4 className='my-3'> Irfan</h4>
                             </div>
                             <div className='grid1-item flex'>
-                                <img class="w-8 h-8 rounded-full mx-3 my-2" src={defprop} alt="Neil image" />
+                                <img className="w-8 h-8 rounded-full mx-3 my-2" src={defprop} alt="Neil image" />
                                 <h4 className='my-3'>Krishna</h4>
                             </div>
                         </div>
                         <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3'>
                             <div className='grid1-item flex'>
-                                <img class="w-8 h-8 rounded-full mx-3 my-2" src={defprop} alt="Neil image" />
+                                <img className="w-8 h-8 rounded-full mx-3 my-2" src={defprop} alt="Neil image" />
                                 <h4 className='my-3'>sasi</h4>
                             </div>
                             <div className='grid1-item flex'>
-                                <img class="w-8 h-8 rounded-full mx-3 my-2" src={defprop} alt="Neil image" />
+                                <img className="w-8 h-8 rounded-full mx-3 my-2" src={defprop} alt="Neil image" />
                                 <h4 className='my-3'> Moiz</h4>
                             </div>
                             <div className='grid1-item flex'>
-                                <img class="w-8 h-8 rounded-full mx-3 my-2" src={defprop} alt="Neil image" />
+                                <img className="w-8 h-8 rounded-full mx-3 my-2" src={defprop} alt="Neil image" />
                                 <h4 className='my-3'>Srikanth</h4>
                             </div>
                         </div>
                         <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3'>
                             <div className='grid1-item flex'>
-                                <img class="w-8 h-8 rounded-full mx-3 my-2" src={defprop} alt="Neil image" />
+                                <img className="w-8 h-8 rounded-full mx-3 my-2" src={defprop} alt="Neil image" />
                                 <h4 className='my-3'>sasi</h4>
                             </div>
                             <div className='grid1-item flex'>
-                                <img class="w-8 h-8 rounded-full mx-3 my-2" src={defprop} alt="Neil image" />
+                                <img className="w-8 h-8 rounded-full mx-3 my-2" src={defprop} alt="Neil image" />
                                 <h4 className='my-3'> Moiz</h4>
                             </div>
                             <div className='grid1-item flex'>
-                                <img class="w-8 h-8 rounded-full mx-3 my-2" src={defprop} alt="Neil image" />
-                                {/* <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5 mt-4">
+                                <img className="w-8 h-8 rounded-full mx-3 my-2" src={defprop} alt="Neil image" />
+                                {/* <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5 mt-4">
                                     <path d="M10.75 4.75a.75.75 0 0 0-1.5 0v4.5h-4.5a.75.75 0 0 0 0 1.5h4.5v4.5a.75.75 0 0 0 1.5 0v-4.5h4.5a.75.75 0 0 0 0-1.5h-4.5v-4.5Z" />
                                 </svg> */}
                                 <p className='mt-4'> 2 more</p>
@@ -323,28 +323,28 @@ const EntityLandingPage = () => {
                         </Transition>
                     </Menu>
                     <div>
-                        <button class=" ms-2 create-btn mt-1 inline-flex items-center justify-center whitespace-nowrap rounded-2xl text-sm font-medium  transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50  text-orange-foreground shadow hover:bg-orange/90 h-9 px-3 py-1 shrink-0 bg-orange-600 text-white gap-1">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5 ">
+                        <button className=" ms-2 create-btn mt-1 inline-flex items-center justify-center whitespace-nowrap rounded-2xl text-sm font-medium  transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50  text-orange-foreground shadow hover:bg-orange/90 h-9 px-3 py-1 shrink-0 bg-orange-600 text-white gap-1">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5 ">
                                 <path d="M10.75 4.75a.75.75 0 0 0-1.5 0v4.5h-4.5a.75.75 0 0 0 0 1.5h4.5v4.5a.75.75 0 0 0 1.5 0v-4.5h4.5a.75.75 0 0 0 0-1.5h-4.5v-4.5Z" />
                             </svg>
                             Add Task</button>
                     </div>
                 </div>
 
-                <table class="min-w-full mt-1 divide-y divide-gray-200 dark:divide-gray-700 border-collapse border border-[#e5e7eb] rounded-md ">
+                <table className="min-w-full mt-1 divide-y divide-gray-200 dark:divide-gray-700 border-collapse border border-[#e5e7eb] rounded-md ">
                     <thead>
                         <tr >
-                            <th scope="col" class="px-6 py-2 text-center text-sm text-white bg-orange-600  border-collapse border border-[#e5e7eb] ">Task Name</th>
-                            <th scope="col" class="px-6 py-2 text-center text-sm text-white bg-orange-600  border-collapse border border-[#e5e7eb] ">Assign</th>
-                            <th scope="col" class="px-6 py-2 text-center text-sm text-white bg-orange-600   border-collapse border border-[#e5e7eb]">Due Date</th>
-                            <th scope="col" class="px-6 py-2 text-center text-sm text-white bg-orange-600   border-collapse border border-[#e5e7eb]">Board Meeting</th>
-                            <th scope="col" class="px-6 py-2 text-center text-sm text-white bg-orange-600  border-collapse border border-[#e5e7eb] ">Priority</th>
-                            <th scope="col" class="px-6 py-2 text-center text-sm text-white bg-orange-600   border-collapse border border-[#e5e7eb] ">Status</th>
-                            <th scope="col" class="px-6 py-2 text-center text-sm text-white bg-orange-600   border-collapse border border-[#e5e7eb] ">Create by User </th>
-                            <th scope="col" class="px-6 py-2 text-center text-sm text-white bg-orange-600   border-collapse border border-[#e5e7eb] ">Update by Admin </th>
+                            <th scope="col" className="px-6 py-2 text-center text-sm text-white bg-orange-600  border-collapse border border-[#e5e7eb] ">Task Name</th>
+                            <th scope="col" className="px-6 py-2 text-center text-sm text-white bg-orange-600  border-collapse border border-[#e5e7eb] ">Assign</th>
+                            <th scope="col" className="px-6 py-2 text-center text-sm text-white bg-orange-600   border-collapse border border-[#e5e7eb]">Due Date</th>
+                            <th scope="col" className="px-6 py-2 text-center text-sm text-white bg-orange-600   border-collapse border border-[#e5e7eb]">Board Meeting</th>
+                            <th scope="col" className="px-6 py-2 text-center text-sm text-white bg-orange-600  border-collapse border border-[#e5e7eb] ">Priority</th>
+                            <th scope="col" className="px-6 py-2 text-center text-sm text-white bg-orange-600   border-collapse border border-[#e5e7eb] ">Status</th>
+                            <th scope="col" className="px-6 py-2 text-center text-sm text-white bg-orange-600   border-collapse border border-[#e5e7eb] ">Create by User </th>
+                            <th scope="col" className="px-6 py-2 text-center text-sm text-white bg-orange-600   border-collapse border border-[#e5e7eb] ">Update by Admin </th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
+                    <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
                     </tbody>
                 </table>
                 <div>
@@ -354,12 +354,32 @@ const EntityLandingPage = () => {
                         </svg>
                         <p className='text-md ms-2 font-semibold mb-3'>To Do</p>
                     </div>
-                    <div className='flex flex-start border-t-2 border-gray-200'>
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                        </svg>
-                        <p className='ms-2'>Draft project brief</p>
+                    <div className=' border-t-2 border-gray-200'>
                     </div>
+                    <table className="border-collapse border border-slate-400 ...">
+                        <thead>
+                            <tr className='flex flex-start'>
+                                <th className="border border-slate-300 ..."> <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-6 h-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                        </svg>Draft project brief</th>
+                                <th className="border border-slate-300 ...">City</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td className="border border-slate-300 ...">Indiana</td>
+                                <td className="border border-slate-300 ...">Indianapolis</td>
+                            </tr>
+                            <tr>
+                                <td className="border border-slate-300 ...">Ohio</td>
+                                <td className="border border-slate-300 ...">Columbus</td>
+                            </tr>
+                            <tr>
+                                <td className="border border-slate-300 ...">Michigan</td>
+                                <td className="border border-slate-300 ...">Detroit</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>}
             {activeTab === 3 && <div className="mt-4">
@@ -405,7 +425,7 @@ const EntityLandingPage = () => {
                                             <div className="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
                                                 <div className="sm:flex sm:items-start">
                                                     <div className="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-orange-600 sm:mx-0 sm:h-10 sm:w-10">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5 text-white">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5 text-white">
                                                             <path d="M10.75 4.75a.75.75 0 0 0-1.5 0v4.5h-4.5a.75.75 0 0 0 0 1.5h4.5v4.5a.75.75 0 0 0 1.5 0v-4.5h4.5a.75.75 0 0 0 0-1.5h-4.5v-4.5Z" />
                                                         </svg>
 
@@ -458,11 +478,11 @@ const EntityLandingPage = () => {
                 <div className='flex flex-col '>
                     <div className='flex justify-center'>
                         <div className='flex flex-start rounded-md border-2 border-gray-200 px-3 py-2'>
-                            <img class="w-8 h-8 rounded-full mx-3 my-3" src={defprop} alt="Neil image" />
+                            <img className="w-8 h-8 rounded-full mx-3 my-3" src={defprop} alt="Neil image" />
                             <div className='mt-2 mr-2'>
                                 <input className='px-2 py-2 w-96 focus:outline-none bg-[#f8fafc] rounded-md border-2 border-gray-200 ' type='text' placeholder='Enter Your Message' />
                             </div>
-                            <div className=''> <button className='mt-4 text-lg'> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+                            <div className=''> <button className='mt-4 text-lg'> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5">
                                 <path d="M3.105 2.288a.75.75 0 0 0-.826.95l1.414 4.926A1.5 1.5 0 0 0 5.135 9.25h6.115a.75.75 0 0 1 0 1.5H5.135a1.5 1.5 0 0 0-1.442 1.086l-1.414 4.926a.75.75 0 0 0 .826.95 28.897 28.897 0 0 0 15.293-7.155.75.75 0 0 0 0-1.114A28.897 28.897 0 0 0 3.105 2.288Z" />
                             </svg>
                             </button></div>
