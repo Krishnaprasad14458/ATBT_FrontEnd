@@ -12,21 +12,22 @@ function classNames(...classes) {
 
 function BoardMeetings() {
   return (
-    <div className=' p-2 bg-[#f8fafc] overflow-hidden'>
-      <div className='grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-3 xl:grid-col-3 gap-2'>
-        <h1 className='mx-3 mt-2  font-semibold text-lg grid1-item'>Board Meetings</h1>
-        <div className='grid1-item mx-3 mt-2 text-start'>
-          <label for="default-search" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
-          <div class="relative">
-            <div class="absolute inset-y-0 start-0 flex items-center p-2 pointer-events-none">
-              <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+    <div className=' p-3 bg-[#f8fafc] overflow-hidden'>
+      {/* name, search, filter */}
+      <div className='grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-3 xl:grid-col-3 gap-2 my-2'>
+        <h1 className=' font-semibold text-lg grid1-item'>Board Meetings</h1>
+        <div className='grid1-item  text-start'>
+          <label for="default-search" className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
+          <div className="relative">
+            <div className="absolute inset-y-0 start-0 flex items-center p-2 pointer-events-none">
+              <svg className="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
               </svg>
             </div>
-            <input type="search" id="default-search" class="block w-full px-4 py-2 ps-10 text-sm border-2 border-gray-200  rounded-full bg-gray-50  focus:outline-none " placeholder="Search here..." required />
+            <input type="search" id="default-search" className="block w-full px-4 py-2 ps-10 text-sm border-2 border-gray-200  rounded-full bg-gray-50  focus:outline-none " placeholder="Search here..." required />
           </div>
         </div>
-        <div className='grid1-item mt-2 text-end filter_pagination'>
+        <div className='grid1-item text-end filter_pagination'>
           <select className="me-3 gap-x-1.5 focus:outline-none rounded-md bg-gray-50 px-1 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-200 hover:bg-gray-50">
             <option value="10">10</option>
             <option value="25">25</option>
@@ -101,13 +102,14 @@ function BoardMeetings() {
 
         </div>
       </div>
+      {/* upcoming, overdue, imcomplete */}
 
-      <div className="flex justify-start mt-2">
+      <div className="flex justify-start gap-6">
         <NavLink
           className={({ isActive, isPending }) =>
-            isPending ? "cursor-pointer px-5 py-1 font-semibold pending" :
-              isActive ? "cursor-pointer px-5 py-1 font-semibold border-b-4 border-orange-600 text-black active" :
-                "cursor-pointer px-5 py-1 font-semibold"
+            isPending ? "cursor-pointer  py-1 font-semibold pending" :
+              isActive ? "cursor-pointer  py-1 font-semibold border-b-2 border-orange-600 text-black active text-md" :
+                "cursor-pointer py-1 font-semibold text-md"
           }
           exact
           to="/boardmeetings/completed">
@@ -115,15 +117,17 @@ function BoardMeetings() {
         </NavLink>
         <NavLink
           className={({ isActive, isPending }) =>
-            isPending ? "cursor-pointer px-5 py-1 font-semibold pending" :
-              isActive ? "cursor-pointer px-5 py-1 font-semibold border-b-4 border-orange-600 text-black active" :
-                "cursor-pointer px-5 py-1 font-semibold"
+            isPending ? "cursor-pointer  py-1 font-semibold pending" :
+              isActive ? "cursor-pointer  py-1 font-semibold border-b-2 border-orange-600 text-black active text-md" :
+                "cursor-pointer  py-1 font-semibold text-md"
           }
           activeClassName={'border-b-4 border-orange-600  text-black'}
           to="/boardmeetings/upcomming">
           Upcoming
         </NavLink>
+
       </div>
+
       <Outlet />
     </div >
   )

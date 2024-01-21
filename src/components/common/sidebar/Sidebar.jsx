@@ -63,7 +63,7 @@ duration-500 text-gray-100 px-2`}>
                         <div className="pt-3 flex justify-between">
                             <img src={logo} alt='Infoz IT' className={`w-28 ms-8 p-0 ${open ? '' : 'hidden'}`} />
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-                                class="w-6 h-6 cusrsor-pointer mt-2 text-black" onClick={() => setOpen(!open)} >
+                                className="w-6 h-6 cusrsor-pointer mt-2 text-black" onClick={() => setOpen(!open)} >
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5M12 17.25h8.25" />
                             </svg>
                         </div>

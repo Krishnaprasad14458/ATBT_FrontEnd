@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-
+import defprop from '../../../Images/defprof.svg';
 function EntityForm() {
   // tabs
   const [activeTab, setActiveTab] = useState(1);
@@ -31,68 +31,70 @@ function EntityForm() {
 
   return (
 
-    <div className='container p-2 bg-[#f8fafc]'>
+    <div className='container p-3 bg-[#f8fafc]'>
       {/* <p className="font-lg font-semibold p-3">Entity Form</p> */}
       <p className="text-lg font-semibold">New Entity</p>
-      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-4 mt-3">
-        <div class="col-span-1">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-4 mt-3">
+        <div className="col-span-1">
           <form className="space-y-3" method="POST">
             <div>
-              <label htmlFor="name" className="block text-sm font-medium leading-6 text-gray-900">Entity Name</label>
+              <label htmlFor="name" className="block text-md font-medium leading-6 my-2 text-gray-900">Entity Name</label>
               <div className="">
-                <input id="name" name="name" type="text" autoComplete="name" required className="p-2 block w-full rounded-md border border-1 border-gray-400 py-1 text-gray-900 appearance-none shadow-sm  placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6" />
+                <input id="name" name="name" type="text" autoComplete="name" required className="p-2 block w-full bg-gray-50  rounded-md  border-2 border-gray-200 py-1 text-gray-900 appearance-none shadow-sm  placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6" />
               </div>
             </div>
             <div>
-              <label htmlFor="name" className="block text-sm font-medium leading-6 text-gray-900">Choose Your Photo</label>
+              <label htmlFor="name" className="block text-md font-medium leading-6 my-2 text-gray-900">Choose Your Photo</label>
               <input
                 type="file"
                 id="fileInput"
-                className="p-2 block w-full rounded-md border border-1 border-gray-400 py-1 text-gray-900 appearance-none shadow-sm  placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6"
+                className="p-2 block w-full rounded-md bg-gray-50 border-2 border-gray-200 py-1 text-gray-900 appearance-none shadow-sm  placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6"
                 accept="image/*"
                 onChange={handleFileChange}
               />
             </div>
             <div>
-              <label htmlFor="name" className=" block text-sm font-medium leading-6 text-gray-900">Description</label>
+              <label htmlFor="name" className=" block text-md my-2 font-medium leading-6 text-gray-900">Description</label>
               <div className=''>
-                <textarea class="resize-none border rounded-md p-2 w-full h-28 border-1 border-gray-400 focus:outline-none focus:border-orange-400"></textarea>
+                <textarea className="resize-none border rounded-md p-2 w-full h-28 border-1 border-gray-400 focus:outline-none focus:border-orange-400"></textarea>
               </div>
             </div>
             <div>
-              <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">Add Member</label>
+              <label htmlFor="email" className="block text-md my-2 font-medium leading-6 text-gray-900">Add Member</label>
               <div className="">
-                <input id="email" name="email" type="text" autoComplete="email" required className="p-2 block w-full rounded-md border border-1 border-gray-400 py-1 text-gray-90 appearance-none shadow-sm  placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6" />
+                <input id="email" name="email" type="text" autoComplete="email" required className="p-2 block w-full rounded-md bg-gray-50 border-2 border-gray-200 py-1 text-gray-90 appearance-none shadow-sm  placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6" />
               </div>
             </div>
             <div className=''>
               <button type="submit"
-                className="mt-5 flex w-full justify-center rounded-md bg-orange-600 px-3 py-1 text-sm leading-6 text-white shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600">Create Entity</button>
+                className="mt-6 flex w-full justify-center rounded-md bg-orange-600 px-3 py-2.5 text-sm font-medium leading-6 text-white shadow-sm  focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600">Create Entity</button>
             </div>
           </form>
         </div>
-        <div class="col-span-2 shadow-lg p-4">
+        <div className="col-span-2 shadow-lg p-4">
           <div className="flex mb-2">
             <div className="group h-16">
               {imageSrc ? (
                 <img
                   src={imageSrc}
                   alt="Selected User Photo"
-                  className="rounded-full w-16 h-16 mr-4"
+                  className="rounded-full w-12 h-12 mr-4"
                 />
               ) : (
-                <img
-                  src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?q=80&w=256&h=256&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                  alt="Default User Photo"
-                  className="rounded-full w-16 h-16 mr-4"
-                />
+                <img class="w-12 h-12 rounded-full " src={defprop} alt="Neil image" />
+                // <img
+                //   src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?q=80&w=256&h=256&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                //   alt="Default User Photo"
+                //   className="rounded-full w-12 h-12 mr-4"
+                // />
               )}
             </div>
-            <p class="text-lg font-semibold text-gray-800 mt-4">Bhavitha</p>
+            <p className="text-lg font-semibold text-gray-800 mt-4">Bhavitha</p>
           </div>
-          <div className='border-2 h-26 p-2'>
+          <hr />
+          {/* <div className='border-2 h-26 p-2'>
             <p className='text-sm'>The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).</p>
-          </div>
+          </div> */}
 
           <div className=' grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-4 mt-5'>
             <div className='col-span-1 flex justify-start'>
@@ -184,12 +186,12 @@ function EntityForm() {
               <p className='mt-1'>srilakshmi.a@gmail.com</p>
             </div>
             <div className='col-span-1 flex justify-start'>
-            <img
+              <img
                 src="data:image/jpeg;base64,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"
                 className="rounded-full w-10 h-10 mr-4"
                 alt="Default User Photo"
               />
-             <p className='mt-2'>+ 2 more</p>
+              <p className='mt-2'>+ 2 more</p>
             </div>
           </div>
         </div>
