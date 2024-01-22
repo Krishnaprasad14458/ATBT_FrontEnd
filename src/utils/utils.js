@@ -26,3 +26,7 @@ export const formatDate = (createdAt) => {
   const options = { year: 'numeric', month: 'long', day: 'numeric' };
   return parsedDate.toLocaleDateString(undefined, options);
 };
+
+export function caseLetter(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}

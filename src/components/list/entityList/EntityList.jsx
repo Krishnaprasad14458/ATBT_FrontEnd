@@ -1,5 +1,6 @@
 import React from 'react'
 import defprop from '../../../Images/defprof.svg'
+import { caseLetter } from '../../../utils/utils'
 
 function EntityList({entity}) {
   return (
@@ -10,7 +11,7 @@ function EntityList({entity}) {
     </div>
     <div className="flex-1 min-w-0 ms-4">
       <p className="text-sm font-medium text-gray-900 text-start truncate dark:text-white">
-        {entity.Entite_Name}
+        {caseLetter(entity.Entite_Name)}
       </p>
 
     </div>
