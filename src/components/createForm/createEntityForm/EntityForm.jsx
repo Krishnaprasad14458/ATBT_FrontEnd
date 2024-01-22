@@ -95,7 +95,7 @@ function EntityForm() {
             <div className='relative'>
               <label htmlFor="email" className="block text-sm my-2 font-medium leading-6 text-gray-900">Add Member</label>
 
-              <div className='border border-1 flex flex-wrap gap-1 px-1 py-1 selected-users-container relative z-50'>
+              <div className='border border-1 flex flex-wrap gap-1 px-1 py-1 selected-users-container relative z-50 rounded-md'>
                 {selected.map((result) => {
                   let mail = result.split("@")[0]
                   return (
@@ -120,12 +120,13 @@ function EntityForm() {
                 />
               </div>
               {showUsers && (
-                <ul className="user-list z-50 absolute top-full left-0 bg-white w-full">
+                <ul className="user-list z-50 absolute top-full left-0  bg-gray-50 border border-1 border-gray-200 w-full">
 
                   {users
                     .filter((item) => item.toLowerCase().includes(query.toLowerCase()))
                     .map((user, index) => (
                       <li key={index}
+                        className='px-3 pb-0.5 hover:bg-gray-200'
 
                         onClick={() => handleClick(user)}>
                         {user}

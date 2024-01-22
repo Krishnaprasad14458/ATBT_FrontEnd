@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 const BoardMeetingDashboard = () => {
     return (
-        <div className="w-full  text-center bg-slate-50 border border-gray-200 rounded-md shadow sm:pt-4 dark:bg-gray-800 dark:border-gray-700">
+        <div className="w-full relative h-[450px] text-center bg-slate-50 border border-gray-200 rounded-md shadow sm:pt-4 dark:bg-gray-800 dark:border-gray-700">
             <div className='grid1-item overflow-hidden sm:w-full'>
                 <div className='p-4 sm:px-6 sm:pt-2'>
                     {/* hero module */}
@@ -46,7 +46,7 @@ const BoardMeetingDashboard = () => {
                 <hr />
             </div>
             {/* pagination module */}
-            <div className="flex items-center justify-between  px-4 py-3  sm:px-6">
+            <div className="flex items-center justify-between  px-4 py-3  sm:px-6 absolute inset-x-0 bottom-0 right-0">
                 {/* hidden pagination only for mobile */}
                 <div className="flex flex-1 justify-between sm:hidden">
                     <a
