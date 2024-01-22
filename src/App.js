@@ -26,11 +26,6 @@ import MyCalendar from './components/pages/task/MyCalendar';
 import UserTasks from './components/pages/userProfile/userTabs/UserTasks';
 import UserTeams from './components/pages/userProfile/userTabs/UserTeams';
 import UserEntities from './components/pages/userProfile/userTabs/UserEntities';
-import CompletedBoardMeetings from './components/pages/boardMeetings/completed/CompletedBoardMeetings';
-import UpcommingBoardMeetings from './components/pages/boardMeetings/upcomming/UpcommingBoardMeetings';
-import CompletedTasks from './components/pages/task/completed/CompletedTasks';
-import UpcommingTasks from './components/pages/task/upcomming/UpcommingTasks';
-import OverdueTasks from './components/pages/task/overdue/OverdueTasks';
 import EntityLandingPage from './components/pages/entities/EntityLandingPage';
 import Communication from './components/pages/settings/SettingsComponents/Communication/Communication';
 import OrganizationProfile from './components/pages/settings/SettingsComponents/Organizationprofile/Oranizationprofiles';
@@ -71,16 +66,9 @@ function App() {
             </Route>
             <Route path="/entitylandingpage" element={<EntityLandingPage />} />
             <Route path="/entities/new" element={<EntityForm />} />
-            <Route path='/boardmeetings' element={<BoardMeetings />}>
-              <Route path="completed" element={<CompletedBoardMeetings />} />
-              <Route path="upcomming" element={<UpcommingBoardMeetings />} />
-            </Route>
+            <Route path='/boardmeetings' element={<BoardMeetings />} />
             <Route path="/boardmeetings/new" element={<BoardMeetingForm />} />
-            <Route path='/tasks' element={<Tasks />} >
-              <Route path="upcomming" element={<UpcommingTasks />} />
-              <Route path="completed" element={<CompletedTasks />} />
-              <Route path="overdue" element={<OverdueTasks />} />
-            </Route>
+            <Route path='/tasks' element={<Tasks />} />
             <Route path="tasks/new" element={<TaskForm />} />
             <Route path='/teams/new' element={<TeamsForm />} />
             <Route path='/users' element={<Users />} >

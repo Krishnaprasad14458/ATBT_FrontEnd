@@ -1,6 +1,5 @@
 import { useNavigate } from "react-router-dom";
 import './notFound.css';
-import { Link } from 'react-router-dom'
 const PageNotFound = () => {
   const navigate = useNavigate();
   document.title = "Page Not Found";

@@ -1,15 +1,12 @@
 
 import React, { useContext, useState } from 'react'
 import { AuthContext } from '../../contexts/authContext';
-import { UserDataContext } from '../../contexts/usersDataContext';
 import login_bg from '../../Images/login_bg.jpg';
 import logo from '../../Images/logo.png';
-import axios from 'axios';
 import { Link } from 'react-router-dom'
 
 const Login = () => {
     const { adminLogin } = useContext(AuthContext);
-    const { usersState } = useContext(UserDataContext);
     const [formData, setFormData] = useState({ email: '', password: '' })
     const handleFormData = (e) => {
         const {name, value} = e.target;
@@ -18,7 +15,6 @@ const Login = () => {
     
     const loginHandler = (e) => {
         e.preventDefault();
-        console.log(formData)
         if (!formData.email.trim() || !formData.password.trim()) {
         } else {
           adminLogin(formData);

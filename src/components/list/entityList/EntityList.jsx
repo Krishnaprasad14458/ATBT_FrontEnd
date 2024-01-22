@@ -1,16 +1,17 @@
 import React from 'react'
 import defprop from '../../../Images/defprof.svg'
+import { caseLetter } from '../../../utils/utils'
 
 function EntityList({entity}) {
   return (
     <div className="flex items-center">
     <div className="flex-shrink-0">
-      <img className="w-8 h-8 rounded-full" src={defprop} alt="Neil image" />
+      <img className="w-8 h-8 rounded-full" src={`https://picsum.photos/seed/${entity.id}/100`} alt="Neil image" />
 
     </div>
     <div className="flex-1 min-w-0 ms-4">
       <p className="text-sm font-medium text-gray-900 text-start truncate dark:text-white">
-        {entity.entity}
+        {caseLetter(entity.Entite_Name)}
       </p>
 
     </div>

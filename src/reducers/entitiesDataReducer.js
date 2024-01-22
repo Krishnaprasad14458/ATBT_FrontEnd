@@ -1,14 +1,17 @@
-const entitesDataReducer = (state, action) => {
+const entitiesDataReducer = (state, action) => {
     switch (action.type) {
-        case "SET_ENTITIES_DATA":
-            return {
-                ...state,
-                entities: action.payload,
-            };
-
         case "SET_PAGINATED_ENTITIES":
             const reducerData = action.payload;
-            return {
+            console.log(reducerData)
+            return action.payload.context === 'DASHBOARD' ? {
+                ...state,
+                dashboard: {
+                    ...state.dashboard,
+                    paginatedEntities: reducerData.data,
+                    currentPage: reducerData.currentPage,
+                    totalPages: reducerData.totalPages
+                },
+            } : {
                 ...state,
                 pagination: {
                     ...state.pagination,
@@ -16,33 +19,53 @@ const entitesDataReducer = (state, action) => {
                     currentPage: reducerData.currentPage,
                     totalPages: reducerData.totalPages
                 },
-            };
+            }
 
         case "SET_SEARCH":
-            return {
+            return action.payload.context === 'DASHBOARD' ? {
                 ...state,
-                pagination: {
-                    ...state.pagination,
-                    search: action.payload,
+                dashboard: {
+                    ...state.dashboard,
+                    search: action.payload.data,
                     currentPage: 1,
                 },
-            };
+            } : {
+                ...state,
+                pagination: {
+                    ...state.pagination,
+                    search: action.payload.data,
+                    currentPage: 1,
+                },
+            }
 
         case "SET_PER_PAGE":
-            return {
+            return action.payload.context === 'DASHBOARD' ? {
+                ...state,
+                dashboard: {
+                    ...state.dashboard,
+                    perPage: action.payload.data
+                },
+            } : {
                 ...state,
                 pagination: {
                     ...state.pagination,
-                    perPage: action.payload
+                    perPage: action.payload.data
                 },
-            };
+            }
 
         case "SET_CUSTOM_PAGE":
-            return {
+            console.log(action.payload.data)
+            return action.payload.context === 'DASHBOARD' ? {
+                ...state,
+                dashboard: {
+                    ...state.dashboard,
+                    currentPage: action.payload.data
+                }
+            } : {
                 ...state,
                 pagination: {
                     ...state.pagination,
-                    currentPage: action.payload
+                    currentPage: action.payload.data
                 }
             }
 
@@ -51,4 +74,4 @@ const entitesDataReducer = (state, action) => {
     }
 }
 
-export default entitesDataReducer;
+export default entitiesDataReducer;

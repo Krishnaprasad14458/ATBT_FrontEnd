@@ -1,9 +1,11 @@
 
-import React, { useContext } from 'react';
+import React from 'react';
 import './Dashboard.css';
 import { getDate } from '../../../utils/utils';
 import UserDashboard from './userDashboard/UserDashboard';
 import EntityDashboard from './entityDashboard/EntityDashboard';
+import BoardMeetingDashboard from './BoardMettingDashboard/BoardMeetingDashboard';
+import TeamsDashboard from './TeamsDashboard/TeamsDashboard';
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
@@ -40,6 +42,13 @@ function Dashboard() {
         <div className='grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-col-2 gap-10 px-7 dashboard-main'>
           <EntityDashboard />
           <UserDashboard />
+
+
+        </div>
+        <div className='grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-col-2 gap-10 px-7 dashboard-main mt-4'>
+
+          <BoardMeetingDashboard />
+          <TeamsDashboard />
         </div>
       </div>
     </div>

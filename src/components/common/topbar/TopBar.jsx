@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { Fragment, useRef, useState } from 'react'
+import { Fragment } from 'react'
 import { Menu, Transition } from '@headlessui/react'
 import { ChevronDownIcon } from '@heroicons/react/20/solid'
 import { Link } from 'react-router-dom';
@@ -17,9 +17,9 @@ export default function TopBar() {
       <nav className="bg-white shadow-md ">
         <div className="mx-auto max-w-screen px-2 sm:px-6 lg:px-8">
           <div className="relative flex h-16 items-center justify-between">
-
             <div className="flex flex-1 items-center justify-between sm:items-stretch sm:justify-start">
               <div className="flex flex-shrink-0 items-center">
+
                 <Menu as="div" className="relative inline-block text-left">
                   <div>
                     <Menu.Button className="inline-flex w-full justify-center gap-x-1.5 rounded-full">
