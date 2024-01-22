@@ -17,6 +17,20 @@ function classNames(...classes) {
 
 
 const EntityLandingPage = () => {
+    // todo toggle
+    // const [todo, setTodo] = useState(false);
+    // const [doing, setdoing] = useState(false);
+    // const [done, setdone] = useState(false);
+    // const handletodo = (e) => {
+    //     setTodo(!todo);
+    // }
+    // const handledoing = (e) => {
+    //     setdoing(!doing);
+    // }
+    // const handledone = (e) => {
+    //     setdone(!done);
+    // }
+    
     // For tabs active
     const [activeTab, setActiveTab] = useState(1);
 
@@ -194,7 +208,7 @@ const EntityLandingPage = () => {
             </div>
             }
             {activeTab === 2 && <div className="">
-                <div className='flex justify-end'>
+                <div className='flex justify-end my-2'>
 
                     <Menu as="div" className="relative inline-block ms-3 mt-1">
                         <div className=''>
@@ -331,55 +345,100 @@ const EntityLandingPage = () => {
                     </div>
                 </div>
 
-                <table className="min-w-full mt-1 divide-y divide-gray-200 dark:divide-gray-700 border-collapse border border-[#e5e7eb] rounded-md ">
+                <table className="w-full border-collapse border border-slate-200 mt-1 table-auto">
                     <thead>
                         <tr >
-                            <th scope="col" className="px-6 py-2 text-center text-sm text-white bg-orange-600  border-collapse border border-[#e5e7eb] ">Task Name</th>
-                            <th scope="col" className="px-6 py-2 text-center text-sm text-white bg-orange-600  border-collapse border border-[#e5e7eb] ">Assign</th>
-                            <th scope="col" className="px-6 py-2 text-center text-sm text-white bg-orange-600   border-collapse border border-[#e5e7eb]">Due Date</th>
-                            <th scope="col" className="px-6 py-2 text-center text-sm text-white bg-orange-600   border-collapse border border-[#e5e7eb]">Board Meeting</th>
-                            <th scope="col" className="px-6 py-2 text-center text-sm text-white bg-orange-600  border-collapse border border-[#e5e7eb] ">Priority</th>
-                            <th scope="col" className="px-6 py-2 text-center text-sm text-white bg-orange-600   border-collapse border border-[#e5e7eb] ">Status</th>
-                            <th scope="col" className="px-6 py-2 text-center text-sm text-white bg-orange-600   border-collapse border border-[#e5e7eb] ">Create by User </th>
-                            <th scope="col" className="px-6 py-2 text-center text-sm text-white bg-orange-600   border-collapse border border-[#e5e7eb] ">Update by Admin </th>
+                            <th scope="col" className="py-2 text-sm text-white bg-orange-600  border-collapse border border-[#e5e7eb] ">Task Name</th>
+                            <th scope="col" className="py-2 text-sm text-white bg-orange-600  border-collapse border border-[#e5e7eb] ">Assigne</th>
+                            <th scope="col" className="py-2 text-sm text-white bg-orange-600   border-collapse border border-[#e5e7eb]">Due Date</th>
+                            <th scope="col" className="py-2 text-sm text-white bg-orange-600   border-collapse border border-[#e5e7eb]">Board Meeting</th>
+                            <th scope="col" className="py-2 text-sm text-white bg-orange-600   border-collapse border border-[#e5e7eb] ">Status</th>
+                            <th scope="col" className="py-2 text-sm text-white bg-orange-600   border-collapse border border-[#e5e7eb] ">Create by Admin</th>
+                            <th scope="col" className="py-2 text-sm text-white bg-orange-600   border-collapse border border-[#e5e7eb] ">Update by Admin </th>
                         </tr>
                     </thead>
                     <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
+                        {/* <div className='flex flex-start mt-2 ms-2' onClick={handletodo}>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5">
+                                <path fillRule="evenodd" d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z" clipRule="evenodd" />
+                            </svg>
+                            <p className='text-md ms-2 font-semibold mb-3' >To Do</p>
+                        </div> */}
+
+                        {/* {todo && */}
+                            <tr className='text-center text-gray-500'>
+                                <td scope="col" className="py-2 text-sm border-collapse border border-[#e5e7eb] flex justify-start"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-5 h-5 ms-2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                                </svg><span className='text-sm ms-2'>Draft project brief</span></td>
+                                <td scope="col" className="py-2 text-sm border-collapse border border-[#e5e7eb]">Assigne</td>
+                                <td scope="col" className="py-2 text-sm border-collapse border border-[#e5e7eb]">Due Date</td>
+                                <td scope="col" className="py-2 text-sm border-collapse border border-[#e5e7eb]">Board Meeting</td>
+                                <td scope="col" className="py-2 text-sm border-collapse border border-[#e5e7eb] ">Status</td>
+                                <td scope="col" className="py-2 text-sm border-collapse border border-[#e5e7eb] ">Create by User </td>
+                                <td scope="col" className="py-2 text-sm border-collapse border border-[#e5e7eb] ">Update by Admin </td>
+                            </tr>
+                        {/* } */}
+                        <tr className='text-center text-gray-500'>
+                            <td className="py-2 border-slate-200 flex justify-start ms-4 text-sm">
+                                <input className='w-full bg-gray-50 border-none focus:outline-none' type="text" placeholder='Add Task ..' />
+                            </td>
+                            <td className="border text-sm" colspan="7"></td>
+                        </tr>
+                        {/* <div className='flex flex-start' onClick={handledoing}>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5 mt-3">
+                                <path fillRule="evenodd" d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z" clipRule="evenodd" />
+                            </svg>
+                            <p className='text-md ms-2 font-semibold mb-3 mt-3'>Doing</p>
+                        </div>
+                        {doing &&
+                            <tr className='text-center text-gray-500'>
+                                <td scope="col" className="py-2 text-sm border-collapse border border-[#e5e7eb] flex justify-start"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-5 h-5 ms-2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                                </svg><span className='text-sm ms-2'>Draft project brief</span></td>
+                                <td scope="col" className="py-2 text-sm border-collapse border border-[#e5e7eb]">Assigne</td>
+                                <td scope="col" className="py-2 text-sm border-collapse border border-[#e5e7eb]">Due Date</td>
+                                <td scope="col" className="py-2 text-sm border-collapse border border-[#e5e7eb]">Board Meeting</td>
+                                <td scope="col" className="py-2 text-sm border-collapse border border-[#e5e7eb] ">Status</td>
+                                <td scope="col" className="py-2 text-sm border-collapse border border-[#e5e7eb] ">Create by User </td>
+                                <td scope="col" className="py-2 text-sm border-collapse border border-[#e5e7eb] ">Update by Admin </td>
+                            </tr>}
+                        <tr className='text-center text-gray-500'>
+                            <td className="py-2 border-slate-200 flex justify-start ms-4 text-sm border-b-" colspan="">
+                                <input className='w-full bg-gray-50 border-none focus:outline-none' type="text" placeholder='Add Task ..' />
+                            </td>
+                            <td className="border text-sm" colspan="7"></td>
+                        </tr>
+
+                        <div className='flex flex-start' onClick={handledone}>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5 mt-3">
+                                <path fillRule="evenodd" d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z" clipRule="evenodd" />
+                            </svg>
+                            <p className='text-md ms-2 font-semibold mb-3 mt-3'>Done</p>
+                        </div>
+                        {done &&
+                            <tr className='text-center text-gray-500'>
+                                <td scope="col" className="py-2 text-sm border-collapse border border-[#e5e7eb] flex justify-start"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-5 h-5 ms-2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                                </svg><span className='text-sm ms-2'>Draft project brief</span></td>
+                                <td scope="col" className="py-2 text-sm border-collapse border border-[#e5e7eb]">Assigne</td>
+                                <td scope="col" className="py-2 text-sm border-collapse border border-[#e5e7eb]">Due Date</td>
+                                <td scope="col" className="py-2 text-sm border-collapse border border-[#e5e7eb]">Board Meeting</td>
+                                <td scope="col" className="py-2 text-sm border-collapse border border-[#e5e7eb] ">Status</td>
+                                <td scope="col" className="py-2 text-sm border-collapse border border-[#e5e7eb] ">Create by User </td>
+                                <td scope="col" className="py-2 text-sm border-collapse border border-[#e5e7eb] ">Update by Admin </td>
+                            </tr>
+
+                        } 
+                        <tr className='text-center text-gray-500'>
+                            <td className="py-2 border-slate-200 flex justify-start ms-4 text-sm border-b-" colspan="">
+                                <input className='w-full bg-gray-50 border-none focus:outline-none' type="text" placeholder='Add Task ..' />
+                            </td>
+                            <td className="border text-sm" colspan="7"></td>
+                    </tr> */}
                     </tbody>
                 </table>
                 <div>
-                    <div className='flex flex-start mt-2'>
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5">
-                            <path fillRule="evenodd" d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z" clipRule="evenodd" />
-                        </svg>
-                        <p className='text-md ms-2 font-semibold mb-3'>To Do</p>
-                    </div>
-                    <div className=' border-t-2 border-gray-200'>
-                    </div>
-                    <table className="border-collapse border border-slate-400 ...">
-                        <thead>
-                            <tr className='flex flex-start'>
-                                <th className="border border-slate-300 ..."> <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-6 h-6">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                        </svg>Draft project brief</th>
-                                <th className="border border-slate-300 ...">City</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td className="border border-slate-300 ...">Indiana</td>
-                                <td className="border border-slate-300 ...">Indianapolis</td>
-                            </tr>
-                            <tr>
-                                <td className="border border-slate-300 ...">Ohio</td>
-                                <td className="border border-slate-300 ...">Columbus</td>
-                            </tr>
-                            <tr>
-                                <td className="border border-slate-300 ...">Michigan</td>
-                                <td className="border border-slate-300 ...">Detroit</td>
-                            </tr>
-                        </tbody>
-                    </table>
+               
                 </div>
             </div>}
             {activeTab === 3 && <div className="mt-4">
