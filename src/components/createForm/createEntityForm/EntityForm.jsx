@@ -239,7 +239,7 @@ function EntityForm() {
 
       </div>
     </div>
-z  );
+ );
 }
 
 export default EntityForm;
