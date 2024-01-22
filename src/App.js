@@ -38,6 +38,7 @@ import Roles from './components/pages/settings/SettingsComponents/Roles/Roles';
 import Forms from './components/pages/settings/SettingsComponents/Forms/Forms';
 import Whatsapp from './components/pages/settings/SettingsComponents/Communication/Whatsapp';
 import Email from './components/pages/settings/SettingsComponents/Communication/Email';
+import TeamsForm from './components/createForm/TeamsForm/TeamsForm';
 
 
 function App() {
@@ -81,6 +82,7 @@ function App() {
               <Route path="overdue" element={<OverdueTasks />} />
             </Route>
             <Route path="tasks/new" element={<TaskForm />} />
+            <Route path='/teams/new' element={<TeamsForm />} />
             <Route path='/users' element={<Users />} >
               <Route path="otl" element={<UserForm />} />
             </Route>
