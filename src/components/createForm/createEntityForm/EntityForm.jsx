@@ -67,7 +67,7 @@ function EntityForm() {
       <p className="text-xl font-semibold">New Entity</p>
       <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-4 xl:grid-cols-3  gap-6 mt-4 ">
         <div className="col-span-1 ps-5 pe-8">
-          <form className="space-y-3" method="POST">
+<form className="space-y-3" method="POST">
             <div>
               <label htmlFor="name" className="block text-sm font-medium leading-6 mt-4 mb-2 text-gray-900">Entity Name</label>
               <div className="">
