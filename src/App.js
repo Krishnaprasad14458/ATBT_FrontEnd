@@ -26,9 +26,6 @@ import MyCalendar from './components/pages/task/MyCalendar';
 import UserTasks from './components/pages/userProfile/userTabs/UserTasks';
 import UserTeams from './components/pages/userProfile/userTabs/UserTeams';
 import UserEntities from './components/pages/userProfile/userTabs/UserEntities';
-import CompletedTasks from './components/pages/task/completed/CompletedTasks';
-import UpcommingTasks from './components/pages/task/upcomming/UpcommingTasks';
-import OverdueTasks from './components/pages/task/overdue/OverdueTasks';
 import EntityLandingPage from './components/pages/entities/EntityLandingPage';
 
 
@@ -58,11 +55,7 @@ function App() {
             <Route path="/entities/new" element={<EntityForm />} />
             <Route path='/boardmeetings' element={<BoardMeetings />} />
             <Route path="/boardmeetings/new" element={<BoardMeetingForm />} />
-            <Route path='/tasks' element={<Tasks />} >
-              <Route path="upcomming" element={<UpcommingTasks />} />
-              <Route path="completed" element={<CompletedTasks />} />
-              <Route path="overdue" element={<OverdueTasks />} />
-            </Route>
+            <Route path='/tasks' element={<Tasks />} />
             <Route path="tasks/new" element={<TaskForm />} />
             <Route path='/users' element={<Users />} >
               <Route path="otl" element={<UserForm />} />

@@ -1,6 +1,5 @@
 import React from 'react'
 import UserChart from '../../charts/UserChart'
-import { Link } from 'react-router-dom'
 function Reports() {
   return (
     <div>

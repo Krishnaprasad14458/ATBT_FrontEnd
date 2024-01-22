@@ -8,9 +8,6 @@ import entitiesDataReducer from "../reducers/entitiesDataReducer";
 
 export const EntitiesDataContext = createContext();
 
-const apiToken = process.env.REACT_APP_API_TOKEN;
-
-
 const EntitiesDataProvider = ({ children }) => {
     const initialState = {
       entities:[],
@@ -36,11 +33,9 @@ const EntitiesDataProvider = ({ children }) => {
       entitiesDataReducer,
       initialState
     );
-console.log(entitiesState)
     const getDashboardEntitiesData = async (pageNo=1,search="",perPage=5) => {
       try {
-        const { status, data } = await axios.get(`https://atbtmain.teksacademy.com/entite/list`);
-        console.log(data.Entites);
+        const { data } = await axios.get(`https://atbtmain.teksacademy.com/entite/list`);
         const searchedEntities = data.Entites?.filter((entity) => {
           return entity.Entite_Name.toLowerCase().includes(search)
         },
@@ -66,8 +61,7 @@ console.log(entitiesState)
 
     const getpaginatedEntitiesData = async (pageNo=1,search="",perPage=10) => {
       try {
-        const { status, data } = await axios.get(`https://atbtmain.teksacademy.com/entite/list`);
-        console.log(data.Entites);
+        const { data } = await axios.get(`https://atbtmain.teksacademy.com/entite/list`);
         const searchedEntities = data.Entites?.filter((entity) => {
           return entity.Entite_Name.toLowerCase().includes(search)
         },
@@ -94,9 +88,9 @@ console.log(entitiesState)
       const deleteEntitybyId = async(id)=> {
         try {
           const data = await axios.delete(`https://atbtmain.teksacademy.com/entite/delete/${id}`)
-          console.log(data, "delete")
+          console.log(data)
         } catch (error) {
-         console.log(error) 
+         console.error(error) 
         }
       }
     useEffect(() => {

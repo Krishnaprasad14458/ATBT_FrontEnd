@@ -1,9 +1,8 @@
 import { Link } from 'react-router-dom';
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import EntityList from '../../../list/entityList/EntityList';
 import useDebounce from '../../../../hooks/debounce/useDebounce';
 import { EntitiesDataContext } from '../../../../contexts/entitiesDataContext';
-import useInitializePerPage from '../../../../hooks/initializePerPage/useInitializePerPage';
 
 function EntityDashboard() {
   const { entitiesState: { entities, dashboard }, entitiesDispatch } = useContext(EntitiesDataContext);
