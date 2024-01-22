@@ -20,6 +20,7 @@ const userDataReducer = (state, action) => {
             };
 
         case "SET_SEARCH":
+            console.log(action.payload)
             return {
                 ...state,
                 pagination: {

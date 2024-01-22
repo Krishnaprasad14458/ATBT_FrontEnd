@@ -13,7 +13,7 @@ function useDebounce(dispatch) {
   const debouncedSetSearch = debounce((searchData) => {
     dispatch({
       type: "SET_SEARCH",
-      payload: {...searchData}
+      payload: searchData
     })
   }, 500);
 
