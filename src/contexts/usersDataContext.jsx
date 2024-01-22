@@ -26,16 +26,22 @@ import React, {
       initialState
     );
 
+    console.log(usersState)
+
     const getPaginatedUsersData = async (pageNo=1,search="") => {
       try {
         usersDispatch({
           type: "SET_LOADING"
         })
-        const { status, data } = await axios.post(`https://www.atbtbeta.teksacademy.com/userdata?page=${pageNo}&search=${search}`);
-        if (status === 201) {
+        const { status, data: {users} } = await axios.get(`https://atbtmain.teksacademy.com/user/list?page=${pageNo}&pageSize=5&sortBy=userName&search=${search}`);
+        console.log(users)
+        if (status === 200) {
           usersDispatch({
             type: "SET_PAGINATED_USERS",
-            payload: data
+            payload: {
+              data:users,
+              currentPage: 1,
+            }
           })
           usersDispatch({
             type: "SET_LOADING"

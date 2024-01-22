@@ -8,13 +8,14 @@ const userDataReducer = (state, action) => {
 
         case "SET_PAGINATED_USERS":
             const reducerData = action.payload;
+            console.log(reducerData)
             return {
                 ...state,
                 pagination: {
                     ...state.pagination,
                     paginatedUsers: reducerData.data,
                     currentPage: reducerData.currentPage,
-                    totalPages: reducerData.totalPages
+                    totalPages: reducerData.totalPages || null
                 },
             };
 
