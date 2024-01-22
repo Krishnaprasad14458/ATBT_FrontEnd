@@ -92,10 +92,10 @@ function EntityForm() {
               </div>
             </div>
 
-            <div  >
+            <div className='relative'>
               <label htmlFor="email" className="block text-sm my-2 font-medium leading-6 text-gray-900">Add Member</label>
 
-              <div className='border border-1 flex flex-wrap gap-1 px-1 py-1 selected-users-container'>
+              <div className='border border-1 flex flex-wrap gap-1 px-1 py-1 selected-users-container relative z-50'>
                 {selected.map((result) => {
                   let mail = result.split("@")[0]
                   return (
@@ -120,7 +120,8 @@ function EntityForm() {
                 />
               </div>
               {showUsers && (
-                <ul className="user-list focus:z-40">
+                <ul className="user-list z-50 absolute top-full left-0 bg-white w-full">
+
                   {users
                     .filter((item) => item.toLowerCase().includes(query.toLowerCase()))
                     .map((user, index) => (
@@ -144,7 +145,9 @@ function EntityForm() {
           </form>
         </div>
 
-        <div className="col-span-2 shadow-md px-6 py-4 border-2 rounded-md bg-[#f8fafc]">
+
+        <div className="col-span-2 h-[500px] overflow-auto shadow-md px-6 py-4 border-2 rounded-md bg-[#f8fafc]  ">
+
           <div className='mb-5 mt-3'>
             <div className="flex gap-4">
               <div className="group h-10 ">

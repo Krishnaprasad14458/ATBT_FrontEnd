@@ -129,7 +129,7 @@ const EntityLandingPage = () => {
                     <div
                         className={`cursor-pointer px-5 py-1 text-md font-semibold  ${activeTab === 6 ? 'border-b-2 border-orange-600 text-black' : ''
                             }`}
-                        onClick={() => handleTabClick(6)}>files
+                        onClick={() => handleTabClick(6)}>Attachments
                     </div>
                 </div><hr />
             </div>
