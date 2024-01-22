@@ -108,11 +108,13 @@ function EntityForm() {
                     </span>
                   )
                 })}
+
+
                 <input
                   type="text"
                   tabindex="0" aria-describedby="lui_5891" aria-invalid="false"
                   style={{ border: "none" }}
-                  className='bg-[#f8fafc] w-20 h-5 mt-1 focus:outline-none'
+                  className='bg-[#f8fafc] w-20 h-5 mt-1 focus:outline-none z-40'
                   value={query}
                   onChange={(e) => handleInputChange(e.target.value)}
                 />
@@ -144,7 +146,7 @@ function EntityForm() {
 
         <div className="col-span-2 h-[500px] overflow-auto shadow-md px-6 py-4 border-2 rounded-md bg-[#f8fafc]  ">
           <div className='mb-5 mt-3'>
-            <div className="flex  gap-4">
+            <div className="flex gap-4">
               <div className="group h-10 ">
                 {imageSrc ? (
                   <img
@@ -166,7 +168,7 @@ function EntityForm() {
 
             </div>
             <hr className='my-3' />
-            <div className=' h-20 overflow-auto border border-1 border-gray-200 rounded-md p-2 bg-[#f8fafc] text-sm w-full  '>
+            <div className='h-20 overflow-auto border border-1 border-gray-200 rounded-md p-2 bg-[#f8fafc] text-sm w-full  '>
               {/* <textarea className="resize-none h-20 border border-1 border-gray-200 focus:outline-none "> */}
               {entityform.entitydescription}
               {/* </textarea> */}
@@ -235,8 +237,9 @@ function EntityForm() {
           </div>
         </div>
 
-      </div></div>
-  );
+      </div>
+    </div>
+z  );
 }
 
 export default EntityForm;

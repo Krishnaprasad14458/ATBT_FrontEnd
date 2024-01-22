@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import EntityList from '../../../list/entityList/EntityList';
 import useDebounce from '../../../../hooks/debounce/useDebounce';
 import { EntitiesDataContext } from '../../../../contexts/entitiesDataContext';
