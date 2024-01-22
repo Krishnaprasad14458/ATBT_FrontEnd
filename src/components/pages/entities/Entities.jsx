@@ -13,12 +13,6 @@ function classNames(...classes) {
 
 function Entities() {
   const { entitiesState: { pagination }, entitiesDispatch, deleteEntitybyId } = useContext(EntitiesDataContext);
-  // useEffect(()=>{
-  //   entitiesDispatch({
-  //     type: 'SET_PER_PAGE',
-  //     payload: 10
-  //   });
-  // },[])
   const { debouncedSetPage, debouncedSetSearch } = useDebounce(entitiesDispatch);
 
   const handlePerPageChange = (event) => {
