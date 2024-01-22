@@ -32,6 +32,12 @@ import CompletedTasks from './components/pages/task/completed/CompletedTasks';
 import UpcommingTasks from './components/pages/task/upcomming/UpcommingTasks';
 import OverdueTasks from './components/pages/task/overdue/OverdueTasks';
 import EntityLandingPage from './components/pages/entities/EntityLandingPage';
+import Communication from './components/pages/settings/SettingsComponents/Communication/Communication';
+import OrganizationProfile from './components/pages/settings/SettingsComponents/Organizationprofile/Oranizationprofiles';
+import Roles from './components/pages/settings/SettingsComponents/Roles/Roles';
+import Forms from './components/pages/settings/SettingsComponents/Forms/Forms';
+import Whatsapp from './components/pages/settings/SettingsComponents/Communication/Whatsapp';
+import Email from './components/pages/settings/SettingsComponents/Communication/Email';
 
 
 function App() {
@@ -51,6 +57,12 @@ function App() {
             <Route path="/" element={<Dashboard />} />
             <Route path="/reports" element={<Reports />} />
             <Route path='/settings' element={<Settings />} />
+            <Route path='/organizationprofile' element={<OrganizationProfile />} />
+            <Route path='/roles' element={<Roles />} />
+            <Route path='/communication' element={<Communication />} />
+            <Route path='/whatsapp' element={<Whatsapp />} />
+            <Route path='/email' element={<Email />} />
+            <Route path='/forms' element={<Forms />} />
             <Route path='/teams' element={<Teams />} />
             <Route path='/entities' element={<Entities />}>
               <Route path="otl" element={<EntityForm />} />
