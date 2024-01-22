@@ -38,7 +38,7 @@ const TeamsForm = () => {
     };
     return (
 
-        <div className='container p-4 bg-[#f8fafc]'>
+        <div className='container p-4 bg-[#f8fafc]h-[450px] relative'>
             {/* <p className="font-lg font-semibold p-3">Entity Form</p> */}
             <p className="text-lg font-semibold">New Team</p>
             <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-4 xl:grid-cols-3  gap-6 mt-4 ">
@@ -58,14 +58,14 @@ const TeamsForm = () => {
                             </div>
                         </div>
 
-                        <div  >
+                        <div className='relative'>
                             <label htmlFor="email" className="block text-sm my-2 font-medium leading-6 text-gray-900">Add Member</label>
 
-                            <div className='border border-1 flex flex-wrap gap-1 px-1 py-1 selected-users-container'>
+                            <div className='border border-1 flex flex-wrap gap-1 px-1 py-1 selected-users-container relative z-50 rounded-md'>
                                 {selected.map((result) => {
                                     let mail = result.split("@")[0]
                                     return (
-                                        <span className='flex gap-1 text-xs mt-1 border-2 border-gray-200 rounded-md p-0.5 focus:border-orange-600
+                                        <span className='flex gap-1 text-xs my-1 border-2 border-gray-200 rounded-md p-0.5 focus:border-orange-600
                     '>
                                             <img class="w-4 h-4 rounded-lg" src={defprop} alt="Neil image" /> {mail} <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor"
                                                 class="w-4 h-4 " onClick={() => handleRemove(result)}>
@@ -86,11 +86,13 @@ const TeamsForm = () => {
                                 />
                             </div>
                             {showUsers && (
-                                <ul className="user-list focus:z-40">
+                                <ul className="user-list z-50 absolute top-full left-0  bg-gray-50 border border-1 border-gray-200 w-full">
+
                                     {users
                                         .filter((item) => item.toLowerCase().includes(query.toLowerCase()))
                                         .map((user, index) => (
                                             <li key={index}
+                                                className='px-3 pb-0.5 hover:bg-gray-200'
 
                                                 onClick={() => handleClick(user)}>
                                                 {user}
@@ -109,7 +111,7 @@ const TeamsForm = () => {
                         </div>
                     </form>
                 </div>
-                <div className="col-span-2 shadow-md px-6 py-4 border-2 rounded-md bg-[#f8fafc]">
+                <div className="col-span-2 shadow-md px-6 py-4 border-2 rounded-md bg-[#f8fafc] ">
                     <div className='mb-5 mt-3'>
                         <div className="flex gap-4">
                             <div className="group h-10 ">
