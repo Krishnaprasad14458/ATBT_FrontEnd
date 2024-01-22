@@ -30,7 +30,7 @@ const EntityLandingPage = () => {
     // const handledone = (e) => {
     //     setdone(!done);
     // }
-    
+
     // For tabs active
     const [activeTab, setActiveTab] = useState(1);
 
@@ -80,6 +80,12 @@ const EntityLandingPage = () => {
             setEvents([...events, newEvent]);
             setNewTask("");
         }
+    };
+    // ----
+    const [isOpen, setIsOpen] = useState(false);
+
+    const toggleDrawer = () => {
+        setIsOpen(!isOpen);
     };
 
     return (
@@ -366,18 +372,45 @@ const EntityLandingPage = () => {
                         </div> */}
 
                         {/* {todo && */}
-                            <tr className='text-center text-gray-500'>
-                                <td scope="col" className="py-2 text-sm border-collapse border border-[#e5e7eb] flex justify-start"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-5 h-5 ms-2">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                                </svg><span className='text-sm ms-2'>Draft project brief</span></td>
-                                <td scope="col" className="py-2 text-sm border-collapse border border-[#e5e7eb]">Assigne</td>
-                                <td scope="col" className="py-2 text-sm border-collapse border border-[#e5e7eb]">Due Date</td>
-                                <td scope="col" className="py-2 text-sm border-collapse border border-[#e5e7eb]">Board Meeting</td>
-                                <td scope="col" className="py-2 text-sm border-collapse border border-[#e5e7eb] ">Status</td>
-                                <td scope="col" className="py-2 text-sm border-collapse border border-[#e5e7eb] ">Create by User </td>
-                                <td scope="col" className="py-2 text-sm border-collapse border border-[#e5e7eb] ">Update by Admin </td>
-                            </tr>
-                        {/* } */}
+                        <tr className='text-center text-gray-500'>
+                            <td scope="col" onClick={toggleDrawer} className="flex justify-between py-2 text-sm border-collapse border border-[#e5e7eb]">
+                                <div className='flex'>
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-5 h-5 ms-2">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                                    </svg><span className='text-sm ms-2' >Draft project brief</span></div>
+                                <div className=''>
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5 text-end">
+                                        <path fillRule="evenodd" d="M16.28 11.47a.75.75 0 0 1 0 1.06l-7.5 7.5a.75.75 0 0 1-1.06-1.06L14.69 12 7.72 5.03a.75.75 0 0 1 1.06-1.06l7.5 7.5Z" clipRule="evenodd" />
+                                    </svg>
+                                </div>
+                            </td>
+                            <td scope="col" className="py-2 text-sm border-collapse border border-[#e5e7eb]">Assigne</td>
+                            <td scope="col" className="py-2 text-sm border-collapse border border-[#e5e7eb]">Due Date</td>
+                            <td scope="col" className="py-2 text-sm border-collapse border border-[#e5e7eb]">Board Meeting</td>
+                            <td scope="col" className="py-2 text-sm border-collapse border border-[#e5e7eb] ">Status</td>
+                            <td scope="col" className="py-2 text-sm border-collapse border border-[#e5e7eb] ">Create by User </td>
+                            <td scope="col" className="py-2 text-sm border-collapse border border-[#e5e7eb] ">Update by Admin </td>
+                        </tr>
+                        <div className={`fixed inset-0 bg-gray-800 bg-opacity-50 z-50 ${isOpen ? '' : 'hidden'}`}>
+                            <div className="fixed inset-y-0 right-0 w-1/2 bg-white shadow-lg transform translate-x-0 transition-transform duration-300 ease-in-out">
+                                <div className="flex justify-start">
+                                    <div className="">
+                                        <button className='border border-1 p-1 text-xs'><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5">
+                                            <path fill-rule="evenodd" d="M19.916 4.626a.75.75 0 0 1 .208 1.04l-9 13.5a.75.75 0 0 1-1.154.114l-6-6a.75.75 0 0 1 1.06-1.06l5.353 5.353 8.493-12.74a.75.75 0 0 1 1.04-.207Z" clip-rule="evenodd" />
+                                        </svg>
+                                            Mark Complete</button>
+                                    </div>
+                                    <button onClick={toggleDrawer} className="absolute top-4 right-4">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
+                                            <path fillRule="evenodd" d="M5.47 5.47a.75.75 0 0 1 1.06 0L12 10.94l5.47-5.47a.75.75 0 1 1 1.06 1.06L13.06 12l5.47 5.47a.75.75 0 1 1-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 0 1-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 0 1 0-1.06Z" clipRule="evenodd" />
+                                        </svg>
+                                    </button>
+
+                                </div>
+
+
+                            </div>
+                        </div>
                         <tr className='text-center text-gray-500'>
                             <td className="py-2 border-slate-200 flex justify-start ms-4 text-sm">
                                 <input className='w-full bg-gray-50 border-none focus:outline-none' type="text" placeholder='Add Task ..' />
@@ -438,7 +471,7 @@ const EntityLandingPage = () => {
                     </tbody>
                 </table>
                 <div>
-               
+
                 </div>
             </div>}
             {activeTab === 3 && <div className="mt-4">
