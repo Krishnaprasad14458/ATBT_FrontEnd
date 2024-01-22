@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import defprop from '../../../Images/defprof.svg';
+import './EntityForm.css';
 function EntityForm() {
 
 
@@ -52,13 +53,19 @@ function EntityForm() {
     setQuery('');
     setShowUsers(false);
   };
+  //  for add member input remove users
+  const handleRemove = (user) => {
+    const updatedSelected = selected.filter((selectedUser) => selectedUser !== user);
+    setSelected(updatedSelected);
+  };
+
 
   return (
 
     <div className='container p-4 bg-[#f8fafc]'>
       {/* <p className="font-lg font-semibold p-3">Entity Form</p> */}
       <p className="text-xl font-semibold">New Entity</p>
-      <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-4 xl:grid-cols-3  gap-6 mt-4">
+      <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-4 xl:grid-cols-3  gap-6 mt-4 ">
         <div className="col-span-1 ps-5 pe-8">
           <form className="space-y-3" method="POST">
             <div>
@@ -84,41 +91,49 @@ function EntityForm() {
                 <textarea name='entitydescription' onChange={handleChange} value={entityform.entitydescription} class="resize-none bg-gray-50 rounded-md text-xs p-2 w-full h-20 border-2 border-gray-200 focus:outline-none focus:border-orange-400"></textarea>
               </div>
             </div>
-            <div>
+
+            <div  >
               <label htmlFor="email" className="block text-sm my-2 font-medium leading-6 text-gray-900">Add Member</label>
 
-              {/* <input id="email" name="email" type="text" autoComplete="email" required className="p-2 block w-full text-xs rounded-md bg-gray-50 border-2 border-gray-200 py-1 text-gray-90 appearance-none shadow-sm  placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-xs sm:leading-6" /> */}
-              <div className='border border-1 flex'>
+              <div className='border border-1 flex flex-wrap gap-1 px-1 py-1 selected-users-container'>
                 {selected.map((result) => {
                   let mail = result.split("@")[0]
                   return (
-                    <span className='flex gap-1 text-xs mt-1'> 
-                    <img class="w-4 h-4 rounded-lg" src={defprop} alt="Neil image" /> {mail} <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-4 h-4 ">
-                      <path d="M5.28 4.22a.75.75 0 0 0-1.06 1.06L6.94 8l-2.72 2.72a.75.75 0 1 0 1.06 1.06L8 9.06l2.72 2.72a.75.75 0 1 0 1.06-1.06L9.06 8l2.72-2.72a.75.75 0 0 0-1.06-1.06L8 6.94 5.28 4.22Z" />
-                    </svg>
+                    <span className='flex gap-1 text-xs mt-1 border-2 border-gray-200 rounded-md p-0.5 focus:border-orange-600
+                    '>
+                      <img class="w-4 h-4 rounded-lg" src={defprop} alt="Neil image" /> {mail} <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor"
+                        class="w-4 h-4 " onClick={() => handleRemove(result)}>
+                        <path d="M5.28 4.22a.75.75 0 0 0-1.06 1.06L6.94 8l-2.72 2.72a.75.75 0 1 0 1.06 1.06L8 9.06l2.72 2.72a.75.75 0 1 0 1.06-1.06L9.06 8l2.72-2.72a.75.75 0 0 0-1.06-1.06L8 6.94 5.28 4.22Z" />
+                      </svg>
                     </span>
                   )
                 })}
                 <input
                   type="text"
+                  tabindex="0" aria-describedby="lui_5891" aria-invalid="false"
                   style={{ border: "none" }}
-                  className='bg-[#f8fafc]'
+                  className='bg-[#f8fafc] w-20 h-5 mt-1 focus:outline-none'
                   value={query}
                   onChange={(e) => handleInputChange(e.target.value)}
                 />
               </div>
               {showUsers && (
-                <ul>
+                <ul className="user-list">
                   {users
                     .filter((item) => item.toLowerCase().includes(query.toLowerCase()))
                     .map((user, index) => (
-                      <li key={index} onClick={() => handleClick(user)}>
+                      <li key={index}
+
+                        onClick={() => handleClick(user)}>
                         {user}
                       </li>
                     ))}
                 </ul>
               )}
+
+
             </div>
+
 
             <div className=''>
               <button type="submit"
@@ -127,7 +142,7 @@ function EntityForm() {
           </form>
         </div>
 
-        <div className="col-span-2 shadow-md px-6 py-4 border-2 rounded-md bg-[#f8fafc] ">
+        <div className="col-span-2 shadow-md px-6 py-4 border-2 rounded-md bg-[#f8fafc]  ">
           <div className='mb-5 mt-3'>
             <div className="flex  gap-4">
               <div className="group h-10 ">
@@ -151,7 +166,7 @@ function EntityForm() {
 
             </div>
             <hr className='my-3' />
-            <div className=' h-20 border border-1 border-gray-200 rounded-md p-2 bg-[#f8fafc] text-sm w-full  '>
+            <div className=' h-20 overflow-auto border border-1 border-gray-200 rounded-md p-2 bg-[#f8fafc] text-sm w-full  '>
               {/* <textarea className="resize-none h-20 border border-1 border-gray-200 focus:outline-none "> */}
               {entityform.entitydescription}
               {/* </textarea> */}
