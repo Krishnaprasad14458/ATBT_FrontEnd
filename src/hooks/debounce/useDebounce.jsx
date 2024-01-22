@@ -5,14 +5,14 @@ function useDebounce(dispatch) {
   const debouncedSetPage = debounce((newPage) => {
     dispatch({
       type: "SET_CUSTOM_PAGE",
-      payload: newPage
+      payload: {...newPage}
     });
   }, 300);
 
-  const debouncedSetSearch = debounce((e) => {
+  const debouncedSetSearch = debounce((searchData) => {
     dispatch({
       type: "SET_SEARCH",
-      payload: e.target.value
+      payload: {...searchData}
     })
   }, 500);
 

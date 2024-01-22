@@ -26,12 +26,13 @@ import MyCalendar from './components/pages/task/MyCalendar';
 import UserTasks from './components/pages/userProfile/userTabs/UserTasks';
 import UserTeams from './components/pages/userProfile/userTabs/UserTeams';
 import UserEntities from './components/pages/userProfile/userTabs/UserEntities';
-import CompletedBoardMeetings from './components/pages/boardMeetings/completed/CompletedBoardMeetings';
-import UpcommingBoardMeetings from './components/pages/boardMeetings/upcomming/UpcommingBoardMeetings';
-import CompletedTasks from './components/pages/task/completed/CompletedTasks';
-import UpcommingTasks from './components/pages/task/upcomming/UpcommingTasks';
-import OverdueTasks from './components/pages/task/overdue/OverdueTasks';
 import EntityLandingPage from './components/pages/entities/EntityLandingPage';
+import Communication from './components/pages/settings/SettingsComponents/Communication/Communication';
+import OrganizationProfile from './components/pages/settings/SettingsComponents/Organizationprofile/Oranizationprofiles';
+import Roles from './components/pages/settings/SettingsComponents/Roles/Roles';
+import Forms from './components/pages/settings/SettingsComponents/Forms/Forms';
+import Whatsapp from './components/pages/settings/SettingsComponents/Communication/Whatsapp';
+import Email from './components/pages/settings/SettingsComponents/Communication/Email';
 
 
 function App() {
@@ -51,6 +52,12 @@ function App() {
             <Route path="/" element={<Dashboard />} />
             <Route path="/reports" element={<Reports />} />
             <Route path='/settings' element={<Settings />} />
+            <Route path='/organizationprofile' element={<OrganizationProfile />} />
+            <Route path='/roles' element={<Roles />} />
+            <Route path='/communication' element={<Communication />} />
+            <Route path='/whatsapp' element={<Whatsapp />} />
+            <Route path='/email' element={<Email />} />
+            <Route path='/forms' element={<Forms />} />
             <Route path='/teams' element={<Teams />} />
             <Route path='/entities' element={<Entities />}>
               <Route path="otl" element={<EntityForm />} />
@@ -58,16 +65,9 @@ function App() {
             </Route>
             <Route path="/entitylandingpage" element={<EntityLandingPage />} />
             <Route path="/entities/new" element={<EntityForm />} />
-            <Route path='/boardmeetings' element={<BoardMeetings />}>
-              <Route path="completed" element={<CompletedBoardMeetings />} />
-              <Route path="upcomming" element={<UpcommingBoardMeetings />} />
-            </Route>
+            <Route path='/boardmeetings' element={<BoardMeetings />} />
             <Route path="/boardmeetings/new" element={<BoardMeetingForm />} />
-            <Route path='/tasks' element={<Tasks />} >
-              <Route path="upcomming" element={<UpcommingTasks />} />
-              <Route path="completed" element={<CompletedTasks />} />
-              <Route path="overdue" element={<OverdueTasks />} />
-            </Route>
+            <Route path='/tasks' element={<Tasks />} />
             <Route path="tasks/new" element={<TaskForm />} />
             <Route path='/users' element={<Users />} >
               <Route path="otl" element={<UserForm />} />

@@ -4,12 +4,9 @@ import login_bg from '../../Images/login_bg.jpg';
 import logo from '../../Images/logo.png';
 import { AuthContext } from '../../contexts/authContext';
 import { useParams } from 'react-router-dom';
-import { Link } from 'react-router-dom'
-import Swal from 'sweetalert2'
 import { toast } from 'react-toastify';
 function ChangePassword() {
     const { id } = useParams();
-    console.log(id)
     const { resetPassword } = useContext(AuthContext);
     const [password, setPassword] = useState('')
     const [confirmPassword, setConfirmPassword] = useState("")

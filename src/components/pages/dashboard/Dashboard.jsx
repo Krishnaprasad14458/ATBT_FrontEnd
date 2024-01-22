@@ -1,5 +1,5 @@
 
-import React, { useContext } from 'react';
+import React from 'react';
 import './Dashboard.css';
 import { getDate } from '../../../utils/utils';
 import UserDashboard from './userDashboard/UserDashboard';
