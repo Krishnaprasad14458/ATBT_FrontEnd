@@ -64,7 +64,7 @@ function EntityForm() {
 
     <div className='container p-4 bg-[#f8fafc]'>
       {/* <p className="font-lg font-semibold p-3">Entity Form</p> */}
-      <p className="text-xl font-semibold">New Entity</p>
+      <p className="text-lg font-semibold">New Entity</p>
       <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-4 xl:grid-cols-3  gap-6 mt-4 ">
         <div className="col-span-1 ps-5 pe-8">
           <form className="space-y-3" method="POST">
