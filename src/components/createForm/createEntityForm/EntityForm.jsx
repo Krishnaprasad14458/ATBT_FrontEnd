@@ -67,7 +67,7 @@ function EntityForm() {
       <p className="text-xl font-semibold">New Entity</p>
       <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-4 xl:grid-cols-3  gap-6 mt-4 ">
         <div className="col-span-1 ps-5 pe-8">
-<form className="space-y-3" method="POST">
+          <form className="space-y-3" method="POST">
             <div>
               <label htmlFor="name" className="block text-sm font-medium leading-6 mt-4 mb-2 text-gray-900">Entity Name</label>
               <div className="">
@@ -108,17 +108,19 @@ function EntityForm() {
                     </span>
                   )
                 })}
+
+
                 <input
                   type="text"
                   tabindex="0" aria-describedby="lui_5891" aria-invalid="false"
                   style={{ border: "none" }}
-                  className='bg-[#f8fafc] w-20 h-5 mt-1 focus:outline-none'
+                  className='bg-[#f8fafc] w-20 h-5 mt-1 focus:outline-none z-40'
                   value={query}
                   onChange={(e) => handleInputChange(e.target.value)}
                 />
               </div>
               {showUsers && (
-                <ul className="user-list">
+                <ul className="user-list focus:z-40">
                   {users
                     .filter((item) => item.toLowerCase().includes(query.toLowerCase()))
                     .map((user, index) => (
@@ -142,9 +144,9 @@ function EntityForm() {
           </form>
         </div>
 
-        <div className="col-span-2 shadow-md px-6 py-4 border-2 rounded-md bg-[#f8fafc]  ">
+        <div className="col-span-2 shadow-md px-6 py-4 border-2 rounded-md bg-[#f8fafc]">
           <div className='mb-5 mt-3'>
-            <div className="flex  gap-4">
+            <div className="flex gap-4">
               <div className="group h-10 ">
                 {imageSrc ? (
                   <img
@@ -166,7 +168,7 @@ function EntityForm() {
 
             </div>
             <hr className='my-3' />
-            <div className=' h-20 overflow-auto border border-1 border-gray-200 rounded-md p-2 bg-[#f8fafc] text-sm w-full  '>
+            <div className='h-20 overflow-auto border border-1 border-gray-200 rounded-md p-2 bg-[#f8fafc] text-sm w-full  '>
               {/* <textarea className="resize-none h-20 border border-1 border-gray-200 focus:outline-none "> */}
               {entityform.entitydescription}
               {/* </textarea> */}
@@ -235,7 +237,8 @@ function EntityForm() {
           </div>
         </div>
 
-      </div></div>
+      </div>
+    </div>
   );
 }
 
