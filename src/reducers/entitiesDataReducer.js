@@ -2,6 +2,7 @@ const entitiesDataReducer = (state, action) => {
     switch (action.type) {
         case "SET_PAGINATED_ENTITIES":
             const reducerData = action.payload;
+            console.log(reducerData)
             return action.payload.context === 'DASHBOARD' ? {
                 ...state,
                 dashboard: {
@@ -53,6 +54,7 @@ const entitiesDataReducer = (state, action) => {
             }
 
         case "SET_CUSTOM_PAGE":
+            console.log(action.payload.data)
             return action.payload.context === 'DASHBOARD' ? {
                 ...state,
                 dashboard: {
