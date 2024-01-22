@@ -1,5 +1,5 @@
-import React, { useContext, useEffect } from 'react';
-import { Link, Outlet, NavLink } from 'react-router-dom'
+import React, { useContext } from 'react';
+import { Link} from 'react-router-dom'
 import { EntitiesDataContext } from '../../../contexts/entitiesDataContext';
 import { debounce } from '../../../utils/utils';
 import './BoardMeetings.css';
@@ -11,20 +11,13 @@ function classNames(...classes) {
 }
 
 function BoardMeetings() {
-  const { entitiesState: { entities, pagination }, entitiesDispatch } = useContext(EntitiesDataContext);
+  const { entitiesState: { pagination }, entitiesDispatch } = useContext(EntitiesDataContext);
   const debouncedSetPage = debounce((newPage) => {
     entitiesDispatch({
       type: "SET_CUSTOM_PAGE",
       payload: newPage
     });
   }, 300);
-  const debouncedSetSearch = debounce((e) => {
-    entitiesDispatch({
-      type: "SET_SEARCH",
-      payload: e.target.value
-    })
-  }, 500);
-  const [itemsPerPage, setitemsPerPage] = useState(10);
   const [activeTab, setActiveTab] = useState(1);
   const handleTabClick = (tabNumber) => {
     setActiveTab(tabNumber);
@@ -149,7 +142,7 @@ function BoardMeetings() {
               </thead>
               <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
                 {pagination?.paginatedEntities?.map((item, index) => (
-                  <tr class="hover:bg-gray-100 dark:hover:bg-gray-700">
+                  <tr key={item.id} class="hover:bg-gray-100 dark:hover:bg-gray-700">
                     <td class="px-6 py-2.5 whitespace-nowrap text-center  text-sm font-medium text-gray-800 border-collapse border border-[#e5e7eb]">{(pagination.currentPage + index)}</td>
                     <td class="px-6 py-2.5 whitespace-nowrap text-center  text-sm font-medium text-gray-800 border-collapse border border-[#e5e7eb]">{item.id}</td>
                     <td class="px-6 py-2.5 whitespace-nowrap text-center  text-sm font-medium text-gray-800 border-collapse border border-[#e5e7eb] hover:text-orange-500 hover:underline"><Link to="/taskform">{item.entity}</Link></td>
@@ -200,7 +193,7 @@ function BoardMeetings() {
               </thead>
               <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
                 {pagination?.paginatedEntities?.map((item, index) => (
-                  <tr class="hover:bg-gray-100 dark:hover:bg-gray-700">
+                  <tr key={item.id} class="hover:bg-gray-100 dark:hover:bg-gray-700">
                     <td class="px-6 py-2.5 whitespace-nowrap text-center  text-sm font-medium text-gray-800 border-collapse border border-[#e5e7eb]">{(pagination.currentPage + index)}</td>
                     <td class="px-6 py-2.5 whitespace-nowrap text-center  text-sm font-medium text-gray-800 border-collapse border border-[#e5e7eb]">{item.id}</td>
                     <td class="px-6 py-2.5 whitespace-nowrap text-center  text-sm font-medium text-gray-800 border-collapse border border-[#e5e7eb] hover:text-orange-500 hover:underline"><Link to="/taskform">{item.entity}</Link></td>
@@ -238,7 +231,7 @@ function BoardMeetings() {
       <div className="flex justify-end  absolute inset-x-0 bottom-2 px-4 pt-3 sm:px-6">
         <section className="isolate inline-flex -space-x-px rounded-md shadow-sm" aria-label="Pagination">
           <button
-            disabled={pagination.currentPage == 1}
+            disabled={pagination.currentPage === 1}
             onClick={() => debouncedSetPage(pagination.currentPage - 1)}
             href="#"
             className="relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-orange-600 hover:text-white focus:z-20 focus:outline-offset-0"

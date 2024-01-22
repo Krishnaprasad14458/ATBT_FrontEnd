@@ -1,19 +1,5 @@
-// import React, { useContext } from 'react'
-// import { useParams } from 'react-router-dom'
-// import { UserDataContext } from '../../../contexts/usersDataContext';
-
-// function UserProfile() {
-//   const {id} = useParams()
-//   const { usersState } = useContext(UserDataContext);
-//   return (
-//     <div>UserProfile {id}</div>
-//   )
-// }
-
-// export default UserProfile
-
 import React, { useContext, useMemo, useCallback } from 'react';
-import { Link, NavLink, Outlet, useParams } from 'react-router-dom';
+import { NavLink, Outlet, useParams } from 'react-router-dom';
 import { UserDataContext } from '../../../contexts/usersDataContext';
 
 function UserProfile() {

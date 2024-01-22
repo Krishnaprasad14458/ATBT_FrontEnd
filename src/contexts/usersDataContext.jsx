@@ -8,8 +8,6 @@ import React, {
 
   export const UserDataContext = createContext();
 
-  const apiToken = process.env.REACT_APP_API_TOKEN;
-
 
   const UserDataProvider = ({ children }) => {
     const initialState = {
@@ -27,22 +25,6 @@ import React, {
       userDataReducer,
       initialState
     );
-
-    // const getUsersData = async () => {
-    //   try {
-    //     const { status, data } = await axios.get("https://www.atbtbeta.teksacademy.com/userdata",{
-    //       headers:{ authorization: apiToken },
-    //     });
-    //     if (status === 201) {
-    //       usersDispatch({
-    //         type: "SET_USERS_DATA",
-    //         payload: data,
-    //       });
-    //     }
-    //   } catch (error) {
-    //     console.error(error);
-    //   }
-    // };
 
     const getPaginatedUsersData = async (pageNo=1,search="") => {
       try {
