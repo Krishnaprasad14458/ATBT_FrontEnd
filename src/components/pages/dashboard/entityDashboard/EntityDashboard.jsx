@@ -7,12 +7,6 @@ import { EntitiesDataContext } from '../../../../contexts/entitiesDataContext';
 function EntityDashboard() {
   const { entitiesState: { entities, dashboard }, entitiesDispatch } = useContext(EntitiesDataContext);
   const {debouncedSetPage, debouncedSetSearch} = useDebounce(entitiesDispatch);
-  useEffect(()=>{
-    entitiesDispatch({
-      type: "SET_SEARCH",
-      payload: ""
-    })
-  },[])
 
   return (
     <div className="w-full text-center bg-slate-50 border border-gray-200 rounded-md shadow sm:pt-4 dark:bg-gray-800 dark:border-gray-700">
