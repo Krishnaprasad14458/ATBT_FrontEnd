@@ -5,10 +5,10 @@ import DashboardList from '../../../list/dashboardList/DashboardList';
 import useDebounce from '../../../../hooks/debounce/useDebounce';
 
 function UserDashboard() {
-  const { usersState: { users, pagination },usersDispatch} = useContext(UserDataContext);
-  const {debouncedSetPage, debouncedSetSearch} = useDebounce(usersDispatch)
+  const { usersState: { users, pagination }, usersDispatch } = useContext(UserDataContext);
+  const { debouncedSetPage, debouncedSetSearch } = useDebounce(usersDispatch)
   return (
-    <div className="w-full  text-center bg-slate-50 border border-gray-200 rounded-md shadow sm:pt-4 dark:bg-gray-800 dark:border-gray-700">
+    <div className="w-full h-[450px] relative text-center bg-slate-50 border border-gray-200 rounded-md shadow sm:pt-4 dark:bg-gray-800 dark:border-gray-700">
       <div className='grid1-item overflow-hidden sm:w-full'>
         <div className='p-4 sm:px-6 sm:pt-2'>
           {/* hero module */}
@@ -27,8 +27,9 @@ function UserDashboard() {
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5">
               <path fill-rule="evenodd" d="M9 3.5a5.5 5.5 0 1 0 0 11 5.5 5.5 0 0 0 0-11ZM2 9a7 7 0 1 1 12.452 4.391l3.328 3.329a.75.75 0 1 1-1.06 1.06l-3.329-3.328A7 7 0 0 1 2 9Z" clip-rule="evenodd" />
             </svg>
-            <input onChange={(e) => debouncedSetSearch(e.target.value)} type="search" id="gsearch" name="gsearch" className='bg-slate-50 border-none focus:outline-none appearance-none focus:border-none' placeholder='Search here....' />
-          </div><hr className='w-60 my-1' />
+
+            <input onChange={(e) => debouncedSetSearch(e.target.value)} type="search" id="gsearch" name="gsearch" className='bg-slate-50  w-80  border-none focus:outline-none appearance-none focus:border-none' placeholder='Search here....' />
+          </div><hr className='w-96 my-1' />
         </div>
         <hr />
         {/* list module */}
@@ -49,7 +50,7 @@ function UserDashboard() {
         <hr />
       </div>
       {/* pagination module */}
-      <div className="flex items-center justify-between  px-4 py-3  sm:px-6">
+      <div className="flex items-center justify-between  px-4 py-3  sm:px-6 absolute inset-x-0 right-0 bottom-0">
         {/* hidden pagination only for mobile */}
         <div className="flex flex-1 justify-between sm:hidden">
           <a
