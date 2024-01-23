@@ -252,11 +252,24 @@ function EntityForm() {
                 else {
                   firstLetter = mail[0]
                 }
+
+                //color
+                const colors = ["#f87171", "#818cf8", "#fb923c", "#0891b2", "#db2777","#854d0e","#166534"];
+
+                const getRandomColor = (firstLetter) => {
+
+                  const randomIndex = firstLetter.charCodeAt(0) % colors.length
+
+                  // const randomIndex = Math.floor(Math.random() * colors.length);
+                  return colors[randomIndex];
+                };
+
+                // const randomColor = getRandomColor();
                 return (
                   <div className='col-span-1 flex justify-start gap-3' key={index}>
 
                     {index + 1 <= entityform.entitymembers.length && <>
-                      <h5 className='bg-[#f87171] rounded-full w-10 h-10 flex justify-center text-xs items-center text-white'>
+                      <h5 style={{ backgroundColor: `${getRandomColor(firstLetter)}` }} className=' rounded-full w-10 h-10 flex justify-center text-xs items-center text-white'>
 
                         {index < 11 && <>
                           {firstLetter.toUpperCase()}{secondLetter && secondLetter.toUpperCase()}</>}{index == 11 && entityform.entitymembers.length == 12 && <>
@@ -290,7 +303,7 @@ function EntityForm() {
         </div>
 
       </div>
-    </div>
+    </div >
   );
 }
 
