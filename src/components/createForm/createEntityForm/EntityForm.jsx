@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import defprop from '../../../Images/defprof.svg';
 import './EntityForm.css';
+import teams_img from '../../../Images/360_F_201108775_UMAoFXBAsSKNcr53Ip5CTSy52Ajuk1E4.jpg'
 function EntityForm() {
 
 
@@ -46,7 +47,7 @@ function EntityForm() {
   const [query, setQuery] = useState('');
   const [selected, setSelected] = useState([]);
   const [showUsers, setShowUsers] = useState(false);
-  const users = ["irshad.m@gmail.com", "bhavitha@gmail.com", "balu@gmail.com", "anil@gmail.com", "niraj@gmail.com", "irfan@gmail.com", "lashmi@gmail.com", "suma@gmail.com", "vivek@gmail.com"];
+  const users = ["irshad.mohd@gmail.com", "bhavitha@gmail.com", "balu@gmail.com", "irshafd.mohd@gmail.com", "ds.mohd@gmail.com", "irshadsfd.mohd@gmail.com", "bhaviftha@gmail.com", "balfu@gmail.com", "anil@gmail.com", "niraj@gmail.com", "irfan@gmail.com", "lashmi@gmail.com", "suma@gmail.com", "vivek@gmail.com"];
   const handleInputChange = (value) => {
     setQuery(value);
     setShowUsers(true);
@@ -65,6 +66,11 @@ function EntityForm() {
   //  for add member input remove users
   const handleRemove = (user) => {
     const updatedSelected = selected.filter((selectedUser) => selectedUser !== user);
+    const updatedMembers = entityform.entitymembers.filter((selectedUser) => selectedUser !== user);
+    setEntityForm((prevEntityForm) => ({
+      ...prevEntityForm,
+      entitymembers: updatedMembers
+    }));
     setSelected(updatedSelected);
   };
 
@@ -131,7 +137,7 @@ function EntityForm() {
               {showUsers && (
                 <ul className="user-list z-50 absolute top-full left-0  bg-gray-50 border border-1 border-gray-200 w-full">
 
-                  {users
+                  {users.filter(user => !selected.includes(user))
                     .filter((item) => item.toLowerCase().includes(query.toLowerCase()))
                     .map((user, index) => (
                       <li key={index}
@@ -187,86 +193,98 @@ function EntityForm() {
               {/* </textarea> */}
             </div>
 
-            {/* <div className='border-2 h-26 p-2'>
-            <p className='text-sm'>The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).</p>
-          </div> */}
+
             <p className='text-md font-semibold my-3' > Members</p>
 
             <div className=' grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-4 mt-5'>
 
 
-              {entityform && entityform.entitymembers && entityform.entitymembers.length > 0 && entityform.entitymembers.map((member) => {
+              {/* {entityform && entityform.entitymembers && entityform.entitymembers.length > 0 && entityform.entitymembers.map((member) => {
                 let mail = member.split("@")[0]
-                let first = mail[0]
-                let second;
+                let first = "";
+                let second = "";
+                let firstLetter;
+                let secondLetter;
                 if (mail.includes(".")) {
+                  console.log("mail", mail)
                   first = mail.split(".")[0]
                   second = mail.split(".")[1]
+                  firstLetter = first[0]
+                  secondLetter = second[0]
+                  console.log("maivvvl", mail, first[0], second[0])
                 }
-
-
+                else {
+                  firstLetter = mail[0]
+                }
 
                 return (
                   <div className='col-span-1 flex justify-start gap-3'>
-                    <h5 className='bg-[#f87171] rounded-full w-10 h-10 flex justify-center text-xs items-center text-white'> {first ||  second && <span>{first[0]}{second[0]}</span>}</h5>
+                    <h5 className='bg-[#f87171] rounded-full w-10 h-10 flex justify-center text-xs items-center text-white'> {firstLetter.toUpperCase()}&nbsp;{secondLetter && secondLetter.toUpperCase()}</h5>
                     <p className='mt-1.5 font-thin  text-sm'>{mail}</p>
                   </div>
                 )
 
+              })} */}
+              {entityform && entityform.entitymembers && Array.from({ length: 12 }).map((_, index) => {
+                let first = "";
+                let second = "";
+                let firstLetter;
+                let secondLetter;
+                let mail = "";
+                if (index < entityform.entitymembers.length) {
+                  mail = entityform.entitymembers[index].split("@")[0]
+                  if (mail.includes(".")) {
+                    first = mail.split(".")[0]
+                    second = mail.split(".")[1]
+                    firstLetter = first[0]
+                    secondLetter = second[0]
+                  }
+                  else {
+                    firstLetter = mail[0]
+                  }
+                }
+                if (mail.includes(".")) {
+                  first = mail.split(".")[0]
+                  second = mail.split(".")[1]
+                  firstLetter = first[0]
+                  secondLetter = second[0]
+                }
+                else {
+                  firstLetter = mail[0]
+                }
+                return (
+                  <div className='col-span-1 flex justify-start gap-3' key={index}>
+
+                    {index + 1 <= entityform.entitymembers.length && <>
+                      <h5 className='bg-[#f87171] rounded-full w-10 h-10 flex justify-center text-xs items-center text-white'>
+
+                        {index < 11 && <>
+                          {firstLetter.toUpperCase()}{secondLetter && secondLetter.toUpperCase()}</>}{index == 11 && entityform.entitymembers.length == 12 && <>
+                            {firstLetter.toUpperCase()}{secondLetter && secondLetter.toUpperCase()}</>} {index == 11 && entityform.entitymembers.length > 12 && <span>
+                              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.094 9.094 0 0 0 3.741-.479 3 3 0 0 0-4.682-2.72m.94 3.198.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0 1 12 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 0 1 6 18.719m12 0a5.971 5.971 0 0 0-.941-3.197m0 0A5.995 5.995 0 0 0 12 12.75a5.995 5.995 0 0 0-5.058 2.772m0 0a3 3 0 0 0-4.681 2.72 8.986 8.986 0 0 0 3.74.477m.94-3.197a5.971 5.971 0 0 0-.94 3.197M15 6.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm6 3a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Zm-13.5 0a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Z" />
+                              </svg>
+                            </span>}
+                      </h5>
+                      <div className=' flex items-center'>
+
+                        <div className=' '>{index < 11 && mail}{index == 11 && entityform.entitymembers.length == 12 && mail} {index == 11 && entityform.entitymembers.length > 12 && <span>+{entityform.entitymembers.length - 11} more</span>} </div>
+                      </div>
+                    </>}
+                    {index + 1 > entityform.entitymembers.length && <>
+                      <h5 className='bg-[#e5e7eb] rounded-full w-10 h-10 flex justify-center text-xs items-center text-white'>
+
+                      </h5>
+                      <div className=' flex items-center'>
+                        <div className=' rounded-md  bg-[#e5e7eb] h-2 w-28'> </div>
+                      </div>
+                    </>}
+                  </div>
+                )
+
               })}
-              {/* <div className='col-span-1 flex justify-start gap-3'>
-                <h5 className='bg-[#f87171] rounded-full w-10 h-10 flex justify-center text-xs items-center text-white'> SA</h5>
-                <img
-                src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBwgHBgkIBwgKCgkLDRYPDQwMDRsUFRAWIB0iIiAdHx8kKDQsJCYxJx8fLT0tMTU3Ojo6Iys/RD84QzQ5OjcBCgoKDQwNGg8PGjclHyU3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3N//AABEIAJQAnQMBIgACEQEDEQH/xAAbAAEAAgMBAQAAAAAAAAAAAAAAAQMCBgcFBP/EADoQAAICAQICBAwEBQUAAAAAAAABAgMEBREGMRITIUEiMkJRYXGBkaGxwdEHFFLhI2KCovAVU2Nykv/EABUBAQEAAAAAAAAAAAAAAAAAAAAB/8QAFBEBAAAAAAAAAAAAAAAAAAAAAP/aAAwDAQACEQMRAD8A64AAABlEDKKLYoxgixASAYXW10VysunGuEVu5SeyQGYNZ1DjPAx3KOJCeVNd68GHvf2PDyONdTsf8GvHqX/VyfvbA6EDnEOMdXjJNyokvM6/3PX07jiEmo6jjOtf7lL3XtT7QNwBTi5NGZRG/GtjbVLlKLLgMWiucS4wmgPnaIM5Iw2AEEkASAACM4oxRbBAWRMiESB8uqZ9OmYVmVkN9GC7IrnJ9yRzDVtVy9Vv6zLn4Kfg1LxYepfU9rj3UJX6jXhRl/Dx47yS75v7L6mrgAAVAAAfdpOq5Wk5HXYs+x+PW/FmvT9zpej6pj6tiLIx5bPlOD5wfmZyY9Lh/VZ6RqEL931Mn0bo+ePn9nMK6qQxGSlFSi91Jbp+dEkFM0VM+iZTIDAgkgCQABMS6BVEugBYg3sm3yQKc5yWFkOHjKqW3r2YHJtQveVn5OQ3u7LZS+J85C5ElQAAAAAAAB03g/JeToGO5PeVe9T9nL4bHtGs/h90v9Ft35fmZbf+YmzEVjIpki6RVMCoglkASO8ADOPMuiUxLogZhrdNNbp80AByPVcR4OpZOM1t1djUfV3fA+Q9rjC93cQZKcVFVbVrbm0l3nilQAAAAAA2kDOiyNV0LJwU4wkpOLfjbdwHUeGsN4GiYtMltNx6c16Zdv2PTMapqyqE0tlKKaXrRkRUMpmXSKZ94FTIJZAEgADKJdAoRdBgWgIAcy4zr6viLIfdNRkvd+x4pv3G+jyy6I5+Ot7aYtTivKhz+HyNBAAAqAAABR6bUF5XZ7wevwvptuo6tV0Yb00yU7ZPkkuS9uwHTaY9CqEP0xS9yMwCKxkUzLpFEgMCCSAJAABFsGVmUWB9CJMIszANJpprdNcu45Rr2nvS9Uuxkn1e/Sr9MXy+x1c0/wDEWuH5fCt2XWdZKPs23+YGkAAqAAAJOTSSbbeySOqcO6ZHStLrp2XWz2la/PL9jnfD9fW65gQ23XXxfue51cigYIbAwmymTLJsqYEEEkASAABKZBIFsGWpnzxkWxkBYanx9g5GRj05VPh1Y+6sgucd/K+h9+v8SY2m0Srx7IXZj7Ixi91B+eX2LOFc9ano0OsfStr3qt37/T7d/mBzEG08T8LzxJTy9OrlPGfbOuK3dfq86+RqwAGVdc7ZxrqhKc5PaMYrdv1I3HQeDHJRv1h7R5rHi+3+p/QqPI4Rxb5apTmRx5zx6G3ZNco9nx9SOlJppNNNNdjRVk24+l6fZb0Y10UQbUYrZepGt8J8R/nbbMPMcYWuTnTt2LZ9vR9hFbUyuTMpMpkwIkzAlkACCSAJB8ubqWHgR3ysiFb7o7+E/ZzNezuMoreOBjt/z3dnwQG1nmZ+vafg7xtvU7F5FfhM0XO1jUM/dZGTLovyIeDH3I+H1AbNmcZZM3tiY8Ko/qn4Ujx8vWNRzN1fmWuL8hPox9yPhBQNl4Ezvy+rSxpPwMiGyX8y7V8NzWizGvni5NWRW/Dqmpr2MI7GaJx1jaZj3wdEerzrF0pQrW0XHzv0+o223UKq9Mee+2pVdb2d/Yctzcu3Oyrcm972WS3fo9BFdE4PwtMhptWZg1uVli2nZZs5prmvR7DYDn3AOpvHz5YFj/h5C3h6Jr7r5G8ZuXXhYduVd4lUXJ/YDUfxB1TeVWmVS5bWW7f2r6+40yEpVzjOEnGUXumuaZZl5NmXlW5Nz3stl0mVFRs+Fxnm1bQzKa71+pPoy+z+B7eJxTpmU1GVsqJvuti0vfyOegiusVWQtip1TjOD5OL3Rmcox77safTx7Z1S88JNHtYfFeoUbK/oZEV+pbP3oDfSDwsHirT8naN7ljS/5PF957kJRnFSrkpxfapRe6YHJ5zlOcpzk5Tl2uUnu2QAVAAAAAAHeABvfB2RDN0aeHclLqW63F98Zdq+pqGsYEtM1C3Glu4rtrb74vkz0OD8z8trEapPwMiPQfr5r/PSTxpZ09a6K8imMfm/qRX2/h/iRtz8jKkt+ogow9ct/oviel+IGW69Px8WD266zpSW/NR/do+P8PbUp51Tfb0YTXp57/Q8/jfL/Ma06k/Bx4KH9T7X/noA18AFQAAAAAD6MfOy8WLjjZNtUX2tQk0j5wAAAAAAAAAAAE12SqthZB7ShJSi/M0z0eI5uet5bl3SS/tQAH2cFWzr1yMYvsnXJS+f0PGy7JXZV9tj3nO2Um/TuABUAAAAAAAAAAP/2Q=="
-                className="rounded-full w-10 h-10 mr-4"
-                alt="Default User Photo"
-              />
-                <p className='mt-1.5 font-thin  text-sm'>srilakshmi.a</p>
-              </div>
-              <div className='col-span-1 flex justify-start gap-3'>
-                <h5 className='bg-[#f87171] rounded-full w-10 h-10 flex justify-center text-xs items-center text-white'> BY</h5>
-                <p className='mt-1.5 font-thin  text-sm'>Bhavitha.y</p>
-              </div>
-              <div className='col-span-1 flex justify-start gap-3'>
-                <h5 className='bg-[#fb923c] rounded-full w-10 h-10 flex justify-center text-xs items-center text-white'>IM</h5>
-                <p className='mt-1.5 font-thin  text-sm'>Irshad.md</p>
-              </div>
-              <div className='col-span-1 flex justify-start gap-3'>
-                <h5 className='bg-[#818cf8] rounded-full w-10 h-10 flex justify-center text-xs items-center text-white'> SA</h5>
-                <p className='mt-1.5 font-thin  text-sm'>srilakshmi.a</p>
-              </div>
-              <div className='col-span-1 flex justify-start gap-3'>
-                <h5 className='bg-[#fb923c] rounded-full w-10 h-10 flex justify-center text-xs items-center text-white'> NN</h5>
-                <p className='mt-1.5 font-thin  text-sm'>Niraj.n</p>
-              </div>
-              <div className='col-span-1 flex justify-start gap-3'>
-                <h5 className='bg-[#f87171] rounded-full w-10 h-10 flex justify-center text-xs items-center text-white'> IS</h5>
-                <p className='mt-1.5 font-thin  text-sm'>Irfan.sk</p>
-              </div>
-              <div className='col-span-1 flex justify-start gap-3'>
-                <h5 className='bg-[#fb923c] rounded-full w-10 h-10 flex justify-center text-xs items-center text-white'> KN</h5>
-                <p className='mt-1.5 font-thin  text-sm'>Krishna.n</p>
-              </div>
-              <div className='col-span-1 flex justify-start gap-3'>
-                <h5 className='bg-[#f87171] rounded-full w-10 h-10 flex justify-center text-xs items-center text-white'> SA</h5>
-                <p className='mt-1.5 font-thin  text-sm'>srilakshmi.a</p>
-              </div>
-              <div className='col-span-1 flex justify-start gap-3'>
-                <h5 className='bg-[#818cf8] rounded-full w-10 h-10 flex justify-center text-xs items-center text-white'> SA</h5>
-                <p className='mt-1.5 font-thin  text-sm'>srilakshmi.a</p>
-              </div>
-              <div className='col-span-1 flex justify-start gap-3'>
-                <h5 className='bg-[#f87171] rounded-full w-10 h-10 flex justify-center text-xs items-center text-white'> SA</h5>
-                <p className='mt-1.5 font-thin  text-sm'>srilakshmi.a</p>
-              </div>
-              <div className='col-span-1 flex justify-start gap-3'>
-                <h5 className='bg-[#818cf8] rounded-full w-10 h-10 flex justify-center text-xs items-center text-white'> SA</h5>
-                <p className='mt-1.5 font-thin  text-sm'>srilakshmi.a</p>
-              </div>
-              <div className='col-span-1 flex justify-start gap-3'>
-                <h5 className='bg-[#fb923c] rounded-full w-10 h-10 flex justify-center text-xs items-center text-white'> SA</h5>
-                <p className='mt-1.5 font-thin  text-sm'> +2 more</p>
-              </div> */}
+
+
             </div>
           </div>
         </div>
