@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import defprop from '../../../Images/defprof.svg';
 import './EntityForm.css';
 function EntityForm() {
@@ -32,7 +32,7 @@ function EntityForm() {
     entityname: "",
     entityphoto: imageSrc,
     entitydescription: "",
-    entitymembers: ""
+    entitymembers: []
   })
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -40,16 +40,25 @@ function EntityForm() {
       ...e, [name]: value
     }))
   }
+  useEffect(() => {
+    console.log("entityform,", entityform)
+  }, [entityform])
   const [query, setQuery] = useState('');
   const [selected, setSelected] = useState([]);
   const [showUsers, setShowUsers] = useState(false);
-  const users = ["irshad@gmail.com", "bhavitha@gmail.com", "balu@gmail.com", "anil@gmail.com", "niraj@gmail.com", "irfan@gmail.com", "lashmi@gmail.com", "suma@gmail.com", "vivek@gmail.com"];
+  const users = ["irshad.m@gmail.com", "bhavitha@gmail.com", "balu@gmail.com", "anil@gmail.com", "niraj@gmail.com", "irfan@gmail.com", "lashmi@gmail.com", "suma@gmail.com", "vivek@gmail.com"];
   const handleInputChange = (value) => {
     setQuery(value);
     setShowUsers(true);
   };
   const handleClick = (value) => {
     setSelected((e) => [...e, value])
+    // setEntityForm((e) => [...e, value])
+
+    setEntityForm((prevEntityForm) => ({
+      ...prevEntityForm,
+      entitymembers: [...prevEntityForm.entitymembers, value]
+    }));
     setQuery('');
     setShowUsers(false);
   };
@@ -184,13 +193,34 @@ function EntityForm() {
             <p className='text-md font-semibold my-3' > Members</p>
 
             <div className=' grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-4 mt-5'>
-              <div className='col-span-1 flex justify-start gap-3'>
+
+
+              {entityform && entityform.entitymembers && entityform.entitymembers.length > 0 && entityform.entitymembers.map((member) => {
+                let mail = member.split("@")[0]
+                let first = mail[0]
+                let second;
+                if (mail.includes(".")) {
+                  first = mail.split(".")[0]
+                  second = mail.split(".")[1]
+                }
+
+
+
+                return (
+                  <div className='col-span-1 flex justify-start gap-3'>
+                    <h5 className='bg-[#f87171] rounded-full w-10 h-10 flex justify-center text-xs items-center text-white'> {first ||  second && <span>{first[0]}{second[0]}</span>}</h5>
+                    <p className='mt-1.5 font-thin  text-sm'>{mail}</p>
+                  </div>
+                )
+
+              })}
+              {/* <div className='col-span-1 flex justify-start gap-3'>
                 <h5 className='bg-[#f87171] rounded-full w-10 h-10 flex justify-center text-xs items-center text-white'> SA</h5>
-                {/* <img
+                <img
                 src="data:image/jpeg;base64,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"
                 className="rounded-full w-10 h-10 mr-4"
                 alt="Default User Photo"
-              /> */}
+              />
                 <p className='mt-1.5 font-thin  text-sm'>srilakshmi.a</p>
               </div>
               <div className='col-span-1 flex justify-start gap-3'>
@@ -236,7 +266,7 @@ function EntityForm() {
               <div className='col-span-1 flex justify-start gap-3'>
                 <h5 className='bg-[#fb923c] rounded-full w-10 h-10 flex justify-center text-xs items-center text-white'> SA</h5>
                 <p className='mt-1.5 font-thin  text-sm'> +2 more</p>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>
