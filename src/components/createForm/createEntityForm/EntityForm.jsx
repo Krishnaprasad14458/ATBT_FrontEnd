@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import defprop from '../../../Images/defprof.svg';
 import './EntityForm.css';
-import teams_img from '../../../Images/360_F_201108775_UMAoFXBAsSKNcr53Ip5CTSy52Ajuk1E4.jpg'
+import { Link } from 'react-router-dom'
 function EntityForm() {
 
 
@@ -149,21 +149,15 @@ function EntityForm() {
                     ))}
                 </ul>
               )}
-
-
             </div>
-
-
             <div className=''>
               <button type="submit"
-                className="mt-6 flex w-full justify-center rounded-md bg-orange-600 px-3 py-2.5 text-sm font-medium leading-6 text-white shadow-sm  focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600">Create Entity</button>
+                className="mt-6 flex w-full justify-center rounded-md bg-orange-600 px-3 py-2.5 text-sm font-medium leading-6 text-white shadow-sm  focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600"><Link to="/entitylandingpage">Create Entity</Link></button>
             </div>
           </form>
         </div>
 
-
         <div className="col-span-2 h-[500px] overflow-auto shadow-md px-6 py-4 border-2 rounded-md bg-[#f8fafc]  ">
-
           <div className='mb-5 mt-3'>
             <div className="flex gap-4">
               <div className="group h-10 ">
@@ -291,7 +285,7 @@ function EntityForm() {
 
       </div>
     </div>
-  );
+ );
 }
 
 export default EntityForm;
