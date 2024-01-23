@@ -5,17 +5,9 @@ import { AuthContext } from '../../../contexts/authContext';
 function UserForm() {
   const { createUser } = useContext(AuthContext);
   const [userDetails, setUserDetails] = useState({
-    name: "",
+    userName: "",
     email: "",
-    phonenumber: "",
-    designation: "",
-    profile: 1,
-    entities: 1,
-    board_meeting: 1,
-    teams: 1,
-    tasks: 4,
-    notifications: 4,
-    branch: 4
+    phone: "",
   });
   function handleSubmit(e) {
     e.preventDefault();
@@ -31,10 +23,10 @@ function UserForm() {
               <div>
                 <label htmlFor="name" className="block text-sm font-medium leading-6 text-gray-900">Name</label>
                 <div className="">
-                  <input id="name" name="name" type="text" autoComplete="name" required value={userDetails.name}
+                  <input id="name" name="userName" type="text" autoComplete="userName" required value={userDetails.userName}
                     onChange={(e) => setUserDetails((prev) => ({
                       ...prev,
-                      name: e.target.value,
+                      userName: e.target.value,
                     }))} className="p-3 block w-full rounded-md border border-1 border-gray-400 py-1.5 text-gray-900 appearance-none shadow-sm  placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6" />
                 </div>
               </div>
@@ -52,15 +44,15 @@ function UserForm() {
               <div>
                 <label htmlFor="phone" className="block text-sm font-medium leading-6 text-gray-900">Phone</label>
                 <div className="">
-                  <input id="phone" name="phone" type="tel" autoComplete="phone" required value={userDetails.phonenumber}
+                  <input id="phone" name="phone" type="tel" autoComplete="phone" required value={userDetails.phone}
                     onChange={(e) => setUserDetails((prev) => ({
                       ...prev,
-                      phonenumber: e.target.value,
+                      phone: e.target.value,
                     }))}
                     className="p-3 block w-full rounded-md border border-1 border-gray-400 py-1.5 text-gray-900 appearance-none shadow-sm  placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6" />
                 </div>
               </div>
-              <div>
+              {/* <div>
                 <label htmlFor="designation" className="block text-sm font-medium leading-6 text-gray-900">Designation</label>
                 <div className="">
                   <input id="designation" name="designation" type="text" autoComplete="designation" required value={userDetails.designation} onChange={(e) => setUserDetails((prev) => ({
@@ -68,7 +60,7 @@ function UserForm() {
                     designation: e.target.value,
                   }))} className="p-3 block w-full rounded-md border border-1 border-gray-400 py-1.5 text-gray-900 appearance-none shadow-sm  placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6" />
                 </div>
-              </div>
+              </div> */}
               {/* <div className="relative">
                 <input type="file" id="fileInput" className="p-3 block w-full rounded-md border border-1 border-gray-400 py-1 bg-white text-gray-900 appearance-none shadow-sm  placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6" />
               </div> */}
@@ -101,7 +93,7 @@ function UserForm() {
                 <h3 className="text-md text-gray-800">Name: {userDetails?.name}</h3>
                 <h3 className="text-md text-gray-800">Email: {userDetails?.email}</h3>
                 <h3 className="text-md text-gray-800">Phone: {userDetails?.phonenumber}</h3>
-                <h3 className="text-md text-gray-800">Designation: {userDetails?.designation}</h3>
+                {/* <h3 className="text-md text-gray-800">Designation: {userDetails?.designation}</h3> */}
               </div>
             </div>
           </div>

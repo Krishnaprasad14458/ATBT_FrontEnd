@@ -7,8 +7,6 @@ import { EntitiesDataContext } from '../../../../contexts/entitiesDataContext';
 function EntityDashboard() {
   const { entitiesState: { entities, dashboard }, entitiesDispatch } = useContext(EntitiesDataContext);
   const { debouncedSetPage, debouncedSetSearch } = useDebounce(entitiesDispatch);
-
-
   return (
     <div className="w-full text-center h-[450px] relative bg-slate-50 border border-gray-200 rounded-md shadow sm:pt-4 dark:bg-gray-800 dark:border-gray-700">
       <div className='grid1-item overflow-hidden sm:w-full'>
