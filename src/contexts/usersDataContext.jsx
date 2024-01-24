@@ -5,8 +5,14 @@ import React, {
   } from "react";
   import userDataReducer from "../reducers/userDataReducer";
   import axios from "axios";
+  import { apiUrl } from "../utils/constants";
+import { toast } from "react-toastify";
 
   export const UserDataContext = createContext();
+
+  const localStorageData = JSON.parse(localStorage.getItem("data"));
+
+  console.log(localStorageData?.token)
 
 
   const UserDataProvider = ({ children }) => {
@@ -28,12 +34,12 @@ import React, {
 
     console.log(usersState)
 
-    const getPaginatedUsersData = async (pageNo=1,search="") => {
+    const getPaginatedUsersData = async () => {
       try {
         usersDispatch({
           type: "SET_LOADING"
         })
-        const { status, data: {users} } = await axios.get(`https://atbtmain.teksacademy.com/user/list?page=${pageNo}&pageSize=5&sortBy=userName&search=${search}`);
+        const { status, data: {users} } = await axios.get(`${apiUrl}/user/list?page=${usersState.pagination.currentPage}&pageSize=5&sortBy=userName&search=${usersState.pagination.search}`);
         console.log(users)
         if (status === 200) {
           usersDispatch({
@@ -62,10 +68,41 @@ import React, {
         console.error(e);
       }
     };
+
+    const createUser = async (userData) => {
+      console.log(userData)
+      try {
+        const { data, status } = await toast.promise(
+          axios.post(`${apiUrl}/admin/create-user`, {...userData}, {
+            headers: {
+              authorization: localStorageData?.token,
+            }
+          }),
+          {
+            pending: 'Creating User...',
+            success: {
+              render({ data}) {
+                return `user created`
+              }
+            },
+            error: 'Check user details 🤯',
+          },
+        )
+        console.log(data,status)
+        if (status === 201) {
+          console.log("doing")
+          getPaginatedUsersData()
+          console.log("done")
+        }
+      }
+      catch (e) {
+        console.error(e);
+      }
+    };
   
     useEffect(() => {
       // getUsersData();
-      getPaginatedUsersData(usersState?.pagination?.currentPage,usersState?.pagination?.search);
+      getPaginatedUsersData();
       // eslint-disable-next-line
     }, [usersDispatch,usersState?.pagination?.currentPage,usersState?.pagination?.search]);
   
@@ -74,7 +111,7 @@ import React, {
         value={{
           usersState,
           usersDispatch,
-          // getUsersData,
+          createUser,
           getUser,
           getPaginatedUsersData,
         }}
