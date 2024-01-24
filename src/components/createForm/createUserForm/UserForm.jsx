@@ -1,10 +1,10 @@
 import axios from 'axios'
 import React, { useContext, useState } from 'react';
-import { AuthContext } from '../../../contexts/authContext';
 import defprop from '../../../Images/defprof.svg';
+import { UserDataContext } from '../../../contexts/usersDataContext';
 
 function UserForm() {
-  const { createUser } = useContext(AuthContext);
+  const { createUser } = useContext(UserDataContext);
   const [userDetails, setUserDetails] = useState({
     userName: "",
     email: "",
