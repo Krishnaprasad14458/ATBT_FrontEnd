@@ -1,22 +1,24 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useContext } from 'react';
 import defprop from '../../../Images/defprof.svg';
 import './EntityForm.css';
+import { EntitiesDataContext } from '../../../contexts/entitiesDataContext';
 function EntityForm() {
-
+  const { entitiesState: { pagination }, entitiesDispatch, deleteEntitybyId, createEntity } = useContext(EntitiesDataContext);
 
   // choose file
   const [imageSrc, setImageSrc] = useState(null);
   const [selectedFileName, setSelectedFileName] = useState('');
-
   const handleFileChange = (event) => {
     const file = event.target.files[0];
 
     if (file) {
+      console.log(file)
       const reader = new FileReader();
+      console.log(reader);
       reader.onloadend = () => {
         setImageSrc(reader.result);
         setEntityForm((e) => ({
-          ...e, entityphoto: reader.result
+          ...e, EntityPhoto: reader.result
         }))
         setSelectedFileName(file.name);
       };
@@ -28,18 +30,20 @@ function EntityForm() {
     document.getElementById('fileInput').click();
   };
   //  for binding data
-  const [entityform, setEntityForm] = useState({
-    entityname: "",
-    entityphoto: imageSrc,
-    entitydescription: "",
-    entitymembers: ""
-  })
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setEntityForm((e) => ({
-      ...e, [name]: value
-    }))
-  }
+  const [entityForm, setEntityForm] = useState({
+    Entite_Name: "",
+    EntityPhoto: "",
+    Description: "",
+    Members: ["irshad@gmail.com", "bhavitha@gmail.com"]
+  });
+  console.log(entityForm)
+const handleChange = (e) => {
+  const { name, value } = e.target;
+  setEntityForm((prevEntityForm) => ({
+    ...prevEntityForm,
+    [name]: value
+  }));
+};
   const [query, setQuery] = useState('');
   const [selected, setSelected] = useState([]);
   const [showUsers, setShowUsers] = useState(false);
@@ -59,6 +63,11 @@ function EntityForm() {
     setSelected(updatedSelected);
   };
 
+  function handleFormSubmit(e){
+    e.preventDefault();
+    createEntity(entityForm);
+  }
+
 
   return (
 
@@ -67,17 +76,18 @@ function EntityForm() {
       <p className="text-lg font-semibold">New Entity</p>
       <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-4 xl:grid-cols-3  gap-6 mt-4 ">
         <div className="col-span-1 ps-5 pe-8">
-          <form className="space-y-3" method="POST">
+          <form className="space-y-3" method="POST" onSubmit={handleFormSubmit}>
             <div>
               <label htmlFor="name" className="block text-sm font-medium leading-6 mt-4 mb-2 text-gray-900">Entity Name</label>
               <div className="">
-                <input id="name" name="entityname" type="text" autoComplete="name" onChange={handleChange} value={entityform.entityname} required className="p-2 text-xs block w-full bg-gray-50  rounded-md  border-2 border-gray-200 py-1 text-gray-900 appearance-none shadow-sm  placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-xs sm:leading-6" />
+                <input id="name" name="Entite_Name" type="text" autoComplete="name" onChange={handleChange} value={entityForm.Entite_Name} required className="p-2 text-xs block w-full bg-gray-50  rounded-md  border-2 border-gray-200 py-1 text-gray-900 appearance-none shadow-sm  placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-xs sm:leading-6" />
               </div>
             </div>
             <div>
               <label htmlFor="name" className="block text-sm font-medium leading-6 my-2 text-gray-900">Choose Your Photo</label>
               <input
                 type="file"
+                name="EntityPhoto"
                 id="fileInput"
                 className="p-2 block w-full rounded-md bg-gray-50 border-2 border-gray-200 py-1 text-gray-900 appearance-none shadow-sm  placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6"
                 accept="image/*"
@@ -88,7 +98,7 @@ function EntityForm() {
             <div>
               <label htmlFor="name" className=" block text-sm my-2 font-medium leading-6 text-gray-900" >Description</label>
               <div className=''>
-                <textarea name='entitydescription' onChange={handleChange} value={entityform.entitydescription} class="resize-none bg-gray-50 rounded-md text-xs p-2 w-full h-20 border-2 border-gray-200 focus:outline-none focus:border-orange-400"></textarea>
+                <textarea name='Description' onChange={handleChange} value={entityForm.Description} class="resize-none bg-gray-50 rounded-md text-xs p-2 w-full h-20 border-2 border-gray-200 focus:outline-none focus:border-orange-400"></textarea>
               </div>
             </div>
 
@@ -154,8 +164,8 @@ function EntityForm() {
               <div className="group h-10 ">
                 {imageSrc ? (
                   <img
-                    src={entityform.entityphoto}
-                    name="entityphoto"
+                    src={entityForm.EntityPhoto}
+                    name="EntityPhoto"
                     alt="Selected User Photo"
                     className="rounded-lg w-10 h-10 mr-4"
                   />
@@ -168,13 +178,13 @@ function EntityForm() {
                   // />
                 )}
               </div>
-              <p class="text-lg font-black text-gray-800 mt-2">{entityform.entityname}</p>
+              <p class="text-lg font-black text-gray-800 mt-2">{entityForm.Entite_Name}</p>
 
             </div>
             <hr className='my-3' />
             <div className='h-20 overflow-auto border border-1 border-gray-200 rounded-md p-2 bg-[#f8fafc] text-sm w-full  '>
               {/* <textarea className="resize-none h-20 border border-1 border-gray-200 focus:outline-none "> */}
-              {entityform.entitydescription}
+              {entityForm.Description}
               {/* </textarea> */}
             </div>
 
