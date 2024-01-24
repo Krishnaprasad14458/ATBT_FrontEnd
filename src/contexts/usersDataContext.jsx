@@ -12,7 +12,7 @@ import { toast } from "react-toastify";
 
   const localStorageData = JSON.parse(localStorage.getItem("data"));
 
-  console.log(localStorageData.token)
+  console.log(localStorageData?.token)
 
 
   const UserDataProvider = ({ children }) => {
