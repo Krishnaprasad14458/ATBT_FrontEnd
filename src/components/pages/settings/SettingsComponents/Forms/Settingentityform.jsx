@@ -31,7 +31,7 @@ const SettingEntityForm = () => {
                     <label htmlFor="email" className="flex-initial w-32 h-14 text-sm font-medium leading-6 text-gray-900">Email</label>
                     <div className="flex-initial w-64">
                         <input id="email" name="email" type="email" autoComplete="email" required value=""
-                            className="p-3  w-full rounded-md border border-1 border-gray-400 py-1.5 text-gray-900 appearance-none shadow-sm  placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6" />
+                            className="p-3 w-full rounded-md border border-1 border-gray-400 py-1.5 text-gray-900 appearance-none shadow-sm  placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6" />
                     </div>
                     <div className=" flex flex-row p-2 text-center">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="ms-4 w-5 h-5 text-gray-500">
@@ -46,7 +46,7 @@ const SettingEntityForm = () => {
                 <div class="flex">
                     <label htmlFor="email" className="flex-initial w-32 h-14 text-sm font-medium leading-6 text-gray-900">Choose Files</label>
                     <div className="flex-initial w-64">
-                        <input type="file" id="file" name="file" class="" />
+                        <input type="file" id="file" name="file" class="p-3 w-full rounded-md border border-1 border-gray-400 py-1.5 text-gray-900 appearance-none shadow-sm  placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6" />
                     </div>
                     <div className=" flex flex-row p-2 text-center">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="ms-4 w-5 h-5 text-gray-500">
