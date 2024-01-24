@@ -3,7 +3,7 @@ const userDataReducer = (state, action) => {
         case "SET_USERS_DATA":
             return {
                 ...state,
-                users: action.payload,
+                users: action.payload.data,
             };
 
         case "SET_PAGINATED_USERS":

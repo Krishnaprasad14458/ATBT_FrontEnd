@@ -12,7 +12,7 @@ import { toast } from "react-toastify";
 
   const localStorageData = JSON.parse(localStorage.getItem("data"));
 
-  console.log(localStorageData?.token)
+  console.log(localStorageData?.token,"token")
 
 
   const UserDataProvider = ({ children }) => {
@@ -33,6 +33,19 @@ import { toast } from "react-toastify";
     );
 
     console.log(usersState)
+
+    const getAllUsers = async () => {
+      const { status, data: {users} } = await axios.get(`${apiUrl}/user/list`);
+      console.log(users,status)
+      if (status === 200) {
+        usersDispatch({
+          type: "SET_USERS_DATA",
+          payload: {
+            data:users,
+          }
+        })
+      }
+    }
 
     const getPaginatedUsersData = async () => {
       try {
@@ -90,9 +103,8 @@ import { toast } from "react-toastify";
         )
         console.log(data,status)
         if (status === 201) {
-          console.log("doing")
           getPaginatedUsersData()
-          console.log("done")
+          getAllUsers()
         }
       }
       catch (e) {
@@ -105,6 +117,10 @@ import { toast } from "react-toastify";
       getPaginatedUsersData();
       // eslint-disable-next-line
     }, [usersDispatch,usersState?.pagination?.currentPage,usersState?.pagination?.search]);
+    useEffect(() => {
+      getAllUsers()
+      // eslint-disable-next-line
+    }, []);
   
     return (
       <UserDataContext.Provider
