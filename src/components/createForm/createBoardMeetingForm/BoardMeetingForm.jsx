@@ -46,7 +46,7 @@ function BoardMeetingForm() {
                 <input type="time" id="timepicker" name="boardMeetingTime" value={boardMeetingForm.boardMeetingTime} onChange={handleBoardMeetingData} className="p-2 text-xs block w-full bg-gray-50  rounded-md  border-2 border-gray-200 py-1 text-gray-900 appearance-none shadow-sm  placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-xs sm:leading-6" />
               </span>
             </div>
-          
+
             <div>
               <label htmlFor="venue" className="block text-sm my-2  font-medium text-gray-700">Venue</label>
               <div className="relative inline-block text-left w-full">
