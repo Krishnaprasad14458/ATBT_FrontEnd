@@ -2,8 +2,12 @@ import React, { useState, useRef, useContext } from 'react';
 import defprop from '../../../Images/defprof.svg';
 import './EntityForm.css';
 import { EntitiesDataContext } from '../../../contexts/entitiesDataContext';
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom';
+import { UserDataContext } from '../../../contexts/usersDataContext';
 function EntityForm() {
+  const { usersState: { users } } = useContext(UserDataContext);
+  console.log(users, "entity form")
+  const usersEmails = users?.map(user => user.email);
   const { entitiesState: { pagination }, entitiesDispatch, deleteEntitybyId, createEntity } = useContext(EntitiesDataContext);
 
   // choose file
@@ -35,8 +39,9 @@ function EntityForm() {
     Entite_Name: "",
     EntityPhoto: "",
     Description: "",
-    Members: ["irshad@gmail.com", "bhavitha@gmail.com"]
+    Members: []
   });
+  console.log(entityForm)
   console.log(entityForm)
 const handleChange = (e) => {
   const { name, value } = e.target;
@@ -48,7 +53,7 @@ const handleChange = (e) => {
   const [query, setQuery] = useState('');
   const [selected, setSelected] = useState([]);
   const [showUsers, setShowUsers] = useState(false);
-  const users = ["irshad.mohd@gmail.com", "bhavitha@gmail.com", "balu@gmail.com", "irshafd.mohd@gmail.com", "ds.mohd@gmail.com", "irshadsfd.mohd@gmail.com", "bhaviftha@gmail.com", "balfu@gmail.com", "anil@gmail.com", "niraj@gmail.com", "irfan@gmail.com", "lashmi@gmail.com", "suma@gmail.com", "vivek@gmail.com"];
+  // const users = ["irshad.mohd@gmail.com", "bhavitha@gmail.com", "balu@gmail.com", "irshafd.mohd@gmail.com", "ds.mohd@gmail.com", "irshadsfd.mohd@gmail.com", "bhaviftha@gmail.com", "balfu@gmail.com", "anil@gmail.com", "niraj@gmail.com", "irfan@gmail.com", "lashmi@gmail.com", "suma@gmail.com", "vivek@gmail.com"];
   const handleInputChange = (value) => {
     setQuery(value);
     setShowUsers(true);
@@ -59,7 +64,7 @@ const handleChange = (e) => {
 
     setEntityForm((prevEntityForm) => ({
       ...prevEntityForm,
-      entitymembers: [...prevEntityForm.entitymembers, value]
+      entitymembers: [...prevEntityForm.Members, value]
     }));
     setQuery('');
     setShowUsers(false);
@@ -144,7 +149,7 @@ const handleChange = (e) => {
               {showUsers && (
                 <ul className="user-list z-50 absolute top-full left-0  bg-gray-50 border border-1 border-gray-200 w-full">
 
-                  {users.filter(user => !selected.includes(user))
+                  {usersEmails?.filter(user => !selected.includes(user))
                     .filter((item) => item.toLowerCase().includes(query.toLowerCase()))
                     .map((user, index) => (
                       <li key={index}

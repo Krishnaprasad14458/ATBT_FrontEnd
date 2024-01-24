@@ -10,6 +10,7 @@ function UserForm() {
     email: "",
     phone: "",
   });
+  console.log(userDetails)
   function handleSubmit(e) {
     e.preventDefault();
     createUser(userDetails)
@@ -58,7 +59,7 @@ function UserForm() {
                   <input id="phone" name="phone" type="tel" autoComplete="phone" required
                     onChange={(e) => setUserDetails((prev) => ({
                       ...prev,
-                      email: e.target.value,
+                      phone: e.target.value,
                     }))}
                     className="p-2 text-xs block w-full bg-gray-50  rounded-md  border-2 border-gray-200 py-1 text-gray-900 appearance-none shadow-sm  placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-xs sm:leading-6" />
                 </div></div>
@@ -66,10 +67,10 @@ function UserForm() {
                 <label htmlFor="name" className="block text-sm font-medium  my-1 text-gray-900">Entity Name</label>
                 <div className="">
                   <input id="name" name="entityname" type="text" autoComplete="entityname" required
-                    onChange={(e) => setUserDetails((prev) => ({
-                      ...prev,
-                      userName: e.target.value,
-                    }))}
+                    // onChange={(e) => setUserDetails((prev) => ({
+                    //   ...prev,
+                    //   userName: e.target.value,
+                    // }))}
                     className="p-2 text-xs block w-full bg-gray-50  rounded-md  border-2 border-gray-200 py-1 text-gray-900 appearance-none shadow-sm  placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-xs sm:leading-6" />
                 </div></div>
               <div>
