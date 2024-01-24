@@ -61,7 +61,12 @@ const OrganizationProfile = () => {
                 <div
                     className={`cursor-pointer px-5 py-2 font-semibold ${activeTab === 4 ? 'border-b-2 border-orange-600 text-black' : ''
                         }`}
-                    onClick={() => handleTabClick(4)}>Activity Log
+                    onClick={() => handleTabClick(4)}>Users
+                </div>
+                <div
+                    className={`cursor-pointer px-5 py-2 font-semibold ${activeTab === 5 ? 'border-b-2 border-orange-600 text-black' : ''
+                        }`}
+                    onClick={() => handleTabClick(5)}>Activity Log
                 </div>
 
             </div><hr />
@@ -89,8 +94,6 @@ const OrganizationProfile = () => {
                             </div>
                         </div>
                     </div></div></div>}
-
-
 
             {activeTab === 2 && <div className="mt-4">
                 <div class="flex items-center justify-center w-full">
@@ -130,7 +133,9 @@ const OrganizationProfile = () => {
                     </div></div>
             </div>}
             {activeTab === 4 && <div className="mt-4">
-
+                <p>hi</p>
+            </div>}
+            {activeTab === 5 && <div className="mt-4">
                 <div className="min-w-full inline-block align-middle">
                     <div className="overflow-hidden ">
                         <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700 border-collapse border border-[#e5e7eb] rounded-md ">
@@ -181,13 +186,6 @@ const OrganizationProfile = () => {
                     </div>
                 </div>
             </div>}
-
-
-
-
-
-
-
 
         </div >
     )

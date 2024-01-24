@@ -248,7 +248,7 @@ function EntityForm() {
                 }
 
                 //color
-                const colors = ["#f87171", "#818cf8", "#fb923c", "#0891b2", "#db2777","#854d0e","#166534"];
+                const colors = ["#f87171", "#818cf8", "#fb923c", "#0891b2", "#db2777", "#854d0e", "#166534"];
 
                 const getRandomColor = (firstLetter) => {
 
@@ -298,7 +298,7 @@ function EntityForm() {
 
       </div>
     </div>
- );
+  );
 }
 
 export default EntityForm;
