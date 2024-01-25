@@ -1,15 +1,16 @@
 import axios from 'axios'
 import React, { useContext, useState } from 'react';
-import { AuthContext } from '../../../contexts/authContext';
 import defprop from '../../../Images/defprof.svg';
+import { UserDataContext } from '../../../contexts/usersDataContext';
 
 function UserForm() {
-  const { createUser } = useContext(AuthContext);
+  const { createUser } = useContext(UserDataContext);
   const [userDetails, setUserDetails] = useState({
     userName: "",
     email: "",
     phone: "",
   });
+  console.log(userDetails)
   function handleSubmit(e) {
     e.preventDefault();
     createUser(userDetails)
@@ -58,7 +59,7 @@ function UserForm() {
                   <input id="phone" name="phone" type="tel" autoComplete="phone" required
                     onChange={(e) => setUserDetails((prev) => ({
                       ...prev,
-                      email: e.target.value,
+                      phone: e.target.value,
                     }))}
                     className="p-2 text-xs block w-full bg-gray-50  rounded-md  border-2 border-gray-200 py-1 text-gray-900 appearance-none shadow-sm  placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-xs sm:leading-6" />
                 </div></div>
@@ -66,10 +67,10 @@ function UserForm() {
                 <label htmlFor="name" className="block text-sm font-medium  my-1 text-gray-900">Entity Name</label>
                 <div className="">
                   <input id="name" name="entityname" type="text" autoComplete="entityname" required
-                    onChange={(e) => setUserDetails((prev) => ({
-                      ...prev,
-                      userName: e.target.value,
-                    }))}
+                    // onChange={(e) => setUserDetails((prev) => ({
+                    //   ...prev,
+                    //   userName: e.target.value,
+                    // }))}
                     className="p-2 text-xs block w-full bg-gray-50  rounded-md  border-2 border-gray-200 py-1 text-gray-900 appearance-none shadow-sm  placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-xs sm:leading-6" />
                 </div></div>
               <div>
@@ -169,17 +170,28 @@ function UserForm() {
               </div>
             </form>
           </div>
-          <div className="col-span-2">
+          <div className="col-span-2 ">
 
-            <div className="flex justify-center items-center w-full">
-              <div className="h-[400px] overflow-auto shadow-md px-6 py-4 border-2 rounded-md bg-[#f8fafc]">
+            <div className='flex justify-center items-center mt-10'>
+              <div className='flex justify-center items-center  w-4/6 h-[200px] border border-1 border-gray-200 rounded-md p-2 shadow-md bg-[#f8fafc]'>
+                <div className='grid grid-cols-3 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3  gap-8'>
+                  <div className='col-span-1'>
+                    <img class=" rounded-lg " src={defprop} alt="Neil image" />
+                  </div>
+                  <div className='col-span-2'>
+                    <p class="text-lg font-black text-gray-800 ">Bhavitha</p>
+                    <p class="text-md text-gray-700 mt-2"> bhavitha@gmail.com</p>
+                    <p class="text-md text-gray-700 mt-1"> 9802345678</p>
+                    <p class="text-md text-gray-700 mt-1"> Infoz IT</p>
+                    <p class="text-md text-gray-700 mt-1"> Developer</p>
+                    <p class="text-md text-gray-700 mt-1"> Jr.Software Developer</p>
 
-                <img class="w-30 h-30 rounded-lg" src={defprop} alt="Neil image" />
+
+
+                  </div>
+                </div>
               </div>
-
-
             </div>
-
             {/* <div className="rounded-md overflow-hidden shadow-md">
               <div className="p-4">
                 <h2 className="text-md text-gray-800">User Details</h2>

@@ -1,23 +1,29 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useContext } from 'react';
 import defprop from '../../../Images/defprof.svg';
 import './EntityForm.css';
-import { Link } from 'react-router-dom'
+import { EntitiesDataContext } from '../../../contexts/entitiesDataContext';
+import { Link } from 'react-router-dom';
+import { UserDataContext } from '../../../contexts/usersDataContext';
 function EntityForm() {
-
+  const { usersState: { users } } = useContext(UserDataContext);
+  console.log(users, "entity form")
+  const usersEmails = users?.map(user => user.email);
+  const { entitiesState: { pagination }, entitiesDispatch, deleteEntitybyId, createEntity } = useContext(EntitiesDataContext);
 
   // choose file
   const [imageSrc, setImageSrc] = useState(null);
   const [selectedFileName, setSelectedFileName] = useState('');
-
   const handleFileChange = (event) => {
     const file = event.target.files[0];
 
     if (file) {
+      console.log(file)
       const reader = new FileReader();
+      console.log(reader);
       reader.onloadend = () => {
         setImageSrc(reader.result);
         setEntityForm((e) => ({
-          ...e, entityphoto: reader.result
+          ...e, EntityPhoto: reader.result
         }))
         setSelectedFileName(file.name);
       };
@@ -29,25 +35,25 @@ function EntityForm() {
     document.getElementById('fileInput').click();
   };
   //  for binding data
-  const [entityform, setEntityForm] = useState({
-    entityname: "",
-    entityphoto: imageSrc,
-    entitydescription: "",
-    entitymembers: []
-  })
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setEntityForm((e) => ({
-      ...e, [name]: value
-    }))
-  }
-  useEffect(() => {
-    console.log("entityform,", entityform)
-  }, [entityform])
+  const [entityForm, setEntityForm] = useState({
+    Entite_Name: "",
+    EntityPhoto: "",
+    Description: "",
+    Members: []
+  });
+  console.log(entityForm)
+  console.log(entityForm)
+const handleChange = (e) => {
+  const { name, value } = e.target;
+  setEntityForm((prevEntityForm) => ({
+    ...prevEntityForm,
+    [name]: value
+  }));
+};
   const [query, setQuery] = useState('');
   const [selected, setSelected] = useState([]);
   const [showUsers, setShowUsers] = useState(false);
-  const users = ["irshad.mohd@gmail.com", "bhavitha@gmail.com", "balu@gmail.com", "irshafd.mohd@gmail.com", "ds.mohd@gmail.com", "irshadsfd.mohd@gmail.com", "bhaviftha@gmail.com", "balfu@gmail.com", "anil@gmail.com", "niraj@gmail.com", "irfan@gmail.com", "lashmi@gmail.com", "suma@gmail.com", "vivek@gmail.com"];
+  // const users = ["irshad.mohd@gmail.com", "bhavitha@gmail.com", "balu@gmail.com", "irshafd.mohd@gmail.com", "ds.mohd@gmail.com", "irshadsfd.mohd@gmail.com", "bhaviftha@gmail.com", "balfu@gmail.com", "anil@gmail.com", "niraj@gmail.com", "irfan@gmail.com", "lashmi@gmail.com", "suma@gmail.com", "vivek@gmail.com"];
   const handleInputChange = (value) => {
     setQuery(value);
     setShowUsers(true);
@@ -58,7 +64,7 @@ function EntityForm() {
 
     setEntityForm((prevEntityForm) => ({
       ...prevEntityForm,
-      entitymembers: [...prevEntityForm.entitymembers, value]
+      entitymembers: [...prevEntityForm.Members, value]
     }));
     setQuery('');
     setShowUsers(false);
@@ -66,13 +72,18 @@ function EntityForm() {
   //  for add member input remove users
   const handleRemove = (user) => {
     const updatedSelected = selected.filter((selectedUser) => selectedUser !== user);
-    const updatedMembers = entityform.entitymembers.filter((selectedUser) => selectedUser !== user);
+    const updatedMembers = entityForm.entitymembers.filter((selectedUser) => selectedUser !== user);
     setEntityForm((prevEntityForm) => ({
       ...prevEntityForm,
       entitymembers: updatedMembers
     }));
     setSelected(updatedSelected);
   };
+
+  function handleFormSubmit(e){
+    e.preventDefault();
+    createEntity(entityForm);
+  }
 
 
   return (
@@ -82,17 +93,18 @@ function EntityForm() {
       <p className="text-lg font-semibold">New Entity</p>
       <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-4 xl:grid-cols-3  gap-6 mt-4 ">
         <div className="col-span-1 ps-5 pe-8">
-          <form className="space-y-3" method="POST">
+          <form className="space-y-3" method="POST" onSubmit={handleFormSubmit}>
             <div>
               <label htmlFor="name" className="block text-sm font-medium leading-6 mt-4 mb-2 text-gray-900">Entity Name</label>
               <div className="">
-                <input id="name" name="entityname" type="text" autoComplete="name" onChange={handleChange} value={entityform.entityname} required className="p-2 text-xs block w-full bg-gray-50  rounded-md  border-2 border-gray-200 py-1 text-gray-900 appearance-none shadow-sm  placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-xs sm:leading-6" />
+                <input id="name" name="Entite_Name" type="text" autoComplete="name" onChange={handleChange} value={entityForm.Entite_Name} required className="p-2 text-xs block w-full bg-gray-50  rounded-md  border-2 border-gray-200 py-1 text-gray-900 appearance-none shadow-sm  placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-xs sm:leading-6" />
               </div>
             </div>
             <div>
               <label htmlFor="name" className="block text-sm font-medium leading-6 my-2 text-gray-900">Choose Your Photo</label>
               <input
                 type="file"
+                name="EntityPhoto"
                 id="fileInput"
                 className="p-2 block w-full rounded-md bg-gray-50 border-2 border-gray-200 py-1 text-gray-900 appearance-none shadow-sm  placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6"
                 accept="image/*"
@@ -103,7 +115,7 @@ function EntityForm() {
             <div>
               <label htmlFor="name" className=" block text-sm my-2 font-medium leading-6 text-gray-900" >Description</label>
               <div className=''>
-                <textarea name='entitydescription' onChange={handleChange} value={entityform.entitydescription} class="resize-none bg-gray-50 rounded-md text-xs p-2 w-full h-20 border-2 border-gray-200 focus:outline-none focus:border-orange-400"></textarea>
+                <textarea name='Description' onChange={handleChange} value={entityForm.Description} class="resize-none bg-gray-50 rounded-md text-xs p-2 w-full h-20 border-2 border-gray-200 focus:outline-none focus:border-orange-400"></textarea>
               </div>
             </div>
 
@@ -137,7 +149,7 @@ function EntityForm() {
               {showUsers && (
                 <ul className="user-list z-50 absolute top-full left-0  bg-gray-50 border border-1 border-gray-200 w-full">
 
-                  {users.filter(user => !selected.includes(user))
+                  {usersEmails?.filter(user => !selected.includes(user))
                     .filter((item) => item.toLowerCase().includes(query.toLowerCase()))
                     .map((user, index) => (
                       <li key={index}
@@ -163,8 +175,8 @@ function EntityForm() {
               <div className="group h-10 ">
                 {imageSrc ? (
                   <img
-                    src={entityform.entityphoto}
-                    name="entityphoto"
+                    src={entityForm.EntityPhoto}
+                    name="EntityPhoto"
                     alt="Selected User Photo"
                     className="rounded-lg w-10 h-10 mr-4"
                   />
@@ -177,13 +189,13 @@ function EntityForm() {
                   // />
                 )}
               </div>
-              <p class="text-lg font-black text-gray-800 mt-2">{entityform.entityname}</p>
+              <p class="text-lg font-black text-gray-800 mt-2">{entityForm.Entite_Name}</p>
 
             </div>
             <hr className='my-3' />
             <div className='h-20 overflow-auto border border-1 border-gray-200 rounded-md p-2 bg-[#f8fafc] text-sm w-full  '>
               {/* <textarea className="resize-none h-20 border border-1 border-gray-200 focus:outline-none "> */}
-              {entityform.entitydescription}
+              {entityForm.Description}
               {/* </textarea> */}
             </div>
 
@@ -219,14 +231,14 @@ function EntityForm() {
                 )
 
               })} */}
-              {entityform && entityform.entitymembers && Array.from({ length: 12 }).map((_, index) => {
+              {entityForm && entityForm.entitymembers && Array.from({ length: 12 }).map((_, index) => {
                 let first = "";
                 let second = "";
                 let firstLetter;
                 let secondLetter;
                 let mail = "";
-                if (index < entityform.entitymembers.length) {
-                  mail = entityform.entitymembers[index].split("@")[0]
+                if (index < entityForm.entitymembers.length) {
+                  mail = entityForm.entitymembers[index].split("@")[0]
                   if (mail.includes(".")) {
                     first = mail.split(".")[0]
                     second = mail.split(".")[1]
@@ -262,12 +274,12 @@ function EntityForm() {
                 return (
                   <div className='col-span-1 flex justify-start gap-3' key={index}>
 
-                    {index + 1 <= entityform.entitymembers.length && <>
+                    {index + 1 <= entityForm.entitymembers.length && <>
                       <h5 style={{ backgroundColor: `${getRandomColor(firstLetter)}` }} className=' rounded-full w-10 h-10 flex justify-center text-xs items-center text-white'>
 
                         {index < 11 && <>
-                          {firstLetter.toUpperCase()}{secondLetter && secondLetter.toUpperCase()}</>}{index == 11 && entityform.entitymembers.length == 12 && <>
-                            {firstLetter.toUpperCase()}{secondLetter && secondLetter.toUpperCase()}</>} {index == 11 && entityform.entitymembers.length > 12 && <span>
+                          {firstLetter.toUpperCase()}{secondLetter && secondLetter.toUpperCase()}</>}{index == 11 && entityForm.entitymembers.length == 12 && <>
+                            {firstLetter.toUpperCase()}{secondLetter && secondLetter.toUpperCase()}</>} {index == 11 && entityForm.entitymembers.length > 12 && <span>
                               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.094 9.094 0 0 0 3.741-.479 3 3 0 0 0-4.682-2.72m.94 3.198.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0 1 12 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 0 1 6 18.719m12 0a5.971 5.971 0 0 0-.941-3.197m0 0A5.995 5.995 0 0 0 12 12.75a5.995 5.995 0 0 0-5.058 2.772m0 0a3 3 0 0 0-4.681 2.72 8.986 8.986 0 0 0 3.74.477m.94-3.197a5.971 5.971 0 0 0-.94 3.197M15 6.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm6 3a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Zm-13.5 0a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Z" />
                               </svg>
@@ -275,10 +287,10 @@ function EntityForm() {
                       </h5>
                       <div className=' flex items-center'>
 
-                        <div className=' '>{index < 11 && mail}{index == 11 && entityform.entitymembers.length == 12 && mail} {index == 11 && entityform.entitymembers.length > 12 && <span>+{entityform.entitymembers.length - 11} more</span>} </div>
+                        <div className=' '>{index < 11 && mail}{index == 11 && entityForm.entitymembers.length == 12 && mail} {index == 11 && entityForm.entitymembers.length > 12 && <span>+{entityForm.entitymembers.length - 11} more</span>} </div>
                       </div>
                     </>}
-                    {index + 1 > entityform.entitymembers.length && <>
+                    {index + 1 > entityForm.entitymembers.length && <>
                       <h5 className='bg-[#e5e7eb] rounded-full w-10 h-10 flex justify-center text-xs items-center text-white'>
 
                       </h5>
