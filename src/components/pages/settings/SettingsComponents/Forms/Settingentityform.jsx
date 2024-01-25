@@ -6,7 +6,7 @@ const SettingEntityForm = () => {
             <p className="text-xl font-semibold">Entity Form</p>
             <div className='flex justify-end'>
                 <button type="submit"
-                    className="flex w-32 justify-center rounded-md bg-orange-600 px-3 py-2.5 text-sm font-medium leading-6
+                    className="flex w-28 justify-center rounded-full bg-orange-600 py-2.5 text-sm font-medium leading-6
                  text-white shadow-sm  focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2
                   focus-visible:outline-orange-600">+ Add Label</button>
             </div>
