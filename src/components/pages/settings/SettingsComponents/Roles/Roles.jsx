@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 const Roles = () => {
     return (
         <div className=' p-3 bg-[#f8fafc] overflow-hidden'>
-            {/* search & filter */}
+
             <div className='grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-3 xl:grid-col-3 gap-2 mt-2'>
                 <h1 className='font-semibold text-lg grid1-item'>Roles</h1>
                 <div className='grid1-item mx-3 text-start'>
