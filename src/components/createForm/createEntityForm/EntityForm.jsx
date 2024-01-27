@@ -1,9 +1,14 @@
 import React, { useState, useRef, useContext } from 'react';
 import defprop from '../../../Images/defprof.svg';
 import './EntityForm.css';
+
+
+
+
 import { EntitiesDataContext } from '../../../contexts/entitiesDataContext';
 import { Link } from 'react-router-dom';
 import { UserDataContext } from '../../../contexts/usersDataContext';
+
 function EntityForm() {
   const { usersState: { users } } = useContext(UserDataContext);
   console.log(users, "entity form")
@@ -123,7 +128,8 @@ const handleChange = (e) => {
               <label htmlFor="email" className="block text-sm my-2 font-medium leading-6 text-gray-900">Add Member</label>
 
               <div className='border border-1 flex flex-wrap gap-1 px-1 py-1 selected-users-container relative z-50 rounded-md'>
-                {selected.map((result) => {
+                {selected && selected.length > 0 && selected.map((result) => {
+
                   let mail = result.split("@")[0]
                   return (
                     <span className='flex gap-1 text-xs mt-1 border-2 border-gray-200 rounded-md p-0.5 focus:border-orange-600
@@ -136,7 +142,7 @@ const handleChange = (e) => {
                   )
                 })}
 
-
+              
                 <input
                   type="text"
                   tabindex="0" aria-describedby="lui_5891" aria-invalid="false"
@@ -260,7 +266,9 @@ const handleChange = (e) => {
                 }
 
                 //color
-                const colors = ["#f87171", "#818cf8", "#fb923c", "#0891b2", "#db2777", "#854d0e", "#166534"];
+
+                const colors = ["#818cf8", "#fb923c", "#f87171", "#0891b2", "#db2777", "#f87171", "#854d0e", "#166534"];
+
 
                 const getRandomColor = (firstLetter) => {
 
