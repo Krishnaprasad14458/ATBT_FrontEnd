@@ -1,12 +1,24 @@
 import { Link } from 'react-router-dom';
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import EntityList from '../../../list/entityList/EntityList';
 import useDebounce from '../../../../hooks/debounce/useDebounce';
 import { EntitiesDataContext } from '../../../../contexts/entitiesDataContext';
+import { useSearchParams } from 'react-router-dom';
 
 function EntityDashboard() {
   const { entitiesState: { entities, dashboard }, entitiesDispatch } = useContext(EntitiesDataContext);
-  const { debouncedSetPage, debouncedSetSearch } = useDebounce(entitiesDispatch);
+  const {debouncedSetPage, debouncedSetSearch} = useDebounce(entitiesDispatch);
+  useEffect(()=>{
+    return ()=>{
+      entitiesDispatch({
+        type: "SET_SEARCH",
+        payload: {
+          context: "DASHBOARD",
+          data: ""
+        }
+      })
+    }
+  },[])
   return (
     <div className="w-full text-center h-[450px] relative bg-slate-50 border border-gray-200 rounded-md shadow sm:pt-4 dark:bg-gray-800 dark:border-gray-700">
       <div className='grid1-item overflow-hidden sm:w-full'>
@@ -83,8 +95,8 @@ function EntityDashboard() {
 
               </button>
               <button
-                disabled={dashboard.currentPage === dashboard.totalPages}
-                onClick={() => debouncedSetPage({ context: 'DASHBOARD', data: dashboard.currentPage + 1 })}
+                disabled={true}
+                onClick={() => debouncedSetPage({context: 'DASHBOARD',data: dashboard.currentPage + 1})}
                 className="relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
               >
                 <span className="sr-only">Next</span>

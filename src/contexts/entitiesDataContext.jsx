@@ -5,6 +5,7 @@ import React, {
   } from "react";
 import axios from "axios";
 import entitiesDataReducer from "../reducers/entitiesDataReducer";
+import { apiUrl } from "../utils/constants";
 
 export const EntitiesDataContext = createContext();
 
@@ -28,14 +29,22 @@ const EntitiesDataProvider = ({ children }) => {
         search: "",
       }
     };
+
+    console.log(initialState.dashboard.loading)
   
     const [entitiesState, entitiesDispatch] = useReducer(
       entitiesDataReducer,
       initialState
     );
     const getDashboardEntitiesData = async (pageNo=1,search="",perPage=5) => {
+      entitiesDispatch({
+        type: "SET_LOADING",
+        payload: {
+          context: "DASHBOARD"
+        }
+      })
       try {
-        const { data } = await axios.get(`https://atbtmain.teksacademy.com/entite/list`);
+        const { data } = await axios.get(`${apiUrl}/entite/list`);
         const searchedEntities = data.Entites?.filter((entity) => {
           return entity.Entite_Name.toLowerCase().includes(search)
         },
@@ -45,6 +54,12 @@ const EntitiesDataProvider = ({ children }) => {
           (pageNo - 1) * perPage,
           pageNo * perPage,
         );
+        entitiesDispatch({
+          type: "SET_LOADING",
+          payload: {
+            context: "DASHBOARD"
+          }
+        })
       return entitiesDispatch({
           type: "SET_PAGINATED_ENTITIES",
           payload: {
@@ -60,8 +75,14 @@ const EntitiesDataProvider = ({ children }) => {
       };
 
     const getpaginatedEntitiesData = async (pageNo=1,search="",perPage=10) => {
+      entitiesDispatch({
+        type: "SET_LOADING",
+        payload: {
+          context: "ENTITES"
+        }
+      })
       try {
-        const { data } = await axios.get(`https://atbtmain.teksacademy.com/entite/list`);
+        const { data } = await axios.get(`${apiUrl}/entite/list`);
         const searchedEntities = data.Entites?.filter((entity) => {
           return entity.Entite_Name.toLowerCase().includes(search)
         },
@@ -83,14 +104,29 @@ const EntitiesDataProvider = ({ children }) => {
       } catch (error) {
         console.error(error);
       }
+      entitiesDispatch({
+        type: "SET_LOADING",
+        payload: {
+          context: "ENTITES"
+        }
+      })
       };
 
       const deleteEntitybyId = async(id)=> {
         try {
-          const data = await axios.delete(`https://atbtmain.teksacademy.com/entite/delete/${id}`)
+          const data = await axios.delete(`${apiUrl}/entite/delete/${id}`)
           console.log(data)
         } catch (error) {
          console.error(error) 
+        }
+      }
+
+      const createEntity = async(entityData)=>{
+        try{
+          const data = await axios.post("http://localhost:3001/entite/add",entityData);
+          console.log(data);
+        } catch (error) {
+          console.error(error) 
         }
       }
     useEffect(() => {
@@ -106,6 +142,7 @@ const EntitiesDataProvider = ({ children }) => {
           entitiesDispatch,
           getpaginatedEntitiesData,
           deleteEntitybyId,
+          createEntity
         }}
       >
         {children}

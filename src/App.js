@@ -34,6 +34,8 @@ import Forms from './components/pages/settings/SettingsComponents/Forms/Forms';
 import Whatsapp from './components/pages/settings/SettingsComponents/Communication/Whatsapp';
 import Email from './components/pages/settings/SettingsComponents/Communication/Email';
 import TeamsForm from './components/createForm/TeamsForm/TeamsForm';
+import SettingEntityForm from './components/pages/settings/SettingsComponents/Forms/Settingentityform';
+import AddRoles from './components/pages/settings/SettingsComponents/Roles/AddRoles';
 
 
 function App() {
@@ -55,6 +57,7 @@ function App() {
             <Route path='/settings' element={<Settings />} />
             <Route path='/organizationprofile' element={<OrganizationProfile />} />
             <Route path='/roles' element={<Roles />} />
+            <Route path='/addroles' element={<AddRoles/>}/>
             <Route path='/communication' element={<Communication />} />
             <Route path='/whatsapp' element={<Whatsapp />} />
             <Route path='/email' element={<Email />} />
@@ -65,6 +68,7 @@ function App() {
 
             </Route>
             <Route path="/entitylandingpage" element={<EntityLandingPage />} />
+            <Route path="/settingentityform" element={<SettingEntityForm />} />
             <Route path="/entities/new" element={<EntityForm />} />
             <Route path='/boardmeetings' element={<BoardMeetings />} />
             <Route path="/boardmeetings/new" element={<BoardMeetingForm />} />

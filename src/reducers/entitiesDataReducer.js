@@ -9,7 +9,7 @@ const entitiesDataReducer = (state, action) => {
                     ...state.dashboard,
                     paginatedEntities: reducerData.data,
                     currentPage: reducerData.currentPage,
-                    totalPages: reducerData.totalPages
+                    totalPages: reducerData.totalPages,
                 },
             } : {
                 ...state,
@@ -22,6 +22,7 @@ const entitiesDataReducer = (state, action) => {
             }
 
         case "SET_SEARCH":
+            console.log(action.payload)
             return action.payload.context === 'DASHBOARD' ? {
                 ...state,
                 dashboard: {
@@ -68,6 +69,23 @@ const entitiesDataReducer = (state, action) => {
                     currentPage: action.payload.data
                 }
             }
+
+        case "SET_LOADING":
+            console.log("checking")
+            return action.payload.context === 'DASHBOARD' ? {
+                ...state,
+                dashboard: {
+                    ...state.dashboard,
+                    loading: !state.dashboard.loading
+                }
+            } : {
+                ...state,
+                pagination: {
+                    ...state.pagination,
+                    loading: !state.pagination.loading
+                }
+            }
+
 
         default:
             return state;

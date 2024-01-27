@@ -4,6 +4,7 @@ import axios from "axios";
 import { useNavigate, useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 import Swal from 'sweetalert2'
+import { apiUrl } from "../utils/constants";
 
 export const AuthContext = createContext();
 
@@ -24,9 +25,9 @@ const AuthProvider = ({ children }) => {
     try {
       let status, data;
   
-      if (loginData.email === "irfan.s@teksacademy.com") {
+      if (loginData.email === "admin@atbt.com") {
         ({ status, data } = await toast.promise(
-          axios.post(`https://atbtmain.teksacademy.com/auth/su-login`, loginData),
+          axios.post(`${apiUrl}/auth/su-login`, loginData),
           {
             pending: 'Logging In...',
             success: {
@@ -39,7 +40,7 @@ const AuthProvider = ({ children }) => {
         ));
       } else {
         ({ status, data } = await toast.promise(
-          axios.post(`https://atbtmain.teksacademy.com/auth/login`, loginData),
+          axios.post(`${apiUrl}/auth/login`, loginData),
           {
             pending: 'Logging In...',
             success: {
@@ -67,35 +68,10 @@ const AuthProvider = ({ children }) => {
     }
   };
 
-  const createUser = async (userData) => {
-    console.log(userData)
-    try {
-      const { data } = await toast.promise(
-        axios.post(`https://atbtmain.teksacademy.com/admin/create-user`, {...userData}, {
-          headers: {
-            authorization: authState.token,
-          }
-        }),
-        {
-          pending: 'Creating User...',
-          success: {
-            render({ data}) {
-              return `user created`
-            }
-          },
-          error: 'Check user details 🤯',
-        },
-      )
-    }
-    catch (e) {
-      console.error(e);
-    }
-  };
-
   const changePassword = async ({ email }) => {
     try {
       const { status } = await toast.promise(
-        axios.post(`https://atbtmain.teksacademy.com/api/send-email?email=${email}`),
+        axios.post(`${apiUrl}/api/send-email?email=${email}`),
         {
           pending: 'verifying email',
           success: {
@@ -123,7 +99,7 @@ const AuthProvider = ({ children }) => {
     console.log(id)
     try {
       const { data } = await toast.promise(
-        axios.put(`https://atbtmain.teksacademy.com/user/changePassword/${id}`, { password }),
+        axios.put(`${apiUrl}/user/changePassword/${id}`, { password }),
         {
           pending: 'verifying data',
           success: {
@@ -156,7 +132,7 @@ const AuthProvider = ({ children }) => {
 
   return (
     <AuthContext.Provider
-      value={{ authState, adminLogin, createUser, changePassword, resetPassword, userLogout, localStorageData }}
+      value={{ authState, adminLogin, changePassword, resetPassword, userLogout, localStorageData }}
     >
       {children}
     </AuthContext.Provider>
