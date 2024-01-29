@@ -48,13 +48,13 @@ function EntityForm() {
   });
   console.log(entityForm)
   console.log(entityForm)
-const handleChange = (e) => {
-  const { name, value } = e.target;
-  setEntityForm((prevEntityForm) => ({
-    ...prevEntityForm,
-    [name]: value
-  }));
-};
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setEntityForm((prevEntityForm) => ({
+      ...prevEntityForm,
+      [name]: value
+    }));
+  };
   const [query, setQuery] = useState('');
   const [selected, setSelected] = useState([]);
   const [showUsers, setShowUsers] = useState(false);
@@ -85,7 +85,7 @@ const handleChange = (e) => {
     setSelected(updatedSelected);
   };
 
-  function handleFormSubmit(e){
+  function handleFormSubmit(e) {
     e.preventDefault();
     createEntity(entityForm);
   }
@@ -106,7 +106,7 @@ const handleChange = (e) => {
               </div>
             </div>
             <div>
-              <label htmlFor="name" className="block text-sm font-medium leading-6 my-2 text-gray-900">Choose Your Photo</label>
+              <label htmlFor="name" className="block text-sm font-medium leading-6 my-2 text-gray-900">Choose Logo</label>
               <input
                 type="file"
                 name="EntityPhoto"
