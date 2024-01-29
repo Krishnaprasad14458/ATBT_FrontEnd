@@ -35,7 +35,14 @@ import Whatsapp from './components/pages/settings/SettingsComponents/Communicati
 import Email from './components/pages/settings/SettingsComponents/Communication/Email';
 import TeamsForm from './components/createForm/TeamsForm/TeamsForm';
 import SettingEntityForm from './components/pages/settings/SettingsComponents/Forms/Settingentityform';
-
+import AddRoles from './components/pages/settings/SettingsComponents/Roles/AddRoles';
+import Integrations from './components/pages/settings/SettingsComponents/Integrations/Integrations';
+import WhatsappIntegrations from './components/pages/settings/SettingsComponents/Integrations/WhatsappIntegrations';
+import EmailIntegrations from './components/pages/settings/SettingsComponents/Integrations/EmailIntegrations';
+import Api from './components/pages/settings/SettingsComponents/Integrations/Api';
+import Webhook from './components/pages/settings/SettingsComponents/Integrations/Webhook';
+import Sms from './components/pages/settings/SettingsComponents/Integrations/Sms';
+import PaymentGateway from './components/pages/settings/SettingsComponents/Integrations/PaymentGateway';
 
 function App() {
   const { authState } = useContext(AuthContext);
@@ -56,8 +63,15 @@ function App() {
             <Route path='/settings' element={<Settings />} />
             <Route path='/organizationprofile' element={<OrganizationProfile />} />
             <Route path='/roles' element={<Roles />} />
+            <Route path='/integrations' element={<Integrations />} />
+            <Route path='/addroles' element={<AddRoles />} />
             <Route path='/communication' element={<Communication />} />
-            <Route path='/whatsapp' element={<Whatsapp />} />
+            <Route path='/whatsappintegration' element={<WhatsappIntegrations />} />
+            <Route path='/emailintegration' element={<EmailIntegrations />} />
+            <Route path="/api" element={<Api />} />
+            <Route path='webhook' element={<Webhook />} />
+            <Route path='sms' element={<Sms />} />
+            <Route path='paymentgateway' element={<PaymentGateway />} />
             <Route path='/email' element={<Email />} />
             <Route path='/forms' element={<Forms />} />
             <Route path='/teams' element={<Teams />} />
