@@ -6,6 +6,7 @@ import React, {
 import axios from "axios";
 import entitiesDataReducer from "../reducers/entitiesDataReducer";
 import { apiUrl } from "../utils/constants";
+import { toast } from "react-toastify";
 
 export const EntitiesDataContext = createContext();
 
@@ -115,6 +116,7 @@ const EntitiesDataProvider = ({ children }) => {
       const deleteEntitybyId = async(id)=> {
         try {
           const data = await axios.delete(`${apiUrl}/entite/delete/${id}`)
+          getpaginatedEntitiesData(entitiesState?.pagination?.currentPage,entitiesState?.pagination?.search,entitiesState?.pagination?.perPage);
           console.log(data)
         } catch (error) {
          console.error(error) 
@@ -123,8 +125,24 @@ const EntitiesDataProvider = ({ children }) => {
 
       const createEntity = async(entityData)=>{
         try{
-          const data = await axios.post("http://localhost:3001/entite/add",entityData);
+          // const data = await axios.post("http://localhost:3001/entite/add",entityData);
+          const {data, status} = await toast.promise(
+            axios.post(`http://localhost:3001/entite/add`, entityData),
+            {
+              pending: 'verifying data',
+              success: {
+                render(data) {
+                  return `Password Updated`
+                }
+              },
+              error: 'unautorized Access 🤯',
+            },
+          )
           console.log(data);
+          if (status === 201) {
+            console.log(data);
+            getpaginatedEntitiesData(entitiesState?.pagination?.currentPage,entitiesState?.pagination?.search,entitiesState?.pagination?.perPage);
+          }
         } catch (error) {
           console.error(error) 
         }

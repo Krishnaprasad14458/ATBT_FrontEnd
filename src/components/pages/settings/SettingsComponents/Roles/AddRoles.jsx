@@ -14,18 +14,18 @@ const AddRoles = () => {
   // for Tasks toggle
   const [tasksPermission, setTasksPermission] = useState(false);
   const handleTasksPermission = (e) => {
-    setTasksPermission(!entityPermission);
+    setTasksPermission(!tasksPermission);
   }
 
   // for Board Meeting toggle
   const [boardMeetingPermission, setBoardMeetingPermission] = useState(false);
   const handleBoardMeetingPermission = (e) => {
-    setBoardMeetingPermission(!entityPermission);
+    setBoardMeetingPermission(!boardMeetingPermission);
   }
   // for Teams toggle
   const [teamsPermission, setTeamsPermission] = useState(false);
   const handleTeamsPermission = (e) => {
-    setTeamsPermission(!entityPermission);
+    setTeamsPermission(!teamsPermission);
   }
 
   return (
@@ -49,31 +49,36 @@ const AddRoles = () => {
           </div>
         </div>
       </div>
-      <div className="border-2 border-gray-200 shadow-md rounded-md mt-5 p-4">
-        <p className='text-md mb-2 font-semibold'>Permissions</p>
-        <div className="min-w-full inline-block align-middle">
-          <div className="overflow-hidden ">
+      <p className='text-md mt-2 font-semibold'>Permissions</p>
+      <div className="border-2 border-gray-200 shadow-md rounded-md p-4">
+        <div className="">
+          <div className="">
             <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700 border-collapse border border-[#e5e7eb] rounded-md ">
               <thead>
                 <tr>
-                  <th scope="col" className="px-6 py-2 text-center text-sm font-semibold text-white bg-orange-600  border-collapse border border-[#e5e7eb] ">Name</th>
-                  <th scope="col" className="px-6 py-2 text-center text-sm font-semibold text-white bg-orange-600   border-collapse border border-[#e5e7eb]">All</th>
-                  <th scope="col" className="px-6 py-2 text-center text-sm font-semibold text-white bg-orange-600   border-collapse border border-[#e5e7eb]" colSpan={4}>Access</th>
+                  <th scope="col" className="px-6 py-2 text-center text-sm font-semibold text-white bg-orange-600 border-collapse border border-[#e5e7eb] ">Name</th>
+                  <th scope="col" className="px-6 py-2 text-center text-sm font-semibold text-white bg-orange-600 border-collapse border border-[#e5e7eb]">All</th>
+                  <th scope="col" className="px-6 py-2 text-center text-sm font-semibold text-white bg-orange-600 border-collapse border border-[#e5e7eb]" colSpan={4}>Access</th>
 
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
+              <tbody className="divide-y divide-gray-200 dark:divide-gray-700 h-64 overflow-y-scroll">
                 <tr>
                   <td className="px-6 py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]"></td>
                   <td className="px-6 py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]" > All</td>
+                  <td className="px-6 py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]" > Create</td>
                   <td className="px-6 py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]" > Read</td>
                   <td className="px-6 py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]" > Update</td>
                   <td className="px-6 py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]" > Delete</td>
-                  <td className="px-6 py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]" > Create</td>
+
 
                 </tr>
-                <tr onClick={handleUserPermission}>
-                  <td className="px-6 py-2.5 whitespace-nowrap text-center  text-sm font-semibold  text-gray-800 border-collapse border border-[#e5e7eb]">User</td>
+                <tr >
+                  <td className="px-6 flex justify-between py-2.5 whitespace-nowrap text-center  text-sm font-semibold  text-gray-800 border-collapse ">User <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" onClick={handleUserPermission} class="w-4 h-4 mt-1">
+                    <path fill-rule="evenodd" d="M4.22 6.22a.75.75 0 0 1 1.06 0L8 8.94l2.72-2.72a.75.75 0 1 1 1.06 1.06l-3.25 3.25a.75.75 0 0 1-1.06 0L4.22 7.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
+                  </svg>
+
+                  </td>
                   <td className="px-6 py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]">
                     <label class="relative inline-flex items-center cursor-pointer">
                       <input type="checkbox" value="" class="sr-only peer" />
@@ -81,9 +86,13 @@ const AddRoles = () => {
 
                     </label>
                   </td>
+                  <td className="px-6 py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]"></td>
+                  <td className="px-6 py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]"></td>
+                  <td className="px-6 py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]"></td>
+                  <td className="px-6 py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]"></td>
                 </tr>
                 {userPermission &&
-                  <span>
+                  <>
                     <tr>
                       <td className=" py-2.5 whitespace-nowrap text-center text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]">Create user</td>
                       <td className="py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]" > </td>
@@ -152,10 +161,12 @@ const AddRoles = () => {
 
 
                     </tr>
-                  </span>
+                  </>
                 }
-                <tr onClick={handleEntityPermission}>
-                  <td className="px-6 py-2.5 whitespace-nowrap text-center  text-sm font-semibold text-gray-800 border-collapse border border-[#e5e7eb]">Entity</td>
+                <tr >
+                  <td className="px-6 py-2.5 flex justify-between whitespace-nowrap text-center  text-sm font-semibold text-gray-800 border-collapse ">Entity <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" onClick={handleEntityPermission} class="w-4 h-4 mt-1">
+                    <path fill-rule="evenodd" d="M4.22 6.22a.75.75 0 0 1 1.06 0L8 8.94l2.72-2.72a.75.75 0 1 1 1.06 1.06l-3.25 3.25a.75.75 0 0 1-1.06 0L4.22 7.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
+                  </svg></td>
                   <td className="px-6 py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]">
                     <label class="relative inline-flex items-center cursor-pointer">
                       <input type="checkbox" value="" class="sr-only peer" />
@@ -163,11 +174,15 @@ const AddRoles = () => {
 
                     </label>
                   </td>
+                  <td className="px-6 py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]"></td>
+                  <td className="px-6 py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]"></td>
+                  <td className="px-6 py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]"></td>
+                  <td className="px-6 py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]"></td>
                 </tr>
                 {entityPermission &&
-                  <span>
+                  <>
                     <tr>
-                      <td className=" py-2.5 whitespace-nowrap text-center text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]">Create user</td>
+                      <td className=" py-2.5 whitespace-nowrap text-center text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]">Create Entity</td>
                       <td className="py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]" > </td>
                       <td className=" py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]" >
                         <label class="relative inline-flex items-center cursor-pointer">
@@ -201,7 +216,7 @@ const AddRoles = () => {
 
                     </tr>
                     <tr>
-                      <td className=" py-2.5 whitespace-nowrap text-center text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]">User Details</td>
+                      <td className=" py-2.5 whitespace-nowrap text-center text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]">Entity Details</td>
                       <td className="py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]" > </td>
                       <td className=" py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]" >
                         <label class="relative inline-flex items-center cursor-pointer">
@@ -234,10 +249,12 @@ const AddRoles = () => {
 
 
                     </tr>
-                  </span>
+                  </>
                 }
-                <tr onClick={handleTasksPermission}>
-                  <td className="px-6 py-2.5 whitespace-nowrap text-center  text-sm font-semibold text-gray-800 border-collapse border border-[#e5e7eb]">Task</td>
+                <tr >
+                  <td className="px-6 py-2.5 flex justify-between whitespace-nowrap text-center  text-sm font-semibold text-gray-800 border-collapse ">Task <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" onClick={handleTasksPermission} class="w-4 h-4 mt-1">
+                    <path fill-rule="evenodd" d="M4.22 6.22a.75.75 0 0 1 1.06 0L8 8.94l2.72-2.72a.75.75 0 1 1 1.06 1.06l-3.25 3.25a.75.75 0 0 1-1.06 0L4.22 7.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
+                  </svg></td>
                   <td className="px-6 py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]">
                     <label class="relative inline-flex items-center cursor-pointer">
                       <input type="checkbox" value="" class="sr-only peer" />
@@ -245,11 +262,15 @@ const AddRoles = () => {
 
                     </label>
                   </td>
+                  <td className="px-6 py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]"></td>
+                  <td className="px-6 py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]"></td>
+                  <td className="px-6 py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]"></td>
+                  <td className="px-6 py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]"></td>
                 </tr>
                 {tasksPermission &&
-                  <span>
+                  <>
                     <tr>
-                      <td className=" py-2.5 whitespace-nowrap text-center text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]">Create user</td>
+                      <td className=" py-2.5 whitespace-nowrap text-center text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]">Create Taks</td>
                       <td className="py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]" > </td>
                       <td className=" py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]" >
                         <label class="relative inline-flex items-center cursor-pointer">
@@ -283,7 +304,7 @@ const AddRoles = () => {
 
                     </tr>
                     <tr>
-                      <td className=" py-2.5 whitespace-nowrap text-center text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]">User Details</td>
+                      <td className=" py-2.5 whitespace-nowrap text-center text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]">Task Details</td>
                       <td className="py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]" > </td>
                       <td className=" py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]" >
                         <label class="relative inline-flex items-center cursor-pointer">
@@ -316,10 +337,80 @@ const AddRoles = () => {
 
 
                     </tr>
-                  </span>
+                    <tr>
+                      <td className=" py-2.5 whitespace-nowrap text-center text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]">Create Subtask</td>
+                      <td className="py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]" > </td>
+                      <td className=" py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]" >
+                        <label class="relative inline-flex items-center cursor-pointer">
+                          <input type="checkbox" value="" class="sr-only peer" />
+                          <div class="w-9 h-5 bg-orange-600 peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-orange-600 checked:bg-orange-600"></div>
+
+                        </label>
+                      </td>
+                      <td className=" py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]" >
+                        <label class="relative inline-flex items-center cursor-pointer">
+                          <input type="checkbox" value="" class="sr-only peer" />
+                          <div class="w-9 h-5 bg-orange-600 peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-orange-600 checked:bg-orange-600"></div>
+
+                        </label>
+                      </td>
+                      <td className=" py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]" >
+                        <label class="relative inline-flex items-center cursor-pointer">
+                          <input type="checkbox" value="" class="sr-only peer" />
+                          <div class="w-9 h-5 bg-orange-600 peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-orange-600 checked:bg-orange-600"></div>
+
+                        </label>
+                      </td>
+                      <td className="py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]" >
+                        <label class="relative inline-flex items-center cursor-pointer">
+                          <input type="checkbox" value="" class="sr-only peer" />
+                          <div class="w-9 h-5 bg-orange-600 peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-orange-600 checked:bg-orange-600"></div>
+
+                        </label>
+                      </td>
+
+
+                    </tr>
+                    <tr>
+                      <td className=" py-2.5 whitespace-nowrap text-center text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]">Subtask Details</td>
+                      <td className="py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]" > </td>
+                      <td className=" py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]" >
+                        <label class="relative inline-flex items-center cursor-pointer">
+                          <input type="checkbox" value="" class="sr-only peer" />
+                          <div class="w-9 h-5 bg-orange-600 peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-orange-600 checked:bg-orange-600"></div>
+
+                        </label>
+                      </td>
+                      <td className=" py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]" >
+                        <label class="relative inline-flex items-center cursor-pointer">
+                          <input type="checkbox" value="" class="sr-only peer" />
+                          <div class="w-9 h-5 bg-orange-600 peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-orange-600 checked:bg-orange-600"></div>
+
+                        </label>
+                      </td>
+                      <td className=" py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]" >
+                        <label class="relative inline-flex items-center cursor-pointer">
+                          <input type="checkbox" value="" class="sr-only peer" />
+                          <div class="w-9 h-5 bg-orange-600 peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-orange-600 checked:bg-orange-600"></div>
+
+                        </label>
+                      </td>
+                      <td className="py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]" >
+                        <label class="relative inline-flex items-center cursor-pointer">
+                          <input type="checkbox" value="" class="sr-only peer" />
+                          <div class="w-9 h-5 bg-orange-600 peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-orange-600 checked:bg-orange-600"></div>
+
+                        </label>
+                      </td>
+
+
+                    </tr>
+                  </>
                 }
-                <tr onClick={handleBoardMeetingPermission}>
-                  <td className="px-6 py-2.5 whitespace-nowrap text-center  text-sm font-semibold text-gray-800 border-collapse border border-[#e5e7eb]">Board Meeting</td>
+                <tr >
+                  <td className="px-6 py-2.5 flex justify-between whitespace-nowrap text-center  text-sm font-semibold text-gray-800 border-collapse ">Board Meeting  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" onClick={handleBoardMeetingPermission} class="w-4 h-4 mt-1">
+                    <path fill-rule="evenodd" d="M4.22 6.22a.75.75 0 0 1 1.06 0L8 8.94l2.72-2.72a.75.75 0 1 1 1.06 1.06l-3.25 3.25a.75.75 0 0 1-1.06 0L4.22 7.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
+                  </svg></td>
                   <td className="px-6 py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]">
                     <label class="relative inline-flex items-center cursor-pointer">
                       <input type="checkbox" value="" class="sr-only peer" />
@@ -327,11 +418,15 @@ const AddRoles = () => {
 
                     </label>
                   </td>
+                  <td className="px-6 py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]"></td>
+                  <td className="px-6 py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]"></td>
+                  <td className="px-6 py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]"></td>
+                  <td className="px-6 py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]"></td>
                 </tr>
                 {boardMeetingPermission &&
-                  <span>
+                  <>
                     <tr>
-                      <td className=" py-2.5 whitespace-nowrap text-center text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]">Create user</td>
+                      <td className=" py-2.5 whitespace-nowrap text-center text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]">Create Board Meeting</td>
                       <td className="py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]" > </td>
                       <td className=" py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]" >
                         <label class="relative inline-flex items-center cursor-pointer">
@@ -365,7 +460,7 @@ const AddRoles = () => {
 
                     </tr>
                     <tr>
-                      <td className=" py-2.5 whitespace-nowrap text-center text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]">User Details</td>
+                      <td className=" py-2.5 whitespace-nowrap text-center text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]">Board Meeting Details</td>
                       <td className="py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]" > </td>
                       <td className=" py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]" >
                         <label class="relative inline-flex items-center cursor-pointer">
@@ -398,22 +493,28 @@ const AddRoles = () => {
 
 
                     </tr>
-                  </span>
+                  </>
                 }
-                <tr onClick={handleTeamsPermission}>
-                  <td className="px-6 py-2.5 whitespace-nowrap text-center  text-sm font-semibold text-gray-800 border-collapse border border-[#e5e7eb]">Teams</td>
+                <tr >
+                  <td className="px-6 py-2.5 flex justify-between whitespace-nowrap text-center  text-sm font-semibold text-gray-800 border-collapse ">Teams <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" onClick={handleTeamsPermission} class="w-4 h-4 mt-1">
+                    <path fill-rule="evenodd" d="M4.22 6.22a.75.75 0 0 1 1.06 0L8 8.94l2.72-2.72a.75.75 0 1 1 1.06 1.06l-3.25 3.25a.75.75 0 0 1-1.06 0L4.22 7.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
+                  </svg></td>
                   <td className="px-6 py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]">
                     <label class="relative inline-flex items-center cursor-pointer">
                       <input type="checkbox" value="" class="sr-only peer" />
-                      <div class="w-9 h-5 bg-orange-600 peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-orange-600 checked:bg-orange-600"></div>
+                      <div class="w-9 h-5 bg-orange-600 peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-orange-600 checked:bg-gray-600"></div>
 
                     </label>
                   </td>
+                  <td className="px-6 py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]"></td>
+                  <td className="px-6 py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]"></td>
+                  <td className="px-6 py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]"></td>
+                  <td className="px-6 py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]"></td>
                 </tr>
                 {teamsPermission &&
-                  <span>
+                  <>
                     <tr>
-                      <td className=" py-2.5 whitespace-nowrap text-center text-sm font-semibold text-gray-800 border-collapse border border-[#e5e7eb]">Create user</td>
+                      <td className=" py-2.5 whitespace-nowrap text-center text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]">Create Teams</td>
                       <td className="py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]" > </td>
                       <td className=" py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]" >
                         <label class="relative inline-flex items-center cursor-pointer">
@@ -447,7 +548,7 @@ const AddRoles = () => {
 
                     </tr>
                     <tr>
-                      <td className=" py-2.5 whitespace-nowrap text-center text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]">User Details</td>
+                      <td className=" py-2.5 whitespace-nowrap text-center text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]">Teams Details</td>
                       <td className="py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]" > </td>
                       <td className=" py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]" >
                         <label class="relative inline-flex items-center cursor-pointer">
@@ -480,7 +581,7 @@ const AddRoles = () => {
 
 
                     </tr>
-                  </span>
+                  </>
                 }
 
                 {/* {tempdata.map(data => (
@@ -516,10 +617,7 @@ const AddRoles = () => {
             </table>
           </div>
         </div>
-
       </div>
-
-
     </div>
   )
 }

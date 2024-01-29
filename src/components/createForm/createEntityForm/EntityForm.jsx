@@ -48,13 +48,13 @@ function EntityForm() {
   });
   console.log(entityForm)
   console.log(entityForm)
-const handleChange = (e) => {
-  const { name, value } = e.target;
-  setEntityForm((prevEntityForm) => ({
-    ...prevEntityForm,
-    [name]: value
-  }));
-};
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setEntityForm((prevEntityForm) => ({
+      ...prevEntityForm,
+      [name]: value
+    }));
+  };
   const [query, setQuery] = useState('');
   const [selected, setSelected] = useState([]);
   const [showUsers, setShowUsers] = useState(false);
@@ -69,7 +69,7 @@ const handleChange = (e) => {
 
     setEntityForm((prevEntityForm) => ({
       ...prevEntityForm,
-      entitymembers: [...prevEntityForm.Members, value]
+      Members: [...prevEntityForm.Members, value]
     }));
     setQuery('');
     setShowUsers(false);
@@ -77,15 +77,15 @@ const handleChange = (e) => {
   //  for add member input remove users
   const handleRemove = (user) => {
     const updatedSelected = selected.filter((selectedUser) => selectedUser !== user);
-    const updatedMembers = entityForm.entitymembers.filter((selectedUser) => selectedUser !== user);
+    const updatedMembers = entityForm.Members.filter((selectedUser) => selectedUser !== user);
     setEntityForm((prevEntityForm) => ({
       ...prevEntityForm,
-      entitymembers: updatedMembers
+      Members: updatedMembers
     }));
     setSelected(updatedSelected);
   };
 
-  function handleFormSubmit(e){
+  function handleFormSubmit(e) {
     e.preventDefault();
     createEntity(entityForm);
   }
@@ -106,7 +106,7 @@ const handleChange = (e) => {
               </div>
             </div>
             <div>
-              <label htmlFor="name" className="block text-sm font-medium leading-6 my-2 text-gray-900">Choose Your Photo</label>
+              <label htmlFor="name" className="block text-sm font-medium leading-6 my-2 text-gray-900">Choose Logo</label>
               <input
                 type="file"
                 name="EntityPhoto"
@@ -237,14 +237,14 @@ const handleChange = (e) => {
                 )
 
               })} */}
-              {entityForm && entityForm.entitymembers && Array.from({ length: 12 }).map((_, index) => {
+              {entityForm && entityForm.Members && Array.from({ length: 12 }).map((_, index) => {
                 let first = "";
                 let second = "";
                 let firstLetter;
                 let secondLetter;
                 let mail = "";
-                if (index < entityForm.entitymembers.length) {
-                  mail = entityForm.entitymembers[index].split("@")[0]
+                if (index < entityForm.Members.length) {
+                  mail = entityForm.Members[index].split("@")[0]
                   if (mail.includes(".")) {
                     first = mail.split(".")[0]
                     second = mail.split(".")[1]
@@ -282,12 +282,12 @@ const handleChange = (e) => {
                 return (
                   <div className='col-span-1 flex justify-start gap-3' key={index}>
 
-                    {index + 1 <= entityForm.entitymembers.length && <>
+                    {index + 1 <= entityForm.Members.length && <>
                       <h5 style={{ backgroundColor: `${getRandomColor(firstLetter)}` }} className=' rounded-full w-10 h-10 flex justify-center text-xs items-center text-white'>
 
                         {index < 11 && <>
-                          {firstLetter.toUpperCase()}{secondLetter && secondLetter.toUpperCase()}</>}{index == 11 && entityForm.entitymembers.length == 12 && <>
-                            {firstLetter.toUpperCase()}{secondLetter && secondLetter.toUpperCase()}</>} {index == 11 && entityForm.entitymembers.length > 12 && <span>
+                          {firstLetter.toUpperCase()}{secondLetter && secondLetter.toUpperCase()}</>}{index == 11 && entityForm.Members.length == 12 && <>
+                            {firstLetter.toUpperCase()}{secondLetter && secondLetter.toUpperCase()}</>} {index == 11 && entityForm.Members.length > 12 && <span>
                               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.094 9.094 0 0 0 3.741-.479 3 3 0 0 0-4.682-2.72m.94 3.198.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0 1 12 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 0 1 6 18.719m12 0a5.971 5.971 0 0 0-.941-3.197m0 0A5.995 5.995 0 0 0 12 12.75a5.995 5.995 0 0 0-5.058 2.772m0 0a3 3 0 0 0-4.681 2.72 8.986 8.986 0 0 0 3.74.477m.94-3.197a5.971 5.971 0 0 0-.94 3.197M15 6.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm6 3a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Zm-13.5 0a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Z" />
                               </svg>
@@ -295,10 +295,10 @@ const handleChange = (e) => {
                       </h5>
                       <div className=' flex items-center'>
 
-                        <div className=' '>{index < 11 && mail}{index == 11 && entityForm.entitymembers.length == 12 && mail} {index == 11 && entityForm.entitymembers.length > 12 && <span>+{entityForm.entitymembers.length - 11} more</span>} </div>
+                        <div className=' '>{index < 11 && mail}{index == 11 && entityForm.Members.length == 12 && mail} {index == 11 && entityForm.Members.length > 12 && <span>+{entityForm.Members.length - 11} more</span>} </div>
                       </div>
                     </>}
-                    {index + 1 > entityForm.entitymembers.length && <>
+                    {index + 1 > entityForm.Members.length && <>
                       <h5 className='bg-[#e5e7eb] rounded-full w-10 h-10 flex justify-center text-xs items-center text-white'>
 
                       </h5>
