@@ -36,6 +36,7 @@ const SettingEntityForm = () => {
             // Add new field
             setCustomForm((prev) => [...prev, newInputField]);
         }
+
         setNewInputField({ label: '', type: '' });
         setOpen(false);
     };
@@ -50,6 +51,7 @@ const SettingEntityForm = () => {
 
         setCustomForm(updatedForm);
     };
+
 
     const deleteInput = (index) => {
         const updatedForm = [...customForm];
@@ -92,6 +94,16 @@ const SettingEntityForm = () => {
                     <div className="grid1-item flex gap-3 items-end ">
                         <div className="grid grid-cols-4 sm:grid:cols-4 md:grid:cols-4 lg:grid:cols-4 xl:grid:cols-4 gap-3">
                             <div className="grid1-item">
+
+                                {index != 0 && <svg onClick={() => handleMoveDimension(index, 'up')} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+                                    <path fill-rule="evenodd" d="M10 17a.75.75 0 0 1-.75-.75V5.612L5.29 9.77a.75.75 0 0 1-1.08-1.04l5.25-5.5a.75.75 0 0 1 1.08 0l5.25 5.5a.75.75 0 1 1-1.08 1.04l-3.96-4.158V16.25A.75.75 0 0 1 10 17Z" clip-rule="evenodd" />
+                                </svg>}
+                            </div>
+                            <div className="grid1-item">
+                                {index != customForm.length - 1 && <svg onClick={() => handleMoveDimension(index, 'down')} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+                                    <path fill-rule="evenodd" d="M10 3a.75.75 0 0 1 .75.75v10.638l3.96-4.158a.75.75 0 1 1 1.08 1.04l-5.25 5.5a.75.75 0 0 1-1.08 0l-5.25-5.5a.75.75 0 1 1 1.08-1.04l3.96 4.158V3.75A.75.75 0 0 1 10 3Z" clip-rule="evenodd" />
+                                </svg>}
+
                                 <svg onClick={() => handleMoveDimension(index, 'up')} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
                                     <path fill-rule="evenodd" d="M10 17a.75.75 0 0 1-.75-.75V5.612L5.29 9.77a.75.75 0 0 1-1.08-1.04l5.25-5.5a.75.75 0 0 1 1.08 0l5.25 5.5a.75.75 0 1 1-1.08 1.04l-3.96-4.158V16.25A.75.75 0 0 1 10 17Z" clip-rule="evenodd" />
                                 </svg>
@@ -100,6 +112,7 @@ const SettingEntityForm = () => {
                                 <svg onClick={() => handleMoveDimension(index, 'down')} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
                                     <path fill-rule="evenodd" d="M10 3a.75.75 0 0 1 .75.75v10.638l3.96-4.158a.75.75 0 1 1 1.08 1.04l-5.25 5.5a.75.75 0 0 1-1.08 0l-5.25-5.5a.75.75 0 1 1 1.08-1.04l3.96 4.158V3.75A.75.75 0 0 1 10 3Z" clip-rule="evenodd" />
                                 </svg>
+
                             </div>
                             <div className="grid1-item">
                                 <svg onClick={() => {
@@ -150,8 +163,18 @@ const SettingEntityForm = () => {
                             >
                                 <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 px-2 py-5 sm:max-w-lg">
                                     <span className="flex justify-end gap-9 mb-2">
+
+                                        {editIndex == null ? <p className="text-md  font-semibold">Add New Input Field</p > : <p className="text-md  font-semibold">Edit Input Field</p>}
+
+
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" onClick={() => {
+                                            setOpen(false)
+                                        
+                                        }} fill="currentColor" class="w-5 h-5 me-2">
+
                                         <p className="text-md  font-semibold"> Add New Input Field</p>
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" onClick={() => setOpen(false)} fill="currentColor" class="w-5 h-5 me-2">
+
                                             <path d="M6.28 5.22a.75.75 0 0 0-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 1 0 1.06 1.06L10 11.06l3.72 3.72a.75.75 0 1 0 1.06-1.06L11.06 10l3.72-3.72a.75.75 0 0 0-1.06-1.06L10 8.94 6.28 5.22Z" />
                                         </svg></span>
 
@@ -166,7 +189,11 @@ const SettingEntityForm = () => {
                                             </div>
                                         </div>
 
+
+                                        {editIndex == null && <div className="flex">
+
                                         <div className="flex">
+
                                             <label htmlFor="venue" className="block text-sm font-medium leading-6 mt-3 mb-2  mx-2 text-gray-900 ">Type :</label>
                                             <div className="relative inline-block text-left ">
                                                 <select name="type" className="p-2 m-2 text-xs  w-52 bg-gray-50  rounded-md  border-2 border-gray-200 py-1 text-gray-900 appearance-none shadow-sm  placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-xs sm:leading-6"
@@ -182,7 +209,7 @@ const SettingEntityForm = () => {
                                                     </svg>
                                                 </div>
                                             </div>
-                                        </div>
+                                        </div>}
 
                                     </form>
 
@@ -190,7 +217,10 @@ const SettingEntityForm = () => {
                                         <button
                                             type="button"
                                             className="inline-flex justify-center rounded-md bg-orange-600 px-3 py-2 text-sm font-semibold text-white shadow-sm sm:ml-3 sm:w-auto"
+                              
+
                                             onClick={addOrUpdateInput}
+
                                         >
                                             Submit
                                         </button>
