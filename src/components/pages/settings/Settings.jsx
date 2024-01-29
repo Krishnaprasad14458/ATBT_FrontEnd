@@ -46,7 +46,15 @@ const Settings = () => {
   </div>
 </div>
 </Link>
-
+<Link to="/integrations">
+<div className='grid1-item  text-start'>
+    <div class=" py-5 px-4 text-center bg-orange-600 rounded-md">
+    <p class="text-white text-base">
+    Integrations
+    </p>
+  </div>
+</div>
+</Link>
     </div>
     </div>
   )
