@@ -20,7 +20,7 @@ const Forms = () => {
 
                 </Link>
 
-                <Link to="#">
+                <Link to="/settingboardmeetingform">
                     <div className='grid1-item  text-start'>
                         <div class=" py-5 px-4 text-center bg-orange-600 rounded-md">
                             <p class="text-white text-base">
@@ -30,7 +30,7 @@ const Forms = () => {
                     </div>
                 </Link>
                 <Link
-                    to="#">
+                    to="/settinguserform">
                     <div className='grid1-item  text-start'>
                         <div class=" py-5 px-4 text-center bg-orange-600 rounded-md">
                             <p class="text-white text-base">
@@ -41,7 +41,7 @@ const Forms = () => {
 
                 </Link>
 
-                <Link to="#">
+                <Link to="/settingteamsform">
                     <div className='grid1-item  text-start'>
                         <div class=" py-5 px-4 text-center bg-orange-600 rounded-md">
                             <p class="text-white text-base">
