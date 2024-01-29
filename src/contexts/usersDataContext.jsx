@@ -111,6 +111,35 @@ import { toast } from "react-toastify";
         console.error(e);
       }
     };
+
+    const deleteUser = async(id) => {
+      try {
+        const { data, status } = await toast.promise(
+          axios.delete(`${apiUrl}/admin/delete-user/${id}`, {
+            headers: {
+              authorization: localStorageData?.token,
+            }
+          }),
+          {
+            pending: 'Deleting User',
+            success: {
+              render({ data}) {
+                return `user Deleted`
+              }
+            },
+            error: 'Unable to delete user 🤯',
+          },
+        )
+        console.log(data,status)
+        if (status === 200) {
+          getPaginatedUsersData()
+          getAllUsers()
+        }
+      }
+      catch (e) {
+        console.error(e);
+      }
+    }
   
     useEffect(() => {
       // getUsersData();
@@ -130,6 +159,7 @@ import { toast } from "react-toastify";
           createUser,
           getUser,
           getPaginatedUsersData,
+          deleteUser
         }}
       >
         {children}
