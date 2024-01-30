@@ -1,12 +1,12 @@
 import React from 'react'
-
+import { Link, Outlet } from 'react-router-dom'
 const Whatsapp = () => {
   return (
     <div className='p-2'>
       <div className='flex justify-between my-2'>
         <p className='text-lg font-semibold'>Whatsapp</p>
         <button type="submit"
-          className="rounded-md bg-orange-600 px-8 py-1.5 text-sm leading-6 text-white shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600">Add Whatsapp Templates</button>
+          className="rounded-md bg-orange-600 px-8 py-1.5 text-sm leading-6 text-white shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600"><Link to="/addwhatsapptemplate" className="text-sm"> Add Whatsapp Templates</Link></button>
       </div>
       <table className="w-full table-auto min-w-full divide-y divide-gray-200 dark:divide-gray-700 border-collapse border border-[#e5e7eb] rounded-md ">
         <thead className='sticky top-0'>
