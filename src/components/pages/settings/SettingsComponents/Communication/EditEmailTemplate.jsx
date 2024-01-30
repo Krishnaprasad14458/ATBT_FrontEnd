@@ -3,9 +3,9 @@ import { Link } from 'react-router-dom';
 
 const editEmailTemplate = () => {
   return (
-    <div className='p-3'>
+    <div className='p-4'>
       <p className='text-lg font-semibold'>Edit Email Template</p>
-      <form className="space-y-6 p-2" method="POST">
+      <form className="space-y-6" method="POST">
         <div className='grid grid-cols-2 gap-4 mt-3'>
           <div>
             <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">Template Name :</label>
