@@ -1,12 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-const AddEmailTemplate = () => {
+const viewEmailTemplate = () => {
   return (
     <div className='p-3'>
-      <p className='text-lg font-semibold'>Add Email Template</p>
+      <p className='text-lg font-semibold'>Edit Email Template</p>
       <form className="space-y-6 p-2" method="POST">
-        <div className=' grid grid-cols-3 gap-4 mt-3'>
+        <div className='grid grid-cols-2 gap-4 mt-3'>
           <div>
             <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">Template Name :</label>
             <div className="mt-2">
@@ -16,7 +16,7 @@ const AddEmailTemplate = () => {
         </div>
         <div className="grid grid-cols-2 gap-4">
           <div className="">
-            <label htmlFor="subject" className="text-sm font-medium text-gray-900 mr-2">Subject:</label>
+            <label htmlFor="subject" className="text-sm font-medium text-gray-900 mr-2">Subject :</label>
             <div className='mt-2'>
               <input
                 id="subject"
@@ -30,8 +30,8 @@ const AddEmailTemplate = () => {
             </div>
           </div>
           <div className="">
-            <label htmlFor="variables" className="text-sm font-medium text-gray-900 mr-2">Insert&nbsp;Variables:</label>
-            <div className="relative">
+            <label htmlFor="variables" className="text-sm font-medium text-gray-900 mr-2">Insert&nbsp;Variables :</label>
+            <div className='relative '>
               <select class="mt-2 p-3 block w-full rounded-md border border-1 border-gray-400 py-1.5 text-gray-900 bg-gray-100  appearance-none shadow-sm  placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6">
                 <option value="option1">Select Insert Variables</option>
                 <option value="option2">Complete</option>
@@ -49,14 +49,17 @@ const AddEmailTemplate = () => {
         <div className='col-span-3'>
           <label htmlFor="name" className=" block text-sm my-2 font-medium leading-6 text-gray-900" >Description</label>
           <div className=''>
-            <textarea name='Description' value="In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before final copy is available. Wikipedia" class="resize-none bg-gray-50 rounded-md text-sm p-2 w-full h-44 border-2 border-gray-200 focus:outline-none focus:border-orange-400"></textarea>
+            <textarea name='Description' value="In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before final copy is available. Wikipedia" class=" bg-gray-50 rounded-md text-sm p-2 w-full h-56 border-2 border-gray-200 focus:outline-none focus:border-orange-400"></textarea>
           </div>
         </div>
 
         <div className='grid grid-cols-4 gap-4'>
           <div className='col-span-4 text-end'>
             <button type="submit"
-              className="rounded-md bg-orange-600 px-8 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600">Submit</button>
+              className="me-5 rounded-md px-8 py-1.5 text-sm font-semibold border-2 border-orange-600 leading-6 text-orange-600 shadow-sm hover:bg-dark-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600">Cancel</button>
+
+            <button type="submit"
+              className="rounded-md bg-orange-600 px-8 py-1.5 text-sm leading-6 text-white shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600">Update Template</button>
           </div>
         </div>
       </form>
@@ -64,4 +67,4 @@ const AddEmailTemplate = () => {
   );
 }
 
-export default AddEmailTemplate;
+export default viewEmailTemplate;
