@@ -2,27 +2,25 @@ const entitiesDataReducer = (state, action) => {
     switch (action.type) {
         case "SET_PAGINATED_ENTITIES":
             const reducerData = action.payload;
-            console.log(reducerData)
             return action.payload.context === 'DASHBOARD' ? {
                 ...state,
                 dashboard: {
                     ...state.dashboard,
                     paginatedEntities: reducerData.data,
-                    currentPage: reducerData.currentPage,
                     totalPages: reducerData.totalPages,
+                    totalEntries: reducerData.totalEntries,
                 },
             } : {
                 ...state,
                 pagination: {
                     ...state.pagination,
                     paginatedEntities: reducerData.data,
-                    currentPage: reducerData.currentPage,
-                    totalPages: reducerData.totalPages
+                    totalPages: reducerData.totalPages,
+                    totalEntries: reducerData.totalEntries,
                 },
             }
 
         case "SET_SEARCH":
-            console.log(action.payload)
             return action.payload.context === 'DASHBOARD' ? {
                 ...state,
                 dashboard: {
@@ -55,7 +53,6 @@ const entitiesDataReducer = (state, action) => {
             }
 
         case "SET_CUSTOM_PAGE":
-            console.log(action.payload.data)
             return action.payload.context === 'DASHBOARD' ? {
                 ...state,
                 dashboard: {
@@ -71,7 +68,6 @@ const entitiesDataReducer = (state, action) => {
             }
 
         case "SET_LOADING":
-            console.log("checking")
             return action.payload.context === 'DASHBOARD' ? {
                 ...state,
                 dashboard: {
