@@ -365,10 +365,10 @@ const EntityLandingPage = () => {
                             <th scope="col" className="py-2 text-sm text-white bg-orange-600  border-collapse border border-[#e5e7eb] ">Task Name</th>
                             <th scope="col" className="py-2 text-sm text-white bg-orange-600  border-collapse border border-[#e5e7eb] ">Assignee</th>
                             <th scope="col" className="py-2 text-sm text-white bg-orange-600   border-collapse border border-[#e5e7eb]">Due Date</th>
-                            <th scope="col" className="py-2 text-sm text-white bg-orange-600   border-collapse border border-[#e5e7eb]">Board Meeting</th>
+                            <th scope="col" className="py-2 text-sm text-white bg-orange-600   border-collapse border border-[#e5e7eb]">Board Meetings</th>
                             <th scope="col" className="py-2 text-sm text-white bg-orange-600   border-collapse border border-[#e5e7eb] ">Status</th>
-                            <th scope="col" className="py-2 text-sm text-white bg-orange-600   border-collapse border border-[#e5e7eb] ">Create by Admin</th>
-                            <th scope="col" className="py-2 text-sm text-white bg-orange-600   border-collapse border border-[#e5e7eb] ">Update by Admin </th>
+                            <th scope="col" className="py-2 text-sm text-white bg-orange-600   border-collapse border border-[#e5e7eb] ">Created by Admin</th>
+                            <th scope="col" className="py-2 text-sm text-white bg-orange-600   border-collapse border border-[#e5e7eb] ">Updated by Admin </th>
                         </tr>
                     </thead>
                     <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
