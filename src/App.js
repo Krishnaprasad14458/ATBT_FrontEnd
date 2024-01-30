@@ -35,6 +35,9 @@ import Whatsapp from './components/pages/settings/SettingsComponents/Communicati
 import Email from './components/pages/settings/SettingsComponents/Communication/Email';
 import TeamsForm from './components/createForm/TeamsForm/TeamsForm';
 import SettingEntityForm from './components/pages/settings/SettingsComponents/Forms/Settingentityform';
+import SettingBoardMeetingForm from './components/pages/settings/SettingsComponents/Forms/SettingBoardMeetingForm';
+import SettingUserForm from './components/pages/settings/SettingsComponents/Forms/SettingUserForm';
+import SettingTeamsForm from './components/pages/settings/SettingsComponents/Forms/SettingTeamsForm';
 import AddRoles from './components/pages/settings/SettingsComponents/Roles/AddRoles';
 import Integrations from './components/pages/settings/SettingsComponents/Integrations/Integrations';
 import WhatsappIntegrations from './components/pages/settings/SettingsComponents/Integrations/WhatsappIntegrations';
@@ -49,6 +52,7 @@ import UserLandingPage from './components/landingPages/user/UserLandingPage';
 import AddEmailTemplate from './components/pages/settings/SettingsComponents/Communication/AddEmailTemplate';
 import AddWhatsappTemplate from './components/pages/settings/SettingsComponents/Communication/AddWhatsappTemplate';
 import TaskLandingPage from './components/landingPages/task/TaskLandingPage';
+import Dupaddrole from './components/pages/settings/SettingsComponents/Roles/Dupaddrole';
 
 function App() {
   const { authState } = useContext(AuthContext);
@@ -71,6 +75,7 @@ function App() {
             <Route path='/roles' element={<Roles />} />
             <Route path='/integrations' element={<Integrations />} />
             <Route path='/addroles' element={<AddRoles />} />
+            <Route path='/dupaddroles' element={<Dupaddrole />} />
             <Route path='/communication' element={<Communication />} />
             <Route path='/whatsappintegration' element={<WhatsappIntegrations />} />
             <Route path='/emailintegration' element={<EmailIntegrations />} />
@@ -95,6 +100,9 @@ function App() {
             <Route path='/tasklandingpage' element={<TaskLandingPage />}/>
 
             <Route path="/settingentityform" element={<SettingEntityForm />} />
+            <Route path="/settingboardmeetingform" element={<SettingBoardMeetingForm />} />
+            <Route path="/settingteamsform" element={<SettingTeamsForm />} />
+            <Route path="/settinguserform" element={<SettingUserForm />} />
             <Route path="/entities/new" element={<EntityForm />} />
             <Route path='/boardmeetings' element={<BoardMeetings />} />
             <Route path="/boardmeetings/new" element={<BoardMeetingForm />} />
