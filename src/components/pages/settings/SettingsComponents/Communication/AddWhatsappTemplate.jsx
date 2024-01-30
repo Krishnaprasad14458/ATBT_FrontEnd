@@ -74,11 +74,17 @@ const AddWhatsappTemplate = () => {
             </div>
           </div>
         </div>
-        <div class="flex items-start mb-5">
+        <div class="flex items-start my-5">
           <div class="flex items-center h-5">
             <input id="remember" type="checkbox" value="" class="w-4 h-4 border " required />
           </div>
-          <label for="remember" class="ms-2 text-sm font-medium text-gray-900 ">Remember me</label>
+          <label for="remember" class="ms-2 text-sm font-medium text-gray-900 ">Active / Enabled</label>
+        </div>
+        <div className='flex justify-end'>
+          <button type="submit"
+            className="me-5 rounded-md px-8 py-1.5 text-sm font-semibold border-2 border-orange-600 leading-6 text-orange-600 shadow-sm hover:bg-dark-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600">Cancel</button>
+          <button type="submit"
+            className="rounded-md bg-orange-600 px-8 py-1.5 text-sm leading-6 text-white shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600">Save</button>
         </div>
       </form>
     </div>

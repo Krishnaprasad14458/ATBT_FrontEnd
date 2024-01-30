@@ -1,22 +1,24 @@
-
-import React, { useState, Fragment, useRef, useEffect } from 'react';
+import React, { useState, Fragment, useRef, useEffect, useContext } from 'react';
 import '../LandingPageCommon.css';
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import moment from 'moment';
 import { Dialog, Transition, Menu } from '@headlessui/react'
 import defprop from '../../../Images/defprof.svg';
-import { Link, Outlet } from 'react-router-dom'
-
+import { Link, Outlet, useParams } from 'react-router-dom'
 import { ChevronDownIcon } from '@heroicons/react/20/solid';
 import useInitializePerPage from '../../../hooks/initializePerPage/useInitializePerPage';
 import useDebounce from '../../../hooks/debounce/useDebounce';
+import { EntitiesDataContext } from '../../../contexts/entitiesDataContext';
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
 }
 
 
 const EntityLandingPage = () => {
+    const { getEntitybyId } = useContext(EntitiesDataContext);
+    const {id} = useParams();
+    const [singleProduct, setSingleProduct] = useState({});
     // todo toggle
     // const [todo, setTodo] = useState(false);
     // const [doing, setdoing] = useState(false);
@@ -32,6 +34,18 @@ const EntityLandingPage = () => {
     // }
 
     // For tabs active
+    const getSingleProduct = async () => {
+        try {
+          const product = await getEntitybyId(id);
+          setSingleProduct(product?.data?.Entites);
+        } catch (e) {
+          console.error(e);
+        }
+      };
+    useEffect(()=>{
+        getSingleProduct();
+        
+    },[id])
     const [activeTab, setActiveTab] = useState(1);
 
     const handleTabClick = (tabNumber) => {
@@ -142,12 +156,12 @@ const EntityLandingPage = () => {
                                     className="rounded-full w-12 h-12 mr-2"
                                 />
                             </div>
-                            <p class="text-lg font-black text-gray-800 mt-2">Bhavitha</p>
+                            <p class="text-lg font-black text-gray-800 mt-2">{singleProduct.Entite_Name}</p>
 
                         </div>
                         <hr className='my-3' />
                         <div className='h-20 overflow-auto border border-1 border-gray-200 rounded-md p-2 bg-[#f8fafc] text-sm w-full  '>
-                        In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before final copy is available.
+                        {singleProduct.Description}
                         </div>
 
                         <p className='text-md font-semibold my-3' > Members</p>
@@ -351,10 +365,10 @@ const EntityLandingPage = () => {
                             <th scope="col" className="py-2 text-sm text-white bg-orange-600  border-collapse border border-[#e5e7eb] ">Task Name</th>
                             <th scope="col" className="py-2 text-sm text-white bg-orange-600  border-collapse border border-[#e5e7eb] ">Assignee</th>
                             <th scope="col" className="py-2 text-sm text-white bg-orange-600   border-collapse border border-[#e5e7eb]">Due Date</th>
-                            <th scope="col" className="py-2 text-sm text-white bg-orange-600   border-collapse border border-[#e5e7eb]">Board Meeting</th>
+                            <th scope="col" className="py-2 text-sm text-white bg-orange-600   border-collapse border border-[#e5e7eb]">Board Meetings</th>
                             <th scope="col" className="py-2 text-sm text-white bg-orange-600   border-collapse border border-[#e5e7eb] ">Status</th>
-                            <th scope="col" className="py-2 text-sm text-white bg-orange-600   border-collapse border border-[#e5e7eb] ">Create by Admin</th>
-                            <th scope="col" className="py-2 text-sm text-white bg-orange-600   border-collapse border border-[#e5e7eb] ">Update by Admin </th>
+                            <th scope="col" className="py-2 text-sm text-white bg-orange-600   border-collapse border border-[#e5e7eb] ">Created by Admin</th>
+                            <th scope="col" className="py-2 text-sm text-white bg-orange-600   border-collapse border border-[#e5e7eb] ">Updated by Admin </th>
                         </tr>
                     </thead>
                     <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
