@@ -46,6 +46,7 @@ import Api from './components/pages/settings/SettingsComponents/Integrations/Api
 import Webhook from './components/pages/settings/SettingsComponents/Integrations/Webhook';
 import Sms from './components/pages/settings/SettingsComponents/Integrations/Sms';
 import PaymentGateway from './components/pages/settings/SettingsComponents/Integrations/PaymentGateway';
+import Dupaddrole from './components/pages/settings/SettingsComponents/Roles/Dupaddrole';
 
 function App() {
   const { authState } = useContext(AuthContext);
@@ -68,6 +69,7 @@ function App() {
             <Route path='/roles' element={<Roles />} />
             <Route path='/integrations' element={<Integrations />} />
             <Route path='/addroles' element={<AddRoles />} />
+            <Route path='/dupaddroles' element={<Dupaddrole />} />
             <Route path='/communication' element={<Communication />} />
             <Route path='/whatsappintegration' element={<WhatsappIntegrations />} />
             <Route path='/emailintegration' element={<EmailIntegrations />} />
