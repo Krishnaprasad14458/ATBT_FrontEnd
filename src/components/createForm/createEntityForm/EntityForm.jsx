@@ -1,14 +1,8 @@
 import React, { useState, useRef, useContext } from 'react';
 import defprop from '../../../Images/defprof.svg';
-import './EntityForm.css';
-
-
-
-
 import { EntitiesDataContext } from '../../../contexts/entitiesDataContext';
 import { Link } from 'react-router-dom';
 import { UserDataContext } from '../../../contexts/usersDataContext';
-
 function EntityForm() {
   const { usersState: { users } } = useContext(UserDataContext);
   console.log(users, "entity form")
