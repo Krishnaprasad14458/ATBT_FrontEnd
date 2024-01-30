@@ -1,6 +1,6 @@
 
 import React, { useState, Fragment, useRef, useEffect } from 'react';
-import './EntityLandingPage.css';
+import '../LandingPageCommon.css';
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import moment from 'moment';
