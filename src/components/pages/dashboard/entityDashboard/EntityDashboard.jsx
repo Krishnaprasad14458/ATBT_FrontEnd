@@ -7,6 +7,9 @@ import { useSearchParams } from 'react-router-dom';
 
 function EntityDashboard() {
   const { entitiesState: { entities, dashboard }, entitiesDispatch } = useContext(EntitiesDataContext);
+  const startEntry = (dashboard.currentPage - 1) * dashboard.perPage + 1;
+  const endEntry = Math.min(dashboard.currentPage * dashboard.perPage, dashboard.totalEntries);
+  console.log(startEntry,endEntry)
   const {debouncedSetPage, debouncedSetSearch} = useDebounce(entitiesDispatch);
   useEffect(()=>{
     return ()=>{
@@ -75,18 +78,19 @@ function EntityDashboard() {
         </div>
         <div className="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
           <div>
-            {dashboard?.paginatedEntities === "no data to show for this page" ? null : <p className="text-sm text-gray-700">
-              Showing <span className="font-medium">{dashboard?.currentPage}</span> of
-              <span className="font-medium"> {dashboard?.totalPages}</span> pages
+            {dashboard?.paginatedEntities === "no data to show for this page" ? "no data to show for this page" : dashboard.loading? "Loading...": <p className="text-sm text-gray-700">
+              Showing {startEntry} to {endEntry} of <span className="font-medium">{dashboard.totalEntries}</span>
+              <span className="font-medium"> </span> results
             </p>}
           </div>
           <div>
             <section className="isolate inline-flex -space-x-px rounded-md shadow-sm" aria-label="dashboard">
               <button
-                disabled={dashboard.currentPage == 1}
+                disabled={dashboard.loading?true:false || dashboard.currentPage === 1}
                 onClick={() => debouncedSetPage({ context: 'DASHBOARD', data: dashboard.currentPage - 1 })}
                 href="#"
-                className="relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
+                // className="relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
+                className={`relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${dashboard.loading?'cursor-wait':dashboard.currentPage === 1? 'cursor-not-allowed':'cursor-auto'}`}
               >
                 <span className="sr-only">Previous</span>
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5" aria-hidden="true">
@@ -95,9 +99,9 @@ function EntityDashboard() {
 
               </button>
               <button
-                disabled={true}
+                disabled={dashboard.loading?true:false || dashboard.currentPage === dashboard.totalPages}
                 onClick={() => debouncedSetPage({context: 'DASHBOARD',data: dashboard.currentPage + 1})}
-                className="relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
+                className={`relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${dashboard.loading?'cursor-wait':dashboard.currentPage === dashboard.totalPages? 'cursor-not-allowed':'cursor-auto'}`}
               >
                 <span className="sr-only">Next</span>
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5" aria-hidden="true">
