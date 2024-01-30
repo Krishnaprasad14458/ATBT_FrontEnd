@@ -117,81 +117,31 @@ const UserLandingPage = () => {
       </div>
       {activeTab === 1 && <div className="mt-4 flex justify-center">
         <div className="h-[500px] w-5/6 shadow-md px-6 py-4 border-2 rounded-md bg-[#f8fafc]">
-          <div className='mb-5 mt-3'>
-            <div className="flex gap-4">
-              <div className="group h-10 ">
-                <img
-                  src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?q=80&w=256&h=256&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                  alt="Default User Photo"
-                  className="rounded-full w-12 h-12 mr-2"
-                />
-              </div>
-              <p class="text-lg font-black text-gray-800 mt-2">Bhavitha</p>
-
-            </div>
-            <hr className='my-3' />
-            <div className='h-20 overflow-auto border border-1 border-gray-200 rounded-md p-2 bg-[#f8fafc] text-sm w-full  '>
-              In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before final copy is available.
-            </div>
-
-            <p className='text-md font-semibold my-3' > Members</p>
-
-            <div className=' grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-4 mt-5'>
-              <div className='col-span-1 flex justify-start gap-3'>
-                <h5 className='bg-[#f87171] rounded-full w-10 h-10 flex justify-center text-xs items-center text-white'> SA</h5>
-
-                <p className='mt-1.5 font-thin  text-sm'>srilakshmi.a</p>
-              </div>
-              <div className='col-span-1 flex justify-start gap-3'>
-                <h5 className='bg-[#f87171] rounded-full w-10 h-10 flex justify-center text-xs items-center text-white'> BY</h5>
-                <p className='mt-1.5 font-thin  text-sm'>Bhavitha.y</p>
-              </div>
-              <div className='col-span-1 flex justify-start gap-3'>
-                <h5 className='bg-[#fb923c] rounded-full w-10 h-10 flex justify-center text-xs items-center text-white'>IM</h5>
-                <p className='mt-1.5 font-thin  text-sm'>Irshad.md</p>
-              </div>
-              <div className='col-span-1 flex justify-start gap-3'>
-                <h5 className='bg-[#818cf8] rounded-full w-10 h-10 flex justify-center text-xs items-center text-white'> SA</h5>
-                <p className='mt-1.5 font-thin  text-sm'>srilakshmi.a</p>
-              </div>
-              <div className='col-span-1 flex justify-start gap-3'>
-                <h5 className='bg-[#fb923c] rounded-full w-10 h-10 flex justify-center text-xs items-center text-white'> NN</h5>
-                <p className='mt-1.5 font-thin  text-sm'>Niraj.n</p>
-              </div>
-              <div className='col-span-1 flex justify-start gap-3'>
-                <h5 className='bg-[#f87171] rounded-full w-10 h-10 flex justify-center text-xs items-center text-white'> IS</h5>
-                <p className='mt-1.5 font-thin  text-sm'>Irfan.sk</p>
-              </div>
-              <div className='col-span-1 flex justify-start gap-3'>
-                <h5 className='bg-[#fb923c] rounded-full w-10 h-10 flex justify-center text-xs items-center text-white'> KN</h5>
-                <p className='mt-1.5 font-thin  text-sm'>Krishna.n</p>
-              </div>
-              <div className='col-span-1 flex justify-start gap-3'>
-                <h5 className='bg-[#f87171] rounded-full w-10 h-10 flex justify-center text-xs items-center text-white'> SA</h5>
-                <p className='mt-1.5 font-thin  text-sm'>srilakshmi.a</p>
-              </div>
-              <div className='col-span-1 flex justify-start gap-3'>
-                <h5 className='bg-[#818cf8] rounded-full w-10 h-10 flex justify-center text-xs items-center text-white'> SA</h5>
-                <p className='mt-1.5 font-thin  text-sm'>srilakshmi.a</p>
-              </div>
-              <div className='col-span-1 flex justify-start gap-3'>
-                <h5 className='bg-[#f87171] rounded-full w-10 h-10 flex justify-center text-xs items-center text-white'> SA</h5>
-                <p className='mt-1.5 font-thin  text-sm'>srilakshmi.a</p>
-              </div>
-              <div className='col-span-1 flex justify-start gap-3'>
-                <h5 className='bg-[#818cf8] rounded-full w-10 h-10 flex justify-center text-xs items-center text-white'> SA</h5>
-                <p className='mt-1.5 font-thin  text-sm'>srilakshmi.a</p>
-              </div>
-              <div className='col-span-1 flex justify-start gap-3'>
-                <h5 className='bg-[#fb923c] rounded-full w-10 h-10 flex justify-center text-xs items-center text-white'> SA</h5>
-                <p className='mt-1.5 font-thin  text-sm'> +2 more</p>
+          <div className='flex justify-between'>
+            <div className='flex justify-start'>
+              <img src='https://images.unsplash.com/photo-1633332755192-727a05c4013d' width="100px" height="100px" className='rounded-full border-2 border-gray-600' alt='user' />
+              <div>
+                <ul className='mt-5 ms-4'>
+                  <li className='text-xl'>Irfan</li>
+                  <li className='text-md'>irfan@gmail.com</li>
+                </ul>
               </div>
             </div>
+            <div className='mt-8'>
+              <button type="submit"
+                className="me-4 rounded-md border-2 border-orange-600 px-8 py-1.5 text-sm leading-6 text-dark shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600">Toggle</button>
+
+              <button type="submit"
+                className="rounded-md bg-orange-600 px-8 py-1.5 text-sm leading-6 text-white shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600">Edit Profile</button>
+            </div>
+          </div>
+          <div>
           </div>
         </div>
       </div>
       }
-      {activeTab === 2 && <div className="">
+
+      {/* {activeTab === 2 && <div className="">
         <div className='flex justify-end my-2'>
 
           <Menu as="div" className="relative inline-block ms-3 mt-1">
@@ -432,71 +382,7 @@ const UserLandingPage = () => {
                         </div>
                       </div>
 
-                      {/*                                             
-                                    <Menu as="div" className="relative inline-block">
-                                        <div className=''>
-                                            <Menu.Button className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-gray-50 px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-200 hover:bg-gray-50">
-                                                Priority List
-                                                <ChevronDownIcon className="-mr-1 h-5 w-5 text-gray-400" aria-hidden="true" />
-                                            </Menu.Button>
-                                        </div>
-
-                                        <Transition
-                                            as={Fragment}
-                                            enter="transition ease-out duration-100"
-                                            enterFrom="transform opacity-0 scale-95"
-                                            enterTo="transform opacity-100 scale-100"
-                                            leave="transition ease-in duration-75"
-                                            leaveFrom="transform opacity-100 scale-100"
-                                            leaveTo="transform opacity-0 scale-95"
-                                        >
-                                            <Menu.Items className="absolute left-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                                                <div className="py-1">
-                                                    <Menu.Item>
-                                                        {({ active }) => (
-                                                            <Link
-                                                                to="#"
-                                                                className={classNames(
-                                                                    active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                                                                    'block px-4 py-2 text-sm'
-                                                                )}
-                                                            >
-                                                                Low
-                                                            </Link>
-                                                        )}
-                                                    </Menu.Item>
-                                                    <Menu.Item>
-                                                        {({ active }) => (
-                                                            <Link
-                                                                to="#"
-                                                                className={classNames(
-                                                                    active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                                                                    'block px-4 py-2 text-sm'
-                                                                )}
-                                                            >
-                                                                Medium
-                                                            </Link>
-                                                        )}
-                                                    </Menu.Item>
-                                                    <Menu.Item>
-                                                        {({ active }) => (
-                                                            <Link
-                                                                to="#"
-                                                                className={classNames(
-                                                                    active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                                                                    'block px-4 py-2 text-sm'
-                                                                )}
-                                                            >
-                                                               High
-                                                            </Link>
-                                                        )}
-                                                    </Menu.Item>
-
-                                                </div>
-                                            </Menu.Items>
-                                        </Transition>
-                                    </Menu> */}
-                    </p>
+                                       </p>
                   </div>
                   <div className='mt-5 flex flex-row'>
                     <p className='basis-1/4 text-sm text-gray-600'>Description</p>
@@ -538,57 +424,7 @@ const UserLandingPage = () => {
               </td>
               <td className="border text-sm" colspan="7"></td>
             </tr>
-            {/* <div className='flex flex-start' onClick={handledoing}>
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5 mt-3">
-                        <path fillRule="evenodd" d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z" clipRule="evenodd" />
-                    </svg>
-                    <p className='text-md ms-2 font-semibold mb-3 mt-3'>Doing</p>
-                </div>
-                {doing &&
-                    <tr className='text-center text-gray-500'>
-                        <td scope="col" className="py-2 text-sm border-collapse border border-[#e5e7eb] flex justify-start"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-5 h-5 ms-2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                        </svg><span className='text-sm ms-2'>Draft project brief</span></td>
-                        <td scope="col" className="py-2 text-sm border-collapse border border-[#e5e7eb]">Assigne</td>
-                        <td scope="col" className="py-2 text-sm border-collapse border border-[#e5e7eb]">Due Date</td>
-                        <td scope="col" className="py-2 text-sm border-collapse border border-[#e5e7eb]">Board Meeting</td>
-                        <td scope="col" className="py-2 text-sm border-collapse border border-[#e5e7eb] ">Status</td>
-                        <td scope="col" className="py-2 text-sm border-collapse border border-[#e5e7eb] ">Create by User </td>
-                        <td scope="col" className="py-2 text-sm border-collapse border border-[#e5e7eb] ">Update by Admin </td>
-                    </tr>}
-                <tr className='text-center text-gray-500'>
-                    <td className="py-2 border-slate-200 flex justify-start ms-4 text-sm border-b-" colspan="">
-                        <input className='w-full bg-gray-50 border-none focus:outline-none' type="text" placeholder='Add Task ..' />
-                    </td>
-                    <td className="border text-sm" colspan="7"></td>
-                </tr>
-
-                <div className='flex flex-start' onClick={handledone}>
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5 mt-3">
-                        <path fillRule="evenodd" d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z" clipRule="evenodd" />
-                    </svg>
-                    <p className='text-md ms-2 font-semibold mb-3 mt-3'>Done</p>
-                </div>
-                {done &&
-                    <tr className='text-center text-gray-500'>
-                        <td scope="col" className="py-2 text-sm border-collapse border border-[#e5e7eb] flex justify-start"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-5 h-5 ms-2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                        </svg><span className='text-sm ms-2'>Draft project brief</span></td>
-                        <td scope="col" className="py-2 text-sm border-collapse border border-[#e5e7eb]">Assigne</td>
-                        <td scope="col" className="py-2 text-sm border-collapse border border-[#e5e7eb]">Due Date</td>
-                        <td scope="col" className="py-2 text-sm border-collapse border border-[#e5e7eb]">Board Meeting</td>
-                        <td scope="col" className="py-2 text-sm border-collapse border border-[#e5e7eb] ">Status</td>
-                        <td scope="col" className="py-2 text-sm border-collapse border border-[#e5e7eb] ">Create by User </td>
-                        <td scope="col" className="py-2 text-sm border-collapse border border-[#e5e7eb] ">Update by Admin </td>
-                    </tr>
-
-                } 
-                <tr className='text-center text-gray-500'>
-                    <td className="py-2 border-slate-200 flex justify-start ms-4 text-sm border-b-" colspan="">
-                        <input className='w-full bg-gray-50 border-none focus:outline-none' type="text" placeholder='Add Task ..' />
-                    </td>
-                    <td className="border text-sm" colspan="7"></td>
-            </tr> */}
+           
           </tbody>
         </table>
         <div>
@@ -642,7 +478,7 @@ const UserLandingPage = () => {
                               <path d="M10.75 4.75a.75.75 0 0 0-1.5 0v4.5h-4.5a.75.75 0 0 0 0 1.5h4.5v4.5a.75.75 0 0 0 1.5 0v-4.5h4.5a.75.75 0 0 0 0-1.5h-4.5v-4.5Z" />
                             </svg>
 
-                            {/* <ExclamationTriangleIcon className="h-6 w-6 text-red-600" aria-hidden="true" /> */}
+                           
                           </div>
                           <div className="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
                             <Dialog.Title as="h3" className="text-base font-semibold leading-6 text-gray-900">
@@ -706,7 +542,7 @@ const UserLandingPage = () => {
       </div>}
       {activeTab === 6 && <div className="mt-4">
         kikk
-      </div>}
+      </div>} */}
 
     </div>
   );
