@@ -54,7 +54,6 @@ const AuthProvider = ({ children }) => {
       }
   
       if (status === 200) {
-        console.log(data);
         localStorage.setItem(
           "data",
           JSON.stringify({ user: data?.user, token: data?.token })
@@ -96,7 +95,6 @@ const AuthProvider = ({ children }) => {
   };
 
   const resetPassword = async ({ id, password }) => {
-    console.log(id)
     try {
       const { data } = await toast.promise(
         axios.put(`${apiUrl}/user/changePassword/${id}`, { password }),

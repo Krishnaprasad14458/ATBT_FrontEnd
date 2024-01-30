@@ -10,7 +10,6 @@ function UserForm() {
     email: "",
     phone: "",
   });
-  console.log(userDetails)
   function handleSubmit(e) {
     e.preventDefault();
     createUser(userDetails)
@@ -179,9 +178,9 @@ function UserForm() {
                     <img class=" rounded-lg " src={defprop} alt="Neil image" />
                   </div>
                   <div className='col-span-2'>
-                    <p class="text-lg font-black text-gray-800 ">Bhavitha</p>
-                    <p class="text-md text-gray-700 mt-2"> bhavitha@gmail.com</p>
-                    <p class="text-md text-gray-700 mt-1"> 9802345678</p>
+                    <p class="text-lg font-black text-gray-800 ">{userDetails.userName}</p>
+                    <p class="text-md text-gray-700 mt-2"> {userDetails.email}</p>
+                    <p class="text-md text-gray-700 mt-1"> {userDetails.phone}</p>
                     <p class="text-md text-gray-700 mt-1"> Infoz IT</p>
                     <p class="text-md text-gray-700 mt-1"> Developer</p>
                     <p class="text-md text-gray-700 mt-1"> Jr.Software Developer</p>
