@@ -21,7 +21,7 @@ import UserProfile from './components/pages/userProfile/UserProfile';
 import EntityForm from './components/createForm/createEntityForm/EntityForm';
 import UserForm from './components/createForm/createUserForm/UserForm';
 import BoardMeetingForm from './components/createForm/createBoardMeetingForm/BoardMeetingForm';
-import TaskForm from './components/createForm/createTaskForm/TaskForm';
+
 import MyCalendar from './components/pages/task/MyCalendar';
 import UserTasks from './components/pages/userProfile/userTabs/UserTasks';
 import UserTeams from './components/pages/userProfile/userTabs/UserTeams';
@@ -112,8 +112,7 @@ function App() {
             <Route path='/boardmeetings' element={<BoardMeetings />} />
             <Route path="/boardmeetings/new" element={<BoardMeetingForm />} />
             <Route path='/tasks' element={<Tasks />} />
-            <Route path="tasks/new" element={<TaskForm />} />
-            <Route path='/teams/new' element={<TeamsForm />} />
+
             <Route path='/users' element={<Users />} >
               <Route path="otl" element={<UserForm />} />
             </Route>
