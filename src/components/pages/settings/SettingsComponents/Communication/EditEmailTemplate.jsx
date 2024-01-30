@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-const viewEmailTemplate = () => {
+const editEmailTemplate = () => {
   return (
     <div className='p-3'>
       <p className='text-lg font-semibold'>Edit Email Template</p>
@@ -67,4 +67,4 @@ const viewEmailTemplate = () => {
   );
 }
 
-export default viewEmailTemplate;
+export default editEmailTemplate;
