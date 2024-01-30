@@ -4,7 +4,11 @@ import { Link } from 'react-router-dom';
 const editEmailTemplate = () => {
   return (
     <div className='p-4'>
-      <p className='text-lg font-semibold'>Edit Email Template</p>
+      <div className='flex justify-between'>
+        <p className='text-lg font-semibold'>Edit Email Template</p>
+        <button type="submit"
+          className="rounded-md bg-red-600 px-8 py-1.5 text-sm leading-6 text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600">Deactivate</button>
+      </div>
       <form className="space-y-6" method="POST">
         <div className='grid grid-cols-2 gap-4 mt-3'>
           <div>

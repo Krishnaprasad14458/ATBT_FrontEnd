@@ -43,7 +43,7 @@ const Whatsapp = () => {
                 Fields</button>
               <button type="submit"
                 className="ms-2 rounded-md bg-blue-600 px-8 py-1.5 text-sm leading-6 text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:blue-orange-600">
-                Edit</button>
+                <Link to="/editwhatsapptemplate">Edit</Link> </button>
               <button type="submit"
                 className="ms-2 rounded-md bg-red-600 px-8 py-1.5 text-sm leading-6 text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600">
                 Deactivate</button>
