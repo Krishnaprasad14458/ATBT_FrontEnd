@@ -21,7 +21,7 @@ const entitiesDataReducer = (state, action) => {
                     ...state.entitiesList,
                     paginatedEntities: reducerData.Entites,
                     totalPages: reducerData.totalPages,
-                    totalEntities: reducerData.totalEntries,
+                    totalEntities: reducerData.totalEntities,
                     startEntity: reducerData.startEntity,
                     endEntity: reducerData.endEntity,
                     currentPage: reducerData.currentPage

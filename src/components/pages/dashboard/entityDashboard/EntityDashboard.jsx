@@ -45,7 +45,7 @@ function EntityDashboard() {
         <div className="flow-root p-3 sm:px-6 sm:py-2">
 
           <ul role="list" class="divide-y divide-gray-200 dark:divide-gray-700">
-            {dashboardEntities?.paginatedEntities === "no data to show for this page" ? (
+            {!dashboardEntities?.paginatedEntities || dashboardEntities?.paginatedEntities?.length === 0 ? (
               <li class="py-2 sm:py-2">
                 <p>No user found</p>
               </li>) : dashboardEntities?.paginatedEntities?.map(entity => (
@@ -76,7 +76,7 @@ function EntityDashboard() {
         </div>
         <div className="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
           <div>
-            {dashboardEntities?.paginatedEntities === "no data to show for this page" ? "no data to show for this page" : dashboardEntities.loading? "Loading...": <p className="text-sm text-gray-700">
+            {!dashboardEntities?.paginatedEntities || dashboardEntities?.paginatedEntities?.length === 0 ? "no data to show" : dashboardEntities.loading? "Loading...": <p className="text-sm text-gray-700">
               Showing {dashboardEntities.startEntity} to {dashboardEntities.endEntity} of <span className="font-medium">{dashboardEntities.totalEntities}</span>
               <span className="font-medium"> </span> results
             </p>}

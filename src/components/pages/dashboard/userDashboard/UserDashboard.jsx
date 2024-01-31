@@ -43,7 +43,7 @@ function UserDashboard() {
         {/* list module */}
         <div className="flow-root p-3 sm:px-6 sm:py-2">
           <ul role="list" className="divide-y divide-gray-200 dark:divide-gray-700">
-            {pagination?.paginatedUsers === "no data to show for this page" ? (
+            {!pagination?.paginatedUsers || pagination?.paginatedUsers?.length === 0 ? (
               <li className="py-2 sm:py-2">
                 <p>No user found</p>
               </li>) : pagination?.paginatedUsers?.map(user => (
@@ -78,7 +78,7 @@ function UserDashboard() {
         <div className="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
           {/* pagination data */}
           <div>
-            {pagination?.paginatedUsers === "no data to show for this page" ? null : <p className="text-sm text-gray-700">
+            {!pagination?.paginatedUsers || pagination?.paginatedUsers?.length === 0 ? "no data to show" : pagination.loading? "Loading..." : <p className="text-sm text-gray-700">
               Showing <span className="font-medium">{pagination?.startUser}</span> to
               <span className="font-medium"> {pagination?.endUser}</span> of {pagination?.totalUsers} users
             </p>}

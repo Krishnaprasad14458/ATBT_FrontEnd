@@ -29,7 +29,7 @@ function Entities() {
     <div className=' p-3 bg-[#f8fafc] overflow-hidden'>
       {/* search & filter */}
       <div className='grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-3 xl:grid-col-3 gap-2 mt-2'>
-        <h1 className='font-semibold text-lg grid1-item'>Entities</h1>
+        <h1 className='font-semibold text-lg grid1-item'>Entities {entitiesList.loading ? '...' : null}</h1>
         <div className='grid1-item mx-3 text-start'>
           <label for="default-search" className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
           <div className="relative">
@@ -123,6 +123,7 @@ function Entities() {
             <table className=" w-full table-auto min-w-full divide-y divide-gray-200 dark:divide-gray-700 border-collapse border border-[#e5e7eb] rounded-md ">
               <thead className='sticky top-0'>
                 <tr>
+                  <th scope="col" className="px-6 py-2 text-center text-sm  text-white bg-orange-600  border-collapse border border-[#e5e7eb] ">S.No</th>
                   <th scope="col" className="px-6 py-2 text-center text-sm  text-white bg-orange-600  border-collapse border border-[#e5e7eb] ">Id</th>
                   <th scope="col" className="px-6 py-2 text-center text-sm  text-white bg-orange-600   border-collapse border border-[#e5e7eb]">Entity</th>
                   <th scope="col" className="px-6 py-2 text-center text-sm  text-white bg-orange-600   border-collapse border border-[#e5e7eb]">Description</th>
@@ -131,11 +132,14 @@ function Entities() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
-                {entitiesList?.paginatedEntities?.map((item, index) => (
+                {!entitiesList?.paginatedEntities || entitiesList?.paginatedEntities?.length === 0?
+                    <p className='text-center m-auto'>no entity found</p>
+                  :entitiesList?.paginatedEntities?.map((item, index) => (
                   <tr key={item.id} class="hover:bg-gray-100 dark:hover:bg-gray-700">
+                    <td class="px-6 py-3 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]">{++index}</td>
                     <td class="px-6 py-3 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]">{item.id}</td>
                     <td class="px-6 py-3 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb] hover:text-orange-500 "><Link to={`/entitylandingpage/${item.id}`} className='text-xs'>{item.Entite_Name}</Link></td>
-                    <td class="px-6 py-3 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]">{item?.Description ?? "none"}</td>
+                    <td class="px-6 py-3 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]">{item?.Description?item?.Description:'none'}</td>
                     <td class="px-6 py-3 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]">{formatDate(item.createdAt)}</td>
                     <td class="px-6 py-3 whitespace-nowrap text-center  text-xs font-medium text-gray-800  flex justify-evenly">
                       <button type="button" class="inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
@@ -172,12 +176,18 @@ function Entities() {
       </div>
       {/* pagination */}
       <div className="flex justify-end absolute inset-x-0 bottom-2 mt-2 me-3">
+        <div>
+        {!entitiesList?.paginatedEntities || entitiesList?.paginatedEntities?.length === 0 ? "no data to show" : entitiesList.loading? "Loading...": <p className="text-sm text-gray-700">
+              Showing {entitiesList.startEntity} to {entitiesList.endEntity} of <span className="font-medium">{entitiesList.totalEntities}</span>
+              <span className="font-medium"> </span> results
+            </p>}
+        </div>
         <section className="isolate inline-flex -space-x-px rounded-md shadow-sm" aria-label="Pagination">
           <button
             disabled={entitiesList.currentPage === 1}
             onClick={() => debouncedSetPage({ conext: 'ENTITES', data: entitiesList.currentPage - 1 })}
             href="#"
-            className="relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
+            className={`relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${entitiesList.loading?'cursor-wait':entitiesList.currentPage === 1? 'cursor-not-allowed':'cursor-auto'}`}
           >
             <span className="sr-only">Previous</span>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5" aria-hidden="true">
@@ -189,7 +199,7 @@ function Entities() {
           <button
             disabled={entitiesList.currentPage === entitiesList.totalPages}
             onClick={() => debouncedSetPage({ conext: 'ENTITES', data: entitiesList.currentPage + 1 })}
-            className="relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
+            className={`relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${entitiesList.loading?'cursor-wait':entitiesList.currentPage === entitiesList.totalPages? 'cursor-not-allowed':'cursor-auto'}`}
           >
             <span className="sr-only">Next</span>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5" aria-hidden="true">
