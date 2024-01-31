@@ -33,6 +33,7 @@ function EntityForm() {
     newPositions[index] = { x, y };
     setPositions(newPositions);
   };
+
   let [customFormFields, setCustomFormFields] = useState()
   useEffect(() => {
     axios.get(`https://atbtmain.teksacademy.com/form/list?name=entityform`)
@@ -58,26 +59,25 @@ function EntityForm() {
   const handleChange = (index, newValue) => {
     // Create a shallow copy of the formData array
     const updatedFormData = [...customFormFields];
- 
+
     // Update the value at the specified index
     updatedFormData[index].value = newValue;
- 
+
     // Set the state with the updated array
     setCustomFormFields(updatedFormData);
   };
- 
+
   const handleFileChange = (event, index) => {
     const file = event.target.files[0];
     const name = event.target.name;
- 
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
         const updatedFormData = [...customFormFields];
- 
+
         // Update the value at the specified index
         updatedFormData[index].value = reader.result;
- 
+
         // Set the state with the updated array
         setCustomFormFields(updatedFormData);
         // setCustomFormFields((prevFields) => ({
@@ -91,9 +91,10 @@ function EntityForm() {
   useEffect(() => {
     console.log("formData", formData)
     console.log("customFormFields", customFormFields)
- 
+
   })
- 
+
+
   return (
  
     <div className='container p-4 bg-[#f8fafc]'>
@@ -232,7 +233,8 @@ function EntityForm() {
                       <label className="block text-sm font-medium leading-6 my-2 text-gray-900">
                         {item.label.charAt(0).toUpperCase() + item.label.slice(1)}
                       </label>
- 
+
+
                       <input
                         type="radio"
                         name={item.label}
@@ -244,7 +246,8 @@ function EntityForm() {
                       <label htmlFor={`${item.label}-option1`} className="ml-2">
                         Option 1
                       </label>
- 
+
+
                       <input
                         type="radio"
                         name={item.label}
@@ -256,7 +259,8 @@ function EntityForm() {
                       <label htmlFor={`${item.label}-option2`} className="ml-2">
                         Option 2
                       </label>
- 
+
+
                       <input
                         type="radio"
                         name={item.label}
@@ -301,24 +305,24 @@ function EntityForm() {
                       />
                     </div>
                   )}
- 
+
                   {item.type === 'select' && (
                     <div>
                       <label htmlFor={item.label} className="block text-sm font-medium leading-6 my-2 text-gray-900">
                         {item.label.charAt(0).toUpperCase() + item.label.slice(1)}
                       </label>
- 
+
                       <select
                         id={item.label}
                         name={item.label}
- 
+
                         onChange={handleChange}
                         value={formData[item.label] || ''}
                       >
                         <option value="option1">Option 1</option>
                         <option value="option2">Option 2</option>
                         <option value="option3">Option 3</option>
- 
+
                       </select>
                     </div>
                   )}
@@ -327,6 +331,7 @@ function EntityForm() {
                       <label htmlFor={item.label} className="block text-sm font-medium leading-6 my-2 text-gray-900">
                         {item.label.charAt(0).toUpperCase() + item.label.slice(1)}
                       </label>
+
                       <input
                         type="text"
                         name={item.label}
@@ -370,65 +375,138 @@ function EntityForm() {
           </form>
         </div>
         <div className='col-span-2 h-[500px] overflow-auto shadow-md px-6 py-4 border-2 rounded-md bg-[#f8fafc] '>
-          {customFormFields && customFormFields.length > 0 && customFormFields.map((item, index) => (
-            <div key={index}>
-              {item.type === 'text' && (
-                <Draggable onDrag={(e, ui) => handleDrag(index, e, ui)} position={positions[index]}>
-                  <div className="flex gap-4">
-                    <p className="text-lg font-black text-gray-800 mt-2">{item.value}</p>
-                    <hr className='my-3' />
-                  </div>
-                </Draggable>
-              )}
- 
+          {customFormFields && customFormFields.length > 0 && customFormFields.map((item) => (
+            <div className='relative' >
+
               {item.type === 'file' && (
-                <Draggable onDrag={(e, ui) => handleDrag(index, e, ui)} position={positions[index]}>
-                  <div className="">
-                    <div className=" ">
- 
-                      {item.value ? (
-                        <img
-                          src={item.value}
-                          name="EntityPhoto"
-                          alt="Selected User Photo"
-                          className="rounded-lg w-10 h-10 mr-4"
-                        />
-                      ) : (
-                        <img class="w-10 h-10 rounded-lg " src={defprop} alt="Neil image" />
-                        // <img
-                        //   src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?q=80&w=256&h=256&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                        //   alt="Default User Photo"
-                        //   className="rounded-full w-12 h-12 mr-4"
-                        // />
-                      )}
-                    </div>
-                    {/* <p class="text-lg font-black text-gray-800 mt-2">{ }</p> */}
- 
- 
+                <div className="flex gap-4">
+                  <div className="group h-10 ">
+                    {/* <spna>{item.label}</spna> */}
+                    {item.value ? (
+                      <img
+                        src={item.value}
+                        name="EntityPhoto"
+                        alt="Selected User Photo"
+                        className="rounded-lg w-10 h-10 mr-4"
+                      />
+                    ) : (
+                      <img class="w-10 h-10 rounded-lg " src={defprop} alt="Neil image" />
+                      // <img
+                      //   src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?q=80&w=256&h=256&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                      //   alt="Default User Photo"
+                      //   className="rounded-full w-12 h-12 mr-4"
+                      // />
+                    )}
                   </div>
-                </Draggable>
+
+                  {/* <p class="text-lg font-black text-gray-800 mt-2">{ }</p> */}
+                  <hr className='my-3' />
+
+                </div>
               )}
- 
+
+
+              {item.type === 'text' && (
+                <p class="text-sm font-black text-gray-800 mt-2 absolute left-12">{item.value}</p>
+              )}
+
+
               {item.type === 'textarea' && (
-                <Draggable onDrag={(e, ui) => handleDrag(index, e, ui)} position={positions[index]}>
-                  <div className='h-20 overflow-auto border border-1 border-gray-200 rounded-md p-2 bg-[#f8fafc] text-sm w-full'>
-                    {item.value}
-                  </div>
-                </Draggable>
+                <div className='h-28 overflow-auto border border-1 border-gray-200 rounded-md p-2 bg-[#f8fafc] text-sm w-full mt-4'>
+                  {/* <textarea className="resize-none h-20 border border-1 border-gray-200 focus:outline-none "> */}
+                  {item.value}
+                  {/* </textarea> */}
+                </div>
               )}
+
+
+
+              {/* {item.type === 'multiselect' && (
+              <div className=' grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-4 mt-5'>
+                {entityForm && entityForm.entitymembers && Array.from({ length: 12 }).map((_, index) => {
+                  let first = "";
+                  let second = "";
+                  let firstLetter;
+                  let secondLetter;
+                  let mail = "";
+                  if (index < entityForm.entitymembers.length) {
+                    mail = entityForm.entitymembers[index].split("@")[0]
+                    if (mail.includes(".")) {
+                      first = mail.split(".")[0]
+                      second = mail.split(".")[1]
+                      firstLetter = first[0]
+                      secondLetter = second[0]
+                    }
+                    else {
+                      firstLetter = mail[0]
+                    }
+                  }
+                  if (mail.includes(".")) {
+                    first = mail.split(".")[0]
+                    second = mail.split(".")[1]
+                    firstLetter = first[0]
+                    secondLetter = second[0]
+                  }
+                  else {
+                    firstLetter = mail[0]
+                  }
+                  //color
+                  const colors = ["#818cf8", "#fb923c", "#f87171", "#0891b2", "#db2777", "#f87171", "#854d0e", "#166534"];
+                  const getRandomColor = (firstLetter) => {
+ 
+                    const randomIndex = firstLetter.charCodeAt(0) % colors.length
+ 
+                    // const randomIndex = Math.floor(Math.random() * colors.length);
+                    return colors[randomIndex];
+                  };
+ 
+                  // const randomColor = getRandomColor();
+                  return (
+                    <div className='col-span-1 flex justify-start gap-3' key={index}>
+                      <p className='text-md font-semibold my-3' >Members</p>
+ 
+                      {index + 1 <= entityForm.entitymembers.length && <>
+                        <h5 style={{ backgroundColor: `${getRandomColor(firstLetter)}` }} className=' rounded-full w-10 h-10 flex justify-center text-xs items-center text-white'>
+ 
+                          {index < 11 && <>
+                            {firstLetter.toUpperCase()}{secondLetter && secondLetter.toUpperCase()}</>}{index == 11 && entityForm.entitymembers.length == 12 && <>
+                              {firstLetter.toUpperCase()}{secondLetter && secondLetter.toUpperCase()}</>} {index == 11 && entityForm.entitymembers.length > 12 && <span>
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                  <path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.094 9.094 0 0 0 3.741-.479 3 3 0 0 0-4.682-2.72m.94 3.198.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0 1 12 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 0 1 6 18.719m12 0a5.971 5.971 0 0 0-.941-3.197m0 0A5.995 5.995 0 0 0 12 12.75a5.995 5.995 0 0 0-5.058 2.772m0 0a3 3 0 0 0-4.681 2.72 8.986 8.986 0 0 0 3.74.477m.94-3.197a5.971 5.971 0 0 0-.94 3.197M15 6.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm6 3a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Zm-13.5 0a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Z" />
+                                </svg>
+                              </span>}
+                        </h5>
+                        <div className=' flex items-center'>
+ 
+                          <div className=' '>{index < 11 && mail}{index == 11 && entityForm.entitymembers.length == 12 && mail} {index == 11 && entityForm.entitymembers.length > 12 && <span>+{entityForm.entitymembers.length - 11} more</span>} </div>
+                        </div>
+                      </>}
+                      {index + 1 > entityForm.entitymembers.length && <>
+                        <h5 className='bg-[#e5e7eb] rounded-full w-10 h-10 flex justify-center text-xs items-center text-white'>
+ 
+                        </h5>
+                        <div className=' flex items-center'>
+                          <div className=' rounded-md  bg-[#e5e7eb] h-2 w-28'> </div>
+                        </div>
+                      </>}
+                    </div>
+                  )
+                })}
+              </div>
+            )} */}
+
+
+
+
             </div>
-          ))}
+          )
+
+          )}
         </div>
- 
- 
- 
- 
- 
       </div>
     </div>
   );
 }
- 
+
 export default EntityForm;
- 
- 
+
