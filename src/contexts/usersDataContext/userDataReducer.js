@@ -1,33 +1,45 @@
+import * as actionTypes from './utils/usersActionTypes'
 const userDataReducer = (state, action) => {
     switch (action.type) {
-        case "SET_USERS_DATA":
+        case actionTypes.SET_USERS_DATA:
+            console.log(action.payload.data)
             return {
                 ...state,
                 users: action.payload.data,
             };
 
-        case "SET_PAGINATED_USERS":
-            const reducerData = action.payload;
+        case actionTypes.SET_PAGINATED_USERS:
+            const { users, totalUsers, totalPages, currentPage, pageSize, startUser, endUser } = action.payload.data;
+            console.log(users, totalUsers, totalPages, currentPage, pageSize, startUser, endUser)
             return {
                 ...state,
                 pagination: {
                     ...state.pagination,
-                    paginatedUsers: reducerData.data,
+                    paginatedUsers: users,
+                    totalUsers,
+                    totalPages,
+                    currentPage,
+                    pageSize,
+                    startUser,
+                    endUser,
+
                     // currentPage: reducerData.currentPage,
                     // totalPages: reducerData.totalPages || null
                 },
             };
 
-        case "SET_SEARCH":
+        case actionTypes.SET_SEARCH:
+            console.log(action.payload)
             return {
                 ...state,
                 pagination: {
                     ...state.pagination,
-                    search: action.payload
+                    search: action.payload,
+                    currentPage: 1
                 },
             };
 
-        case "SET_CUSTOM_PAGE":
+        case actionTypes.SET_CUSTOM_PAGE:
             return {
                 ...state,
                 pagination: {
@@ -36,7 +48,7 @@ const userDataReducer = (state, action) => {
                 }
             }
 
-        case "SET_LOADING":
+        case actionTypes.SET_LOADING:
             return {
                 ...state,
                 pagination: {

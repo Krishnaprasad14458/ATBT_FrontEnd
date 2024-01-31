@@ -2,7 +2,7 @@
 import React, { useContext, useState } from 'react'
 import login_bg from '../../Images/login_bg.jpg';
 import logo from '../../Images/logo.png';
-import { AuthContext } from '../../contexts/authContext';
+import { AuthContext } from '../../contexts/authContext/authContext';
 import { useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 function ChangePassword() {

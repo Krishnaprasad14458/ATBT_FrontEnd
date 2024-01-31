@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import $ from 'jquery';
-import { UserDataContext } from '../../../../../contexts/usersDataContext';
+import { UserDataContext } from '../../../../../contexts/usersDataContext/usersDataContext';
 
 const OrganizationProfile = () => {
     const { usersState: { users }, deleteUser } = useContext(UserDataContext);
@@ -149,7 +149,7 @@ const OrganizationProfile = () => {
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
-                                {users.map(user => (
+                                {users?.users?.map(user => (
                                     <tr className="hover:bg-gray-100 dark:hover:bg-gray-700">
                                         <td className="px-6 py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]">{user.userName}</td>
                                         <td className="px-6 py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]">{user.email}</td>
