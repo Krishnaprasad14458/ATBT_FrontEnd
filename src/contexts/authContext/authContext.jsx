@@ -1,10 +1,10 @@
 import React, { createContext, useEffect, useReducer } from "react";
-import authReducer from "../reducers/authReducer";
+import authReducer from "../../reducers/authReducer";
 import axios from "axios";
 import { useNavigate, useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 import Swal from 'sweetalert2'
-import { apiUrl } from "../utils/constants";
+import { apiUrl } from "../../utils/constants";
 
 export const AuthContext = createContext();
 

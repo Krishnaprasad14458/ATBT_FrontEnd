@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { Link } from 'react-router-dom'
-import { EntitiesDataContext } from '../../../contexts/entitiesDataContext';
+import { EntitiesDataContext } from '../../../contexts/entitiesDataContext/entitiesDataContext';
 import { debounce, formatDate } from '../../../utils/utils';
 import './BoardMeetings.css';
 import { Fragment, useState } from 'react';

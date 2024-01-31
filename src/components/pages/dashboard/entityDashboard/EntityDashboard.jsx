@@ -2,14 +2,12 @@ import { Link } from 'react-router-dom';
 import React, { useContext, useEffect, useState } from 'react';
 import EntityList from '../../../list/entityList/EntityList';
 import useDebounce from '../../../../hooks/debounce/useDebounce';
-import { EntitiesDataContext } from '../../../../contexts/entitiesDataContext';
+import { EntitiesDataContext } from '../../../../contexts/entitiesDataContext/entitiesDataContext';
 import { useSearchParams } from 'react-router-dom';
 
 function EntityDashboard() {
-  const { entitiesState: { entities, dashboard }, entitiesDispatch } = useContext(EntitiesDataContext);
-  const startEntry = (dashboard.currentPage - 1) * dashboard.perPage + 1;
-  const endEntry = Math.min(dashboard.currentPage * dashboard.perPage, dashboard.totalEntries);
-  console.log(startEntry,endEntry)
+  const { entitiesState: { entities, dashboardEntities }, entitiesDispatch } = useContext(EntitiesDataContext);
+  console.log(dashboardEntities)
   const {debouncedSetPage, debouncedSetSearch} = useDebounce(entitiesDispatch);
   useEffect(()=>{
     return ()=>{
@@ -27,7 +25,7 @@ function EntityDashboard() {
       <div className='grid1-item overflow-hidden sm:w-full'>
         <div className='p-4 sm:px-6 sm:pt-2'>
           <div class="flex items-center justify-between mb-2">
-            <h5 class="text-lg font-semibold leading-none text-gray-800 dark:text-white">Entities {dashboard.loading ? '...' : null}</h5>
+            <h5 class="text-lg font-semibold leading-none text-gray-800 dark:text-white">Entities {dashboardEntities.loading ? '...' : null}</h5>
             <Link to="/entities/new" class="text-sm font-medium text-white-600 hover:underline dark:text-white-500">
               <button class="inline-flex px-3 py-2 items-center justify-center whitespace-nowrap rounded-full text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 text-primary-foreground shadow hover:bg-primary/90 shrink-0 bg-orange-600 text-white gap-1">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5 ">
@@ -47,10 +45,10 @@ function EntityDashboard() {
         <div className="flow-root p-3 sm:px-6 sm:py-2">
 
           <ul role="list" class="divide-y divide-gray-200 dark:divide-gray-700">
-            {dashboard?.paginatedEntities === "no data to show for this page" ? (
+            {dashboardEntities?.paginatedEntities === "no data to show for this page" ? (
               <li class="py-2 sm:py-2">
                 <p>No user found</p>
-              </li>) : dashboard?.paginatedEntities?.map(entity => (
+              </li>) : dashboardEntities?.paginatedEntities?.map(entity => (
                 <li class="py-2 sm:py-2" key={entity.id}>
                   <Link>
                     <EntityList entity={entity} />
@@ -78,19 +76,19 @@ function EntityDashboard() {
         </div>
         <div className="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
           <div>
-            {dashboard?.paginatedEntities === "no data to show for this page" ? "no data to show for this page" : dashboard.loading? "Loading...": <p className="text-sm text-gray-700">
-              Showing {startEntry} to {endEntry} of <span className="font-medium">{dashboard.totalEntries}</span>
+            {dashboardEntities?.paginatedEntities === "no data to show for this page" ? "no data to show for this page" : dashboardEntities.loading? "Loading...": <p className="text-sm text-gray-700">
+              Showing {dashboardEntities.startEntity} to {dashboardEntities.endEntity} of <span className="font-medium">{dashboardEntities.totalEntities}</span>
               <span className="font-medium"> </span> results
             </p>}
           </div>
           <div>
             <section className="isolate inline-flex -space-x-px rounded-md shadow-sm" aria-label="dashboard">
               <button
-                disabled={dashboard.loading?true:false || dashboard.currentPage === 1}
-                onClick={() => debouncedSetPage({ context: 'DASHBOARD', data: dashboard.currentPage - 1 })}
+                disabled={dashboardEntities.loading?true:false || dashboardEntities.currentPage === 1}
+                onClick={() => debouncedSetPage({ context: 'DASHBOARD', data: dashboardEntities.currentPage - 1 })}
                 href="#"
                 // className="relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
-                className={`relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${dashboard.loading?'cursor-wait':dashboard.currentPage === 1? 'cursor-not-allowed':'cursor-auto'}`}
+                className={`relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${dashboardEntities.loading?'cursor-wait':dashboardEntities.currentPage === 1? 'cursor-not-allowed':'cursor-auto'}`}
               >
                 <span className="sr-only">Previous</span>
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5" aria-hidden="true">
@@ -99,9 +97,9 @@ function EntityDashboard() {
 
               </button>
               <button
-                disabled={dashboard.loading?true:false || dashboard.currentPage === dashboard.totalPages}
-                onClick={() => debouncedSetPage({context: 'DASHBOARD',data: dashboard.currentPage + 1})}
-                className={`relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${dashboard.loading?'cursor-wait':dashboard.currentPage === dashboard.totalPages? 'cursor-not-allowed':'cursor-auto'}`}
+                disabled={dashboardEntities.loading?true:false || dashboardEntities.currentPage === dashboardEntities.totalPages}
+                onClick={() => debouncedSetPage({context: 'DASHBOARD',data: dashboardEntities.currentPage + 1})}
+                className={`relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${dashboardEntities.loading?'cursor-wait':dashboardEntities.currentPage === dashboardEntities.totalPages? 'cursor-not-allowed':'cursor-auto'}`}
               >
                 <span className="sr-only">Next</span>
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5" aria-hidden="true">

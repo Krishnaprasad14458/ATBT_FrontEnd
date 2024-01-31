@@ -1,6 +1,6 @@
 
 import React, { useContext, useState } from 'react'
-import { AuthContext } from '../../contexts/authContext';
+import { AuthContext } from '../../contexts/authContext/authContext';
 import login_bg from '../../Images/login_bg.jpg';
 import logo from '../../Images/logo.png';
 import { Link } from 'react-router-dom'

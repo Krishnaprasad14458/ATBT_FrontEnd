@@ -71,7 +71,8 @@ const UserLandingPage = () => {
   const toggleDrawer = () => {
     setIsOpen(!isOpen);
   };
-
+  // full screen
+  const [expand, setExpand] = useState(false);
   return (
     <div className="container p-2 bg-[#f8fafc]">
       <div className='flex gap-3'>
@@ -141,7 +142,7 @@ const UserLandingPage = () => {
       </div>
       }
 
-      {/* {activeTab === 2 && <div className="">
+      {activeTab === 2 && <div className="">
         <div className='flex justify-end my-2'>
 
           <Menu as="div" className="relative inline-block ms-3 mt-1">
@@ -312,7 +313,7 @@ const UserLandingPage = () => {
               <td scope="col" className="py-2 text-sm border-collapse border border-[#e5e7eb] ">Update by Admin </td>
             </tr>
             <div className={`fixed inset-0 transition-all duration-500 bg-gray-800 bg-opacity-50 z-50 ${isOpen ? '' : 'hidden'}`}>
-              <div className="p-3 fixed inset-y-0 right-0 w-1/2 bg-white shadow-lg transform translate-x-0 transition-transform duration-300 ease-in-out">
+              <div className={`${expand ? "w-5/6" : "w-1/2"} p-3 fixed inset-y-0 right-0 w-1/2 bg-white shadow-lg transform translate-x-0 transition-transform duration-300 ease-in-out`}>
                 <div className="flex justify-start">
                   <div class="relative inline-block ms-2">
                     <select class="block appearance-none w-full bg-white text-sm border border-gray-300 hover:border-gray-300 px-1 py-1.5 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
@@ -334,7 +335,7 @@ const UserLandingPage = () => {
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="me-4 w-5 h-5 text-gray-500">
                       <path fill-rule="evenodd" d="M18.97 3.659a2.25 2.25 0 0 0-3.182 0l-10.94 10.94a3.75 3.75 0 1 0 5.304 5.303l7.693-7.693a.75.75 0 0 1 1.06 1.06l-7.693 7.693a5.25 5.25 0 1 1-7.424-7.424l10.939-10.94a3.75 3.75 0 1 1 5.303 5.304L9.097 18.835l-.008.008-.007.007-.002.002-.003.002A2.25 2.25 0 0 1 5.91 15.66l7.81-7.81a.75.75 0 0 1 1.061 1.06l-7.81 7.81a.75.75 0 0 0 1.054 1.068L18.97 6.84a2.25 2.25 0 0 0 0-3.182Z" clip-rule="evenodd" />
                     </svg>
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5 me-4 text-gray-500">
+                    <svg onClick={()=>setExpand((e)=>!e)} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5 me-4 text-gray-500">
                       <path fillRule="evenodd" d="M15 3.75a.75.75 0 0 1 .75-.75h4.5a.75.75 0 0 1 .75.75v4.5a.75.75 0 0 1-1.5 0V5.56l-3.97 3.97a.75.75 0 1 1-1.06-1.06l3.97-3.97h-2.69a.75.75 0 0 1-.75-.75Zm-12 0A.75.75 0 0 1 3.75 3h4.5a.75.75 0 0 1 0 1.5H5.56l3.97 3.97a.75.75 0 0 1-1.06 1.06L4.5 5.56v2.69a.75.75 0 0 1-1.5 0v-4.5Zm11.47 11.78a.75.75 0 1 1 1.06-1.06l3.97 3.97v-2.69a.75.75 0 0 1 1.5 0v4.5a.75.75 0 0 1-.75.75h-4.5a.75.75 0 0 1 0-1.5h2.69l-3.97-3.97Zm-4.94-1.06a.75.75 0 0 1 0 1.06L5.56 19.5h2.69a.75.75 0 0 1 0 1.5h-4.5a.75.75 0 0 1-.75-.75v-4.5a.75.75 0 0 1 1.5 0v2.69l3.97-3.97a.75.75 0 0 1 1.06 0Z" clipRule="evenodd" />
                     </svg>
                     <button onClick={toggleDrawer} className="">
@@ -382,7 +383,7 @@ const UserLandingPage = () => {
                         </div>
                       </div>
 
-                                       </p>
+                    </p>
                   </div>
                   <div className='mt-5 flex flex-row'>
                     <p className='basis-1/4 text-sm text-gray-600'>Description</p>
@@ -424,7 +425,7 @@ const UserLandingPage = () => {
               </td>
               <td className="border text-sm" colspan="7"></td>
             </tr>
-           
+
           </tbody>
         </table>
         <div>
@@ -478,7 +479,7 @@ const UserLandingPage = () => {
                               <path d="M10.75 4.75a.75.75 0 0 0-1.5 0v4.5h-4.5a.75.75 0 0 0 0 1.5h4.5v4.5a.75.75 0 0 0 1.5 0v-4.5h4.5a.75.75 0 0 0 0-1.5h-4.5v-4.5Z" />
                             </svg>
 
-                           
+
                           </div>
                           <div className="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
                             <Dialog.Title as="h3" className="text-base font-semibold leading-6 text-gray-900">
@@ -542,7 +543,7 @@ const UserLandingPage = () => {
       </div>}
       {activeTab === 6 && <div className="mt-4">
         kikk
-      </div>} */}
+      </div>}
 
     </div>
   );

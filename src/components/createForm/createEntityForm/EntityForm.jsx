@@ -1,12 +1,39 @@
-
 import React, { useState, useRef, useContext, useEffect } from 'react';
 import defprop from '../../../Images/defprof.svg';
 import './EntityForm.css';
-import { EntitiesDataContext } from '../../../contexts/entitiesDataContext';
+import { EntitiesDataContext } from '../../../contexts/entitiesDataContext/entitiesDataContext';
 import { Link } from 'react-router-dom';
-import { UserDataContext } from '../../../contexts/usersDataContext';
+import { UserDataContext } from '../../../contexts/usersDataContext/usersDataContext';
 import axios from 'axios';
+import Draggable from 'react-draggable';
+import useDebounce from '../../../hooks/debounce/useDebounce';
+ 
 function EntityForm() {
+  const { usersState: { users, pagination }, usersDispatch } = useContext(UserDataContext);
+  const { debouncedSetPage, debouncedSetSearch } = useDebounce(usersDispatch);
+  const [searchTerm, setSearchTerm] = useState('');
+  const handleInputChange = (e) => {
+    const value = e.target.value;
+    setSearchTerm(() => {
+      debouncedSetSearch(value);
+      return value;
+    });
+  };
+  console.log(pagination)
+  const [positions, setPositions] = useState([
+    { x: 0, y: 0 },
+    { x: 0, y: 0 }, { x: 0, y: 0 },
+    { x: 0, y: 0 }, { x: 0, y: 0 },
+    { x: 0, y: 0 }  // Add more positions as needed
+  ]);
+ 
+  const handleDrag = (index, e, ui) => {
+    const { x, y } = ui;
+    const newPositions = [...positions];
+    newPositions[index] = { x, y };
+    setPositions(newPositions);
+  };
+
   let [customFormFields, setCustomFormFields] = useState()
   useEffect(() => {
     axios.get(`https://atbtmain.teksacademy.com/form/list?name=entityform`)
@@ -43,7 +70,6 @@ function EntityForm() {
   const handleFileChange = (event, index) => {
     const file = event.target.files[0];
     const name = event.target.name;
-
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
@@ -68,8 +94,9 @@ function EntityForm() {
 
   })
 
-  return (
 
+  return (
+ 
     <div className='container p-4 bg-[#f8fafc]'>
       {/* <p className="font-lg font-semibold p-3">Entity Form</p> */}
       <p className="text-lg font-semibold">New Entity</p>
@@ -207,6 +234,7 @@ function EntityForm() {
                         {item.label.charAt(0).toUpperCase() + item.label.slice(1)}
                       </label>
 
+
                       <input
                         type="radio"
                         name={item.label}
@@ -219,6 +247,7 @@ function EntityForm() {
                         Option 1
                       </label>
 
+
                       <input
                         type="radio"
                         name={item.label}
@@ -230,6 +259,7 @@ function EntityForm() {
                       <label htmlFor={`${item.label}-option2`} className="ml-2">
                         Option 2
                       </label>
+
 
                       <input
                         type="radio"
@@ -302,7 +332,27 @@ function EntityForm() {
                         {item.label.charAt(0).toUpperCase() + item.label.slice(1)}
                       </label>
 
-                      <select
+                      <input
+                        type="text"
+                        name={item.label}
+                        id={item.label}
+                        // value={formData[item.label] || ''}
+                        // value={customFormFields[index].value || ''}
+                        className="p-2 block w-full rounded-md bg-gray-50 border-2 border-gray-200 py-1 text-gray-900 appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6"
+                        // onChange={(e) => handleChange(index, e.target.value)}
+                        value={searchTerm}
+                        onChange={handleInputChange}
+                      />
+                      {pagination?.search?<div>
+                        <ul>
+                          {pagination?.paginatedUsers?.map(el => (
+                            <li>
+                              {el.email}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>:null}
+                      {/* <select
                         id={item.label}
                         name={item.label}
                         multiple
@@ -312,8 +362,8 @@ function EntityForm() {
                         <option value="option1">Option 1</option>
                         <option value="option2">Option 2</option>
                         <option value="option3">Option 3</option>
-
-                      </select>
+ 
+                      </select> */}
                     </div>
                   )}
                 </div>
@@ -453,12 +503,10 @@ function EntityForm() {
 
           )}
         </div>
-
-
-
       </div>
     </div>
   );
 }
 
 export default EntityForm;
+
