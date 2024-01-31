@@ -1,22 +1,24 @@
-
-import React, { useState, Fragment, useRef, useEffect } from 'react';
-import './EntityLandingPage.css';
+import React, { useState, Fragment, useRef, useEffect, useContext } from 'react';
+import '../LandingPageCommon.css';
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import moment from 'moment';
 import { Dialog, Transition, Menu } from '@headlessui/react'
 import defprop from '../../../Images/defprof.svg';
-import { Link, Outlet } from 'react-router-dom'
-
+import { Link, Outlet, useParams } from 'react-router-dom'
 import { ChevronDownIcon } from '@heroicons/react/20/solid';
 import useInitializePerPage from '../../../hooks/initializePerPage/useInitializePerPage';
 import useDebounce from '../../../hooks/debounce/useDebounce';
+import { EntitiesDataContext } from '../../../contexts/entitiesDataContext/entitiesDataContext';
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
 }
 
 
 const EntityLandingPage = () => {
+    const { getEntitybyId } = useContext(EntitiesDataContext);
+    const { id } = useParams();
+    const [singleProduct, setSingleProduct] = useState({});
     // todo toggle
     // const [todo, setTodo] = useState(false);
     // const [doing, setdoing] = useState(false);
@@ -32,6 +34,18 @@ const EntityLandingPage = () => {
     // }
 
     // For tabs active
+    const getSingleProduct = async () => {
+        try {
+            const product = await getEntitybyId(id);
+            setSingleProduct(product?.data?.Entites);
+        } catch (e) {
+            console.error(e);
+        }
+    };
+    useEffect(() => {
+        getSingleProduct();
+
+    }, [id])
     const [activeTab, setActiveTab] = useState(1);
 
     const handleTabClick = (tabNumber) => {
@@ -81,12 +95,14 @@ const EntityLandingPage = () => {
             setNewTask("");
         }
     };
-    // ----
+    // ----toggleDrawer-------
     const [isOpen, setIsOpen] = useState(false);
 
     const toggleDrawer = () => {
         setIsOpen(!isOpen);
     };
+    // -------full screen----
+    const [expand, setExpand] = useState(false);
 
     return (
         <div className="container p-2 bg-[#f8fafc]">
@@ -134,20 +150,26 @@ const EntityLandingPage = () => {
             {activeTab === 1 && <div className="mt-4 flex justify-center">
                 <div className="h-[500px] w-5/6 shadow-md px-6 py-4 border-2 rounded-md bg-[#f8fafc]">
                     <div className='mb-5 mt-3'>
-                        <div className="flex gap-4">
-                            <div className="group h-10 ">
-                                <img
-                                    src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?q=80&w=256&h=256&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                                    alt="Default User Photo"
-                                    className="rounded-full w-12 h-12 mr-2"
-                                />
+                        <div className="flex justify-between gap-4">
+                            <div className='flex flex-row'>
+                                <div className="group h-10 ">
+                                    <img
+                                        src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?q=80&w=256&h=256&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                                        alt="Default User Photo"
+                                        className="rounded-full w-12 h-12 mr-2"
+                                    />
+                                </div>
+                                <p class="text-lg font-black text-gray-800 mt-2">Bhavitha</p>
                             </div>
-                            <p class="text-lg font-black text-gray-800 mt-2">Bhavitha</p>
-
+                            <div>
+                                <button type="button" className="rounded-md bg-orange-600 px-3 py-2 text-sm font-medium leading-6 text-white shadow-sm  focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600 inline-flex ">
+                                    Edit
+                                </button>
+                            </div>
                         </div>
                         <hr className='my-3' />
                         <div className='h-20 overflow-auto border border-1 border-gray-200 rounded-md p-2 bg-[#f8fafc] text-sm w-full  '>
-                        In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before final copy is available.
+                            {singleProduct.Description}
                         </div>
 
                         <p className='text-md font-semibold my-3' > Members</p>
@@ -351,10 +373,10 @@ const EntityLandingPage = () => {
                             <th scope="col" className="py-2 text-sm text-white bg-orange-600  border-collapse border border-[#e5e7eb] ">Task Name</th>
                             <th scope="col" className="py-2 text-sm text-white bg-orange-600  border-collapse border border-[#e5e7eb] ">Assignee</th>
                             <th scope="col" className="py-2 text-sm text-white bg-orange-600   border-collapse border border-[#e5e7eb]">Due Date</th>
-                            <th scope="col" className="py-2 text-sm text-white bg-orange-600   border-collapse border border-[#e5e7eb]">Board Meeting</th>
+                            <th scope="col" className="py-2 text-sm text-white bg-orange-600   border-collapse border border-[#e5e7eb]">Board Meetings</th>
                             <th scope="col" className="py-2 text-sm text-white bg-orange-600   border-collapse border border-[#e5e7eb] ">Status</th>
-                            <th scope="col" className="py-2 text-sm text-white bg-orange-600   border-collapse border border-[#e5e7eb] ">Create by Admin</th>
-                            <th scope="col" className="py-2 text-sm text-white bg-orange-600   border-collapse border border-[#e5e7eb] ">Update by Admin </th>
+                            <th scope="col" className="py-2 text-sm text-white bg-orange-600   border-collapse border border-[#e5e7eb] ">Created by Admin</th>
+                            <th scope="col" className="py-2 text-sm text-white bg-orange-600   border-collapse border border-[#e5e7eb] ">Updated by Admin </th>
                         </tr>
                     </thead>
                     <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
@@ -377,8 +399,9 @@ const EntityLandingPage = () => {
                             <td scope="col" className="py-2 text-sm border-collapse border border-[#e5e7eb] ">Create by User </td>
                             <td scope="col" className="py-2 text-sm border-collapse border border-[#e5e7eb] ">Update by Admin </td>
                         </tr>
-                        <div className={`fixed inset-0 transition-all duration-500 bg-gray-800 bg-opacity-50 z-50 ${isOpen ? '' : 'hidden'}`}>
-                            <div className="p-3 fixed inset-y-0 right-0 w-1/2 bg-white shadow-lg transform translate-x-0 transition-transform duration-300 ease-in-out">
+                        <div id="content" className={`fixed inset-0 transition-all duration-500 bg-gray-800 bg-opacity-50 z-50 ${isOpen ? '' : 'hidden'}`}>
+                            <div className={`p-3 fixed inset-y-0 right-0 ${expand ? "w-5/6" : "w-1/2"} bg-white shadow-lg transform translate-x-0 transition-transform duration-300 ease-in-out`}
+                            >
                                 <div className="flex justify-start">
                                     <div class="relative inline-block ms-2">
                                         <select class="block appearance-none w-full bg-white text-sm border border-gray-300 hover:border-gray-300 px-1 py-1.5 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
@@ -400,7 +423,8 @@ const EntityLandingPage = () => {
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="me-4 w-5 h-5 text-gray-500">
                                             <path fill-rule="evenodd" d="M18.97 3.659a2.25 2.25 0 0 0-3.182 0l-10.94 10.94a3.75 3.75 0 1 0 5.304 5.303l7.693-7.693a.75.75 0 0 1 1.06 1.06l-7.693 7.693a5.25 5.25 0 1 1-7.424-7.424l10.939-10.94a3.75 3.75 0 1 1 5.303 5.304L9.097 18.835l-.008.008-.007.007-.002.002-.003.002A2.25 2.25 0 0 1 5.91 15.66l7.81-7.81a.75.75 0 0 1 1.061 1.06l-7.81 7.81a.75.75 0 0 0 1.054 1.068L18.97 6.84a2.25 2.25 0 0 0 0-3.182Z" clip-rule="evenodd" />
                                         </svg>
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5 me-4 text-gray-500">
+
+                                        <svg onClick={() => setExpand((e) => !e)} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5 me-4 text-gray-500">
                                             <path fillRule="evenodd" d="M15 3.75a.75.75 0 0 1 .75-.75h4.5a.75.75 0 0 1 .75.75v4.5a.75.75 0 0 1-1.5 0V5.56l-3.97 3.97a.75.75 0 1 1-1.06-1.06l3.97-3.97h-2.69a.75.75 0 0 1-.75-.75Zm-12 0A.75.75 0 0 1 3.75 3h4.5a.75.75 0 0 1 0 1.5H5.56l3.97 3.97a.75.75 0 0 1-1.06 1.06L4.5 5.56v2.69a.75.75 0 0 1-1.5 0v-4.5Zm11.47 11.78a.75.75 0 1 1 1.06-1.06l3.97 3.97v-2.69a.75.75 0 0 1 1.5 0v4.5a.75.75 0 0 1-.75.75h-4.5a.75.75 0 0 1 0-1.5h2.69l-3.97-3.97Zm-4.94-1.06a.75.75 0 0 1 0 1.06L5.56 19.5h2.69a.75.75 0 0 1 0 1.5h-4.5a.75.75 0 0 1-.75-.75v-4.5a.75.75 0 0 1 1.5 0v2.69l3.97-3.97a.75.75 0 0 1 1.06 0Z" clipRule="evenodd" />
                                         </svg>
                                         <button onClick={toggleDrawer} className="">

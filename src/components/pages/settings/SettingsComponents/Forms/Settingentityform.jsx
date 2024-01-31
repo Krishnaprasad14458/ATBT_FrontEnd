@@ -163,18 +163,8 @@ const SettingEntityForm = () => {
                             >
                                 <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 px-2 py-5 sm:max-w-lg">
                                     <span className="flex justify-end gap-9 mb-2">
-
-                                        {editIndex == null ? <p className="text-md  font-semibold">Add New Input Field</p > : <p className="text-md  font-semibold">Edit Input Field</p>}
-
-
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" onClick={() => {
-                                            setOpen(false)
-                                        
-                                        }} fill="currentColor" class="w-5 h-5 me-2">
-
                                         <p className="text-md  font-semibold"> Add New Input Field</p>
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" onClick={() => setOpen(false)} fill="currentColor" class="w-5 h-5 me-2">
-
                                             <path d="M6.28 5.22a.75.75 0 0 0-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 1 0 1.06 1.06L10 11.06l3.72 3.72a.75.75 0 1 0 1.06-1.06L11.06 10l3.72-3.72a.75.75 0 0 0-1.06-1.06L10 8.94 6.28 5.22Z" />
                                         </svg></span>
 
@@ -189,11 +179,7 @@ const SettingEntityForm = () => {
                                             </div>
                                         </div>
 
-
-                                        {editIndex == null && <div className="flex">
-
                                         <div className="flex">
-
                                             <label htmlFor="venue" className="block text-sm font-medium leading-6 mt-3 mb-2  mx-2 text-gray-900 ">Type :</label>
                                             <div className="relative inline-block text-left ">
                                                 <select name="type" className="p-2 m-2 text-xs  w-52 bg-gray-50  rounded-md  border-2 border-gray-200 py-1 text-gray-900 appearance-none shadow-sm  placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-xs sm:leading-6"
@@ -209,7 +195,7 @@ const SettingEntityForm = () => {
                                                     </svg>
                                                 </div>
                                             </div>
-                                        </div>}
+                                        </div>
 
                                     </form>
 
@@ -217,10 +203,7 @@ const SettingEntityForm = () => {
                                         <button
                                             type="button"
                                             className="inline-flex justify-center rounded-md bg-orange-600 px-3 py-2 text-sm font-semibold text-white shadow-sm sm:ml-3 sm:w-auto"
-                              
-
                                             onClick={addOrUpdateInput}
-
                                         >
                                             Submit
                                         </button>

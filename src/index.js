@@ -6,9 +6,9 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
 import { ToastContainer } from "react-toastify";
-import AuthProvider from './contexts/authContext';
-import UserDataProvider from './contexts/usersDataContext';
-import EntitiesDataProvider from './contexts/entitiesDataContext';
+import AuthProvider from './contexts/authContext/authContext';
+import UserDataProvider from './contexts/usersDataContext/usersDataContext';
+import EntitiesDataProvider from './contexts/entitiesDataContext/entitiesDataContext';
 
 
 

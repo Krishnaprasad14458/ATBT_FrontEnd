@@ -1,6 +1,6 @@
 import React, { useContext, useMemo, useCallback } from 'react';
 import { NavLink, Outlet, useParams } from 'react-router-dom';
-import { UserDataContext } from '../../../contexts/usersDataContext';
+import { UserDataContext } from '../../../contexts/usersDataContext/usersDataContext';
 
 function UserProfile() {
   const { id } = useParams();

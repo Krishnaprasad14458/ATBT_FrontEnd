@@ -1,10 +1,10 @@
 import React, { createContext, useEffect, useReducer } from "react";
-import authReducer from "../reducers/authReducer";
+import authReducer from "../../reducers/authReducer";
 import axios from "axios";
 import { useNavigate, useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 import Swal from 'sweetalert2'
-import { apiUrl } from "../utils/constants";
+import { apiUrl } from "../../utils/constants";
 
 export const AuthContext = createContext();
 
@@ -54,7 +54,6 @@ const AuthProvider = ({ children }) => {
       }
   
       if (status === 200) {
-        console.log(data);
         localStorage.setItem(
           "data",
           JSON.stringify({ user: data?.user, token: data?.token })
@@ -96,7 +95,6 @@ const AuthProvider = ({ children }) => {
   };
 
   const resetPassword = async ({ id, password }) => {
-    console.log(id)
     try {
       const { data } = await toast.promise(
         axios.put(`${apiUrl}/user/changePassword/${id}`, { password }),

@@ -15,18 +15,18 @@ import Teams from './components/pages/teams/Teams';
 import Tasks from './components/pages/task/Tasks';
 import Settings from './components/pages/settings/Settings';
 import { useContext } from 'react';
-import { AuthContext } from './contexts/authContext';
+import { AuthContext } from './contexts/authContext/authContext';
 import Users from './components/pages/users/Users';
 import UserProfile from './components/pages/userProfile/UserProfile';
 import EntityForm from './components/createForm/createEntityForm/EntityForm';
 import UserForm from './components/createForm/createUserForm/UserForm';
 import BoardMeetingForm from './components/createForm/createBoardMeetingForm/BoardMeetingForm';
-import TaskForm from './components/createForm/createTaskForm/TaskForm';
+
 import MyCalendar from './components/pages/task/MyCalendar';
 import UserTasks from './components/pages/userProfile/userTabs/UserTasks';
 import UserTeams from './components/pages/userProfile/userTabs/UserTeams';
 import UserEntities from './components/pages/userProfile/userTabs/UserEntities';
-import EntityLandingPage from './components/pages/entities/EntityLandingPage';
+import EntityLandingPage from './components/landingPages/entity/EntityLandingPage';
 import Communication from './components/pages/settings/SettingsComponents/Communication/Communication';
 import OrganizationProfile from './components/pages/settings/SettingsComponents/Organizationprofile/Oranizationprofiles';
 import Roles from './components/pages/settings/SettingsComponents/Roles/Roles';
@@ -35,6 +35,9 @@ import Whatsapp from './components/pages/settings/SettingsComponents/Communicati
 import Email from './components/pages/settings/SettingsComponents/Communication/Email';
 import TeamsForm from './components/createForm/TeamsForm/TeamsForm';
 import SettingEntityForm from './components/pages/settings/SettingsComponents/Forms/Settingentityform';
+import SettingBoardMeetingForm from './components/pages/settings/SettingsComponents/Forms/SettingBoardMeetingForm';
+import SettingUserForm from './components/pages/settings/SettingsComponents/Forms/SettingUserForm';
+import SettingTeamsForm from './components/pages/settings/SettingsComponents/Forms/SettingTeamsForm';
 import AddRoles from './components/pages/settings/SettingsComponents/Roles/AddRoles';
 import Integrations from './components/pages/settings/SettingsComponents/Integrations/Integrations';
 import WhatsappIntegrations from './components/pages/settings/SettingsComponents/Integrations/WhatsappIntegrations';
@@ -43,6 +46,15 @@ import Api from './components/pages/settings/SettingsComponents/Integrations/Api
 import Webhook from './components/pages/settings/SettingsComponents/Integrations/Webhook';
 import Sms from './components/pages/settings/SettingsComponents/Integrations/Sms';
 import PaymentGateway from './components/pages/settings/SettingsComponents/Integrations/PaymentGateway';
+import BoardMeetingLandingPage from './components/landingPages/boardMeeting/BoardMeetingLandingPage';
+import TeamsLandingPage from './components/landingPages/teams/TeamsLandingPage';
+import UserLandingPage from './components/landingPages/user/UserLandingPage';
+import AddEmailTemplate from './components/pages/settings/SettingsComponents/Communication/AddEmailTemplate';
+import AddWhatsappTemplate from './components/pages/settings/SettingsComponents/Communication/AddWhatsappTemplate';
+import TaskLandingPage from './components/landingPages/task/TaskLandingPage';
+import Dupaddrole from './components/pages/settings/SettingsComponents/Roles/Dupaddrole';
+import EditWhatsappTemplate from './components/pages/settings/SettingsComponents/Communication/EditWhatsappTemplate';
+import EditEmailTemplate from './components/pages/settings/SettingsComponents/Communication/EditEmailTemplate';
 
 function App() {
   const { authState } = useContext(AuthContext);
@@ -65,28 +77,42 @@ function App() {
             <Route path='/roles' element={<Roles />} />
             <Route path='/integrations' element={<Integrations />} />
             <Route path='/addroles' element={<AddRoles />} />
+            <Route path='/dupaddroles' element={<Dupaddrole />} />
             <Route path='/communication' element={<Communication />} />
             <Route path='/whatsappintegration' element={<WhatsappIntegrations />} />
             <Route path='/emailintegration' element={<EmailIntegrations />} />
+            <Route path='/addemailtemplate' element={<AddEmailTemplate />} />
+            <Route path='/addwhatsapptemplate' element={<AddWhatsappTemplate />} />
+            <Route path='/editemailtemplate' element={<EditEmailTemplate />} />
+            <Route path='/editwhatsapptemplate' element={<EditWhatsappTemplate />} />
+
             <Route path="/api" element={<Api />} />
             <Route path='webhook' element={<Webhook />} />
             <Route path='sms' element={<Sms />} />
             <Route path='paymentgateway' element={<PaymentGateway />} />
             <Route path='/email' element={<Email />} />
+            <Route path='/Whatsapp' element={<Whatsapp />} />
             <Route path='/forms' element={<Forms />} />
             <Route path='/teams' element={<Teams />} />
             <Route path='/entities' element={<Entities />}>
               <Route path="otl" element={<EntityForm />} />
 
             </Route>
-            <Route path="/entitylandingpage" element={<EntityLandingPage />} />
+            <Route path="/entitylandingpage/:id" element={<EntityLandingPage />} />
+            <Route path="/boardmeetinglandingpage" element={<BoardMeetingLandingPage />} />
+            <Route path='teamslandingpage' element={<TeamsLandingPage />} />
+            <Route path='/userlandingpage' element={<UserLandingPage />} />
+            <Route path='/tasklandingpage' element={<TaskLandingPage />} />
+
             <Route path="/settingentityform" element={<SettingEntityForm />} />
+            <Route path="/settingboardmeetingform" element={<SettingBoardMeetingForm />} />
+            <Route path="/settingteamsform" element={<SettingTeamsForm />} />
+            <Route path="/settinguserform" element={<SettingUserForm />} />
             <Route path="/entities/new" element={<EntityForm />} />
             <Route path='/boardmeetings' element={<BoardMeetings />} />
             <Route path="/boardmeetings/new" element={<BoardMeetingForm />} />
             <Route path='/tasks' element={<Tasks />} />
-            <Route path="tasks/new" element={<TaskForm />} />
-            <Route path='/teams/new' element={<TeamsForm />} />
+
             <Route path='/users' element={<Users />} >
               <Route path="otl" element={<UserForm />} />
             </Route>
