@@ -539,7 +539,7 @@ function Tasks() {
         <div className="mt-4">
           <div className='flex flex-col '>
             <div className='flex justify-center'>
-              <div className='flex flex-start rounded-md border-2 border-gray-200 px-3 py-2'>
+              <div className='flex flex-start '>
                 <img className="w-8 h-8 rounded-full mx-3 my-3" src={defprop} alt="Neil image" />
                 <div className='mt-2 mr-2'>
                   <input className='px-2 py-2 w-96 focus:outline-none bg-[#f8fafc] rounded-md border-2 border-gray-200 ' type='text' placeholder='Enter Your Message' />

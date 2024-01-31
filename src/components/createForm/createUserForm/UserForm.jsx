@@ -73,13 +73,13 @@ function UserForm() {
                     className="p-2 text-xs block w-full bg-gray-50  rounded-md  border-2 border-gray-200 py-1 text-gray-900 appearance-none shadow-sm  placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-xs sm:leading-6" />
                 </div></div>
               <div>
-                <label htmlFor="venue" className="block text-sm my-2  font-medium text-gray-700">Designation</label>
+                <label htmlFor="venue" className="block text-sm my-2  font-medium text-gray-700">Department</label>
                 <div className="relative inline-block text-left w-full">
                   <select className="p-2 text-xs block w-full bg-gray-50  rounded-md  border-2 border-gray-200 py-1.5 text-gray-900 appearance-none shadow-sm  placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-xs sm:leading-6">
-                    <option value="selected" className="hover:bg-orange-600">Select Designation</option>
-                    <option value="srdeveloper">Sr. Developer</option>
-                    <option value="jrdeveoper">Jr. Developer</option>
-                    <option value="intern">Intern</option>
+                    <option value="selected" className="hover:bg-orange-600">Select Department</option>
+                    <option value="srdeveloper">Developement</option>
+                    <option value="jrdeveoper">Marketing</option>
+                    <option value="intern">QA</option>
                   </select>
                   <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -89,11 +89,11 @@ function UserForm() {
                 </div>
               </div>
               <div>
-                <label htmlFor="venue" className="block text-sm my-2  font-medium text-gray-700">Role</label>
+                <label htmlFor="venue" className="block text-sm my-2  font-medium text-gray-700">Designation</label>
                 <div className="relative inline-block text-left w-full">
                   <select className="p-2 text-xs block w-full bg-gray-50  rounded-md  border-2 border-gray-200 py-1.5 text-gray-900 appearance-none shadow-sm  placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-xs sm:leading-6">
-                    <option value="selected" className="hover:bg-orange-600">Select Role</option>
-                    <option value="developer"> Developer</option>
+                    <option value="selected" className="hover:bg-orange-600">Select Designation</option>
+                    <option value="developer"> Sr. Developer</option>
                     <option value="jrdeveoper">Jr. Developer</option>
                     <option value="intern">Intern</option>
                   </select>

@@ -179,7 +179,7 @@ const AddRoles = () => {
                     </label>
                   </td>
                 </tr>
-                {item.name == selected && item.submenus && item.submenus.map((subitem, subindex) => {
+                {item.name == selected && item.submenus.length > 0 && item.submenus.map((subitem, subindex) => {
                   return (
                     <tr>
                       <td className=" py-2.5 whitespace-nowrap text-center  text-xs   text-gray-800 border-collapse ">{subitem.name}
@@ -236,13 +236,14 @@ const AddRoles = () => {
           })
 
           }
+          {/* <div className={item.all ? "w-7 h-4 bg-orange-600 peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[1px] after:start-[1px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-3.5 after:w-3.5 after:transition-all dark:border-orange-600 checked:bg-orange-600" : ""}
+
+            ></div> */}
         </tbody>
 
       </table>
 
-      {/* <div className={item.all ? "w-7 h-4 bg-orange-600 peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[1px] after:start-[1px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-3.5 after:w-3.5 after:transition-all dark:border-orange-600 checked:bg-orange-600" : ""}
 
-            ></div> */}
 
 
 

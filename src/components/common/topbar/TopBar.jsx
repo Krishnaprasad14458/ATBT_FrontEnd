@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { Fragment } from 'react'
 import { Menu, Transition } from '@headlessui/react'
 import { ChevronDownIcon } from '@heroicons/react/20/solid'
@@ -12,6 +12,10 @@ function classNames(...classes) {
 }
 export default function TopBar() {
   const { userLogout } = useContext(AuthContext);
+  const [addTask, setAddTask] = useState(false);
+  const toggleAddTaskDrawer = () => {
+    setAddTask(!addTask);
+  }
   return (
     <div className='topbar w-full'>
       <nav className="bg-white shadow-md ">
@@ -82,7 +86,7 @@ export default function TopBar() {
                         <Menu.Item>
                           {({ active }) => (
                             <Link
-
+                              onClick={toggleAddTaskDrawer}
                               className={classNames(
                                 active ? 'bg-gray-200 text-gray-900' : 'text-gray-700',
                                 'block px-4 py-2 text-sm'
@@ -94,9 +98,13 @@ export default function TopBar() {
                                 </svg>
                                 <p className='ms-2 mt-1 text-sm'>Task</p>
                               </div>
+
                             </Link>
+
                           )}
+
                         </Menu.Item>
+
                         <Menu.Item>
                           {({ active }) => (
                             <Link
@@ -142,7 +150,7 @@ export default function TopBar() {
                   </Transition>
                 </Menu>
               </div>
-            </div>
+            </div >
             <div className="absolute inset-y-0 right-0 flex items-center gap-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
               <button type="button" className="relative rounded-full  bg-[#475569] p-1 text-white hover:text-white focus:outline-none ">
                 <span className="absolute -inset-1.5"></span>
@@ -228,10 +236,23 @@ export default function TopBar() {
                   </Menu.Items>
                 </Transition>
               </Menu>
+              <div className={`fixed inset-0 transition-all duration-500 bg-gray-800 bg-opacity-50 z-50 ${addTask ? '' : 'hidden'}`}>
+                <div className=" fixed inset-y-0 right-3 w-2/6 h-2/3 top-4/2 bg-white shadow-lg transform translate-y-1/2 transition-transform duration-300 ease-in-out">
+                  <div className="flex justify-between p-4">
+                    <p className='text-sm text-gray-500'>New Task</p>
+                    <button onClick={toggleAddTaskDrawer} className="">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5 text-gray-500">
+                        <path fillRule="evenodd" d="M5.47 5.47a.75.75 0 0 1 1.06 0L12 10.94l5.47-5.47a.75.75 0 1 1 1.06 1.06L13.06 12l5.47 5.47a.75.75 0 1 1-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 0 1-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 0 1 0-1.06Z" clipRule="evenodd" />
+                      </svg>
+                    </button>
+                  </div><hr />
+                  <input type='text' placeholder='Task Name' className="p-2 text-sm block w-full  rounded-md mt-2 text-gray-900 appearance-none  placeholder:text-[#6d6e6f] placeholder:text-lg focus:outline-none  sm:text-xs sm:leading-6" />
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
-      </nav>
-    </div>
+          </div >
+        </div >
+      </nav >
+    </div >
   );
 }
