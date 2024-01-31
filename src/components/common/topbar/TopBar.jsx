@@ -5,7 +5,7 @@ import { ChevronDownIcon } from '@heroicons/react/20/solid'
 import { Link } from 'react-router-dom';
 
 import './TopBar.css';
-import { AuthContext } from '../../../contexts/authContext';
+import { AuthContext } from '../../../contexts/authContext/authContext';
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')

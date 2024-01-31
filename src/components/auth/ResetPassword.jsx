@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react';
 import { Link } from 'react-router-dom'
 import login_bg from '../../Images/login_bg.jpg';
 import logo from '../../Images/logo.png';
-import { AuthContext } from '../../contexts/authContext';
+import { AuthContext } from '../../contexts/authContext/authContext';
 
 
 function ResetPassword() {

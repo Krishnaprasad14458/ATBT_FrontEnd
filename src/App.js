@@ -15,7 +15,7 @@ import Teams from './components/pages/teams/Teams';
 import Tasks from './components/pages/task/Tasks';
 import Settings from './components/pages/settings/Settings';
 import { useContext } from 'react';
-import { AuthContext } from './contexts/authContext';
+import { AuthContext } from './contexts/authContext/authContext';
 import Users from './components/pages/users/Users';
 import UserProfile from './components/pages/userProfile/UserProfile';
 import EntityForm from './components/createForm/createEntityForm/EntityForm';
@@ -84,7 +84,7 @@ function App() {
             <Route path='/addemailtemplate' element={<AddEmailTemplate />} />
             <Route path='/addwhatsapptemplate' element={<AddWhatsappTemplate />} />
             <Route path='/editemailtemplate' element={<EditEmailTemplate />} />
-            <Route path='/editwhatsapptemplate' element={<EditWhatsappTemplate/>}/>
+            <Route path='/editwhatsapptemplate' element={<EditWhatsappTemplate />} />
 
             <Route path="/api" element={<Api />} />
             <Route path='webhook' element={<Webhook />} />

@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { Link } from 'react-router-dom'
-import { EntitiesDataContext } from '../../../contexts/entitiesDataContext';
+import { EntitiesDataContext } from '../../../contexts/entitiesDataContext/entitiesDataContext';
 import './Entities.css';
 import { Fragment } from 'react';
 import { Menu, Transition } from '@headlessui/react';
@@ -12,7 +12,7 @@ function classNames(...classes) {
 }
 
 function Entities() {
-  const { entitiesState: { pagination }, entitiesDispatch, deleteEntitybyId } = useContext(EntitiesDataContext);
+  const { entitiesState: { entitiesList }, entitiesDispatch, deleteEntitybyId } = useContext(EntitiesDataContext);
   const { debouncedSetPage, debouncedSetSearch } = useDebounce(entitiesDispatch);
 
   const handlePerPageChange = (event) => {
@@ -131,7 +131,7 @@ function Entities() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
-                {pagination?.paginatedEntities?.map((item, index) => (
+                {entitiesList?.paginatedEntities?.map((item, index) => (
                   <tr key={item.id} class="hover:bg-gray-100 dark:hover:bg-gray-700">
                     <td class="px-6 py-3 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]">{item.id}</td>
                     <td class="px-6 py-3 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb] hover:text-orange-500 "><Link to={`/entitylandingpage/${item.id}`} className='text-xs'>{item.Entite_Name}</Link></td>
@@ -174,8 +174,8 @@ function Entities() {
       <div className="flex justify-end absolute inset-x-0 bottom-2 mt-2 me-3">
         <section className="isolate inline-flex -space-x-px rounded-md shadow-sm" aria-label="Pagination">
           <button
-            disabled={pagination.currentPage === 1}
-            onClick={() => debouncedSetPage({ conext: 'ENTITES', data: pagination.currentPage - 1 })}
+            disabled={entitiesList.currentPage === 1}
+            onClick={() => debouncedSetPage({ conext: 'ENTITES', data: entitiesList.currentPage - 1 })}
             href="#"
             className="relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
           >
@@ -185,10 +185,10 @@ function Entities() {
             </svg>
 
           </button>
-          <button className="border w-8 border-gray-300">{pagination.currentPage}</button>
+          <button className="border w-8 border-gray-300">{entitiesList.currentPage}</button>
           <button
-            disabled={pagination.currentPage === pagination.totalPages}
-            onClick={() => debouncedSetPage({ conext: 'ENTITES', data: pagination.currentPage + 1 })}
+            disabled={entitiesList.currentPage === entitiesList.totalPages}
+            onClick={() => debouncedSetPage({ conext: 'ENTITES', data: entitiesList.currentPage + 1 })}
             className="relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
           >
             <span className="sr-only">Next</span>
