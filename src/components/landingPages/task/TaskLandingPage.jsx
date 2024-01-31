@@ -10,6 +10,7 @@ const TaskLandingPage = () => {
   const closeModal = () => {
     setIsModalOpen(false);
   };
+ 
   return (
     <>
       <div className="block space-y-4 md:flex md:space-y-0 md:space-x-4 md:rtl:space-x-reverse">
