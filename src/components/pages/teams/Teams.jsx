@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { Fragment } from 'react';
 import { Menu, Transition } from '@headlessui/react';
 import { ChevronDownIcon } from '@heroicons/react/20/solid';
-
+import axios from 'axios';
 import { ifStatement } from '@babel/types';
 const tempdata = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0]
 function classNames(...classes) {
@@ -15,9 +15,54 @@ function Teams() {
   const handleTabClick = (tabNumber) => {
     setActiveTab(tabNumber);
   };
+
+  // -----file upload
+  const [image, SetImage] = useState('')
+  function handleImage(e) {
+    console.log(e.target.files)
+    SetImage(e.target.files[0])
+  }
+  function handleApi() {
+    const formData = new FormData();
+    formData.append('image', image)
+    axios.post('https://localhost:3001/upload', formData)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((error) => {
+        console.error('Error uploading file:', error.message);
+      });
+  }
+
+  const [imageSrc, SetImageSrc] = useState(null)
+  
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    console.log(file)
+    const name = event.target.name;
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        axios.post('http://localhost:3001/upload', {image: reader.result})
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((error) => {
+          console.error('Error uploading file:', error.message);
+        });
+        SetImageSrc(reader.result)
+
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   return (
     <div className=' p-3 bg-[#f8fafc] overflow-hidden'>
-      <div className='grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-3 xl:grid-col-3 gap-2 my-2'>
+        <input type='file' name='image' onChange={(event) => handleFileChange(event)}/>
+        <button className="border-2 border-blue-600">submit</button>
+        <img src={imageSrc} alt="" />
+      {/* <div className='grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-3 xl:grid-col-3 gap-2 my-2'>
         <h1 className='font-semibold text-lg grid1-item'>Teams</h1>
         <div className='grid1-item  text-start'>
           <label for="default-search" className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
@@ -105,7 +150,7 @@ function Teams() {
           </Menu>
 
         </div>
-      </div>
+      </div> */}
 
       {/* <div className="flex justify-start gap-6">
         <div

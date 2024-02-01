@@ -16,7 +16,7 @@ function classNames(...classes) {
 
 
 const EntityLandingPage = () => {
-    const { getEntitybyId } = useContext(EntitiesDataContext);
+    const { getEntitybyId, entitiesState: { entities } } = useContext(EntitiesDataContext);
     const { id } = useParams();
     const [singleProduct, setSingleProduct] = useState({});
     // todo toggle
@@ -36,8 +36,14 @@ const EntityLandingPage = () => {
     // For tabs active
     const getSingleProduct = async () => {
         try {
-            const product = await getEntitybyId(id);
-            setSingleProduct(product?.data?.Entites);
+            const entityById = entities?.Entites?.find((element) => element.id === +id);
+            console.log(entities?.Entites, "eid",entityById)
+            if(!entityById){
+                const product = await getEntitybyId(id);
+                setSingleProduct(product?.data?.Entites);
+            } else {
+                setSingleProduct(entityById)
+            }
         } catch (e) {
             console.error(e);
         }

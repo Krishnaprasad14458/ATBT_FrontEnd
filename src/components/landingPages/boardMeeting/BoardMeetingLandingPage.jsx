@@ -75,10 +75,7 @@ const BoardMeetingLandingPage = () => {
   const [expand, setExpand] = useState(false);
   return (
     <div className="container p-2 bg-[#f8fafc]">
-      <div className='flex gap-3'>
-        <img className="w-8 h-8 rounded-full mx-2 mt-2" src={defprop} alt="Neil image" />
-        <h4 className='my-3'>BoardMeeting Landingpage</h4>
-      </div>
+      <h4 className='my-3'>Board Meeting Landing page</h4>
       <div className=''>
         <div className='flex'>
           <div

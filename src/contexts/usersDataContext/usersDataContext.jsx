@@ -2,14 +2,13 @@ import React, {
   createContext,
   useEffect,
   useReducer,
+  useContext
 } from "react";
 import * as actions from './utils/usersActions'
 import * as api from './utils/usersApis'
 import userDataReducer from "./userDataReducer";
-import axios from "axios";
-import { apiUrl } from "../../utils/constants";
-import { toast } from "react-toastify";
 import { initialState } from "./utils/usersConfig";
+import { AuthContext } from "../authContext/authContext";
 
 export const UserDataContext = createContext();
 
@@ -20,6 +19,10 @@ const UserDataProvider = ({ children }) => {
     userDataReducer,
     initialState
   );
+
+  const { authState } = useContext(AuthContext);
+
+  console.log(authState, "context auth")
 
   console.log(usersState.pagination.loading, "loading")
 
@@ -58,7 +61,7 @@ const UserDataProvider = ({ children }) => {
 
   const createUser = async (userData) => {
     try {
-      const { data, status } = await api.createUser(userData)
+      const { data, status } = await api.createUser(userData, authState.token)
       if (status === 201) {
         getPaginatedUsersData()
         getAllUsers()
@@ -72,7 +75,7 @@ const UserDataProvider = ({ children }) => {
   const deleteUser = async(id) => {
     try {
       console.log(localStorageData?.token)
-      const { data, status } = await api.deleteUser(id)
+      const { data, status } = await api.deleteUser(id, authState.token)
       if (status === 200) {
         getPaginatedUsersData()
         getAllUsers()
