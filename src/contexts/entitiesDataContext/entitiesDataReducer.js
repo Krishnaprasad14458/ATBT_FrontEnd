@@ -1,6 +1,12 @@
 import * as actionTypes from './utils/entitiesActionTypes'
 const entitiesDataReducer = (state, action) => {
     switch (action.type) {
+        case actionTypes.SET_ENTITIES:
+            console.log(action.payload)
+            return {
+                ...state,
+                entities: { ...action?.payload }
+            }
         case actionTypes.SET_PAGINATED_ENTITIES:
             const reducerData = action.payload.data;
             console.log(action.payload, "entity contexr")

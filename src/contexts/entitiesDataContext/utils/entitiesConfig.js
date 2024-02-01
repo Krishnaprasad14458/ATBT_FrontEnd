@@ -1,5 +1,5 @@
 export const initialState = {
-    entities: [],
+    entities: {},
     dashboardEntities: {
         paginatedEntities: [],
         currentPage: 1,
