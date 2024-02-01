@@ -1,7 +1,6 @@
 import axios from 'axios';
 import { apiUrl } from "../../../utils/constants";
 import { toast } from 'react-toastify';
-const localStorageData = JSON.parse(localStorage.getItem("data"));
 
 export const getAllUsers = async () => {
     const url = `${apiUrl}/user/list`;
@@ -18,12 +17,13 @@ export const getUserById = async (id) => {
     return axios.get(url);
 };
 
-export const createUser = async (userData) => {
-    const url = `${apiUrl}/admin/create-user`
+export const createUser = async (userData, token) => {
+    const url = `${apiUrl}/admin/create-user`;
+    // console.log(localStorageData?.token)
     return await toast.promise(
         axios.post(url, { ...userData }, {
             headers: {
-                authorization: localStorageData?.token,
+                authorization: token,
             }
         }),
         {
@@ -38,12 +38,12 @@ export const createUser = async (userData) => {
     )
 }
 
-export const deleteUser = async (id) => {
+export const deleteUser = async (id, token) => {
     const url = `${apiUrl}/admin/delete-user/${id}`;
     return await toast.promise(
         axios.delete(url, {
             headers: {
-                authorization: localStorageData?.token,
+                authorization: token,
             }
         }),
         {
