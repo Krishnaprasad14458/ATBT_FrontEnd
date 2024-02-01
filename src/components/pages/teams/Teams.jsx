@@ -25,7 +25,7 @@ function Teams() {
   function handleApi() {
     const formData = new FormData();
     formData.append('image', image)
-    axios.post('https://atbtmain.teksacademy.com/upload', formData)
+    axios.post('https://localhost:3001/upload', formData)
       .then((res) => {
         console.log(res);
       })
@@ -34,10 +34,34 @@ function Teams() {
       });
   }
 
+  const [imageSrc, SetImageSrc] = useState(null)
+  
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    console.log(file)
+    const name = event.target.name;
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        axios.post('http://localhost:3001/upload', {image: reader.result})
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((error) => {
+          console.error('Error uploading file:', error.message);
+        });
+        SetImageSrc(reader.result)
+
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   return (
     <div className=' p-3 bg-[#f8fafc] overflow-hidden'>
-      <input type='file' name='file' onChange={handleImage} />
-      <button className="border-2 border-blue-600" onClick={handleApi}>submit</button>
+        <input type='file' name='image' onChange={(event) => handleFileChange(event)}/>
+        <button className="border-2 border-blue-600">submit</button>
+        <img src={imageSrc} alt="" />
       {/* <div className='grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-3 xl:grid-col-3 gap-2 my-2'>
         <h1 className='font-semibold text-lg grid1-item'>Teams</h1>
         <div className='grid1-item  text-start'>
