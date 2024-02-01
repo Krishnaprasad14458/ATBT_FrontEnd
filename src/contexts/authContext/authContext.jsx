@@ -5,6 +5,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 import Swal from 'sweetalert2'
 import { apiUrl } from "../../utils/constants";
+import { setupAuthenticationErrorHandler } from "./utils/setupAthenticationErrorHandler";
 
 export const AuthContext = createContext();
 
@@ -24,7 +25,6 @@ const AuthProvider = ({ children }) => {
   const adminLogin = async (loginData) => {
     try {
       let status, data;
-  
       if (loginData.email === "admin@atbt.com") {
         ({ status, data } = await toast.promise(
           axios.post(`${apiUrl}/auth/su-login`, loginData),
@@ -124,6 +124,7 @@ const AuthProvider = ({ children }) => {
     if (localStorageData) {
       authDispatch({ type: "SET_USER", payload: localStorageData?.user });
       authDispatch({ type: "SET_TOKEN", payload: localStorageData?.token });
+      setupAuthenticationErrorHandler(userLogout,navigate)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

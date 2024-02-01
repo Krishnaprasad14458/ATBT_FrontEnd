@@ -51,7 +51,6 @@ import TeamsLandingPage from './components/landingPages/teams/TeamsLandingPage';
 import UserLandingPage from './components/landingPages/user/UserLandingPage';
 import AddEmailTemplate from './components/pages/settings/SettingsComponents/Communication/AddEmailTemplate';
 import AddWhatsappTemplate from './components/pages/settings/SettingsComponents/Communication/AddWhatsappTemplate';
-import TaskLandingPage from './components/landingPages/task/TaskLandingPage';
 import Dupaddrole from './components/pages/settings/SettingsComponents/Roles/Dupaddrole';
 import EditWhatsappTemplate from './components/pages/settings/SettingsComponents/Communication/EditWhatsappTemplate';
 import EditEmailTemplate from './components/pages/settings/SettingsComponents/Communication/EditEmailTemplate';
@@ -106,7 +105,7 @@ function App() {
             <Route path="/boardmeetinglandingpage" element={<BoardMeetingLandingPage />} />
             <Route path='teamslandingpage' element={<TeamsLandingPage />} />
             <Route path='/userlandingpage' element={<UserLandingPage />} />
-            <Route path='/tasklandingpage' element={<TaskLandingPage />} />
+
 
             <Route path="/settingentityform" element={<SettingEntityForm />} />
             <Route path="/settingboardmeetingform" element={<SettingBoardMeetingForm />} />
