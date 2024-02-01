@@ -19,6 +19,13 @@ const [entitiesState, entitiesDispatch] = useReducer(
     initialState
 );
 
+console.log(entitiesState)
+
+const getAllEntities = async() => {
+  const {data} = await api.getAllEntities();
+  entitiesDispatch(actions.setEntities(data))
+}
+
 const getDashboardEntitiesData = async () => {
   const {currentPage,perPage,sortBy,search} = entitiesState.dashboardEntities
   entitiesDispatch(actions.setLoading('DASHBOARD'))
@@ -51,26 +58,22 @@ const deleteEntitybyId = async(id)=> {
         const data = await api.deleteEntity(id);
         getpaginatedEntitiesData();
         getDashboardEntitiesData();
+        getAllEntities();
       } catch (error) {
        console.error(error) 
       }
 }
 
 const getEntitybyId = async(id)=> {
+  console.log(id,"vid")
       try {
-        const entityById = entitiesState?.entities?.find((element) => element.id === id) ?? null
-        if(!entityById){
-          const data = await api.getEntityById(id)
+          const data = await api.getEntityById(id);
           getpaginatedEntitiesData();
           getDashboardEntitiesData();
-          console.log(data, "id data")
           return data;
-        } else {
-          return entityById;
+        } catch (error) {
+          console.error(error);
         }
-      } catch (error) {
-       console.error(error) 
-      }
 }
 
 const createEntity = async(entityData)=>{
@@ -79,6 +82,7 @@ const createEntity = async(entityData)=>{
         if (status === 201) {
           getpaginatedEntitiesData();
           getDashboardEntitiesData();
+          getAllEntities();
           navigate(`entitylandingpage/${data.Entites.id}`)
         }
       } catch (error) {
@@ -89,6 +93,7 @@ const createEntity = async(entityData)=>{
   useEffect(() => {
     getpaginatedEntitiesData();
     getDashboardEntitiesData();
+    getAllEntities();
     // eslint-disable-next-line
   }, [entitiesDispatch,entitiesState?.entitiesList?.currentPage,entitiesState?.entitiesList?.search,entitiesState?.entitiesList?.perPage,entitiesState?.dashboardEntities?.currentPage,entitiesState?.dashboardEntities?.search,entitiesState?.dashboardEntities?.perPage]);
 
