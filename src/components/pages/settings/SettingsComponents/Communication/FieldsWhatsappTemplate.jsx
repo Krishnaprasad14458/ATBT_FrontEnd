@@ -9,7 +9,7 @@ const FieldsWhatsappTemplate = () => {
                     <div>
                         <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">Variable</label>
                         <div className="mt-2">
-                            <input id="text" name="text" value='{{1}}' type="text" autoComplete="email" required className="p-3 block w-full rounded-md border border-1 border-gray-400 py-1.5 text-gray-900 bg-gray-100  appearance-none shadow-sm  placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6" />
+                            <input id="text" name="text" placeholder='{{1}}' type="text" autoComplete="email" required className="p-3 block w-full rounded-md border border-1 border-gray-400 py-1.5 text-gray-900 bg-gray-100  appearance-none shadow-sm  placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6" />
                         </div>
                     </div>
                     <div className="">
@@ -34,7 +34,7 @@ const FieldsWhatsappTemplate = () => {
                             <input
                                 id="subject"
                                 name="subject"
-                                value="Student"
+                                placeholder="Student"
                                 type="text"
                                 autoComplete="subject"
                                 required
@@ -46,7 +46,7 @@ const FieldsWhatsappTemplate = () => {
                 <div className=' grid grid-cols-4 gap-4 mt-2'>
                     <div>
                         <div className="mt-2">
-                            <input id="text" name="text" value='{{2}}' type="text" autoComplete="email" required className="p-3 block w-full rounded-md border border-1 border-gray-400 py-1.5 text-gray-900 bg-gray-100  appearance-none shadow-sm  placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6" />
+                            <input id="text" name="text" placeholder='{{2}}' type="text" autoComplete="email" required className="p-3 block w-full rounded-md border border-1 border-gray-400 py-1.5 text-gray-900 bg-gray-100  appearance-none shadow-sm  placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6" />
                         </div>
                     </div>
                     <div className="">
@@ -69,7 +69,7 @@ const FieldsWhatsappTemplate = () => {
                             <input
                                 id="subject"
                                 name="subject"
-                                value="Student"
+                                placeholder="Fallback Value"
                                 type="text"
                                 autoComplete="subject"
                                 required
@@ -78,9 +78,14 @@ const FieldsWhatsappTemplate = () => {
                         </div>
                     </div>
                 </div>
-                <div className='flex justify-end'>
-                    <button type="submit"
-                        className="rounded-md bg-orange-600 px-8 py-1.5 text-sm leading-6 text-white shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600">Save</button>
+                <div className='grid grid-cols-4 gap-4'>
+                    <div className='col-span-4 text-end'>
+                        <button type="submit"
+                            className="me-5 rounded-md px-8 py-1.5 text-sm font-semibold border-2 border-orange-600 leading-6 text-orange-600 shadow-sm hover:bg-dark-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600">Cancel</button>
+
+                        <button type="submit"
+                            className="rounded-md bg-orange-600 px-8 py-1.5 text-sm leading-6 text-white shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600">Save</button>
+                    </div>
                 </div>
             </form>
         </div>
