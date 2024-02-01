@@ -38,9 +38,9 @@ const Whatsapp = () => {
             </td>
             <td className="px-3 py-3 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]">Active</td>
             <td className="px-3 py-3 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]">
-              <button type="submit"
+             <Link to="/fieldswhatsapptemplate"><button type="submit"
                 className="rounded-md bg-blue-600 px-8 py-1.5 text-sm leading-6 text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:blue-orange-600">
-                Fields</button>
+                Fields</button></Link> 
               <button type="submit"
                 className="ms-2 rounded-md bg-blue-600 px-8 py-1.5 text-sm leading-6 text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:blue-orange-600">
                 <Link to="/editwhatsapptemplate">Edit</Link> </button>

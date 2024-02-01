@@ -55,6 +55,8 @@ import TaskLandingPage from './components/landingPages/task/TaskLandingPage';
 import Dupaddrole from './components/pages/settings/SettingsComponents/Roles/Dupaddrole';
 import EditWhatsappTemplate from './components/pages/settings/SettingsComponents/Communication/EditWhatsappTemplate';
 import EditEmailTemplate from './components/pages/settings/SettingsComponents/Communication/EditEmailTemplate';
+import ViewEmailTemplate from './components/pages/settings/SettingsComponents/Communication/ViewEmailTemplate';
+import FieldsWhatsappTemplate from './components/pages/settings/SettingsComponents/Communication/FieldsWhatsappTemplate';
 
 function App() {
   const { authState } = useContext(AuthContext);
@@ -85,6 +87,8 @@ function App() {
             <Route path='/addwhatsapptemplate' element={<AddWhatsappTemplate />} />
             <Route path='/editemailtemplate' element={<EditEmailTemplate />} />
             <Route path='/editwhatsapptemplate' element={<EditWhatsappTemplate />} />
+            <Route path='viewemailtemplate' element={<ViewEmailTemplate />} />
+            <Route path='/fieldswhatsapptemplate' element={<FieldsWhatsappTemplate />} />
 
             <Route path="/api" element={<Api />} />
             <Route path='webhook' element={<Webhook />} />
