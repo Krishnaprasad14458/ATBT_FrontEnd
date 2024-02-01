@@ -1,9 +1,8 @@
-
 import React, { useEffect } from "react";
 import { Fragment, useRef, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { ExclamationTriangleIcon } from '@heroicons/react/24/outline'
-
+import axios from "axios";
 const SettingEntityForm = () => {
     const [open, setOpen] = useState(false)
     const [editIndex, setEditIndex] = useState(null);
@@ -12,11 +11,30 @@ const SettingEntityForm = () => {
     const [customForm, setCustomForm] = useState([
     ])
     const [newInputField, setNewInputField] = useState({
-        label: "", type: ""
+        label: "", type: "", inputname: "", value: ""
     })
+    useEffect(() => {
+        axios.get(`https://atbtmain.teksacademy.com/form/list?name=entityform`)
+            .then(response => {
+                // Handle the successful response
+                setCustomForm(response.data.array)
+                console.log(response.data);
+            })
+            .catch(error => {
+                // Handle errors
+                console.error('Error fetching data:', error);
+            });
+    }, [])
     const handleInputChange = (e) => {
         const { name, value } = e.target
-        setNewInputField((prev) => ({ ...prev, [name]: value }))
+        if (name == "label") {
+            setNewInputField((prev) => ({ ...prev, label: value, inputname: value, field: "custom" }))
+
+        }
+        else {
+            setNewInputField((prev) => ({ ...prev, [name]: value, field: "custom" }))
+
+        }
     }
     // const addNewInput = (e) => {
     //     e.preventDefault()
@@ -37,29 +55,44 @@ const SettingEntityForm = () => {
             setCustomForm((prev) => [...prev, newInputField]);
         }
 
-        setNewInputField({ label: '', type: '' });
+        setNewInputField({ label: '', type: '', inputname: "", value: "" });
         setOpen(false);
     };
     const handleMoveDimension = (index, direction) => {
         const updatedForm = [...customForm];
-
         if (direction === 'up' && index > 0) {
             [updatedForm[index], updatedForm[index - 1]] = [updatedForm[index - 1], updatedForm[index]];
         } else if (direction === 'down' && index < updatedForm.length - 1) {
             [updatedForm[index], updatedForm[index + 1]] = [updatedForm[index + 1], updatedForm[index]];
         }
-
         setCustomForm(updatedForm);
     };
-
-
     const deleteInput = (index) => {
         const updatedForm = [...customForm];
         updatedForm.splice(index, 1);
         setCustomForm(updatedForm);
     };
 
-    const [inputType, setInputType] = useState(["", "text", "email", "password", "number", "textarea", "file"])
+    const [inputType, setInputType] = useState(["text", "email", "password", "number", "textarea", "file", "date", "select", "multiselect", "checkbox", "radio", "range",])
+    const handleSubmitCustomForm = () => {
+        let formData = {
+            arrayOfObjects: customForm, Name: "entityform"
+        }
+        axios.put(
+            `https://atbtmain.teksacademy.com/form/update`,
+            formData
+        )
+            .then(response => {
+                // Handle the response here
+
+                console.log(response);
+            })
+            .catch(error => {
+
+                console.error(error);
+            });
+    }
+
     return (
         <div className="p-4 container bg-[#f8fafc]">
             <div className="flex justify-between">
@@ -88,22 +121,12 @@ const SettingEntityForm = () => {
                     </div>
                     {/* <label htmlFor="name" className="block text-sm font-medium leading-6 mb-2  mx-2 text-gray-900">Label -  {input.type.charAt(0).toUpperCase() + input.type.slice(1)}</label> */}
                     {/* <p className="grid1-item">Label - {input.label.charAt(0).toUpperCase() + input.label.slice(1)}</p>
-
+ 
                     <p className="grid1-item">Type - {input.type.charAt(0).toUpperCase() + input.type.slice(1)}</p> */}
 
                     <div className="grid1-item flex gap-3 items-end ">
                         <div className="grid grid-cols-4 sm:grid:cols-4 md:grid:cols-4 lg:grid:cols-4 xl:grid:cols-4 gap-3">
                             <div className="grid1-item">
-
-                                {index != 0 && <svg onClick={() => handleMoveDimension(index, 'up')} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
-                                    <path fill-rule="evenodd" d="M10 17a.75.75 0 0 1-.75-.75V5.612L5.29 9.77a.75.75 0 0 1-1.08-1.04l5.25-5.5a.75.75 0 0 1 1.08 0l5.25 5.5a.75.75 0 1 1-1.08 1.04l-3.96-4.158V16.25A.75.75 0 0 1 10 17Z" clip-rule="evenodd" />
-                                </svg>}
-                            </div>
-                            <div className="grid1-item">
-                                {index != customForm.length - 1 && <svg onClick={() => handleMoveDimension(index, 'down')} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
-                                    <path fill-rule="evenodd" d="M10 3a.75.75 0 0 1 .75.75v10.638l3.96-4.158a.75.75 0 1 1 1.08 1.04l-5.25 5.5a.75.75 0 0 1-1.08 0l-5.25-5.5a.75.75 0 1 1 1.08-1.04l3.96 4.158V3.75A.75.75 0 0 1 10 3Z" clip-rule="evenodd" />
-                                </svg>}
-
                                 <svg onClick={() => handleMoveDimension(index, 'up')} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
                                     <path fill-rule="evenodd" d="M10 17a.75.75 0 0 1-.75-.75V5.612L5.29 9.77a.75.75 0 0 1-1.08-1.04l5.25-5.5a.75.75 0 0 1 1.08 0l5.25 5.5a.75.75 0 1 1-1.08 1.04l-3.96-4.158V16.25A.75.75 0 0 1 10 17Z" clip-rule="evenodd" />
                                 </svg>
@@ -112,7 +135,6 @@ const SettingEntityForm = () => {
                                 <svg onClick={() => handleMoveDimension(index, 'down')} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
                                     <path fill-rule="evenodd" d="M10 3a.75.75 0 0 1 .75.75v10.638l3.96-4.158a.75.75 0 1 1 1.08 1.04l-5.25 5.5a.75.75 0 0 1-1.08 0l-5.25-5.5a.75.75 0 1 1 1.08-1.04l3.96 4.158V3.75A.75.75 0 0 1 10 3Z" clip-rule="evenodd" />
                                 </svg>
-
                             </div>
                             <div className="grid1-item">
                                 <svg onClick={() => {
@@ -127,7 +149,9 @@ const SettingEntityForm = () => {
                             <div className="grid1-item">
                                 <svg onClick={() => {
                                     deleteInput(index);
-                                }} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5">
+                                }} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                                    className={`w-5 h-5 ${input.field === "custom" ? "" : "pointer-events-none opacity-30"}
+                               `}>
                                     <path fillRule="evenodd" d="M8.75 1A2.75 2.75 0 0 0 6 3.75v.443c-.795.077-1.584.176-2.365.298a.75.75 0 1 0 .23 1.482l.149-.022.841 10.518A2.75 2.75 0 0 0 7.596 19h4.807a2.75 2.75 0 0 0 2.742-2.53l.841-10.52.149.023a.75.75 0 0 0 .23-1.482A41.03 41.03 0 0 0 14 4.193V3.75A2.75 2.75 0 0 0 11.25 1h-2.5ZM10 4c.84 0 1.673.025 2.5.075V3.75c0-.69-.56-1.25-1.25-1.25h-2.5c-.69 0-1.25.56-1.25 1.25v.325C8.327 4.025 9.16 4 10 4ZM8.58 7.72a.75.75 0 0 0-1.5.06l.3 7.5a.75.75 0 1 0 1.5-.06l-.3-7.5Zm4.34.06a.75.75 0 1 0-1.5-.06l-.3 7.5a.75.75 0 1 0 1.5.06l.3-7.5Z" clipRule="evenodd" />
                                 </svg>
 
@@ -163,8 +187,13 @@ const SettingEntityForm = () => {
                             >
                                 <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 px-2 py-5 sm:max-w-lg">
                                     <span className="flex justify-end gap-9 mb-2">
-                                        <p className="text-md  font-semibold"> Add New Input Field</p>
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" onClick={() => setOpen(false)} fill="currentColor" class="w-5 h-5 me-2">
+                                        {editIndex == null ? <p className="text-md  font-semibold">Add New Input Field</p > : <p className="text-md  font-semibold">Edit Input Field</p>}
+
+
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" onClick={() => {
+                                            setOpen(false)
+
+                                        }} fill="currentColor" class="w-5 h-5 me-2">
                                             <path d="M6.28 5.22a.75.75 0 0 0-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 1 0 1.06 1.06L10 11.06l3.72 3.72a.75.75 0 1 0 1.06-1.06L11.06 10l3.72-3.72a.75.75 0 0 0-1.06-1.06L10 8.94 6.28 5.22Z" />
                                         </svg></span>
 
@@ -179,7 +208,7 @@ const SettingEntityForm = () => {
                                             </div>
                                         </div>
 
-                                        <div className="flex">
+                                        {editIndex == null && <div className="flex">
                                             <label htmlFor="venue" className="block text-sm font-medium leading-6 mt-3 mb-2  mx-2 text-gray-900 ">Type :</label>
                                             <div className="relative inline-block text-left ">
                                                 <select name="type" className="p-2 m-2 text-xs  w-52 bg-gray-50  rounded-md  border-2 border-gray-200 py-1 text-gray-900 appearance-none shadow-sm  placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-xs sm:leading-6"
@@ -195,7 +224,7 @@ const SettingEntityForm = () => {
                                                     </svg>
                                                 </div>
                                             </div>
-                                        </div>
+                                        </div>}
 
                                     </form>
 
@@ -225,7 +254,7 @@ const SettingEntityForm = () => {
                 </Dialog>
             </Transition.Root>
 
-
+            <button onClick={handleSubmitCustomForm}>Save</button>
         </div>
     )
 }

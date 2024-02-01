@@ -15,11 +15,11 @@ function ChangePassword() {
         e.preventDefault();
         if (password === confirmPassword) {
             resetPassword({
-                id,password
+                id, password
             })
-        } else { 
+        } else {
             toast.error("Passwords did not match!");
-         }
+        }
     }
 
     return (
@@ -36,23 +36,24 @@ function ChangePassword() {
                     <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
                         <form className="space-y-6" action="#" method="POST">
                             <div>
-                                <label htmlFor="passowrd" className="block text-sm font-medium leading-6 text-gray-900">Enter New Password</label>
+                                <label htmlFor="passowrd" className="block text-sm font-medium leading-6 text-gray-900" >Enter New Password <span className='text-[#dc2626]'>*</span></label>
                                 <div className="mt-2">
-                                    <input id="passowrd" name="passowrd" type="passowrd" onChange={e => setPassword(e.target.value)} value={password} autoComplete="passowrd" required className="p-3 block w-full rounded-md border border-1 border-gray-400 py-1.5 text-gray-900 bg-gray-100  appearance-none shadow-sm  placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6" />
+                                    <input id="passowrd" name="passowrd" type="passowrd" onChange={e => setPassword(e.target.value)}
+                                        placeholder="Enter new password" value={password} autoComplete="passowrd" required className="p-3 block w-full rounded-md border border-1 border-gray-400 py-1.5 text-gray-900 bg-gray-100  appearance-none shadow-sm  placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6" />
                                 </div>
                             </div>
 
                             <div>
                                 <div className="flex items-center justify-between">
-                                    <label htmlFor="confirmPassword" className="block text-sm font-medium leading-6 text-gray-900">Confirm New Password</label>
+                                    <label htmlFor="confirmPassword" className="block text-sm font-medium leading-6 text-gray-900">Confirm New Password <span className='text-[#dc2626]'>*</span></label>
 
                                 </div>
                                 <div className="mt-2">
-                                    <input id="confirmPassword" name="confirmPassword" type="password" onChange={e => setConfirmPassword(e.target.value)} value={confirmPassword} autoComplete="confirmPassword" required className="p-3 block w-full rounded-md border border-1 border-gray-400 py-1.5 text-gray-900 bg-gray-100  appearance-none shadow-sm  placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6" />
+                                    <input id="confirmPassword" name="confirmPassword" type="password" placeholder='Confirm new password' onChange={e => setConfirmPassword(e.target.value)} value={confirmPassword} autoComplete="confirmPassword" required className="p-3 block w-full rounded-md border border-1 border-gray-400 py-1.5 text-gray-900 bg-gray-100  appearance-none shadow-sm  placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6" />
                                 </div>
                             </div>
                             <div>
-                                <button type="submit" onClick={handleSubmit} className="flex w-full justify-center rounded-md bg-orange-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600">Sign in</button>
+                                <button type="submit" onClick={handleSubmit} className="flex w-full justify-center rounded-md bg-orange-600 px-3 py-1.5 text-sm  leading-6 text-white shadow-sm  focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600">Sign In</button>
                             </div>
                         </form>
                     </div>
