@@ -32,7 +32,7 @@ const Login = () => {
                 <div className="w-96 rounded-lg overflow-hidden shadow-2xl p-8">
                     <div className="sm:mx-auto sm:w-full sm:max-w-sm">
                         <img className="mx-auto h-10 w-auto" src={logo} alt="Company Logo" />
-                        <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">SignIn to your Account</h2>
+                        <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">Sign in to your Account</h2>
                     </div>
 
                     <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
