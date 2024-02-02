@@ -7,14 +7,14 @@ import useDebounce from '../../../../hooks/debounce/useDebounce';
 function UserDashboard() {
   const { usersState: { users, pagination }, usersDispatch } = useContext(UserDataContext);
   const { debouncedSetPage, debouncedSetSearch } = useDebounce(usersDispatch)
-  useEffect(()=>{
-    return ()=>{
+  useEffect(() => {
+    return () => {
       usersDispatch({
         type: "SET_SEARCH",
         payload: ""
       })
     }
-  },[])
+  }, [])
   return (
     <div className="w-full h-[450px] relative text-center bg-slate-50 border border-gray-200 rounded-md shadow sm:pt-4 dark:bg-gray-800 dark:border-gray-700">
       <div className='grid1-item overflow-hidden sm:w-full'>
@@ -78,20 +78,20 @@ function UserDashboard() {
         <div className="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
           {/* pagination data */}
           <div>
-            {!pagination?.paginatedUsers || pagination?.paginatedUsers?.length === 0 ? "no data to show" : pagination.loading? "Loading..." : <p className="text-sm text-gray-700">
+            {!pagination?.paginatedUsers || pagination?.paginatedUsers?.length === 0 ? "no data to show" : pagination.loading ? "Loading..." : <p className="text-sm text-gray-700">
               Showing <span className="font-medium">{pagination?.startUser}</span> to
               <span className="font-medium"> {pagination?.endUser}</span> of {pagination?.totalUsers} users
             </p>}
           </div>
           {/* prev and next for big screens */}
           <div>
-            <section className="isolate inline-flex -space-x-px rounded-md shadow-sm" aria-label="Pagination">
+            <section className="isolate inline-flex -px rounded-md shadow-sm" aria-label="Pagination">
               {/* previos button */}
               <button
-                disabled={pagination.loading?true:false || pagination.currentPage === 1}
+                disabled={pagination.loading ? true : false || pagination.currentPage === 1}
                 onClick={() => debouncedSetPage(pagination.currentPage - 1)}
                 href="#"
-                className={`relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${pagination.loading?'cursor-wait':pagination.currentPage === 1? 'cursor-not-allowed':'cursor-auto'}`}
+                className={`relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${pagination.loading ? 'cursor-wait' : pagination.currentPage === 1 ? 'cursor-not-allowed' : 'cursor-auto'}`}
               >
                 <span className="sr-only">Previous</span>
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5" aria-hidden="true">
@@ -101,9 +101,9 @@ function UserDashboard() {
               </button>
               {/* next button */}
               <button
-                disabled={pagination.loading?true:false || pagination.currentPage === pagination.totalPages}
+                disabled={pagination.loading ? true : false || pagination.currentPage === pagination.totalPages}
                 onClick={() => debouncedSetPage(pagination.currentPage + 1)}
-                className={`relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${pagination.loading?'cursor-wait':pagination.currentPage === pagination.totalPages? 'cursor-not-allowed':'cursor-auto'}`}
+                className={`relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${pagination.loading ? 'cursor-wait' : pagination.currentPage === pagination.totalPages ? 'cursor-not-allowed' : 'cursor-auto'}`}
               >
                 <span className="sr-only">Next</span>
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5" aria-hidden="true">
