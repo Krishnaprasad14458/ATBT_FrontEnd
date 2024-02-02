@@ -56,7 +56,35 @@ const editEmailTemplate = () => {
             <textarea name='Description' value="In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before final copy is available. Wikipedia" class=" bg-gray-50 rounded-md text-sm p-2 w-full h-56 border-2 border-gray-200 focus:outline-none focus:border-orange-400"></textarea>
           </div>
         </div>
-
+        <div className='border-2 p-4 border-gray-200 rounded-md'>
+          <p className='text-lg font-semibold'>Internals</p>
+          <div className='grid grid-cols-3 gap-4 mt-3'>
+            <div>
+              <ul>
+                <li className='text-gray-400 text-sm'>Created By</li>
+                <li>Teks Academy</li>
+              </ul>
+            </div>
+            <div>
+              <ul>
+                <li className='text-gray-400 text-sm'>Created At</li>
+                <li>Feb 1, 2024 at 6:10 PM</li>
+              </ul>
+            </div>
+            <div>
+              <ul>
+                <li className='text-gray-400 text-sm'>Updated By</li>
+                <li>Teks Academy</li>
+              </ul>
+            </div>
+            <div>
+              <ul>
+                <li className='text-gray-400 text-sm'>Updated At</li>
+                <li>Feb 1, 2024 at 6:10 PM</li>
+              </ul>
+            </div>
+          </div>
+        </div>
         <div className='grid grid-cols-4 gap-4'>
           <div className='col-span-4 text-end'>
             <button type="submit"
