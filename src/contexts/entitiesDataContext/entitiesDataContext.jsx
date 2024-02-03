@@ -79,6 +79,7 @@ const getEntitybyId = async(id)=> {
 const createEntity = async(entityData)=>{
       try{
         const {data, status} = await api.createEntity(entityData)
+        console.log(data ,"form resp data")
         if (status === 201) {
           getpaginatedEntitiesData();
           getDashboardEntitiesData();
