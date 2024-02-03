@@ -37,8 +37,8 @@ const EntityLandingPage = () => {
     const getSingleProduct = async () => {
         try {
             const entityById = entities?.Entites?.find((element) => element.id === +id);
-            console.log(entities?.Entites, "eid",entityById)
-            if(!entityById){
+            console.log(entities?.Entites, "eid", entityById)
+            if (!entityById) {
                 const product = await getEntitybyId(id);
                 setSingleProduct(product?.data?.Entites);
             } else {
@@ -410,11 +410,11 @@ const EntityLandingPage = () => {
                             >
                                 <div className="flex justify-start">
                                     <div class="relative inline-block ms-2">
-                                        <select class="block appearance-none w-full bg-white text-sm border border-gray-300 hover:border-gray-300 px-1 py-1.5 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
-                                            <option value="option1">Select Status</option>
-                                            <option value="option2">Complete</option>
-                                            <option value="option3">Inprogress</option>
-                                            <option value="option4">To Do</option>
+                                        <select class="block appearance-none w-full bg-white text-xs border border-gray-300 hover:border-gray-300 px-1 py-1.5 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
+                                            <option value="option1" className='text-xs focus:bg-orange-600'>Select Status</option>
+                                            <option value="option2" className='text-xs'>Complete</option>
+                                            <option value="option3" className='text-xs'>Inprogress</option>
+                                            <option value="option4" className='text-xs'>To Do</option>
                                         </select>
                                         <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
                                             <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
@@ -465,11 +465,11 @@ const EntityLandingPage = () => {
                                         <p className='basis-1/4 text-sm text-gray-600  mt-1'>Priority</p>
                                         <p className='basis-1/2'>
                                             <div class="relative inline-block">
-                                                <select class="block appearance-none w-full bg-white border text-sm border-gray-300 hover:border-gray-300 px-1 py-1.5 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
-                                                    <option value="option1">Select Priority</option>
-                                                    <option value="option2">Low</option>
-                                                    <option value="option3">Medium</option>
-                                                    <option value="option4">High</option>
+                                                <select class="block appearance-none w-full bg-white border text-xs border-gray-300 hover:border-gray-300 px-1 py-1.5 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
+                                                    <option value="option1" className='text-xs'>Select Priority</option>
+                                                    <option value="option2" className='text-xs'>Low</option>
+                                                    <option value="option3" className='text-xs'>Medium</option>
+                                                    <option value="option4" className='text-xs'>High</option>
                                                 </select>
                                                 <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
                                                     <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">

@@ -8,22 +8,52 @@ import { Link } from 'react-router-dom'
 const Login = () => {
     const { adminLogin } = useContext(AuthContext);
     const [formData, setFormData] = useState({ email: '', password: '' })
+    const [email, setEmail] = useState()
+    const [passworderror, setPasswordError] = useState();
     const handleFormData = (e) => {
         const { name, value } = e.target;
         setFormData((previous) => ({ ...previous, [name]: value }))
     }
 
+    const emailPattern = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
+
     const loginHandler = (e) => {
         e.preventDefault();
+        {/* Validations*/ }
+
+
+        if (!formData.email) {
+            setEmail("Please  enter email id");
+            return;
+        } else if (!emailPattern.test(formData.email)) {
+            setEmail("Invalid email id");
+            return;
+            // errors.email = 'Invalid email address';
+
+        }
+        else {
+            setEmail("");
+
+        }
+        if (!formData.password) {
+            setPasswordError("Please enter password ");
+            return;
+        } else {
+            setPasswordError("")
+        }
+
+
+
+
+
+
         if (!formData.email.trim() || !formData.password.trim()) {
         } else {
             adminLogin(formData);
         }
+
     };
-
     const [showPassword, setShowPassword] = useState(false); // Add this line to define the state
-
-
     return (
         <main className="relative flex flex-1 flex-col overflow-hidden sm:px-6 lg:px-8">
             <img src={login_bg} alt="background image" className="absolute left-1/2 top-0 -ml-[47.5rem] w-[122.5rem] max-w-none" />
@@ -34,7 +64,6 @@ const Login = () => {
                         <img className="mx-auto h-10 w-auto" src={logo} alt="Company Logo" />
                         <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">Sign in to your Account</h2>
                     </div>
-
                     <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
                         <form className="space-y-6" method="POST">
                             <div>
@@ -43,14 +72,15 @@ const Login = () => {
                                     <input id="email" name="email" onChange={handleFormData} value={formData.email} type="email"
                                         placeholder=" Enter your active Email ID" autoComplete="email" required className="p-3 block w-full rounded-md border border-1 border-gray-400 py-1.5 text-gray-900 bg-gray-100  appearance-none shadow-sm  placeholder:text-gray-400 placeholder:text-sm focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6" />
                                 </div>
+                                <p className='text-[#dc2626] text-xs'>{email}</p>
                             </div>
-
                             <div>
                                 <div className="flex items-center justify-between">
                                     <label htmlFor="password" className="block text-sm font-medium leading-6 text-gray-900">Password <span className='text-[#dc2626]'>*</span></label>
                                     <div className="text-sm">
                                         <Link to="/resetpassword" className="font-semibold text-orange-600 hover:text-orange-500">Forgot Password ?</Link>
                                     </div>
+
                                 </div>
                                 <div className="mt-2 relative">
                                     <input
@@ -83,8 +113,11 @@ const Login = () => {
 
                                         )}
                                     </button>
+
                                 </div>
+                                <span className='text-[#dc2626] text-xs p-0 h-6 m-0'> {passworderror}</span>
                             </div>
+
 
                             <div>
                                 <button type="submit" onClick={loginHandler}
