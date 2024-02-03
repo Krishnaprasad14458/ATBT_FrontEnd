@@ -2,7 +2,7 @@ import React from 'react'
 
 const SettingUserForm = () => {
     return (
-        <div>SettingUserForm</div>
+        <div>Setting User Form</div>
     )
 }
 
