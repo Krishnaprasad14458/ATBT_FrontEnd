@@ -1,6 +1,7 @@
 import React, { useState, useRef, useContext, useEffect } from 'react';
 import defprop from '../../../Images/defprof.svg';
 import './EntityForm.css';
+// import { EntitiesDataContext } from '../../../contexts/entitiesDataContext/entitiesDataContext';
 import { EntitiesDataContext } from '../../../contexts/entitiesDataContext/entitiesDataContext';
 import { Link } from 'react-router-dom';
 import { UserDataContext } from '../../../contexts/usersDataContext/usersDataContext';
@@ -85,7 +86,6 @@ function EntityForm() {
 
 
   return (
-
     <div className='container p-4 bg-[#f8fafc]'>
       {/* <p className="font-lg font-semibold p-3">Entity Form</p> */}
       <p className="text-lg font-semibold">New Entity</p>
@@ -530,7 +530,7 @@ function EntityForm() {
     </div>
   );
 }
-
+ 
 export default EntityForm;
 
 

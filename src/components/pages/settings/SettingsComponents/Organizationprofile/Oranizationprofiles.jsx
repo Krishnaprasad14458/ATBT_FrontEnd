@@ -1,10 +1,11 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import $ from 'jquery';
-
+import Swal from 'sweetalert2';
 import { UserDataContext } from '../../../../../contexts/usersDataContext/usersDataContext';
 
 const OrganizationProfile = () => {
+
     const { usersState: { users }, deleteUser } = useContext(UserDataContext);
 
     const [activeTab, setActiveTab] = useState(1);
@@ -42,7 +43,31 @@ const OrganizationProfile = () => {
     $('input[type=number]').on('mousewheel', function (e) {
         $(e.target).blur();
     });
-    // 
+
+    const handleDeleteUser = async (id) => {
+        const confirmDelete = await Swal.fire({
+            title: 'Are you sure?',
+            text: 'Once deleted, you will not be able to recover this user!',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#ea580c',
+            cancelButtonColor: '#fff',
+            confirmButtonText: 'Delete',
+            customClass: {
+                popup: 'custom-swal2-popup',
+                title: 'custom-swal2-title',
+                content: 'custom-swal2-content',
+            },
+        });
+    
+        if (confirmDelete.isConfirmed) {
+            try {
+                const result = await deleteUser(id);
+            } catch (error) {
+                Swal.fire('Error', 'Unable to delete user 🤯', 'error');
+            }
+        }
+    };
 
     return (
         <div className='container p-4 bg-[#f8fafc]'>
@@ -180,7 +205,7 @@ const OrganizationProfile = () => {
                                                 </svg>
 
                                             </button>
-                                            <button type="button" onClick={() => deleteUser(user.id)} className="inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent text-[#64748b] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
+                                            <button type="button" onClick={() => handleDeleteUser(user.id)} className="inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent text-[#64748b] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
                                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5">
                                                     <path fill-rule="evenodd" d="M8.75 1A2.75 2.75 0 0 0 6 3.75v.443c-.795.077-1.584.176-2.365.298a.75.75 0 1 0 .23 1.482l.149-.022.841 10.518A2.75 2.75 0 0 0 7.596 19h4.807a2.75 2.75 0 0 0 2.742-2.53l.841-10.52.149.023a.75.75 0 0 0 .23-1.482A41.03 41.03 0 0 0 14 4.193V3.75A2.75 2.75 0 0 0 11.25 1h-2.5ZM10 4c.84 0 1.673.025 2.5.075V3.75c0-.69-.56-1.25-1.25-1.25h-2.5c-.69 0-1.25.56-1.25 1.25v.325C8.327 4.025 9.16 4 10 4ZM8.58 7.72a.75.75 0 0 0-1.5.06l.3 7.5a.75.75 0 1 0 1.5-.06l-.3-7.5Zm4.34.06a.75.75 0 1 0-1.5-.06l-.3 7.5a.75.75 0 1 0 1.5.06l.3-7.5Z" clip-rule="evenodd" />
                                                 </svg>
