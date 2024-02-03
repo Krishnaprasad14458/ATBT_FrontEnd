@@ -14,7 +14,7 @@ import BoardMeetings from './components/pages/boardMeetings/BoardMeetings';
 import Teams from './components/pages/teams/Teams';
 import Tasks from './components/pages/task/Tasks';
 import Settings from './components/pages/settings/Settings';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { AuthContext } from './contexts/authContext/authContext';
 import Users from './components/pages/users/Users';
 import UserProfile from './components/pages/userProfile/UserProfile';
@@ -59,13 +59,12 @@ import FieldsWhatsappTemplate from './components/pages/settings/SettingsComponen
 
 function App() {
   const { authState } = useContext(AuthContext);
-  const location = useLocation();
-  const isChangePasswordRoute = location.pathname === '/resetpassword';
+  console.log(shouldRenderSidebar())
   return (
     <div className="app">
-      {!isChangePasswordRoute && authState.token ? <Sidebar /> : null}
+      <Sidebar />
       <main className="content h-screen bg-[#f8fafc]" style={{ overflow: "auto" }}>
-        {!isChangePasswordRoute && authState.token ? <TopBar /> : null}
+        <TopBar />
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/changepassword/:id" element={<ChangePassword />} />
@@ -88,7 +87,6 @@ function App() {
             <Route path='/editwhatsapptemplate' element={<EditWhatsappTemplate />} />
             <Route path='viewemailtemplate' element={<ViewEmailTemplate />} />
             <Route path='/fieldswhatsapptemplate' element={<FieldsWhatsappTemplate />} />
-
             <Route path="/api" element={<Api />} />
             <Route path='webhook' element={<Webhook />} />
             <Route path='sms' element={<Sms />} />
@@ -99,14 +97,11 @@ function App() {
             <Route path='/teams' element={<Teams />} />
             <Route path='/entities' element={<Entities />}>
               <Route path="otl" element={<EntityForm />} />
-
             </Route>
             <Route path="/entitylandingpage/:id" element={<EntityLandingPage />} />
             <Route path="/boardmeetinglandingpage" element={<BoardMeetingLandingPage />} />
-            <Route path='teamslandingpage' element={<TeamsLandingPage />} />
-            <Route path='/userlandingpage' element={<UserLandingPage />} />
-
-
+            <Route path='/teamslandingpage' element={<TeamsLandingPage />} />
+            <Route path='/userlandingpage/:id' element={<UserLandingPage />} />
             <Route path="/settingentityform" element={<SettingEntityForm />} />
             <Route path="/settingboardmeetingform" element={<SettingBoardMeetingForm />} />
             <Route path="/settingteamsform" element={<SettingTeamsForm />} />
@@ -115,7 +110,6 @@ function App() {
             <Route path='/boardmeetings' element={<BoardMeetings />} />
             <Route path="/boardmeetings/new" element={<BoardMeetingForm />} />
             <Route path='/tasks' element={<Tasks />} />
-
             <Route path='/users' element={<Users />} >
               <Route path="otl" element={<UserForm />} />
             </Route>

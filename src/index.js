@@ -10,9 +10,6 @@ import AuthProvider from './contexts/authContext/authContext';
 import UserDataProvider from './contexts/usersDataContext/usersDataContext';
 import EntitiesDataProvider from './contexts/entitiesDataContext/entitiesDataContext';
 
-
-
-
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>

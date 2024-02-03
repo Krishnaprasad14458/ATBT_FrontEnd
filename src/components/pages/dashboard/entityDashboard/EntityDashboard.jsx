@@ -50,7 +50,7 @@ function EntityDashboard() {
                 <p>No user found</p>
               </li>) : dashboardEntities?.paginatedEntities?.map(entity => (
                 <li class="py-2 sm:py-2" key={entity.id}>
-                  <Link>
+                  <Link to={`/entitylandingpage/${entity.id}`}>
                     <EntityList entity={entity} />
                   </Link>
                 </li>
