@@ -105,7 +105,7 @@ const AuthProvider = ({ children }) => {
               return `Password Updated`
             }
           },
-          error: 'unautorized Access 🤯',
+          error: ' orized Access 🤯',
         },
       )
     } catch (e) {
