@@ -7,7 +7,7 @@ const SettingEntityForm = () => {
     const [open, setOpen] = useState(false)
     const [editIndex, setEditIndex] = useState(null);
     const cancelButtonRef = useRef(null);
- 
+
     const [customForm, setCustomForm] = useState([
     ])
     const [newInputField, setNewInputField] = useState({
@@ -38,7 +38,7 @@ const SettingEntityForm = () => {
             setNewInputField((prev) => ({ ...prev, [name]: type === "checkbox" ? checked : value, field: "custom" }))
         }
     }
- 
+
     const addOrUpdateInput = (e) => {
         e.preventDefault();
         if (editIndex !== null) {
@@ -51,7 +51,7 @@ const SettingEntityForm = () => {
             // Add new field
             setCustomForm((prev) => [...prev, newInputField]);
         }
- 
+
         setNewInputField({ label: '', type: '', inputname: "", value: "" });
         setOpen(false);
     };
@@ -69,7 +69,7 @@ const SettingEntityForm = () => {
         updatedForm.splice(index, 1);
         setCustomForm(updatedForm);
     };
- 
+
     const [inputType, setInputType] = useState(["text", "email", "password", "number", "textarea", "file", "date", "select", "multiselect", "checkbox", "radio", "range",])
     const handleSubmitCustomForm = () => {
         let formData = {
@@ -81,15 +81,15 @@ const SettingEntityForm = () => {
         )
             .then(response => {
                 // Handle the response here
- 
+
                 console.log(response);
             })
             .catch(error => {
- 
+
                 console.error(error);
             });
     }
- 
+
     return (
         <div className="p-4 container bg-[#f8fafc]">
             <div className="flex justify-between">
@@ -102,51 +102,73 @@ const SettingEntityForm = () => {
                 </div>
             </div>
             {customForm && customForm.length > 0 && customForm.map((input, index) => (
- 
-                <div className="grid grid-cols-5 sm:grid-cols-5  md:grid-cols-5 lg:grid-cols-5 xl:grid-cols-5 gap-5 px-5">
-                    <div>
-                        <label htmlFor="name" className="block text-sm font-semibold leading-6 mt-2 mb-2 text-gray-950">Label</label>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-5 px-5 mt-2">
+                    <div className="mb-3 ">
+                        <label htmlFor="name" className="block text-sm font-semibold leading-6 text-gray-950">Label</label>
                         <div className="">
-                            <span id="name" name="boardMeetingName" type="text" autoComplete="name" required className="p-2 text-xs block w-full bg-gray-50  rounded-md  border-2 border-gray-200 py-1 text-[#6b7280] appearance-none shadow-sm   font-light placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-xs sm:leading-6" >  {input.label.charAt(0).toUpperCase() + input.label.slice(1)}</span>
+                            <span id="name" name="boardMeetingName" type="text" autoComplete="name" required className="p-2 text-xs block w-full bg-gray-50 rounded-md border-2 border-gray-200 py-1 text-[#6b7280] appearance-none shadow-sm font-light placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-xs sm:leading-6">
+                                {input.label.charAt(0).toUpperCase() + input.label.slice(1)}
+                            </span>
                         </div>
                     </div>
-                    <div>
-                        <label htmlFor="name" className="block text-sm font-semibold leading-6 mt-2 mb-2 text-gray-900">Type</label>
+                    <div className="mb-3">
+                        <label htmlFor="name" className="block text-sm font-semibold leading-6 text-gray-900">Type</label>
                         <div className="">
-                            <span id="name" name="boardMeetingName" type="text" autoComplete="name" required className="p-2 text-xs block w-full bg-gray-50  rounded-md  border-2 border-gray-200 py-1 text-[#6b7280] appearance-none shadow-sm  placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-xs sm:leading-6" >  {input.type.charAt(0).toUpperCase() + input.type.slice(1)}</span>
+                            <span id="name" name="boardMeetingName" type="text" autoComplete="name" required className="p-2 text-xs block w-full bg-gray-50 rounded-md border-2 border-gray-200 py-1 text-[#6b7280] appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-xs sm:leading-6">
+                                {input.type.charAt(0).toUpperCase() + input.type.slice(1)}
+                            </span>
                         </div>
                     </div>
-                   
-                    <div className="text-center">
-                        Mandatory
-                        <input
-                            type="checkbox"
-                            id="mandatory"
-                            name="mandatory"
-                            checked={input.mandatory} // Make sure to set the checked attribute
-                            onChange={handleInputChange}
-                        />
+                    <div className=" flex items-center gap-5">
+                        <svg onClick={() => handleMoveDimension(index, 'up')} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+                            <path fill-rule="evenodd" d="M10 17a.75.75 0 0 1-.75-.75V5.612L5.29 9.77a.75.75 0 0 1-1.08-1.04l5.25-5.5a.75.75 0 0 1 1.08 0l5.25 5.5a.75.75 0 1 1-1.08 1.04l-3.96-4.158V16.25A.75.75 0 0 1 10 17Z" clip-rule="evenodd" />
+                        </svg>
+                        <svg onClick={() => handleMoveDimension(index, 'down')} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+                            <path fill-rule="evenodd" d="M10 3a.75.75 0 0 1 .75.75v10.638l3.96-4.158a.75.75 0 1 1 1.08 1.04l-5.25 5.5a.75.75 0 0 1-1.08 0l-5.25-5.5a.75.75 0 1 1 1.08-1.04l3.96 4.158V3.75A.75.75 0 0 1 10 3Z" clip-rule="evenodd" />
+                        </svg>
+                        <svg onClick={() => {
+                            setNewInputField(input);
+                            setEditIndex(index);
+                            setOpen(true);
+                        }}
+                            xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+                            <path d="m2.695 14.762-1.262 3.155a.5.5 0 0 0 .65.65l3.155-1.262a4 4 0 0 0 1.343-.886L17.5 5.501a2.121 2.121 0 0 0-3-3L3.58 13.419a4 4 0 0 0-.885 1.343Z" />
+                        </svg>
+                        <svg onClick={() => {
+                            deleteInput(index);
+                        }} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                            className={`w-5 h-5 ${input.field === "custom" ? "" : "pointer-events-none opacity-30"}
+                               `}>
+                            <path fillRule="evenodd" d="M8.75 1A2.75 2.75 0 0 0 6 3.75v.443c-.795.077-1.584.176-2.365.298a.75.75 0 1 0 .23 1.482l.149-.022.841 10.518A2.75 2.75 0 0 0 7.596 19h4.807a2.75 2.75 0 0 0 2.742-2.53l.841-10.52.149.023a.75.75 0 0 0 .23-1.482A41.03 41.03 0 0 0 14 4.193V3.75A2.75 2.75 0 0 0 11.25 1h-2.5ZM10 4c.84 0 1.673.025 2.5.075V3.75c0-.69-.56-1.25-1.25-1.25h-2.5c-.69 0-1.25.56-1.25 1.25v.325C8.327 4.025 9.16 4 10 4ZM8.58 7.72a.75.75 0 0 0-1.5.06l.3 7.5a.75.75 0 1 0 1.5-.06l-.3-7.5Zm4.34.06a.75.75 0 1 0-1.5-.06l-.3 7.5a.75.75 0 1 0 1.5.06l.3-7.5Z" clipRule="evenodd" />
+                        </svg>
                     </div>
-                    <div className="text-center">
-                        Filterable
-                        <input
-                            type="checkbox"
-                            id="filterable"
-                            name="filterable"
-                            checked={input.filterable} // Make sure to set the checked attribute
-                            onChange={handleInputChange}
-                        />
- 
- 
- 
+                    <div className="flex gap-5">
+                        <div className="mb-5 flex items-end">
+                            <input
+                                // className="mb-1"
+                                type="checkbox"
+                                id="mandatory"
+                                name="mandatory"
+                                checked={input.mandatory}
+                                onChange={handleInputChange}
+                            />
+                            <span className="text-xs">Mandatory</span>
+                        </div>
+                        <div className="mb-5 flex items-end">
+                            <input
+
+                                type="checkbox"
+                                id="filterable"
+                                name="filterable"
+                                checked={input.filterable}
+                                onChange={handleInputChange}
+                            />
+                            <span className="text-xs">Filterable</span>
+                        </div>
                     </div>
-                    {/* <label htmlFor="name" className="block text-sm font-medium leading-6 mb-2  mx-2 text-gray-900">Label -  {input.type.charAt(0).toUpperCase() + input.type.slice(1)}</label> */}
-                    {/* <p className="grid1-item">Label - {input.label.charAt(0).toUpperCase() + input.label.slice(1)}</p>
- 
-                    <p className="grid1-item">Type - {input.type.charAt(0).toUpperCase() + input.type.slice(1)}</p> */}
- 
-                    <div className="grid1-item flex gap-3 items-end ">
-                        <div className="grid grid-cols-4 sm:grid:cols-4 md:grid:cols-4 lg:grid:cols-4 xl:grid:cols-4 gap-3">
+                    {/* <div className="grid1-item flex gap-10 items-end ">
+                        <div className="grid grid-cols-4 sm:grid:cols-4 md:grid:cols-4 lg:grid:cols-4 xl:grid:cols-4 gap-5">
                             <div className="grid1-item">
                                 <svg onClick={() => handleMoveDimension(index, 'up')} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
                                     <path fill-rule="evenodd" d="M10 17a.75.75 0 0 1-.75-.75V5.612L5.29 9.77a.75.75 0 0 1-1.08-1.04l5.25-5.5a.75.75 0 0 1 1.08 0l5.25 5.5a.75.75 0 1 1-1.08 1.04l-3.96-4.158V16.25A.75.75 0 0 1 10 17Z" clip-rule="evenodd" />
@@ -175,10 +197,48 @@ const SettingEntityForm = () => {
                                `}>
                                     <path fillRule="evenodd" d="M8.75 1A2.75 2.75 0 0 0 6 3.75v.443c-.795.077-1.584.176-2.365.298a.75.75 0 1 0 .23 1.482l.149-.022.841 10.518A2.75 2.75 0 0 0 7.596 19h4.807a2.75 2.75 0 0 0 2.742-2.53l.841-10.52.149.023a.75.75 0 0 0 .23-1.482A41.03 41.03 0 0 0 14 4.193V3.75A2.75 2.75 0 0 0 11.25 1h-2.5ZM10 4c.84 0 1.673.025 2.5.075V3.75c0-.69-.56-1.25-1.25-1.25h-2.5c-.69 0-1.25.56-1.25 1.25v.325C8.327 4.025 9.16 4 10 4ZM8.58 7.72a.75.75 0 0 0-1.5.06l.3 7.5a.75.75 0 1 0 1.5-.06l-.3-7.5Zm4.34.06a.75.75 0 1 0-1.5-.06l-.3 7.5a.75.75 0 1 0 1.5.06l.3-7.5Z" clipRule="evenodd" />
                                 </svg>
- 
+
                             </div>
                         </div>
-                    </div>
+                        <div className="flex gap-2">
+                            <div className="flex items-end ">
+
+                                <input
+                                    className="mb-1"
+                                    type="checkbox"
+                                    id="mandatory"
+                                    name="mandatory"
+                                    checked={input.mandatory} // Make sure to set the checked attribute
+                                    onChange={handleInputChange}
+                                /> <span >Mandatory</span>
+                            </div>
+                            <div className="flex items-end">
+
+                                <input
+                                    className="mb-1"
+                                    type="checkbox"
+                                    id="filterable"
+                                    name="filterable"
+                                    checked={input.filterable} // Make sure to set the checked attribute
+                                    onChange={handleInputChange}
+                                />
+                                <span >Filterable</span>
+
+
+
+                            </div>
+
+
+                        </div>
+                    </div> */}
+
+
+                    {/* <label htmlFor="name" className="block text-sm font-medium leading-6 mb-2  mx-2 text-gray-900">Label -  {input.type.charAt(0).toUpperCase() + input.type.slice(1)}</label> */}
+                    {/* <p className="grid1-item">Label - {input.label.charAt(0).toUpperCase() + input.label.slice(1)}</p>
+ 
+                    <p className="grid1-item">Type - {input.type.charAt(0).toUpperCase() + input.type.slice(1)}</p> */}
+
+
                 </div>
             ))}
             <Transition.Root show={open} as={Fragment}>
@@ -194,7 +254,7 @@ const SettingEntityForm = () => {
                     >
                         <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
                     </Transition.Child>
- 
+
                     <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
                         <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
                             <Transition.Child
@@ -209,16 +269,16 @@ const SettingEntityForm = () => {
                                 <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 px-2 py-5 sm:max-w-lg">
                                     <span className="flex justify-end gap-9 mb-2">
                                         {editIndex == null ? <p className="text-md  font-semibold">Add New Input Field</p > : <p className="text-md  font-semibold">Edit Input Field</p>}
- 
- 
+
+
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" onClick={() => {
                                             setOpen(false)
- 
+
                                         }} fill="currentColor" class="w-5 h-5 me-2">
                                             <path d="M6.28 5.22a.75.75 0 0 0-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 1 0 1.06 1.06L10 11.06l3.72 3.72a.75.75 0 1 0 1.06-1.06L11.06 10l3.72-3.72a.75.75 0 0 0-1.06-1.06L10 8.94 6.28 5.22Z" />
                                         </svg></span>
- 
- 
+
+
                                     {/* <p className="text-md text-center my-2 font-semibold"> Add New Input Field</p> */}
                                     <form>
                                         <div className="flex ">
@@ -228,7 +288,7 @@ const SettingEntityForm = () => {
                                                     value={newInputField.label} onChange={handleInputChange} className="p-2 m-2 text-xs  w-52 bg-gray-50  rounded-md  border-2 border-gray-200 py-1 text-gray-900 appearance-none shadow-sm  placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-xs sm:leading-6" />
                                             </div>
                                         </div>
- 
+
                                         {editIndex == null && <div className="flex">
                                             <label htmlFor="venue" className="block text-sm font-medium leading-6 mt-3 mb-2  mx-2 text-gray-900 ">Type :</label>
                                             <div className="relative inline-block text-left ">
@@ -237,7 +297,7 @@ const SettingEntityForm = () => {
                                                     {inputType && inputType.map((type, index) => (
                                                         <option value={type}  >{type}</option>
                                                     ))}
- 
+
                                                 </select>
                                                 <div className="pointer-events-none absolute inset-y-0 right-2 flex items-center px-2 text-gray-700">
                                                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -245,33 +305,33 @@ const SettingEntityForm = () => {
                                                     </svg>
                                                 </div>
                                             </div>
-                                            <div className="text-center">
-                                                Mandatory
+
+                                        </div>}
+                                        <div className="flex justify-center  gap-3 mt-1">
+                                            <div className=" flex items-end  gap-1">
+
                                                 <input
                                                     type="checkbox"
                                                     id="mandatory"
                                                     name="mandatory"
                                                     checked={newInputField.mandatory} // Make sure to set the checked attribute
                                                     onChange={handleInputChange}
-                                                />
+
+                                                />  <span className="text-xs">Mandatory</span>
                                             </div>
-                                            <div className="text-center">
-                                                Filterable
+                                            <div className="flex items-end  gap-1">
+
                                                 <input
                                                     type="checkbox"
                                                     id="filterable"
                                                     name="filterable"
                                                     checked={newInputField.filterable} // Make sure to set the checked attribute
                                                     onChange={handleInputChange}
-                                                />
- 
- 
- 
+                                                />  <span className="text-xs">Filterable</span>
                                             </div>
-                                        </div>}
- 
+                                        </div>
                                     </form>
- 
+
                                     <div className="px-4 pt-3 sm:flex sm:flex-row-reverse sm:px-6">
                                         <button
                                             type="button"
@@ -289,16 +349,19 @@ const SettingEntityForm = () => {
                                             Cancel
                                         </button> */}
                                     </div>
- 
- 
+
+
                                 </Dialog.Panel>
                             </Transition.Child>
                         </div>
                     </div>
                 </Dialog>
             </Transition.Root>
- 
-            <button onClick={handleSubmitCustomForm}>Save</button>
+
+            <div className="flex justify-end me-10 mt-2">
+                <button type="submit" class="rounded-md bg-orange-600 px-8 py-1.5 text-sm leading-6 text-white shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600 " onClick={handleSubmitCustomForm}>Save</button>
+            </div>
+
         </div>
     )
 }
