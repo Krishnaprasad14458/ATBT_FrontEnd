@@ -127,7 +127,7 @@
 //             <div>
 //               <label htmlFor="name" className=" block text-sm my-2 font-medium leading-6 text-gray-900" >Description</label>
 //               <div className=''>
-//                 <textarea name='Description' onChange={handleChange} value={entityForm.Description} class="resize-none bg-gray-50 rounded-md text-xs p-2 w-full h-20 border-2 border-gray-200 focus:outline-none focus:border-orange-400"></textarea>
+//                 <textarea name='Description' onChange={handleChange} value={entityForm.Description} className="resize-none bg-gray-50 rounded-md text-xs p-2 w-full h-20 border-2 border-gray-200 focus:outline-none focus:border-orange-400"></textarea>
 //               </div>
 //             </div>
 
@@ -141,15 +141,15 @@
 //                   return (
 //                     <span className='flex gap-1 text-xs mt-1 border-2 border-gray-200 rounded-md p-0.5 focus:border-orange-600
 //                     '>
-//                       <img class="w-4 h-4 rounded-lg" src={defprop} alt="Neil image" /> {mail} <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor"
-//                         class="w-4 h-4 " onClick={() => handleRemove(result)}>
+//                       <img className="w-4 h-4 rounded-lg" src={defprop} alt="Neil image" /> {mail} <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor"
+//                         className="w-4 h-4 " onClick={() => handleRemove(result)}>
 //                         <path d="M5.28 4.22a.75.75 0 0 0-1.06 1.06L6.94 8l-2.72 2.72a.75.75 0 1 0 1.06 1.06L8 9.06l2.72 2.72a.75.75 0 1 0 1.06-1.06L9.06 8l2.72-2.72a.75.75 0 0 0-1.06-1.06L8 6.94 5.28 4.22Z" />
 //                       </svg>
 //                     </span>
 //                   )
 //                 })}
 
-              
+
 //                 <input
 //                   type="text"
 //                   tabindex="0" aria-describedby="lui_5891" aria-invalid="false"
@@ -194,7 +194,7 @@
 //                     className="rounded-lg w-10 h-10 mr-4"
 //                   />
 //                 ) : (
-//                   <img class="w-10 h-10 rounded-lg " src={defprop} alt="Neil image" />
+//                   <img className="w-10 h-10 rounded-lg " src={defprop} alt="Neil image" />
 //                   // <img
 //                   //   src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?q=80&w=256&h=256&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
 //                   //   alt="Default User Photo"
@@ -202,7 +202,7 @@
 //                   // />
 //                 )}
 //               </div>
-//               <p class="text-lg font-black text-gray-800 mt-2">{entityForm.Entite_Name}</p>
+//               <p className="text-lg font-black text-gray-800 mt-2">{entityForm.Entite_Name}</p>
 
 //             </div>
 //             <hr className='my-3' />
@@ -295,7 +295,7 @@
 //                         {index < 11 && <>
 //                           {firstLetter.toUpperCase()}{secondLetter && secondLetter.toUpperCase()}</>}{index == 11 && entityForm.entitymembers.length == 12 && <>
 //                             {firstLetter.toUpperCase()}{secondLetter && secondLetter.toUpperCase()}</>} {index == 11 && entityForm.entitymembers.length > 12 && <span>
-//                               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+//                               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-6 h-6">
 //                                 <path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.094 9.094 0 0 0 3.741-.479 3 3 0 0 0-4.682-2.72m.94 3.198.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0 1 12 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 0 1 6 18.719m12 0a5.971 5.971 0 0 0-.941-3.197m0 0A5.995 5.995 0 0 0 12 12.75a5.995 5.995 0 0 0-5.058 2.772m0 0a3 3 0 0 0-4.681 2.72 8.986 8.986 0 0 0 3.74.477m.94-3.197a5.971 5.971 0 0 0-.94 3.197M15 6.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm6 3a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Zm-13.5 0a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Z" />
 //                               </svg>
 //                             </span>}
@@ -524,8 +524,8 @@ function EntityForm() {
                           return (
                             <span className='flex gap-1 text-xs mt-1 border-2 border-gray-200 rounded-md p-0.5 focus:border-orange-600
 '>
-                              <img class="w-4 h-4 rounded-lg" src={defprop} alt="Neil image" /> {mail} <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor"
-                                class="w-4 h-4 " onClick={() => handleRemove(result, index)}>
+                              <img className="w-4 h-4 rounded-lg" src={defprop} alt="Neil image" /> {mail} <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor"
+                                className="w-4 h-4 " onClick={() => handleRemove(result, index)}>
                                 <path d="M5.28 4.22a.75.75 0 0 0-1.06 1.06L6.94 8l-2.72 2.72a.75.75 0 1 0 1.06 1.06L8 9.06l2.72 2.72a.75.75 0 1 0 1.06-1.06L9.06 8l2.72-2.72a.75.75 0 0 0-1.06-1.06L8 6.94 5.28 4.22Z" />
                               </svg>
                             </span>
@@ -796,7 +796,7 @@ function EntityForm() {
 
 
               {item.type === 'text' && item.inputname == "name" && item.field == "predefined" && (
-                <p class="text-sm font-black text-gray-800 mt-2 absolute left-12">{item.value}</p>
+                <p className="text-sm font-black text-gray-800 mt-2 absolute left-12">{item.value}</p>
               )}
               {item.type === 'file' && item.inputname == "image" && item.field == "predefined" && (
                 <div className="flex gap-4">
@@ -810,7 +810,7 @@ function EntityForm() {
                         className="rounded-lg w-10 h-10 mr-4"
                       />
                     ) : (
-                      <img class="w-10 h-10 rounded-lg " src={defprop} alt="Neil image" />
+                      <img className="w-10 h-10 rounded-lg " src={defprop} alt="Neil image" />
                       // <img
                       //   src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?q=80&w=256&h=256&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                       //   alt="Default User Photo"
@@ -819,7 +819,7 @@ function EntityForm() {
                     )}
                   </div>
 
-                  {/* <p class="text-lg font-black text-gray-800 mt-2">{ }</p> */}
+                  {/* <p className="text-lg font-black text-gray-800 mt-2">{ }</p> */}
                   <hr className='my-3' />
 
                 </div>
@@ -888,7 +888,7 @@ function EntityForm() {
                             {index < 11 && <>
                               {firstLetter.toUpperCase()}{secondLetter && secondLetter.toUpperCase()}</>}{index == 11 && item.value.length == 12 && <>
                                 {firstLetter.toUpperCase()}{secondLetter && secondLetter.toUpperCase()}</>} {index == 11 && item.value.length > 12 && <span>
-                                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-6 h-6">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.094 9.094 0 0 0 3.741-.479 3 3 0 0 0-4.682-2.72m.94 3.198.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0 1 12 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 0 1 6 18.719m12 0a5.971 5.971 0 0 0-.941-3.197m0 0A5.995 5.995 0 0 0 12 12.75a5.995 5.995 0 0 0-5.058 2.772m0 0a3 3 0 0 0-4.681 2.72 8.986 8.986 0 0 0 3.74.477m.94-3.197a5.971 5.971 0 0 0-.94 3.197M15 6.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm6 3a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Zm-13.5 0a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Z" />
                                   </svg>
                                 </span>}
@@ -944,7 +944,7 @@ function EntityForm() {
                         className="rounded-lg w-10 h-10 mr-4"
                       />
                     ) : (
-                      <img class="w-10 h-10 rounded-lg " src={defprop} alt="Neil image" />
+                      <img className="w-10 h-10 rounded-lg " src={defprop} alt="Neil image" />
                       // <img
                       //   src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?q=80&w=256&h=256&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                       //   alt="Default User Photo"
@@ -953,7 +953,7 @@ function EntityForm() {
                     )}
                   </div>
 
-                  {/* <p class="text-lg font-black text-gray-800 mt-2">{ }</p> */}
+                  {/* <p className="text-lg font-black text-gray-800 mt-2">{ }</p> */}
                   <hr className='my-3' />
 
                 </div>
