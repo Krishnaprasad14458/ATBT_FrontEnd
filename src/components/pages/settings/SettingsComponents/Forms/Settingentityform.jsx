@@ -27,7 +27,13 @@ const SettingEntityForm = () => {
     }, [])
     const handleInputChange = (e) => {
         const { name, value, type, checked } = e.target;
-        // this is for label for new input
+        // this is for label for new input 
+        if (name == "type" && value === "select" || value === "multiselect") {
+            let newfield = { ...newInputField }
+            newfield.options = [""]
+            newfield.value = []
+            setNewInputField(newfield)
+        }
         if (name == "label" && editIndex == null) {
             setNewInputField((prev) => ({ ...prev, label: value, inputname: value, field: "custom" }))
         }
@@ -39,6 +45,22 @@ const SettingEntityForm = () => {
         }
     }
 
+    let [selectOption, setSelectOption] = useState("")
+    const addOption = (e) => {
+        e.preventDefault()
+        if (selectOption != "" && newInputField.options) {
+            setNewInputField((prev) => ({ ...prev, options: [...prev.options, selectOption] }))
+
+        } else if (selectOption != "") {
+            setNewInputField((prev) => ({ ...prev, options: [selectOption] }))
+
+        }
+        setSelectOption("")
+    }
+    useEffect(() => {
+        console.log("newInputField", newInputField)
+    })
+
     const addOrUpdateInput = (e) => {
         e.preventDefault();
         if (editIndex !== null) {
@@ -49,7 +71,26 @@ const SettingEntityForm = () => {
             setEditIndex(null);
         } else {
             // Add new field
-            setCustomForm((prev) => [...prev, newInputField]);
+            if (newInputField.type === "text" ||
+                newInputField.type === "email" ||
+                newInputField.type === "password" ||
+                newInputField.type === "number" ||
+                newInputField.type === "textarea" ||
+                newInputField.type === "file" ||
+                newInputField.type === "date" ||
+                newInputField.type === "checkbox" ||
+                newInputField.type === "range" || newInputField.type === "time") {
+                let newField = { ...newInputField }
+                delete newField.options
+                setCustomForm((prev) => [...prev, newField]);
+
+            }
+
+
+            else {
+                setCustomForm((prev) => [...prev, newInputField]);
+            }
+
         }
 
         setNewInputField({ label: '', type: '', inputname: "", value: "" });
@@ -70,7 +111,9 @@ const SettingEntityForm = () => {
         setCustomForm(updatedForm);
     };
 
-    const [inputType, setInputType] = useState(["text", "email", "password", "number", "textarea", "file", "date", "select", "multiselect", "checkbox", "radio", "range",])
+
+    const [inputType, setInputType] = useState(["", "text", "email", "password", "number", "textarea", "file", "date", "select", "multiselect", "checkbox", "range", "time"])
+
     const handleSubmitCustomForm = () => {
         let formData = {
             arrayOfObjects: customForm, Name: "entityform"
@@ -103,9 +146,11 @@ const SettingEntityForm = () => {
             </div>
             {customForm && customForm.length > 0 && customForm.map((input, index) => (
 
+
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-5 px-5 mt-2">
                     <div className="mb-3 ">
                         <label htmlFor="name" className="block text-sm font-semibold leading-6 text-gray-950">Label</label>
+
                         <div className="">
                             <span id="name" name="boardMeetingName" type="text" autoComplete="name" required className="p-2 text-xs block w-full bg-gray-50 rounded-md border-2 border-gray-200 py-1 text-[#6b7280] appearance-none shadow-sm font-light placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-xs sm:leading-6">
                                 {input.label.charAt(0).toUpperCase() + input.label.slice(1)}
@@ -120,6 +165,7 @@ const SettingEntityForm = () => {
                             </span>
                         </div>
                     </div>
+
                     <div className=" flex items-center gap-5">
                         <svg onClick={() => handleMoveDimension(index, 'up')} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
                             <path fill-rule="evenodd" d="M10 17a.75.75 0 0 1-.75-.75V5.612L5.29 9.77a.75.75 0 0 1-1.08-1.04l5.25-5.5a.75.75 0 0 1 1.08 0l5.25 5.5a.75.75 0 1 1-1.08 1.04l-3.96-4.158V16.25A.75.75 0 0 1 10 17Z" clip-rule="evenodd" />
@@ -169,13 +215,14 @@ const SettingEntityForm = () => {
                     </div>
                     {/* <div className="grid1-item flex gap-10 items-end ">
                         <div className="grid grid-cols-4 sm:grid:cols-4 md:grid:cols-4 lg:grid:cols-4 xl:grid:cols-4 gap-5">
+
                             <div className="grid1-item">
-                                <svg onClick={() => handleMoveDimension(index, 'up')} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+                                <svg onClick={() => handleMoveDimension(index, 'up')} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5">
                                     <path fill-rule="evenodd" d="M10 17a.75.75 0 0 1-.75-.75V5.612L5.29 9.77a.75.75 0 0 1-1.08-1.04l5.25-5.5a.75.75 0 0 1 1.08 0l5.25 5.5a.75.75 0 1 1-1.08 1.04l-3.96-4.158V16.25A.75.75 0 0 1 10 17Z" clip-rule="evenodd" />
                                 </svg>
                             </div>
                             <div className="grid1-item">
-                                <svg onClick={() => handleMoveDimension(index, 'down')} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+                                <svg onClick={() => handleMoveDimension(index, 'down')} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5">
                                     <path fill-rule="evenodd" d="M10 3a.75.75 0 0 1 .75.75v10.638l3.96-4.158a.75.75 0 1 1 1.08 1.04l-5.25 5.5a.75.75 0 0 1-1.08 0l-5.25-5.5a.75.75 0 1 1 1.08-1.04l3.96 4.158V3.75A.75.75 0 0 1 10 3Z" clip-rule="evenodd" />
                                 </svg>
                             </div>
@@ -185,7 +232,7 @@ const SettingEntityForm = () => {
                                     setEditIndex(index);
                                     setOpen(true);
                                 }}
-                                    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+                                    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5">
                                     <path d="m2.695 14.762-1.262 3.155a.5.5 0 0 0 .65.65l3.155-1.262a4 4 0 0 0 1.343-.886L17.5 5.501a2.121 2.121 0 0 0-3-3L3.58 13.419a4 4 0 0 0-.885 1.343Z" />
                                 </svg>
                             </div>
@@ -274,7 +321,8 @@ const SettingEntityForm = () => {
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" onClick={() => {
                                             setOpen(false)
 
-                                        }} fill="currentColor" class="w-5 h-5 me-2">
+                                        }} fill="currentColor" className="w-5 h-5 me-2">
+
                                             <path d="M6.28 5.22a.75.75 0 0 0-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 1 0 1.06 1.06L10 11.06l3.72 3.72a.75.75 0 1 0 1.06-1.06L11.06 10l3.72-3.72a.75.75 0 0 0-1.06-1.06L10 8.94 6.28 5.22Z" />
                                         </svg></span>
 
@@ -306,9 +354,37 @@ const SettingEntityForm = () => {
                                                 </div>
                                             </div>
 
-                                        </div>}
-                                        <div className="flex justify-center  gap-3 mt-1">
-                                            <div className=" flex items-end  gap-1">
+                                            {/* {newInputField.type === "select" || newInputField.type === "multiselect" && <div>
+                                                <input id="" name="" type="text" required
+                                                    value={selectOption} onChange={(e) => setSelectOption(e.target.value)} className="p-2 m-2 text-xs  w-52 bg-gray-50  rounded-md  border-2 border-gray-200 py-1 text-gray-900 appearance-none shadow-sm  placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-xs sm:leading-6" />
+                                                <button onClick={addOption}>add</button>
+                                                {newInputField.options && newInputField.options.length > 0 && newInputField.options.map((option, index) => (
+                                                    <div>{option}</div>
+                                                ))}
+                                            </div>
+                                            } */}
+                                            {
+                                                (newInputField.type === "select" || newInputField.type === "multiselect") && (
+                                                    <div>
+                                                        <input
+                                                            id=""
+                                                            name=""
+                                                            type="text"
+                                                            required
+                                                            value={selectOption}
+                                                            onChange={(e) => setSelectOption(e.target.value)}
+                                                            className="p-2 m-2 text-xs w-52 bg-gray-50 rounded-md border-2 border-gray-200 py-1 text-gray-900 appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-xs sm:leading-6"
+                                                        />
+                                                        <button onClick={addOption}>add</button>
+                                                        {newInputField.options && newInputField.options.length > 0 && newInputField.options.map((option, index) => (
+                                                            <div key={index}>{option}</div>
+                                                        ))}
+                                                    </div>
+                                                )
+                                            }
+
+                                            <div className="text-center">
+                                                Mandatory
 
                                                 <input
                                                     type="checkbox"
@@ -327,9 +403,15 @@ const SettingEntityForm = () => {
                                                     name="filterable"
                                                     checked={newInputField.filterable} // Make sure to set the checked attribute
                                                     onChange={handleInputChange}
-                                                />  <span className="text-xs">Filterable</span>
+
+                                                />
+
+
+
                                             </div>
-                                        </div>
+                                        </div>}
+
+
                                     </form>
 
                                     <div className="px-4 pt-3 sm:flex sm:flex-row-reverse sm:px-6">
@@ -358,9 +440,11 @@ const SettingEntityForm = () => {
                 </Dialog>
             </Transition.Root>
 
+
             <div className="flex justify-end me-10 mt-2">
                 <button type="submit" class="rounded-md bg-orange-600 px-8 py-1.5 text-sm leading-6 text-white shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600 " onClick={handleSubmitCustomForm}>Save</button>
             </div>
+
 
         </div>
     )
