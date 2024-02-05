@@ -87,7 +87,7 @@ const Roles = () => {
             </div>
             {/* pagination */}
             <div className="flex justify-end absolute inset-x-0 bottom-2 mt-2 me-3">
-                <section className="isolate inline-flex -space-x-px rounded-md shadow-sm" aria-label="Pagination">
+                <section className="isolate inline-flex -px rounded-md shadow-sm" aria-label="Pagination">
                     <button
 
 

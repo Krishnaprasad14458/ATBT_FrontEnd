@@ -1,21 +1,34 @@
 
-import React, { useState, Fragment, useRef, useEffect } from 'react';
+import React, { useState, Fragment, useRef, useEffect, useContext, useCallback, useMemo } from 'react';
 import '../LandingPageCommon.css';
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import moment from 'moment';
 import { Dialog, Transition, Menu } from '@headlessui/react'
 import defprop from '../../../Images/defprof.svg';
-import { Link, Outlet } from 'react-router-dom'
+import { Link, Outlet, useParams } from 'react-router-dom'
 
 import { ChevronDownIcon } from '@heroicons/react/20/solid';
 import useInitializePerPage from '../../../hooks/initializePerPage/useInitializePerPage';
 import useDebounce from '../../../hooks/debounce/useDebounce';
+import { UserDataContext } from '../../../contexts/usersDataContext/usersDataContext';
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
 const UserLandingPage = () => {
+  const { id } = useParams();
+  const { usersState: {users} } = useContext(UserDataContext);
+
+  console.log(users.users, "abc")
+
+  const findUserById = useCallback((users, userId) => {
+    return users?.users?.find(user => user.id === parseInt(userId, 10));
+  }, []);
+
+  const user = useMemo(() => findUserById(users, id), [findUserById, users, id]);
+
+  console.log(user, "current user")
   const [activeTab, setActiveTab] = useState(1);
 
   const handleTabClick = (tabNumber) => {
@@ -120,8 +133,8 @@ const UserLandingPage = () => {
               <img src='https://images.unsplash.com/photo-1633332755192-727a05c4013d' width="100px" height="100px" className='rounded-full border-2 border-gray-600' alt='user' />
               <div>
                 <ul className='mt-5 ms-4'>
-                  <li className='text-xl'>Irfan</li>
-                  <li className='text-md'>irfan@gmail.com</li>
+                  <li className='text-xl'>{user.userName}</li>
+                  <li className='text-md'>{user.email}</li>
                 </ul>
               </div>
             </div>

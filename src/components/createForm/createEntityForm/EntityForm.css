@@ -21,3 +21,12 @@
     margin: 0;
  
 }
+.draggable-element {
+    position: absolute;
+    cursor: grab;
+    user-select: none;
+  }
+  
+  .draggable-element:active {
+    cursor: grabbing;
+  }

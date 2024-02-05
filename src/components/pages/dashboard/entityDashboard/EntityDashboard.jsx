@@ -50,7 +50,7 @@ function EntityDashboard() {
                 <p>No user found</p>
               </li>) : dashboardEntities?.paginatedEntities?.map(entity => (
                 <li class="py-2 sm:py-2" key={entity.id}>
-                  <Link>
+                  <Link to={`/entitylandingpage/${entity.id}`}>
                     <EntityList entity={entity} />
                   </Link>
                 </li>
@@ -88,7 +88,7 @@ function EntityDashboard() {
                 onClick={() => debouncedSetPage({ context: 'DASHBOARD', data: dashboardEntities.currentPage - 1 })}
                 href="#"
                 // className="relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
-                className={`relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${dashboardEntities.loading?'cursor-wait':dashboardEntities.currentPage === 1? 'cursor-not-allowed':'cursor-auto'}`}
+                className={`relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${dashboardEntities.loading?'cursor-wait':dashboardEntities.currentPage === 1? 'cursor-not-allowed':'cursor-auto'}`}
               >
                 <span className="sr-only">Previous</span>
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5" aria-hidden="true">

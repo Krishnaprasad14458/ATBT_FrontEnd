@@ -50,7 +50,8 @@ const Whatsapp = () => {
             </td>
           </tr> </tbody>
       </table>
-
+      {/*  */}
+      
     </div>
   )
 }
