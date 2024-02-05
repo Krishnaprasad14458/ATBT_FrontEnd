@@ -7,6 +7,7 @@ import { UserDataContext } from '../../../../../contexts/usersDataContext/usersD
 const OrganizationProfile = () => {
 
     const { usersState: { users }, deleteUser } = useContext(UserDataContext);
+    console.log(users,"users")
 
     const [activeTab, setActiveTab] = useState(1);
 
