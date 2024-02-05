@@ -30,7 +30,7 @@ const SettingEntityForm = () => {
         // this is for label for new input 
         if (name == "type" && value === "select" || value === "multiselect") {
             let newfield = { ...newInputField }
-            newfield.options = [""]
+            newfield.options = []
             newfield.value = []
             setNewInputField(newfield)
         }
