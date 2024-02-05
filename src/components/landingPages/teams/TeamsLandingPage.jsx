@@ -3,7 +3,7 @@ import React from 'react';
 const TeamsLandingPage = () => {
   return (
     <div>
-      TeamsLandingPage
+      Teams Landing Page
     </div>
   );
 }

@@ -76,10 +76,10 @@ function UserForm() {
                 <label htmlFor="venue" className="block text-sm my-2  font-medium text-gray-700">Department</label>
                 <div className="relative inline-block text-left w-full">
                   <select className="p-2 text-xs block w-full bg-gray-50  rounded-md  border-2 border-gray-200 py-1.5 text-gray-900 appearance-none shadow-sm  placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-xs sm:leading-6">
-                    <option value="selected" className="hover:bg-orange-600">Select Department</option>
-                    <option value="srdeveloper">Developement</option>
-                    <option value="jrdeveoper">Marketing</option>
-                    <option value="intern">QA</option>
+                    <option value="selected" className="hover:bg-orange-600 text-xs">Select Department</option>
+                    <option value="srdeveloper" className='text-xs'>Developement</option>
+                    <option value="jrdeveoper" className='text-xs'>Marketing</option>
+                    <option value="intern" className='text-xs'>QA</option>
                   </select>
                   <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -92,10 +92,10 @@ function UserForm() {
                 <label htmlFor="venue" className="block text-sm my-2  font-medium text-gray-700">Designation</label>
                 <div className="relative inline-block text-left w-full">
                   <select className="p-2 text-xs block w-full bg-gray-50  rounded-md  border-2 border-gray-200 py-1.5 text-gray-900 appearance-none shadow-sm  placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-xs sm:leading-6">
-                    <option value="selected" className="hover:bg-orange-600">Select Designation</option>
-                    <option value="developer"> Sr. Developer</option>
-                    <option value="jrdeveoper">Jr. Developer</option>
-                    <option value="intern">Intern</option>
+                    <option value="selected" className="hover:bg-orange-600 text-xs">Select Designation</option>
+                    <option value="developer" className='text-xs'> Sr. Developer</option>
+                    <option value="jrdeveoper" className='text-xs'>Jr. Developer</option>
+                    <option value="intern" className='text-xs'>Intern</option>
                   </select>
                   <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -163,7 +163,7 @@ function UserForm() {
                 </div>
               </div> */}
               <div className=''>
-                <button onClick={handleSubmit} type="submit" className="mt-4 flex w-full justify-center rounded-md bg-orange-600 px-3 py-1.5 text-sm leading-6 text-white shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600">
+                <button onClick={handleSubmit} type="submit" className="mt-4 flex w-full justify-center rounded-md bg-orange-600 px-3 py-1.5 text-sm leading-6 text-white shadow-sm  focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600">
                   Create User
                 </button>
               </div>
@@ -175,15 +175,15 @@ function UserForm() {
               <div className='flex justify-center items-center  w-4/6 h-[200px] border border-1 border-gray-200 rounded-md p-2 shadow-md bg-[#f8fafc]'>
                 <div className='grid grid-cols-3 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3  gap-8'>
                   <div className='col-span-1'>
-                    <img class=" rounded-lg " src={defprop} alt="Neil image" />
+                    <img className=" rounded-lg " src={defprop} alt="Neil image" />
                   </div>
                   <div className='col-span-2'>
-                    <p class="text-lg font-black text-gray-800 ">{userDetails.userName}</p>
-                    <p class="text-md text-gray-700 mt-2"> {userDetails.email}</p>
-                    <p class="text-md text-gray-700 mt-1"> {userDetails.phone}</p>
-                    <p class="text-md text-gray-700 mt-1"> Infoz IT</p>
-                    <p class="text-md text-gray-700 mt-1"> Developer</p>
-                    <p class="text-md text-gray-700 mt-1"> Jr.Software Developer</p>
+                    <p className="text-lg font-black text-gray-800 ">{userDetails.userName}</p>
+                    <p className="text-md text-gray-700 mt-2"> {userDetails.email}</p>
+                    <p className="text-md text-gray-700 mt-1"> {userDetails.phone}</p>
+                    <p className="text-md text-gray-700 mt-1"> Infoz IT</p>
+                    <p className="text-md text-gray-700 mt-1"> Developer</p>
+                    <p className="text-md text-gray-700 mt-1"> Jr.Software Developer</p>
 
 
 

@@ -2,6 +2,11 @@ import axios from 'axios';
 import { apiUrl } from "../../../utils/constants";
 import { toast } from 'react-toastify';
 
+export const getAllEntities = async () => {
+    const url = `${apiUrl}/entite/list`;
+    return axios.get(url);
+};
+
 export const getEntities = async (page, pageSize, sortBy, search) => {
     const url = `${apiUrl}/entite/list?page=${page ?? null}&pageSize=${pageSize ?? null}&sortBy=${sortBy ?? null}&search=${search ?? null}`;
     return axios.get(url);

@@ -1,10 +1,16 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import $ from 'jquery';
+import Swal from 'sweetalert2';
+import { Fragment } from 'react';
+import { Menu, Transition } from '@headlessui/react';
+import { ChevronDownIcon } from '@heroicons/react/20/solid';
 import { UserDataContext } from '../../../../../contexts/usersDataContext/usersDataContext';
 
 const OrganizationProfile = () => {
+
     const { usersState: { users }, deleteUser } = useContext(UserDataContext);
+    console.log(users, "users")
 
     const [activeTab, setActiveTab] = useState(1);
 
@@ -13,22 +19,25 @@ const OrganizationProfile = () => {
     };
     // choose photo adding
     const [imageSrc, setImageSrc] = useState(null);
+    const [displayImage, setDisplayImage] = useState()
     const [selectedFileName, setSelectedFileName] = useState('');
 
     const handleFileChange = (event) => {
         const file = event.target.files[0];
-
+        setDisplayImage(file)
         if (file) {
             const reader = new FileReader();
             reader.onloadend = () => {
-                setImageSrc(reader.result);
+                setImageSrc(file);
                 setSelectedFileName(file.name);
 
             };
             reader.readAsDataURL(file);
         }
     };
-
+    useEffect(() => {
+        console.log("imageSrc", imageSrc)
+    })
     const handleChooseFileClick = () => {
         document.getElementById('fileInput').click();
     };
@@ -38,12 +47,38 @@ const OrganizationProfile = () => {
     $('input[type=number]').on('mousewheel', function (e) {
         $(e.target).blur();
     });
-    // 
+
+    const handleDeleteUser = async (id) => {
+        const confirmDelete = await Swal.fire({
+            title: 'Are you sure?',
+            text: 'Once deleted, you will not be able to recover this user!',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#ea580c',
+            cancelButtonColor: '#fff',
+            confirmButtonText: 'Delete',
+            customClass: {
+                popup: 'custom-swal2-popup',
+                title: 'custom-swal2-title',
+                content: 'custom-swal2-content',
+            },
+        });
+
+        if (confirmDelete.isConfirmed) {
+            try {
+                const result = await deleteUser(id);
+            } catch (error) {
+                Swal.fire('Error', 'Unable to delete user 🤯', 'error');
+            }
+        }
+    };
+
 
     return (
         <div className='container p-4 bg-[#f8fafc]'>
-            <h1 className='mx-3 font-semibold text-lg grid1-item'>Organization Profile</h1>
-            <div className="flex justify-start mt-3">
+            {/* <h1 className='mx-3 font-semibold text-lg grid1-item'>Organization Profile</h1> */}
+
+            <div className="flex justify-start mt-1">
                 <div
                     className={`cursor-pointer px-5 py-2 font-semibold ${activeTab === 1 ? 'border-b-2 border-orange-600  text-black' : ''
                         }`}
@@ -97,17 +132,23 @@ const OrganizationProfile = () => {
                     </div></div></div>}
 
             {activeTab === 2 && <div className="mt-4">
-                <div class="flex items-center justify-center w-full">
-                    <label for="dropzone-file" class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
-                        <div class="flex flex-col items-center justify-center pt-5 pb-6">
-                            <svg class="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
-                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2" />
-                            </svg>
-                            <p class="mb-2 text-sm text-gray-500 dark:text-gray-400"><span class="font-semibold">Click to upload</span> or drag and drop</p>
-                            <p class="text-xs text-gray-500 dark:text-gray-400">SVG, PNG, JPG or GIF (MAX. 800x400px)</p>
-                        </div>
-                        <input id="dropzone-file" type="file" class="hidden" onChange={handleFileChange} />
-                    </label>
+
+                <div className='flex justify-center mt-5'>
+                    {displayImage && (
+                        <img
+                            src={URL.createObjectURL(displayImage)}
+                            alt="Selected"
+                            style={{ maxWidth: '100%', maxHeight: '300px', marginTop: '10px' }}
+                        />
+                    )}
+                    {/* <img src={logo} alt='Organization Logo' className='w-75' /> */}
+                </div><br /><br />
+                <div className='flex justify-center'>
+                    <div className="mb-3 ">
+                        <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="file_input">Upload file</label>
+                        <input className="block text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" aria-describedby="file_input_help" id="file_input" type="file" onChange={handleFileChange} />
+                        <p className="mt-1 text-sm text-gray-500 dark:text-gray-300" id="file_input_help">SVG, PNG, JPG or GIF (MAX. 800x400px).</p>
+                    </div>
                 </div>
             </div>}
             {activeTab === 3 && <div className="mt-4">
@@ -133,9 +174,85 @@ const OrganizationProfile = () => {
 
                     </div></div>
             </div>}
-            {activeTab === 4 && <div className="mt-4">
+            {activeTab === 4 && <div className="">
                 <div className="min-w-full inline-block align-middle">
                     <div className="overflow-hidden ">
+                        <div className='grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-3 xl:grid-col-3 gap-2 mt-2'>
+                            <h1 className='font-semibold text-lg grid1-item'></h1>
+                            <div className='grid1-item mx-3 text-start'>
+                                <label for="default-search" className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
+                                <div className="relative mb-2">
+                                    <div className="absolute inset-y-0 start-0 flex items-center p-2 pointer-events-none">
+                                        <svg className="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
+                                        </svg>
+                                    </div>
+                                    <input type="search" id="default-search" className="block w-full px-4 py-2 ps-10 text-sm border-2 border-gray-200  rounded-2xl bg-gray-50  focus:outline-none " placeholder="Search here..." required />
+                                </div>
+                            </div>
+                            <div className='grid1-item text-end filter_pagination  mb-2'>
+                                <select defaultValue="10" className="focus:outline-none me-3 gap-x-1.5 rounded-md bg-gray-50 px-1 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-200 hover:bg-gray-50">
+                                    <option value="10">10</option>
+                                    <option value="25">25</option>
+                                    <option value="50">50</option>
+                                    <option value="100">100</option>
+                                    <option value="250">250</option>
+                                    <option value="500">500</option>
+                                </select>
+                                <Menu as="div" className="relative inline-block me-2 ">
+                                    <div className=''>
+                                        <Menu.Button className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-gray-50 px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-200 hover:bg-gray-50">
+                                            Filters
+                                            <ChevronDownIcon className="-mr-1 h-5 w-5 text-gray-400" aria-hidden="true" />
+                                        </Menu.Button>
+                                    </div>
+
+                                    <Transition
+                                        as={Fragment}
+                                        enter="transition ease-out duration-100"
+                                        enterFrom="transform opacity-0 scale-95"
+                                        enterTo="transform opacity-100 scale-100"
+                                        leave="transition ease-in duration-75"
+                                        leaveFrom="transform opacity-100 scale-100"
+                                        leaveTo="transform opacity-0 scale-95"
+                                    >
+                                        <Menu.Items className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                                            <div className="py-1">
+                                                <Menu.Item>
+                                                    {({ active }) => (
+                                                        <Link
+                                                            to="#"
+                                                        >
+                                                            Account settings
+                                                        </Link>
+                                                    )}
+                                                </Menu.Item>
+                                                <Menu.Item>
+                                                    {({ active }) => (
+                                                        <Link
+                                                            to="#"
+                                                        >
+                                                            Support
+                                                        </Link>
+                                                    )}
+                                                </Menu.Item>
+                                                <Menu.Item>
+                                                    {({ active }) => (
+                                                        <Link
+                                                            to="#"
+                                                        >
+                                                            License
+                                                        </Link>
+                                                    )}
+                                                </Menu.Item>
+
+                                            </div>
+                                        </Menu.Items>
+                                    </Transition>
+                                </Menu>
+
+                            </div>
+                        </div>
                         <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700 border-collapse border border-[#e5e7eb] rounded-md ">
                             <thead>
                                 <tr>
@@ -149,6 +266,7 @@ const OrganizationProfile = () => {
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
+
                                 {users?.users?.map(user => (
                                     <tr className="hover:bg-gray-100 dark:hover:bg-gray-700">
                                         <td className="px-6 py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]">{user.userName}</td>
@@ -170,7 +288,7 @@ const OrganizationProfile = () => {
                                                 </svg>
 
                                             </button>
-                                            <button type="button" onClick={() => deleteUser(user.id)} className="inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent text-[#64748b] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
+                                            <button type="button" onClick={() => handleDeleteUser(user.id)} className="inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent text-[#64748b] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
                                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5">
                                                     <path fill-rule="evenodd" d="M8.75 1A2.75 2.75 0 0 0 6 3.75v.443c-.795.077-1.584.176-2.365.298a.75.75 0 1 0 .23 1.482l.149-.022.841 10.518A2.75 2.75 0 0 0 7.596 19h4.807a2.75 2.75 0 0 0 2.742-2.53l.841-10.52.149.023a.75.75 0 0 0 .23-1.482A41.03 41.03 0 0 0 14 4.193V3.75A2.75 2.75 0 0 0 11.25 1h-2.5ZM10 4c.84 0 1.673.025 2.5.075V3.75c0-.69-.56-1.25-1.25-1.25h-2.5c-.69 0-1.25.56-1.25 1.25v.325C8.327 4.025 9.16 4 10 4ZM8.58 7.72a.75.75 0 0 0-1.5.06l.3 7.5a.75.75 0 1 0 1.5-.06l-.3-7.5Zm4.34.06a.75.75 0 1 0-1.5-.06l-.3 7.5a.75.75 0 1 0 1.5.06l.3-7.5Z" clip-rule="evenodd" />
                                                 </svg>
@@ -189,6 +307,40 @@ const OrganizationProfile = () => {
                         </table>
                     </div>
                 </div>
+                {/* pagination */}
+                {/* <div className="flex justify-end absolute inset-x-0 bottom-2 mt-2 me-3">
+                    <div className='mt-1'>
+                        {!entitiesList?.paginatedEntities || entitiesList?.paginatedEntities?.length === 0 ? "no data to show" : entitiesList.loading ? "Loading..." : <p className="text-sm text-gray-700">
+                            Showing {entitiesList.startEntity} to {entitiesList.endEntity} of <span className="font-medium">{entitiesList.totalEntities}</span>
+                            <span className="font-medium"> </span> results
+                        </p>}
+                    </div>
+                    <section className="isolate inline-flex -space-x-px rounded-md shadow-sm ms-4" aria-label="Pagination">
+                        <button
+                            disabled={entitiesList.currentPage === 1}
+                            onClick={() => debouncedSetPage({ conext: 'ENTITES', data: entitiesList.currentPage - 1 })}
+                            href="#"
+                            className={`relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${entitiesList.loading ? 'cursor-wait' : entitiesList.currentPage === 1 ? 'cursor-not-allowed' : 'cursor-auto'}`}
+                        >
+                            <span className="sr-only">Previous</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5" aria-hidden="true">
+                                <path fill-rule="evenodd" d="M11.78 5.22a.75.75 0 0 1 0 1.06L8.06 10l3.72 3.72a.75.75 0 1 1-1.06 1.06l-4.25-4.25a.75.75 0 0 1 0-1.06l4.25-4.25a.75.75 0 0 1 1.06 0Z" clip-rule="evenodd" />
+                            </svg>
+
+                        </button>
+                        <button className="border w-8 border-gray-300">{entitiesList.currentPage}</button>
+                        <button
+                            disabled={entitiesList.currentPage === entitiesList.totalPages}
+                            onClick={() => debouncedSetPage({ conext: 'ENTITES', data: entitiesList.currentPage + 1 })}
+                            className={`relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${entitiesList.loading ? 'cursor-wait' : entitiesList.currentPage === entitiesList.totalPages ? 'cursor-not-allowed' : 'cursor-auto'}`}
+                        >
+                            <span className="sr-only">Next</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5" aria-hidden="true">
+                                <path fill-rule="evenodd" d="M8.22 5.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 0 1-1.06-1.06L11.94 10 8.22 6.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
+                            </svg>
+                        </button>
+                    </section>
+                </div> */}
             </div>}
             {activeTab === 5 && <div className="mt-4">
                 <div className="min-w-full inline-block align-middle">
@@ -209,7 +361,7 @@ const OrganizationProfile = () => {
                                 <tr className="hover:bg-gray-100 dark:hover:bg-gray-700">
                                     <td className="px-6 py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]">22-1-2023 (9:00AM)</td>
                                     <td className="px-6 py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]">irndf32432</td>
-                                    <td className="px-6 py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]">Crome</td>
+                                    <td className="px-6 py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]">Chrome</td>
                                     <td className="px-6 py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]">Bhavitha</td>
                                     <td className="px-6 py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]"> Inofz IT</td>
 
