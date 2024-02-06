@@ -6,9 +6,9 @@ import useDebounce from '../../../hooks/debounce/useDebounce';
 import { UserDataContext } from '../../../contexts/usersDataContext/usersDataContext';
 import { EntitiesDataContext } from '../../../contexts/entitiesDataContext/entitiesDataContext';
 function UserForm() {
-  const { usersState: { users, pagination }, usersDispatch } = useContext(UserDataContext);
+  const { usersState: { users, dashboard }, usersDispatch } = useContext(UserDataContext);
   const { createEntity } = useContext(EntitiesDataContext);
-  const usersEmails = pagination.paginatedUsers?.map(user => user.email);
+  const usersEmails = dashboard.paginatedUsers?.map(user => user.email);
   const { debouncedSetPage, debouncedSetSearch } = useDebounce(usersDispatch);
   const [errors, setErrors] = useState({})
   let [openOptions, setopenOptions] = useState("")
@@ -550,12 +550,12 @@ function UserForm() {
               )}
               {item.type === 'email' && item.inputname == "email" && item.field == "predefined" && (
                 <div>
-                 {item.value}
+                  {item.value}
                 </div>
               )}
               {item.type === 'number' && item.inputname == "phonenumber" && item.field == "predefined" && (
                 <div>
-                 {item.value}
+                  {item.value}
                 </div>
               )}
               {item.type === 'select' && item.inputname == "entityname" && item.field == "predefined" && (
@@ -565,12 +565,12 @@ function UserForm() {
               )}
               {item.type === 'select' && item.inputname == "designation" && item.field == "predefined" && (
                 <div>
-                 {item.value}
+                  {item.value}
                 </div>
               )}
               {item.type === 'select' && item.inputname == "role" && item.field == "predefined" && (
                 <div>
-                 {item.value}
+                  {item.value}
                 </div>
               )}
 
