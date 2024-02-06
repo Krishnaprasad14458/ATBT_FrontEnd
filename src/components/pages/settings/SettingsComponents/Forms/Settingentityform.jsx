@@ -139,16 +139,14 @@ const SettingEntityForm = () => {
                 <p className="text-xl font-semibold">Entity Form</p>
                 <div className='flex justify-end'>
                     <button type="submit" onClick={(e) => { setOpen(true) }}
-                        className="flex w-28 justify-center rounded-full bg-orange-600 py-2.5 text-sm font-medium leading-6
-                 text-white shadow-sm  focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2
-                  focus-visible:outline-orange-600">+ Add Field</button>
+                        className="create-btn px-3 py-2 inline-flex items-center justify-center whitespace-nowrap rounded-full text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white gap-1">+ Add Field</button>
                 </div>
             </div>
             {customForm && customForm.length > 0 && customForm.map((input, index) => (
 
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-5 px-5 mt-2">
-                    <div className="mb-3 ">
+                    <div className="mb-2 ">
                         <label htmlFor="name" className="block text-sm font-semibold leading-6 text-gray-950">Label</label>
 
                         <div className="">
@@ -157,7 +155,7 @@ const SettingEntityForm = () => {
                             </span>
                         </div>
                     </div>
-                    <div className="mb-3">
+                    <div className="mb-2">
                         <label htmlFor="name" className="block text-sm font-semibold leading-6 text-gray-900">Type</label>
                         <div className="">
                             <span id="name" name="boardMeetingName" type="text" autoComplete="name" required className="p-2 text-xs block w-full bg-gray-50 rounded-md border-2 border-gray-200 py-1 text-[#6b7280] appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-xs sm:leading-6">
@@ -190,7 +188,7 @@ const SettingEntityForm = () => {
                         </svg>
                     </div>
                     <div className="flex gap-5">
-                        <div className="mb-5 flex items-end">
+                        <div className="mb-6 flex items-end gap-1">
                             <input
                                 // className="mb-1"
                                 type="checkbox"
@@ -201,7 +199,7 @@ const SettingEntityForm = () => {
                             />
                             <span className="text-xs">Mandatory</span>
                         </div>
-                        <div className="mb-5 flex items-end">
+                        <div className="mb-6 flex items-end  gap-1">
                             <input
 
                                 type="checkbox"
@@ -328,29 +326,44 @@ const SettingEntityForm = () => {
 
 
                                     {/* <p className="text-md text-center my-2 font-semibold"> Add New Input Field</p> */}
+
                                     <form>
-                                        <div className="flex ">
-                                            <label htmlFor="name" className="block text-sm font-medium leading-6 mt-3 mb-2  mx-2 text-gray-900">Label : </label>
+                                        <div className="flex">
+                                            <label htmlFor="name" className="block text-sm font-medium leading-6 mt-3 mb-2 mx-2 text-gray-900">
+                                                Label
+                                            </label>
                                             <div className="">
-                                                <input id="name" name="label" type="text" autoComplete="name" required
-                                                    value={newInputField.label} onChange={handleInputChange} className="p-2 m-2 text-xs  w-52 bg-gray-50  rounded-md  border-2 border-gray-200 py-1 text-gray-900 appearance-none shadow-sm  placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-xs sm:leading-6" />
+                                                <span className="mt-3 ms-3">:</span>
+                                                <input
+                                                    id="name"
+                                                    name="label"
+                                                    type="text"
+                                                    autoComplete="name"
+                                                    required
+                                                    value={newInputField.label}
+                                                    onChange={handleInputChange}
+                                                    className="p-2 m-2 text-xs w-72 bg-gray-50 rounded-md border-2 border-gray-200 py-1 text-gray-900 appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-xs sm:leading-6"
+                                                />
                                             </div>
                                         </div>
 
-                                        {editIndex == null && <div className="flex">
-                                            <label htmlFor="venue" className="block text-sm font-medium leading-6 mt-3 mb-2  mx-2 text-gray-900 ">Type :</label>
-                                            <div className="relative inline-block text-left ">
-                                                <select name="type" className="p-2 m-2 text-xs  w-52 bg-gray-50  rounded-md  border-2 border-gray-200 py-1 text-gray-900 appearance-none shadow-sm  placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-xs sm:leading-6"
-                                                    value={newInputField.type} onChange={handleInputChange}>
-                                                    {inputType && inputType.map((type, index) => (
-                                                        <option value={type}  >{type}</option>
-                                                    ))}
+                                        {editIndex == null && <div >
+                                            <div className="flex  gap-2">
+                                                <label htmlFor="venue" className="block text-sm font-medium leading-6 mt-3 mb-2  mx-2 text-gray-900 ">Type </label>
+                                                <div className="relative inline-block text-left ">
+                                                    <span className="mt-3 ms-1">:</span>
+                                                    <select name="type" className="p-2 m-2  ms-3 text-xs w-72 bg-gray-50 rounded-md border-2 border-gray-200 py-1 text-gray-900 appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-xs sm:leading-6"
+                                                        value={newInputField.type} onChange={handleInputChange}>
+                                                        {inputType && inputType.map((type, index) => (
+                                                            <option value={type}  >{type}</option>
+                                                        ))}
 
-                                                </select>
-                                                <div className="pointer-events-none absolute inset-y-0 right-2 flex items-center px-2 text-gray-700">
-                                                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                                                    </svg>
+                                                    </select>
+                                                    <div className="pointer-events-none absolute inset-y-0 right-2 flex items-center px-2 text-gray-700">
+                                                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                                        </svg>
+                                                    </div>
                                                 </div>
                                             </div>
 
@@ -365,25 +378,84 @@ const SettingEntityForm = () => {
                                             } */}
                                             {
                                                 (newInputField.type === "select" || newInputField.type === "multiselect") && (
+
                                                     <div>
-                                                        <input
-                                                            id=""
-                                                            name=""
-                                                            type="text"
-                                                            required
-                                                            value={selectOption}
-                                                            onChange={(e) => setSelectOption(e.target.value)}
-                                                            className="p-2 m-2 text-xs w-52 bg-gray-50 rounded-md border-2 border-gray-200 py-1 text-gray-900 appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-xs sm:leading-6"
-                                                        />
-                                                        <button onClick={addOption}>add</button>
-                                                        {newInputField.options && newInputField.options.length > 0 && newInputField.options.map((option, index) => (
-                                                            <div key={index}>{option}</div>
-                                                        ))}
+                                                        <p className="text-xs  flex justify-center"> Add options for  &nbsp;<span className="font-semibold text-xs">  select </span></p>
+                                                        <div className="flex ">
+                                                            <label htmlFor="venue" className="block text-sm font-medium leading-6 mt-3 mb-2  ms-2 text-gray-900 ">Option </label><div><span className="mt-3">:</span>
+                                                                <input
+                                                                    id=""
+                                                                    name=""
+                                                                    type="text"
+                                                                    required
+
+                                                                    value={selectOption}
+                                                                    onChange={(e) => setSelectOption(e.target.value)}
+                                                                    className="p-2 gap-2 m-2 text-xs w-56 bg-gray-50 rounded-md border-2 border-gray-200 py-1 text-gray-900 appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-xs sm:leading-6"
+                                                                />
+                                                            </div>
+                                                            <button
+                                                                type="button"
+                                                                className="inline-flex justify-center rounded-md bg-orange-600 px-3 py-2 m-2 text-sm font-semibold text-white shadow-sm  "
+                                                                onClick={addOption}
+                                                            >
+                                                                Add
+                                                            </button>
+                                                        </div>
+
+
+                                                        <div class=" border border-1 w-96 border-gray-100 ">
+
+                                                            {newInputField.options && newInputField.options.length > 0 && (
+                                                                <div >
+                                                                    {newInputField.options.map((option, index) => (
+                                                                        <span key={index} className="text-xs">
+                                                                            {option}{index != newInputField.options.length - 1 && <span>, </span>}
+                                                                        </span>
+                                                                    ))}
+                                                                </div>
+                                                            )}
+                                                        </div>
+
+
+
+                                                        {/* <button onClick={addOption} >add</button> */}
+                                                        {/* {newInputField.options && newInputField.options.length > 0 && newInputField.options.map((option, index) => (
+                                                            <span key={index}>  {option}{index != newInputField.options.length - 1 && <span>,</span>} </span>
+                                                        ))} */}
+
+
+
+
                                                     </div>
                                                 )
                                             }
+                                            <div className="flex gap-5 justify-center">
+                                                <div className="mb-6 flex items-end gap-1">
+                                                    <input
+                                                        // className="mb-1"
+                                                        type="checkbox"
+                                                        id="mandatory"
+                                                        name="mandatory"
+                                                        checked={newInputField.mandatory} // Make sure to set the checked attribute
+                                                        onChange={handleInputChange}
+                                                    />
+                                                    <span className="text-xs">Mandatory</span>
+                                                </div>
+                                                <div className="mb-6 flex items-end  gap-1">
+                                                    <input
 
-                                            <div className="text-center">
+                                                        type="checkbox"
+                                                        id="filterable"
+                                                        name="filterable"
+                                                        checked={newInputField.filterable} // Make sure to set the checked attribute
+                                                        onChange={handleInputChange}
+                                                    />
+                                                    <span className="text-xs">Filterable</span>
+                                                </div>
+                                            </div>
+
+                                            {/* <div className="text-center">
                                                 Mandatory
 
                                                 <input
@@ -408,28 +480,21 @@ const SettingEntityForm = () => {
 
 
 
-                                            </div>
+                                            </div> */}
                                         </div>}
 
 
                                     </form>
 
-                                    <div className="px-4 pt-3 sm:flex sm:flex-row-reverse sm:px-6">
+                                    <div className="w-full ">
                                         <button
                                             type="button"
-                                            className="inline-flex justify-center rounded-md bg-orange-600 px-3 py-2 text-sm font-semibold text-white shadow-sm sm:ml-3 sm:w-auto"
+                                            className="rounded-md w-72 bg-orange-600 px-3 py-2 text-sm  text-white shadow-sm sm:ml-3 "
                                             onClick={addOrUpdateInput}
                                         >
                                             Submit
                                         </button>
-                                        {/* <button
-                                            type="button"
-                                            className="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto"
-                                            onClick={() => setOpen(false)}
-                                            ref={cancelButtonRef}
-                                        >
-                                            Cancel
-                                        </button> */}
+
                                     </div>
 
 
@@ -446,7 +511,7 @@ const SettingEntityForm = () => {
             </div>
 
 
-        </div>
+        </div >
     )
 }
 export default SettingEntityForm

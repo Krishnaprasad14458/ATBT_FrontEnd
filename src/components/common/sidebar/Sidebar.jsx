@@ -52,7 +52,17 @@ const Sidebar = () => {
     ];
 
     const [open, setOpen] = useState(true);
-    const [active, setActive] = useState("Home")
+    const [active, setActive] = useState("Home");
+    let screenSize = window.innerWidth;
+    useEffect(() => {
+
+        if (screenSize < 726) {
+            setOpen(false)
+        }
+    }, [])
+
+
+
     return (
         <div className='sidebar'>
             <main className="bg-white-500 flex ">

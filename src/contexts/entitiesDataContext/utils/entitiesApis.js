@@ -3,22 +3,22 @@ import { apiUrl } from "../../../utils/constants";
 import { toast } from 'react-toastify';
 
 export const getAllEntities = async () => {
-    const url = `${apiUrl}/entite/list`;
+    const url = `${apiUrl}/entity/list`;
     return axios.get(url);
 };
 
 export const getEntities = async (page, pageSize, sortBy, search) => {
-    const url = `${apiUrl}/entite/list?page=${page ?? null}&pageSize=${pageSize ?? null}&sortBy=${sortBy ?? null}&search=${search ?? null}`;
+    const url = `${apiUrl}/entity/list?page=${page ?? null}&pageSize=${pageSize ?? null}&sortBy=${sortBy ?? null}&search=${search ?? null}`;
     return axios.get(url);
 };
 
 export const getEntityById = async (id) => {
-    const url = `${apiUrl}/entite/list/${id}`;
+    const url = `${apiUrl}/entity/list/${id}`;
     return axios.get(url);
 };
 
 export const deleteEntity = async (id) => {
-    const url = `${apiUrl}/entite/delete/${id}`
+    const url = `${apiUrl}/entity/delete/${id}`
     return toast.promise(
         axios.delete(url),
         {
