@@ -251,12 +251,22 @@ const OrganizationProfile = () => {
                                                 </Menu.Item>
                                                 <Menu.Item>
                                                     {({ active }) => (
-                                                        <p>Name</p>
+                                                        <p
+                                                        onClick={()=>{
+                                                            usersDispatch(setSortBy("name", 'SETTINGS'))
+                                                        }}>
+                                                            Name
+                                                        </p>
                                                     )}
                                                 </Menu.Item>
                                                 <Menu.Item>
                                                     {({ active }) => (
-                                                        <p>date</p>
+                                                        <p
+                                                        onClick={()=>{
+                                                            usersDispatch(setSortBy("email", 'SETTINGS'))
+                                                        }}>
+                                                            Email
+                                                        </p>
                                                     )}
                                                 </Menu.Item>
 
