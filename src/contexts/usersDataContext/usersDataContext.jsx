@@ -38,6 +38,7 @@ const UserDataProvider = ({ children }) => {
     usersDispatch(actions.setLoading("DASHBOARD"))
     try {
       const { status, data } = await api.getDashboardUsers(currentPage,pageSize,sortBy,search)
+      console.log(data, "settings 2")
       if (status === 200) {
         usersDispatch(actions.setDashboardUsers(data,'DASHBOARD'))
       }
@@ -53,7 +54,7 @@ const UserDataProvider = ({ children }) => {
     usersDispatch(actions.setLoading("SETTINGS"))
     try {
       const { status, data } = await api.getSettingsUsers(currentPage,pageSize,sortBy,search)
-      console.log(data, "settings")
+      console.log(data, "settings 2")
       if (status === 200) {
         usersDispatch(actions.setDashboardUsers(data,'SETTINGS'))
       }
@@ -122,8 +123,10 @@ const UserDataProvider = ({ children }) => {
         createUser,
         getUser,
         getDashboardUsersData,
+        getSettingsUsersData,
         deleteUser,
-        setSortBy: actions.setSortBy
+        setSortBy: actions.setSortBy,
+        toggleUser: api.toggleUser
       }}
     >
       {children}
