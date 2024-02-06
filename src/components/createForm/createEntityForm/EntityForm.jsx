@@ -1,14 +1,10 @@
-import React, { useState, useRef, useContext, useEffect } from 'react';
-import defprop from '../../../Images/defprof.svg';
-import './EntityForm.css';
-import { EntitiesDataContext } from '../../../contexts/entitiesDataContext/entitiesDataContext';
-// import { EntitiesDataContext } from '../../../contexts/entitiesDataContext';
-import { Link } from 'react-router-dom';
-import { UserDataContext } from '../../../contexts/usersDataContext/usersDataContext';
-// import { UserDataContext } from '../../../contexts/usersDataContext';
+import React, { useState, useContext, useEffect } from 'react';
 import axios from 'axios';
-import Draggable from 'react-draggable';
+import './EntityForm.css';
+import defprop from '../../../Images/defprof.svg';
 import useDebounce from '../../../hooks/debounce/useDebounce';
+import { UserDataContext } from '../../../contexts/usersDataContext/usersDataContext';
+import { EntitiesDataContext } from '../../../contexts/entitiesDataContext/entitiesDataContext';
 function EntityForm() {
   const { usersState: { users, pagination }, usersDispatch } = useContext(UserDataContext);
   const { createEntity } = useContext(EntitiesDataContext);
@@ -68,15 +64,6 @@ function EntityForm() {
         console.error('Error fetching data:', error);
       });
   }, [])
-  const [formData, setFormData] = useState({});
-  // const handleChange = (e) => {
-  //   const { name, value, type, checked } = e.target;
-  //   setFormData((prevFormData) => ({
-  //     ...prevFormData,
-  //     [name]: type === 'checkbox' ? checked : value,
-  //   }));
-  // };
-  // Function to update formData based on index
   const handleChange = (index, newValue) => {
 
     const updatedFormData = [...customFormFields];
@@ -164,9 +151,10 @@ function EntityForm() {
         }
       }
     }
-    // const formData = new FormData(e.target)
-    // console.log(formData.get("Full Name"), "em")
-    // createEntity(formData)
+    const formData = new FormData(e.target)
+    console.log(formData.get("Full Name"), "em")
+    formData.set("members", JSON.stringify(['get', 'dynamic', 'mails']));
+    createEntity(formData)
   }
   return (
     <div className='container p-4 bg-[#f8fafc]'>
@@ -385,8 +373,6 @@ function EntityForm() {
                       <input
                         type="date"
                         name={item.inputname}
-
-
                         id={item.inputname}
                         // value={formData[item.label] || ''}
                         className="p-2 block w-full rounded-md bg-gray-50 border-2 border-gray-200 py-1 text-gray-900 appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6"

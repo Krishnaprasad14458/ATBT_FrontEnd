@@ -3,16 +3,19 @@ import { UserDataContext } from '../../../../contexts/usersDataContext/usersData
 import { Link } from 'react-router-dom';
 import DashboardList from '../../../list/dashboardList/DashboardList';
 import useDebounce from '../../../../hooks/debounce/useDebounce';
+import * as actions from '../../../../contexts/usersDataContext/utils/usersActions'
 
 function UserDashboard() {
   const { usersState: { users, pagination }, usersDispatch } = useContext(UserDataContext);
   const { debouncedSetPage, debouncedSetSearch } = useDebounce(usersDispatch)
   useEffect(() => {
+    // usersDispatch(actions.setPerPage(5))
     return () => {
       usersDispatch({
         type: "SET_SEARCH",
         payload: ""
       })
+      // usersDispatch(actions.setPerPage(10))
     }
   }, [])
   return (
@@ -48,7 +51,7 @@ function UserDashboard() {
                 <p>No user found</p>
               </li>) : pagination?.paginatedUsers?.map(user => (
                 <li className="py-2 sm:py-2" key={user.id}>
-                  <Link>
+                  <Link to={`/userlandingpage/${user.id}`}>
                     <DashboardList user={user} />
                   </Link>
                 </li>
