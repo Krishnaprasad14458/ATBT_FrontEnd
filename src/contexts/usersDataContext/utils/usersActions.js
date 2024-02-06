@@ -1,23 +1,22 @@
 import * as actionTypes from './usersActionTypes'
 export const setUsersData = (data, context) => ({
     type: actionTypes.SET_USERS_DATA,
-    payload: {
-        data,
-    },
+    payload: { context: context, data: data }
 });
-export const setPaginatedUsers = (data, context) => ({
+export const setDashboardUsers = (data, context) => ({
     type: actionTypes.SET_PAGINATED_USERS,
-    payload: {
-        data,
-    },
+    payload: { context: context, data: data },
 });
-export const setLoading = () => ({
+export const setSettingsUsers = (data, context) => ({
+    type: actionTypes.SET_PAGINATED_USERS,
+    payload: { context: context, data: data }
+});
+export const setLoading = (context) => ({
     type: actionTypes.SET_LOADING,
+    payload: { context: context }
 });
 
 export const setPerPage = (data, context) => ({
     type: actionTypes.SET_PER_PAGE,
-    payload: {
-        data
-    }
+    payload: { context: context, data: data }
 });

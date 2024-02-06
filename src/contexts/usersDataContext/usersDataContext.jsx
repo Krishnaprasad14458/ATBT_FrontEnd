@@ -24,7 +24,7 @@ const UserDataProvider = ({ children }) => {
 
   console.log(authState, "context auth")
 
-  console.log(usersState.pagination.loading, "loading")
+  console.log(usersState.dashboard.loading, "loading")
 
   const getAllUsers = async () => {
     const { status, data } = await api.getAllUsers();
@@ -33,18 +33,34 @@ const UserDataProvider = ({ children }) => {
     }
   }
 
-  const getPaginatedUsersData = async () => {
-    const {currentPage,pageSize,sortBy,search} = usersState.pagination;
-    usersDispatch(actions.setLoading())
+  const getDashboardUsersData = async () => {
+    const {currentPage,pageSize,sortBy,search} = usersState.dashboard;
+    usersDispatch(actions.setLoading("DASHBOARD"))
     try {
-      const { status, data } = await api.getPaginatedUsers(currentPage,pageSize,sortBy,search)
+      const { status, data } = await api.getDashboardUsers(currentPage,pageSize,sortBy,search)
       if (status === 200) {
-        usersDispatch(actions.setPaginatedUsers(data))
+        usersDispatch(actions.setDashboardUsers(data,'DASHBOARD'))
       }
     } catch (error) {
       console.error(error);
     } finally {
-      usersDispatch(actions.setLoading())
+      usersDispatch(actions.setLoading("DASHBOARD"))
+    }
+  };
+
+  const getSettingsUsersData = async () => {
+    const {currentPage,pageSize,sortBy,search} = usersState.settings;
+    usersDispatch(actions.setLoading("SETTINGS"))
+    try {
+      const { status, data } = await api.getSettingsUsers(currentPage,pageSize,sortBy,search)
+      console.log(data, "settings")
+      if (status === 200) {
+        usersDispatch(actions.setDashboardUsers(data,'SETTINGS'))
+      }
+    } catch (error) {
+      console.error(error);
+    } finally {
+      usersDispatch(actions.setLoading("SETTINGS"))
     }
   };
 
@@ -63,7 +79,8 @@ const UserDataProvider = ({ children }) => {
     try {
       const { data, status } = await api.createUser(userData, authState.token)
       if (status === 201) {
-        getPaginatedUsersData()
+        getDashboardUsersData()
+        getSettingsUsersData()
         getAllUsers()
       }
     }
@@ -77,7 +94,8 @@ const UserDataProvider = ({ children }) => {
       console.log(localStorageData?.token)
       const { data, status } = await api.deleteUser(id, authState.token)
       if (status === 200) {
-        getPaginatedUsersData()
+        getDashboardUsersData()
+        getSettingsUsersData()
         getAllUsers()
       }
     }
@@ -87,10 +105,10 @@ const UserDataProvider = ({ children }) => {
   }
 
   useEffect(() => {
-    // getUsersData();
-    getPaginatedUsersData();
+    getDashboardUsersData();
+    getSettingsUsersData()
     // eslint-disable-next-line
-  }, [usersDispatch,usersState?.pagination?.currentPage,usersState?.pagination?.search]);
+  }, [usersDispatch,usersState?.dashboard?.currentPage,usersState?.dashboard?.search,usersState?.dashboard?.pageSize,usersState?.settings?.currentPage,usersState?.settings?.search,usersState?.settings?.pageSize]);
   useEffect(() => {
     getAllUsers()
     // eslint-disable-next-line
@@ -103,7 +121,7 @@ const UserDataProvider = ({ children }) => {
         usersDispatch,
         createUser,
         getUser,
-        getPaginatedUsersData,
+        getDashboardUsersData,
         deleteUser
       }}
     >
