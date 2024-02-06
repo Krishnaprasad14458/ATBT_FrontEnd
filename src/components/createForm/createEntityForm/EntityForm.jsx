@@ -6,9 +6,9 @@ import useDebounce from '../../../hooks/debounce/useDebounce';
 import { UserDataContext } from '../../../contexts/usersDataContext/usersDataContext';
 import { EntitiesDataContext } from '../../../contexts/entitiesDataContext/entitiesDataContext';
 function EntityForm() {
-  const { usersState: { users, pagination }, usersDispatch } = useContext(UserDataContext);
+  const { usersState: { users, dashboard }, usersDispatch } = useContext(UserDataContext);
   const { createEntity } = useContext(EntitiesDataContext);
-  const usersEmails = pagination.paginatedUsers?.map(user => user.email);
+  const usersEmails = dashboard.paginatedUsers?.map(user => user.email);
   const { debouncedSetPage, debouncedSetSearch } = useDebounce(usersDispatch);
   const [errors, setErrors] = useState({})
   let [openOptions, setopenOptions] = useState("")
@@ -728,7 +728,7 @@ export default EntityForm;
 //   const { usersState: { users: {users} } } = useContext(UserDataContext);
 //   console.log(users, "entity form")
 //   const usersEmails = users?.map(user => user.email);
-//   const { entitiesState: { pagination }, entitiesDispatch, deleteEntitybyId, createEntity } = useContext(EntitiesDataContext);
+//   const { entitiesState: { dashboard }, entitiesDispatch, deleteEntitybyId, createEntity } = useContext(EntitiesDataContext);
 
 //   // choose file
 //   const [imageSrc, setImageSrc] = useState(null);

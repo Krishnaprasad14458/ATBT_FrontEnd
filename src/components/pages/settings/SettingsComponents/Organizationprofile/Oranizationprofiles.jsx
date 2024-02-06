@@ -10,7 +10,7 @@ import useDebounce from '../../../../../hooks/debounce/useDebounce';
 import * as actions from '../../../../../contexts/usersDataContext/utils/usersActions';
 
 const OrganizationProfile = () => {
-    const { usersState: { settings }, usersDispatch, deleteUser } = useContext(UserDataContext);
+    const { usersState: { settings }, usersDispatch, deleteUser, setSortBy } = useContext(UserDataContext);
     const { debouncedSetPage, debouncedSetSearch } = useDebounce(usersDispatch);
     const handlePerPageChange = (event) => {
         const selectedValue = parseInt(event.target.value, 10);
@@ -241,29 +241,22 @@ const OrganizationProfile = () => {
                                             <div className="py-1">
                                                 <Menu.Item>
                                                     {({ active }) => (
-                                                        <Link
-                                                            to="#"
-                                                        >
-                                                            Account settings
-                                                        </Link>
+                                                        <p 
+                                                        onClick={()=>{
+                                                            usersDispatch(setSortBy("createdAt", 'SETTINGS'))
+                                                        }}>
+                                                            Date Created
+                                                        </p>
                                                     )}
                                                 </Menu.Item>
                                                 <Menu.Item>
                                                     {({ active }) => (
-                                                        <Link
-                                                            to="#"
-                                                        >
-                                                            Support
-                                                        </Link>
+                                                        <p>Name</p>
                                                     )}
                                                 </Menu.Item>
                                                 <Menu.Item>
                                                     {({ active }) => (
-                                                        <Link
-                                                            to="#"
-                                                        >
-                                                            License
-                                                        </Link>
+                                                        <p>date</p>
                                                     )}
                                                 </Menu.Item>
 
