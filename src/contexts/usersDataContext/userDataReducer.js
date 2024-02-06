@@ -176,6 +176,22 @@ const userDataReducer = (state, action) => {
                 }
             };
 
+        case actionTypes.SET_SORT_BY:
+            console.log(action.payload)
+            return action.payload.context === 'DASHBOARD' ? {
+                ...state,
+                dashboard: {
+                    ...state.dashboard,
+                    sortBy: action.payload.data
+                }
+            } : {
+                ...state,
+                settings: {
+                    ...state.settings,
+                    sortBy: action.payload.data
+                }
+            }
+
         default:
             return state;
     }
