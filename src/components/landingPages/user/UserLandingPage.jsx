@@ -16,7 +16,7 @@ function classNames(...classes) {
 
 const UserLandingPage = () => {
   const { id } = useParams();
-  const { usersState: {users} ,getUser} = useContext(UserDataContext);
+  const { usersState: { users }, getUser } = useContext(UserDataContext);
   const [singleUser, setSingleUser] = useState({});
   console.log(users, "abc")
 
@@ -32,23 +32,23 @@ const UserLandingPage = () => {
 
   const getuserById = async () => {
     try {
-        const userById = users?.users?.find(user => user.id === parseInt(id, 10));
-        console.log(userById, 'ubid')
-        if (!userById) {
-            const product = await getUser(id);
-            console.log(product?.user, 'ubid-2')
-            setSingleUser(product?.user)
-        } else {
-          setSingleUser(userById)
-        }
+      const userById = users?.users?.find(user => user.id === parseInt(id, 10));
+      console.log(userById, 'ubid')
+      if (!userById) {
+        const product = await getUser(id);
+        console.log(product?.user, 'ubid-2')
+        setSingleUser(product?.user)
+      } else {
+        setSingleUser(userById)
+      }
     } catch (e) {
-        console.error(e);
+      console.error(e);
     }
-};
-useEffect(() => {
-  getuserById();
+  };
+  useEffect(() => {
+    getuserById();
 
-}, [id])
+  }, [id])
 
   console.log(singleUser, "current user")
   const [activeTab, setActiveTab] = useState(1);
@@ -146,10 +146,11 @@ useEffect(() => {
         </div><hr />
       </div>
       {activeTab === 1 && <div className="mt-4 flex justify-center">
-        <div className="h-[500px] w-5/6 shadow-md px-6 py-4 border-2 rounded-md bg-[#f8fafc]">
-          <div className='flex justify-between'>
-            <div className='flex justify-start'>
-              <img src='https://images.unsplash.com/photo-1633332755192-727a05c4013d' width="100px" height="100px" className='rounded-full border-2 border-gray-600' alt='user' />
+        <div className="h-[500px] w-3/6 shadow-md p-5 border-2 rounded-md bg-[#f8fafc]">
+          <div className='flex justify-between bg-gray-100'>
+            <div className='flex'>
+              <img src='https://images.unsplash.com/photo-1633332755192-727a05c4013d' className='w-24 h-24 border-1' alt='user' />
+              <p className='ms-3 text-lg font-semibold mt-8'>Sri Lakshmi</p>
               <div>
                 <ul className='mt-5 ms-4'>
                   <li className='text-xl'>{singleUser?.userName}</li>
@@ -157,14 +158,55 @@ useEffect(() => {
                 </ul>
               </div>
             </div>
-            <div className='mt-8'>
-              <button type="submit"
-                className="me-4 rounded-md border-2 border-orange-600 px-8 py-1.5 text-sm leading-6 text-dark shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600">Toggle</button>
-              <button type="submit"
-                className="rounded-md bg-orange-600 px-8 py-1.5 text-sm leading-6 text-white shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600">Edit Profile</button>
+            <div className='flex me-5'>
+              <Link to='/users/new'> <button type="submit" className="mt-7 flex w-full rounded-md bg-orange-600 px-3 py-1.5 text-sm leading-6 text-white shadow-sm  focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5 me-1">
+                  <path d="m2.695 14.762-1.262 3.155a.5.5 0 0 0 .65.65l3.155-1.262a4 4 0 0 0 1.343-.886L17.5 5.501a2.121 2.121 0 0 0-3-3L3.58 13.419a4 4 0 0 0-.885 1.343Z" />
+                </svg>  Edit
+              </button>
+              </Link>
             </div>
           </div>
-          <div>
+          <div className=' mb-8 shadow-inner opacity-100 justify-start mt-6'>
+            <div className='flex my-3 mt-3'>
+              <div className='border-1 p-2 bg-gray-200'>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
+                  <path fillRule="evenodd" d="M15 3.75a.75.75 0 0 1 .75-.75h4.5a.75.75 0 0 1 .75.75v4.5a.75.75 0 0 1-1.5 0V5.56l-4.72 4.72a.75.75 0 1 1-1.06-1.06l4.72-4.72h-2.69a.75.75 0 0 1-.75-.75Z" clipRule="evenodd" />
+                  <path fillRule="evenodd" d="M1.5 4.5a3 3 0 0 1 3-3h1.372c.86 0 1.61.586 1.819 1.42l1.105 4.423a1.875 1.875 0 0 1-.694 1.955l-1.293.97c-.135.101-.164.249-.126.352a11.285 11.285 0 0 0 6.697 6.697c.103.038.25.009.352-.126l.97-1.293a1.875 1.875 0 0 1 1.955-.694l4.423 1.105c.834.209 1.42.959 1.42 1.82V19.5a3 3 0 0 1-3 3h-2.25C8.552 22.5 1.5 15.448 1.5 6.75V4.5Z" clipRule="evenodd" />
+                </svg>
+              </div>
+              <p className="text-md text-gray-800 mt-1 ms-3">9966180667</p>
+            </div>
+
+            <div className='flex flex-row justify-start my-3'>
+              <div className='border-1 p-2 bg-gray-200'>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+                  <path d="M1.5 8.67v8.58a3 3 0 0 0 3 3h15a3 3 0 0 0 3-3V8.67l-8.928 5.493a3 3 0 0 1-3.144 0L1.5 8.67Z" />
+                  <path d="M22.5 6.908V6.75a3 3 0 0 0-3-3h-15a3 3 0 0 0-3 3v.158l9.714 5.978a1.5 1.5 0 0 0 1.572 0L22.5 6.908Z" />
+                </svg>
+              </div>
+              <p className="text-md text-gray-800 mt-1 ms-3">srilaskhmiariveni@gmail.com</p>
+            </div>
+
+            <div className='flex flex-row justify-start my-3'>
+              <div className='border-1 p-2 bg-gray-200'>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+                  <path fill-rule="evenodd" d="M3 2.25a.75.75 0 0 0 0 1.5v16.5h-.75a.75.75 0 0 0 0 1.5H15v-18a.75.75 0 0 0 0-1.5H3ZM6.75 19.5v-2.25a.75.75 0 0 1 .75-.75h3a.75.75 0 0 1 .75.75v2.25a.75.75 0 0 1-.75.75h-3a.75.75 0 0 1-.75-.75ZM6 6.75A.75.75 0 0 1 6.75 6h.75a.75.75 0 0 1 0 1.5h-.75A.75.75 0 0 1 6 6.75ZM6.75 9a.75.75 0 0 0 0 1.5h.75a.75.75 0 0 0 0-1.5h-.75ZM6 12.75a.75.75 0 0 1 .75-.75h.75a.75.75 0 0 1 0 1.5h-.75a.75.75 0 0 1-.75-.75ZM10.5 6a.75.75 0 0 0 0 1.5h.75a.75.75 0 0 0 0-1.5h-.75Zm-.75 3.75A.75.75 0 0 1 10.5 9h.75a.75.75 0 0 1 0 1.5h-.75a.75.75 0 0 1-.75-.75ZM10.5 12a.75.75 0 0 0 0 1.5h.75a.75.75 0 0 0 0-1.5h-.75ZM16.5 6.75v15h5.25a.75.75 0 0 0 0-1.5H21v-12a.75.75 0 0 0 0-1.5h-4.5Zm1.5 4.5a.75.75 0 0 1 .75-.75h.008a.75.75 0 0 1 .75.75v.008a.75.75 0 0 1-.75.75h-.008a.75.75 0 0 1-.75-.75v-.008Zm.75 2.25a.75.75 0 0 0-.75.75v.008c0 .414.336.75.75.75h.008a.75.75 0 0 0 .75-.75v-.008a.75.75 0 0 0-.75-.75h-.008ZM18 17.25a.75.75 0 0 1 .75-.75h.008a.75.75 0 0 1 .75.75v.008a.75.75 0 0 1-.75.75h-.008a.75.75 0 0 1-.75-.75v-.008Z" clip-rule="evenodd" />
+                </svg>
+              </div>
+              <p className="text-md text-gray-800 mt-1 ms-3"> Infoz IT</p>
+            </div>
+
+
+            <div className='flex  flex-row justify-start my-3'>
+              <div className='border-1 p-2 bg-gray-200'>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+                  <path fill-rule="evenodd" d="M5.625 1.5H9a3.75 3.75 0 0 1 3.75 3.75v1.875c0 1.036.84 1.875 1.875 1.875H16.5a3.75 3.75 0 0 1 3.75 3.75v7.875c0 1.035-.84 1.875-1.875 1.875H5.625a1.875 1.875 0 0 1-1.875-1.875V3.375c0-1.036.84-1.875 1.875-1.875ZM12.75 12a.75.75 0 0 0-1.5 0v2.25H9a.75.75 0 0 0 0 1.5h2.25V18a.75.75 0 0 0 1.5 0v-2.25H15a.75.75 0 0 0 0-1.5h-2.25V12Z" clip-rule="evenodd" />
+                  <path d="M14.25 5.25a5.23 5.23 0 0 0-1.279-3.434 9.768 9.768 0 0 1 6.963 6.963A5.23 5.23 0 0 0 16.5 7.5h-1.875a.375.375 0 0 1-.375-.375V5.25Z" />
+                </svg>
+              </div>
+              <p className="text-md text-gray-800 mt-1 ms-3"> Developer</p>
+            </div>
           </div>
         </div>
       </div>
