@@ -33,12 +33,19 @@ const SettingEntityForm = () => {
             newfield.filterable = false
             setNewInputField(newfield)
         }
-        if (name == "type" && value === "select" || value === "multiselect") {
+        if (name == "type" && value === "select") {
+            let newfield = { ...newInputField }
+            newfield.options = []
+            newfield.value = ""
+            setNewInputField(newfield)
+        }
+        if (name == "type" && value === "multiselect") {
             let newfield = { ...newInputField }
             newfield.options = []
             newfield.value = []
             setNewInputField(newfield)
         }
+
         if (name == "label" && editIndex == null) {
             setNewInputField((prev) => ({ ...prev, label: value, inputname: value, field: "custom" }))
         }
