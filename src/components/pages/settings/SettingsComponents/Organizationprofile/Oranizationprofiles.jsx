@@ -6,12 +6,23 @@ import { Fragment } from 'react';
 import { Menu, Transition } from '@headlessui/react';
 import { ChevronDownIcon } from '@heroicons/react/20/solid';
 import { UserDataContext } from '../../../../../contexts/usersDataContext/usersDataContext';
+import useDebounce from '../../../../../hooks/debounce/useDebounce';
+import * as actions from '../../../../../contexts/usersDataContext/utils/usersActions';
 
 const OrganizationProfile = () => {
-
-    const { usersState: { users }, deleteUser } = useContext(UserDataContext);
+    const { usersState: { users, pagination }, usersDispatch, deleteUser } = useContext(UserDataContext);
+    const { debouncedSetPage, debouncedSetSearch } = useDebounce(usersDispatch)
     console.log(users, "users")
-
+    useEffect(() => {
+        // usersDispatch(actions.setPerPage(10))
+        return () => {
+          usersDispatch({
+            type: "SET_SEARCH",
+            payload: ""
+          })
+        //   usersDispatch(actions.setPerPage(5))
+        }
+      }, [])
     const [activeTab, setActiveTab] = useState(1);
 
     const handleTabClick = (tabNumber) => {
@@ -187,7 +198,7 @@ const OrganizationProfile = () => {
                                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
                                         </svg>
                                     </div>
-                                    <input type="search" id="default-search" className="block w-full px-4 py-2 ps-10 text-sm border-2 border-gray-200  rounded-2xl bg-gray-50  focus:outline-none " placeholder="Search here..." required />
+                                    <input onChange={(e) => debouncedSetSearch(e.target.value)} type="search" id="default-search" className="block w-full px-4 py-2 ps-10 text-sm border-2 border-gray-200  rounded-2xl bg-gray-50  focus:outline-none " placeholder="Search here..." required />
                                 </div>
                             </div>
                             <div className='grid1-item text-end filter_pagination  mb-2'>
@@ -267,7 +278,7 @@ const OrganizationProfile = () => {
                             </thead>
                             <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
 
-                                {users?.users?.map(user => (
+                                {pagination?.paginatedUsers?.map(user => (
                                     <tr className="hover:bg-gray-100 dark:hover:bg-gray-700">
                                         <td className="px-6 py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]">{user.userName}</td>
                                         <td className="px-6 py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]">{user.email}</td>
@@ -311,39 +322,62 @@ const OrganizationProfile = () => {
                     </div>
                 </div>
                 {/* pagination */}
-                {/* <div className="flex justify-end absolute inset-x-0 bottom-2 mt-2 me-3">
-                    <div className='mt-1'>
-                        {!entitiesList?.paginatedEntities || entitiesList?.paginatedEntities?.length === 0 ? "no data to show" : entitiesList.loading ? "Loading..." : <p className="text-sm text-gray-700">
-                            Showing {entitiesList.startEntity} to {entitiesList.endEntity} of <span className="font-medium">{entitiesList.totalEntities}</span>
-                            <span className="font-medium"> </span> results
-                        </p>}
-                    </div>
-                    <section className="isolate inline-flex -space-x-px rounded-md shadow-sm ms-4" aria-label="Pagination">
-                        <button
-                            disabled={entitiesList.currentPage === 1}
-                            onClick={() => debouncedSetPage({ conext: 'ENTITES', data: entitiesList.currentPage - 1 })}
-                            href="#"
-                            className={`relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${entitiesList.loading ? 'cursor-wait' : entitiesList.currentPage === 1 ? 'cursor-not-allowed' : 'cursor-auto'}`}
-                        >
-                            <span className="sr-only">Previous</span>
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5" aria-hidden="true">
-                                <path fill-rule="evenodd" d="M11.78 5.22a.75.75 0 0 1 0 1.06L8.06 10l3.72 3.72a.75.75 0 1 1-1.06 1.06l-4.25-4.25a.75.75 0 0 1 0-1.06l4.25-4.25a.75.75 0 0 1 1.06 0Z" clip-rule="evenodd" />
-                            </svg>
+                <div className="flex items-center justify-between  px-4 py-3  sm:px-6 absolute inset-x-0 right-0 bottom-0">
+        {/* hidden pagination only for mobile */}
+        <div className="flex flex-1 justify-between sm:hidden">
+          <a
+            href="#"
+            className="relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
+          >
+            Previous
+          </a>
+          <a
+            href="#"
+            className="relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
+          >
+            Next
+          </a>
+        </div>
+        {/*only for big screen pagination */}
+        <div className="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
+          {/* pagination data */}
+          <div>
+            {!pagination?.paginatedUsers || pagination?.paginatedUsers?.length === 0 ? "no data to show" : pagination.loading ? "Loading..." : <p className="text-sm text-gray-700">
+              Showing <span className="font-medium">{pagination?.startUser}</span> to
+              <span className="font-medium"> {pagination?.endUser}</span> of {pagination?.totalUsers} users
+            </p>}
+          </div>
+          {/* prev and next for big screens */}
+          <div>
+            <section className="isolate inline-flex -px rounded-md shadow-sm" aria-label="Pagination">
+              {/* previos button */}
+              <button
+                disabled={pagination.loading ? true : false || pagination.currentPage === 1}
+                onClick={() => debouncedSetPage(pagination.currentPage - 1)}
+                href="#"
+                className={`relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${pagination.loading ? 'cursor-wait' : pagination.currentPage === 1 ? 'cursor-not-allowed' : 'cursor-auto'}`}
+              >
+                <span className="sr-only">Previous</span>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5" aria-hidden="true">
+                  <path fill-rule="evenodd" d="M11.78 5.22a.75.75 0 0 1 0 1.06L8.06 10l3.72 3.72a.75.75 0 1 1-1.06 1.06l-4.25-4.25a.75.75 0 0 1 0-1.06l4.25-4.25a.75.75 0 0 1 1.06 0Z" clip-rule="evenodd" />
+                </svg>
 
-                        </button>
-                        <button className="border w-8 border-gray-300">{entitiesList.currentPage}</button>
-                        <button
-                            disabled={entitiesList.currentPage === entitiesList.totalPages}
-                            onClick={() => debouncedSetPage({ conext: 'ENTITES', data: entitiesList.currentPage + 1 })}
-                            className={`relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${entitiesList.loading ? 'cursor-wait' : entitiesList.currentPage === entitiesList.totalPages ? 'cursor-not-allowed' : 'cursor-auto'}`}
-                        >
-                            <span className="sr-only">Next</span>
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5" aria-hidden="true">
-                                <path fill-rule="evenodd" d="M8.22 5.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 0 1-1.06-1.06L11.94 10 8.22 6.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
-                            </svg>
-                        </button>
-                    </section>
-                </div> */}
+              </button>
+              {/* next button */}
+              <button
+                disabled={pagination.loading ? true : false || pagination.currentPage === pagination.totalPages}
+                onClick={() => debouncedSetPage(pagination.currentPage + 1)}
+                className={`relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${pagination.loading ? 'cursor-wait' : pagination.currentPage === pagination.totalPages ? 'cursor-not-allowed' : 'cursor-auto'}`}
+              >
+                <span className="sr-only">Next</span>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5" aria-hidden="true">
+                  <path fill-rule="evenodd" d="M8.22 5.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 0 1-1.06-1.06L11.94 10 8.22 6.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
+                </svg>
+              </button>
+            </section>
+          </div>
+        </div>
+      </div>
             </div>}
             {activeTab === 5 && <div className="mt-4">
                 <div className="min-w-full inline-block align-middle">
