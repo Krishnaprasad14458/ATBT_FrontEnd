@@ -11,7 +11,7 @@ function classNames(...classes) {
 }
 
 function BoardMeetings() {
-  const { entitiesState: { pagination }, entitiesDispatch } = useContext(EntitiesDataContext);
+  const { entitiesState: { entitiesList }, entitiesDispatch, deleteEntitybyId } = useContext(EntitiesDataContext);
   const debouncedSetPage = debounce((newPage) => {
     entitiesDispatch({
       type: "SET_CUSTOM_PAGE",
@@ -139,7 +139,7 @@ function BoardMeetings() {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
-                  {pagination?.paginatedEntities?.map((item, index) => (
+                  {entitiesList?.paginatedEntities?.map((item, index) => (
                     <tr key={item.id} className="hover:bg-gray-100 dark:hover:bg-gray-700">
                       <td className="px-6 py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]">{item.id}</td>
                       <td className="px-6 py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb] hover:text-orange-500 "><Link to="/taskform" className='text-xs'>{item.Entite_Name}</Link></td>
@@ -192,7 +192,7 @@ function BoardMeetings() {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
-                  {pagination?.paginatedEntities?.map((item, index) => (
+                  {entitiesList?.paginatedEntities?.map((item, index) => (
                     <tr key={item.id} className="hover:bg-gray-100 dark:hover:bg-gray-700">
                       <td className="px-6 py-3 whitespace-nowrap text-center  text-sm font-medium text-gray-800 border-collapse border border-[#e5e7eb]">{item.id}</td>
                       <td className="px-6 py-3 whitespace-nowrap text-center  text-sm font-medium text-gray-800 border-collapse border border-[#e5e7eb] hover:text-orange-500 "><Link to="/taskform">{item.Entite_Name}</Link></td>
@@ -235,8 +235,8 @@ function BoardMeetings() {
       <div className="flex justify-end  absolute inset-x-0 bottom-2 px-4 pt-3 sm:px-6">
         <section className="isolate inline-flex -space-x-px rounded-md shadow-sm" aria-label="Pagination">
           <button
-            disabled={pagination.currentPage === 1}
-            onClick={() => debouncedSetPage(pagination.currentPage - 1)}
+            disabled={entitiesList.currentPage === 1}
+            onClick={() => debouncedSetPage(entitiesList.currentPage - 1)}
             href="#"
             className="relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-orange-600 hover:text-white focus:z-20 focus:outline-offset-0"
           >
@@ -246,10 +246,10 @@ function BoardMeetings() {
             </svg>
 
           </button>
-          <button className="border w-8 border-gray-300">{pagination.currentPage}</button>
+          <button className="border w-8 border-gray-300">{entitiesList.currentPage}</button>
           <button
-            disabled={pagination.currentPage === pagination.totalPages}
-            onClick={() => debouncedSetPage(pagination.currentPage + 1)}
+            disabled={entitiesList.currentPage === entitiesList.totalPages}
+            onClick={() => debouncedSetPage(entitiesList.currentPage + 1)}
             className="relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-orange-600 hover:text-white focus:z-20 focus:outline-offset-0"
           >
             <span className="sr-only">Next</span>
