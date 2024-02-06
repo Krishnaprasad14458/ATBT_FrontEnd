@@ -7,7 +7,12 @@ export const getAllUsers = async () => {
     return axios.get(url);
 };
 
-export const getPaginatedUsers = async (page, pageSize, sortBy, search) => {
+export const getDashboardUsers = async (page, pageSize, sortBy, search) => {
+    const url = `${apiUrl}/user/list?page=${page}&pageSize=${pageSize}&sortBy=${sortBy}&search=${search}`;
+    return axios.get(url);
+};
+
+export const getSettingsUsers = async (page, pageSize, sortBy, search) => {
     const url = `${apiUrl}/user/list?page=${page}&pageSize=${pageSize}&sortBy=${sortBy}&search=${search}`;
     return axios.get(url);
 };

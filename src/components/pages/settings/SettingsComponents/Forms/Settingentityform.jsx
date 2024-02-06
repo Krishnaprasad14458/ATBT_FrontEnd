@@ -27,18 +27,29 @@ const SettingEntityForm = () => {
     }, [])
     const handleInputChange = (e) => {
         const { name, value, type, checked } = e.target;
-        // this is for label for new input
+
+        // this is for label for new input 
+
         if (name == "type") {
             let newfield = { ...newInputField }
             newfield.filterable = false
             setNewInputField(newfield)
         }
-        if (name == "type" && value === "select" || value === "multiselect") {
+
+        if (name == "type" && value === "select") {
+            let newfield = { ...newInputField }
+            newfield.options = []
+            newfield.value = ""
+            setNewInputField(newfield)
+        }
+        if (name == "type" && value === "multiselect") {
+
             let newfield = { ...newInputField }
             newfield.options = []
             newfield.value = []
             setNewInputField(newfield)
         }
+
         if (name == "label" && editIndex == null) {
             setNewInputField((prev) => ({ ...prev, label: value, inputname: value, field: "custom" }))
         }
@@ -139,6 +150,7 @@ const SettingEntityForm = () => {
     const deleteOption = (index) => {
         let updatedNewInputField = { ...newInputField };
 
+
         // Use slice to create a copy of the options array and remove the specified index
         let updatedOptions = [...updatedNewInputField.options];
         updatedOptions.splice(index, 1);
@@ -147,6 +159,7 @@ const SettingEntityForm = () => {
         setNewInputField(updatedNewInputField);
         console.log("updatedNewInputField", updatedNewInputField);
     };
+
 
     // let updatedOptions = updatedNewInputField.options.filter((option) => option != deleteoption)
     return (
@@ -368,20 +381,20 @@ const SettingEntityForm = () => {
                                         </div>
 
                                         {newInputField.field != "predefined" &&
-                                            // editIndex == null &&
+
                                             <div >
                                                 <div className="flex  gap-2">
                                                     <label htmlFor="venue" className="block text-sm font-medium leading-6 mt-3 mb-2  mx-2 text-gray-900 ">Type </label>
                                                     <div className="relative inline-block text-left ">
                                                         <span className="mt-3 ms-1">:</span>
-                                                        <select name="type" placeholder="Enter type" className={`p-2 m-2  ms-3 text-xs w-72
+
+                                                        <select name="type" className={`p-2 m-2  ms-3 text-xs w-72
                                                          bg-gray-50 rounded-md border-2 border-gray-200 py-1 text-gray-900
-                                                          appearance-none shadow-sm placeholder:text-gray-400
-                                                        focus:outline-none focus:border-orange-400 sm:text-xs
+                                                          appearance-none shadow-sm placeholder:text-gray-400 
+                                                        focus:outline-none focus:border-orange-400 sm:text-xs 
                                                         sm:leading-6 ${editIndex == null ? "" : "pointer-events-none opacity-30"}`}
 
                                                             value={newInputField.type} onChange={handleInputChange}>
-
                                                             {inputType && inputType.map((type, index) => (
 
                                                                 <option value={type}  >{type}</option>
@@ -409,7 +422,9 @@ const SettingEntityForm = () => {
                                                     (newInputField.type === "select" || newInputField.type === "multiselect") && (
 
                                                         <div>
-                                                            <p className="text-xs  flex justify-center mt-2"> Add options for  &nbsp;<span className="font-semibold text-xs">  select </span></p>
+
+                                                            <p className="text-xs  flex justify-center"> Add options for  &nbsp;<span className="font-semibold text-xs">  select </span></p>
+
                                                             <div className="flex ">
                                                                 <label htmlFor="venue" className="block text-sm font-medium leading-6 mt-3 mb-2  ms-2 text-gray-900 ">Option </label><div><span className="mt-3 ms-2">:</span>
                                                                     <input
@@ -424,12 +439,15 @@ const SettingEntityForm = () => {
                                                                 </div>
                                                                 <button
                                                                     type="button"
-                                                                    className="inline-flex justify-center rounded-md bg-orange-600 px-3 py-2 my-2 text-sm font-semibold text-white shadow-sm  "
+
+                                                                    className="inline-flex justify-center rounded-md bg-orange-600 px-3 py-2 m-2 text-sm font-semibold text-white shadow-sm  "
+
                                                                     onClick={addOption}
                                                                 >
                                                                     Add
                                                                 </button>
                                                             </div>
+
                                                             {newInputField.options && newInputField.options.length > 0 && (
                                                                 <div class=" border-2 w-[360px] border-gray-200 flex flex-wrap gap-1 p-1 selected-users-container relative z-50   rounded-md">
                                                                     {newInputField.options.map((option, index) => (
@@ -439,11 +457,13 @@ const SettingEntityForm = () => {
                                                                                 <path d="M5.28 4.22a.75.75 0 0 0-1.06 1.06L6.94 8l-2.72 2.72a.75.75 0 1 0 1.06 1.06L8 9.06l2.72 2.72a.75.75 0 1 0 1.06-1.06L9.06 8l2.72-2.72a.75.75 0 0 0-1.06-1.06L8 6.94 5.28 4.22Z" />
                                                                             </svg>
                                                                             {/* {index != newInputField.options.length - 1 && <span >,</span> } */}
-                                                                        </span>
+                                                                      </span>
                                                                     ))}
                                                                 </div>
                                                             )}
 
+
+                                                            </div>
 
                                                             {/* <button onClick={addOption} >add</button> */}
                                                             {/* {newInputField.options && newInputField.options.length > 0 && newInputField.options.map((option, index) => (
@@ -456,7 +476,9 @@ const SettingEntityForm = () => {
                                                         </div>
                                                     )
                                                 }
-                                                <div className="flex gap-5 justify-start">
+
+                                                <div className="flex gap-5 justify-center">
+
                                                     <div className="mb-6 flex items-end gap-1">
                                                         <input
                                                             // className="mb-1"

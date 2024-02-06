@@ -1,19 +1,17 @@
-import React, { useState, useRef, useContext, useEffect } from 'react';
-import defprop from '../../../Images/defprof.svg';
-import './EntityForm.css';
-import { EntitiesDataContext } from '../../../contexts/entitiesDataContext/entitiesDataContext';
-// import { EntitiesDataContext } from '../../../contexts/entitiesDataContext';
-import { Link } from 'react-router-dom';
-import { UserDataContext } from '../../../contexts/usersDataContext/usersDataContext';
-// import { UserDataContext } from '../../../contexts/usersDataContext';
+import React, { useState, useContext, useEffect } from 'react';
 import axios from 'axios';
-import Draggable from 'react-draggable';
+import './EntityForm.css';
+
+import defprop from '../../../Images/defprof.svg';
 import useDebounce from '../../../hooks/debounce/useDebounce';
+import { UserDataContext } from '../../../contexts/usersDataContext/usersDataContext';
+import { EntitiesDataContext } from '../../../contexts/entitiesDataContext/entitiesDataContext';
 function EntityForm() {
-  const { usersState: { users, pagination }, usersDispatch } = useContext(UserDataContext);
+  const { usersState: { users, dashboard }, usersDispatch } = useContext(UserDataContext);
   const { createEntity } = useContext(EntitiesDataContext);
-  const usersEmails = pagination.paginatedUsers?.map(user => user.email);
+  const usersEmails = dashboard.paginatedUsers?.map(user => user.email);
   const { debouncedSetPage, debouncedSetSearch } = useDebounce(usersDispatch);
+  const [errors, setErrors] = useState({})
   let [openOptions, setopenOptions] = useState("")
   const [searchTerm, setSearchTerm] = useState('');
   const [selected, setSelected] = useState([]);
@@ -67,15 +65,6 @@ function EntityForm() {
         console.error('Error fetching data:', error);
       });
   }, [])
-  const [formData, setFormData] = useState({});
-  // const handleChange = (e) => {
-  //   const { name, value, type, checked } = e.target;
-  //   setFormData((prevFormData) => ({
-  //     ...prevFormData,
-  //     [name]: type === 'checkbox' ? checked : value,
-  //   }));
-  // };
-  // Function to update formData based on index
   const handleChange = (index, newValue) => {
 
     const updatedFormData = [...customFormFields];
@@ -117,17 +106,56 @@ function EntityForm() {
     e.preventDefault();
 
     for (let i = 0; i < customFormFields.length > 0; i++) {
-      if (customFormFields[i].type == "text") {
-        if (customFormFields[i].value.length < 3) {
-          alert("name should be greater than 3")
-          return false
+      if (customFormFields[i].type == "text" && customFormFields[i].mandatory) {
+        if (customFormFields[i].value.length == 0) {
+          setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please Enter ${customFormFields[i].label}` }))
+
+        }
+        else if (customFormFields[i].value.length < 3) {
+          setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "Name should contain atleast 3 characterssssssssssssssssssssssssssssssssssssssssssssssssssss" }))
+
+        }
+        else {
+          setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
         }
       }
+      if (customFormFields[i].type == "file" && customFormFields[i].mandatory) {
+        if (!customFormFields[i].value) {
+          setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please Upload ${customFormFields[i].label}` }))
 
+        }
+        else {
+          setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
+        }
+      }
+      if (customFormFields[i].type == "textarea" && customFormFields[i].mandatory) {
+        if (customFormFields[i].value.length == 0) {
+          setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please Enter ${customFormFields[i].label}` }))
+
+        }
+        else if (customFormFields[i].value.length < 3) {
+          setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "Name should contain atleast 3 characterssssssssssssssssssssssssssssssssssssssssssssssssssss" }))
+
+        }
+        else {
+          setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
+        }
+      }
+      if (customFormFields[i].type == "multiselect" && customFormFields[i].mandatory) {
+        if (customFormFields[i].value.length < 1) {
+          setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please Enter ${customFormFields[i].label}` }))
+
+        }
+
+        else {
+          setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
+        }
+      }
     }
-    // const formData = new FormData(e.target)
-    // console.log(formData.get("Full Name"), "em")
-    // createEntity(formData)
+    const formData = new FormData(e.target)
+    console.log(formData.get("Full Name"), "em")
+    formData.set("members", JSON.stringify(['get', 'dynamic', 'mails']));
+    createEntity(formData)
   }
   return (
     <div className='container p-4 bg-[#f8fafc]'>
@@ -160,7 +188,7 @@ function EntityForm() {
                         className="p-2 block w-full rounded-md bg-gray-50 border-2 border-gray-200  text-xs text-gray-900 appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6 placeholder:text-xs"
                         onChange={(e) => handleChange(index, e.target.value)}
                       />
-
+                      <div className='h-2 text-[#dc2626]'>{errors[item.inputname] && <span>{errors[item.inputname]}</span>}</div>
                     </div>
                   )}
                   {item.type === 'file' && item.inputname == "image" && item.field === "predefined" && (
@@ -178,6 +206,8 @@ function EntityForm() {
                         onChange={(event) => handleFileChange(event, index)}
                         accept="image/*"
                       />
+                      <div className='h-2 text-[#dc2626]'>{errors[item.inputname] && <span>{errors[item.inputname]}</span>}</div>
+
                     </div>
                   )}
                   {item.type === 'textarea' && item.inputname == "description" && item.field === "predefined" && (
@@ -197,6 +227,8 @@ function EntityForm() {
 
                         onChange={(e) => handleChange(index, e.target.value)}
                       />
+                      <div className='h-2 text-[#dc2626]'>{errors[item.inputname] && <span>{errors[item.inputname]}</span>}</div>
+
                     </div>
                   )}
                   {item.type === 'multiselect' && item.inputname == "members" && item.field == "predefined" && (
@@ -242,6 +274,8 @@ function EntityForm() {
                             ))}
                         </ul>
                       )}
+                      <div className='h-2 text-[#dc2626]'>{errors[item.inputname] && <span>{errors[item.inputname]}</span>}</div>
+
                     </div>
 
                   )}
@@ -345,8 +379,6 @@ function EntityForm() {
                       <input
                         type="date"
                         name={item.inputname}
-
-
                         id={item.inputname}
                         // value={formData[item.label] || ''}
                         className="p-2 block w-full rounded-md bg-gray-50 border-2 border-gray-200  text-gray-900 appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6"
@@ -492,7 +524,7 @@ function EntityForm() {
           {customFormFields && customFormFields.length > 0 && customFormFields.map((item) => (
             <div className='relative' >
 
-
+{/* predefined fields*/}
               {item.type === 'text' && item.inputname == "name" && item.field == "predefined" && (
                 <p className="text-sm font-black text-gray-800 mt-2 absolute left-12">{item.value}</p>
               )}
@@ -609,7 +641,7 @@ function EntityForm() {
                   })}
                 </div>
               )}
-
+{/* customfields */}
               {item.type === "text" && item.field == "custom" && <div>
                 {item.value}
 
@@ -709,7 +741,7 @@ export default EntityForm;
 //   const { usersState: { users: {users} } } = useContext(UserDataContext);
 //   console.log(users, "entity form")
 //   const usersEmails = users?.map(user => user.email);
-//   const { entitiesState: { pagination }, entitiesDispatch, deleteEntitybyId, createEntity } = useContext(EntitiesDataContext);
+//   const { entitiesState: { dashboard }, entitiesDispatch, deleteEntitybyId, createEntity } = useContext(EntitiesDataContext);
 
 //   // choose file
 //   const [imageSrc, setImageSrc] = useState(null);

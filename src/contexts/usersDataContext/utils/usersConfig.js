@@ -1,6 +1,6 @@
 export const initialState = {
     users: [],
-    pagination: {
+    dashboard: {
         paginatedUsers: [],
         search: "",
         sortBy: "userName",
@@ -9,6 +9,18 @@ export const initialState = {
         totalPages: null,
         currentPage: 1,
         pageSize: 5,
+        startUser: null,
+        endUser: null,
+    },
+    settings: {
+        paginatedUsers: [],
+        search: "",
+        sortBy: "userName",
+        loading: false,
+        totalUsers: null,
+        totalPages: null,
+        currentPage: 1,
+        pageSize: 10,
         startUser: null,
         endUser: null,
     }

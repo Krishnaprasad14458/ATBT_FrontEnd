@@ -95,16 +95,7 @@ function Teams() {
 
   return (
     <div className=' p-3 bg-[#f8fafc] overflow-hidden'>
-
-<div>
-      <input type='file' name='image' onChange={handleImage} />
-      <button className="border-2 border-blue-600" onClick={handleApi}>Submit</button>
-    </div>
-
-        {/* <input type='file' name='image' />
-        <button className="border-2 border-blue-600">submit</button>
-        <img src={imageSrc} alt="" /> */}
-      {/* <div className='grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-3 xl:grid-col-3 gap-2 my-2'>
+     <div className='grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-3 xl:grid-col-3 gap-2 my-2'>
         <h1 className='font-semibold text-lg grid1-item'>Teams</h1>
         <div className='grid1-item  text-start'>
           <label for="default-search" className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
@@ -192,9 +183,9 @@ function Teams() {
           </Menu>
 
         </div>
-      </div> */}
+      </div> 
 
-      {/* <div className="flex justify-start gap-6">
+     <div className="flex justify-start gap-6">
         <div
           className={`cursor-pointer px-5 py-1 font-semibold ${activeTab === 1 ? 'border-b-4 border-orange-600  text-black' : ''
             }`}
@@ -400,7 +391,7 @@ function Teams() {
             </svg>
           </button>
         </section>
-      </div> */}
+      </div>
     </div >
   );
 }
