@@ -10,9 +10,19 @@ import useDebounce from '../../../../../hooks/debounce/useDebounce';
 import * as actions from '../../../../../contexts/usersDataContext/utils/usersActions';
 
 const OrganizationProfile = () => {
-    const { usersState: { users, pagination }, usersDispatch, deleteUser } = useContext(UserDataContext);
-    const { debouncedSetPage, debouncedSetSearch } = useDebounce(usersDispatch)
-    console.log(users, "users")
+    const { usersState: { settings }, usersDispatch, deleteUser, setSortBy } = useContext(UserDataContext);
+    const { debouncedSetPage, debouncedSetSearch } = useDebounce(usersDispatch);
+    const handlePerPageChange = (event) => {
+        const selectedValue = parseInt(event.target.value, 10);
+        console.log(selectedValue, 'sv')
+        usersDispatch({
+          type: 'SET_PER_PAGE',
+          payload: {
+            conext: 'SETTINGS',
+            data: selectedValue
+          }
+        });
+      };
     useEffect(() => {
         // usersDispatch(actions.setPerPage(10))
         return () => {
@@ -198,11 +208,11 @@ const OrganizationProfile = () => {
                                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
                                         </svg>
                                     </div>
-                                    <input onChange={(e) => debouncedSetSearch(e.target.value)} type="search" id="default-search" className="block w-full px-4 py-2 ps-10 text-sm border-2 border-gray-200  rounded-2xl bg-gray-50  focus:outline-none " placeholder="Search here..." required />
+                                    <input onChange={(e) => debouncedSetSearch({ context: 'SETTINGS', data: e.target.value })} type="search" id="default-search" className="block w-full px-4 py-2 ps-10 text-sm border-2 border-gray-200  rounded-2xl bg-gray-50  focus:outline-none " placeholder="Search here..." required />
                                 </div>
                             </div>
                             <div className='grid1-item text-end filter_pagination  mb-2'>
-                                <select defaultValue="10" className="focus:outline-none me-3 gap-x-1.5 rounded-md bg-gray-50 px-1 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-200 hover:bg-gray-50">
+                                <select defaultValue="10" onChange={handlePerPageChange} className="focus:outline-none me-3 gap-x-1.5 rounded-md bg-gray-50 px-1 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-200 hover:bg-gray-50">
                                     <option value="10">10</option>
                                     <option value="25">25</option>
                                     <option value="50">50</option>
@@ -231,29 +241,32 @@ const OrganizationProfile = () => {
                                             <div className="py-1">
                                                 <Menu.Item>
                                                     {({ active }) => (
-                                                        <Link
-                                                            to="#"
-                                                        >
-                                                            Account settings
-                                                        </Link>
+                                                        <p 
+                                                        onClick={()=>{
+                                                            usersDispatch(setSortBy("createdAt", 'SETTINGS'))
+                                                        }}>
+                                                            Date Created
+                                                        </p>
                                                     )}
                                                 </Menu.Item>
                                                 <Menu.Item>
                                                     {({ active }) => (
-                                                        <Link
-                                                            to="#"
-                                                        >
-                                                            Support
-                                                        </Link>
+                                                        <p
+                                                        onClick={()=>{
+                                                            usersDispatch(setSortBy("name", 'SETTINGS'))
+                                                        }}>
+                                                            Name
+                                                        </p>
                                                     )}
                                                 </Menu.Item>
                                                 <Menu.Item>
                                                     {({ active }) => (
-                                                        <Link
-                                                            to="#"
-                                                        >
-                                                            License
-                                                        </Link>
+                                                        <p
+                                                        onClick={()=>{
+                                                            usersDispatch(setSortBy("email", 'SETTINGS'))
+                                                        }}>
+                                                            Email
+                                                        </p>
                                                     )}
                                                 </Menu.Item>
 
@@ -278,7 +291,7 @@ const OrganizationProfile = () => {
                             </thead>
                             <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
 
-                                {pagination?.paginatedUsers?.map(user => (
+                                {settings?.paginatedUsers?.map(user => (
                                     <tr className="hover:bg-gray-100 dark:hover:bg-gray-700">
                                         <td className="px-6 py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]">{user.userName}</td>
                                         <td className="px-6 py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]">{user.email}</td>
@@ -342,9 +355,9 @@ const OrganizationProfile = () => {
         <div className="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
           {/* pagination data */}
           <div>
-            {!pagination?.paginatedUsers || pagination?.paginatedUsers?.length === 0 ? "no data to show" : pagination.loading ? "Loading..." : <p className="text-sm text-gray-700">
-              Showing <span className="font-medium">{pagination?.startUser}</span> to
-              <span className="font-medium"> {pagination?.endUser}</span> of {pagination?.totalUsers} users
+            {!settings?.paginatedUsers || settings?.paginatedUsers?.length === 0 ? "no data to show" : settings.loading ? "Loading..." : <p className="text-sm text-gray-700">
+              Showing <span className="font-medium">{settings?.startUser}</span> to
+              <span className="font-medium"> {settings?.endUser}</span> of {settings?.totalUsers} users
             </p>}
           </div>
           {/* prev and next for big screens */}
@@ -352,10 +365,10 @@ const OrganizationProfile = () => {
             <section className="isolate inline-flex -px rounded-md shadow-sm" aria-label="Pagination">
               {/* previos button */}
               <button
-                disabled={pagination.loading ? true : false || pagination.currentPage === 1}
-                onClick={() => debouncedSetPage(pagination.currentPage - 1)}
+                disabled={settings.loading ? true : false || settings.currentPage === 1}
+                onClick={() => debouncedSetPage({ context: 'SETTINGS', data: settings.currentPage - 1 })}
                 href="#"
-                className={`relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${pagination.loading ? 'cursor-wait' : pagination.currentPage === 1 ? 'cursor-not-allowed' : 'cursor-auto'}`}
+                className={`relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${settings.loading ? 'cursor-wait' : settings.currentPage === 1 ? 'cursor-not-allowed' : 'cursor-auto'}`}
               >
                 <span className="sr-only">Previous</span>
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5" aria-hidden="true">
@@ -365,9 +378,9 @@ const OrganizationProfile = () => {
               </button>
               {/* next button */}
               <button
-                disabled={pagination.loading ? true : false || pagination.currentPage === pagination.totalPages}
-                onClick={() => debouncedSetPage(pagination.currentPage + 1)}
-                className={`relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${pagination.loading ? 'cursor-wait' : pagination.currentPage === pagination.totalPages ? 'cursor-not-allowed' : 'cursor-auto'}`}
+                disabled={settings.loading ? true : false || settings.currentPage === settings.totalPages}
+                onClick={() => debouncedSetPage({ context: 'SETTINGS', data: settings.currentPage + 1 })}
+                className={`relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${settings.loading ? 'cursor-wait' : settings.currentPage === settings.totalPages ? 'cursor-not-allowed' : 'cursor-auto'}`}
               >
                 <span className="sr-only">Next</span>
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5" aria-hidden="true">
