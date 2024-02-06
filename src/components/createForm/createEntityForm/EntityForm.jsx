@@ -1,6 +1,7 @@
 import React, { useState, useContext, useEffect } from 'react';
 import axios from 'axios';
 import './EntityForm.css';
+
 import defprop from '../../../Images/defprof.svg';
 import useDebounce from '../../../hooks/debounce/useDebounce';
 import { UserDataContext } from '../../../contexts/usersDataContext/usersDataContext';
@@ -524,7 +525,7 @@ function EntityForm() {
           {customFormFields && customFormFields.length > 0 && customFormFields.map((item) => (
             <div className='relative' >
 
-
+{/* predefined fields*/}
               {item.type === 'text' && item.inputname == "name" && item.field == "predefined" && (
                 <p className="text-sm font-black text-gray-800 mt-2 absolute left-12">{item.value}</p>
               )}
@@ -641,7 +642,7 @@ function EntityForm() {
                   })}
                 </div>
               )}
-
+{/* customfields */}
               {item.type === "text" && item.field == "custom" && <div>
                 {item.value}
 
