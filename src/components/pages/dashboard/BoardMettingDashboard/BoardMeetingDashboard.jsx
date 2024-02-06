@@ -8,7 +8,7 @@ const BoardMeetingDashboard = () => {
                 <div className='p-4 sm:px-6 sm:pt-2'>
                     {/* hero module */}
                     <div className="flex items-center justify-between mb-2">
-                        <h5 className="text-lg font-semibold leading-none text-gray-800 dark:text-white"> Board Meeting
+                        <h5 className="text-lg font-semibold leading-none text-gray-800 dark:text-white"> Board Meetings
                             {/* {pagination.loading ? '...' : null} */}
                         </h5>
                         <Link to="/users/new" className="text-sm font-medium text-white-600 hover:underline dark:text-white-500">
@@ -25,7 +25,7 @@ const BoardMeetingDashboard = () => {
                             <path fill-rule="evenodd" d="M9 3.5a5.5 5.5 0 1 0 0 11 5.5 5.5 0 0 0 0-11ZM2 9a7 7 0 1 1 12.452 4.391l3.328 3.329a.75.75 0 1 1-1.06 1.06l-3.329-3.328A7 7 0 0 1 2 9Z" clip-rule="evenodd" />
                         </svg>
                         {/* <input onChange={(e) => debouncedSetSearch(e)} type="search" id="gsearch" name="gsearch" className='bg-slate-50 border-none focus:outline-none appearance-none focus:border-none' placeholder='Search here....' /> */}
-                    </div><hr className='w-60 my-1' />
+                    </div><hr className='w-96 my-1' />
                 </div>
                 <hr />
                 {/* list module */}
