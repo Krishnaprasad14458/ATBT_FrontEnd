@@ -133,9 +133,9 @@ function EntityForm() {
     <div className='container p-4 bg-[#f8fafc]'>
       {/* <p className="font-lg font-semibold p-3">Entity Form</p> */}
       <p className="text-lg font-semibold">New Entity</p>
-      <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-4 xl:grid-cols-3  gap-6 mt-4 ">
+      <div className="grid grid-cols-2 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-3 xl:grid-cols-3  gap-6 mt-4 ">
         <div className="col-span-1 ps-5 pe-8">
-          <form className="space-y-3" method="POST" onSubmit={handleFormSubmit} >
+          <form className="space-y-3  mx-auto" method="POST" onSubmit={handleFormSubmit} >
             {customFormFields &&
               customFormFields.length > 0 &&
               customFormFields.map((item, index) => (
@@ -146,14 +146,18 @@ function EntityForm() {
                       <label htmlFor={item.label} className="block text-sm font-medium leading-6 my-2 text-gray-900">
                         {item.label.charAt(0).toUpperCase() + item.label.slice(1)}
                       </label>
+                      {/* <label htmlFor={item.label} className="block text-sm font-medium leading-6 my-2 text-gray-900">
+                        {item.label.charAt(0).toUpperCase() + item.label.slice(1)}
+                      </label> */}
                       <input
                         type="text"
                         // name={item.label}
                         name={item.inputname}
                         id={item.inputname}
+                        placeholder='Enter your name'
                         // value={formData[item.label] || ''}
                         value={customFormFields[index].value || ''}
-                        className="p-2 block w-full rounded-md bg-gray-50 border-2 border-gray-200 py-1 text-gray-900 appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6"
+                        className="p-2 block w-full rounded-md bg-gray-50 border-2 border-gray-200  text-xs text-gray-900 appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6 placeholder:text-xs"
                         onChange={(e) => handleChange(index, e.target.value)}
                       />
 
@@ -170,7 +174,7 @@ function EntityForm() {
 
 
                         id={item.inputname}
-                        className="p-2 block w-full rounded-md bg-gray-50 border-2 border-gray-200 py-1 text-gray-900 appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6"
+                        className="p-2 block w-full rounded-md bg-gray-50 border-2 border-gray-200  text-xs py-1.5 text-gray-900 appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6 placeholder:text-xs"
                         onChange={(event) => handleFileChange(event, index)}
                         accept="image/*"
                       />
@@ -183,12 +187,13 @@ function EntityForm() {
                       </label>
                       <textarea
                         name={item.inputname}
-
+                        placeholder='Type here....'
 
                         id={item.inputname}
 
                         value={customFormFields[index].value || ''}
-                        className="bg-gray-50 rounded-md text-xs p-2 w-full h-20 border-2 border-gray-200 focus:outline-none focus:border-orange-400"
+
+                        className="bg-gray-50 rounded-md text-sm p-2 w-full h-20 border-2 border-gray-200 focus:outline-none focus:border-orange-400 placeholder:text-xs"
 
                         onChange={(e) => handleChange(index, e.target.value)}
                       />
@@ -199,7 +204,7 @@ function EntityForm() {
                     <div className='relative'>
                       <label htmlFor="email" className="block text-sm my-2 font-medium leading-6 text-gray-900">{item.label}</label>
 
-                      <div className='border border-1 flex flex-wrap gap-1 px-1 py-1 selected-users-container relative z-50 rounded-md'>
+                      <div className='border-2 border-gray-200 flex flex-wrap gap-1 p-2.5 selected-users-container relative z-50   rounded-md'>
                         {selected && selected.length > 0 && selected.map((result) => {
 
                           let mail = result.split("@")[0]
@@ -215,9 +220,10 @@ function EntityForm() {
                         })}
                         <input
                           type="text"
+                          placeholder='Type email id'
                           tabindex="0" aria-describedby="lui_5891" aria-invalid="false"
                           style={{ border: "none" }}
-                          className='bg-[#f8fafc] w-20 h-5 mt-1 focus:outline-none z-40'
+                          className='bg-[#f8fafc]  h-5  focus:outline-none z-40 placeholder:text-xs'
                           value={searchTerm}
                           onChange={handleInputChange}
                         />
@@ -229,7 +235,7 @@ function EntityForm() {
                             // .filter((item) => item.toLowerCase().includes(query.toLowerCase()))
                             .map((user, ind) => (
                               <li key={ind}
-                                className='px-3 pb-0.5 hover:bg-gray-200'
+                                className='px-3 py-1 text-sm hover:bg-gray-200'
 
                                 onClick={() => handleClick(user, index)}>
                                 {user}
@@ -254,7 +260,7 @@ function EntityForm() {
                         id={item.inputname}
                         // value={formData[item.label] || ''}
                         value={customFormFields[index].value || ''}
-                        className="p-2 block w-full rounded-md bg-gray-50 border-2 border-gray-200 py-1 text-gray-900 appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6"
+                        className="p-2 block w-full rounded-md bg-gray-50 border-2 border-gray-200  text-gray-900 appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6"
                         onChange={(e) => handleChange(index, e.target.value)}
                       />
                     </div>
@@ -271,7 +277,7 @@ function EntityForm() {
 
                         value={customFormFields[index].value || ''}
 
-                        className="p-2 block w-full rounded-md bg-gray-50 border-2 border-gray-200 py-1 text-gray-900 appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6"
+                        className="p-2 block w-full rounded-md bg-gray-50 border-2 border-gray-200 text-gray-900 appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6"
                         onChange={(e) => handleChange(index, e.target.value)}
                       />
                     </div>
@@ -289,7 +295,7 @@ function EntityForm() {
                         // value={formData[item.label] || ''}
                         value={customFormFields[index].value || ''}
 
-                        className="p-2 block w-full rounded-md bg-gray-50 border-2 border-gray-200 py-1 text-gray-900 appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6"
+                        className="p-2 block w-full rounded-md bg-gray-50 border-2 border-gray-200  text-gray-900 appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6"
                         // onChange={handleChange}
                         onChange={(e) => handleChange(index, e.target.value)}
 
@@ -309,7 +315,7 @@ function EntityForm() {
                         // value={formData[item.label] || ''}
                         value={customFormFields[index].value || ''}
                         onChange={(e) => handleChange(index, e.target.value)}
-                        className="p-2 block w-full rounded-md bg-gray-50 border-2 border-gray-200 py-1 text-gray-900 appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6"
+                        className="p-2 block w-full rounded-md bg-gray-50 border-2 border-gray-200  text-gray-900 appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6"
                       // onChange={handleChange}
 
 
@@ -317,10 +323,8 @@ function EntityForm() {
                     </div>
                   )}
                   {item.type === 'checkbox' && item.field == "custom" && (
-                    <div>
-                      <label htmlFor={item.inputname} className="block text-sm font-medium leading-6 my-2 text-gray-900">
-                        {item.label.charAt(0).toUpperCase() + item.label.slice(1)}
-                      </label>
+                    <div className='flex gap-2'>
+
                       <input
                         type="checkbox"
                         name={item.inputname}
@@ -328,7 +332,9 @@ function EntityForm() {
                         checked={!!customFormFields[index].value}
                         onChange={(e) => handleChange(index, e.target.checked)}
 
-                      />
+                      />  <label htmlFor={item.inputname} className="block text-sm font-medium leading-6 my-2 text-gray-900">
+                        {item.label.charAt(0).toUpperCase() + item.label.slice(1)}
+                      </label>
                     </div>
 
                   )}
@@ -344,7 +350,7 @@ function EntityForm() {
 
                         id={item.inputname}
                         // value={formData[item.label] || ''}
-                        className="p-2 block w-full rounded-md bg-gray-50 border-2 border-gray-200 py-1 text-gray-900 appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6"
+                        className="p-2 block w-full rounded-md bg-gray-50 border-2 border-gray-200  text-gray-900 appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6"
                         // onChange={handleChange}
                         value={customFormFields[index].value || ''}
 
@@ -361,7 +367,7 @@ function EntityForm() {
                         type="time"
                         name={item.inputname}
 
-
+                        className="p-2 block w-full rounded-md bg-gray-50 border-2 border-gray-200  text-gray-900 appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6"
                         id={item.inputname}
                         // value={formData[item.label] || ''}
                         // className="p-2 block w-full rounded-md bg-gray-50 border-2 border-gray-200 py-1 text-gray-900 appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6"
@@ -383,7 +389,7 @@ function EntityForm() {
 
 
                         id={item.inputname}
-                        className="p-2 block w-full rounded-md bg-gray-50 border-2 border-gray-200 py-1 text-gray-900 appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6"
+                        className="p-2 block w-full rounded-md bg-gray-50 border-2 border-gray-200  text-gray-900 appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6"
                         onChange={(event) => handleFileChange(event, index)}
                         accept="image/*"
                       />
@@ -438,7 +444,7 @@ function EntityForm() {
                       <select
                         id={item.inputname}
                         name={item.inputname}
-
+                        className="p-2 text-xs block w-full bg-gray-50  rounded-md py-2.5 text-gray-900   border-2 border-gray-200 shadow-sm  placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-xs sm:leading-6"
                         onChange={(e) => handleChange(index, e.target.value)}
                         value={customFormFields[index].value || ''}
                       >{item.options && item.options.map((option, index) => (
@@ -449,27 +455,32 @@ function EntityForm() {
                     </div>
                   )}
                   {item.type === 'multiselect' && item.field === "custom" && (
-                    <div> Multiple Select <span onClick={() => handleOpenOptions(item.inputname)}>ICON</span>
-                      {openOptions === item.inputname &&
-                        (
-                          <div>
-                            {item.options.map((option, subindex) => (
-                              <div key={subindex}>
-                                <input
-                                  type="checkbox"
-                                  id={option}
-                                  checked={item.value.includes(option)}
-                                  onChange={(e) => handleChange(index, option)}
-                                />
-                                <label htmlFor={option}>{option}</label>
-                              </div>
-                            ))}
-                          </div>
-                        )}
+                    <div>
+                      <div className='p-2 text-xs flex justify-end w-full bg-gray-50 rounded-md text-gray-900 border-2 border-gray-200 shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-xs sm:leading-6'>
+                        <span onClick={() => handleOpenOptions(item.inputname)} >
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5">
+                            <path fillRule="evenodd" d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z" clipRule="evenodd" />
+                          </svg>
+                        </span></div>
+                      {openOptions === item.inputname && (
+                        <div className="block  border-2 border-gray-200 px-3 h-28 overflow-y-auto">
+                          {item.options.map((option, subindex) => (
+                            <div key={subindex} className="mr-2 mb-2">
+                              <input
+                                type="checkbox"
+                                id={option}
+                                checked={item.value.includes(option)}
+                                onChange={(e) => handleChange(index, option)}
+                                className="mr-1"
+
+                              />
+                              <label htmlFor={option} className="select-none">{option}</label>
+                            </div>
+                          ))}
+                        </div>
+                      )}
                     </div>
-
                   )}
-
                 </div>
               ))}
             <div className=''>
@@ -657,7 +668,9 @@ function EntityForm() {
 
               {/* multiselect incomplte */}
               {item.type === "multiselect" && item.field == "custom" && <div>
-                {item.value}
+
+                {item.value.join(', ')}
+
 
               </div>}
               {item.type === "checkbox" && item.field == "custom" && <div>
@@ -679,7 +692,7 @@ function EntityForm() {
           )}
         </div>
       </div>
-    </div>
+    </div >
   );
 }
 

@@ -8,7 +8,7 @@ const BoardMeetingDashboard = () => {
                 <div className='p-4 sm:px-6 sm:pt-2'>
                     {/* hero module */}
                     <div className="flex items-center justify-between mb-2">
-                        <h5 className="text-lg font-semibold leading-none text-gray-800 dark:text-white"> Board Meeting
+                        <h5 className="text-lg font-semibold leading-none text-gray-800 dark:text-white"> Board Meetings
                             {/* {pagination.loading ? '...' : null} */}
                         </h5>
                         <Link to="/users/new" className="text-sm font-medium text-white-600 hover:underline dark:text-white-500">
