@@ -141,7 +141,6 @@ const UserLandingPage = () => {
             <div className='mt-8'>
               <button type="submit"
                 className="me-4 rounded-md border-2 border-orange-600 px-8 py-1.5 text-sm leading-6 text-dark shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600">Toggle</button>
-
               <button type="submit"
                 className="rounded-md bg-orange-600 px-8 py-1.5 text-sm leading-6 text-white shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600">Edit Profile</button>
             </div>
