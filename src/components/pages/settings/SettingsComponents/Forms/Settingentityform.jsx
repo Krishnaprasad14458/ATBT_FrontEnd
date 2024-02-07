@@ -163,6 +163,7 @@ const SettingEntityForm = () => {
 
     // let updatedOptions = updatedNewInputField.options.filter((option) => option != deleteoption)
     return (
+
       
             <div className="p-4 container bg-[#f8fafc]">
 
@@ -263,6 +264,7 @@ const SettingEntityForm = () => {
                         setNewInputField(input);
                         setEditIndex(index);
                         setOpen(true);
+
                     }}
                         xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5">
                         <path d="m2.695 14.762-1.262 3.155a.5.5 0 0 0 .65.65l3.155-1.262a4 4 0 0 0 1.343-.886L17.5 5.501a2.121 2.121 0 0 0-3-3L3.58 13.419a4 4 0 0 0-.885 1.343Z" />
@@ -450,6 +452,7 @@ const SettingEntityForm = () => {
                                                     </button>
                                                 </div>
 
+
                                                 {newInputField.options && newInputField.options.length > 0 && (
                                                     <div class=" border-2 w-[360px] border-gray-200 flex flex-wrap gap-1 p-1 selected-users-container relative z-50   rounded-md">
                                                         {newInputField.options.map((option, index) => (
@@ -463,6 +466,7 @@ const SettingEntityForm = () => {
                                                         ))}
                                                     </div>
                                                 )}
+
 
 
                                                 </div>
@@ -494,6 +498,7 @@ const SettingEntityForm = () => {
                                                     newInputField.type === "select" ||
                                                     newInputField.type === "multiselect" ||
                                                     newInputField.type === "time" ? "" : "pointer-events-none opacity-30"}`}
+
 
                                         >
                                             <input
@@ -532,6 +537,7 @@ const SettingEntityForm = () => {
 
 
 
+
                                 </div> */}
                                 </div>}
 
@@ -563,9 +569,11 @@ const SettingEntityForm = () => {
 </div>
 
 
+
 </div >
        
         
+
     )
 }
 export default SettingEntityForm
