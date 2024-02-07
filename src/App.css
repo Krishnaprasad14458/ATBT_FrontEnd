@@ -1,5 +1,8 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
-
+ * {
+   scrollbar-width: thin;
+   scrollbar-color: var(--secondary) var(--primary);
+ }
 * {
   margin: 0;
   padding: 0;

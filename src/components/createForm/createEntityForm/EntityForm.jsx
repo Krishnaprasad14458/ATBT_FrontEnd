@@ -58,7 +58,6 @@ function EntityForm() {
       .then(response => {
         // Handle the successful response
         setCustomFormFields(response.data.array)
-        console.log("Dsdsd", response.data.array);
       })
       .catch(error => {
         // Handle errors
@@ -153,7 +152,6 @@ function EntityForm() {
       }
     }
     const formData = new FormData(e.target)
-    console.log(formData.get("Full Name"), "em")
     formData.set("members", JSON.stringify(['get', 'dynamic', 'mails']));
     createEntity(formData)
   }

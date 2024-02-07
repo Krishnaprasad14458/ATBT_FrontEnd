@@ -71,9 +71,9 @@ function Teams() {
     // Make a POST request to your backend
     const formData = new FormData();
     formData.append('image', file);
-    console.log(formData, 'fd');
+    // console.log(formData, 'fd');
     const data = await axios.post('https://atbtmain.teksacademy.com/upload',formData);
-    console.log(data);
+    // console.log(data);
 
     // fetch('http://localhost:3001/upload', {
     //   method: 'POST',
