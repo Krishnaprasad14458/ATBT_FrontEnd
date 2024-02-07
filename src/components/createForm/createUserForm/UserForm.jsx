@@ -16,7 +16,7 @@ function UserForm() {
     imgFile: null
   });
   const [image, SetImage] = useState('')
-  const [dbImg,setDbImg] = useState(null)
+  const [dbImg, setDbImg] = useState(null)
   console.log(userDetails)
   function handleSubmit(e) {
     e.preventDefault();
@@ -69,7 +69,7 @@ function UserForm() {
                     }))}
                     className="p-2 text-xs block w-full bg-gray-50  rounded-md  border-2 border-gray-200 py-1 text-gray-900 appearance-none shadow-sm  placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-xs sm:leading-6" />
                 </div>
-                </div>
+              </div>
               <div>
                 <label htmlFor="name" className="block text-sm font-medium  my-1 text-gray-900">Choose Your Photo</label>
                 <input
@@ -114,13 +114,13 @@ function UserForm() {
               <div>
                 <label htmlFor="venue" className="block text-sm my-2  font-medium text-gray-700">Designation</label>
                 <div onChange={(e) => setUserDetails((prev) => ({
-                      ...prev,
-                      Designation: e.target.value,
-                    }))} 
-                    className="relative inline-block text-left w-full">
+                  ...prev,
+                  Designation: e.target.value,
+                }))}
+                  className="relative inline-block text-left w-full">
                   <select name="designation" className="p-2 text-xs block w-full bg-gray-50  rounded-md  border-2 border-gray-200 py-1.5 text-gray-900 appearance-none shadow-sm  placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-xs sm:leading-6" >
                     <option value="" className="hover:bg-orange-600 text-xs">Select Designation</option>
-                    <option value="developement" className='text-xs'>Developement</option>
+                    <option value="developement" className='text-xs'>Development</option>
                     <option value="marketing" className='text-xs'>Marketing</option>
                     <option value="qa" className='text-xs'>QA</option>
                   </select>
@@ -135,12 +135,12 @@ function UserForm() {
                 <label htmlFor="venue" className="block text-sm my-2  font-medium text-gray-700">Role</label>
                 <div className="relative inline-block text-left w-full">
                   <select name="role" onChange={(e) => setUserDetails((prev) => ({
-                      ...prev,
-                      Role: e.target.value,
-                    }))} className="p-2 text-xs block w-full bg-gray-50  rounded-md  border-2 border-gray-200 py-1.5 text-gray-900 appearance-none shadow-sm  placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-xs sm:leading-6">
+                    ...prev,
+                    Role: e.target.value,
+                  }))} className="p-2 text-xs block w-full bg-gray-50  rounded-md  border-2 border-gray-200 py-1.5 text-gray-900 appearance-none shadow-sm  placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-xs sm:leading-6">
                     <option value="" className="hover:bg-orange-600 text-xs">Select Role</option>
                     <option value="Sr.Developer" className='text-xs'> Sr. Developer</option>
-                    <option value="Jr.Deveoper" className='text-xs'>Jr. Developer</option>
+                    <option value="Jr.Developer" className='text-xs'>Jr. Developer</option>
                     <option value="Intern" className='text-xs'>Intern</option>
                   </select>
                   <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
@@ -220,7 +220,31 @@ function UserForm() {
               <div className='border border-1 p-5 w-screen border-gray-200 rounded-md shadow-md bg-[#f8fafc] h-[500px]'>
                 <div className='grid grid-cols-2 gap-4 bg-gray-100'>
                   <div className='col-span-2 flex flex-wrap'>
-                    <img className="w-24 h-24 rounded-sm aspect-[1/1] object-cover" src={`${userDetails.userPhoto}`} alt="User Image" />
+                    <div className="group h-50 ">
+                      {/* <spna>{item.label}</spna> */}
+                      {/* {(
+                        <img
+                          src={`${userDetails.userPhoto}`}
+                          name="EntityPhoto"
+                          alt="Selected User Photo"
+                          className="w-24 h-24 rounded-sm aspect-[1/1] object-cover"
+                        />
+                      ) : (
+                      <img className="w-24 h-24 rounded-sm aspect-[1/1] object-cover" src={defprop} alt="Neil image" />
+                      
+                      )} */}
+                      {userDetails.userPhoto && <img
+                        src={`${userDetails.userPhoto}`}
+                        name="EntityPhoto"
+                        alt="Selected User Photo"
+                        className="w-24 h-24 rounded-sm aspect-[1/1] object-cover"
+                      />}
+                      {!userDetails.userPhoto &&
+                        <img className="w-24 h-24 rounded-sm aspect-[1/1] object-cover" src={defprop} alt="Neil image" />
+                      }
+
+                    </div>
+                    {/* <img className="w-24 h-24 rounded-sm aspect-[1/1] object-cover" src={`${userDetails.userPhoto}`} alt="User Image" /> */}
                     <p className="text-xl font-black text-gray-800 mt-8 ms-3">{userDetails.userName}</p>
                   </div>
                 </div>
@@ -256,7 +280,7 @@ function UserForm() {
                   </div>
 
 
-                  <div className='flex  flex-row justify-start my-3'>
+                  {/* <div className='flex  flex-row justify-start my-3'>
                     <div className='border-1 p-2 bg-gray-200'>
                       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
                         <path fill-rule="evenodd" d="M5.625 1.5H9a3.75 3.75 0 0 1 3.75 3.75v1.875c0 1.036.84 1.875 1.875 1.875H16.5a3.75 3.75 0 0 1 3.75 3.75v7.875c0 1.035-.84 1.875-1.875 1.875H5.625a1.875 1.875 0 0 1-1.875-1.875V3.375c0-1.036.84-1.875 1.875-1.875ZM12.75 12a.75.75 0 0 0-1.5 0v2.25H9a.75.75 0 0 0 0 1.5h2.25V18a.75.75 0 0 0 1.5 0v-2.25H15a.75.75 0 0 0 0-1.5h-2.25V12Z" clip-rule="evenodd" />
@@ -264,7 +288,7 @@ function UserForm() {
                       </svg>
                     </div>
                     <p className="text-md text-gray-800 mt-1 ms-3"> {userDetails.Role}</p>
-                  </div>
+                  </div> */}
                   <div className='flex  flex-row justify-start my-3'>
                     <div className='border-1 p-2 bg-gray-200'>
                       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
