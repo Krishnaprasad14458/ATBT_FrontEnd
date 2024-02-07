@@ -148,7 +148,7 @@ const UserLandingPage = () => {
               <img src='https://images.unsplash.com/photo-1633332755192-727a05c4013d' className='w-24 h-24 border-1' alt='user' />
               <p className='ms-3 text-lg font-semibold mt-8'>{singleUser?.userName}</p>
               {/* <div> */}
-                {/* <ul className='mt-5 ms-4'>
+              {/* <ul className='mt-5 ms-4'>
                   <li className='text-xl'>{singleUser?.userName}</li>
                   <li className='text-md'>{singleUser?.email}</li>
                 </ul> */}
@@ -354,8 +354,8 @@ const UserLandingPage = () => {
               <th scope="col" className="py-2 text-sm text-white bg-orange-600   border-collapse border border-[#e5e7eb]">Due Date</th>
               <th scope="col" className="py-2 text-sm text-white bg-orange-600   border-collapse border border-[#e5e7eb]">Board Meeting</th>
               <th scope="col" className="py-2 text-sm text-white bg-orange-600   border-collapse border border-[#e5e7eb] ">Status</th>
-              <th scope="col" className="py-2 text-sm text-white bg-orange-600   border-collapse border border-[#e5e7eb] ">Create by Admin</th>
-              <th scope="col" className="py-2 text-sm text-white bg-orange-600   border-collapse border border-[#e5e7eb] ">Update by Admin </th>
+              <th scope="col" className="py-2 text-sm text-white bg-orange-600   border-collapse border border-[#e5e7eb] ">Created by Admin</th>
+              <th scope="col" className="py-2 text-sm text-white bg-orange-600   border-collapse border border-[#e5e7eb] ">Updated by Admin </th>
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
@@ -364,7 +364,7 @@ const UserLandingPage = () => {
                 <div className='flex'>
                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-5 h-5 ms-2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                  </svg><span className='text-sm ms-2' >Draft project brief</span></div>
+                  </svg><span className='text-sm ms-2' >Draft task brief</span></div>
                 <div className=''>
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5 text-end">
                     <path fillRule="evenodd" d="M16.28 11.47a.75.75 0 0 1 0 1.06l-7.5 7.5a.75.75 0 0 1-1.06-1.06L14.69 12 7.72 5.03a.75.75 0 0 1 1.06-1.06l7.5 7.5Z" clipRule="evenodd" />
@@ -375,8 +375,8 @@ const UserLandingPage = () => {
               <td scope="col" className="py-2 text-sm border-collapse border border-[#e5e7eb]">Due Date</td>
               <td scope="col" className="py-2 text-sm border-collapse border border-[#e5e7eb]">Board Meeting</td>
               <td scope="col" className="py-2 text-sm border-collapse border border-[#e5e7eb] ">Status</td>
-              <td scope="col" className="py-2 text-sm border-collapse border border-[#e5e7eb] ">Create by User </td>
-              <td scope="col" className="py-2 text-sm border-collapse border border-[#e5e7eb] ">Update by Admin </td>
+              <td scope="col" className="py-2 text-sm border-collapse border border-[#e5e7eb] ">Created by Admin </td>
+              <td scope="col" className="py-2 text-sm border-collapse border border-[#e5e7eb] ">Updated by Admin </td>
             </tr>
             <div className={`fixed inset-0 transition-all duration-500 bg-gray-800 bg-opacity-50 z-50 ${isOpen ? '' : 'hidden'}`}>
               <div className={`${expand ? "w-5/6" : "w-1/2"} p-3 fixed inset-y-0 right-0 w-1/2 bg-white shadow-lg transform translate-x-0 transition-transform duration-300 ease-in-out`}>
