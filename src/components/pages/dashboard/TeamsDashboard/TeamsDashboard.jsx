@@ -131,6 +131,7 @@ const TeamsDashboard = () => {
                         Next
                     </a>
                 </div>
+                <div>Showing 1 to 5 of 5 Result</div>
                 {/*only for big screen pagination */}
                 <div className="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
                     {/* pagination data */}
