@@ -3,7 +3,7 @@ import defprop from '../../../Images/defprof.svg'
 import { caseLetter } from '../../../utils/utils'
 
 function DashboardList({user}) {
-  console.log(user, "for image")
+  // console.log(user, "for image")
   return (
     <div className="flex items-center">
     <div className="flex-shrink-0">
