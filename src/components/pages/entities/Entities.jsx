@@ -122,7 +122,7 @@ function Entities() {
         <div className=" min-w-full inline-block align-middle">
           <div className="overflow-y-scroll max-h-[520px]">
             <table className=" w-full table-auto min-w-full divide-y divide-gray-200 dark:divide-gray-700 border-collapse border border-[#e5e7eb] rounded-md ">
-              <thead className='sticky top-0 z-40'>
+              <thead className=''>
                 <tr>
                   <th scope="col" className="px-6 py-2 text-center text-sm  text-white bg-orange-600  border-collapse border border-[#e5e7eb] ">S.No</th>
                   <th scope="col" className="px-6 py-2 text-center text-sm  text-white bg-orange-600  border-collapse border border-[#e5e7eb] ">Id</th>

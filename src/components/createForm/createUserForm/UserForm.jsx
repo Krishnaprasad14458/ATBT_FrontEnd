@@ -171,7 +171,7 @@ function UserForm() {
               </div>
             </form>
           </div>
-          <div className="col-span-2 ">
+          <div className="col-span-2 hidden sm:block">
             <div className='flex justify-center items-center mt-10'>
               <div className='border border-1 p-5 w-screen border-gray-200 rounded-md shadow-md bg-[#f8fafc] h-[500px]'>
                 <div className='grid grid-cols-2 gap-4 bg-gray-100'>

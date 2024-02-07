@@ -31,11 +31,11 @@ const OrganizationProfile = () => {
             usersDispatch({
                 type: "SET_SEARCH",
                 payload: {
-                  data: "",
-                  context: "SEIINGS"
+                    data: "",
+                    context: "SEIINGS"
                 }
-              })
-        //   usersDispatch(actions.setPerPage(5))
+            })
+            //   usersDispatch(actions.setPerPage(5))
         }
     }, [])
     const [activeTab, setActiveTab] = useState(1);
@@ -104,7 +104,7 @@ const OrganizationProfile = () => {
         <div className='container lg:p-4 bg-[#f8fafc]'>
             <h1 className='mx-3 font-semibold text-lg grid1-item'>Organization Profile</h1>
 
-            <div className="flex justify-start mt-1 overflow-auto rounded-sm border-1">
+            <div className="flex justify-start overflow-auto rounded-sm border-1">
                 <div
                     className={`cursor-pointer px-5 py-2 font-semibold ${activeTab === 1 ? 'border-b-2 border-orange-600  text-black' : ''
                         }`}
@@ -273,7 +273,7 @@ const OrganizationProfile = () => {
                                                         'block px-4 py-2 text-sm'
                                                     )}
                                                 >
-                                                Data Created
+                                                    Data Created
                                                 </p>
                                             )}
                                         </Menu.Item>
@@ -318,8 +318,8 @@ const OrganizationProfile = () => {
                 <div className="min-w-full inline-block align-middle">
                     <div className="overflow-y-scroll max-h-[440px]">
                         <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700 border-collapse border border-[#e5e7eb] rounded-md ">
-                            <thead className='sticky top-0 z-40'>
-                                <tr>
+                            <thead className='top-0'>
+                                <tr className=''>
                                     <th scope="col" className="px-6 py-2 text-center text-sm  text-white bg-orange-600  border-collapse border border-[#e5e7eb] ">Name</th>
                                     <th scope="col" className="px-6 py-2 text-center text-sm  text-white bg-orange-600  border-collapse border border-[#e5e7eb]">Email</th>
                                     <th scope="col" className="px-6 py-2 text-center text-sm  text-white bg-orange-600  border-collapse border border-[#e5e7eb]">Phone Number</th>
@@ -360,7 +360,7 @@ const OrganizationProfile = () => {
                                                     <path fill-rule="evenodd" d="M8.75 1A2.75 2.75 0 0 0 6 3.75v.443c-.795.077-1.584.176-2.365.298a.75.75 0 1 0 .23 1.482l.149-.022.841 10.518A2.75 2.75 0 0 0 7.596 19h4.807a2.75 2.75 0 0 0 2.742-2.53l.841-10.52.149.023a.75.75 0 0 0 .23-1.482A41.03 41.03 0 0 0 14 4.193V3.75A2.75 2.75 0 0 0 11.25 1h-2.5ZM10 4c.84 0 1.673.025 2.5.075V3.75c0-.69-.56-1.25-1.25-1.25h-2.5c-.69 0-1.25.56-1.25 1.25v.325C8.327 4.025 9.16 4 10 4ZM8.58 7.72a.75.75 0 0 0-1.5.06l.3 7.5a.75.75 0 1 0 1.5-.06l-.3-7.5Zm4.34.06a.75.75 0 1 0-1.5-.06l-.3 7.5a.75.75 0 1 0 1.5.06l.3-7.5Z" clip-rule="evenodd" />
                                                 </svg>
                                             </button>
-                                            <button type="button" onClick={()=> toggleUser(user.id)} className="inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
+                                            <button type="button" onClick={() => toggleUser(user.id)} className="relative inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
                                                 <label className="relative inline-flex items-center cursor-pointer">
                                                     <input type="checkbox" checked={user.User_status} value="" className="sr-only peer" />
                                                     <div className="w-7 h-4 bg-orange-600 peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[1px] after:start-[1px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-3.5 after:w-3.5 after:transition-all dark:border-orange-600 checked:bg-orange-600"></div>
@@ -374,7 +374,7 @@ const OrganizationProfile = () => {
                     </div>
                 </div>
                 {/* pagination */}
-                <div className="flex items-center justify-between px-4 py-3 sm:px-6 ">
+                <div className="flex items-center justify-between px-4 py-2 sm:px-6 ">
                     {/* hidden pagination only for mobile */}
                     <div className="flex flex-1 justify-between sm:hidden">
                         <a
@@ -400,7 +400,7 @@ const OrganizationProfile = () => {
                             </p>}
                         </div>
                         {/* prev and next for big screens */}
-                        <div className="flex justify-end absolute inset-x-0 bottom-2 mt-2 me-4">
+                        <div className="flex justify-end absolute inset-x-0 bottom-2 mt-1 me-4">
                             <section className="isolate inline-flex rounded-md shadow-sm mt-1" aria-label="Pagination">
                                 {/* previos button */}
                                 <button
