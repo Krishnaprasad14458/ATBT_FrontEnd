@@ -498,7 +498,7 @@ function EntityForm() {
                           {item.options.map((option, subindex) => (
                             <div key={subindex} className="mr-2 mb-2">
                               <input
-                                type="checkbox"
+                                type="checkbox" 
                                 id={option}
                                 checked={item.value.includes(option)}
                                 onChange={(e) => handleChange(index, option)}
@@ -520,6 +520,7 @@ function EntityForm() {
             </div>
           </form>
         </div>
+        {/* preview */}
         <div className='col-span-2 h-[500px] overflow-auto shadow-md px-6 py-4 border-2 rounded-md bg-[#f8fafc] '>
           {customFormFields && customFormFields.length > 0 && customFormFields.map((item) => (
             <div className='relative' >

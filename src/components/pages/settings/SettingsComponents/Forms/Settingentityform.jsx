@@ -163,6 +163,7 @@ const SettingEntityForm = () => {
 
     // let updatedOptions = updatedNewInputField.options.filter((option) => option != deleteoption)
     return (
+
         <div className="p-4 container bg-[#f8fafc]">
             <div className="flex justify-between">
                 <p className="text-xl font-semibold">Entity Form</p>
@@ -447,7 +448,6 @@ const SettingEntityForm = () => {
                                                                     Add
                                                                 </button>
                                                             </div>
-
                                                             {newInputField.options && newInputField.options.length > 0 && (
                                                                 <div class=" border-2 w-[360px] border-gray-200 flex flex-wrap gap-1 p-1 selected-users-container relative z-50   rounded-md">
                                                                     {newInputField.options.map((option, index) => (
@@ -457,26 +457,15 @@ const SettingEntityForm = () => {
                                                                                 <path d="M5.28 4.22a.75.75 0 0 0-1.06 1.06L6.94 8l-2.72 2.72a.75.75 0 1 0 1.06 1.06L8 9.06l2.72 2.72a.75.75 0 1 0 1.06-1.06L9.06 8l2.72-2.72a.75.75 0 0 0-1.06-1.06L8 6.94 5.28 4.22Z" />
                                                                             </svg>
                                                                             {/* {index != newInputField.options.length - 1 && <span >,</span> } */}
-                                                                      </span>
+                                                                        </span>
                                                                     ))}
                                                                 </div>
                                                             )}
 
 
-                                                            </div>
-
-                                                            {/* <button onClick={addOption} >add</button> */}
-                                                            {/* {newInputField.options && newInputField.options.length > 0 && newInputField.options.map((option, index) => (
-                                                            <span key={index}>  {option}{index != newInputField.options.length - 1 && <span>,</span>} </span>
-                                                        ))} */}
-
-
-
-
                                                         </div>
                                                     )
                                                 }
-
                                                 <div className="flex gap-5 justify-center">
 
                                                     <div className="mb-6 flex items-end gap-1">
@@ -571,6 +560,7 @@ const SettingEntityForm = () => {
 
 
         </div >
+
     )
 }
 export default SettingEntityForm
