@@ -35,10 +35,10 @@ const TeamsDashboard = () => {
                         <li className='py-2'>
                             <div class="flex items-center">
                                 <div class="flex-shrink-0">
-                                    <img class="w-8 h-8 rounded-full" src="https://images.unsplash.com/photo-1633332755192-727a05c4013d" alt="Neil image" />
+                                    <img class="w-8 h-8 rounded-full" src="https://images.unsplash.com/photo-1701369518365-5c61925a3f7c" alt="Neil image" />
                                 </div>
                                 <div class="flex-1 min-w-0 ms-4">
-                                    <p class="text-sm font-medium text-gray-900 text-start truncate dark:text-white">Team 1</p>
+                                    <p class="text-sm font-medium text-gray-900 text-start truncate dark:text-white">Madhu</p>
                                 </div>
                                 <div class="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
@@ -53,7 +53,7 @@ const TeamsDashboard = () => {
                                     <img class="w-8 h-8 rounded-full" src="https://picsum.photos/seed/72function random() { [native code] }/100" alt="Neil image" />
                                 </div>
                                 <div class="flex-1 min-w-0 ms-4">
-                                    <p class="text-sm font-medium text-gray-900 text-start truncate dark:text-white">Team 2</p>
+                                    <p class="text-sm font-medium text-gray-900 text-start truncate dark:text-white">Neelu</p>
                                 </div>
                                 <div class="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
@@ -68,7 +68,7 @@ const TeamsDashboard = () => {
                                     <img class="w-8 h-8 rounded-full" src="https://picsum.photos/seed/74function random() { [native code] }/100" alt="Neil image" />
                                 </div>
                                 <div class="flex-1 min-w-0 ms-4">
-                                    <p class="text-sm font-medium text-gray-900 text-start truncate dark:text-white">Team 3</p>
+                                    <p class="text-sm font-medium text-gray-900 text-start truncate dark:text-white">Pavan</p>
                                 </div>
                                 <div class="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
@@ -80,10 +80,10 @@ const TeamsDashboard = () => {
                         <li className='py-2'>
                             <div class="flex items-center">
                                 <div class="flex-shrink-0">
-                                    <img class="w-8 h-8 rounded-full" src="https://images.unsplash.com/photo-1633332755192-727a05c4013d" alt="Neil image" />
+                                    <img class="w-8 h-8 rounded-full" src="https://images.unsplash.com/photo-1707156222575-bfb9e7daa3d8" alt="Neil image" />
                                 </div>
                                 <div class="flex-1 min-w-0 ms-4">
-                                    <p class="text-sm font-medium text-gray-900 text-start truncate dark:text-white">Team 4</p>
+                                    <p class="text-sm font-medium text-gray-900 text-start truncate dark:text-white">Gopi</p>
                                 </div>
                                 <div class="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
@@ -98,7 +98,7 @@ const TeamsDashboard = () => {
                                     <img class="w-8 h-8 rounded-full" src="https://picsum.photos/seed/61/100" alt="Neil image" />
                                 </div>
                                 <div class="flex-1 min-w-0 ms-4">
-                                    <p class="text-sm font-medium text-gray-900 text-start truncate dark:text-white">Team 5</p>
+                                    <p class="text-sm font-medium text-gray-900 text-start truncate dark:text-white">Yogesh</p>
                                 </div>
                                 <div class="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
