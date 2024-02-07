@@ -1,14 +1,15 @@
 import React, { useState, useContext, useEffect } from 'react';
 import axios from 'axios';
 import './EntityForm.css';
+
 import defprop from '../../../Images/defprof.svg';
 import useDebounce from '../../../hooks/debounce/useDebounce';
 import { UserDataContext } from '../../../contexts/usersDataContext/usersDataContext';
 import { EntitiesDataContext } from '../../../contexts/entitiesDataContext/entitiesDataContext';
 function EntityForm() {
-  const { usersState: { users, pagination }, usersDispatch } = useContext(UserDataContext);
+  const { usersState: { users, dashboard }, usersDispatch } = useContext(UserDataContext);
   const { createEntity } = useContext(EntitiesDataContext);
-  const usersEmails = pagination.paginatedUsers?.map(user => user.email);
+  const usersEmails = dashboard.paginatedUsers?.map(user => user.email);
   const { debouncedSetPage, debouncedSetSearch } = useDebounce(usersDispatch);
   const [errors, setErrors] = useState({})
   let [openOptions, setopenOptions] = useState("")
@@ -57,7 +58,6 @@ function EntityForm() {
       .then(response => {
         // Handle the successful response
         setCustomFormFields(response.data.array)
-        console.log("Dsdsd", response.data.array);
       })
       .catch(error => {
         // Handle errors
@@ -152,7 +152,6 @@ function EntityForm() {
       }
     }
     const formData = new FormData(e.target)
-    console.log(formData.get("Full Name"), "em")
     formData.set("members", JSON.stringify(['get', 'dynamic', 'mails']));
     createEntity(formData)
   }
@@ -240,8 +239,7 @@ function EntityForm() {
 
                           let mail = result.split("@")[0]
                           return (
-                            <span className='flex gap-1 text-xs mt-1 border-2 border-gray-200 rounded-md p-0.5 focus:border-orange-600
-'>
+                            <span className='flex gap-1 text-xs mt-1 border-2 border-gray-200 rounded-md p-0.5 focus:border-orange-600'>
                               <img className="w-4 h-4 rounded-lg" src={defprop} alt="Neil image" /> {mail} <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor"
                                 className="w-4 h-4 " onClick={() => handleRemove(result, index)}>
                                 <path d="M5.28 4.22a.75.75 0 0 0-1.06 1.06L6.94 8l-2.72 2.72a.75.75 0 1 0 1.06 1.06L8 9.06l2.72 2.72a.75.75 0 1 0 1.06-1.06L9.06 8l2.72-2.72a.75.75 0 0 0-1.06-1.06L8 6.94 5.28 4.22Z" />
@@ -524,7 +522,7 @@ function EntityForm() {
           {customFormFields && customFormFields.length > 0 && customFormFields.map((item) => (
             <div className='relative' >
 
-
+{/* predefined fields*/}
               {item.type === 'text' && item.inputname == "name" && item.field == "predefined" && (
                 <p className="text-sm font-black text-gray-800 mt-2 absolute left-12">{item.value}</p>
               )}
@@ -641,7 +639,7 @@ function EntityForm() {
                   })}
                 </div>
               )}
-
+{/* customfields */}
               {item.type === "text" && item.field == "custom" && <div>
                 {item.value}
 
@@ -741,7 +739,7 @@ export default EntityForm;
 //   const { usersState: { users: {users} } } = useContext(UserDataContext);
 //   console.log(users, "entity form")
 //   const usersEmails = users?.map(user => user.email);
-//   const { entitiesState: { pagination }, entitiesDispatch, deleteEntitybyId, createEntity } = useContext(EntitiesDataContext);
+//   const { entitiesState: { dashboard }, entitiesDispatch, deleteEntitybyId, createEntity } = useContext(EntitiesDataContext);
 
 //   // choose file
 //   const [imageSrc, setImageSrc] = useState(null);
