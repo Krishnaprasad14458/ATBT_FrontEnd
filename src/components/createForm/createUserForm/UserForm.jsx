@@ -39,7 +39,7 @@ function UserForm() {
                 <input
                   type="file"
                   id="fileInput"
-                  className="p-2 block w-full rounded-md bg-gray-50 border-2 border-gray-200 py-1 text-gray-900 appearance-none shadow-sm  placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6"
+                  className="p-2 block w-full rounded-md bg-gray-50 border-2 border-gray-200 py-0.5 text-gray-900 appearance-none shadow-sm  placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6"
                   accept="image/*"
 
                 />
@@ -77,7 +77,7 @@ function UserForm() {
               <div>
                 <label htmlFor="venue" className="block text-sm my-2  font-medium text-gray-700">Designation</label>
                 <div className="relative inline-block text-left w-full">
-                  <select className="p-2 text-xs block w-full bg-gray-50  rounded-md  border-2 border-gray-200 py-1.5 text-gray-900 appearance-none shadow-sm  placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-xs sm:leading-6">
+                  <select className="p-2 text-xs block w-full bg-gray-50  rounded-md  border-2 border-gray-200 py-1 text-gray-900 appearance-none shadow-sm  placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-xs sm:leading-6">
                     <option value="selected" className="hover:bg-orange-600 text-xs">Select Designation</option>
                     <option value="srdeveloper" className='text-xs'>Developement</option>
                     <option value="jrdeveoper" className='text-xs'>Marketing</option>
@@ -93,7 +93,7 @@ function UserForm() {
               <div>
                 <label htmlFor="venue" className="block text-sm my-2  font-medium text-gray-700">Role</label>
                 <div className="relative inline-block text-left w-full">
-                  <select className="p-2 text-xs block w-full bg-gray-50  rounded-md  border-2 border-gray-200 py-1.5 text-gray-900 appearance-none shadow-sm  placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-xs sm:leading-6">
+                  <select className="p-2 text-xs block w-full bg-gray-50  rounded-md  border-2 border-gray-200 py-1 text-gray-900 appearance-none shadow-sm  placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-xs sm:leading-6">
                     <option value="selected" className="hover:bg-orange-600 text-xs">Select Role</option>
                     <option value="developer" className='text-xs'> Sr. Developer</option>
                     <option value="jrdeveoper" className='text-xs'>Jr. Developer</option>
@@ -171,7 +171,7 @@ function UserForm() {
               </div>
             </form>
           </div>
-          <div className="col-span-2 hidden sm:block">
+          <div className="col-span-2 hidden sm:block md:block">
             <div className='flex justify-center items-center mt-10'>
               <div className='border border-1 p-5 w-screen border-gray-200 rounded-md shadow-md bg-[#f8fafc] h-[500px]'>
                 <div className='grid grid-cols-2 gap-4 bg-gray-100'>
@@ -181,7 +181,7 @@ function UserForm() {
                   </div>
                 </div>
 
-                <div className='grid grid-cols-2 mb-8 shadow-inner opacity-100 justify-between mt-3'>
+                <div className='grid grid-cols-2 md:grid-cols-1 xl:grid-cols-2 lg:grid-cols-1 mb-8 shadow-inner opacity-100 justify-between mt-3'>
                   <div className='flex my-3'>
                     <div className='border-1 p-2 bg-gray-200'>
                       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
