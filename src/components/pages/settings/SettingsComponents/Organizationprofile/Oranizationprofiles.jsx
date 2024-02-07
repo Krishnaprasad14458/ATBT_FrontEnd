@@ -14,7 +14,6 @@ const OrganizationProfile = () => {
     const { debouncedSetPage, debouncedSetSearch } = useDebounce(usersDispatch);
     const handlePerPageChange = (event) => {
         const selectedValue = parseInt(event.target.value, 10);
-        console.log(selectedValue, 'sv')
         usersDispatch({
           type: 'SET_PER_PAGE',
           payload: {
@@ -26,10 +25,13 @@ const OrganizationProfile = () => {
     useEffect(() => {
         // usersDispatch(actions.setPerPage(10))
         return () => {
-          usersDispatch({
-            type: "SET_SEARCH",
-            payload: ""
-          })
+            usersDispatch({
+                type: "SET_SEARCH",
+                payload: {
+                  data: "",
+                  context: "SEIINGS"
+                }
+              })
         //   usersDispatch(actions.setPerPage(5))
         }
       }, [])
@@ -57,7 +59,7 @@ const OrganizationProfile = () => {
         }
     };
     useEffect(() => {
-        console.log("imageSrc", imageSrc)
+        // console.log("imageSrc", imageSrc)
     })
     const handleChooseFileClick = () => {
         document.getElementById('fileInput').click();

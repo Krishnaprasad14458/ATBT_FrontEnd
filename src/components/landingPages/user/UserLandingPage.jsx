@@ -18,7 +18,6 @@ const UserLandingPage = () => {
   const { id } = useParams();
   const { usersState: { users }, getUser } = useContext(UserDataContext);
   const [singleUser, setSingleUser] = useState({});
-  console.log(users, "abc")
 
   // const findUserById = useCallback((users, userId) => {
   //   return users?.users?.find(user => user.id === parseInt(userId, 10));
@@ -33,10 +32,8 @@ const UserLandingPage = () => {
   const getuserById = async () => {
     try {
       const userById = users?.users?.find(user => user.id === parseInt(id, 10));
-      console.log(userById, 'ubid')
       if (!userById) {
         const product = await getUser(id);
-        console.log(product?.user, 'ubid-2')
         setSingleUser(product?.user)
       } else {
         setSingleUser(userById)
@@ -50,7 +47,6 @@ const UserLandingPage = () => {
 
   }, [id])
 
-  console.log(singleUser, "current user")
   const [activeTab, setActiveTab] = useState(1);
 
   const handleTabClick = (tabNumber) => {
@@ -150,13 +146,13 @@ const UserLandingPage = () => {
           <div className='flex justify-between bg-gray-100'>
             <div className='flex'>
               <img src='https://images.unsplash.com/photo-1633332755192-727a05c4013d' className='w-24 h-24 border-1' alt='user' />
-              <p className='ms-3 text-lg font-semibold mt-8'>Sri Lakshmi</p>
-              <div>
-                <ul className='mt-5 ms-4'>
+              <p className='ms-3 text-lg font-semibold mt-8'>{singleUser?.userName}</p>
+              {/* <div> */}
+                {/* <ul className='mt-5 ms-4'>
                   <li className='text-xl'>{singleUser?.userName}</li>
                   <li className='text-md'>{singleUser?.email}</li>
-                </ul>
-              </div>
+                </ul> */}
+              {/* </div> */}
             </div>
             <div className='flex me-5'>
               <Link to='/users/new'> <button type="submit" className="mt-7 flex w-full rounded-md bg-orange-600 px-3 py-1.5 text-sm leading-6 text-white shadow-sm  focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600">
@@ -185,7 +181,7 @@ const UserLandingPage = () => {
                   <path d="M22.5 6.908V6.75a3 3 0 0 0-3-3h-15a3 3 0 0 0-3 3v.158l9.714 5.978a1.5 1.5 0 0 0 1.572 0L22.5 6.908Z" />
                 </svg>
               </div>
-              <p className="text-md text-gray-800 mt-1 ms-3">srilaskhmiariveni@gmail.com</p>
+              <p className="text-md text-gray-800 mt-1 ms-3">{singleUser?.email}</p>
             </div>
 
             <div className='flex flex-row justify-start my-3'>

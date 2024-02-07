@@ -7,7 +7,6 @@ import { useSearchParams } from 'react-router-dom';
 
 function EntityDashboard() {
   const { entitiesState: { entities, dashboardEntities }, entitiesDispatch } = useContext(EntitiesDataContext);
-  console.log(dashboardEntities)
   const { debouncedSetPage, debouncedSetSearch } = useDebounce(entitiesDispatch);
   useEffect(() => {
     return () => {

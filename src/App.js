@@ -66,7 +66,7 @@ function App() {
   return (
     <>
       {isOnline ? null : (
-        <span role="img" aria-label="Offline" style={{ position: 'fixed', top: 0, right: 0, padding: '15px', background: 'red', color: 'white', zIndex: 1000 }}>
+        <span role="img" aria-label="Offline" style={{ position: 'fixed', bottom: 0, right: 0, padding: '15px', background: 'red', color: 'white', zIndex: 1000 }}>
           ⚠️ You are offline
         </span>
       )}
