@@ -25,7 +25,6 @@ export const getUserById = async (id) => {
 
 export const createUser = async (userData, token) => {
     const url = `${apiUrl}/admin/create-user`;
-    // console.log(localStorageData?.token)
     return await toast.promise(
         axios.post(url, { ...userData }, {
             headers: {
@@ -73,7 +72,8 @@ export const toggleUser = async (id) => {
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
-        confirmButtonText: 'Yes, toggle it!'
+        confirmButtonText: 'Yes, toggle it!',
+        confirmButtonTextColor: "pink"
     });
-    console.log(url, "abc")
+    console.log(url, "toggle url")
 }

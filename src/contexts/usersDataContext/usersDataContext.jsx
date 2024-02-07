@@ -22,10 +22,6 @@ const UserDataProvider = ({ children }) => {
 
   const { authState } = useContext(AuthContext);
 
-  console.log(authState, "context auth")
-
-  console.log(usersState.dashboard.loading, "loading")
-
   const getAllUsers = async () => {
     const { status, data } = await api.getAllUsers();
     if (status === 200) {
@@ -38,7 +34,6 @@ const UserDataProvider = ({ children }) => {
     usersDispatch(actions.setLoading("DASHBOARD"))
     try {
       const { status, data } = await api.getDashboardUsers(currentPage,pageSize,sortBy,search)
-      console.log(data, "settings 2")
       if (status === 200) {
         usersDispatch(actions.setDashboardUsers(data,'DASHBOARD'))
       }
@@ -54,7 +49,6 @@ const UserDataProvider = ({ children }) => {
     usersDispatch(actions.setLoading("SETTINGS"))
     try {
       const { status, data } = await api.getSettingsUsers(currentPage,pageSize,sortBy,search)
-      console.log(data, "settings 2")
       if (status === 200) {
         usersDispatch(actions.setDashboardUsers(data,'SETTINGS'))
       }
@@ -107,11 +101,12 @@ const UserDataProvider = ({ children }) => {
 
   useEffect(() => {
     getDashboardUsersData();
-    getSettingsUsersData()
+    getSettingsUsersData();
     // eslint-disable-next-line
   }, [usersDispatch,usersState?.dashboard?.currentPage,usersState?.dashboard?.search,usersState?.dashboard?.pageSize,usersState?.settings?.sortBy,usersState?.dashboard?.currentPage,usersState?.settings?.search,usersState?.settings?.pageSize,usersState?.settings?.sortBy]);
   useEffect(() => {
     getAllUsers()
+    getSettingsUsersData();
     // eslint-disable-next-line
   }, []);
 

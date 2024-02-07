@@ -37,7 +37,6 @@ const EntityLandingPage = () => {
     const getSingleProduct = async () => {
         try {
             const entityById = entities?.Entites?.find((element) => element.id === +id);
-            console.log(entities?.Entites, "eid", entityById)
             if (!entityById) {
                 const product = await getEntitybyId(id);
                 setSingleProduct(product?.data?.Entites);

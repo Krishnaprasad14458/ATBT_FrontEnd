@@ -163,7 +163,7 @@ const SettingEntityForm = () => {
 
     // let updatedOptions = updatedNewInputField.options.filter((option) => option != deleteoption)
     return (
-        <div>
+      
             <div className="p-4 container bg-[#f8fafc]">
 
 <div className="flex justify-between">
@@ -564,7 +564,7 @@ const SettingEntityForm = () => {
 
 
 </div >
-        </div>
+       
         
     )
 }

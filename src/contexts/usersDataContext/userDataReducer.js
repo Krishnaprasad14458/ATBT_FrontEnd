@@ -77,15 +77,13 @@ import * as actionTypes from './utils/usersActionTypes'
 const userDataReducer = (state, action) => {
     switch (action.type) {
         case actionTypes.SET_USERS_DATA:
-            console.log(action.payload.data)
             return {
                 ...state,
-                entities: { ...action?.payload } // Keep this if necessary
+                users: { ...action?.payload } // Keep this if necessary
             };
 
         case actionTypes.SET_PAGINATED_USERS:
             const reducerData = action.payload.data;
-            console.log(reducerData, "user context")
             return action.payload.context === 'DASHBOARD' ? {
                 ...state,
                 dashboard: {
@@ -130,7 +128,6 @@ const userDataReducer = (state, action) => {
             };
 
         case actionTypes.SET_PER_PAGE:
-            console.log(action, "sv")
             return action.payload.context === 'DASHBOARD' ? {
                 ...state,
                 dashboard: {
@@ -161,7 +158,6 @@ const userDataReducer = (state, action) => {
             };
 
         case actionTypes.SET_LOADING:
-            console.log(action, "loading")
             return action.payload.context === 'DASHBOARD' ? {
                 ...state,
                 dashboard: {
@@ -177,7 +173,6 @@ const userDataReducer = (state, action) => {
             };
 
         case actionTypes.SET_SORT_BY:
-            console.log(action.payload)
             return action.payload.context === 'DASHBOARD' ? {
                 ...state,
                 dashboard: {
