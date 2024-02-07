@@ -3,7 +3,7 @@ export const initialState = {
     dashboard: {
         paginatedUsers: [],
         search: "",
-        sortBy: "userName",
+        sortBy: "createdAt",
         loading: false,
         totalUsers: null,
         totalPages: null,
@@ -15,7 +15,7 @@ export const initialState = {
     settings: {
         paginatedUsers: [],
         search: "",
-        sortBy: "userName",
+        sortBy: "createdAt",
         loading: false,
         totalUsers: null,
         totalPages: null,
