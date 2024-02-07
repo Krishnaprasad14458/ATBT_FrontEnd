@@ -22,6 +22,7 @@ const UserDataProvider = ({ children }) => {
     initialState
   );
 
+
   const { authState } = useContext(AuthContext);
 
   const getAllUsers = async () => {
@@ -75,9 +76,7 @@ const UserDataProvider = ({ children }) => {
   const createUser = async (userData) => {
     try {
       const { data, status } = await api.createUser(userData, authState.token)
-      console.log(data, "user create resp data")
       if (status === 201) {
-        console.log("user created")
         getDashboardUsersData()
         getSettingsUsersData()
         getAllUsers()
@@ -108,7 +107,7 @@ const UserDataProvider = ({ children }) => {
     getDashboardUsersData();
     getSettingsUsersData();
     // eslint-disable-next-line
-  }, [usersDispatch,usersState?.dashboard?.currentPage,usersState?.dashboard?.search,usersState?.dashboard?.pageSize,usersState?.settings?.sortBy,usersState?.dashboard?.currentPage,usersState?.settings?.search,usersState?.settings?.pageSize,usersState?.settings?.sortBy]);
+  }, [usersDispatch,usersState?.dashboard?.currentPage,usersState?.dashboard?.search,usersState?.dashboard?.pageSize,usersState?.settings?.sortBy,usersState?.settings?.currentPage,usersState?.settings?.search,usersState?.settings?.pageSize,usersState?.settings?.sortBy]);
   useEffect(() => {
     getAllUsers()
     getSettingsUsersData();
