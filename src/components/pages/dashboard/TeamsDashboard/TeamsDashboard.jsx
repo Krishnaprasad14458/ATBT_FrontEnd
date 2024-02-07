@@ -26,7 +26,7 @@ const TeamsDashboard = () => {
                         </svg>
                         <input type="search" id="gsearch" name="gsearch" className='bg-slate-50 w-80 border-none focus:outline-none appearance-none focus:border-none' placeholder='Search here....' />
                     </div><hr className='w-96 my-1' />
-                   
+
                 </div>
                 <hr />
                 {/* list module */}
@@ -132,7 +132,7 @@ const TeamsDashboard = () => {
                         Next
                     </a>
                 </div>
-                <div className='hidden sm:block'>Showing 1 to 5 of 5 Result</div>
+                <div className='hidden sm:block text-gray-700 text-sm'>Showing 1 to 5 of 5 Result</div>
                 {/*only for big screen pagination */}
                 <div className="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
                     {/* pagination data */}
