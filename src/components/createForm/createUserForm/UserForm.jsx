@@ -15,11 +15,13 @@ function UserForm() {
     createUser(userDetails)
   }
   return (
+
     <div>
       <div className='container p-3 bg-[#f8fafc] '>
         <p className="text-lg font-semibold">New User</p>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-4 ">
           <div className="col-span-1 p-3">
+
 
             <form className="space-y-3 " method="POST">
               <div>
