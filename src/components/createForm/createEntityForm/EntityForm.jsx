@@ -58,7 +58,6 @@ function EntityForm() {
       .then(response => {
         // Handle the successful response
         setCustomFormFields(response.data.array)
-        console.log("Dsdsd", response.data.array);
       })
       .catch(error => {
         // Handle errors
@@ -153,7 +152,6 @@ function EntityForm() {
       }
     }
     const formData = new FormData(e.target)
-    console.log(formData.get("Full Name"), "em")
     formData.set("members", JSON.stringify(['get', 'dynamic', 'mails']));
     createEntity(formData)
   }
@@ -241,8 +239,7 @@ function EntityForm() {
 
                           let mail = result.split("@")[0]
                           return (
-                            <span className='flex gap-1 text-xs mt-1 border-2 border-gray-200 rounded-md p-0.5 focus:border-orange-600
-'>
+                            <span className='flex gap-1 text-xs mt-1 border-2 border-gray-200 rounded-md p-0.5 focus:border-orange-600'>
                               <img className="w-4 h-4 rounded-lg" src={defprop} alt="Neil image" /> {mail} <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor"
                                 className="w-4 h-4 " onClick={() => handleRemove(result, index)}>
                                 <path d="M5.28 4.22a.75.75 0 0 0-1.06 1.06L6.94 8l-2.72 2.72a.75.75 0 1 0 1.06 1.06L8 9.06l2.72 2.72a.75.75 0 1 0 1.06-1.06L9.06 8l2.72-2.72a.75.75 0 0 0-1.06-1.06L8 6.94 5.28 4.22Z" />
@@ -499,7 +496,7 @@ function EntityForm() {
                           {item.options.map((option, subindex) => (
                             <div key={subindex} className="mr-2 mb-2">
                               <input
-                                type="checkbox"
+                                type="checkbox" 
                                 id={option}
                                 checked={item.value.includes(option)}
                                 onChange={(e) => handleChange(index, option)}
@@ -521,6 +518,7 @@ function EntityForm() {
             </div>
           </form>
         </div>
+        {/* preview */}
         <div className='col-span-2 h-[500px] overflow-auto shadow-md px-6 py-4 border-2 rounded-md bg-[#f8fafc] '>
           {customFormFields && customFormFields.length > 0 && customFormFields.map((item) => (
             <div className='relative' >

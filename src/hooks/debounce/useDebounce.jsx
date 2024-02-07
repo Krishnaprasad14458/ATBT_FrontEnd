@@ -3,7 +3,6 @@ import { debounce } from '../../utils/utils';
 function useDebounce(dispatch) {
 
   const debouncedSetPage = debounce((newPage) => {
-    console.log(newPage)
     dispatch({
       type: "SET_CUSTOM_PAGE",
       payload: newPage
@@ -11,7 +10,6 @@ function useDebounce(dispatch) {
   }, 300);
 
   const debouncedSetSearch = debounce((searchData) => {
-    console.log(searchData)
     dispatch({
       type: "SET_SEARCH",
       payload: searchData
