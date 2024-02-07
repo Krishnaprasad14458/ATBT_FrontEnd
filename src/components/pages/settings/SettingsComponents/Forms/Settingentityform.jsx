@@ -129,8 +129,10 @@ const SettingEntityForm = () => {
         let formData = {
             arrayOfObjects: customForm, Name: "entityform"
         }
-        axios.put(
+        axios.post(
             `https://atbtmain.teksacademy.com/form/update`,
+            // `https://www.atbtbeta.teksacademy.com/form/add`,
+
             formData
         )
             .then(response => {
