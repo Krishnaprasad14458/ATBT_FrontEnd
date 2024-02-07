@@ -70,7 +70,7 @@ const Login = () => {
                                 <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">Email ID <span className='text-[#dc2626]'>*</span></label>
                                 <div className="mt-2">
                                     <input id="email" name="email" onChange={handleFormData} value={formData.email} type="email"
-                                        placeholder=" Enter your active Email ID" autoComplete="email" required className="p-3 block w-full rounded-md border border-1 border-gray-400 py-1.5 text-gray-900 bg-gray-100  appearance-none shadow-sm  placeholder:text-gray-400 placeholder:text-sm focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6" />
+                                        placeholder=" Enter your Email ID" autoComplete="email" required className="p-3 block w-full rounded-md border border-1 border-gray-400 py-1.5 text-gray-900 bg-gray-100  appearance-none shadow-sm  placeholder:text-gray-400 placeholder:text-sm focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6" />
                                 </div>
                                 <p className='text-[#dc2626] text-xs'>{email}</p>
                             </div>
