@@ -76,11 +76,12 @@ const UserDataProvider = ({ children }) => {
     try {
       const { data, status } = await api.createUser(userData, authState.token)
       console.log(data, "user create resp data")
+      navigate(`/`)
       if (status === 201) {
         getDashboardUsersData()
         getSettingsUsersData()
         getAllUsers()
-        // navigate(`userlandingpage/${data}`)
+        navigate(`/`)
       }
     }
     catch (e) {
