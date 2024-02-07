@@ -368,7 +368,7 @@ const SettingEntityForm = () => {
 
                                         {newInputField.field != "predefined" &&
                                             // editIndex == null && 
-                                            <div >
+                                            <div>
                                                 <div className="flex  gap-2">
                                                     <label htmlFor="venue" className="block text-sm font-medium leading-6 mt-3 mb-2  mx-2 text-gray-900 ">Type </label>
                                                     <div className="relative inline-block text-left ">
@@ -541,7 +541,7 @@ const SettingEntityForm = () => {
             </div>
 
 
-        </div >
+        </div>
     )
 }
 export default SettingEntityForm
