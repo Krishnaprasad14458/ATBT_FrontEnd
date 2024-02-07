@@ -215,7 +215,7 @@ function UserForm() {
               </div>
             </form>
           </div>
-          <div className="col-span-2 ">
+          <div className="col-span-2 hidden sm:block md:block">
             <div className='flex justify-center items-center mt-10'>
               <div className='border border-1 p-5 w-screen border-gray-200 rounded-md shadow-md bg-[#f8fafc] h-[500px]'>
                 <div className='grid grid-cols-2 gap-4 bg-gray-100'>
@@ -225,7 +225,7 @@ function UserForm() {
                   </div>
                 </div>
 
-                <div className='grid grid-cols-2 mb-8 shadow-inner opacity-100 justify-between mt-3'>
+                <div className='grid grid-cols-2 md:grid-cols-1 xl:grid-cols-2 lg:grid-cols-1 mb-8 shadow-inner opacity-100 justify-between mt-3'>
                   <div className='flex my-3'>
                     <div className='border-1 p-2 bg-gray-200'>
                       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
