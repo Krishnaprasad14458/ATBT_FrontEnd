@@ -273,11 +273,11 @@ const OrganizationProfile = () => {
                                                         'block px-4 py-2 text-sm'
                                                     )}
                                                 >
-                                                    Data Created
+                                                    Date
                                                 </p>
                                             )}
                                         </Menu.Item>
-                                        <Menu.Item>
+                                        {/* <Menu.Item>
                                             {({ active }) => (
                                                 <p
                                                     onClick={() => {
@@ -306,7 +306,7 @@ const OrganizationProfile = () => {
                                                     Name
                                                 </p>
                                             )}
-                                        </Menu.Item>
+                                        </Menu.Item> */}
 
                                     </div>
                                 </Menu.Items>
@@ -391,14 +391,17 @@ const OrganizationProfile = () => {
                         </a>
                     </div>
                     {/*only for big screen pagination */}
-                    <div className="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
+                    <div className="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between ">
                         {/* pagination data */}
-                        <div>
+
+
+                        
+                        {/* <div>
                             {!settings?.paginatedUsers || settings?.paginatedUsers?.length === 0 ? "no data to show" : settings.loading ? "Loading..." : <p className="text-sm text-gray-700">
                                 Showing <span className="font-medium">{settings?.startUser}</span> to
                                 <span className="font-medium"> {settings?.endUser}</span> of {settings?.totalUsers} users
                             </p>}
-                        </div>
+                        </div> */}
                         {/* prev and next for big screens */}
                         <div className="flex justify-end absolute inset-x-0 bottom-2 mt-1 me-4">
                             <section className="isolate inline-flex rounded-md shadow-sm mt-1" aria-label="Pagination">
