@@ -4,7 +4,7 @@ const PageNotFound = () => {
   const navigate = useNavigate();
   document.title = "Page Not Found";
   return (
-    <div className="not-found bg-[#f8fafc] h-96 flex flex-col justify-center items-center mt-14">
+    <div className="not-found h-96 flex flex-col justify-center items-center mt-14">
       <div className=" border-2 border-gray-100 px-64   py-10 shadow-lg  mt-40">
         <div className="flex justify-center">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-20 h-20 text-orange-600">
