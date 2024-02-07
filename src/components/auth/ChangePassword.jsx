@@ -140,9 +140,9 @@ function ChangePassword() {
                             </div>
 
 
-                            <span className='text-sm text-gray-600 mt-2'> New password must contain:
+                            <span className='text-sm text-gray-600 '> New password must contain:
 
-                                <span className='text-xs text-gray-500 flex mt-1'>
+                                <span className='text-xs text-gray-500 flex '>
                                     {checkvalidations.passwordLength ? (
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="w-4 h-4 text-[#15803d]">
                                             <path fill-rule="evenodd" d="M12.416 3.376a.75.75 0 0 1 .208 1.04l-5 7.5a.75.75 0 0 1-1.154.114l-3-3a.75.75 0 0 1 1.06-1.06l2.353 2.353 4.493-6.74a.75.75 0 0 1 1.04-.207Z" clip-rule="evenodd" />
@@ -198,7 +198,7 @@ function ChangePassword() {
                                     At least one special character</span></span>
 
                             <div>
-                                <button type="submit" onClick={handleSubmit} className="flex w-full justify-center rounded-md bg-orange-600 px-3 py-1.5 text-sm  leading-6 text-white shadow-sm  focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600">Sign In</button>
+                                <button type="submit" onClick={handleSubmit} className="flex w-full justify-center rounded-md bg-orange-600 px-3 py-1.5 text-sm  leading-6 text-white shadow-sm  focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600">Submit</button>
                             </div>
                         </form>
                     </div>

@@ -56,7 +56,7 @@ function ResetPassword() {
                             </div>
                             <div>
                                 <button type="submit" onClick={handleSubmit} className="flex w-full justify-center rounded-md bg-orange-600 px-3 py-1.5 text-sm leading-6 text-white shadow-sm  focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600">
-                                    Request reset link
+                                    Request Reset Link
                                 </button>
                                 <div className="text-sm text-center mt-4">
                                     <Link to="/" className="font-semibold text-black-100 hover:text-orange-500">Back to Sign In</Link>
