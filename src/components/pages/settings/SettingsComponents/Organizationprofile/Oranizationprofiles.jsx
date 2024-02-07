@@ -340,7 +340,7 @@ const OrganizationProfile = () => {
                                         <td className="px-6 py-1.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]">Developer</td>
                                         <td className="px-6 py-1.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]">Jr.Software Developer</td>
                                         <td className="px-6 py-1.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800  flex justify-evenly">
-                                            <Link to='/userlandingpage/:id'>
+                                            <Link to={`/userlandingpage/${user.id}`}>
                                                 <button type="button" className="inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent text-[#64748b] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
                                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5">
                                                         <path d="M10 12.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z" />

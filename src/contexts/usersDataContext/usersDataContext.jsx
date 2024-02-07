@@ -9,12 +9,14 @@ import * as api from './utils/usersApis'
 import userDataReducer from "./userDataReducer";
 import { initialState } from "./utils/usersConfig";
 import { AuthContext } from "../authContext/authContext";
+import { useNavigate } from "react-router-dom";
 
 export const UserDataContext = createContext();
 
 const localStorageData = JSON.parse(localStorage.getItem("data"));
 
 const UserDataProvider = ({ children }) => {
+  const navigate = useNavigate();
   const [usersState, usersDispatch] = useReducer(
     userDataReducer,
     initialState
@@ -73,10 +75,12 @@ const UserDataProvider = ({ children }) => {
   const createUser = async (userData) => {
     try {
       const { data, status } = await api.createUser(userData, authState.token)
+      console.log(data, "user create resp data")
       if (status === 201) {
         getDashboardUsersData()
         getSettingsUsersData()
         getAllUsers()
+        // navigate(`userlandingpage/${data}`)
       }
     }
     catch (e) {

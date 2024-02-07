@@ -96,7 +96,7 @@ const AuthProvider = ({ children }) => {
 
   const resetPassword = async ({ id, password }) => {
     try {
-      const { data } = await toast.promise(
+      const { data, status } = await toast.promise(
         axios.put(`${apiUrl}/user/changepassword/${id}`, {newPassword:password}),
         {
           pending: 'verifying data',
@@ -108,6 +108,10 @@ const AuthProvider = ({ children }) => {
           error: 'Unauthorized Access 🤯',
         },
       )
+      console.log(status, "status")
+      if(status === 200) {
+        navigate("/login");
+      }
     } catch (e) {
       console.error(e);
     }
