@@ -76,11 +76,8 @@ const UserDataProvider = ({ children }) => {
     try {
       const { data, status } = await api.createUser(userData, authState.token)
       console.log(data, "user create resp data")
-      getAllUsers()
-      getDashboardUsersData()
-      getSettingsUsersData()
-      navigate(`/`)
       if (status === 201) {
+        console.log("user created")
         getDashboardUsersData()
         getSettingsUsersData()
         getAllUsers()
