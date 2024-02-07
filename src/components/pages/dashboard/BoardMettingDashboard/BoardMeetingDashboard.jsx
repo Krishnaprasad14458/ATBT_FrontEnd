@@ -31,6 +31,82 @@ const BoardMeetingDashboard = () => {
                 {/* list module */}
                 <div className="flow-root p-3 sm:px-6 sm:py-2">
                     <ul role="list" className="divide-y divide-gray-200 dark:divide-gray-700">
+                        {/* 1 to 5  static data */}
+                        <li className='py-2'>
+                            <div class="flex items-center">
+                                <div class="flex-shrink-0">
+                                    <img class="w-8 h-8 rounded-full" src="https://images.unsplash.com/photo-1682685795579-37e731bfefab" alt="Neil image" />
+                                </div>
+                                <div class="flex-1 min-w-0 ms-4">
+                                    <p class="text-sm font-medium text-gray-900 text-start truncate dark:text-white">Madhav</p>
+                                </div>
+                                <div class="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+                                        <path d="M6.3 2.84A1.5 1.5 0 0 0 4 4.11v11.78a1.5 1.5 0 0 0 2.3 1.27l9.344-5.891a1.5 1.5 0 0 0 0-2.538L6.3 2.841Z"></path>
+                                    </svg>
+                                </div>
+                            </div>
+                        </li>
+                        <li className='py-2'>
+                            <div class="flex items-center">
+                                <div class="flex-shrink-0">
+                                    <img class="w-8 h-8 rounded-full" src="https://images.unsplash.com/photo-1707003839745-0df405c490c5" alt="Neil image" />
+                                </div>
+                                <div class="flex-1 min-w-0 ms-4">
+                                    <p class="text-sm font-medium text-gray-900 text-start truncate dark:text-white">Venkat</p>
+                                </div>
+                                <div class="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+                                        <path d="M6.3 2.84A1.5 1.5 0 0 0 4 4.11v11.78a1.5 1.5 0 0 0 2.3 1.27l9.344-5.891a1.5 1.5 0 0 0 0-2.538L6.3 2.841Z"></path>
+                                    </svg>
+                                </div>
+                            </div>
+                        </li>
+                        <li className='py-2'>
+                            <div class="flex items-center">
+                                <div class="flex-shrink-0">
+                                    <img class="w-8 h-8 rounded-full" src="https://images.unsplash.com/photo-1682688759157-57988e10ffa8" alt="Neil image" />
+                                </div>
+                                <div class="flex-1 min-w-0 ms-4">
+                                    <p class="text-sm font-medium text-gray-900 text-start truncate dark:text-white">Kumar</p>
+                                </div>
+                                <div class="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+                                        <path d="M6.3 2.84A1.5 1.5 0 0 0 4 4.11v11.78a1.5 1.5 0 0 0 2.3 1.27l9.344-5.891a1.5 1.5 0 0 0 0-2.538L6.3 2.841Z"></path>
+                                    </svg>
+                                </div>
+                            </div>
+                        </li>
+                        <li className='py-2'>
+                            <div class="flex items-center">
+                                <div class="flex-shrink-0">
+                                    <img class="w-8 h-8 rounded-full" src="https://images.unsplash.com/photo-1707139057009-dd16280fa07f" alt="Neil image" />
+                                </div>
+                                <div class="flex-1 min-w-0 ms-4">
+                                    <p class="text-sm font-medium text-gray-900 text-start truncate dark:text-white">Sunil</p>
+                                </div>
+                                <div class="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+                                        <path d="M6.3 2.84A1.5 1.5 0 0 0 4 4.11v11.78a1.5 1.5 0 0 0 2.3 1.27l9.344-5.891a1.5 1.5 0 0 0 0-2.538L6.3 2.841Z"></path>
+                                    </svg>
+                                </div>
+                            </div>
+                        </li>
+                        <li className='py-2'>
+                            <div class="flex items-center">
+                                <div class="flex-shrink-0">
+                                    <img class="w-8 h-8 rounded-full" src="https://images.unsplash.com/photo-1707187444693-0a7c57769024" alt="Neil image" />
+                                </div>
+                                <div class="flex-1 min-w-0 ms-4">
+                                    <p class="text-sm font-medium text-gray-900 text-start truncate dark:text-white">Venu</p>
+                                </div>
+                                <div class="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+                                        <path d="M6.3 2.84A1.5 1.5 0 0 0 4 4.11v11.78a1.5 1.5 0 0 0 2.3 1.27l9.344-5.891a1.5 1.5 0 0 0 0-2.538L6.3 2.841Z"></path>
+                                    </svg>
+                                </div>
+                            </div>
+                        </li>
                         {/* {pagination?.paginatedUsers === "no data to show for this page" ? (
                             <li className="py-2 sm:py-2">
                                 <p>No user found</p>
@@ -62,6 +138,7 @@ const BoardMeetingDashboard = () => {
                         Next
                     </a>
                 </div>
+                <div>Showing 1 to 5 of 5 Result</div>
                 {/*only for big screen pagination */}
                 <div className="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
                     {/* pagination data */}

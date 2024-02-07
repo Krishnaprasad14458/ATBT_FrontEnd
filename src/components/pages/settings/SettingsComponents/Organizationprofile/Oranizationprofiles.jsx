@@ -251,53 +251,67 @@ const OrganizationProfile = () => {
                                 </Menu.Button>
                             </div>
 
-                                    <Transition
-                                        as={Fragment}
-                                        enter="transition ease-out duration-100"
-                                        enterFrom="transform opacity-0 scale-95"
-                                        enterTo="transform opacity-100 scale-100"
-                                        leave="transition ease-in duration-75"
-                                        leaveFrom="transform opacity-100 scale-100"
-                                        leaveTo="transform opacity-0 scale-95"
-                                    >
-                                        <Menu.Items className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                                            <div className="py-1">
-                                                <Menu.Item>
-                                                    {({ active }) => (
-                                                        <p 
-                                                        onClick={()=>{
-                                                            usersDispatch(setSortBy("createdAt", 'SETTINGS'))
-                                                        }}>
-                                                            Date Created
-                                                        </p>
+                            <Transition
+                                as={Fragment}
+                                enter="transition ease-out duration-100"
+                                enterFrom="transform opacity-0 scale-95"
+                                enterTo="transform opacity-100 scale-100"
+                                leave="transition ease-in duration-75"
+                                leaveFrom="transform opacity-100 scale-100"
+                                leaveTo="transform opacity-0 scale-95"
+                            >
+                                <Menu.Items className="absolute right-0 z-50 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                                    <div className="py-1">
+                                        <Menu.Item>
+                                            {({ active }) => (
+                                                <p
+                                                    onClick={() => {
+                                                        usersDispatch(setSortBy("createdAt", 'SETTINGS'))
+                                                    }}
+                                                    className={classNames(
+                                                        active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
+                                                        'block px-4 py-2 text-sm'
                                                     )}
-                                                </Menu.Item>
-                                                <Menu.Item>
-                                                    {({ active }) => (
-                                                        <p
-                                                        onClick={()=>{
-                                                            usersDispatch(setSortBy("name", 'SETTINGS'))
-                                                        }}>
-                                                            Name
-                                                        </p>
+                                                >
+                                                Data Created
+                                                </p>
+                                            )}
+                                        </Menu.Item>
+                                        <Menu.Item>
+                                            {({ active }) => (
+                                                <p
+                                                    onClick={() => {
+                                                        usersDispatch(setSortBy("name", 'SETTINGS'))
+                                                    }}
+                                                    className={classNames(
+                                                        active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
+                                                        'block px-4 py-2 text-sm'
                                                     )}
-                                                </Menu.Item>
-                                                <Menu.Item>
-                                                    {({ active }) => (
-                                                        <p
-                                                        onClick={()=>{
-                                                            usersDispatch(setSortBy("email", 'SETTINGS'))
-                                                        }}>
-                                                            Email
-                                                        </p>
+                                                >
+                                                    Email
+                                                </p>
+                                            )}
+                                        </Menu.Item>
+                                        <Menu.Item>
+                                            {({ active }) => (
+                                                <p
+                                                    onClick={() => {
+                                                        usersDispatch(setSortBy("email", 'SETTINGS'))
+                                                    }}
+                                                    className={classNames(
+                                                        active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
+                                                        'block px-4 py-2 text-sm'
                                                     )}
-                                                </Menu.Item>
+                                                >
+                                                    Name
+                                                </p>
+                                            )}
+                                        </Menu.Item>
 
                                     </div>
                                 </Menu.Items>
                             </Transition>
                         </Menu>
-
                     </div>
                 </div>
                 {/* table */}
@@ -360,7 +374,7 @@ const OrganizationProfile = () => {
                     </div>
                 </div>
                 {/* pagination */}
-                <div className="flex items-center justify-between  px-4 py-3  sm:px-6 absolute inset-x-0 right-0 bottom-0">
+                <div className="flex items-center justify-between px-4 py-3 sm:px-6 ">
                     {/* hidden pagination only for mobile */}
                     <div className="flex flex-1 justify-between sm:hidden">
                         <a
@@ -418,7 +432,7 @@ const OrganizationProfile = () => {
                 </div>
             </div>}
             {/* 5th page */}
-            {activeTab === 5 && <div className="mt-4">
+            {activeTab === 5 && <div className="mt-4 overflow-x-auto">
                 <div className="min-w-full inline-block align-middle">
                     <div className="overflow-y-scroll max-h-[500px]">
                         <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700 border-collapse border border-[#e5e7eb] rounded-md ">
