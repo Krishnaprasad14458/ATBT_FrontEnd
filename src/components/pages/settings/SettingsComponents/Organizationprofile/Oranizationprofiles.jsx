@@ -273,11 +273,11 @@ const OrganizationProfile = () => {
                                                         'block px-4 py-2 text-sm'
                                                     )}
                                                 >
-                                                    Data Created
+                                                    Date
                                                 </p>
                                             )}
                                         </Menu.Item>
-                                        <Menu.Item>
+                                        {/* <Menu.Item>
                                             {({ active }) => (
                                                 <p
                                                     onClick={() => {
@@ -306,7 +306,7 @@ const OrganizationProfile = () => {
                                                     Name
                                                 </p>
                                             )}
-                                        </Menu.Item>
+                                        </Menu.Item> */}
 
                                     </div>
                                 </Menu.Items>
@@ -336,11 +336,11 @@ const OrganizationProfile = () => {
                                         <td className="px-6 py-1.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]">{user.userName}</td>
                                         <td className="px-6 py-1.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]">{user.email}</td>
                                         <td className="px-6 py-1.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]">{user.phone}</td>
-                                        <td className="px-6 py-1.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]">Infoz IT</td>
-                                        <td className="px-6 py-1.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]">Developer</td>
-                                        <td className="px-6 py-1.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]">Jr.Software Developer</td>
+                                        <td className="px-6 py-1.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]">{user.EntityName ? user.EntityName : 'none'}</td>
+                                        <td className="px-6 py-1.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]">{user.Designation ? user.Designation : 'none'}</td>
+                                        <td className="px-6 py-1.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]">{user.Role ? user.Role : 'none'}</td>
                                         <td className="px-6 py-1.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800  flex justify-evenly">
-                                            <Link to='/userlandingpage/:id'>
+                                            <Link to={`/userlandingpage/${user.id}`}>
                                                 <button type="button" className="inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent text-[#64748b] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
                                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5">
                                                         <path d="M10 12.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z" />
@@ -348,7 +348,7 @@ const OrganizationProfile = () => {
                                                     </svg>
                                                 </button>
                                             </Link>
-                                            <Link to='/users/new'>
+                                            <Link>
                                                 <button type="button" className="inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent text-[#64748b] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
                                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5">
                                                         <path d="m2.695 14.762-1.262 3.155a.5.5 0 0 0 .65.65l3.155-1.262a4 4 0 0 0 1.343-.886L17.5 5.501a2.121 2.121 0 0 0-3-3L3.58 13.419a4 4 0 0 0-.885 1.343Z" />
@@ -391,14 +391,17 @@ const OrganizationProfile = () => {
                         </a>
                     </div>
                     {/*only for big screen pagination */}
-                    <div className="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
+                    <div className="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between ">
                         {/* pagination data */}
-                        <div>
+
+
+
+                        {/* <div>
                             {!settings?.paginatedUsers || settings?.paginatedUsers?.length === 0 ? "no data to show" : settings.loading ? "Loading..." : <p className="text-sm text-gray-700">
                                 Showing <span className="font-medium">{settings?.startUser}</span> to
                                 <span className="font-medium"> {settings?.endUser}</span> of {settings?.totalUsers} users
                             </p>}
-                        </div>
+                        </div> */}
                         {/* prev and next for big screens */}
                         <div className="flex justify-end absolute inset-x-0 bottom-2 mt-1 me-4">
                             <section className="isolate inline-flex rounded-md shadow-sm mt-1" aria-label="Pagination">

@@ -9,16 +9,19 @@ import * as api from './utils/usersApis'
 import userDataReducer from "./userDataReducer";
 import { initialState } from "./utils/usersConfig";
 import { AuthContext } from "../authContext/authContext";
+import { useNavigate } from "react-router-dom";
 
 export const UserDataContext = createContext();
 
 const localStorageData = JSON.parse(localStorage.getItem("data"));
 
 const UserDataProvider = ({ children }) => {
+  const navigate = useNavigate();
   const [usersState, usersDispatch] = useReducer(
     userDataReducer,
     initialState
   );
+
 
   const { authState } = useContext(AuthContext);
 
@@ -77,6 +80,7 @@ const UserDataProvider = ({ children }) => {
         getDashboardUsersData()
         getSettingsUsersData()
         getAllUsers()
+        navigate(`/`)
       }
     }
     catch (e) {
@@ -103,7 +107,7 @@ const UserDataProvider = ({ children }) => {
     getDashboardUsersData();
     getSettingsUsersData();
     // eslint-disable-next-line
-  }, [usersDispatch,usersState?.dashboard?.currentPage,usersState?.dashboard?.search,usersState?.dashboard?.pageSize,usersState?.settings?.sortBy,usersState?.dashboard?.currentPage,usersState?.settings?.search,usersState?.settings?.pageSize,usersState?.settings?.sortBy]);
+  }, [usersDispatch,usersState?.dashboard?.currentPage,usersState?.dashboard?.search,usersState?.dashboard?.pageSize,usersState?.settings?.sortBy,usersState?.settings?.currentPage,usersState?.settings?.search,usersState?.settings?.pageSize,usersState?.settings?.sortBy]);
   useEffect(() => {
     getAllUsers()
     getSettingsUsersData();

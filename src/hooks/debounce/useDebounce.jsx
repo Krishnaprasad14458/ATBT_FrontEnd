@@ -3,6 +3,7 @@ import { debounce } from '../../utils/utils';
 function useDebounce(dispatch) {
 
   const debouncedSetPage = debounce((newPage) => {
+    console.log(newPage)
     dispatch({
       type: "SET_CUSTOM_PAGE",
       payload: newPage
