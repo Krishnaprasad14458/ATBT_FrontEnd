@@ -24,7 +24,7 @@ export default function TopBar() {
             <div className="flex flex-1 items-center justify-between sm:items-stretch sm:justify-start">
               <div className="flex flex-shrink-0 items-center">
 
-                <Menu as="div" className="relative inline-block text-left">
+                <Menu as="div" className="relative inline-block text-left " style={{ zIndex: 9999 }}>
                   <div>
                     <Menu.Button className="inline-flex w-full justify-center gap-x-1.5 rounded-full">
                       <button className="create-btn px-3 py-2 inline-flex items-center justify-center whitespace-nowrap rounded-full text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white gap-1">
@@ -42,8 +42,10 @@ export default function TopBar() {
                     leave="transition ease-in duration-75"
                     leaveFrom="transform opacity-100 scale-100"
                     leaveTo="transform opacity-0 scale-95"
+
                   >
-                    <Menu.Items className="absolute ml-28 top-0 left-0 mt-1 z-40 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                    <Menu.Items className="absolute ml-28 top-0  left-0 mt-1  w-56 origin-top-right 
+                    rounded-md bg-white  shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none" >
                       <div className="py-1">
                         <Menu.Item>
                           {({ active }) => (
@@ -232,6 +234,7 @@ export default function TopBar() {
                           )}
                         </Menu.Item>
                       </form>
+
                     </div>
                   </Menu.Items>
                 </Transition>
