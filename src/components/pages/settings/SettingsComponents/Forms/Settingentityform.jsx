@@ -3,7 +3,23 @@ import { Fragment, useRef, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { ExclamationTriangleIcon } from '@heroicons/react/24/outline'
 import axios from "axios";
+import { toast } from "react-toastify";
+
 const SettingEntityForm = () => {
+    const saveCustomForm = async (formData) => {
+        toast.promise(
+            axios.put(`https://atbtmain.teksacademy.com/form/update`,formData),
+            {
+                pending: 'Updating Form',
+                success: {
+                    render({ data }) {
+                        return `Form Updated`
+                    }
+                },
+                error: 'Unable to update form 🤯',
+            },
+        )
+    }
     const [open, setOpen] = useState(false)
     const [editIndex, setEditIndex] = useState(null);
     const cancelButtonRef = useRef(null);
@@ -129,25 +145,13 @@ const SettingEntityForm = () => {
     const [inputType, setInputType] = useState(["", "text", "email", "password",
         "number", "textarea", "file", "date", "select", "multiselect", "checkbox", "range", "time"])
 
-    const handleSubmitCustomForm = () => {
+    const handleSubmitCustomForm = async () => {
         let formData = {
             arrayOfObjects: customForm, Name: "entityform"
         }
-        axios.put(
-            `https://atbtmain.teksacademy.com/form/update`,
-            // `https://www.atbtbeta.teksacademy.com/form/add`,
 
-            formData
-        )
-            .then(response => {
-                // Handle the response here
+        await saveCustomForm(formData)
 
-                console.log(response);
-            })
-            .catch(error => {
-
-                console.error(error);
-            });
     }
     const deleteOption = (index) => {
         let updatedNewInputField = { ...newInputField };
