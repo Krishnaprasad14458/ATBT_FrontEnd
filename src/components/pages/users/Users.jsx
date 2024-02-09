@@ -75,7 +75,7 @@ function Users() {
         <h1 className='font-semibold text-lg grid1-item'>Users</h1>
         <div className='grid1-item mx-3 text-start'>
           <label for="default-search" className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
-          <div className="relative mb-2">
+          <div className="relative">
             <div className="absolute inset-y-0 start-0 flex items-center p-2 pointer-events-none">
               <svg className="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
@@ -84,7 +84,7 @@ function Users() {
             <input onChange={(e) => debouncedSetSearch({ context: 'SETTINGS', data: e.target.value })} type="search" id="default-search" className="block w-full px-4 py-2 ps-10 text-sm border-2 border-gray-200  rounded-2xl bg-gray-50  focus:outline-none " placeholder="Search here..." required />
           </div>
         </div>
-        <div className='grid1-item text-end filter_pagination  mb-2'>
+        <div className='grid1-item text-end filter_pagination'>
           <select defaultValue="10" onChange={handlePerPageChange} className="focus:outline-none me-3 gap-x-1.5 rounded-md bg-gray-50 px-1 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-200 hover:bg-gray-50">
             <option value="10">10</option>
             <option value="25">25</option>
@@ -222,7 +222,7 @@ function Users() {
         </div>
       </div>
       {/* pagination */}
-      <div className="flex items-center justify-between px-4 py-2 sm:px-6 ">
+      <div className="flex items-center justify-end px-4 py-2 sm:px-6 ">
         {/* hidden pagination only for mobile */}
         <div className="flex flex-1 justify-between sm:hidden">
           <a
@@ -239,7 +239,7 @@ function Users() {
           </a>
         </div>
         {/*only for big screen pagination */}
-        <div className="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between ">
+        <div className="hidden sm:flex sm:flex-1 sm:items-center sm:justify-end ">
           {/* pagination data */}
 
 
@@ -251,7 +251,7 @@ function Users() {
                             </p>}
                         </div> */}
           {/* prev and next for big screens */}
-          <div className="flex justify-end absolute inset-x-0 bottom-2 mt-1 me-4">
+          <div className="flex justify-end inset-x-0 bottom-2 mt-1">
             <section className="isolate inline-flex rounded-md shadow-sm mt-1" aria-label="Pagination">
               {/* previos button */}
               <button
