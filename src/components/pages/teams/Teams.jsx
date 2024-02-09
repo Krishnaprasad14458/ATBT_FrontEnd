@@ -35,7 +35,7 @@ function Teams() {
   // }
 
   const [imageSrc, SetImageSrc] = useState(null)
-  
+
   // const handleFileChange = (event) => {
   //   const file = event.target.files[0];
   //   console.log(file)
@@ -72,7 +72,7 @@ function Teams() {
     const formData = new FormData();
     formData.append('image', file);
     // console.log(formData, 'fd');
-    const data = await axios.post('https://atbtmain.teksacademy.com/upload',formData);
+    const data = await axios.post('https://atbtmain.teksacademy.com/upload', formData);
     // console.log(data);
 
     // fetch('http://localhost:3001/upload', {
@@ -95,7 +95,7 @@ function Teams() {
 
   return (
     <div className=' p-3 bg-[#f8fafc] overflow-hidden'>
-     <div className='grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-3 xl:grid-col-3 gap-2 my-2'>
+      <div className='grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-3 xl:grid-col-3 gap-2 my-2'>
         <h1 className='font-semibold text-lg grid1-item'>Teams</h1>
         <div className='grid1-item  text-start'>
           <label for="default-search" className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
@@ -183,21 +183,21 @@ function Teams() {
           </Menu>
 
         </div>
-      </div> 
+      </div>
 
-     <div className="flex justify-start gap-6">
+      <div className="flex justify-start gap-6">
         <div
-          className={`cursor-pointer px-5 py-1 font-semibold ${activeTab === 1 ? 'border-b-4 border-orange-600  text-black' : ''
+          className={`cursor-pointer px-5 py-1 font-semibold ${activeTab === 1 ? 'border-b-2 border-orange-600  text-black' : ''
             }`}
           onClick={() => handleTabClick(1)}>Completed
         </div>
         <div
-          className={`cursor-pointer px-5 py-1 font-semibold ${activeTab === 2 ? 'border-b-4 border-orange-600  text-black' : ""
+          className={`cursor-pointer px-5 py-1 font-semibold ${activeTab === 2 ? 'border-b-2 border-orange-600  text-black' : ""
             }`}
           onClick={() => handleTabClick(2)}>Upcoming
         </div>
         <div
-          className={`cursor-pointer px-5 py-1 font-semibold ${activeTab === 3 ? 'border-b-4 border-orange-600  text-black' : ""
+          className={`cursor-pointer px-5 py-1 font-semibold ${activeTab === 3 ? 'border-b-2 border-orange-600  text-black' : ""
             }`}
           onClick={() => handleTabClick(3)}>Overdue
         </div>
@@ -367,7 +367,7 @@ function Teams() {
           </div>
         </div>
       </div>}
-      <div className="flex justify-end  absolute inset-x-0 bottom-2 item-end px-4 pt-3 pb-2 sm:px-6">
+      <div className="flex justify-end pt-1">
         <section className="isolate inline-flex -space-x-px rounded-md shadow-sm" aria-label="Pagination">
           <button
 
