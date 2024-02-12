@@ -11,7 +11,7 @@ const BoardMeetingDashboard = () => {
                         <h5 className="text-lg font-semibold leading-none text-gray-800 dark:text-white"> Board Meetings
                             {/* {pagination.loading ? '...' : null} */}
                         </h5>
-                        <Link to="/users/new" className="text-sm font-medium text-white-600 hover:underline dark:text-white-500">
+                        <Link to='/boardmeetingform'>
                             <button className="inline-flex items-center px-3 py-2 justify-center whitespace-nowrap rounded-full text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50  text-primary-foreground shadow hover:bg-primary/90 shrink-0 bg-orange-600 text-white gap-1">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5 ">
                                     <path d="M10.75 4.75a.75.75 0 0 0-1.5 0v4.5h-4.5a.75.75 0 0 0 0 1.5h4.5v4.5a.75.75 0 0 0 1.5 0v-4.5h4.5a.75.75 0 0 0 0-1.5h-4.5v-4.5Z" />
