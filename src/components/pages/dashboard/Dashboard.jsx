@@ -39,14 +39,11 @@ function Dashboard() {
         </div>
       </div>
       <div className="mt-4">
-        <div className='grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-col-2 gap-10 px-7 dashboard-main'>
+        <div className=' grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-col-2 gap-10 px-7 dashboard-main'>
           <EntityDashboard />
           <UserDashboard />
-
-
         </div>
-        <div className='grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-col-2 gap-10 px-7 dashboard-main mt-4'>
-
+        <div className='mb-12 pb-5 grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-col-2 gap-10 px-7 dashboard-main mt-4'>
           <BoardMeetingDashboard />
           <TeamsDashboard />
         </div>
