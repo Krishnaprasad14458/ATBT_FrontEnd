@@ -123,6 +123,7 @@ function Entities() {
         </div>
       </div>
       {/* table */}
+
       <div className="mt-8 overflow-x-auto">
         <div className="overflow-y-scroll max-h-[410px]">
           <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700 rounded-md">
