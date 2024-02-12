@@ -83,7 +83,7 @@ function Tasks() {
 
   return (
     <div className="container p-2 bg-[#f8fafc]">
-      <h4 className=' font-semibold text-lg grid1-item'>Task</h4>
+      <h4 className=' font-semibold text-lg grid1-item'>Tasks</h4>
       <div className='flex gap-3'>
         <img className="w-8 h-8 rounded-full mx-2 mt-2" src={defprop} alt="Neil image" />
         <h4 className='my-3'>Task</h4>
@@ -142,7 +142,7 @@ function Tasks() {
                 leaveFrom="transform opacity-100 scale-100"
                 leaveTo="transform opacity-0 scale-95"
               >
-                <Menu.Items className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                   <div className="py-1">
                     <Menu.Item>
                       {({ active }) => (
@@ -150,7 +150,7 @@ function Tasks() {
                           to="#"
                           className={classNames(
                             active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                            'block px-4 py-2 text-sm'
+                            'block px-4 py-2 text-sm text-left'
                           )}
                         >
                           Account settings
@@ -163,7 +163,7 @@ function Tasks() {
                           to="#"
                           className={classNames(
                             active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                            'block px-4 py-2 text-sm'
+                            'block px-4 py-2 text-sm text-left'
                           )}
                         >
                           Support
@@ -176,7 +176,7 @@ function Tasks() {
                           to="#"
                           className={classNames(
                             active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                            'block px-4 py-2 text-sm'
+                            'block px-4 py-2 text-sm text-left'
                           )}
                         >
                           License
@@ -205,7 +205,7 @@ function Tasks() {
                 leaveFrom="transform opacity-100 scale-100"
                 leaveTo="transform opacity-0 scale-95"
               >
-                <Menu.Items className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                   <div className="py-1">
                     <Menu.Item>
                       {({ active }) => (
@@ -213,7 +213,7 @@ function Tasks() {
                           to="#"
                           className={classNames(
                             active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                            'block px-4 py-2 text-sm'
+                            'block px-4 py-2 text-sm text-left'
                           )}
                         >
                           Start
@@ -226,7 +226,7 @@ function Tasks() {
                           to="#"
                           className={classNames(
                             active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                            'block px-4 py-2 text-sm'
+                            'block px-4 py-2 text-sm text-left'
                           )}
                         >
                           Due
@@ -239,7 +239,7 @@ function Tasks() {
                           to="#"
                           className={classNames(
                             active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                            'block px-4 py-2 text-sm'
+                            'block px-4 py-2 text-sm text-left'
                           )}
                         >
                           Assigned
@@ -266,10 +266,10 @@ function Tasks() {
                 <th scope="col" className="py-2 text-sm text-white bg-orange-600  border-collapse border border-[#e5e7eb] ">Task Name</th>
                 <th scope="col" className="py-2 text-sm text-white bg-orange-600  border-collapse border border-[#e5e7eb] ">Assignee</th>
                 <th scope="col" className="py-2 text-sm text-white bg-orange-600   border-collapse border border-[#e5e7eb]">Due Date</th>
-                <th scope="col" className="py-2 text-sm text-white bg-orange-600   border-collapse border border-[#e5e7eb]">Board Meeting</th>
+                <th scope="col" className="py-2 text-sm text-white bg-orange-600   border-collapse border border-[#e5e7eb]">Board Meetings</th>
                 <th scope="col" className="py-2 text-sm text-white bg-orange-600   border-collapse border border-[#e5e7eb] ">Status</th>
-                <th scope="col" className="py-2 text-sm text-white bg-orange-600   border-collapse border border-[#e5e7eb] ">Create by Admin</th>
-                <th scope="col" className="py-2 text-sm text-white bg-orange-600   border-collapse border border-[#e5e7eb] ">Update by Admin </th>
+                <th scope="col" className="py-2 text-sm text-white bg-orange-600   border-collapse border border-[#e5e7eb] ">Created by Admin</th>
+                <th scope="col" className="py-2 text-sm text-white bg-orange-600   border-collapse border border-[#e5e7eb] ">Updated by Admin </th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
