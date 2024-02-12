@@ -127,86 +127,7 @@ const SettingEntityForm = () => {
 
     const handleSubmitCustomForm = () => {
         let formData = {
-            arrayOfObjects: [
-                {
-                    label: "Full Name",
-                    inputname: "name",
-                    type: "text",
-                    value: "",
-                    field: "predefined",
-                    mandatory: true,
-                    filterable: true
-                },
-                {
-                    label: "Image",
-                    inputname: "image",
-                    type: "file",
-                    value: "",
-                    field: "predefined",
-                    mandatory: true,
-                    filterable: false
-                },
-                {
-                    label: "Email",
-                    inputname: "email",
-                    type: "email",
-                    value: "",
-                    field: "predefined",
-                    mandatory: true,
-                    filterable: true
-                },
-                {
-                    label: "Phone Number",
-                    inputname: "phonenumber",
-                    type: "number",
-                    value: "",
-                    field: "predefined",
-                    mandatory: true,
-                    filterable: true
-                },
-
-
-                {
-                    label: "Entity Name",
-                    type: "select",
-                    inputname: "entityname",
-                    value: "",
-                    filterable: true,
-                    mandatory: true,
-                    field :"predefined",
-                    options: [
-                        "Reliace", "Infosys", "Tata consultancy",
-                        "Reliace"
-
-                    ]
-                },
-                {
-                    label: "Designation",
-                    type: "select",
-                    inputname: "designation",
-                    value: "",
-                    filterable: true,
-                    mandatory: true,
-                    field: "predefined",
-                    options: [
-                        "Developer",
-                        "Quality Analyst", "Data Analyst"
-                    ]
-                },
-                {
-                    label: "Role",
-                    type: "select",
-                    inputname: "role",
-                    value: "",
-                    filterable: true,
-                    mandatory: true,
-                    field: "predefined",
-                    options: [
-                        "Admin",
-                        "Counsellor", "Accountant", "Manager"
-                    ]
-                },
-            ]
+           customForm
 
 
             , Name: "userform"
@@ -258,7 +179,7 @@ const SettingEntityForm = () => {
                         <label htmlFor="name" className="block text-sm font-semibold leading-6 text-gray-950">Label</label>
 
                         <div className="">
-                            <span id="name" name="boardMeetingName" type="text" autoComplete="name" required className="p-2 text-xs block w-full bg-gray-50 rounded-md border-2 border-gray-200 py-1 text-[#6b7280] appearance-none shadow-sm font-light placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-xs sm:leading-6">
+                            <span id="name" name="boardMeetingName" type="text" autoComplete="name" required className="p-2 text-xs block lg:py-1 w-full bg-gray-50 rounded-md border-2 border-gray-200  text-[#6b7280] appearance-none shadow-sm font-light placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-xs sm:leading-6">
                                 {input.label.charAt(0).toUpperCase() + input.label.slice(1)}
                             </span>
                         </div>
@@ -266,7 +187,7 @@ const SettingEntityForm = () => {
                     <div className="mb-2">
                         <label htmlFor="name" className="block text-sm font-semibold leading-6 text-gray-900">Type</label>
                         <div className="">
-                            <span id="name" name="boardMeetingName" type="text" autoComplete="name" required className="p-2 text-xs block w-full bg-gray-50 rounded-md border-2 border-gray-200 py-1 text-[#6b7280] appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-xs sm:leading-6">
+                            <span id="name" name="boardMeetingName" type="text" autoComplete="name" required className="p-2 text-xs block lg:py-1 w-full bg-gray-50 rounded-md border-2 border-gray-200  text-[#6b7280] appearance-none shadow-sm font-light placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-xs sm:leading-6">
                                 {input.type.charAt(0).toUpperCase() + input.type.slice(1)}
                             </span>
                         </div>
@@ -421,7 +342,7 @@ const SettingEntityForm = () => {
                             >
                                 <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 px-2 py-5 sm:max-w-lg">
                                     <span className="flex justify-end gap-9 mb-2">
-                                        {editIndex == null ? <p className="text-md  font-semibold">Add New Input Field</p > : <p className="text-md  font-semibold">Edit Input Field</p>}
+                                        {editIndex == null ? <p className="text-md me-10 font-semibold">Add New Input Field</p > : <p className="text-md  font-semibold">Edit Input Field</p>}
 
 
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" onClick={() => {
@@ -482,15 +403,7 @@ const SettingEntityForm = () => {
                                                     </div>
                                                 </div>
 
-                                                {/* {newInputField.type === "select" || newInputField.type === "multiselect" && <div>
-                                                <input id="" name="" type="text" required
-                                                    value={selectOption} onChange={(e) => setSelectOption(e.target.value)} className="p-2 m-2 text-xs  w-52 bg-gray-50  rounded-md  border-2 border-gray-200 py-1 text-gray-900 appearance-none shadow-sm  placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-xs sm:leading-6" />
-                                                <button onClick={addOption}>add</button>
-                                                {newInputField.options && newInputField.options.length > 0 && newInputField.options.map((option, index) => (
-                                                    <div>{option}</div>
-                                                ))}
-                                            </div>
-                                            } */}
+                                              
                                                 {
                                                     (newInputField.type === "select" || newInputField.type === "multiselect") && (
 
@@ -516,13 +429,21 @@ const SettingEntityForm = () => {
                                                                     Add
                                                                 </button>
                                                             </div>
-                                                            <div className="ps-2 py-2">                                                      {newInputField.options && newInputField.options.length > 0 && (
-                                                                <div class=" border border-1 w-[360px] border-gray-200 mb-3  ps-1 py-1 rounded-md">
+                                                            <div className="ps-2 py-2"> {newInputField.options && newInputField.options.length > 0 && (
+                                                                <div class=" border border-1 w-[360px] border-gray-200 mb-3  ps-1 py-1 rounded-md gap-2 flex flex-wrap overflow-y-auto" style={{ maxHeight: '100px' }}>
                                                                     {newInputField.options.map((option, index) => (
-                                                                        <span key={index} className="text-xs">
-                                                                            {option}<span onClick={() => deleteOption(index)}> x</span>{index != newInputField.options.length - 1 && <span>, </span>}
+                                                                        <span key={index} className="text-xs border border-1 border-gray-200 rounded-md p-1  flex">
+                                                                            {option}
+
+                                                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-4 h-4" onClick={() => deleteOption(index)}>
+                                                                                <path d="M5.28 4.22a.75.75 0 0 0-1.06 1.06L6.94 8l-2.72 2.72a.75.75 0 1 0 1.06 1.06L8 9.06l2.72 2.72a.75.75 0 1 0 1.06-1.06L9.06 8l2.72-2.72a.75.75 0 0 0-1.06-1.06L8 6.94 5.28 4.22Z" />
+                                                                            </svg>
+
+                                                                            {/* <span className="text-xs">x</span> */}
+                                                                            {/* {index != newInputField.options.length - 1 && <span>, </span>} */}
                                                                         </span>
-                                                                    ))}
+                                                                    ))}&nbsp;
+
                                                                 </div>
                                                             )}
 

@@ -242,10 +242,7 @@ function Users() {
           </table>
         </div>
       </div>
-
       {/* pagination */}
-
-
       <div className='inset-x-0 bottom-0 mt-5'>
         <div className="flex justify-between">
           <div className=''>
