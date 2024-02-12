@@ -115,7 +115,7 @@ duration-500 text-gray-100 px-2`}>
                             }
 
                         </div>
-                        <div className={`absolute inset-x-0 bottom-2 ${open ? '' : 'hidden'}`}>
+                        <div className={`absolute inset-x-0 bottom-0 py-3 shadow  bg-white ${open ? '' : 'hidden'}`}>
                             <p className='text-center text-gray-500 text-sm'>Developed by @Infoz IT V0.1  </p>
                         </div>
                     </div>
