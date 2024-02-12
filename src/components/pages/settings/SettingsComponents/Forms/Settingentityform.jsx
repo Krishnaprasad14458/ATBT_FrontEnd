@@ -6,11 +6,9 @@ import axios from "axios";
 import { toast } from "react-toastify";
 
 const SettingEntityForm = () => {
-
     const [open, setOpen] = useState(false)
     const [editIndex, setEditIndex] = useState(null);
     const cancelButtonRef = useRef(null);
-
     const [customForm, setCustomForm] = useState([
     ])
     const [newInputField, setNewInputField] = useState({
@@ -63,7 +61,6 @@ const SettingEntityForm = () => {
             setNewInputField((prev) => ({ ...prev, [name]: type === "checkbox" ? checked : value, field: "custom" }))
         }
     }
-
     let [selectOption, setSelectOption] = useState("")
     const addOption = (e) => {
         e.preventDefault()
@@ -152,7 +149,7 @@ const SettingEntityForm = () => {
                         let formData = {
                             arrayOfObjects: customForm,
                         }
-                        axios.put(
+                        axios.post(
                             `https://atbtmain.teksacademy.com/custom/entity`, formData)
                             .then(response => {
                                 console.log(response);
@@ -179,8 +176,6 @@ const SettingEntityForm = () => {
         setNewInputField(updatedNewInputField);
         console.log("updatedNewInputField", updatedNewInputField);
     };
-
-
     // let updatedOptions = updatedNewInputField.options.filter((option) => option != deleteoption)
     return (
 
