@@ -55,7 +55,8 @@ import FieldsWhatsappTemplate from './components/pages/settings/SettingsComponen
 import useOnlineStatus from './hooks/isOnline/useOnlineStatus ';
 import useServiceWorker from './useSw';
 import { AuthContext } from './contexts/authContext/authContext';
-import { useContext } from 'react';
+import { useContext, useEffect, useState } from 'react';
+import { io } from 'socket.io-client';
 
 function App() {
   const isOnline = useOnlineStatus();
@@ -63,6 +64,26 @@ function App() {
   const isLoggedIn = authState?.token ? true : false ?? false;
   console.log(isOnline, isLoggedIn, "sw.js", Date.now())
   const { usingSW, swRegistration, svcworker, sendSWMessage, sendStatusUpdate } = useServiceWorker(isOnline, isLoggedIn);
+
+
+  useEffect(() => {
+    // Establish WebSocket connection with the server (replace URL with your server URL)
+    const socket = io('http://localhost:3001', {
+      query: { userId: `${authState?.user.id}` } // Pass JWT token as query parameter
+    });
+
+    // Handle events from the server
+    socket.on('permissionsUpdated', () => {
+      // Logic to update permissions in your React app
+      console.log('Permissions updated');
+    });
+
+    return () => {
+      // Clean up WebSocket connection when component unmounts
+      socket.disconnect();
+    };
+  }, []);
+
   return (
     <>
       {isOnline ? null : (

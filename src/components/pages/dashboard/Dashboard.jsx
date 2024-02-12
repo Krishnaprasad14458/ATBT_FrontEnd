@@ -6,6 +6,7 @@ import UserDashboard from './userDashboard/UserDashboard';
 import EntityDashboard from './entityDashboard/EntityDashboard';
 import BoardMeetingDashboard from './BoardMettingDashboard/BoardMeetingDashboard';
 import TeamsDashboard from './TeamsDashboard/TeamsDashboard';
+import Restricted from '../../../rbac/Restricted';
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
@@ -40,15 +41,20 @@ function Dashboard() {
       </div>
       <div className="mt-4">
         <div className='grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-col-2 gap-10 px-7 dashboard-main'>
+        <Restricted module='entity' action="read">
           <EntityDashboard />
+        </Restricted>
+        <Restricted module='user' action="read">
           <UserDashboard />
-
-
+        </Restricted>
         </div>
         <div className='grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-col-2 gap-10 px-7 dashboard-main mt-4'>
-
+        <Restricted module='meeting' action="read">
           <BoardMeetingDashboard />
+        </Restricted>
+        <Restricted module='team' action="read">
           <TeamsDashboard />
+        </Restricted>
         </div>
       </div>
     </div>

@@ -24,11 +24,8 @@ const UserLandingPage = () => {
   // const findUserById = useCallback((users, userId) => {
   //   return users?.users?.find(user => user.id === parseInt(userId, 10));
   // }, []);
-
   // const user = useMemo(() => findUserById(users, id), [findUserById, users, id]);
-
   // if(!user) {
-
   // }
 
   const getuserById = async () => {
@@ -147,15 +144,8 @@ const UserLandingPage = () => {
         <div className="h-[500px] lg:w-3/6 shadow-md p-5 border-2 rounded-md bg-[#f8fafc]">
           <div className='flex justify-between bg-gray-100'>
             <div className='lg:flex'>
-              {/* <img className="w-24 h-24 rounded-sm aspect-[1/1] object-cover" src={defprop} alt="Neil image" /> */}
               <img src={defprop} className='w-24 h-24 border-1' alt='user' />
               <p className='ms-3 text-lg font-semibold mt-8'>{singleUser?.userName}</p>
-              {/* <div> */}
-              {/* <ul className='mt-5 ms-4'>
-                  <li className='text-xl'>{singleUser?.userName}</li>
-                  <li className='text-md'>{singleUser?.email}</li>
-                </ul> */}
-              {/* </div> */}
             </div>
             <div className='flex me-5 hidden sm:block'>
               <Link to='/users/new'>
