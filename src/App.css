@@ -1,8 +1,10 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
- * {
-   scrollbar-width: thin;
-   scrollbar-color: var(--secondary) var(--primary);
- }
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--secondary) var(--primary);
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -11,9 +13,11 @@
   line-height: 1.5rem;
   font-weight: 300;
   font-size: 1rem;
-
 }
 
+/* toggle start */
+
+/* toggle end */
 .App-logo {
   height: 40vmin;
   pointer-events: none;
@@ -70,32 +74,38 @@
 
 .swal2-confirm,
 .swal2-cancel {
-    font-size: 12px !important; /* Adjust the button text size as needed */
-    padding: 6px 16px; /* Adjust padding as needed */
-    outline: none;
+  font-size: 12px !important;
+  /* Adjust the button text size as needed */
+  padding: 6px 16px;
+  /* Adjust padding as needed */
+  outline: none;
 }
 
 .swal2-confirm {
-    background-color: #ea580c; /* Adjust confirm button color as needed */
-    border: 1px solid#ea580c !important;
-    border-radius: 6px !important;
+  background-color: #ea580c;
+  /* Adjust confirm button color as needed */
+  border: 1px solid#ea580c !important;
+  border-radius: 6px !important;
 }
 
 .swal2-cancel {
   color: #ea580c !important;
   border: 1px solid#ea580c !important;
   border-radius: 6px !important;
-    margin-right: 8px; /* Adjust margin between buttons as needed */
+  margin-right: 8px;
+  /* Adjust margin between buttons as needed */
 }
 
 .swal2-cancel:hover {
-  background-color: #ffff !important; /* Adjust cancel button hover color as needed */
+  background-color: #ffff !important;
+  /* Adjust cancel button hover color as needed */
 }
 
 .swal2-confirm:focus,
 .swal2-cancel:focus {
-    /* Add focus styles here */
-    border: none !important; /* Change the border style as needed */
+  /* Add focus styles here */
+  border: none !important;
+  /* Change the border style as needed */
 }
 
 .swal2-styled:active {
@@ -108,8 +118,9 @@ swal2-default-outline:focus {
 
 .swal2-confirm:active,
 .swal2-cancel:active {
-    /* Add active styles here */
-    background-color: #ffff !important; /* Change the background color as needed */
+  /* Add active styles here */
+  background-color: #ffff !important;
+  /* Change the background color as needed */
 }
 
 .swal2-confirm:focus {
@@ -133,4 +144,3 @@ swal2-default-outline:focus {
     text-align: start;
   }
 }
-
