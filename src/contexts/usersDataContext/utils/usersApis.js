@@ -65,15 +65,15 @@ export const deleteUser = async (id, token) => {
 
 export const toggleUser = async (id) => {
     const url = `${apiUrl}/toggle${!!id ? `?id=${id}` : null}`
-    const confirmed = await Swal.fire({
-        title: 'Are you sure?',
-        text: 'Do you want to toggle your online status?',
-        icon: 'question',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Yes, toggle it!',
-        confirmButtonTextColor: "pink"
-    });
+    // const confirmed = await Swal.fire({
+    //     title: 'Are you sure?',
+    //     text: 'Do you want to toggle your online status?',
+    //     icon: 'question',
+    //     showCancelButton: true,
+    //     confirmButtonColor: '#3085d6',
+    //     cancelButtonColor: '#d33',
+    //     confirmButtonText: 'Yes, toggle it!',
+    //     confirmButtonTextColor: "pink"
+    // });
     console.log(url, "toggle url")
 }
