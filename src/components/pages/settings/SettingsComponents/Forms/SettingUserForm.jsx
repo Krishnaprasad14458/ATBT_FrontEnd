@@ -127,7 +127,7 @@ const SettingEntityForm = () => {
 
     const handleSubmitCustomForm = () => {
         let formData = {
-           customForm
+            customForm
 
 
             , Name: "userform"
@@ -174,7 +174,7 @@ const SettingEntityForm = () => {
                 </div>
             </div>
             {customForm && customForm.length > 0 && customForm.map((input, index) => (
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-5 px-5 mt-2">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 sm:gap-2 md:gap-3 xl:gap-4 lg:gap-5  px-5 mt-2">
                     <div className="mb-2 ">
                         <label htmlFor="name" className="block text-sm font-semibold leading-6 text-gray-950">Label</label>
 
@@ -403,7 +403,7 @@ const SettingEntityForm = () => {
                                                     </div>
                                                 </div>
 
-                                              
+
                                                 {
                                                     (newInputField.type === "select" || newInputField.type === "multiselect") && (
 
