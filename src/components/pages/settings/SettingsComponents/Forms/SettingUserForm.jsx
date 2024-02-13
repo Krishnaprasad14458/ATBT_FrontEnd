@@ -1,8 +1,9 @@
 import React, { useEffect } from "react";
-import { Fragment, useRef, useState } from 'react'
-import { Dialog, Transition } from '@headlessui/react'
-import { ExclamationTriangleIcon } from '@heroicons/react/24/outline'
+import { Fragment, useRef, useState } from 'react';
+import { Dialog, Transition } from '@headlessui/react';
+
 import axios from "axios";
+import { toast } from "react-toastify";
 
 const UsersFormDup = () => {
     const [open, setOpen] = useState(false)
@@ -30,8 +31,8 @@ const UsersFormDup = () => {
         // this is for label for new input 
         if (name == "type") {
             let newfield = { ...newInputField }
-            newfield.filterable = false
-            setNewInputField(newfield)
+          newfield.filterable = false
+            setNewInputField(newfield)  
         }
         if (name == "type" && value === "select") {
             let newfield = { ...newInputField }
@@ -112,27 +113,45 @@ const UsersFormDup = () => {
         const updatedForm = [...customForm];
         updatedForm.splice(index, 1);
         setCustomForm(updatedForm);
+     
     };
     const [inputType, setInputType] = useState(["", "text", "email", "password",
         "number", "textarea", "file", "date", "select", "multiselect", "checkbox", "range", "time"])
-    const handleSubmitCustomForm = () => {
+ 
+    const handleSubmitCustomForm = async () => {
         let formData = {
-            customForm
-            , Name: "userform"
+            arrayOfObjects: customForm, Name: "userform"
         }
-        axios.put(
-            `https://atbtmain.teksacademy.com/form/update`,
-            formData
+
+        await saveCustomForm(formData)
+
+
+    }
+    const saveCustomForm = async (formData) => {
+
+        toast.promise(
+            axios.put(`https://atbtmain.teksacademy.com/form/update`, formData),
+            {
+                pending: 'Updating Form',
+                success: {
+                    render({ data }) {
+                        let formData = {
+                            arrayOfObjects: customForm,
+                        }
+                        axios.post(
+                            `https://atbtmain.teksacademy.com/custom/user`, formData)
+                            .then(response => {
+                                console.log(response);
+                            })
+                            .catch(error => {
+                                console.error(error);
+                            });
+                        return `Form Updated`
+                    }
+                },
+                error: 'Unable to update form 🤯',
+            },
         )
-            .then(response => {
-                // Handle the response here
-
-                console.log(response);
-            })
-            .catch(error => {
-
-                console.error(error);
-            });
     }
     const deleteOption = (index) => {
         let updatedNewInputField = { ...newInputField };
@@ -189,7 +208,7 @@ const UsersFormDup = () => {
                                             {/* Open and Close Arrow*/}
 
                                             <svg onClick={() => handleFiledOpen(input.inputname)} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
-                                                {filedopen ? (
+                                                {input.inputname == selected ? (
                                                     <path fill-rule="evenodd" d="M11.47 7.72a.75.75 0 0 1 1.06 0l7.5 7.5a.75.75 0 1 1-1.06 1.06L12 9.31l-6.97 6.97a.75.75 0 0 1-1.06-1.06l7.5-7.5Z" clip-rule="evenodd" />
                                                 ) : (
                                                     <path fill-rule="evenodd" d="M12.53 16.28a.75.75 0 0 1-1.06 0l-7.5-7.5a.75.75 0 0 1 1.06-1.06L12 14.69l6.97-6.97a.75.75 0 1 1 1.06 1.06l-7.5 7.5Z" clip-rule="evenodd" />
@@ -277,11 +296,11 @@ const UsersFormDup = () => {
                                                     deleteInput(index);
                                                 }}>Delete</button>
                                         </div>
-                                        <div class="">
+                                        {/* <div class="">
                                             <button class=" flex w-full justify-center rounded-md bg-orange-600 px-3 py-2.5 text-sm font-medium leading-6 text-white shadow-sm  focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600
                        
                        " onClick={handleSubmitCustomForm}>Save</button>
-                                        </div>
+                                        </div> */}
 
                                     </div>
                                 </div>
@@ -340,7 +359,8 @@ const UsersFormDup = () => {
                                                 />
                                             </div>
                                         </div>
-                                        {newInputField.field != "predefined" &&
+                                        {
+                                        // newInputField.field != "predefined" &&
                                             // editIndex == null && 
                                             <div >
                                                 <div className="flex  gap-2">
@@ -453,12 +473,12 @@ const UsersFormDup = () => {
                     </div>
                 </Dialog>
             </Transition.Root>
-            {/* <div class="flex justify-end w-full  pb-2">
+            <div class="flex justify-end w-full  pb-2">
                 <div class="mr-4"></div><div class="">
                     <button class=" flex w-full justify-center rounded-md bg-orange-600 px-3 py-2.5 text-sm font-medium leading-6 text-white shadow-sm  focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600
                        
                        " onClick={handleSubmitCustomForm}>Save</button>
-                </div></div> */}
+                </div></div>
         </div>
     )
 }

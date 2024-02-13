@@ -10,6 +10,7 @@ import { ChevronDownIcon } from '@heroicons/react/20/solid';
 import useInitializePerPage from '../../../hooks/initializePerPage/useInitializePerPage';
 import useDebounce from '../../../hooks/debounce/useDebounce';
 import { UserDataContext } from '../../../contexts/usersDataContext/usersDataContext';
+import axios from 'axios';
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
@@ -103,6 +104,22 @@ const UserLandingPage = () => {
   };
   // full screen
   const [expand, setExpand] = useState(false);
+
+  let [customFormField, setCustomFormField] = useState()
+  useEffect(() => {
+    axios.get(`https://atbtmain.teksacademy.com/user/data/${id}`)
+      .then(response => {
+        // Handle the successful response
+        console.log("response", response.data
+        )
+        setCustomFormField(response.data.customFieldsData
+        )
+      })
+      .catch(error => {
+        // Handle errors
+        console.error('Error fetching data:', error);
+      });
+  }, [])
   return (
     <div className="container p-2 bg-[#f8fafc]">
       <h4 className='my-3'>User Landing page</h4>
@@ -145,67 +162,270 @@ const UserLandingPage = () => {
       </div>
       {activeTab === 1 && <div className="mt-4 flex justify-center ">
         <div className="h-[500px] lg:w-3/6 shadow-md p-5 border-2 rounded-md bg-[#f8fafc]">
-          <div className='flex justify-between bg-gray-100'>
-            <div className='lg:flex'>
-              {/* <img className="w-24 h-24 rounded-sm aspect-[1/1] object-cover" src={defprop} alt="Neil image" /> */}
-              <img src={defprop} className='w-24 h-24 border-1' alt='user' />
-              <p className='ms-3 text-lg font-semibold mt-8'>{singleUser?.userName}</p>
-              {/* <div> */}
-              {/* <ul className='mt-5 ms-4'>
-                  <li className='text-xl'>{singleUser?.userName}</li>
-                  <li className='text-md'>{singleUser?.email}</li>
-                </ul> */}
-              {/* </div> */}
-            </div>
-            <div className='flex me-5 hidden sm:block'>
-              <Link to='/users/new'>
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="mt-8 w-5 h-5 me-1 text-black hover:text-orange-600">
-                  <path d="m2.695 14.762-1.262 3.155a.5.5 0 0 0 .65.65l3.155-1.262a4 4 0 0 0 1.343-.886L17.5 5.501a2.121 2.121 0 0 0-3-3L3.58 13.419a4 4 0 0 0-.885 1.343Z" />
-                </svg>
-              </Link>
-            </div>
-          </div>
-          <div className=' mb-8 shadow-inner opacity-100 justify-start mt-6'>
-            <div className='flex my-3 mt-3'>
-              <div className='border-1 p-2 bg-gray-200'>
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
-                  <path fillRule="evenodd" d="M15 3.75a.75.75 0 0 1 .75-.75h4.5a.75.75 0 0 1 .75.75v4.5a.75.75 0 0 1-1.5 0V5.56l-4.72 4.72a.75.75 0 1 1-1.06-1.06l4.72-4.72h-2.69a.75.75 0 0 1-.75-.75Z" clipRule="evenodd" />
-                  <path fillRule="evenodd" d="M1.5 4.5a3 3 0 0 1 3-3h1.372c.86 0 1.61.586 1.819 1.42l1.105 4.423a1.875 1.875 0 0 1-.694 1.955l-1.293.97c-.135.101-.164.249-.126.352a11.285 11.285 0 0 0 6.697 6.697c.103.038.25.009.352-.126l.97-1.293a1.875 1.875 0 0 1 1.955-.694l4.423 1.105c.834.209 1.42.959 1.42 1.82V19.5a3 3 0 0 1-3 3h-2.25C8.552 22.5 1.5 15.448 1.5 6.75V4.5Z" clipRule="evenodd" />
-                </svg>
-              </div>
-              <p className="text-md text-gray-800 mt-1 ms-3">{singleUser?.email ? singleUser?.email : 'none'}</p>
-            </div>
+          {customFormField && customFormField.length > 0 && customFormField.map((item) => (
+            <div className='relative'>
+              {/* predefined fields */}
+              {item.type === 'text' && item.inputname == "name" && item.field === "predefined" && (
+                <div className='absolute left-36 top-10'>
+                  {item.value ? (
+                    <p className='text-2xl'> {item.value.toUpperCase()}</p>
+                  ) : (
+                    <p className='text-2xl text-gray-400'> USER NAME</p>
+                  )}
 
-            <div className='flex flex-row justify-start my-3'>
-              <div className='border-1 p-2 bg-gray-200'>
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
-                  <path d="M1.5 8.67v8.58a3 3 0 0 0 3 3h15a3 3 0 0 0 3-3V8.67l-8.928 5.493a3 3 0 0 1-3.144 0L1.5 8.67Z" />
-                  <path d="M22.5 6.908V6.75a3 3 0 0 0-3-3h-15a3 3 0 0 0-3 3v.158l9.714 5.978a1.5 1.5 0 0 0 1.572 0L22.5 6.908Z" />
-                </svg>
-              </div>
-              <p className="text-md text-gray-800 mt-1 ms-3">{singleUser?.email ? singleUser?.email : "none"}</p>
-            </div>
-
-            <div className='flex flex-row justify-start my-3'>
-              <div className='border-1 p-2 bg-gray-200'>
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
-                  <path fill-rule="evenodd" d="M3 2.25a.75.75 0 0 0 0 1.5v16.5h-.75a.75.75 0 0 0 0 1.5H15v-18a.75.75 0 0 0 0-1.5H3ZM6.75 19.5v-2.25a.75.75 0 0 1 .75-.75h3a.75.75 0 0 1 .75.75v2.25a.75.75 0 0 1-.75.75h-3a.75.75 0 0 1-.75-.75ZM6 6.75A.75.75 0 0 1 6.75 6h.75a.75.75 0 0 1 0 1.5h-.75A.75.75 0 0 1 6 6.75ZM6.75 9a.75.75 0 0 0 0 1.5h.75a.75.75 0 0 0 0-1.5h-.75ZM6 12.75a.75.75 0 0 1 .75-.75h.75a.75.75 0 0 1 0 1.5h-.75a.75.75 0 0 1-.75-.75ZM10.5 6a.75.75 0 0 0 0 1.5h.75a.75.75 0 0 0 0-1.5h-.75Zm-.75 3.75A.75.75 0 0 1 10.5 9h.75a.75.75 0 0 1 0 1.5h-.75a.75.75 0 0 1-.75-.75ZM10.5 12a.75.75 0 0 0 0 1.5h.75a.75.75 0 0 0 0-1.5h-.75ZM16.5 6.75v15h5.25a.75.75 0 0 0 0-1.5H21v-12a.75.75 0 0 0 0-1.5h-4.5Zm1.5 4.5a.75.75 0 0 1 .75-.75h.008a.75.75 0 0 1 .75.75v.008a.75.75 0 0 1-.75.75h-.008a.75.75 0 0 1-.75-.75v-.008Zm.75 2.25a.75.75 0 0 0-.75.75v.008c0 .414.336.75.75.75h.008a.75.75 0 0 0 .75-.75v-.008a.75.75 0 0 0-.75-.75h-.008ZM18 17.25a.75.75 0 0 1 .75-.75h.008a.75.75 0 0 1 .75.75v.008a.75.75 0 0 1-.75.75h-.008a.75.75 0 0 1-.75-.75v-.008Z" clip-rule="evenodd" />
-                </svg>
-              </div>
-              <p className="text-md text-gray-800 mt-1 ms-3">{singleUser?.EntityName ? singleUser?.EntityName : 'none'}</p>
-            </div>
+                </div>
+              )}
 
 
-            <div className='flex  flex-row justify-start my-3'>
-              <div className='border-1 p-2 bg-gray-200'>
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
-                  <path fill-rule="evenodd" d="M5.625 1.5H9a3.75 3.75 0 0 1 3.75 3.75v1.875c0 1.036.84 1.875 1.875 1.875H16.5a3.75 3.75 0 0 1 3.75 3.75v7.875c0 1.035-.84 1.875-1.875 1.875H5.625a1.875 1.875 0 0 1-1.875-1.875V3.375c0-1.036.84-1.875 1.875-1.875ZM12.75 12a.75.75 0 0 0-1.5 0v2.25H9a.75.75 0 0 0 0 1.5h2.25V18a.75.75 0 0 0 1.5 0v-2.25H15a.75.75 0 0 0 0-1.5h-2.25V12Z" clip-rule="evenodd" />
-                  <path d="M14.25 5.25a5.23 5.23 0 0 0-1.279-3.434 9.768 9.768 0 0 1 6.963 6.963A5.23 5.23 0 0 0 16.5 7.5h-1.875a.375.375 0 0 1-.375-.375V5.25Z" />
-                </svg>
+              {item.type === 'file' && item.inputname == "image" && item.field === "predefined" && (
+                <div className=' border-y-2 border-e-2 border-gray-200'>
+
+                  {item.value ? (
+                    <img
+                      src={item.value}
+                      name="EntityPhoto"
+                      alt="Selected User Photo"
+                      className="w-32 h-32 rounded-sm aspect-[1/1] object-cover"
+                    />
+                  ) : (
+                    <img className="w-32 h-32 rounded-sm aspect-[1/1] object-cover" src={defprop} alt="Neil image" />
+                    // <img
+                    //   src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?q=80&w=256&h=256&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                    //   alt="Default User Photo"
+                    //   className="rounded-full w-12 h-12 mr-4"
+                    // />
+                  )}
+
+                </div>
+              )}
+
+              <div className='flex justify-between flex-wrap  '>
+
+                <span>
+                  {item.type === 'email' && item.inputname == "email" && item.field == "predefined" && (
+                    <div className='absolute mt-5 ms-3 '>
+                      {item.value ? (
+                        <p className='flex gap-2'>
+                          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-7 h-7 ">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75" />
+                          </svg>
+                          <span className='text-lg'>  {item.value}</span></p>
+                      ) : (
+                        <p className='flex gap-2'> <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-7 h-7 ">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75" />
+                        </svg>
+                          <span className='text-lg  text-gray-400'>Eg : abcd@gmail.com </span></p>
+                      )}
+
+                    </div>
+                  )}
+                </span>
+
+                <span className='mt-2 me-3'>
+                  {item.type === 'number' && item.inputname == "phonenumber" && item.field == "predefined" && (
+                    <div className=''>
+                      {item.value ? (
+                        <p className='flex gap-2'><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-7 h-7 ">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 0 0 2.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 0 1-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 0 0-1.091-.852H4.5A2.25 2.25 0 0 0 2.25 4.5v2.25Z" />
+                        </svg>
+                          <span className='text-lg mt-1 '> {item.value} </span></p>
+                      ) : (
+                        <p className='flex gap-2'><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-7 h-7 ">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 0 0 2.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 0 1-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 0 0-1.091-.852H4.5A2.25 2.25 0 0 0 2.25 4.5v2.25Z" />
+                        </svg>
+                          <span className='text-lg  text-gray-400'>  123 456 7890 </span></p>
+                      )}
+
+                    </div>
+                  )}</span>
+
               </div>
-              <p className="text-md text-gray-800 mt-1 ms-3"> {singleUser?.Designation ? singleUser?.Designation : "none"}</p>
+              <div></div>
+
+              <div className='flex justify-between flex-wrap mt-2  '>
+                <div>
+                  {item.type === 'select' && item.inputname == "entityname" && item.field == "predefined" && (
+                    <div className=' absolute mt-4 ms-3'>
+                      {item.value ? (
+                        <p className='flex gap-2'><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-7 h-7">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M9 17.25v1.007a3 3 0 0 1-.879 2.122L7.5 21h9l-.621-.621A3 3 0 0 1 15 18.257V17.25m6-12V15a2.25 2.25 0 0 1-2.25 2.25H5.25A2.25 2.25 0 0 1 3 15V5.25m18 0A2.25 2.25 0 0 0 18.75 3H5.25A2.25 2.25 0 0 0 3 5.25m18 0V12a2.25 2.25 0 0 1-2.25 2.25H5.25A2.25 2.25 0 0 1 3 12V5.25" />
+                        </svg>
+                          <span className='text-lg  '>  {item.value} </span></p>
+                      ) : (
+                        <p className='flex gap-2'><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-7 h-7">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M9 17.25v1.007a3 3 0 0 1-.879 2.122L7.5 21h9l-.621-.621A3 3 0 0 1 15 18.257V17.25m6-12V15a2.25 2.25 0 0 1-2.25 2.25H5.25A2.25 2.25 0 0 1 3 15V5.25m18 0A2.25 2.25 0 0 0 18.75 3H5.25A2.25 2.25 0 0 0 3 5.25m18 0V12a2.25 2.25 0 0 1-2.25 2.25H5.25A2.25 2.25 0 0 1 3 12V5.25" />
+                        </svg>
+                          <span className='text-lg  text-gray-400'> Eg : Infoz IT</span></p>
+                      )}
+
+                    </div>
+                  )}
+                </div>
+                <div>
+                  {item.type === 'select' && item.inputname == "designation" && item.field == "predefined" && (
+                    <div className='me-3'>
+                      {item.value ? (
+                        <p className='flex gap-2'><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-7 h-7">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                        </svg>
+                          <span className='text-lg  '> {item.value} </span></p>
+                      ) : (
+                        <p className='flex gap-2'><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-7 h-7">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                        </svg>
+                          <span className='text-lg  text-gray-400'>  Eg : Development</span></p>
+                      )}
+
+                    </div>
+                  )}
+                </div>
+              </div>
+
+
+              {/* {item.type === 'email' && item.inputname == "email" && item.field == "predefined" && (
+                         <div className=''>
+                           {item.value ? (
+                             <p> {item.value}</p>
+                           ) : (
+                             <p> email id</p>
+                           )}
+     
+                         </div>
+                       )}
+                       {item.type === 'number' && item.inputname == "phonenumber" && item.field == "predefined" && (
+                         <div className=''>
+                           {item.value ? (
+                             <p> {item.value}</p>
+                           ) : (
+                             <p> Phone number</p>
+                           )}
+     
+                         </div>
+                       )} */}
+              {/* 
+                       {item.type === 'select' && item.inputname == "designation" && item.field == "predefined" && (
+                         <div className=''>
+                           {item.value ? (
+                             <p> {item.value}</p>
+                           ) : (
+                             <p> user Designation</p>
+                           )}
+     
+                         </div>
+                       )} */}
+              {/* {item.type === 'select' && item.inputname == "role" && item.field == "predefined" && (
+                         <div className=''>
+                           {item.value ? (
+                             <p> {item.value}</p>
+                           ) : (
+                             <p> roles</p>
+                           )}
+     
+                         </div>
+                       )} */}
+
+              {/* custom fields */}
+              {
+                item.type === "text" && item.field == "custom" && <div>
+                  {item.value}
+
+                </div>
+              }
+              {
+                item.type === "email" && item.field == "custom" && <div>
+                  {item.value}
+
+                </div>
+              }
+              {
+                item.type === "password" && item.field == "custom" && <div>
+                  {item.value}
+
+                </div>
+              }
+              {
+                item.type === "number" && item.field == "custom" && <div>
+                  {item.value}
+
+                </div>
+              }
+              {
+                item.type === "textarea" && item.field == "custom" && <div>
+                  {item.value}
+
+                </div>
+              }
+              {
+                item.type === 'file' && item.field == "custom" && (
+                  <div className="flex gap-4">
+                    <div className="group h-10 ">
+                      {/* <spna>{item.label}</spna> */}
+                      {item.value ? (
+                        <img
+                          src={item.value}
+                          name="EntityPhoto"
+                          alt="Selected User Photo"
+                          className="rounded-lg w-10 h-10 mr-4"
+                        />
+                      ) : (
+                        <img className="w-10 h-10 rounded-lg " src={defprop} alt="Neil image" />
+                        // <img
+                        //   src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?q=80&w=256&h=256&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                        //   alt="Default User Photo"
+                        //   className="rounded-full w-12 h-12 mr-4"
+                        // />
+                      )}
+                    </div>
+
+                    {/* <p className="text-lg font-black text-gray-800 mt-2">{ }</p> */}
+                    <hr className='my-3' />
+
+                  </div>
+                )
+              }
+              {
+                item.type === "date" && item.field == "custom" && <div>
+                  {item.value}
+
+                </div>
+              }
+              {
+                item.type === "select" && item.field == "custom" && <div>
+                  {item.value}
+
+                </div>
+              }
+
+              {/* multiselect incomplte */}
+              {
+                item.type === "multiselect" && item.field == "custom" && <div>
+                  {item.value}
+
+                </div>
+              }
+              {
+                item.type === "checkbox" && item.field == "custom" && <div>
+                  {item.value}
+
+                </div>
+              }
+              {
+                item.type === "range" && item.field == "custom" && <div>
+                  {item.value}
+
+                </div>
+              }
+              {
+                item.type === "time" && item.field == "custom" && <div>
+                  {item.value}
+
+                </div>
+              }
+
             </div>
-          </div>
+          )
+
+          )}
         </div>
       </div>
       }

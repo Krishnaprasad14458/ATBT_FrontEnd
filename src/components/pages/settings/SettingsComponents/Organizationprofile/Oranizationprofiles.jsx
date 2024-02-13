@@ -102,7 +102,7 @@ const OrganizationProfile = () => {
 
     return (
         <div className='container lg:p-4 bg-[#f8fafc]'>
-            <h1 className='mx-3 font-semibold text-lg grid1-item'>Organization Profile</h1>
+            <h1 className='font-semibold text-lg grid1-item'>Organization Profile</h1>
 
             <div className="flex justify-start overflow-auto rounded-sm border-1">
                 <div
@@ -120,7 +120,7 @@ const OrganizationProfile = () => {
                         }`}
                     onClick={() => handleTabClick(3)}>Edit
                 </div>
-               
+
                 <div
                     className={`cursor-pointer px-5 py-2 font-semibold ${activeTab === 4 ? 'border-b-2 border-orange-600 text-black' : ''
                         }`}
@@ -140,23 +140,23 @@ const OrganizationProfile = () => {
                                         <td class="px-3 py-3 text-sm text-gray-800 border border-gray-200">ATBT</td>
                                     </tr>
                                     <tr class="bg-white dark:bg-gray-900">
-                                        <td class="px-3 py-3 text-sm font-medium text-gray-800 border-r border-gray-200">Office Address</td>
+                                        <td class="px-3 py-3 text-sm font-medium text-gray-800 border-r border-gray-200">Address</td>
                                         <td class="px-3 py-3 text-sm text-gray-800">Hyderabad</td>
                                     </tr>
                                     <tr class="bg-gray-50 dark:bg-gray-800">
-                                        <td class="px-3 py-3 text-sm font-medium text-gray-800 border-r border-gray-200">Office Whatsapp Number</td>
+                                        <td class="px-3 py-3 text-sm font-medium text-gray-800 border-r border-gray-200">WhatsApp Number</td>
                                         <td class="px-3 py-3 text-sm text-gray-800 border border-gray-200">0987654321</td>
                                     </tr>
                                     <tr class="bg-white dark:bg-gray-900">
-                                        <td class="px-3 py-3 text-sm font-medium text-gray-800 border-r border-gray-200">Office Landline Number</td>
+                                        <td class="px-3 py-3 text-sm font-medium text-gray-800 border-r border-gray-200">Landline Number</td>
                                         <td class="px-3 py-3 text-sm text-gray-800 border border-gray-200">01927</td>
                                     </tr>
                                     <tr class="bg-gray-50 dark:bg-gray-800">
-                                        <td class="px-3 py-3 text-sm font-medium text-gray-800 border-r border-gray-200">Office Email</td>
+                                        <td class="px-3 py-3 text-sm font-medium text-gray-800 border-r border-gray-200">Email</td>
                                         <td class="px-3 py-3 text-sm text-gray-800 border border-gray-200">atbt123@gmail.com</td>
                                     </tr>
                                     <tr class="bg-white dark:bg-gray-900">
-                                        <td class="px-3 py-3 text-sm font-medium text-gray-800 border-r border-gray-200">Own Domain / Sub Domain</td>
+                                        <td class="px-3 py-3 text-sm font-medium text-gray-800 border-r border-gray-200">Sub Domain</td>
                                         <td class="px-3 py-3 text-sm text-gray-800 border border-gray-200">https://erp.atbt.com</td>
                                     </tr>
                                 </tbody>
@@ -166,8 +166,8 @@ const OrganizationProfile = () => {
                 </div>
             </div>}
             {/* 2nd tab */}
-            {activeTab === 2 && <div className="mt-4">
-                <div className='flex justify-center mt-5'>
+            {activeTab === 2 && <div className="">
+                <div className='flex justify-center shadow'>
                     {displayImage && (
                         <img
                             src={URL.createObjectURL(displayImage)}
@@ -177,7 +177,7 @@ const OrganizationProfile = () => {
                     )}
                 </div><br /><br />
                 <div className='flex justify-center'>
-                    <div className="mb-3 ">
+                    <div className="mb-3 p-3 shadow">
                         <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="file_input">Upload file</label>
                         <input className="block text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" aria-describedby="file_input_help" id="file_input" type="file" onChange={handleFileChange} />
                         <p className="mt-1 text-sm text-gray-500 dark:text-gray-300" id="file_input_help">SVG, PNG, JPG or GIF (MAX. 800x400px).</p>
@@ -186,36 +186,45 @@ const OrganizationProfile = () => {
             </div>}
             {/* 3rd tab */}
             {activeTab === 3 && <div className="mt-4">
+                <div className='text-center'>
+                    <p className='text-md font-semibold mt-3'>Organization Details</p>
+                </div>
                 <div className='flex justify-center mt-5'>
-                    <div class='grid lg:grid-cols-2 sm:grid-cols-1 gap-6 lg:p-5 w-4/5 '>
+                    <div class='grid lg:grid-cols-2 sm:grid-cols-1 gap-6 lg:p-5 w-4/5 shadow'>
                         <div>
                             <label class='text-sm text-gray-800 pt-1'>Organization Name</label>
                             <input id="name" name="entityname" type="text" autoComplete="name" required class="mt-1 p-2 w-full text-xs block bg-gray-50 rounded-md border-2 border-gray-200 py-1 text-gray-900 appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-xs sm:leading-6" />
                         </div>
                         <div>
-                            <label class='text-sm text-gray-800 pt-1'>Office Address</label>
+                            <label class='text-sm text-gray-800 pt-1'>Address</label>
                             <input id="name" name="entityname" type="text" autoComplete="name" required class="mt-1 p-2 w-full text-xs block bg-gray-50 rounded-md border-2 border-gray-200 py-1 text-gray-900 appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-xs sm:leading-6" />
                         </div>
                         <div>
-                            <label class='text-sm text-gray-800 pt-1'>Office Whatsapp Number</label>
+                            <label class='text-sm text-gray-800 pt-1'>WhatsApp Number</label>
                             <input id="name" name="entityname" type="number" autoComplete="name" required class="mt-1 p-2 w-full text-xs block bg-gray-50 rounded-md border-2 border-gray-200 py-1 text-gray-900 appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-xs sm:leading-6" style={{ "-moz-appearance": "textfield" }} />
                         </div>
                         <div>
-                            <label class='text-sm text-gray-800 pt-1'>Office Landline Number</label>
+                            <label class='text-sm text-gray-800 pt-1'>Landline Number</label>
                             <input id="name" name="entityname" type="number" autoComplete="name" required class="mt-1 p-2 w-full text-xs block bg-gray-50 rounded-md border-2 border-gray-200 py-1 text-gray-900 appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-xs sm:leading-6" />
                         </div>
                         <div>
-                            <label class='text-sm text-gray-800 pt-1'>Office Email</label>
+                            <label class='text-sm text-gray-800 pt-1'>Email</label>
                             <input id="name" name="entityname" type="email" autoComplete="name" required class="mt-1 p-2 w-full text-xs block bg-gray-50 rounded-md border-2 border-gray-200 py-1 text-gray-900 appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-xs sm:leading-6" />
                         </div>
                         <div>
-                            <label class='text-sm text-gray-800 pt-1'>Own Domain / Sub Domain</label>
+                            <label class='text-sm text-gray-800 pt-1'>Sub Domain</label>
                             <input id="name" name="entityname" type="text" autoComplete="name" required class="mt-1 p-2 w-full text-xs block bg-gray-50 rounded-md border-2 border-gray-200 py-1 text-gray-900 appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-xs sm:leading-6" />
+                        </div>
+                        <div></div>
+                        <div className='justify-end flex'>
+                            <button type="submit" className="rounded-md bg-orange-600 px-3 py-1.5 text-sm leading-6 text-white shadow-sm  focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600">
+                                Submit
+                            </button>
                         </div>
                     </div>
                 </div>
             </div>}
-          
+
             {activeTab === 4 && <div className="mt-4 overflow-x-auto">
                 <div className="min-w-full inline-block align-middle">
                     <div className="overflow-y-scroll max-h-[500px]">

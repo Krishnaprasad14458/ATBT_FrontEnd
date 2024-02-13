@@ -249,9 +249,9 @@ function EntityForm() {
       }
 
     }
-    const formData = new FormData(e.target)
-    let membersArray = ["dfsfds", "Fsdfds"];
-    formData.set("members", JSON.stringify(membersArray));
+    // const formData = new FormData(e.target)
+    // let membersArray = ["dfsfds", "Fsdfds"];
+    // formData.set("members", JSON.stringify(membersArray));
     const jsonData = {};
     // const jsonDataa = {};
 

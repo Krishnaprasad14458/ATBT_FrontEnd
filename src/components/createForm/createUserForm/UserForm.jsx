@@ -5,7 +5,10 @@ import defprop from '../../../Images/defprof.svg';
 import useDebounce from '../../../hooks/debounce/useDebounce';
 import { UserDataContext } from '../../../contexts/usersDataContext/usersDataContext';
 import { EntitiesDataContext } from '../../../contexts/entitiesDataContext/entitiesDataContext';
+import { useNavigate } from 'react-router-dom'
+
 function UserForm() {
+  const navigate = useNavigate()
   const { usersState: { users, dashboard }, usersDispatch } = useContext(UserDataContext);
   const { createEntity } = useContext(EntitiesDataContext);
   // const usersEmails = dashboard.paginatedUsers?.map(user => user.email);
@@ -57,7 +60,7 @@ function UserForm() {
       .then(response => {
         // Handle the successful response
         setCustomFormFields(response.data.array)
-        console.log("Dsdsd", response.data.array);
+
       })
       .catch(error => {
         // Handle errors
@@ -108,11 +111,11 @@ function UserForm() {
       if (customFormFields[i].type == "text" && customFormFields[i].mandatory) {
         if (customFormFields[i].value.length == 0) {
           setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please Enter ${customFormFields[i].label}` }))
-
+          return false
         }
         else if (customFormFields[i].value.length < 3) {
           setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "Name should contain atleast 3 characters" }))
-
+          return false
         }
         else {
           setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
@@ -121,7 +124,7 @@ function UserForm() {
       if (customFormFields[i].type == "file" && customFormFields[i].mandatory) {
         if (!customFormFields[i].value) {
           setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please Upload ${customFormFields[i].label}` }))
-
+          // return false
         }
         else {
           setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
@@ -130,11 +133,11 @@ function UserForm() {
       if (customFormFields[i].type == "textarea" && customFormFields[i].mandatory) {
         if (customFormFields[i].value.length == 0) {
           setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please Enter ${customFormFields[i].label}` }))
-
+          return false
         }
         else if (customFormFields[i].value.length < 3) {
           setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "Name should contain atleast 3 characters" }))
-
+          return false
         }
         else {
           setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
@@ -143,7 +146,7 @@ function UserForm() {
       if (customFormFields[i].type == "email" && customFormFields[i].mandatory) {
         if (customFormFields[i].value.length < 1) {
           setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please Enter ${customFormFields[i].label}` }))
-
+          return false
         }
 
         else {
@@ -153,12 +156,12 @@ function UserForm() {
       if (customFormFields[i].type == "number" && customFormFields[i].mandatory) {
         if (customFormFields[i].value.length < 1) {
           setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please Enter ${customFormFields[i].label}` }))
-
+          return false
         }
-        else if (customFormFields[i].value.length != 10) {
-          setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please Enter Correct ${customFormFields[i].label}` }))
+        // else if (customFormFields[i].value.length != 10) {
+        //   setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please Enter Correct ${customFormFields[i].label}` }))
 
-        }
+        // }
 
         else {
           setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
@@ -167,7 +170,7 @@ function UserForm() {
       if (customFormFields[i].type == "select" && customFormFields[i].mandatory) {
         if (customFormFields[i].value.length < 1) {
           setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please Enter ${customFormFields[i].label}` }))
-
+          return false
         }
 
         else {
@@ -177,7 +180,7 @@ function UserForm() {
       if (customFormFields[i].type == "multiselect" && customFormFields[i].mandatory) {
         if (customFormFields[i].value.length < 1) {
           setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please Enter ${customFormFields[i].label}` }))
-
+          return false
         }
 
         else {
@@ -187,7 +190,7 @@ function UserForm() {
       if (customFormFields[i].type == "date" && customFormFields[i].mandatory) {
         if (!customFormFields[i].value) {
           setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please Enter ${customFormFields[i].label}` }))
-
+          return false
         }
 
         else {
@@ -197,7 +200,7 @@ function UserForm() {
       if (customFormFields[i].type == "checkbox" && customFormFields[i].mandatory) {
         if (!customFormFields[i].value) {
           setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please Enter ${customFormFields[i].label}` }))
-
+          return false
         }
 
         else {
@@ -207,7 +210,7 @@ function UserForm() {
       if (customFormFields[i].type == "range" && customFormFields[i].mandatory) {
         if (!customFormFields[i].value) {
           setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please Enter ${customFormFields[i].label}` }))
-
+          return false
         }
 
         else {
@@ -217,7 +220,7 @@ function UserForm() {
       if (customFormFields[i].type == "time" && customFormFields[i].mandatory) {
         if (!customFormFields[i].value) {
           setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please Enter ${customFormFields[i].label}` }))
-
+          return false
         }
 
         else {
@@ -227,7 +230,7 @@ function UserForm() {
       if (customFormFields[i].type == "password" && customFormFields[i].mandatory) {
         if (customFormFields[i].value.length < 1) {
           setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please Enter ${customFormFields[i].label}` }))
-
+          return false
         }
 
         else {
@@ -236,10 +239,35 @@ function UserForm() {
       }
 
     }
-    // const formData = new FormData(e.target)
-    // console.log(formData.get("Full Name"), "em")
-    // formData.set("members", JSON.stringify(['get', 'dynamic', 'mails']));
-    // createEntity(formData)
+
+    const jsonData = {};
+
+    jsonData.customFieldsData = JSON.stringify(customFormFields)
+    jsonData.loggedInUser = parseInt(localStorage.getItem("id"))
+
+    for (let i = 0; i < customFormFields.length; i++) {
+      if (Array.isArray(customFormFields[i].value)) {
+        jsonData[customFormFields[i].inputname] = JSON.stringify(customFormFields[i].value)
+
+      } else {
+        jsonData[customFormFields[i].inputname] = customFormFields[i].value
+
+      }
+
+    }
+
+    console.log("jsonData", jsonData);
+    axios.post(
+      `https://atbtmain.teksacademy.com/user/data`, jsonData)
+      .then(response => {
+        // console.log(response.data);
+        // console.log("reposnseeeeeeeeee", response.data)
+        navigate(`/userlandingpage/${parseInt(response.data)}`)
+
+      })
+      .catch(error => {
+        console.error(error);
+      });
   }
   return (
     <div className='container p-4 bg-[#f8fafc]'>
@@ -667,11 +695,50 @@ function UserForm() {
             </div>
           </form>
         </div>
+        {/* preview */}
         <div className="col-span-2 hidden sm:block md:block">
           <div className=' mt-3'>
             <div className='border border-1   p-5 border-gray-200 rounded-md shadow-md bg-[#f8fafc] h-[550px]'>
               {customFormFields && customFormFields.length > 0 && customFormFields.map((item) => (
-                <div className='relative'>
+                <div >
+
+
+                  <div class="relative flex flex-col mt-6 text-gray-700 bg-white shadow-md bg-clip-border rounded-xl w-96">
+
+                    {item.type === 'file' && item.inputname == "image" && item.field === "predefined" && (
+                      <div className= "relative h-56 mx-4 -mt-6 overflow-hidden text-white shadow-lg bg-clip-border rounded-xl bg-blue-gray-500 shadow-blue-gray-500/40">
+
+                        {item.value ? (
+                          <img
+                            src={item.value}
+                            name="EntityPhoto"
+                            alt="Selected User Photo"
+                            className="w-32 h-32 rounded-sm aspect-[1/1] object-cover"
+                          />
+                        ) : (
+                          <img className="w-32 h-32 rounded-sm aspect-[1/1] object-cover" src={defprop} alt="Neil image" />
+                        )}
+                      </div>
+                    )}
+
+                    <div class="p-6">
+                      <h5 class="block mb-2 font-sans text-xl antialiased font-semibold leading-snug tracking-normal text-blue-gray-900">
+                        UI/UX Review Check
+                      </h5>
+                      <p class="block font-sans text-base antialiased font-light leading-relaxed text-inherit">
+                        The place is close to Barceloneta Beach and bus stop just 2 min by walk
+                        and near to "Naviglio" where you can enjoy the main night life in
+                        Barcelona.
+                      </p>
+                    </div>
+                    <div class="p-6 pt-0">
+                      <button
+                        class="align-middle select-none font-sans font-bold text-center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 px-6 rounded-lg bg-gray-900 text-white shadow-md shadow-gray-900/10 hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none"
+                        type="button">
+                        Read More
+                      </button>
+                    </div>
+                  </div>
                   {/* predefined fields */}
                   {item.type === 'text' && item.inputname == "name" && item.field === "predefined" && (
                     <div className='absolute left-36 top-10'>
@@ -697,13 +764,7 @@ function UserForm() {
                         />
                       ) : (
                         <img className="w-32 h-32 rounded-sm aspect-[1/1] object-cover" src={defprop} alt="Neil image" />
-                        // <img
-                        //   src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?q=80&w=256&h=256&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                        //   alt="Default User Photo"
-                        //   className="rounded-full w-12 h-12 mr-4"
-                        // />
                       )}
-
                     </div>
                   )}
 
