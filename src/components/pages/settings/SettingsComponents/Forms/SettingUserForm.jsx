@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
-import { Fragment, useRef, useState } from 'react'
-import { Dialog, Transition } from '@headlessui/react'
-import { ExclamationTriangleIcon } from '@heroicons/react/24/outline'
+import { Fragment, useRef, useState } from 'react';
+import { Dialog, Transition } from '@headlessui/react';
+
 import axios from "axios";
 import { toast } from "react-toastify";
 
@@ -31,8 +31,8 @@ const UsersFormDup = () => {
         // this is for label for new input 
         if (name == "type") {
             let newfield = { ...newInputField }
-            newfield.filterable = false
-            setNewInputField(newfield)
+          newfield.filterable = false
+            setNewInputField(newfield)  
         }
         if (name == "type" && value === "select") {
             let newfield = { ...newInputField }
