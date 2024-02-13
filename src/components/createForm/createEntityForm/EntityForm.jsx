@@ -5,7 +5,9 @@ import defprop from '../../../Images/defprof.svg';
 import useDebounce from '../../../hooks/debounce/useDebounce';
 import { UserDataContext } from '../../../contexts/usersDataContext/usersDataContext';
 import { EntitiesDataContext } from '../../../contexts/entitiesDataContext/entitiesDataContext';
+import { useNavigate } from 'react-router-dom'
 function EntityForm() {
+  const navigate = useNavigate()
   const { usersState: { users, dashboard }, usersDispatch } = useContext(UserDataContext);
   const { createEntity } = useContext(EntitiesDataContext);
   const usersEmails = dashboard.paginatedUsers?.map(user => user.email);
@@ -242,7 +244,7 @@ function EntityForm() {
 
     jsonData.customFieldsData = JSON.stringify(customFormFields)
     jsonData.loggedInUser = parseInt(localStorage.getItem("id"))
-   
+
     for (let i = 0; i < customFormFields.length; i++) {
       if (Array.isArray(customFormFields[i].value)) {
         jsonData[customFormFields[i].inputname] = JSON.stringify(customFormFields[i].value)
@@ -266,9 +268,12 @@ function EntityForm() {
     // }
     console.log("jsonData", jsonData);
     axios.post(
-      `https://atbtmain.teksacademy.com/entitydata`, jsonData)
+      `https://atbtmain.teksacademy.com/entity/data`, jsonData)
       .then(response => {
-        console.log(response);
+        // console.log(response.data);
+        // console.log("reposnseeeeeeeeee", response.data)
+        navigate(`/entitylandingpage/${parseInt(response.data)}`)
+
       })
       .catch(error => {
         console.error(error);
