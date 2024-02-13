@@ -1,3 +1,4 @@
+
 import React, { useEffect } from "react";
 import { Fragment, useRef, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
@@ -84,7 +85,6 @@ const SettingEntityForm = () => {
             const updatedForm = [...customForm];
             updatedForm[editIndex] = newInputField;
             setCustomForm(updatedForm);
-            setEditIndex(null);
         } else {
             // Add new field
             if (newInputField.type === "text" ||
@@ -109,6 +109,8 @@ const SettingEntityForm = () => {
 
         setNewInputField({ label: '', type: '', inputname: "", value: "", filterable: false, mandatory: false });
         setOpen(false);
+        // setEditIndex(null);
+
     };
     const handleMoveDimension = (index, direction) => {
         const updatedForm = [...customForm];
@@ -511,7 +513,7 @@ const SettingEntityForm = () => {
                     </div>
                 </Dialog>
             </Transition.Root>
-            
+
             <div className="flex justify-end me-10 mt-2">
                 <button type="submit" class="rounded-md bg-orange-600 px-8 py-1.5 text-sm leading-6 text-white shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600 " onClick={handleSubmitCustomForm}>Save</button>
             </div>
