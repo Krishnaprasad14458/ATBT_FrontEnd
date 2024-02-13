@@ -56,7 +56,7 @@ import useOnlineStatus from './hooks/isOnline/useOnlineStatus ';
 import useServiceWorker from './useSw';
 import { AuthContext } from './contexts/authContext/authContext';
 import { useContext } from 'react';
-import Userformdup from './components/createForm/createUserForm/Userformdup';
+import UsersFormDup from './components/pages/settings/SettingsComponents/Forms/UsersFormDup';
 
 function App() {
   const isOnline = useOnlineStatus();
@@ -116,7 +116,7 @@ function App() {
           <Route path='/tasks' element={<Tasks />} />
           <Route path='/users' element={<Users />} />
           <Route path="/users/new" element={<UserForm />} />
-          <Route path='/userform/dup' element={<Userformdup />} />
+          <Route path='/userform/dup' element={<UsersFormDup />} />
           <Route path="/userProfile/:id" element={<UserProfile />} >
             <Route path="tasks" element={<UserTasks />} />
             <Route path="teams" element={<UserTeams />} />
