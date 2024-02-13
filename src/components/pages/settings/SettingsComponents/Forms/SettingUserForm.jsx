@@ -1,13 +1,13 @@
 import React, { useEffect } from "react";
-import { Fragment, useRef, useState } from 'react'
-import { Dialog, Transition } from '@headlessui/react'
-import { ExclamationTriangleIcon } from '@heroicons/react/24/outline'
+import { Fragment, useRef, useState } from 'react';
+import { Dialog, Transition } from '@headlessui/react';
+
 import axios from "axios";
+
 const SettingEntityForm = () => {
     const [open, setOpen] = useState(false)
     const [editIndex, setEditIndex] = useState(null);
     const cancelButtonRef = useRef(null);
-
     const [customForm, setCustomForm] = useState([
     ])
     const [newInputField, setNewInputField] = useState({
@@ -30,8 +30,8 @@ const SettingEntityForm = () => {
         // this is for label for new input 
         if (name == "type") {
             let newfield = { ...newInputField }
-            newfield.filterable = false
-            setNewInputField(newfield)
+          newfield.filterable = false
+            setNewInputField(newfield)  
         }
         if (name == "type" && value === "select") {
             let newfield = { ...newInputField }
@@ -45,7 +45,6 @@ const SettingEntityForm = () => {
             newfield.value = []
             setNewInputField(newfield)
         }
-
         if (name == "label" && editIndex == null) {
             setNewInputField((prev) => ({ ...prev, label: value, inputname: value, field: "custom" }))
         }
@@ -56,7 +55,6 @@ const SettingEntityForm = () => {
             setNewInputField((prev) => ({ ...prev, [name]: type === "checkbox" ? checked : value, field: "custom" }))
         }
     }
-
     let [selectOption, setSelectOption] = useState("")
     const addOption = (e) => {
         e.preventDefault()
@@ -100,10 +98,8 @@ const SettingEntityForm = () => {
             else {
                 setCustomForm((prev) => [...prev, newInputField]);
             }
-
         }
-
-        setNewInputField({ label: '', type: '', inputname: "", value: "", filterable: false, mandatory: false });
+    setNewInputField({ label: '', type: '', inputname: "", value: "", filterable: false, mandatory: false });
         setOpen(false);
     };
     const handleMoveDimension = (index, direction) => {
@@ -120,17 +116,12 @@ const SettingEntityForm = () => {
         updatedForm.splice(index, 1);
         setCustomForm(updatedForm);
     };
-
-
     const [inputType, setInputType] = useState(["", "text", "email", "password",
         "number", "textarea", "file", "date", "select", "multiselect", "checkbox", "range", "time"])
-
     const handleSubmitCustomForm = () => {
         let formData = {
-            customForm
-
-
-            , Name: "userform"
+            customForm,
+            Name: "userform"
         }
         axios.put(
             `https://atbtmain.teksacademy.com/form/update`,
@@ -138,11 +129,9 @@ const SettingEntityForm = () => {
         )
             .then(response => {
                 // Handle the response here
-
                 console.log(response);
             })
             .catch(error => {
-
                 console.error(error);
             });
     }
@@ -157,7 +146,6 @@ const SettingEntityForm = () => {
         setNewInputField(updatedNewInputField);
         console.log("updatedNewInputField", updatedNewInputField);
     };
-
     // let updatedOptions = updatedNewInputField.options.filter((option) => option != deleteoption)
     return (
         <div className="p-4 container bg-[#f8fafc]">
@@ -311,8 +299,6 @@ const SettingEntityForm = () => {
                     {/* <p className="grid1-item">Label - {input.label.charAt(0).toUpperCase() + input.label.slice(1)}</p>
  
                     <p className="grid1-item">Type - {input.type.charAt(0).toUpperCase() + input.type.slice(1)}</p> */}
-
-
                 </div>
             ))}
             <Transition.Root show={open} as={Fragment}>
@@ -352,10 +338,7 @@ const SettingEntityForm = () => {
 
                                             <path d="M6.28 5.22a.75.75 0 0 0-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 1 0 1.06 1.06L10 11.06l3.72 3.72a.75.75 0 1 0 1.06-1.06L11.06 10l3.72-3.72a.75.75 0 0 0-1.06-1.06L10 8.94 6.28 5.22Z" />
                                         </svg></span>
-
-
                                     {/* <p className="text-md text-center my-2 font-semibold"> Add New Input Field</p> */}
-
                                     <form>
                                         <div className="flex">
                                             <label htmlFor="name" className="block text-sm font-medium leading-6 mt-3 mb-2 mx-2 text-gray-900">
@@ -375,7 +358,6 @@ const SettingEntityForm = () => {
                                                 />
                                             </div>
                                         </div>
-
                                         {newInputField.field != "predefined" &&
                                             // editIndex == null && 
                                             <div >
@@ -402,8 +384,6 @@ const SettingEntityForm = () => {
                                                         </div>
                                                     </div>
                                                 </div>
-
-
                                                 {
                                                     (newInputField.type === "select" || newInputField.type === "multiselect") && (
 
@@ -446,16 +426,11 @@ const SettingEntityForm = () => {
 
                                                                 </div>
                                                             )}
-
                                                             </div>
                                                             {/* <button onClick={addOption} >add</button> */}
                                                             {/* {newInputField.options && newInputField.options.length > 0 && newInputField.options.map((option, index) => (
                                                             <span key={index}>  {option}{index != newInputField.options.length - 1 && <span>,</span>} </span>
                                                         ))} */}
-
-
-
-
                                                         </div>
                                                     )
                                                 }
@@ -482,7 +457,6 @@ const SettingEntityForm = () => {
                                                                 newInputField.type === "select" ||
                                                                 newInputField.type === "multiselect" ||
                                                                 newInputField.type === "time" ? "" : "pointer-events-none opacity-30"}`}
-
                                                     >
                                                         <input
                                                             type="checkbox"
@@ -494,7 +468,6 @@ const SettingEntityForm = () => {
                                                         <span className="text-xs">Filterable</span>
                                                     </div>}
                                                 </div>
-
                                                 {/* <div className="text-center">
                                                 Mandatory
 
@@ -517,13 +490,8 @@ const SettingEntityForm = () => {
                                                     onChange={handleInputChange}
 
                                                 />
-
-
-
                                             </div> */}
                                             </div>}
-
-
                                     </form>
 
                                     <div className="w-full ">
