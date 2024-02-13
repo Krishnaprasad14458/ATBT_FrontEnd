@@ -127,11 +127,12 @@ const SettingEntityForm = () => {
 
     const handleSubmitCustomForm = () => {
         let formData = {
-            customForm
+            arrayOfObjects: customForm
 
 
             , Name: "userform"
         }
+    
         axios.put(
             `https://atbtmain.teksacademy.com/form/update`,
             formData
