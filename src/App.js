@@ -99,6 +99,9 @@ function App() {
           <Route path='/Whatsapp' element={<Whatsapp />} />
           <Route path='/forms' element={<Forms />} />
           <Route path='/teams' element={<Teams />} />
+          <Route path='/teams/new' element={<TeamsForm />} />
+
+
           <Route path='/entities' element={<Entities />}>
             <Route path="otl" element={<EntityForm />} />
           </Route>
