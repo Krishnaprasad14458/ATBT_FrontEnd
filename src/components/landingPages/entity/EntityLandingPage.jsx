@@ -12,7 +12,6 @@ import useDebounce from '../../../hooks/debounce/useDebounce';
 import { EntitiesDataContext } from '../../../contexts/entitiesDataContext/entitiesDataContext';
 import axios from 'axios';
 
-
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
 }
@@ -115,7 +114,7 @@ const EntityLandingPage = () => {
     let [customFormField, setCustomFormField] = useState()
 
     useEffect(() => {
-        axios.get(`https://atbtmain.teksacademy.com/entitydata/28`)
+        axios.get(`https://atbtmain.teksacademy.com/entity/data/${id}`)
             .then(response => {
                 // Handle the successful response
                 console.log("response", response.data
