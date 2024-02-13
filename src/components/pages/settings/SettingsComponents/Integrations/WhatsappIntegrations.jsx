@@ -3,7 +3,7 @@ import React from 'react';
 const Whatsapp = () => {
   return (
     <div>
-      hi whats up
+      hi whatsApp
     </div>
   );
 }

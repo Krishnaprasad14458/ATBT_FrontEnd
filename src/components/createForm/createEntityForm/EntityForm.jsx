@@ -5,7 +5,9 @@ import defprop from '../../../Images/defprof.svg';
 import useDebounce from '../../../hooks/debounce/useDebounce';
 import { UserDataContext } from '../../../contexts/usersDataContext/usersDataContext';
 import { EntitiesDataContext } from '../../../contexts/entitiesDataContext/entitiesDataContext';
+import { useNavigate } from 'react-router-dom'
 function EntityForm() {
+  const navigate = useNavigate()
   const { usersState: { users, dashboard }, usersDispatch } = useContext(UserDataContext);
   const { createEntity } = useContext(EntitiesDataContext);
   const usersEmails = dashboard.paginatedUsers?.map(user => user.email);
@@ -103,165 +105,192 @@ function EntityForm() {
   function handleFormSubmit(e) {
     e.preventDefault();
 
-    for (let i = 0; i < customFormFields.length > 0; i++) {
+    for (let i = 0; i < customFormFields.length; i++) {
       if (customFormFields[i].type == "text" && customFormFields[i].mandatory) {
         if (customFormFields[i].value.length == 0) {
-          setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please Enter ${customFormFields[i].label}` }))
-
+          setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `please enter ${customFormFields[i].label}` }))
+          return false
         }
         else if (customFormFields[i].value.length < 3) {
-          setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "Name should contain atleast 3 characters" }))
-
+          setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "name should contain atleast 3 characters" }))
+          return false
         }
         else {
           setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
+          
         }
       }
       if (customFormFields[i].type == "file" && customFormFields[i].mandatory) {
         if (!customFormFields[i].value) {
-          setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please Upload ${customFormFields[i].label}` }))
-
+          setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `please upload ${customFormFields[i].label}` }))
+          // return false
         }
         else {
           setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
+         
         }
       }
       if (customFormFields[i].type == "textarea" && customFormFields[i].mandatory) {
         if (customFormFields[i].value.length == 0) {
-          setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please Enter ${customFormFields[i].label}` }))
-
+          setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `please enter ${customFormFields[i].label}` }))
+          return false
         }
         else if (customFormFields[i].value.length < 3) {
           setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "Name should contain atleast 3 characters" }))
-
+          return false
         }
         else {
           setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
+        
         }
       }
       if (customFormFields[i].type == "email" && customFormFields[i].mandatory) {
         if (customFormFields[i].value.length < 1) {
-          setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please Enter ${customFormFields[i].label}` }))
-
+          setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `please enter ${customFormFields[i].label}` }))
+          return false
         }
 
         else {
           setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
+     
         }
       }
       if (customFormFields[i].type == "number" && customFormFields[i].mandatory) {
         if (customFormFields[i].value.length < 1) {
-          setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please Enter ${customFormFields[i].label}` }))
-
+          setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `pease enter ${customFormFields[i].label}` }))
+          return false
         }
-        else if (customFormFields[i].value.length != 10) {
-          setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please Enter Correct ${customFormFields[i].label}` }))
-
-        }
+        // else if (customFormFields[i].value.length != 10) {
+        //   setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `please enter correct ${customFormFields[i].label}` }))
+        //   return false
+        // }
 
         else {
           setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
+    
         }
       }
       if (customFormFields[i].type == "select" && customFormFields[i].mandatory) {
         if (customFormFields[i].value.length < 1) {
-          setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please Enter ${customFormFields[i].label}` }))
-
+          setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `please enter ${customFormFields[i].label}` }))
+          return false
         }
 
         else {
           setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
+    
         }
       }
       if (customFormFields[i].type == "multiselect" && customFormFields[i].mandatory) {
         if (customFormFields[i].value.length < 1) {
-          setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please Enter ${customFormFields[i].label}` }))
-
+          setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `please enter ${customFormFields[i].label}` }))
+          return false
         }
 
         else {
           setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
+
         }
       }
       if (customFormFields[i].type == "date" && customFormFields[i].mandatory) {
         if (!customFormFields[i].value) {
-          setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please Enter ${customFormFields[i].label}` }))
-
+          setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `please enter ${customFormFields[i].label}` }))
+          return false
         }
 
         else {
           setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
+        
         }
       }
       if (customFormFields[i].type == "checkbox" && customFormFields[i].mandatory) {
         if (!customFormFields[i].value) {
-          setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please Enter ${customFormFields[i].label}` }))
-
+          setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `please enter ${customFormFields[i].label}` }))
+          return false
         }
 
         else {
           setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
+          return false
         }
       }
       if (customFormFields[i].type == "range" && customFormFields[i].mandatory) {
         if (!customFormFields[i].value) {
-          setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please Enter ${customFormFields[i].label}` }))
-
+          setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `please enter ${customFormFields[i].label}` }))
+          return false
         }
 
         else {
           setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
+
         }
       }
       if (customFormFields[i].type == "time" && customFormFields[i].mandatory) {
         if (!customFormFields[i].value) {
-          setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please Enter ${customFormFields[i].label}` }))
-
+          setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `please enter ${customFormFields[i].label}` }))
+          return false
         }
 
         else {
           setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
+       
         }
       }
       if (customFormFields[i].type == "password" && customFormFields[i].mandatory) {
         if (customFormFields[i].value.length < 1) {
-          setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please Enter ${customFormFields[i].label}` }))
-
+          setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `please enter ${customFormFields[i].label}` }))
+          return false
         }
 
         else {
           setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
+     
         }
       }
 
     }
     const formData = new FormData(e.target)
-    formData.set("members", JSON.stringify(['get', 'dynamic', 'mails']));
-    createEntity(formData)
-    // const formDataa = new FormData(e.target)
-    // formDataa.set("members", JSON.stringify(['get', 'dynamic', 'mails']));
-    // formDataa.set("members", JSON.stringify(selected));
+    let membersArray = ["dfsfds", "Fsdfds"];
+    formData.set("members", JSON.stringify(membersArray));
+    const jsonData = {};
+    // const jsonDataa = {};
 
-    // const jsonData = {};
+    jsonData.customFieldsData = JSON.stringify(customFormFields)
+    jsonData.loggedInUser = parseInt(localStorage.getItem("id"))
 
-    // // Iterate over form data entries and construct JSON object
-    // for (let [key, value] of formDataa.entries()) {
-    //   // Check if the key already exists in jsonData
+    for (let i = 0; i < customFormFields.length; i++) {
+      if (Array.isArray(customFormFields[i].value)) {
+        jsonData[customFormFields[i].inputname] = JSON.stringify(customFormFields[i].value)
+
+      } else {
+        jsonData[customFormFields[i].inputname] = customFormFields[i].value
+
+      }
+
+    }
+    // for (let [key, value] of formData.entries()) {
     //   if (jsonData.hasOwnProperty(key)) {
-    //     // If key exists and its value is an array, push the new value
     //     if (Array.isArray(jsonData[key])) {
     //       jsonData[key].push(value);
     //     } else {
-    //       // If key exists but its value is not an array, convert it to an array
     //       jsonData[key] = [jsonData[key], value];
     //     }
     //   } else {
-    //     // If key doesn't exist, simply add key-value pair to jsonData
     //     jsonData[key] = value;
     //   }
     // }
+    console.log("jsonData", jsonData);
+    axios.post(
+      `https://atbtmain.teksacademy.com/entity/data`, jsonData)
+      .then(response => {
+        // console.log(response.data);
+        // console.log("reposnseeeeeeeeee", response.data)
+        navigate(`/entitylandingpage/${parseInt(response.data)}`)
 
-    // console.log("jsonData", jsonData);
+      })
+      .catch(error => {
+        console.error(error);
+      });
     // createEntity(formData)
   }
   return (
@@ -302,15 +331,12 @@ function EntityForm() {
                       <input
                         type="file"
                         name={item.inputname}
-
-
                         id={item.inputname}
                         className="px-2  block w-full rounded-md bg-gray-50 border-2 border-gray-200 py-0.5 text-gray-900 appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6"
                         onChange={(event) => handleFileChange(event, index)}
                         accept="image/*"
                       />
                       <div className='h-2 text-[#dc2626]'>{errors[item.inputname] && <span>{errors[item.inputname]}</span>}</div>
-
                     </div>
                   )}
                   {item.type === 'textarea' && item.inputname == "description" && item.field === "predefined" && (
@@ -401,7 +427,7 @@ function EntityForm() {
                         placeholder:text-xs"
                         onChange={(e) => handleChange(index, e.target.value)}
                       />
-                         <div className='h-2 text-[#dc2626]'>{errors[item.inputname] && <span>{errors[item.inputname]}</span>}</div>
+                      <div className='h-2 text-[#dc2626]'>{errors[item.inputname] && <span>{errors[item.inputname]}</span>}</div>
                     </div>
                   )}
                   {item.type === 'email' && item.field == "custom" && (
@@ -420,7 +446,7 @@ function EntityForm() {
                         placeholder:text-xs"
                         onChange={(e) => handleChange(index, e.target.value)}
                       />
-                         <div className='h-2 text-[#dc2626]'>{errors[item.inputname] && <span>{errors[item.inputname]}</span>}</div>
+                      <div className='h-2 text-[#dc2626]'>{errors[item.inputname] && <span>{errors[item.inputname]}</span>}</div>
                     </div>
                   )}
                   {item.type === 'password' && item.field == "custom" && (
@@ -442,7 +468,7 @@ function EntityForm() {
                         onChange={(e) => handleChange(index, e.target.value)}
 
                       />
-                         <div className='h-2 text-[#dc2626]'>{errors[item.inputname] && <span>{errors[item.inputname]}</span>}</div>
+                      <div className='h-2 text-[#dc2626]'>{errors[item.inputname] && <span>{errors[item.inputname]}</span>}</div>
                     </div>
                   )}
                   {item.type === 'number' && item.field == "custom" && (
@@ -458,9 +484,9 @@ function EntityForm() {
                         onChange={(e) => handleChange(index, e.target.value)}
                         className="p-2 block w-full rounded-md bg-gray-50 border-2 border-gray-200 py-1 text-gray-900 appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6
                         placeholder:text-xs"
-                     
+
                       />
-                         <div className='h-2 text-[#dc2626]'>{errors[item.inputname] && <span>{errors[item.inputname]}</span>}</div>
+                      <div className='h-2 text-[#dc2626]'>{errors[item.inputname] && <span>{errors[item.inputname]}</span>}</div>
                     </div>
                   )}
                   {item.type === 'checkbox' && item.field == "custom" && (
@@ -490,10 +516,10 @@ function EntityForm() {
                         type="date"
                         name={item.inputname}
                         id={item.inputname}
-                      
+
                         className="p-2 block w-full rounded-md bg-gray-50 border-2 border-gray-200 py-1 text-gray-900 appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6
                         placeholder:text-xs"
-                      
+
                         value={customFormFields[index].value || ''}
 
                         onChange={(e) => handleChange(index, e.target.value)}
@@ -514,7 +540,7 @@ function EntityForm() {
                         className="p-2 block w-full rounded-md bg-gray-50 border-2 border-gray-200 py-1 text-gray-900 appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6
                         placeholder:text-xs"
                         id={item.inputname}
-                       
+
                         value={customFormFields[index].value || ''}
                         onChange={(e) => handleChange(index, e.target.value)}
 
@@ -561,7 +587,7 @@ function EntityForm() {
                         onChange={(e) => handleChange(index, e.target.value)}
 
                       />
-                                          <div className='h-2 text-[#dc2626]'>{errors[item.inputname] && <span>{errors[item.inputname]}</span>}</div>
+                      <div className='h-2 text-[#dc2626]'>{errors[item.inputname] && <span>{errors[item.inputname]}</span>}</div>
 
                     </div>
                   )}
@@ -676,7 +702,7 @@ function EntityForm() {
                 )}
                 {item.type === 'textarea' && item.inputname == "description" && item.field == "predefined" && (
                   <div className='h-28 overflow-auto border border-1 border-gray-200 rounded-md p-2 bg-[#f8fafc] text-sm w-full mt-4'>
-                    {item.value}        
+                    {item.value}
                   </div>
                 )}
                 {item.type === 'multiselect' && item.inputname == "members" && item.field == "predefined" && (
@@ -776,7 +802,7 @@ function EntityForm() {
                 {item.type === 'file' && item.field == "custom" && (
                   <div className="flex gap-4">
                     <div className="group h-10 ">
-                     
+
                       {item.value ? (
                         <img
                           src={item.value}
@@ -786,7 +812,7 @@ function EntityForm() {
                         />
                       ) : (
                         <img className="w-10 h-10 rounded-lg " src={defprop} alt="Neil image" />
-                      
+
                       )}
                     </div>
                     <hr className='my-3' />
@@ -802,7 +828,7 @@ function EntityForm() {
 
                 </div>}
 
-              
+
                 {item.type === "multiselect" && item.field == "custom" && <div>
 
                   {item.value.join(', ')}
