@@ -265,7 +265,7 @@ function UserForm() {
                         id={item.inputname}
                         // value={formData[item.label] || ''}
                         value={customFormFields[index].value || ''}
-                        className="p-2 block w-full rounded-md bg-gray-50 border-2 border-gray-200 py-1 text-gray-900 appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6
+                        className="px-2 block w-full rounded-md bg-gray-50 border-2 border-gray-200 py-1 text-gray-900 appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6
                         placeholder:text-xs"
                         onChange={(e) => handleChange(index, e.target.value)}
                       />
@@ -283,7 +283,7 @@ function UserForm() {
 
 
                         id={item.inputname}
-                        className="px-2  block w-full rounded-md bg-gray-50 border-2 border-gray-200 py-0.5 text-gray-900 appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6"
+                        className="px-2 py-1.5 md:py- lg:py-0.5 xl:py-0.5 text-xs  block w-full rounded-md bg-gray-50 border-2 border-gray-200    text-gray-900 appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6"
                         onChange={(event) => handleFileChange(event, index)}
                         accept="image/*"
                       />
@@ -343,10 +343,10 @@ function UserForm() {
                       <select
                         id={item.inputname}
                         name={item.inputname}
-                        className="px-2 py-1.5 block w-full rounded-md bg-gray-50 border-2 border-gray-200  text-gray-900  shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6"
+                        className="px-2 py-1.5 block w-full text-xs rounded-md bg-gray-50 border-2 border-gray-200  text-gray-900  shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6"
                         onChange={(e) => handleChange(index, e.target.value)}
                         value={customFormFields[index].value || ''}
-                      > <option value="">--select--</option>
+                      > <option value="" >--select--</option>
                         {item.options && item.options.map((option, index) => (
                           <option value={option}>{option}</option>
                         ))}
@@ -365,7 +365,7 @@ function UserForm() {
                       <select
                         id={item.inputname}
                         name={item.inputname}
-                        className="px-2 py-1.5 block w-full rounded-md bg-gray-50 border-2 border-gray-200  text-gray-900  shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6"
+                        className="px-2 py-1.5 text-xs block w-full rounded-md bg-gray-50 border-2 border-gray-200  text-gray-900  shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6"
 
                         onChange={(e) => handleChange(index, e.target.value)}
                         value={customFormFields[index].value || ''}
@@ -388,7 +388,7 @@ function UserForm() {
                       <select
                         id={item.inputname}
                         name={item.inputname}
-                        className="px-2 py-1.5 block w-full rounded-md bg-gray-50 border-2 border-gray-200  text-gray-900  shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6"
+                        className="px-2 text-xs py-1.5 block w-full rounded-md bg-gray-50 border-2 border-gray-200  text-gray-900  shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6"
 
                         onChange={(e) => handleChange(index, e.target.value)}
                         value={customFormFields[index].value || ''}
