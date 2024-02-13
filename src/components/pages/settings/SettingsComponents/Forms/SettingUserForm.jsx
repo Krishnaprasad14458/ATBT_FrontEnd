@@ -1,10 +1,8 @@
 import React, { useEffect } from "react";
 import { Fragment, useRef, useState } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
-
 import axios from "axios";
 import { toast } from "react-toastify";
-
 const UsersFormDup = () => {
     const [open, setOpen] = useState(false)
     const [editIndex, setEditIndex] = useState(null);
@@ -122,13 +120,9 @@ const UsersFormDup = () => {
         let formData = {
             arrayOfObjects: customForm, Name: "userform"
         }
-
         await saveCustomForm(formData)
-
-
     }
     const saveCustomForm = async (formData) => {
-
         toast.promise(
             axios.put(`https://atbtmain.teksacademy.com/form/update`, formData),
             {
@@ -177,7 +171,7 @@ const UsersFormDup = () => {
     return (
         <div className='container p-3'>
             <div className="flex justify-between">
-                <p className="text-xl font-semibold">Custom User Fields</p>
+                <p className="text-xl font-semibold">Custom User Form</p>
                 <div className='flex justify-end'>
                     <button type="submit" onClick={(e) => {
                         setEditIndex(null)
@@ -194,9 +188,9 @@ const UsersFormDup = () => {
                         <div>
                             <div role="button" class="block w-full  ">
                                 <div class="flex justify-between items-center mb-3  ">
-                                    <div class="flex justify-between items-center bg-[#e5e7eb] p-4 w-full " >
+                                    <div class="flex justify-between items-center bg-[#f3f4f6] p-4 w-full " >
                                         <div class="flex text-black font-semibold">
-                                            <div class="">{input.label.charAt(0).toUpperCase() + input.label.slice(1)}</div></div>
+                                            <div class="" onClick={() => handleFiledOpen(input.inputname)}>{input.label.charAt(0).toUpperCase() + input.label.slice(1)}</div></div>
                                         <div class="flex gap-3 md:gap-10">
                                             {/*up and down moving icons */}
                                             <svg onClick={() => handleMoveDimension(index, 'up')} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
@@ -213,9 +207,7 @@ const UsersFormDup = () => {
                                                 ) : (
                                                     <path fill-rule="evenodd" d="M12.53 16.28a.75.75 0 0 1-1.06 0l-7.5-7.5a.75.75 0 0 1 1.06-1.06L12 14.69l6.97-6.97a.75.75 0 1 1 1.06 1.06l-7.5 7.5Z" clip-rule="evenodd" />
                                                 )}
-
                                             </svg>
-
                                         </div></div></div></div>
                             {input.inputname == selected &&
                                 <div class="px-6">
@@ -224,39 +216,27 @@ const UsersFormDup = () => {
                                         <div class=" sm:w-full md:w-1/2 lg:w-1/2 xl:1/2 ">
                                             <div class="w-full relative m-0 ">
                                                 <div class="w-full">
-                                                    <input type="text" autocomplete="" placeholder="Enter title" class="input-mol  p-[0.5rem]   w-full text-darkSlate01 text-sm rounded focus:outline-none bg-[#f8fafc] focus:shadow-none border border-slate04 focus:border-slate01!rounded-none py-3 !text-body px-4  undefined" value={input.label.charAt(0).toUpperCase() + input.label.slice(1)} />
+                                                    <div  class="input-mol  p-[0.5rem]   w-full text-darkSlate01 text-sm rounded focus:outline-none bg-[#f8fafc] focus:shadow-none border border-slate04 focus:border-slate01!rounded-none py-3 !text-body px-4  undefined"   > {input.label.charAt(0).toUpperCase() + input.label.slice(1)}</div>
                                                 </div></div></div></div>
                                     <div class="border-b border-slateStroke flex flex-wrap py-4 gap-2">
                                         <div class="sm:w-full sm-py-1 md:w-1/5 lg:w-1/5 xl:w-1/5 text-body text-darkSlate01 text-md text-body pt-2">Field type</div>
                                         <div class="sm:w-full md:w-1/2 lg:w-1/2 xl:1/2  ">
                                             <div class="relative w-full m-0 ">
                                                 <div class="w-full">
-                                                    <input type="text" autocomplete="" placeholder="Enter title" class="input-mol  p-[0.5rem]   w-full text-darkSlate01 text-sm rounded focus:outline-none bg-[#f8fafc] focus:shadow-none border border-slate04 focus:border-slate01!rounded-none py-3 !text-body px-4  undefined" value={input.type.charAt(0).toUpperCase() + input.type.slice(1)} />
+                                                    <div  class="input-mol  p-[0.5rem]   w-full text-darkSlate01 text-sm rounded focus:outline-none bg-[#f8fafc] focus:shadow-none border border-slate04 focus:border-slate01!rounded-none py-3 !text-body px-4  undefined">{input.type.charAt(0).toUpperCase() + input.type.slice(1)}</div>
                                                 </div></div></div></div>
-                                    <div className="flex flex-wrap mb-5 gap-3">
+                                    <div className="flex flex-wrap mb-5 gap-10">
                                         {/* {input.type.charAt(0).toUpperCase() + input.type.slice(1)} */}
                                         <div className="w-1/5 hidden sm:block"></div>
                                         <div class=" flex flex-wrap pt-5  gap-1 ">
-
-
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 mt-1">
                                                 {input.mandatory ? (
                                                     <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                                                 ) : (
 
                                                     <path stroke-linecap="round" stroke-linejoin="round" d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-
                                                 )}
-
-                                            </svg>
-                                            {/* <input
-
-                                                type="checkbox"
-                                                id="mandatory"
-                                                name="mandatory"
-                                                checked={input.mandatory}
-                                                onChange={handleInputChange}
-                                            /> */}
+                                            </svg>                                          
                                             <div class=" text-body text-darkSlate01"> Required</div>
                                         </div>
                                         <div class="  flex flex-wrap pt-5  gap-1 ">
@@ -264,19 +244,9 @@ const UsersFormDup = () => {
                                                 {input.filterable ? (
                                                     <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                                                 ) : (
-
                                                     <path stroke-linecap="round" stroke-linejoin="round" d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-
                                                 )}
-
                                             </svg>
-                                            {/* <input
-                                                type="checkbox"
-                                                id="filterable"
-                                                name="filterable"
-                                                checked={input.filterable}
-                                                onChange={handleInputChange}
-                                            /> */}
                                             <div class=" text-body text-darkSlate01  lg:pe-20">Filtered</div>
                                         </div>
                                     </div>
@@ -291,17 +261,10 @@ const UsersFormDup = () => {
                                         </div>
                                         <div class="mr-4">
                                             <button class={`flex w-full justify-center rounded-md bg-[#dc2626] px-3 py-2.5 text-sm font-medium leading-6 text-white shadow-sm  focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600 ${input.field === "custom" ? "" : "pointer-events-none opacity-30  cursor-not-allowed"}`}
-
                                                 onClick={() => {
                                                     deleteInput(index);
                                                 }}>Delete</button>
-                                        </div>
-                                        {/* <div class="">
-                                            <button class=" flex w-full justify-center rounded-md bg-orange-600 px-3 py-2.5 text-sm font-medium leading-6 text-white shadow-sm  focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600
-                       
-                       " onClick={handleSubmitCustomForm}>Save</button>
-                                        </div> */}
-
+                                        </div>                                      
                                     </div>
                                 </div>
                             }
@@ -359,9 +322,7 @@ const UsersFormDup = () => {
                                                 />
                                             </div>
                                         </div>
-                                        {
-                                        // newInputField.field != "predefined" &&
-                                            // editIndex == null && 
+                                        {                                      
                                             <div >
                                                 <div className="flex  gap-2">
                                                     <label htmlFor="venue" className="block text-sm font-medium leading-6 mt-3 mb-2  mx-2 text-gray-900 ">Type </label>
@@ -374,7 +335,8 @@ const UsersFormDup = () => {
                                                         sm:leading-6 ${editIndex == null ? "" : "pointer-events-none opacity-30"}`}
                                                             value={newInputField.type} onChange={handleInputChange}>
                                                             {inputType && inputType.map((type, index) => (
-                                                                <option value={type}  >{type}</option>
+                                                             <option value={type}>
+                                                             {type.charAt(0).toUpperCase() + type.slice(1)} </option>
                                                             ))}
                                                         </select>
                                                         <div className="pointer-events-none absolute inset-y-0 right-2 flex items-center px-2 text-gray-700">
