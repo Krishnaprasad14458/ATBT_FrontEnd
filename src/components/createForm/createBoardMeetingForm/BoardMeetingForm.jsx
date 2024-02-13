@@ -242,9 +242,9 @@ function BoardMeetingForm() {
   return (
     <div className='container p-4 bg-[#f8fafc]'>
       {/* <p className="font-lg font-semibold p-3">Entity Form</p> */}
-      <p className="text-lg font-semibold">New Board Meeting</p>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-4">
-        <div className="col-span-1 p-3">
+      <p className="text-lg font-semibold">Board Meeting</p>
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-4 mt-2 ">
+        <div className="col-span-1">
           <form method="POST" onSubmit={handleFormSubmit} >
             {customFormFields &&
               customFormFields.length > 0 &&
@@ -253,7 +253,7 @@ function BoardMeetingForm() {
                   {/* predefined fields */}
                   {item.type === 'text' && item.inputname == "name" && item.field === "predefined" && (
                     <div>
-                      <label htmlFor={item.label} className="block text-sm font-medium leading-6 my-2 text-gray-900">
+                      <label htmlFor={item.label} className="block text-sm font-medium leading-6  text-gray-900">
                         {item.label.charAt(0).toUpperCase() + item.label.slice(1)}
                       </label>
                       {/* <label htmlFor={item.label} className="block text-sm font-medium leading-6 my-2 text-gray-900">
@@ -267,7 +267,7 @@ function BoardMeetingForm() {
                         placeholder='Enter your name'
                         // value={formData[item.label] || ''}
                         value={customFormFields[index].value || ''}
-                        className="p-2 block w-full rounded-md bg-gray-50 border-2 border-gray-200 py-1 text-gray-900 appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6
+                        className="px-2 block w-full rounded-md bg-gray-50 border-2 border-gray-200 py-1 text-gray-900 appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6
                         placeholder:text-xs"
                         onChange={(e) => handleChange(index, e.target.value)}
                       />
@@ -275,73 +275,63 @@ function BoardMeetingForm() {
                     </div>
                   )}
 
-                  <div className=" flex gap-2">
-
-                  
-                      {item.type === 'date' && item.inputname == "date" && item.field == "predefined" && (
-                        <div >
-                          <label htmlFor={item.label} className="block text-sm font-medium leading-6 my-2 text-gray-900">
-                            {item.label.charAt(0).toUpperCase() + item.label.slice(1)}
-                          </label>
-                          <input
-                            type="date"
-                            name={item.inputname}
-                            id={item.inputname}
-                            // value={formData[item.label] || ''}
-                            className="p-2 block w-full rounded-md bg-gray-50 border-2 border-gray-200 py-1 text-gray-900 appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6
-                        placeholder:text-xs"
-                            // onChange={handleChange}
-                            value={customFormFields[index].value || ''}
-
-                            onChange={(e) => handleChange(index, e.target.value)}
-                          />
-                          <div className='h-2 text-[#dc2626]'>{errors[item.inputname] && <span>{errors[item.inputname]}</span>}</div>
-
-                        </div>
-                      )}
-               
-
-                
-                      {item.type === 'time' && item.inputname == "time" && item.field == "predefined" && (
-                        <div >
-                          <label htmlFor={item.label} className="block text-sm font-medium leading-6 my-2 text-gray-900">
-                            {item.label.charAt(0).toUpperCase() + item.label.slice(1)}
-                          </label>
-                          <input
-                            type="time"
-                            name={item.inputname}
-
-                            className="p-2 block w-full rounded-md bg-gray-50 border-2 border-gray-200  text-gray-900 appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6"
-                            id={item.inputname}
-
-                            value={customFormFields[index].value || ''}
-                            onChange={(e) => handleChange(index, e.target.value)}
-
-                          />
-                          <div className='h-2 text-[#dc2626]'>{errors[item.inputname] && <span>{errors[item.inputname]}</span>}</div>
-
-                        </div>
-                      )}
-                  
 
 
 
+                  {item.type === 'date' && item.inputname == "date" && item.field == "predefined" && (
+                    <div >
+                      <label htmlFor={item.label} className="block text-sm font-medium leading-6 mt-1 text-gray-900">
+                        {item.label.charAt(0).toUpperCase() + item.label.slice(1)}
+                      </label>
+                      <input
+                        type="date"
+                        name={item.inputname}
+                        id={item.inputname}
+                        // value={formData[item.label] || ''}
+                        className="px-2  block w-full rounded-md bg-gray-50 border-2 border-gray-200 py-1 text-gray-900 appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-xs sm:leading-6"
+                        // onChange={handleChange}
+                        value={customFormFields[index].value || ''}
+
+                        onChange={(e) => handleChange(index, e.target.value)}
+                      />
+                      <div className='h-2 text-[#dc2626]'>{errors[item.inputname] && <span>{errors[item.inputname]}</span>}</div>
+
+                    </div>
+                  )}
 
 
-                  </div>
 
+                  {item.type === 'time' && item.inputname == "time" && item.field == "predefined" && (
+                    <div >
+                      <label htmlFor={item.label} className="block text-sm font-medium leading-6 mt-1 text-gray-900">
+                        {item.label.charAt(0).toUpperCase() + item.label.slice(1)}
+                      </label>
+                      <input
+                        type="time"
+                        name={item.inputname}
 
+                        className="px-2 py-1 block w-full rounded-md bg-gray-50 border-2 border-gray-200  text-gray-900 appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6"
+                        id={item.inputname}
+
+                        value={customFormFields[index].value || ''}
+                        onChange={(e) => handleChange(index, e.target.value)}
+
+                      />
+                      <div className='h-2 text-[#dc2626]'>{errors[item.inputname] && <span>{errors[item.inputname]}</span>}</div>
+
+                    </div>
+                  )}
 
                   {item.type === 'select' && item.inputname == "venue" && item.field == "predefined" && (
                     <div>
-                      <label htmlFor={item.label} className="block text-sm font-medium leading-6 my-2 text-gray-900">
+                      <label htmlFor={item.label} className="block text-sm font-medium leading-6 mt-1 text-gray-900">
                         {item.label.charAt(0).toUpperCase() + item.label.slice(1)}
                       </label>
 
                       <select
                         id={item.inputname}
                         name={item.inputname}
-                        className="p-2 text-xs block w-full bg-gray-50  rounded-md py-2.5 text-gray-900   border-2 border-gray-200 shadow-sm  placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-xs sm:leading-6"
+                        className="px-2 py-1.5 block w-full rounded-md bg-gray-50 border-2 border-gray-200  text-gray-900  shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6"
                         onChange={(e) => handleChange(index, e.target.value)}
                         value={customFormFields[index].value || ''}
                       >{item.options && item.options.map((option, index) => (
@@ -355,7 +345,7 @@ function BoardMeetingForm() {
                   )}
                   {item.type === 'textarea' && item.inputname == "description" && item.field == "predefined" && (
                     <div>
-                      <label htmlFor={item.label} className="block text-sm font-medium leading-6 my-2 text-gray-900">
+                      <label htmlFor={item.label} className="block text-sm font-medium leading-6 mt-1 text-gray-900">
                         {item.label.charAt(0).toUpperCase() + item.label.slice(1)}
                       </label>
                       <textarea
@@ -376,9 +366,9 @@ function BoardMeetingForm() {
                   {item.type === 'multiselect' && item.inputname == "members" && item.field == "predefined" && (
 
                     <div className='relative'>
-                      <label htmlFor="email" className="block text-sm my-2 font-medium leading-6 text-gray-900">{item.label}</label>
+                      <label htmlFor="email" className="block text-sm mt-1 font-medium leading-6 text-gray-900">{item.label}</label>
 
-                      <div className='border-2 border-gray-200 flex flex-wrap gap-1 p-2.5 selected-users-container relative z-50   rounded-md'>
+                      <div className='border-2 border-gray-200 flex flex-wrap gap-1 p-1.5 selected-users-container relative z-50   rounded-md'>
                         {selected && selected.length > 0 && selected.map((result) => {
 
                           let mail = result.split("@")[0]
@@ -692,26 +682,88 @@ function BoardMeetingForm() {
         {/* preview */}
         <div className='col-span-2 h-[500px] overflow-auto shadow-md px-6 py-4 border-2 rounded-md bg-[#f8fafc] '>
           {customFormFields && customFormFields.length > 0 && customFormFields.map((item) => (
+
             <div className='relative' >
 
               {/* predefined fields*/}
-              {item.type === 'text' && item.inputname == "name" && item.field == "predefined" && (
-                <p className="text-sm font-black text-gray-800 mt-2 absolute left-12">{item.value}</p>
-              )}
-              {item.type === "date" && item.inputname == "date" && item.field == "predefined" && <div>
+              <div className='flex justify-between flex-wrap'>
+                <span>
+                  {item.type === 'text' && item.inputname === 'name' && item.field === 'predefined' && (
+                    <div className='absolute mt-2'>
+                      {item.value ? (
+                        <p className='text-lg'>{item.value.toUpperCase()}</p>
+                      ) : (
+                        <p className='text-lg text-gray-400'>Name</p>
+                      )}
+                    </div>
+                  )}
+                  {/* {item.type === 'select' && item.inputname === 'venue' && item.field === 'predefined' && (
+                    <div className='absolute  w-3/4'>
+                      {item.value ? (
+                        <p className='text-sm'><span className='text-sm'>Venue : </span>{item.value}</p>
+                      ) : (
+                        <span className='text-xs text-gray-400 bottom-3'>Venue :a house pista house pista house pista house v pista house  ouse v pista house ouse v pista house</span>
+                      )}
+                    </div>
+                  )} */}
+                </span>
+                <span>
+                  {item.type === 'date' && item.inputname === 'date' && item.field === 'predefined' && (
+                    <div className='mt-3'>
+                      {item.value ? (
+                        <p className='text-sm mt-1'>Date : {item.value}</p>
+                      ) : (
+                        <p className='text-sm text-gray-400 mt-1'>Date : YYYY-MM-DD</p>
+                      )}
+                    </div>
+                  )}
+                  {/* {item.type === 'time' && item.inputname === 'time' && item.field === 'predefined' && (
+                    <div className=''>
+                      {item.value ? (
+                        <p className='text-sm'>Time : {item.value}</p>
+                      ) : (
+                        <p className='text-sm text-gray-400 '>Time : 00:00 AM</p>
+                      )}
+                    </div>
+                  )} */}
+                </span>
+              </div>
+              <div className='flex justify-between'>
+                {item.type === 'select' && item.inputname === 'venue' && item.field === 'predefined' && (
+                  <div className='w-1/2'>
+                    {item.value ? (
+                      <p className='text-sm'><span className='text-sm'>Venue : </span>{item.value}</p>
+                    ) : (
+                      <span className='text-xs text-gray-400 '>Venue :a house pista house pista house pista house v pista house ouse v pista house ouse v pista house</span>
+                    )}
+                  </div>
+                )}
+
+                {item.type === 'time' && item.inputname === 'time' && item.field === 'predefined' && (
+                  <div className='w-1/2'>
+                    {item.value ? (
+                      <p className='text-sm'>Time : {item.value}</p>
+                    ) : (
+                      <p className='text-sm text-gray-400 mt-4 '>Time : 00:00 AM</p>
+                    )}
+                  </div>
+                )}
+              </div>
+
+
+
+
+              {/* {item.type === "select" && item.inputname == "venue" && item.field == "predefined" && <div>
                 {item.value}
 
               </div>}
               {item.type === "time" && item.inputname == "time" && item.field == "predefined" && <div>
                 {item.value}
 
-              </div>}
-              {item.type === "select" && item.inputname == "venue" && item.field == "predefined" && <div>
-                {item.value}
+              </div>} */}
 
-              </div>}
               {item.type === 'textarea' && item.inputname == "description" && item.field == "predefined" && (
-                <div className='h-28 overflow-auto border border-1 border-gray-200 rounded-md p-2 bg-[#f8fafc] text-sm w-full mt-4'>
+                <div className=' mt-10  h-28 overflow-auto border border-1 border-gray-200 rounded-md p-2 bg-[#f8fafc] text-sm w-full '>
                   {/* <textarea className="resize-none h-20 border border-1 border-gray-200 focus:outline-none "> */}
                   {item.value}
                   {/* </textarea> */}
@@ -868,9 +920,10 @@ function BoardMeetingForm() {
             </div>
           )
 
-          )}
-        </div>
-      </div>
+          )
+          }
+        </div >
+      </div >
     </div >
   );
 }
