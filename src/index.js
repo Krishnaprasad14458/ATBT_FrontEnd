@@ -9,6 +9,7 @@ import { ToastContainer } from "react-toastify";
 import AuthProvider from './contexts/authContext/authContext';
 import UserDataProvider from './contexts/usersDataContext/usersDataContext';
 import EntitiesDataProvider from './contexts/entitiesDataContext/entitiesDataContext';
+import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import PermissionsProvider from './rbac/PermissionsProvider';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));

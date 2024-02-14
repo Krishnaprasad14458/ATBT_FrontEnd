@@ -23,7 +23,7 @@ const handlePermissionsUpdate = async (setPermissions, setLoading) => {
 
 const PermissionsProvider = ({ children }) => {
   const  authState  = useContext(AuthContext);
-  console.log(authState)
+  console.log(authState, permissionsDb, "pdb")
   const [permissions, setPermissions] = useState([...permissionsDb] || []);
   const [loading, setLoading] = useState(false);
 

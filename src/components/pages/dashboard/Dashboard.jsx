@@ -6,7 +6,6 @@ import UserDashboard from './userDashboard/UserDashboard';
 import EntityDashboard from './entityDashboard/EntityDashboard';
 import BoardMeetingDashboard from './BoardMettingDashboard/BoardMeetingDashboard';
 import TeamsDashboard from './TeamsDashboard/TeamsDashboard';
-import GateKeeper from '../../../rbac/GateKeeper';
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
@@ -40,22 +39,13 @@ function Dashboard() {
         </div>
       </div>
       <div className="mt-4">
-        <div className='grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-col-2 gap-10 px-7 dashboard-main'>
-        <GateKeeper permissionCheck={(permission) => permission.module === 'entity' && permission.read}>
+        <div className=' grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-col-2 gap-10 px-7 dashboard-main'>
           <EntityDashboard />
-        </GateKeeper>
-        <GateKeeper permissionCheck={(permission) => permission.module === 'user' && permission.read}>
           <UserDashboard />
-        </GateKeeper>
         </div>
-//         <div className='grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-col-2 gap-10 px-7 dashboard-main mt-4'>
         <div className='mb-12 pb-5 grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-col-2 gap-10 px-7 dashboard-main mt-4'>
-        <GateKeeper permissionCheck={(permission) => permission.module === 'meeting' && permission.read}>
           <BoardMeetingDashboard />
-        </GateKeeper>
-        <GateKeeper permissionCheck={(permission) => permission.module === 'team' && permission.read}>
           <TeamsDashboard />
-        </GateKeeper>
         </div>
       </div>
     </div>
