@@ -212,8 +212,8 @@ const SettingTeamsForm = () => {
                     }}
                         className="create-btn px-3 py-2 inline-flex items-center justify-center whitespace-nowrap rounded-full text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white gap-1">+ Add Field</button></div>
             </div>
-            <div class="flex ">
-                <div class="w-full border-slate04 h-fit border-b py-3 mb-4 text-left text-xs  px-14  ">
+            <div class="flex mt-3">
+                <div class="w-full border-slate04  border-2 px-3 py-4 text-left text-xs">
                     {customForm && customForm.length > 0 && customForm.map((input, index) => (
                         <div>
                             <div role="button" class="block w-full  ">
@@ -372,12 +372,12 @@ const SettingTeamsForm = () => {
                                                         sm:leading-6 ${editIndex == null ? "" : "pointer-events-none opacity-30"}`}
                                                             value={newInputField.type} onChange={handleInputChange}>
                                                             {inputType && inputType.map((type, index) => (
-                                                               
 
-                                                                    <option value={type.value}>
-                                                                        {type.label}</option>
 
-                                                               
+                                                                <option value={type.value}>
+                                                                    {type.label}</option>
+
+
 
                                                             ))}
                                                         </select>
@@ -477,12 +477,14 @@ const SettingTeamsForm = () => {
                     </div>
                 </Dialog>
             </Transition.Root>
-            <div class="flex justify-end w-full  pb-2">
-                <div class="mr-4"></div><div class="">
+            <div class="flex justify-end w-full mt-5 pb-2">
+                <div class="">
+                </div>
+                <div class="me-5 my-4">
                     <button class=" flex w-full justify-center rounded-md bg-orange-600 px-3 py-2.5 text-sm font-medium leading-6 text-white shadow-sm  focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600
-                       
                        " onClick={handleSubmitCustomForm}>Save</button>
-                </div></div>
+                </div>
+            </div>
 
 
 
