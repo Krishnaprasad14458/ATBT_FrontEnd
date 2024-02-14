@@ -9,14 +9,13 @@ import { ToastContainer } from "react-toastify";
 import AuthProvider from './contexts/authContext/authContext';
 import UserDataProvider from './contexts/usersDataContext/usersDataContext';
 import EntitiesDataProvider from './contexts/entitiesDataContext/entitiesDataContext';
-import * as serviceWorkerRegistration from './serviceWorkerRegistration';
-import PermissionProvider from './rbac/PermissionProvider';
+import PermissionsProvider from './rbac/PermissionsProvider';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   // <React.StrictMode>
   <BrowserRouter>
-    <PermissionProvider>
+    <PermissionsProvider>
       <AuthProvider>
         <UserDataProvider>
           <EntitiesDataProvider>
@@ -35,7 +34,7 @@ root.render(
           </EntitiesDataProvider>
         </UserDataProvider>
       </AuthProvider>
-    </PermissionProvider>
+    </PermissionsProvider>
   </BrowserRouter>,
   {/* </React.StrictMode> */ }
 );

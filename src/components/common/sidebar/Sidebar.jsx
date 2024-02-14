@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import logo from '../../../Images/logo.png'
 import { Link } from 'react-router-dom';
-import Restricted from '../../../rbac/Restricted';
+import GateKeeper from '../../../rbac/GateKeeper';
 const Sidebar = () => {
 
     const menus = [
@@ -86,7 +86,7 @@ duration-500 text-gray-100 px-2`}>
                         <div className={`mt-3 flex-col gap-4 text-black relative ${open ? '' : 'mt-7'}`} >
                             {
                                 menus?.map((menu, i) => (
-                                    <Restricted module={menu.module} action="read">
+                                    <GateKeeper permissionCheck={(permission) => permission.module === menu.module && permission.read} >
                                     <Link to={menu?.link} key={i}
                                         onClick={(e) => { setActive(menu.name) }}
                                         className={`group flex items-center text-md gap-3.5 font-semibold p-2 leading-normal
@@ -111,7 +111,7 @@ duration-500 text-gray-100 px-2`}>
                       group-hover:w-fit`}>{menu?.name}</h3>
 
                                     </Link>
-                                    </Restricted>
+                                    </GateKeeper>
                                 ))
                             }
 

@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 
 import './TopBar.css';
 import { AuthContext } from '../../../contexts/authContext/authContext';
-import Restricted from '../../../rbac/Restricted';
+import GateKeeper from '../../../rbac/GateKeeper';
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
@@ -50,7 +50,7 @@ export default function TopBar() {
                       <div className="py-1">
                         <Menu.Item>
                           {({ active }) => (
-                            <Restricted module='user' action="create">
+                            <GateKeeper permissionCheck={(permission) => permission.module === "user" && permission.create}>
                             <Link
                               to={`/users/new`}
                               className={classNames(
@@ -66,12 +66,12 @@ export default function TopBar() {
                                 <p className='ms-2 mt-1 text-sm'>User</p>
                               </div>
                             </Link>
-                            </Restricted>
+                            </GateKeeper>
                           )}
                         </Menu.Item>
                         <Menu.Item>
                           {({ active }) => (
-                            <Restricted module='entity' action="create">
+                            <GateKeeper permissionCheck={(permission) => permission.module === "user" && permission.create}>
                             <Link
                               to={`/entities/new`}
                               className={classNames(
@@ -87,12 +87,12 @@ export default function TopBar() {
                                 <p className='ms-2 mt-1 text-sm'>Entity</p>
                               </div>
                             </Link>
-                            </Restricted>
+                            </GateKeeper>
                           )}
                         </Menu.Item>
                         <Menu.Item>
                           {({ active }) => (
-                            <Restricted module='task' action="create">
+                            <GateKeeper module='task' action="create">
                             <Link
                               onClick={toggleAddTaskDrawer}
                               className={classNames(
@@ -107,14 +107,14 @@ export default function TopBar() {
                                 <p className='ms-2 mt-1 text-sm'>Task</p>
                               </div>
                             </Link>
-                            </Restricted>
+                            </GateKeeper>
                           )}
 
                         </Menu.Item>
 
                         <Menu.Item>
                           {({ active }) => (
-                            <Restricted module='team' action="create">
+                            <GateKeeper permissionCheck={(permission) => permission.module === "team" && permission.create}>
                             <Link
                               to={`/teams/new`}
                               className={classNames(
@@ -129,12 +129,12 @@ export default function TopBar() {
                                 <p className='ms-2 mt-1 text-sm'>Teams</p>
                               </div>
                             </Link>
-                            </Restricted>
+                            </GateKeeper>
                           )}
                         </Menu.Item>
                         <Menu.Item>
                           {({ active }) => (
-                            <Restricted module='meeting' action="create">
+                            <GateKeeper permissionCheck={(permission) => permission.module === "meeting" && permission.create}>
                             <Link
                               to={`/boardmeetings/new`}
                               className={classNames(
@@ -149,7 +149,7 @@ export default function TopBar() {
                                 <p className='ms-2 mt-1 text-sm'>Board Meeting</p>
                               </div>
                             </Link>
-                            </Restricted>
+                            </GateKeeper>
                           )}
                         </Menu.Item>
                       </div>

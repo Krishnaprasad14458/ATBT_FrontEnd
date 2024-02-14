@@ -52,46 +52,10 @@ import EditWhatsappTemplate from './components/pages/settings/SettingsComponents
 import EditEmailTemplate from './components/pages/settings/SettingsComponents/Communication/EditEmailTemplate';
 import ViewEmailTemplate from './components/pages/settings/SettingsComponents/Communication/ViewEmailTemplate';
 import FieldsWhatsappTemplate from './components/pages/settings/SettingsComponents/Communication/FieldsWhatsappTemplate';
-import useOnlineStatus from './hooks/isOnline/useOnlineStatus ';
-import useServiceWorker from './useSw';
-import { AuthContext } from './contexts/authContext/authContext';
-import { useContext, useEffect, useState } from 'react';
-import { io } from 'socket.io-client';
 
 function App() {
-  const isOnline = useOnlineStatus();
-  const { authState } = useContext(AuthContext);
-  const isLoggedIn = authState?.token ? true : false ?? false;
-  console.log(isOnline, isLoggedIn, "sw.js", Date.now())
-  const { usingSW, swRegistration, svcworker, sendSWMessage, sendStatusUpdate } = useServiceWorker(isOnline, isLoggedIn);
-
-
-  useEffect(() => {
-    // Establish WebSocket connection with the server (replace URL with your server URL)
-    const socket = io('http://localhost:3001', {
-      query: { userId: `${authState?.user.id}` } // Pass JWT token as query parameter
-    });
-
-    // Handle events from the server
-    socket.on('permissionsUpdated', () => {
-      // Logic to update permissions in your React app
-      console.log('Permissions updated');
-    });
-
-    return () => {
-      // Clean up WebSocket connection when component unmounts
-      socket.disconnect();
-    };
-  }, []);
-
   return (
     <>
-      {isOnline ? null : (
-        <span role="img" aria-label="Offline" style={{ position: 'fixed', bottom: 0, right: 0, padding: '15px', background: 'red', color: 'white', zIndex: 1000 }}>
-          ⚠️ You are offline
-        </span>
-      )}
-
       <Routes>
         <Route element={<RequireAuth />}>
           <Route path="/" element={<Dashboard />} />
@@ -119,9 +83,7 @@ function App() {
           <Route path='/Whatsapp' element={<Whatsapp />} />
           <Route path='/forms' element={<Forms />} />
           <Route path='/teams' element={<Teams />} />
-          <Route path='/entities' element={<Entities />}>
-            <Route path="otl" element={<EntityForm />} />
-          </Route>
+          <Route path='/entities' element={<Entities />} />
           <Route path="/entitylandingpage/:id" element={<EntityLandingPage />} />
           <Route path="/boardmeetinglandingpage" element={<BoardMeetingLandingPage />} />
           <Route path='/teamslandingpage' element={<TeamsLandingPage />} />
@@ -136,11 +98,6 @@ function App() {
           <Route path='/tasks' element={<Tasks />} />
           <Route path='/users' element={<Users />} />
           <Route path="/users/new" element={<UserForm />} />
-          <Route path="/userProfile/:id" element={<UserProfile />} >
-            <Route path="tasks" element={<UserTasks />} />
-            <Route path="teams" element={<UserTeams />} />
-            <Route path="enteties" element={<UserEntities />} />
-          </Route>
           <Route path='/mycalendar' element={<MyCalendar />} />
         </Route>
         {/* public routes only. Note: rendered without side and top bars */}
@@ -150,7 +107,7 @@ function App() {
           <Route path='/changepassword/:id' element={<ChangePassword />} />
           <Route path="/*" element={<PageNotFound />} />
         </Route>
-      </Routes>
+      </Routes >
     </>
   );
 }

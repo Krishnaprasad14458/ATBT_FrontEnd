@@ -210,3 +210,70 @@ export const items = [
         time: "18:00",
     },
 ];
+
+export const permissionsDb = [
+    {
+        module: "dashboard",
+        all: false,
+        create: false,
+        read: true,
+        update: false,
+        delete: false
+    },
+    {
+        module: "user",
+        all: false,
+        create: true,
+        read: true,
+        update: false,
+        delete: false
+    },
+    {
+        module: "entity",
+        all: false,
+        create: false,
+        read: true,
+        update: false,
+        delete: false
+    },
+    {
+        module: "meeting",
+        all: false,
+        create: false,
+        read: false,
+        update: false,
+        delete: false
+    },
+    {
+        module: "task",
+        all: false,
+        create: false,
+        read: false,
+        update: false,
+        delete: false
+    },
+    {
+        module: "team",
+        all: false,
+        create: true,
+        read: true,
+        update: false,
+        delete: false
+    },
+    {
+        module: "report",
+        all: false,
+        create: false,
+        read: true,
+        update: false,
+        delete: false
+    },
+    {
+        module: "setting",
+        all: false,
+        create: false,
+        read: true,
+        update: false,
+        delete: false
+    }
+]

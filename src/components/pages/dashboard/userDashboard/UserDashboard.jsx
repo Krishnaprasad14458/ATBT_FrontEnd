@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import DashboardList from '../../../list/dashboardList/DashboardList';
 import useDebounce from '../../../../hooks/debounce/useDebounce';
 import * as actions from '../../../../contexts/usersDataContext/utils/usersActions'
-import Restricted from '../../../../rbac/Restricted';
+import GateKeeper from '../../../../rbac/GateKeeper';
 
 
 function UserDashboard() {
@@ -30,7 +30,7 @@ function UserDashboard() {
           {/* hero module */}
           <div className="flex items-center justify-between mb-2">
             <h5 className="text-lg font-semibold leading-none text-gray-800 dark:text-white">Users {dashboard.loading ? '...' : null}</h5>
-            <Restricted module="user" action="create" fallback={<div>No access</div>}>
+            <GateKeeper permissionCheck={(permission) => permission.module === "user" && permission.create}>
             <Link to="/users/new" className="text-sm font-medium text-white-600 hover:underline dark:text-white-500">
               <button className="inline-flex items-center px-3 py-2 justify-center whitespace-nowrap rounded-full text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50  text-primary-foreground shadow hover:bg-primary/90 shrink-0 bg-orange-600 text-white gap-1">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5 ">
@@ -38,7 +38,7 @@ function UserDashboard() {
                 </svg>
                 Create</button>
             </Link>
-            </Restricted>
+            </GateKeeper>
           </div>
           {/* input module */}
           <div className='flex gap-4'>

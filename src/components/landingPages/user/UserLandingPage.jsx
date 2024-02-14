@@ -10,6 +10,7 @@ import { ChevronDownIcon } from '@heroicons/react/20/solid';
 import useInitializePerPage from '../../../hooks/initializePerPage/useInitializePerPage';
 import useDebounce from '../../../hooks/debounce/useDebounce';
 import { UserDataContext } from '../../../contexts/usersDataContext/usersDataContext';
+import GateKeeper from '../../../rbac/GateKeeper';
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
@@ -110,19 +111,21 @@ const UserLandingPage = () => {
               }`}
             onClick={() => handleTabClick(1)}>Overview
           </div>
-
+          <GateKeeper permissionCheck={(permission) => permission.module === "task" && permission.read}>
           <div
             className={`cursor-pointer px-5 py-1 text-md font-semibold  ${activeTab === 2 ? 'border-b-2 border-orange-600 text-black' : ''
               }`}
             onClick={() => handleTabClick(2)}>
-
             List
           </div>
+          </GateKeeper>
+          <GateKeeper permissionCheck={(permission) => permission.module === "task" && permission.read}>
           <div
             className={`cursor-pointer px-5 py-1 text-md font-semibold  ${activeTab === 3 ? 'border-b-2 border-orange-600 text-black' : ''
               }`}
             onClick={() => handleTabClick(3)}>Calendar
           </div>
+          </GateKeeper>
           <div
             className={`cursor-pointer px-5 py-1 text-md font-semibold ${activeTab === 4 ? 'border-b-2 border-orange-600 text-black' : ''
               }`}
@@ -147,6 +150,7 @@ const UserLandingPage = () => {
               <img src={defprop} className='w-24 h-24 border-1' alt='user' />
               <p className='ms-3 text-lg font-semibold mt-8'>{singleUser?.userName}</p>
             </div>
+            <GateKeeper permissionCheck={(permission) => permission.module === "user" && permission.edit}>
             <div className='flex me-5 hidden sm:block'>
               <Link to='/users/new'>
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="mt-8 w-5 h-5 me-1 text-black hover:text-orange-600">
@@ -154,6 +158,7 @@ const UserLandingPage = () => {
                 </svg>
               </Link>
             </div>
+            </GateKeeper>
           </div>
           <div className=' mb-8 shadow-inner opacity-100 justify-start mt-6'>
             <div className='flex my-3 mt-3'>
@@ -199,7 +204,7 @@ const UserLandingPage = () => {
         </div>
       </div>
       }
-
+      
       {activeTab === 2 && <div className="">
         <div className='flex justify-end my-2'>
 
