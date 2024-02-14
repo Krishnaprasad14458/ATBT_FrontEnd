@@ -2,28 +2,63 @@ import React, { useEffect, useState } from 'react'
 
 const AddRoles = () => {
   const [permission, setPermission] = useState(
-{
-  role: "",
-  description: "",
-  permissions:[{
-      name: "user", all: false, create: false, read: false, update: false, delete: false}
+    [{
+      name: "user", all: false, create: false, read: false, update: false, delete: false, submenus: [{
+        name: "create user", all: false, create: false, read: false, update: false, delete: false
+      }, {
+        name: "user details", all: false, create: false, read: false, update: false, delete: false
+      }]
+    },
+    {
+      name: "entity", all: false, create: false, read: false, update: false, delete: false, submenus: [{
+        name: "create entity", all: false, create: false, read: false, update: false, delete: false
+      }, {
+        name: "entity details", all: false, create: false, read: false, update: false, delete: false
+
+      }]
+    },
+    {
+      name: "teams", all: false, create: false, read: false, update: false, delete: false, submenus: [{
+        name: "create teams", all: false, create: false, read: false, update: false, delete: false
+      }, {
+        name: "teams details", all: false, create: false, read: false, update: false, delete: false
+
+      }]
+    },
+    {
+      name: "boardmeeting", all: false, create: false, read: false, update: false, delete: false, submenus: [{
+        name: "create boardmeeting", all: false, create: false, read: false, update: false, delete: false
+      }, {
+        name: "boardmeeting details", all: false, create: false, read: false, update: false, delete: false
+
+      }]
+    },
+    {
+      name: "task", all: false, create: false, read: false, update: false, delete: false, submenus: [{
+        name: "create task", all: false, create: false, read: false, update: false, delete: false
+      }, {
+        name: "task details", all: false, create: false, read: false, update: false, delete: false
+
+      }, {
+        name: "create subtask", all: false, create: false, read: false, update: false, delete: false
+
+      }, {
+        name: "subtask details", all: false, create: false, read: false, update: false, delete: false
+
+      }]
+    }
     ]
-  }
   )
-  // useEffect(() => {
-  //   console.log("permissions", permission)
-  // })
+  useEffect(() => {
+    console.log("permissions", permission)
+  })
 
   //    for toggle active and inactive
   const handletoggle = (name, index, subindex) => {
     if (subindex == undefined) {
-      let updatePermission = {
-        ...permission,
-        permissions: [...permission.permissions]
-      }
-      // [...permission]
-      let previosvalue = updatePermission.permissions[index][name]
-      updatePermission.permissions[index][name] = !previosvalue
+      let updatePermission = [...permission]
+      let previosvalue = updatePermission[index][name]
+      updatePermission[index][name] = !previosvalue
       setPermission(updatePermission)
     }
     if (subindex != undefined) {
@@ -45,24 +80,15 @@ const AddRoles = () => {
     }
   }
 
-  function handleSubmit() {
-    console.log(permission)
-  }
-
   return (
     <div className=' p-3 bg-[#f8fafc] overflow-hidden'>
       <h1 className='font-semibold text-lg grid1-item'> Add Roles</h1>
       <div className='grid grid-cols-2 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-col-2 gap-2 mt-2'>
         <div className='grid1-item text-start w-96'>
           <div>
-            <label htmlFor="role" className="block text-sm font-medium leading-6 mt-4 mb-2 text-gray-900">Role</label>
+            <label htmlFor="name" className="block text-sm font-medium leading-6 mt-4 mb-2 text-gray-900">Name</label>
             <div className="">
-              <input id="role" onChange={(e)=>{
-                setPermission(
-                  ...permission,
-                  
-                )
-              }} name="roleName" type="text" autoComplete="name" required className="p-2 text-xs block w-full bg-gray-50  rounded-md  border-2 border-gray-200 py-1 text-gray-900 appearance-none shadow-sm  placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-xs sm:leading-6" />
+              <input id="name" name="boardMeetingName" type="text" autoComplete="name" required className="p-2 text-xs block w-full bg-gray-50  rounded-md  border-2 border-gray-200 py-1 text-gray-900 appearance-none shadow-sm  placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-xs sm:leading-6" />
             </div>
           </div>
         </div>
@@ -70,7 +96,7 @@ const AddRoles = () => {
           <div>
             <label htmlFor="name" className="block text-sm font-medium leading-6 mt-4 mb-2 text-gray-900">Description</label>
             <div className="">
-              <input id="name" name="roleDescription" type="text" autoComplete="name" required className="p-2 text-xs block w-full bg-gray-50  rounded-md  border-2 border-gray-200 py-1 text-gray-900 appearance-none shadow-sm  placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-xs sm:leading-6" />
+              <input id="name" name="boardMeetingName" type="text" autoComplete="name" required className="p-2 text-xs block w-full bg-gray-50  rounded-md  border-2 border-gray-200 py-1 text-gray-900 appearance-none shadow-sm  placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-xs sm:leading-6" />
             </div>
           </div>
         </div>
@@ -93,7 +119,7 @@ const AddRoles = () => {
             <td className="px-6 py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]" > Update</td>
             <td className="px-6 py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]" > Delete</td>
           </tr>
-          {permission && permission.permissions.map((item, index) => {
+          {permission && permission.map((item, index) => {
             return (
               <>
                 <tr key={item}>
@@ -220,9 +246,7 @@ const AddRoles = () => {
 
 
 
-<button onClick={handleSubmit}>
-  submit
-</button>
+
 
     </div>
   )

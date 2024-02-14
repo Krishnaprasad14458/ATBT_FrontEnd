@@ -1,10 +1,7 @@
-import { useNavigate,useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import './notFound.css';
 const PageNotFound = () => {
   const navigate = useNavigate();
-  const location = useLocation();
-  const { from } = location.state || {};
-  console.log(from, "us nf")
   document.title = "Page Not Found";
   return (
     <div className="not-found h-96 flex flex-col justify-center items-center mt-14">
