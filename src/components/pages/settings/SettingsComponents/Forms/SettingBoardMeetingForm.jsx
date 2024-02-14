@@ -10,9 +10,14 @@ const SettingBoardMeetingForm = () => {
   const cancelButtonRef = useRef(null);
 
   const [customForm, setCustomForm] = useState([])
-  const [newInputField, setNewInputField] = useState({
-    label: "", type: "", inputname: "", value: "", filterable: false, mandatory: false,
-  })
+  const [newInputField, setNewInputField] = useState(
+
+    {
+      label: "", type: "", inputname: "", value: "",
+      filterable: false, mandatory: false, field: "custom"
+    }
+
+  )
   useEffect(() => {
     axios.get(`https://atbtmain.teksacademy.com/form/list?name=boardmeetingform`)
       .then(response => {
@@ -25,39 +30,65 @@ const SettingBoardMeetingForm = () => {
         console.error('Error fetching data:', error);
       });
   }, [])
+  useEffect(() => {
+    console.log("customForm", customForm)
+    console.log("newInputField", newInputField)
+})
   const handleInputChange = (e) => {
     console.log("events", e)
     const { name, value, type, checked } = e.target;
     // this is for label for new input
-    if (name == "type") {
-      let newfield = { ...newInputField }
-      newfield.filterable = false
-      setNewInputField(newfield)
-    }
+    // if (name == "type") {
+    //   let newfield = { ...newInputField }
+    //   newfield.filterable = false
+    //   setNewInputField(newfield)
+    // }
 
+    // if (name == "type" && value === "select") {
+    //   let newfield = { ...newInputField }
+    //   newfield.options = []
+    //   newfield.value = ""
+    //   setNewInputField(newfield)
+    // }
+    // if (name == "type" && value === "multiselect") {
+
+    //   let newfield = { ...newInputField }
+    //   newfield.options = []
+    //   newfield.value = []
+    //   setNewInputField(newfield)
+    // }
+
+    // if (name == "label" && editIndex == null) {
+    //   setNewInputField((prev) => ({ ...prev, label: value, inputname: value, field: "custom" }))
+    // }
+    // if (name == "label" && editIndex != null) {
+    //   setNewInputField((prev) => ({ ...prev, label: value, }))
+    // }
+    // else {
+    //   setNewInputField((prev) => ({ ...prev, [name]: type === "checkbox" ? checked : value, field: "custom" }))
+    // }
     if (name == "type" && value === "select") {
       let newfield = { ...newInputField }
       newfield.options = []
       newfield.value = ""
       setNewInputField(newfield)
-    }
-    if (name == "type" && value === "multiselect") {
-
+  }
+  if (name == "type" && value === "multiselect") {
       let newfield = { ...newInputField }
       newfield.options = []
       newfield.value = []
       setNewInputField(newfield)
-    }
-
-    if (name == "label" && editIndex == null) {
-      setNewInputField((prev) => ({ ...prev, label: value, inputname: value, field: "custom" }))
-    }
-    if (name == "label" && editIndex != null) {
-      setNewInputField((prev) => ({ ...prev, label: value, }))
-    }
-    else {
-      setNewInputField((prev) => ({ ...prev, [name]: type === "checkbox" ? checked : value, field: "custom" }))
-    }
+  }
+  if (name == "label") {
+      if (editIndex == null) {
+          setNewInputField((prev) => ({ ...prev, label: value, inputname: value, }))
+      }
+      if (editIndex != null) {
+          setNewInputField((prev) => ({ ...prev, label: value, }))
+      }
+  } else {
+      setNewInputField((prev) => ({ ...prev, [name]: type === "checkbox" ? checked : value }))
+  }
   }
 
   let [selectOption, setSelectOption] = useState("")
@@ -106,7 +137,7 @@ const SettingBoardMeetingForm = () => {
 
     }
 
-    setNewInputField({ label: '', type: '', inputname: "", value: "", filterable: false, mandatory: false });
+    // setNewInputField({ label: '', type: '', inputname: "", value: "", filterable: false, mandatory: false });
     setOpen(false);
   };
   const handleMoveDimension = (index, direction) => {
@@ -153,7 +184,7 @@ const SettingBoardMeetingForm = () => {
               arrayOfObjects: customForm,
             }
             axios.post(
-              `https://atbtmain.teksacademy.com/custom/entity`, formData)
+              `https://atbtmain.teksacademy.com/custom/board`, formData)
               .then(response => {
                 console.log(response);
               })
@@ -198,13 +229,24 @@ const SettingBoardMeetingForm = () => {
           <button type="submit" onClick={(e) => {
             setEditIndex(null)
             setNewInputField(
-              { label: "", type: "", inputname: "", value: "", filterable: false, mandatory: false })
+             
+              {
+                label: "", 
+                type: "", 
+                inputname: "", 
+                value: "",
+                filterable: false,
+                 mandatory: false,
+                  field: "custom"
+            }
+              
+              )
             setOpen(true)
           }}
             className="create-btn px-3 py-2 inline-flex items-center justify-center whitespace-nowrap rounded-full text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white gap-1">+ Add Field</button></div>
       </div>
       <div class="flex  mt-3">
-                <div class="w-full border-slate04  border-2 px-3 py-4 text-left text-xs">
+        <div class="w-full border-slate04  border-2 px-3 py-4 text-left text-xs">
           {customForm && customForm.length > 0 && customForm.map((input, index) => (
             <div>
               <div role="button" class="block w-full  ">
