@@ -11,9 +11,12 @@ const Settingentityform = () => {
     const cancelButtonRef = useRef(null);
     const [customForm, setCustomForm] = useState([
     ])
-    const [newInputField, setNewInputField] = useState({
-        label: "", type: "", inputname: "", value: "", filterable: false, mandatory: false,
-    })
+    const [newInputField, setNewInputField] = useState(
+        {
+            label: "", type: "", inputname: "", value: "",
+            filterable: false, mandatory: false, field: "custom"
+        }
+    )
     useEffect(() => {
         axios.get(`https://atbtmain.teksacademy.com/form/list?name=entityform`)
             .then(response => {
@@ -26,17 +29,39 @@ const Settingentityform = () => {
                 console.error('Error fetching data:', error);
             });
     }, [])
+    useEffect(() => {
+        console.log("customForm", customForm)
+        console.log("newInputField", newInputField)
+    })
     const handleInputChange = (e) => {
         const { name, value, type, checked } = e.target;
-
         // this is for label for new input 
-
-        if (name == "type") {
-            let newfield = { ...newInputField }
-            newfield.filterable = false
-            setNewInputField(newfield)
-        }
-
+        // if (name == "type") {
+        //     let newfield = { ...newInputField }
+        //     newfield.filterable = false
+        //     setNewInputField(newfield)
+        // }
+        // if (name == "type" && value === "select") {
+        //     let newfield = { ...newInputField }
+        //     newfield.options = []
+        //     newfield.value = ""
+        //     setNewInputField(newfield)
+        // }
+        // if (name == "type" && value === "multiselect") {
+        //     let newfield = { ...newInputField }
+        //     newfield.options = []
+        //     newfield.value = []
+        //     setNewInputField(newfield)
+        // }
+        // if (name == "label" && editIndex == null) {
+        //     setNewInputField((prev) => ({ ...prev, label: value, inputname: value }))
+        // }
+        // if (name == "label" && editIndex != null) {
+        //     setNewInputField((prev) => ({ ...prev, label: value, }))
+        // }
+        // else {
+        //     setNewInputField((prev) => ({ ...prev, [name]: type === "checkbox" ? checked : value }))
+        // }
         if (name == "type" && value === "select") {
             let newfield = { ...newInputField }
             newfield.options = []
@@ -44,21 +69,20 @@ const Settingentityform = () => {
             setNewInputField(newfield)
         }
         if (name == "type" && value === "multiselect") {
-
             let newfield = { ...newInputField }
             newfield.options = []
             newfield.value = []
             setNewInputField(newfield)
         }
-
-        if (name == "label" && editIndex == null) {
-            setNewInputField((prev) => ({ ...prev, label: value, inputname: value, field: "custom" }))
-        }
-        if (name == "label" && editIndex != null) {
-            setNewInputField((prev) => ({ ...prev, label: value, }))
-        }
-        else {
-            setNewInputField((prev) => ({ ...prev, [name]: type === "checkbox" ? checked : value, field: "custom" }))
+        if (name == "label") {
+            if (editIndex == null) {
+                setNewInputField((prev) => ({ ...prev, label: value, inputname: value, }))
+            }
+            if (editIndex != null) {
+                setNewInputField((prev) => ({ ...prev, label: value, }))
+            }
+        } else {
+            setNewInputField((prev) => ({ ...prev, [name]: type === "checkbox" ? checked : value }))
         }
     }
     let [selectOption, setSelectOption] = useState("")
@@ -66,16 +90,12 @@ const Settingentityform = () => {
         e.preventDefault()
         if (selectOption != "" && newInputField.options) {
             setNewInputField((prev) => ({ ...prev, options: [...prev.options, selectOption] }))
-
         } else if (selectOption != "") {
             setNewInputField((prev) => ({ ...prev, options: [selectOption] }))
-
         }
         setSelectOption("")
     }
-    useEffect(() => {
-        console.log("newInputField", newInputField)
-    })
+
 
     const addOrUpdateInput = (e) => {
         e.preventDefault();
@@ -106,7 +126,7 @@ const Settingentityform = () => {
 
         }
 
-        setNewInputField({ label: '', type: '', inputname: "", value: "", filterable: false, mandatory: false });
+        // setNewInputField({ label: '', type: '', inputname: "", value: "", filterable: false, mandatory: false });
         setOpen(false);
         // setEditIndex(null);
 
@@ -126,9 +146,9 @@ const Settingentityform = () => {
         setCustomForm(updatedForm);
     };
 
-
-    const [inputType, setInputType] = useState(["", "text", "email", "password",
-        "number", "textarea", "file", "date", "select", "multiselect", "checkbox", "range", "time"])
+    const inputType = [{ label: "", value: "" }, { label: "Text", value: "text" }, { label: "Email", value: "email" }, { label: "Password", value: "password" },
+    { label: "Number", value: "number" }, { label: "Text Area", value: "textarea" }, { label: "File", value: "file" }, { label: "Date", value: "date" }, { label: "Select", value: "select" }, { label: "Multi Select", value: "multiselect" }, { label: "Checkbox", value: "checkbox" }, { label: "Range", value: "range" }, { label: "Time", value: "time" }
+    ]
 
     const handleSubmitCustomForm = async () => {
         let formData = {
@@ -167,12 +187,9 @@ const Settingentityform = () => {
     }
     const deleteOption = (index) => {
         let updatedNewInputField = { ...newInputField };
-
-
         // Use slice to create a copy of the options array and remove the specified index
         let updatedOptions = [...updatedNewInputField.options];
         updatedOptions.splice(index, 1);
-
         updatedNewInputField.options = updatedOptions;
         setNewInputField(updatedNewInputField);
         console.log("updatedNewInputField", updatedNewInputField);
@@ -197,7 +214,15 @@ const Settingentityform = () => {
                     <button type="submit" onClick={(e) => {
                         setEditIndex(null)
                         setNewInputField(
-                            { label: "", type: "", inputname: "", value: "", filterable: false, mandatory: false })
+                            {
+                                label: "", type: "", inputname: "", value: "",
+                                filterable: false, mandatory: false, field: "custom"
+                            }
+
+                        )
+
+
+
                         setOpen(true)
                     }}
                         className="create-btn px-3 py-2 inline-flex items-center justify-center whitespace-nowrap rounded-full text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white gap-1">+ Add Field</button></div>
@@ -233,18 +258,18 @@ const Settingentityform = () => {
                             {input.inputname == selected &&
                                 <div class="px-6">
                                     <div class="border-b border-slateStroke flex flex-wrap py-4  gap-2">
-                                        <div class="sm:w-full sm-py-1 md:w-1/5 lg:w-1/5 xl:w-1/5 text-body text-darkSlate01 text-md text-body pt-2">Field title</div>
+                                        <div class="sm:w-full sm-py-1 md:w-1/5 lg:w-1/5 xl:w-1/5 text-body text-darkSlate01 text-md text-body pt-2">Field Title</div>
                                         <div class=" sm:w-full md:w-1/2 lg:w-1/2 xl:1/2 ">
                                             <div class="w-full relative m-0 ">
                                                 <div class="w-full">
-                                                    <div class="input-mol  p-[0.5rem]   w-full text-darkSlate01 text-sm rounded focus:outline-none bg-[#f8fafc] focus:shadow-none border border-slate04 focus:border-slate01!rounded-none py-3 !text-body px-4  undefined"   > {input.label.charAt(0).toUpperCase() + input.label.slice(1)}</div>
+                                                    <div class="input-mol  p-[0.5rem]   w-full text-darkSlate01 text-sm rounded focus:outline-none bg-[#f8fafc] focus:shadow-none border border-slate04 focus:border-slate01!rounded-none py-3 !text-body px-4  undefined cursor-default"   > {input.label.charAt(0).toUpperCase() + input.label.slice(1)}</div>
                                                 </div></div></div></div>
                                     <div class="border-b border-slateStroke flex flex-wrap py-4 gap-2">
-                                        <div class="sm:w-full sm-py-1 md:w-1/5 lg:w-1/5 xl:w-1/5 text-body text-darkSlate01 text-md text-body pt-2">Field type</div>
+                                        <div class="sm:w-full sm-py-1 md:w-1/5 lg:w-1/5 xl:w-1/5 text-body text-darkSlate01 text-md text-body pt-2">Field Type</div>
                                         <div class="sm:w-full md:w-1/2 lg:w-1/2 xl:1/2  ">
                                             <div class="relative w-full m-0 ">
                                                 <div class="w-full">
-                                                    <div class="input-mol  p-[0.5rem]   w-full text-darkSlate01 text-sm rounded focus:outline-none bg-[#f8fafc] focus:shadow-none border border-slate04 focus:border-slate01!rounded-none py-3 !text-body px-4  undefined">{input.type.charAt(0).toUpperCase() + input.type.slice(1)}</div>
+                                                    <div class="input-mol  p-[0.5rem]   w-full text-darkSlate01 text-sm rounded focus:outline-none bg-[#f8fafc] focus:shadow-none border border-slate04 focus:border-slate01!rounded-none py-3 !text-body px-4  undefined cursor-default">{input.type.charAt(0).toUpperCase() + input.type.slice(1)}</div>
                                                 </div></div></div></div>
                                     <div className="flex flex-wrap mb-5 gap-10">
                                         {/* {input.type.charAt(0).toUpperCase() + input.type.slice(1)} */}
@@ -333,7 +358,7 @@ const Settingentityform = () => {
                                     <form>
                                         <div className="flex">
                                             <label htmlFor="name" className="block text-sm font-medium leading-6 mt-3 mb-2 mx-2 text-gray-900">
-                                                Label
+                                                Label<span className='text-[#dc2626]'> * </span>
                                             </label>
                                             <div className="">
                                                 <span className="mt-3 ms-3">:</span>
@@ -352,7 +377,7 @@ const Settingentityform = () => {
                                         {
                                             <div >
                                                 <div className="flex  gap-2">
-                                                    <label htmlFor="venue" className="block text-sm font-medium leading-6 mt-3 mb-2  mx-2 text-gray-900 ">Type </label>
+                                                    <label htmlFor="venue" className="block text-sm font-medium leading-6 mt-3 mb-2  mx-2 text-gray-900 ">Type  <span className='text-[#dc2626]'> * </span> </label>
                                                     <div className="relative inline-block text-left ">
                                                         <span className="mt-3 ms-1">:</span>
                                                         <select name="type" className={`p-2 m-2  ms-3 text-xs w-72
@@ -362,8 +387,13 @@ const Settingentityform = () => {
                                                         sm:leading-6 ${editIndex == null ? "" : "pointer-events-none opacity-30"}`}
                                                             value={newInputField.type} onChange={handleInputChange}>
                                                             {inputType && inputType.map((type, index) => (
-                                                                <option value={type}>
-                                                                    {type.charAt(0).toUpperCase() + type.slice(1)} </option>
+
+
+                                                                <option value={type.value}>
+                                                                    {type.label}</option>
+
+
+
                                                             ))}
                                                         </select>
                                                         <div className="pointer-events-none absolute inset-y-0 right-2 flex items-center px-2 text-gray-700">
@@ -378,7 +408,7 @@ const Settingentityform = () => {
                                                         <div>
                                                             <p className="text-xs  flex justify-center"> Add options for  &nbsp;<span className="font-semibold text-xs">  select </span></p>
                                                             <div className="flex ">
-                                                                <label htmlFor="venue" className="block text-sm font-medium leading-6 mt-3 mb-2  ms-2 text-gray-900 ">Option </label><div><span className="mt-3 ms-2">:</span>
+                                                                <label htmlFor="venue" className="block text-sm font-medium leading-6 mt-3 mb-2  ms-2 text-gray-900 ">Option <span className='text-[#dc2626]'> * </span>  </label><div><span className="mt-3 ms-2">:</span>
                                                                     <input
                                                                         id=""
                                                                         name=""

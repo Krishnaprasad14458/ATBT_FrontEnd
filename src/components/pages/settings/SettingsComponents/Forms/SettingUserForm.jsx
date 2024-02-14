@@ -113,10 +113,12 @@ const UsersFormDup = () => {
         setCustomForm(updatedForm);
      
     };
-    const [inputType, setInputType] = useState(["", "text", "email", "password",
-        "number", "textarea", "file", "date", "select", "multiselect", "checkbox", "range", "time"])
- 
-    const handleSubmitCustomForm = async () => {
+    // const [inputType, setInputType] = useState(["", "text", "email", "password",
+    //     "number", "textarea", "file", "date", "select", "multiselect", "checkbox", "range", "time"])
+ const inputType = [{label:"" , value:""}, {label:"Text",value:"text"},{label:"Email",value:"email"},{label:"Password",value:"password"} ,
+ {label:"Number",value:"number"} , {label:"Text Area",value:"textarea"} , {label:"File",value:"file"} , {label:"Date",value:"date"}, {label:"Select",value:"select"}, {label:"Multi Select",value:"multiselect"} , {label:"Checkbox",value:"checkbox"} , {label:"Range",value:"range"}, {label:"Time",value:"time"}
+]
+     const handleSubmitCustomForm = async () => {
         let formData = {
             arrayOfObjects: customForm, Name: "userform"
         }
@@ -172,6 +174,7 @@ const UsersFormDup = () => {
         <div className='container p-3'>
             <div className="flex justify-between">
                 <p className="text-xl font-semibold">Custom User Form</p>
+                
                 <div className='flex justify-end'>
                     <button type="submit" onClick={(e) => {
                         setEditIndex(null)
@@ -182,8 +185,8 @@ const UsersFormDup = () => {
                         className="create-btn px-3 py-2 inline-flex items-center justify-center whitespace-nowrap rounded-full text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white gap-1">+ Add Field</button>
                 </div>
             </div>
-            <div class="flex ">
-                <div class="w-full border-slate04 h-fit border-b py-3 mb-4 text-left text-xs ">
+            <div class="flex  mt-3">
+                <div class="w-full border-slate04  border-2 px-3 py-4 text-left text-xs">
                     {customForm && customForm.length > 0 && customForm.map((input, index) => (
                         <div>
                             <div role="button" class="block w-full  ">
@@ -212,18 +215,18 @@ const UsersFormDup = () => {
                             {input.inputname == selected &&
                                 <div class="px-6">
                                     <div class="border-b border-slateStroke flex flex-wrap py-4  gap-2">
-                                        <div class="sm:w-full sm-py-1 md:w-1/5 lg:w-1/5 xl:w-1/5 text-body text-darkSlate01 text-md text-body pt-2">Field title</div>
+                                        <div class="sm:w-full sm-py-1 md:w-1/5 lg:w-1/5 xl:w-1/5 text-body text-darkSlate01 text-md text-body pt-2">Field Title</div>
                                         <div class=" sm:w-full md:w-1/2 lg:w-1/2 xl:1/2 ">
                                             <div class="w-full relative m-0 ">
                                                 <div class="w-full">
-                                                    <div  class="input-mol  p-[0.5rem]   w-full text-darkSlate01 text-sm rounded focus:outline-none bg-[#f8fafc] focus:shadow-none border border-slate04 focus:border-slate01!rounded-none py-3 !text-body px-4  undefined"   > {input.label.charAt(0).toUpperCase() + input.label.slice(1)}</div>
+                                                    <div  class="input-mol  p-[0.5rem]   w-full text-darkSlate01 text-sm rounded focus:outline-none bg-[#f8fafc] focus:shadow-none border border-slate04 focus:border-slate01!rounded-none py-3 !text-body px-4  undefined cursor-default"   > {input.label.charAt(0).toUpperCase() + input.label.slice(1)}</div>
                                                 </div></div></div></div>
                                     <div class="border-b border-slateStroke flex flex-wrap py-4 gap-2">
-                                        <div class="sm:w-full sm-py-1 md:w-1/5 lg:w-1/5 xl:w-1/5 text-body text-darkSlate01 text-md text-body pt-2">Field type</div>
+                                        <div class="sm:w-full sm-py-1 md:w-1/5 lg:w-1/5 xl:w-1/5 text-body text-darkSlate01 text-md text-body pt-2">Field Type</div>
                                         <div class="sm:w-full md:w-1/2 lg:w-1/2 xl:1/2  ">
                                             <div class="relative w-full m-0 ">
                                                 <div class="w-full">
-                                                    <div  class="input-mol  p-[0.5rem]   w-full text-darkSlate01 text-sm rounded focus:outline-none bg-[#f8fafc] focus:shadow-none border border-slate04 focus:border-slate01!rounded-none py-3 !text-body px-4  undefined">{input.type.charAt(0).toUpperCase() + input.type.slice(1)}</div>
+                                                    <div  class="input-mol  p-[0.5rem]   w-full text-darkSlate01 text-sm rounded focus:outline-none bg-[#f8fafc] focus:shadow-none border border-slate04 focus:border-slate01!rounded-none py-3 !text-body px-4  undefined cursor-default">{input.type.charAt(0).toUpperCase() + input.type.slice(1)}</div>
                                                 </div></div></div></div>
                                     <div className="flex flex-wrap mb-5 gap-10">
                                         {/* {input.type.charAt(0).toUpperCase() + input.type.slice(1)} */}
@@ -306,7 +309,7 @@ const UsersFormDup = () => {
                                     <form>
                                         <div className="flex">
                                             <label htmlFor="name" className="block text-sm font-medium leading-6 mt-3 mb-2 mx-2 text-gray-900">
-                                                Label
+                                                Label<span className='text-[#dc2626]'> * </span>
                                             </label>
                                             <div className="">
                                                 <span className="mt-3 ms-3">:</span>
@@ -325,7 +328,7 @@ const UsersFormDup = () => {
                                         {                                      
                                             <div >
                                                 <div className="flex  gap-2">
-                                                    <label htmlFor="venue" className="block text-sm font-medium leading-6 mt-3 mb-2  mx-2 text-gray-900 ">Type </label>
+                                                    <label htmlFor="venue" className="block text-sm font-medium leading-6 mt-3 mb-2  mx-2 text-gray-900 ">Type <span className='text-[#dc2626]'>* </span></label>
                                                     <div className="relative inline-block text-left ">
                                                         <span className="mt-3 ms-1">:</span>
                                                         <select name="type" className={`p-2 m-2  ms-3 text-xs w-72
@@ -334,9 +337,18 @@ const UsersFormDup = () => {
                                                         focus:outline-none focus:border-orange-400 sm:text-xs 
                                                         sm:leading-6 ${editIndex == null ? "" : "pointer-events-none opacity-30"}`}
                                                             value={newInputField.type} onChange={handleInputChange}>
-                                                            {inputType && inputType.map((type, index) => (
+                                                            {/* {inputType && inputType.map((type, index) => (
                                                              <option value={type}>
                                                              {type.charAt(0).toUpperCase() + type.slice(1)} </option>
+                                                            ))} */}
+                                                            {inputType && inputType.map((type,index)=>(
+                                                                <>
+                                                        
+                                                                 <option value={type.value}>
+                                                            {type.label}</option>
+                                                                
+                                                                </>
+                                                                
                                                             ))}
                                                         </select>
                                                         <div className="pointer-events-none absolute inset-y-0 right-2 flex items-center px-2 text-gray-700">
@@ -351,7 +363,7 @@ const UsersFormDup = () => {
                                                         <div>
                                                             <p className="text-xs  flex justify-center"> Add options for  &nbsp;<span className="font-semibold text-xs">  select </span></p>
                                                             <div className="flex ">
-                                                                <label htmlFor="venue" className="block text-sm font-medium leading-6 mt-3 mb-2  ms-2 text-gray-900 ">Option </label><div><span className="mt-3 ms-2">:</span>
+                                                                <label htmlFor="venue" className="block text-sm font-medium leading-6 mt-3 mb-2  ms-2 text-gray-900 ">Option <span className='text-[#dc2626]'> * </span></label><div><span className="mt-3 ms-2">:</span>
                                                                     <input
                                                                         id=""
                                                                         name=""
@@ -435,12 +447,14 @@ const UsersFormDup = () => {
                     </div>
                 </Dialog>
             </Transition.Root>
-            <div class="flex justify-end w-full  pb-2">
-                <div class="mr-4"></div><div class="">
+            <div class="flex justify-end w-full mt-5 pb-2">
+                <div class="">
+                </div>
+                <div class="me-5 my-4">
                     <button class=" flex w-full justify-center rounded-md bg-orange-600 px-3 py-2.5 text-sm font-medium leading-6 text-white shadow-sm  focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600
-                       
                        " onClick={handleSubmitCustomForm}>Save</button>
-                </div></div>
+                </div>
+            </div>
         </div>
     )
 }
