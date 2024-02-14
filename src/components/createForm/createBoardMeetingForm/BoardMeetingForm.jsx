@@ -5,7 +5,12 @@ import defprop from '../../../Images/defprof.svg';
 import useDebounce from '../../../hooks/debounce/useDebounce';
 import { UserDataContext } from '../../../contexts/usersDataContext/usersDataContext';
 import { EntitiesDataContext } from '../../../contexts/entitiesDataContext/entitiesDataContext';
+import { useNavigate } from 'react-router-dom'
+
+
 function BoardMeetingForm() {
+  const navigate = useNavigate()
+
   const { usersState: { users, dashboard }, usersDispatch } = useContext(UserDataContext);
   const { createEntity } = useContext(EntitiesDataContext);
   const usersEmails = dashboard.paginatedUsers?.map(user => user.email);
@@ -107,11 +112,11 @@ function BoardMeetingForm() {
       if (customFormFields[i].type == "text" && customFormFields[i].mandatory) {
         if (customFormFields[i].value.length == 0) {
           setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please Enter ${customFormFields[i].label}` }))
-
+          return false
         }
         else if (customFormFields[i].value.length < 3) {
           setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "Name should contain atleast 3 characters" }))
-
+          return false
         }
         else {
           setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
@@ -120,7 +125,7 @@ function BoardMeetingForm() {
       if (customFormFields[i].type == "file" && customFormFields[i].mandatory) {
         if (!customFormFields[i].value) {
           setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please Upload ${customFormFields[i].label}` }))
-
+          return false
         }
         else {
           setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
@@ -129,11 +134,11 @@ function BoardMeetingForm() {
       if (customFormFields[i].type == "textarea" && customFormFields[i].mandatory) {
         if (customFormFields[i].value.length == 0) {
           setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please Enter ${customFormFields[i].label}` }))
-
+          return false
         }
         else if (customFormFields[i].value.length < 3) {
           setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "Name should contain atleast 3 characters" }))
-
+          return false
         }
         else {
           setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
@@ -142,7 +147,7 @@ function BoardMeetingForm() {
       if (customFormFields[i].type == "email" && customFormFields[i].mandatory) {
         if (customFormFields[i].value.length < 1) {
           setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please Enter ${customFormFields[i].label}` }))
-
+          return false
         }
 
         else {
@@ -152,12 +157,12 @@ function BoardMeetingForm() {
       if (customFormFields[i].type == "number" && customFormFields[i].mandatory) {
         if (customFormFields[i].value.length < 1) {
           setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please Enter ${customFormFields[i].label}` }))
-
+          return false
         }
-        else if (customFormFields[i].value.length != 10) {
-          setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please Enter Correct ${customFormFields[i].label}` }))
+        // else if (customFormFields[i].value.length != 10) {
+        //   setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please Enter Correct ${customFormFields[i].label}` }))
 
-        }
+        // }
 
         else {
           setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
@@ -166,7 +171,7 @@ function BoardMeetingForm() {
       if (customFormFields[i].type == "select" && customFormFields[i].mandatory) {
         if (customFormFields[i].value.length < 1) {
           setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please Enter ${customFormFields[i].label}` }))
-
+          return false
         }
 
         else {
@@ -176,7 +181,7 @@ function BoardMeetingForm() {
       if (customFormFields[i].type == "multiselect" && customFormFields[i].mandatory) {
         if (customFormFields[i].value.length < 1) {
           setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please Enter ${customFormFields[i].label}` }))
-
+          return false
         }
 
         else {
@@ -186,7 +191,7 @@ function BoardMeetingForm() {
       if (customFormFields[i].type == "date" && customFormFields[i].mandatory) {
         if (!customFormFields[i].value) {
           setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please Enter ${customFormFields[i].label}` }))
-
+          return false
         }
 
         else {
@@ -196,7 +201,7 @@ function BoardMeetingForm() {
       if (customFormFields[i].type == "checkbox" && customFormFields[i].mandatory) {
         if (!customFormFields[i].value) {
           setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please Enter ${customFormFields[i].label}` }))
-
+          return false
         }
 
         else {
@@ -206,7 +211,7 @@ function BoardMeetingForm() {
       if (customFormFields[i].type == "range" && customFormFields[i].mandatory) {
         if (!customFormFields[i].value) {
           setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please Enter ${customFormFields[i].label}` }))
-
+          return false
         }
 
         else {
@@ -216,7 +221,7 @@ function BoardMeetingForm() {
       if (customFormFields[i].type == "time" && customFormFields[i].mandatory) {
         if (!customFormFields[i].value) {
           setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please Enter ${customFormFields[i].label}` }))
-
+          return false
         }
 
         else {
@@ -226,7 +231,7 @@ function BoardMeetingForm() {
       if (customFormFields[i].type == "password" && customFormFields[i].mandatory) {
         if (customFormFields[i].value.length < 1) {
           setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please Enter ${customFormFields[i].label}` }))
-
+          return false
         }
 
         else {
@@ -235,9 +240,29 @@ function BoardMeetingForm() {
       }
 
     }
-    const formData = new FormData(e.target)
-    formData.set("members", JSON.stringify(['get', 'dynamic', 'mails']));
-    createEntity(formData)
+    const jsonData = {};
+    jsonData.customFieldsData = JSON.stringify(customFormFields)
+    jsonData.loggedInUser = parseInt(localStorage.getItem("id"))
+    for (let i = 0; i < customFormFields.length; i++) {
+      if (Array.isArray(customFormFields[i].value)) {
+        jsonData[customFormFields[i].inputname] = JSON.stringify(customFormFields[i].value)
+
+      } else {
+        jsonData[customFormFields[i].inputname] = customFormFields[i].value
+      }
+    }
+    console.log("jsonData", jsonData);
+    axios.post(
+      `https://atbtmain.teksacademy.com/boardmeet/data`, jsonData)
+      .then(response => {
+        // console.log(response.data);
+        // console.log("reposnseeeeeeeeee", response.data)
+        navigate(`/boardmeetinglandingpage/${parseInt(response.data)}`)
+
+      })
+      .catch(error => {
+        console.error(error);
+      });
   }
   return (
     <div className='container p-4 bg-[#f8fafc]'>

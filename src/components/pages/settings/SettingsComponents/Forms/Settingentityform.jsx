@@ -17,6 +17,7 @@ const Settingentityform = () => {
             filterable: false, mandatory: false, field: "custom"
         }
     )
+   
     useEffect(() => {
         axios.get(`https://atbtmain.teksacademy.com/form/list?name=entityform`)
             .then(response => {
@@ -95,8 +96,6 @@ const Settingentityform = () => {
         }
         setSelectOption("")
     }
-
-
     const addOrUpdateInput = (e) => {
         e.preventDefault();
         if (editIndex !== null) {
@@ -118,7 +117,6 @@ const Settingentityform = () => {
                 let newField = { ...newInputField }
                 delete newField.options
                 setCustomForm((prev) => [...prev, newField]);
-
             }
             else {
                 setCustomForm((prev) => [...prev, newInputField]);
@@ -215,14 +213,15 @@ const Settingentityform = () => {
                         setEditIndex(null)
                         setNewInputField(
                             {
-                                label: "", type: "", inputname: "", value: "",
-                                filterable: false, mandatory: false, field: "custom"
+                                label: "", 
+                                type: "", 
+                                inputname: "", 
+                                value: "",
+                                filterable: false,
+                                 mandatory: false,
+                                  field: "custom"
                             }
-
-                        )
-
-
-
+                        ) 
                         setOpen(true)
                     }}
                         className="create-btn px-3 py-2 inline-flex items-center justify-center whitespace-nowrap rounded-full text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white gap-1">+ Add Field</button></div>
@@ -503,3 +502,44 @@ const Settingentityform = () => {
 }
 
 export default Settingentityform
+
+// let predefinedFields = [
+//     {
+//       "label": "Full Name",
+//       "inputname": "name",
+//       "type": "text",
+//       "value": "",
+//       "field": "predefined",
+//       "mandatory": true,
+//       "filterable": true
+//     },
+//     {
+//       "label": "Image",
+//       "inputname": "image",
+//       "type": "file",
+//       "value": "",
+//       "field": "predefined",
+//       "mandatory": true,
+//       "filterable": false
+//     },
+//     {
+//       "label": "Description",
+//       "inputname": "description",
+//       "type": "textarea",
+//       "value": "",
+//       "field": "predefined",
+//       "mandatory": true,
+//       "filterable": false
+//     },
+//     {
+//       "label": "Add Members",
+//       "inputname": "members",
+//       "type": "multiselect",
+//       "value": [],
+//       "field": "predefined",
+//       "mandatory": true,
+//       "filterable": false
+//     },
+   
+//   ];
+  
