@@ -52,26 +52,10 @@ import EditWhatsappTemplate from './components/pages/settings/SettingsComponents
 import EditEmailTemplate from './components/pages/settings/SettingsComponents/Communication/EditEmailTemplate';
 import ViewEmailTemplate from './components/pages/settings/SettingsComponents/Communication/ViewEmailTemplate';
 import FieldsWhatsappTemplate from './components/pages/settings/SettingsComponents/Communication/FieldsWhatsappTemplate';
-import useOnlineStatus from './hooks/isOnline/useOnlineStatus ';
-import useServiceWorker from './useSw';
-import { AuthContext } from './contexts/authContext/authContext';
-import { useContext } from 'react';
-import UsersFormDup from './components/pages/settings/SettingsComponents/Forms/UsersFormDup';
 
 function App() {
-  const isOnline = useOnlineStatus();
-  const { authState } = useContext(AuthContext);
-  const isLoggedIn = authState?.token ? true : false ?? false;
-  console.log(isOnline, isLoggedIn, "sw.js", Date.now())
-  const { usingSW, swRegistration, svcworker, sendSWMessage, sendStatusUpdate } = useServiceWorker(isOnline, isLoggedIn);
   return (
     <>
-      {isOnline ? null : (
-        <span role="img" aria-label="Offline" style={{ position: 'fixed', bottom: 0, right: 0, padding: '15px', background: 'red', color: 'white', zIndex: 1000 }}>
-          ⚠️ You are offline
-        </span>
-      )}
-
       <Routes>
         <Route element={<RequireAuth />}>
           <Route path="/" element={<Dashboard />} />
@@ -99,12 +83,8 @@ function App() {
           <Route path='/Whatsapp' element={<Whatsapp />} />
           <Route path='/forms' element={<Forms />} />
           <Route path='/teams' element={<Teams />} />
+          <Route path='/entities' element={<Entities />} />
           <Route path='/teams/new' element={<TeamsForm />} />
-
-
-          <Route path='/entities' element={<Entities />}>
-            <Route path="otl" element={<EntityForm />} />
-          </Route>
           <Route path="/entitylandingpage/:id" element={<EntityLandingPage />} />
           <Route path="/boardmeetinglandingpage/:id" element={<BoardMeetingLandingPage />} />
           <Route path='/teamslandingpage/:id' element={<TeamsLandingPage />} />
@@ -120,11 +100,6 @@ function App() {
           <Route path='/users' element={<Users />} />
           <Route path="/users/new" element={<UserForm />} />
           <Route path='/userform/dup' element={<UsersFormDup />} />
-          <Route path="/userProfile/:id" element={<UserProfile />} >
-            <Route path="tasks" element={<UserTasks />} />
-            <Route path="teams" element={<UserTeams />} />
-            <Route path="enteties" element={<UserEntities />} />
-          </Route>
           <Route path='/mycalendar' element={<MyCalendar />} />
         </Route>
         {/* public routes only. Note: rendered without side and top bars */}
@@ -134,7 +109,7 @@ function App() {
           <Route path='/changepassword/:id' element={<ChangePassword />} />
           <Route path="/*" element={<PageNotFound />} />
         </Route>
-      </Routes>
+      </Routes >
     </>
   );
 }

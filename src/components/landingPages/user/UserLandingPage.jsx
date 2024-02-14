@@ -10,6 +10,7 @@ import { ChevronDownIcon } from '@heroicons/react/20/solid';
 import useInitializePerPage from '../../../hooks/initializePerPage/useInitializePerPage';
 import useDebounce from '../../../hooks/debounce/useDebounce';
 import { UserDataContext } from '../../../contexts/usersDataContext/usersDataContext';
+import GateKeeper from '../../../rbac/GateKeeper';
 import axios from 'axios';
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
@@ -25,11 +26,8 @@ const UserLandingPage = () => {
   // const findUserById = useCallback((users, userId) => {
   //   return users?.users?.find(user => user.id === parseInt(userId, 10));
   // }, []);
-
   // const user = useMemo(() => findUserById(users, id), [findUserById, users, id]);
-
   // if(!user) {
-
   // }
 
   const getuserById = async () => {
@@ -130,19 +128,21 @@ const UserLandingPage = () => {
               }`}
             onClick={() => handleTabClick(1)}>Overview
           </div>
-
+          <GateKeeper permissionCheck={(permission) => permission.module === "task" && permission.read}>
           <div
             className={`cursor-pointer px-5 py-1 text-md font-semibold  ${activeTab === 2 ? 'border-b-2 border-orange-600 text-black' : ''
               }`}
             onClick={() => handleTabClick(2)}>
-
             List
           </div>
+          </GateKeeper>
+          <GateKeeper permissionCheck={(permission) => permission.module === "task" && permission.read}>
           <div
             className={`cursor-pointer px-5 py-1 text-md font-semibold  ${activeTab === 3 ? 'border-b-2 border-orange-600 text-black' : ''
               }`}
             onClick={() => handleTabClick(3)}>Calendar
           </div>
+          </GateKeeper>
           <div
             className={`cursor-pointer px-5 py-1 text-md font-semibold ${activeTab === 4 ? 'border-b-2 border-orange-600 text-black' : ''
               }`}
@@ -162,6 +162,31 @@ const UserLandingPage = () => {
       </div>
       {activeTab === 1 && <div className="mt-4 flex justify-center ">
         <div className="h-[500px] lg:w-3/6 shadow-md p-5 border-2 rounded-md bg-[#f8fafc]">
+//           <div className='flex justify-between bg-gray-100'>
+//             <div className='lg:flex'>
+//               <img src={defprop} className='w-24 h-24 border-1' alt='user' />
+//               <p className='ms-3 text-lg font-semibold mt-8'>{singleUser?.userName}</p>
+//             </div>
+//             <GateKeeper permissionCheck={(permission) => permission.module === "user" && permission.edit}>
+//             <div className='flex me-5 hidden sm:block'>
+//               <Link to='/users/new'>
+//                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="mt-8 w-5 h-5 me-1 text-black hover:text-orange-600">
+//                   <path d="m2.695 14.762-1.262 3.155a.5.5 0 0 0 .65.65l3.155-1.262a4 4 0 0 0 1.343-.886L17.5 5.501a2.121 2.121 0 0 0-3-3L3.58 13.419a4 4 0 0 0-.885 1.343Z" />
+//                 </svg>
+//               </Link>
+//             </div>
+//             </GateKeeper>
+//           </div>
+//           <div className=' mb-8 shadow-inner opacity-100 justify-start mt-6'>
+//             <div className='flex my-3 mt-3'>
+//               <div className='border-1 p-2 bg-gray-200'>
+//                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
+//                   <path fillRule="evenodd" d="M15 3.75a.75.75 0 0 1 .75-.75h4.5a.75.75 0 0 1 .75.75v4.5a.75.75 0 0 1-1.5 0V5.56l-4.72 4.72a.75.75 0 1 1-1.06-1.06l4.72-4.72h-2.69a.75.75 0 0 1-.75-.75Z" clipRule="evenodd" />
+//                   <path fillRule="evenodd" d="M1.5 4.5a3 3 0 0 1 3-3h1.372c.86 0 1.61.586 1.819 1.42l1.105 4.423a1.875 1.875 0 0 1-.694 1.955l-1.293.97c-.135.101-.164.249-.126.352a11.285 11.285 0 0 0 6.697 6.697c.103.038.25.009.352-.126l.97-1.293a1.875 1.875 0 0 1 1.955-.694l4.423 1.105c.834.209 1.42.959 1.42 1.82V19.5a3 3 0 0 1-3 3h-2.25C8.552 22.5 1.5 15.448 1.5 6.75V4.5Z" clipRule="evenodd" />
+//                 </svg>
+//               </div>
+//               <p className="text-md text-gray-800 mt-1 ms-3">{singleUser?.email ? singleUser?.email : 'none'}</p>
+//             </div>
           {customFormField && customFormField.length > 0 && customFormField.map((item) => (
             <div className='relative'>
               {/* predefined fields */}
@@ -172,7 +197,6 @@ const UserLandingPage = () => {
                   ) : (
                     <p className='text-2xl text-gray-400'> USER NAME</p>
                   )}
-
                 </div>
               )}
 
@@ -429,7 +453,7 @@ const UserLandingPage = () => {
         </div>
       </div>
       }
-
+      
       {activeTab === 2 && <div className="">
         <div className='flex justify-end my-2'>
 
