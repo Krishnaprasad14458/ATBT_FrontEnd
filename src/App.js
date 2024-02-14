@@ -106,8 +106,8 @@ function App() {
             <Route path="otl" element={<EntityForm />} />
           </Route>
           <Route path="/entitylandingpage/:id" element={<EntityLandingPage />} />
-          <Route path="/boardmeetinglandingpage" element={<BoardMeetingLandingPage />} />
-          <Route path='/teamslandingpage' element={<TeamsLandingPage />} />
+          <Route path="/boardmeetinglandingpage/:id" element={<BoardMeetingLandingPage />} />
+          <Route path='/teamslandingpage/:id' element={<TeamsLandingPage />} />
           <Route path='/userlandingpage/:id' element={<UserLandingPage />} />
           <Route path="/settingentityform" element={<SettingEntityForm />} />
           <Route path="/settingboardmeetingform" element={<SettingBoardMeetingForm />} />

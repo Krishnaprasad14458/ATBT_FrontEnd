@@ -9,9 +9,14 @@ const UsersFormDup = () => {
     const cancelButtonRef = useRef(null);
     const [customForm, setCustomForm] = useState([
     ])
-    const [newInputField, setNewInputField] = useState({
-        label: "", type: "", inputname: "", value: "", filterable: false, mandatory: false,
-    })
+    const [newInputField, setNewInputField] = useState(
+       
+    {
+        label: "", type: "", inputname: "", value: "",
+        filterable: false, mandatory: false, field: "custom"
+    }
+    
+    )
     useEffect(() => {
         axios.get(`https://atbtmain.teksacademy.com/form/list?name=userform`)
             .then(response => {
@@ -27,11 +32,32 @@ const UsersFormDup = () => {
     const handleInputChange = (e) => {
         const { name, value, type, checked } = e.target;
         // this is for label for new input 
-        if (name == "type") {
-            let newfield = { ...newInputField }
-          newfield.filterable = false
-            setNewInputField(newfield)  
-        }
+        // if (name == "type") {
+        //     let newfield = { ...newInputField }
+        //   newfield.filterable = false
+        //     setNewInputField(newfield)  
+        // }
+        // if (name == "type" && value === "select") {
+        //     let newfield = { ...newInputField }
+        //     newfield.options = []
+        //     newfield.value = ""
+        //     setNewInputField(newfield)
+        // }
+        // if (name == "type" && value === "multiselect") {
+        //     let newfield = { ...newInputField }
+        //     newfield.options = []
+        //     newfield.value = []
+        //     setNewInputField(newfield)
+        // }
+        // if (name == "label" && editIndex == null) {
+        //     setNewInputField((prev) => ({ ...prev, label: value, inputname: value, field: "custom" }))
+        // }
+        // if (name == "label" && editIndex != null) {
+        //     setNewInputField((prev) => ({ ...prev, label: value, }))
+        // }
+        // else {
+        //     setNewInputField((prev) => ({ ...prev, [name]: type === "checkbox" ? checked : value, field: "custom" }))
+        // }
         if (name == "type" && value === "select") {
             let newfield = { ...newInputField }
             newfield.options = []
@@ -44,14 +70,15 @@ const UsersFormDup = () => {
             newfield.value = []
             setNewInputField(newfield)
         }
-        if (name == "label" && editIndex == null) {
-            setNewInputField((prev) => ({ ...prev, label: value, inputname: value, field: "custom" }))
-        }
-        if (name == "label" && editIndex != null) {
-            setNewInputField((prev) => ({ ...prev, label: value, }))
-        }
-        else {
-            setNewInputField((prev) => ({ ...prev, [name]: type === "checkbox" ? checked : value, field: "custom" }))
+        if (name == "label") {
+            if (editIndex == null) {
+                setNewInputField((prev) => ({ ...prev, label: value, inputname: value, }))
+            }
+            if (editIndex != null) {
+                setNewInputField((prev) => ({ ...prev, label: value, }))
+            }
+        } else {
+            setNewInputField((prev) => ({ ...prev, [name]: type === "checkbox" ? checked : value }))
         }
     }
     let [selectOption, setSelectOption] = useState("")
@@ -95,7 +122,7 @@ const UsersFormDup = () => {
                 setCustomForm((prev) => [...prev, newInputField]);
             }
         }
-        setNewInputField({ label: '', type: '', inputname: "", value: "", filterable: false, mandatory: false });
+        // setNewInputField({ label: '', type: '', inputname: "", value: "", filterable: false, mandatory: false });
         setOpen(false);
     };
     const handleMoveDimension = (index, direction) => {
@@ -115,8 +142,19 @@ const UsersFormDup = () => {
     };
     // const [inputType, setInputType] = useState(["", "text", "email", "password",
     //     "number", "textarea", "file", "date", "select", "multiselect", "checkbox", "range", "time"])
- const inputType = [{label:"" , value:""}, {label:"Text",value:"text"},{label:"Email",value:"email"},{label:"Password",value:"password"} ,
- {label:"Number",value:"number"} , {label:"Text Area",value:"textarea"} , {label:"File",value:"file"} , {label:"Date",value:"date"}, {label:"Select",value:"select"}, {label:"Multi Select",value:"multiselect"} , {label:"Checkbox",value:"checkbox"} , {label:"Range",value:"range"}, {label:"Time",value:"time"}
+ const inputType = [{label:"" , value:""},
+  {label:"Text",value:"text"},
+  {label:"Email",value:"email"},
+  {label:"Password",value:"password"} ,
+  {label:"Number",value:"number"},
+  {label:"Text Area",value:"textarea"}, 
+  {label:"File",value:"file"} , 
+  {label:"Date",value:"date"}, 
+  {label:"Select",value:"select"}, 
+  {label:"Multi Select",value:"multiselect"} , 
+  {label:"Checkbox",value:"checkbox"} , 
+  {label:"Range",value:"range"}, 
+  {label:"Time",value:"time"}
 ]
      const handleSubmitCustomForm = async () => {
         let formData = {
@@ -179,7 +217,16 @@ const UsersFormDup = () => {
                     <button type="submit" onClick={(e) => {
                         setEditIndex(null)
                         setNewInputField(
-                            { label: "", type: "", inputname: "", value: "", filterable: false, mandatory: false })
+                            {
+                                label: "", 
+                                type: "", 
+                                inputname: "", 
+                                value: "",
+                                filterable: false,
+                                 mandatory: false,
+                                field: "custom"
+                            }
+                             )
                         setOpen(true)
                     }}
                         className="create-btn px-3 py-2 inline-flex items-center justify-center whitespace-nowrap rounded-full text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white gap-1">+ Add Field</button>
@@ -462,6 +509,8 @@ const UsersFormDup = () => {
 export default UsersFormDup
 
 
+  
+  
 // import React, { useEffect } from "react";
 // import { Fragment, useRef, useState } from 'react'
 // import { Dialog, Transition } from '@headlessui/react'

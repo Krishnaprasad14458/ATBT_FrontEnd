@@ -18,6 +18,10 @@ function EntityForm() {
   const [selected, setSelected] = useState([]);
   const [showUsers, setShowUsers] = useState(false);
   let [customFormFields, setCustomFormFields] = useState()
+  useEffect(()=>{
+
+  console.log("errors",errors)
+  })
   const handleInputChange = (e) => {
     setShowUsers(true)
     const value = e.target.value;
@@ -123,7 +127,7 @@ function EntityForm() {
       if (customFormFields[i].type == "file" && customFormFields[i].mandatory) {
         if (!customFormFields[i].value) {
           setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `please upload ${customFormFields[i].label}` }))
-          // return false
+          return false
         }
         else {
           setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
@@ -211,7 +215,7 @@ function EntityForm() {
 
         else {
           setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
-          return false
+       
         }
       }
       if (customFormFields[i].type == "range" && customFormFields[i].mandatory) {
