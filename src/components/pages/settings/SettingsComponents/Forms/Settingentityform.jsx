@@ -11,9 +11,12 @@ const Settingentityform = () => {
     const cancelButtonRef = useRef(null);
     const [customForm, setCustomForm] = useState([
     ])
-    const [newInputField, setNewInputField] = useState({
-        label: "", type: "", inputname: "", value: "", filterable: false, mandatory: false,
-    })
+    const [newInputField, setNewInputField] = useState(
+        {
+            label: "", type: "", inputname: "", value: "",
+            filterable: false, mandatory: false, field: "custom"
+        }
+    )
     useEffect(() => {
         axios.get(`https://atbtmain.teksacademy.com/form/list?name=entityform`)
             .then(response => {
@@ -26,17 +29,39 @@ const Settingentityform = () => {
                 console.error('Error fetching data:', error);
             });
     }, [])
+    useEffect(() => {
+        console.log("customForm", customForm)
+        console.log("newInputField", newInputField)
+    })
     const handleInputChange = (e) => {
         const { name, value, type, checked } = e.target;
-
         // this is for label for new input 
-
-        if (name == "type") {
-            let newfield = { ...newInputField }
-            newfield.filterable = false
-            setNewInputField(newfield)
-        }
-
+        // if (name == "type") {
+        //     let newfield = { ...newInputField }
+        //     newfield.filterable = false
+        //     setNewInputField(newfield)
+        // }
+        // if (name == "type" && value === "select") {
+        //     let newfield = { ...newInputField }
+        //     newfield.options = []
+        //     newfield.value = ""
+        //     setNewInputField(newfield)
+        // }
+        // if (name == "type" && value === "multiselect") {
+        //     let newfield = { ...newInputField }
+        //     newfield.options = []
+        //     newfield.value = []
+        //     setNewInputField(newfield)
+        // }
+        // if (name == "label" && editIndex == null) {
+        //     setNewInputField((prev) => ({ ...prev, label: value, inputname: value }))
+        // }
+        // if (name == "label" && editIndex != null) {
+        //     setNewInputField((prev) => ({ ...prev, label: value, }))
+        // }
+        // else {
+        //     setNewInputField((prev) => ({ ...prev, [name]: type === "checkbox" ? checked : value }))
+        // }
         if (name == "type" && value === "select") {
             let newfield = { ...newInputField }
             newfield.options = []
@@ -44,21 +69,20 @@ const Settingentityform = () => {
             setNewInputField(newfield)
         }
         if (name == "type" && value === "multiselect") {
-
             let newfield = { ...newInputField }
             newfield.options = []
             newfield.value = []
             setNewInputField(newfield)
         }
-
-        if (name == "label" && editIndex == null) {
-            setNewInputField((prev) => ({ ...prev, label: value, inputname: value, field: "custom" }))
-        }
-        if (name == "label" && editIndex != null) {
-            setNewInputField((prev) => ({ ...prev, label: value, }))
-        }
-        else {
-            setNewInputField((prev) => ({ ...prev, [name]: type === "checkbox" ? checked : value, field: "custom" }))
+        if (name == "label") {
+            if (editIndex == null) {
+                setNewInputField((prev) => ({ ...prev, label: value, inputname: value, }))
+            }
+            if (editIndex != null) {
+                setNewInputField((prev) => ({ ...prev, label: value, }))
+            }
+        } else {
+            setNewInputField((prev) => ({ ...prev, [name]: type === "checkbox" ? checked : value }))
         }
     }
     let [selectOption, setSelectOption] = useState("")
@@ -66,16 +90,12 @@ const Settingentityform = () => {
         e.preventDefault()
         if (selectOption != "" && newInputField.options) {
             setNewInputField((prev) => ({ ...prev, options: [...prev.options, selectOption] }))
-
         } else if (selectOption != "") {
             setNewInputField((prev) => ({ ...prev, options: [selectOption] }))
-
         }
         setSelectOption("")
     }
-    useEffect(() => {
-        console.log("newInputField", newInputField)
-    })
+
 
     const addOrUpdateInput = (e) => {
         e.preventDefault();
@@ -106,7 +126,7 @@ const Settingentityform = () => {
 
         }
 
-        setNewInputField({ label: '', type: '', inputname: "", value: "", filterable: false, mandatory: false });
+        // setNewInputField({ label: '', type: '', inputname: "", value: "", filterable: false, mandatory: false });
         setOpen(false);
         // setEditIndex(null);
 
@@ -125,8 +145,6 @@ const Settingentityform = () => {
         updatedForm.splice(index, 1);
         setCustomForm(updatedForm);
     };
-
-
     const [inputType, setInputType] = useState(["", "text", "email", "password",
         "number", "textarea", "file", "date", "select", "multiselect", "checkbox", "range", "time"])
 
@@ -167,12 +185,9 @@ const Settingentityform = () => {
     }
     const deleteOption = (index) => {
         let updatedNewInputField = { ...newInputField };
-
-
         // Use slice to create a copy of the options array and remove the specified index
         let updatedOptions = [...updatedNewInputField.options];
         updatedOptions.splice(index, 1);
-
         updatedNewInputField.options = updatedOptions;
         setNewInputField(updatedNewInputField);
         console.log("updatedNewInputField", updatedNewInputField);
@@ -197,7 +212,15 @@ const Settingentityform = () => {
                     <button type="submit" onClick={(e) => {
                         setEditIndex(null)
                         setNewInputField(
-                            { label: "", type: "", inputname: "", value: "", filterable: false, mandatory: false })
+                            {
+                                label: "", type: "", inputname: "", value: "",
+                                filterable: false, mandatory: false, field: "custom"
+                            }
+
+                        )
+
+
+
                         setOpen(true)
                     }}
                         className="create-btn px-3 py-2 inline-flex items-center justify-center whitespace-nowrap rounded-full text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white gap-1">+ Add Field</button></div>
