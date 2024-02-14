@@ -20,12 +20,12 @@ export default function TopBar() {
   return (
     <div className='topbar w-full'>
       <nav className="bg-white shadow-md ">
-        <div className="mx-auto max-w-screen px-2 sm:px-6 lg:px-8">
-          <div className="relative flex h-16 items-center justify-between">
+        <div className="mx-auto max-w-screen px-2 sm:px-6 lg:px-2">
+          <div className="flex h-16 items-center justify-between">
             <div className="flex flex-1 items-center justify-between sm:items-stretch sm:justify-start">
               <div className="flex flex-shrink-0 items-center">
 
-                <Menu as="div" className="relative inline-block text-left " style={{ zIndex: 9999 }}>
+                <Menu as="div" className="relative inline-block text-left">
                   <div>
                     <Menu.Button className="inline-flex w-full justify-center gap-x-1.5 rounded-full">
                       <button className="create-btn px-3 py-2 inline-flex items-center justify-center whitespace-nowrap rounded-full text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white gap-1">
@@ -183,7 +183,7 @@ export default function TopBar() {
                   leaveFrom="transform opacity-100 scale-100"
                   leaveTo="transform opacity-0 scale-95"
                 >
-                  <Menu.Items className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                  <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                     <div className="py-1">
                       <Menu.Item>
                         {({ active }) => (

@@ -84,9 +84,10 @@ function App() {
           <Route path='/forms' element={<Forms />} />
           <Route path='/teams' element={<Teams />} />
           <Route path='/entities' element={<Entities />} />
+          <Route path='/teams/new' element={<TeamsForm />} />
           <Route path="/entitylandingpage/:id" element={<EntityLandingPage />} />
-          <Route path="/boardmeetinglandingpage" element={<BoardMeetingLandingPage />} />
-          <Route path='/teamslandingpage' element={<TeamsLandingPage />} />
+          <Route path="/boardmeetinglandingpage/:id" element={<BoardMeetingLandingPage />} />
+          <Route path='/teamslandingpage/:id' element={<TeamsLandingPage />} />
           <Route path='/userlandingpage/:id' element={<UserLandingPage />} />
           <Route path="/settingentityform" element={<SettingEntityForm />} />
           <Route path="/settingboardmeetingform" element={<SettingBoardMeetingForm />} />
@@ -98,6 +99,7 @@ function App() {
           <Route path='/tasks' element={<Tasks />} />
           <Route path='/users' element={<Users />} />
           <Route path="/users/new" element={<UserForm />} />
+          <Route path='/userform/dup' element={<UsersFormDup />} />
           <Route path='/mycalendar' element={<MyCalendar />} />
         </Route>
         {/* public routes only. Note: rendered without side and top bars */}
@@ -114,4 +116,6 @@ function App() {
 
 
 export default App;
+
+//hi
 

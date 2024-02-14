@@ -121,8 +121,10 @@ duration-500 text-gray-100 px-2`}>
                         </div>
                     </div>
                 </div>
+                <div className={`${open ? 'ml-60' : ''} flex-grow`}>
+                    {/* Your main content here */}
+                </div>
             </main>
-
         </div>
 
     );
