@@ -17,11 +17,10 @@ const Settingentityform = () => {
             filterable: false, mandatory: false, field: "custom"
         }
     )
-   
     useEffect(() => {
         axios.get(`https://atbtmain.teksacademy.com/form/list?name=entityform`)
             .then(response => {
-                // Handle the successful response
+                // Handle the successful
                 setCustomForm(response.data.array)
                 console.log(response.data);
             })
