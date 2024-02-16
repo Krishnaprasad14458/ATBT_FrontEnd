@@ -4,6 +4,7 @@ import { Dialog, Transition } from '@headlessui/react'
 import { ExclamationTriangleIcon } from '@heroicons/react/24/outline'
 import axios from "axios";
 import { toast } from "react-toastify";
+import Swal from "sweetalert2";
 
 const Settingentityform = () => {
     const [open, setOpen] = useState(false)
@@ -138,10 +139,34 @@ const Settingentityform = () => {
         }
         setCustomForm(updatedForm);
     };
-    const deleteInput = (index) => {
+    const deleteInput = async (index) => {
         const updatedForm = [...customForm];
-        updatedForm.splice(index, 1);
-        setCustomForm(updatedForm);
+
+        const confirmDelete = await Swal.fire({
+            title: 'Are you sure?',
+            text: 'Once deleted, you will not be able to recover this feild!',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#ea580c',
+            cancelButtonColor: '#fff',
+            confirmButtonText: 'Delete',
+            customClass: {
+              popup: 'custom-swal2-popup',
+              title: 'custom-swal2-title',
+              content: 'custom-swal2-content',
+            },
+
+          });
+        //       updatedForm.splice(index, 1);
+        // setCustomForm(updatedForm);
+          if (confirmDelete.isConfirmed) {
+            try {
+              updatedForm.splice(index, 1);
+              setCustomForm(updatedForm);
+            } catch (error) {
+              Swal.fire('Error', 'Unable to delete user 🤯', 'error');
+            }
+          }
     };
 
     const inputType = [{ label: "", value: "" }, { label: "Text", value: "text" }, { label: "Email", value: "email" }, { label: "Password", value: "password" },
@@ -227,12 +252,12 @@ const Settingentityform = () => {
                         className="create-btn px-3 py-2 inline-flex items-center justify-center whitespace-nowrap rounded-full text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white gap-1">+ Add Field</button></div>
             </div>
             <div class="flex ">
-                <div class="w-full border-slate04 h-fit border-b py-3 mb-4 text-left text-xs ">
+                <div class="w-full border-[#f2f2f2] h-fit border-b py-3 mb-4 text-left text-xs ">
                     {customForm && customForm.length > 0 && customForm.map((input, index) => (
                         <div>
                             <div role="button" class="block w-full  ">
                                 <div class="flex justify-between items-center mb-3  ">
-                                    <div class="flex justify-between items-center bg-[#e5e7eb] p-4 w-full " >
+                                    <div class="flex justify-between items-center bg-[#f2f2f2] p-4 w-full " >
                                         <div class="flex text-black font-semibold">
                                             <div class="">{input.label.charAt(0).toUpperCase() + input.label.slice(1)}</div></div>
                                         <div class="flex gap-3 md:gap-10">
