@@ -5,6 +5,7 @@ import { ExclamationTriangleIcon } from '@heroicons/react/24/outline'
 import axios from "axios";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
+import { Link } from 'react-router-dom';
 const SettingBoardMeetingForm = () => {
   const [open, setOpen] = useState(false)
   const [editIndex, setEditIndex] = useState(null);
@@ -249,10 +250,9 @@ const SettingBoardMeetingForm = () => {
   return (
 
     <div className="p-4 container bg-[#f8fafc]">
-
       <div className="flex justify-between">
         <p className="text-xl font-semibold">Custom Board Meeting Form</p>
-        <div className='flex justify-end'>
+        <div className='flex justify-end gap-3'>
           <button type="submit" onClick={(e) => {
             setEditIndex(null)
             setNewInputField(
@@ -270,7 +270,12 @@ const SettingBoardMeetingForm = () => {
             )
             setOpen(true)
           }}
-            className="create-btn px-3 py-2 inline-flex items-center justify-center whitespace-nowrap rounded-full text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white gap-1">+ Add Field</button></div>
+            className="create-btn px-3 py-2 inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white gap-1">+ Add Field</button>
+          <Link to="/forms">
+            <button type="submit"
+              className="create-btn px-4 py-2 inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white gap-1">Back</button>
+          </Link>
+        </div>
       </div>
 
       <div class="flex h-[500px] mt-3">

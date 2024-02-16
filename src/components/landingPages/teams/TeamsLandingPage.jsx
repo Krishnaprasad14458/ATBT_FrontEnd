@@ -132,10 +132,18 @@ const TeamsLandingPage = () => {
         console.log("customFormField", customFormField)
     })
     return (
-        <div className="container p-2 bg-[#f8fafc]">
-            <div className='flex gap-3'>
-                <img className="w-8 h-8 rounded-full mx-2 mt-2" src={defprop} alt="Neil image" />
-                <h4 className='my-3'>Infoz IT</h4>
+        <div className='container p-4 bg-[#f8fafc]'>
+
+            <div className='flex justify-between my-2'>
+                <p className='text-xl font-semibold'>Teams Landing Page</p>
+                <div className='flex justify-end gap-3 '>
+
+                    <Link to="/teams">
+                        <button type="submit"
+                            className="create-btn px-4 py-2 inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white gap-1">Back</button>
+                    </Link>
+                </div>
+
             </div>
             <div className=''>
                 <div className='flex'>
@@ -352,7 +360,7 @@ const TeamsLandingPage = () => {
                     )
 
                     )}
-                   
+
                 </div>
             </div>
             }

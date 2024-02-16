@@ -4,7 +4,16 @@ import { Link } from 'react-router-dom';
 const Communication = () => {
     return (
         <div className='container p-4 bg-[#f8fafc]'>
-            <h1 className='mx-3 font-semibold text-lg grid1-item'>Communication</h1>
+            <div className='flex justify-between my-2'>
+                <p className="text-xl font-semibold">Communication</p>
+                <div className='flex justify-end '>
+
+                    <Link to="/settings">
+                        <button type="submit"
+                            className="create-btn px-4 py-2 inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white gap-1">Back</button>
+                    </Link>
+                </div>
+            </div>
             <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4  gap-4 mt-4">
                 <Link
                     to="/whatsapp">
