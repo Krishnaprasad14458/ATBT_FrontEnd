@@ -1,10 +1,19 @@
-import { Routes, Route } from 'react-router-dom'
+import {
+  createBrowserRouter,
+  RouterProvider,
+  Route,
+  Link,
+  createRoutesFromElements,
+  redirect,
+} from 'react-router-dom'
 import './App.css';
 import ChangePassword from './components/auth/ChangePassword';
 import Login from './components/auth/Login';
 import ResetPassword from './components/auth/ResetPassword';
 import RequireAuth from './components/layout/RequireAuth';
 import PublicLayout from './components/layout/Public';
+import PublicLayout from './components/layout/PublicLayout';
+import PageNotFound from './components/pages/pageNotFound/PageNotFound';
 import Reports from './components/pages/reports/Reports';
 import Dashboard from './components/pages/dashboard/Dashboard';
 import Entities from './components/pages/entities/Entities';
@@ -51,26 +60,12 @@ import EditWhatsappTemplate from './components/pages/settings/SettingsComponents
 import EditEmailTemplate from './components/pages/settings/SettingsComponents/Communication/EditEmailTemplate';
 import ViewEmailTemplate from './components/pages/settings/SettingsComponents/Communication/ViewEmailTemplate';
 import FieldsWhatsappTemplate from './components/pages/settings/SettingsComponents/Communication/FieldsWhatsappTemplate';
-import useOnlineStatus from './hooks/isOnline/useOnlineStatus ';
-import useServiceWorker from './useSw';
-import { AuthContext } from './contexts/authContext/authContext';
-import { useContext } from 'react';
 import UsersFormDup from './components/pages/settings/SettingsComponents/Forms/UsersFormDup';
 import Profile from './components/common/profile/Profile';
 
-function App() {
-  const isOnline = useOnlineStatus();
-  const { authState } = useContext(AuthContext);
-  const isLoggedIn = authState?.token ? true : false ?? false;
-  console.log(isOnline, isLoggedIn, "sw.js", Date.now())
-  const { usingSW, swRegistration, svcworker, sendSWMessage, sendStatusUpdate } = useServiceWorker(isOnline, isLoggedIn);
-  return (
-    <>
-      {isOnline ? null : (
-        <span role="img" aria-label="Offline" style={{ position: 'fixed', bottom: 0, right: 0, padding: '15px', background: 'red', color: 'white', zIndex: 1000 }}>
-          ⚠️ You are offline
-        </span>
-      )}
+// function App() {
+//   return (
+//     <>
 
       <Routes>
         <Route element={<RequireAuth />}>
@@ -134,9 +129,8 @@ function App() {
           <Route path='/changepassword/:id' element={<ChangePassword />} />
         </Route>
       </Routes>
-    </>
-  );
-}
+
+ 
 
 
 export default App;
