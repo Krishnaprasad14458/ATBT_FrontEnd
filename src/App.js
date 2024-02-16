@@ -5,7 +5,6 @@ import Login from './components/auth/Login';
 import ResetPassword from './components/auth/ResetPassword';
 import RequireAuth from './components/layout/RequireAuth';
 import PublicLayout from './components/layout/Public';
-import PageNotFound from './components/pages/pageNotFound/PageNotFound';
 import Reports from './components/pages/reports/Reports';
 import Dashboard from './components/pages/dashboard/Dashboard';
 import Entities from './components/pages/entities/Entities';
@@ -133,7 +132,6 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path='/resetpassword' element={<ResetPassword />} />
           <Route path='/changepassword/:id' element={<ChangePassword />} />
-          <Route path="/*" element={<PageNotFound />} />
         </Route>
       </Routes>
     </>

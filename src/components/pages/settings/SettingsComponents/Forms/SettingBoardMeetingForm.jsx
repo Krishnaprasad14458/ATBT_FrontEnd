@@ -33,7 +33,7 @@ const SettingBoardMeetingForm = () => {
   useEffect(() => {
     console.log("customForm", customForm)
     console.log("newInputField", newInputField)
-})
+  })
   const handleInputChange = (e) => {
     console.log("events", e)
     const { name, value, type, checked } = e.target;
@@ -72,23 +72,23 @@ const SettingBoardMeetingForm = () => {
       newfield.options = []
       newfield.value = ""
       setNewInputField(newfield)
-  }
-  if (name == "type" && value === "multiselect") {
+    }
+    if (name == "type" && value === "multiselect") {
       let newfield = { ...newInputField }
       newfield.options = []
       newfield.value = []
       setNewInputField(newfield)
-  }
-  if (name == "label") {
+    }
+    if (name == "label") {
       if (editIndex == null) {
-          setNewInputField((prev) => ({ ...prev, label: value, inputname: value, }))
+        setNewInputField((prev) => ({ ...prev, label: value, inputname: value, }))
       }
       if (editIndex != null) {
-          setNewInputField((prev) => ({ ...prev, label: value, }))
+        setNewInputField((prev) => ({ ...prev, label: value, }))
       }
-  } else {
+    } else {
       setNewInputField((prev) => ({ ...prev, [name]: type === "checkbox" ? checked : value }))
-  }
+    }
   }
 
   let [selectOption, setSelectOption] = useState("")
@@ -229,24 +229,24 @@ const SettingBoardMeetingForm = () => {
           <button type="submit" onClick={(e) => {
             setEditIndex(null)
             setNewInputField(
-             
+
               {
-                label: "", 
-                type: "", 
-                inputname: "", 
+                label: "",
+                type: "",
+                inputname: "",
                 value: "",
                 filterable: false,
-                 mandatory: false,
-                  field: "custom"
-            }
-              
-              )
+                mandatory: false,
+                field: "custom"
+              }
+
+            )
             setOpen(true)
           }}
             className="create-btn px-3 py-2 inline-flex items-center justify-center whitespace-nowrap rounded-full text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white gap-1">+ Add Field</button></div>
       </div>
-      <div class="flex  mt-3">
-        <div class="w-full border-slate04  border-2 px-3 py-4 text-left text-xs">
+      <div class="flex h-[500px] mt-3">
+        <div class="w-full overflow-y-scroll px-3 py-4 text-left text-xs">
           {customForm && customForm.length > 0 && customForm.map((input, index) => (
             <div>
               <div role="button" class="block w-full  ">
@@ -337,9 +337,7 @@ const SettingBoardMeetingForm = () => {
               }
             </div>
           ))}
-
         </div>
-
       </div>
       <Transition.Root show={open} as={Fragment}>
         <Dialog as="div" className="relative z-10" initialFocus={cancelButtonRef} onClose={setOpen}>
@@ -409,9 +407,6 @@ const SettingBoardMeetingForm = () => {
 
                                 <option value={type.value}>
                                   {type.label}</option>
-
-
-
                               ))}
                             </select>
                             <div className="pointer-events-none absolute inset-y-0 right-2 flex items-center px-2 text-gray-700">
@@ -511,21 +506,15 @@ const SettingBoardMeetingForm = () => {
           </div>
         </Dialog>
       </Transition.Root>
-      <div class="flex justify-end w-full mt-5 pb-2">
+      <div class="flex justify-end w-full mt-2">
         <div class="">
         </div>
-        <div class="me-5 my-4">
+        <div class="me-5">
           <button class=" flex w-full justify-center rounded-md bg-orange-600 px-3 py-2.5 text-sm font-medium leading-6 text-white shadow-sm  focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600
                        " onClick={handleSubmitCustomForm}>Save</button>
         </div>
       </div>
-
-
-
-    </div >
-
-
-
+    </div>
   )
 }
 export default SettingBoardMeetingForm
