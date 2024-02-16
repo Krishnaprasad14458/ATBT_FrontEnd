@@ -98,8 +98,19 @@ const BoardMeetingLandingPage = () => {
     console.log("customFormFieldddddddddddd", customFormField)
   })
   return (
-    <div className="container p-2 bg-[#f8fafc]">
-      <h4 className='my-3'>Board Meeting Landing page</h4>
+    <div className='container p-4 bg-[#f8fafc]'>
+
+      <div className='flex justify-between my-2'>
+        <p className='text-xl font-semibold'>Board Meeting Landing Page</p>
+        <div className='flex justify-end gap-3 '>
+
+          <Link to="/users">
+            <button type="submit"
+              className="create-btn px-4 py-2 inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white gap-1">Back</button>
+          </Link>
+        </div>
+
+      </div>
       <div className=''>
         <div className='flex'>
           <div

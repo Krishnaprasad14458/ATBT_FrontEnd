@@ -18,9 +18,9 @@ function EntityForm() {
   const [selected, setSelected] = useState([]);
   const [showUsers, setShowUsers] = useState(false);
   let [customFormFields, setCustomFormFields] = useState()
-  useEffect(()=>{
+  useEffect(() => {
 
-  console.log("errors",errors)
+    console.log("errors", errors)
   })
   const handleInputChange = (e) => {
     setShowUsers(true)
@@ -121,7 +121,7 @@ function EntityForm() {
         }
         else {
           setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
-          
+
         }
       }
       if (customFormFields[i].type == "file" && customFormFields[i].mandatory) {
@@ -131,7 +131,7 @@ function EntityForm() {
         }
         else {
           setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
-         
+
         }
       }
       if (customFormFields[i].type == "textarea" && customFormFields[i].mandatory) {
@@ -145,7 +145,7 @@ function EntityForm() {
         }
         else {
           setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
-        
+
         }
       }
       if (customFormFields[i].type == "email" && customFormFields[i].mandatory) {
@@ -156,7 +156,7 @@ function EntityForm() {
 
         else {
           setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
-     
+
         }
       }
       if (customFormFields[i].type == "number" && customFormFields[i].mandatory) {
@@ -171,7 +171,7 @@ function EntityForm() {
 
         else {
           setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
-    
+
         }
       }
       if (customFormFields[i].type == "select" && customFormFields[i].mandatory) {
@@ -182,7 +182,7 @@ function EntityForm() {
 
         else {
           setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
-    
+
         }
       }
       if (customFormFields[i].type == "multiselect" && customFormFields[i].mandatory) {
@@ -204,7 +204,7 @@ function EntityForm() {
 
         else {
           setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
-        
+
         }
       }
       if (customFormFields[i].type == "checkbox" && customFormFields[i].mandatory) {
@@ -215,7 +215,7 @@ function EntityForm() {
 
         else {
           setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
-       
+
         }
       }
       if (customFormFields[i].type == "range" && customFormFields[i].mandatory) {
@@ -237,7 +237,7 @@ function EntityForm() {
 
         else {
           setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
-       
+
         }
       }
       if (customFormFields[i].type == "password" && customFormFields[i].mandatory) {
@@ -248,7 +248,7 @@ function EntityForm() {
 
         else {
           setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
-     
+
         }
       }
 
@@ -320,7 +320,7 @@ function EntityForm() {
                         id={item.inputname}
                         placeholder='Enter entity name'
                         value={customFormFields[index].value || ''}
-                        className="p-2 block w-full rounded-md bg-gray-50 border-2 border-gray-200 py-1 text-gray-900 appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6
+                        className="px-2 block w-full rounded-md bg-gray-50 border-2 border-gray-200 py-1 text-gray-900 appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6
                         placeholder:text-xs"
                         onChange={(e) => handleChange(index, e.target.value)}
                       />
@@ -336,7 +336,7 @@ function EntityForm() {
                         type="file"
                         name={item.inputname}
                         id={item.inputname}
-                        className="px-2  block w-full rounded-md bg-gray-50 border-2 border-gray-200 py-0.5 text-gray-900 appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6"
+                        className="px-2 py-1.5 md:py- lg:py-0.5 xl:py-0.5 text-xs  block w-full rounded-md bg-gray-50 border-2 border-gray-200    text-gray-900 appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6"
                         onChange={(event) => handleFileChange(event, index)}
                         accept="image/*"
                       />
@@ -374,7 +374,7 @@ function EntityForm() {
 
                           let mail = result.split("@")[0]
                           return (
-                            <span className='flex gap-1 text-xs mt-1 border-2 border-gray-200 rounded-md  focus:border-orange-600'>
+                            <span className='flex gap-1 text-xs my-1 border-2 border-gray-200 rounded-md  focus:border-orange-600'>
                               <img className="w-4 h-4 rounded-lg" src={defprop} alt="Neil image" /> {mail} <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor"
                                 className="w-4 h-4 " onClick={() => handleRemove(result, index)}>
                                 <path d="M5.28 4.22a.75.75 0 0 0-1.06 1.06L6.94 8l-2.72 2.72a.75.75 0 1 0 1.06 1.06L8 9.06l2.72 2.72a.75.75 0 1 0 1.06-1.06L9.06 8l2.72-2.72a.75.75 0 0 0-1.06-1.06L8 6.94 5.28 4.22Z" />
@@ -494,8 +494,10 @@ function EntityForm() {
                     </div>
                   )}
                   {item.type === 'checkbox' && item.field == "custom" && (
-                    <div className='flex gap-2'>
-
+                    <div >
+                      <label htmlFor={item.inputname} className="block text-sm font-medium leading-6 my-2 text-gray-900">
+                        {item.label.charAt(0).toUpperCase() + item.label.slice(1)}
+                      </label>
                       <input
                         type="checkbox"
                         name={item.inputname}
@@ -503,9 +505,7 @@ function EntityForm() {
                         checked={!!customFormFields[index].value}
                         onChange={(e) => handleChange(index, e.target.checked)}
 
-                      />  <label htmlFor={item.inputname} className="block text-sm font-medium leading-6 my-2 text-gray-900">
-                        {item.label.charAt(0).toUpperCase() + item.label.slice(1)}
-                      </label>
+                      />
                       <div className='h-2 text-[#dc2626]'>{errors[item.inputname] && <span>{errors[item.inputname]}</span>}</div>
 
                     </div>

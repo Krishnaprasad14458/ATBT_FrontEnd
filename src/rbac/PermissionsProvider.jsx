@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import io from 'socket.io-client';
+// import io from 'socket.io-client';
 import { AuthContext } from '../contexts/authContext/authContext';
 import { permissionsDb } from '../utils/db';
 
@@ -22,17 +22,17 @@ const handlePermissionsUpdate = async (setPermissions, setLoading) => {
 };
 
 const PermissionsProvider = ({ children }) => {
-  const  authState  = useContext(AuthContext);
+  const authState = useContext(AuthContext);
   console.log(authState, permissionsDb, "pdb")
   const [permissions, setPermissions] = useState([...permissionsDb] || []);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    const socket = io('your_socket_server_url');
-    socket.on('permissionsUpdate', () => handlePermissionsUpdate(setPermissions, setLoading));
+    // const socket = io('your_socket_server_url');
+    // socket.on('permissionsUpdate', () => handlePermissionsUpdate(setPermissions, setLoading));
 
     return () => {
-      socket.off('permissionsUpdate');
+      // socket.off('permissionsUpdate');
     };
   }, []);
 
@@ -89,7 +89,7 @@ export default PermissionsProvider
 //     };
 
 //     return (
-//         <PermissionContext.Provider 
+//         <PermissionContext.Provider
 //             value={{
 //                 isAllowedTo
 //             }}
@@ -133,7 +133,7 @@ export default PermissionsProvider
 //     };
 
 //     return (
-//     <PermissionContext.Provider 
+//     <PermissionContext.Provider
 //     value={{
 //         isAllowedTo
 //     }}
