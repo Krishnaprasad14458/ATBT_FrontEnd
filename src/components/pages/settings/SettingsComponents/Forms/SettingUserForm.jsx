@@ -3,6 +3,7 @@ import { Fragment, useRef, useState } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import axios from "axios";
 import { toast } from "react-toastify";
+import Swal from "sweetalert2";
 const UsersFormDup = () => {
     const [open, setOpen] = useState(false)
     const [editIndex, setEditIndex] = useState(null);
@@ -134,10 +135,31 @@ const UsersFormDup = () => {
         }
         setCustomForm(updatedForm);
     };
-    const deleteInput = (index) => {
+    const deleteInput = async (index) => {
         const updatedForm = [...customForm];
-        updatedForm.splice(index, 1);
-        setCustomForm(updatedForm);
+        const confirmDelete = await Swal.fire({
+            title: 'Are you sure?',
+            text: 'Once deleted, you will not be able to recover this feild!',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#ea580c',
+            cancelButtonColor: '#fff',
+            confirmButtonText: 'Delete',
+            customClass: {
+              popup: 'custom-swal2-popup',
+              title: 'custom-swal2-title',
+              content: 'custom-swal2-content',
+            },
+          });
+      
+          if (confirmDelete.isConfirmed) {
+            try {
+              updatedForm.splice(index, 1);
+              setCustomForm(updatedForm);
+            } catch (error) {
+              Swal.fire('Error', 'Unable to delete user 🤯', 'error');
+            }
+          }
      
     };
     // const [inputType, setInputType] = useState(["", "text", "email", "password",
@@ -232,13 +254,15 @@ const UsersFormDup = () => {
                         className="create-btn px-3 py-2 inline-flex items-center justify-center whitespace-nowrap rounded-full text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white gap-1">+ Add Field</button>
                 </div>
             </div>
+
             <div class="flex  mt-3 h-[500px]">
                 <div class="w-full px-3 py-4 text-left text-xs overflow-y-scroll">
+
                     {customForm && customForm.length > 0 && customForm.map((input, index) => (
                         <div className="">
                             <div role="button" class="block w-full  ">
                                 <div class="flex justify-between items-center mb-3  ">
-                                    <div class="flex justify-between items-center bg-[#f3f4f6] p-4 w-full " >
+                                    <div class="flex justify-between items-center bg-[#f2f2f2] p-4 w-full " >
                                         <div class="flex text-black font-semibold">
                                             <div class="" onClick={() => handleFiledOpen(input.inputname)}>{input.label.charAt(0).toUpperCase() + input.label.slice(1)}</div></div>
                                         <div class="flex gap-3 md:gap-10">
