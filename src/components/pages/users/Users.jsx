@@ -224,7 +224,7 @@ function Users() {
 
       {/* className='px-6 py-2.5 text-left text-sm  border border-[#e5e7eb] text-white bg-orange-600' */}
       <div className="max-h-[410px] overflow-y-scroll mt-6">
-        <table className="w-full">
+        <table className="w-full divide-gray-200 dark:divide-gray-700 rounded-md">
           <thead className=' '>
             <tr className=''>
               <th scope="col" className="sticky top-0 bg-orange-600 text-white text-sm text-left px-6 py-2.5 border-l-2 border-gray-200">Name</th>
@@ -236,7 +236,7 @@ function Users() {
               <th scope="col" className="sticky top-0 bg-orange-600 text-white text-sm px-6 text-left py-2.5 border-l-2 border-gray-200">Actions</th>
             </tr>
           </thead>
-          <tbody className="">
+          <tbody >
             {settings?.paginatedUsers?.map(user => (
               <tr className="hover:bg-gray-100 dark:hover:bg-gray-700">
                 <td className="px-6 py-2 text-left border border-[#e5e7eb] text-xs font-medium text-gray-800">{user.userName}</td>
@@ -300,7 +300,7 @@ function Users() {
         <div className='flex justify-between'>
           <div className=''>
             {!settings?.paginatedUsers ||
-            settings?.paginatedUsers?.length === 0 ? (
+              settings?.paginatedUsers?.length === 0 ? (
               'no data to show'
             ) : settings.loading ? (
               'Loading...'
@@ -328,13 +328,12 @@ function Users() {
                 })
               }
               href='#'
-              className={`relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${
-                settings.loading
+              className={`relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${settings.loading
                   ? 'cursor-wait'
                   : settings.currentPage === 1
-                  ? 'cursor-not-allowed'
-                  : 'cursor-auto'
-              }`}
+                    ? 'cursor-not-allowed'
+                    : 'cursor-auto'
+                }`}
             >
               <span className='sr-only'>Previous</span>
               <svg
@@ -364,13 +363,12 @@ function Users() {
                   data: settings.currentPage + 1,
                 })
               }
-              className={`relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${
-                settings.loading
+              className={`relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${settings.loading
                   ? 'cursor-wait'
                   : settings.currentPage === settings.totalPages
-                  ? 'cursor-not-allowed'
-                  : 'cursor-auto'
-              }`}
+                    ? 'cursor-not-allowed'
+                    : 'cursor-auto'
+                }`}
             >
               <span className='sr-only'>Next</span>
               <svg
