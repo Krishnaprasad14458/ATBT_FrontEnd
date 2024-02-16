@@ -5,7 +5,6 @@ import Login from './components/auth/Login';
 import ResetPassword from './components/auth/ResetPassword';
 import RequireAuth from './components/layout/RequireAuth';
 import PublicLayout from './components/layout/Public';
-import PageNotFound from './components/pages/pageNotFound/PageNotFound';
 import Reports from './components/pages/reports/Reports';
 import Dashboard from './components/pages/dashboard/Dashboard';
 import Entities from './components/pages/entities/Entities';
@@ -57,6 +56,7 @@ import useServiceWorker from './useSw';
 import { AuthContext } from './contexts/authContext/authContext';
 import { useContext } from 'react';
 import UsersFormDup from './components/pages/settings/SettingsComponents/Forms/UsersFormDup';
+import Profile from './components/common/profile/Profile';
 
 function App() {
   const isOnline = useOnlineStatus();
@@ -92,15 +92,15 @@ function App() {
           <Route path='viewemailtemplate' element={<ViewEmailTemplate />} />
           <Route path='/fieldswhatsapptemplate' element={<FieldsWhatsappTemplate />} />
           <Route path="/api" element={<Api />} />
-          <Route path='webhook' element={<Webhook />} />
-          <Route path='sms' element={<Sms />} />
-          <Route path='paymentgateway' element={<PaymentGateway />} />
+          <Route path='/webhook' element={<Webhook />} />
+          <Route path='/sms' element={<Sms />} />
+          <Route path='/paymentgateway' element={<PaymentGateway />} />
           <Route path='/email' element={<Email />} />
           <Route path='/Whatsapp' element={<Whatsapp />} />
           <Route path='/forms' element={<Forms />} />
           <Route path='/teams' element={<Teams />} />
           <Route path='/teams/new' element={<TeamsForm />} />
-
+          <Route path='/profile' element={<Profile />} />
 
           <Route path='/entities' element={<Entities />}>
             <Route path="otl" element={<EntityForm />} />
@@ -132,7 +132,6 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path='/resetpassword' element={<ResetPassword />} />
           <Route path='/changepassword/:id' element={<ChangePassword />} />
-          <Route path="/*" element={<PageNotFound />} />
         </Route>
       </Routes>
     </>
