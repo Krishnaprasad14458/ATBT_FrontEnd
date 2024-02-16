@@ -9,14 +9,19 @@ import { ChevronDownIcon } from '@heroicons/react/20/solid';
 import { UserDataContext } from '../../../contexts/usersDataContext/usersDataContext';
 import useDebounce from '../../../hooks/debounce/useDebounce';
 import * as actions from '../../../contexts/usersDataContext/utils/usersActions';
+import GateKeeper from '../../../rbac/GateKeeper';
 function classNames(...classes) {
-  return classes.filter(Boolean).join(' ')
+  return classes.filter(Boolean).join(' ');
 }
 
-
 function Users() {
-
-  const { usersState: { settings }, usersDispatch, deleteUser, setSortBy, toggleUser } = useContext(UserDataContext);
+  const {
+    usersState: { settings },
+    usersDispatch,
+    deleteUser,
+    setSortBy,
+    toggleUser,
+  } = useContext(UserDataContext);
   const { debouncedSetPage, debouncedSetSearch } = useDebounce(usersDispatch);
   const handlePerPageChange = (event) => {
     const selectedValue = parseInt(event.target.value, 10);
@@ -24,23 +29,23 @@ function Users() {
       type: 'SET_PER_PAGE',
       payload: {
         conext: 'SETTINGS',
-        data: selectedValue
-      }
+        data: selectedValue,
+      },
     });
   };
   useEffect(() => {
     // usersDispatch(actions.setPerPage(10))
     return () => {
       usersDispatch({
-        type: "SET_SEARCH",
+        type: 'SET_SEARCH',
         payload: {
-          data: "",
-          context: "SEIINGS"
-        }
-      })
+          data: '',
+          context: 'SEIINGS',
+        },
+      });
       //   usersDispatch(actions.setPerPage(5))
-    }
-  }, [])
+    };
+  }, []);
   const [activeTab, setActiveTab] = useState(1);
 
   const handleTabClick = (tabNumber) => {
@@ -74,59 +79,100 @@ function Users() {
   const [isChecked, setIsChecked] = useState(false);
 
   const handleToggle = () => {
-    setIsChecked((pre) => !pre)
+    setIsChecked((pre) => !pre);
   };
   return (
-    <div className="overflow-x-auto p-3">
+    <div className='overflow-x-auto p-3'>
       <div className='grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-3 xl:grid-col-3 gap-2 mt-2'>
         <h1 className='font-semibold text-lg grid1-item'>Users</h1>
         <div className='grid1-item mx-3 text-start'>
-          <label for="default-search" className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
-          <div className="relative">
-            <div className="absolute inset-y-0 start-0 flex items-center p-2 pointer-events-none">
-              <svg className="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
+          <label
+            for='default-search'
+            className='mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white'
+          >
+            Search
+          </label>
+          <div className='relative'>
+            <div className='absolute inset-y-0 start-0 flex items-center p-2 pointer-events-none'>
+              <svg
+                className='w-4 h-4 text-gray-500 dark:text-gray-400'
+                aria-hidden='true'
+                xmlns='http://www.w3.org/2000/svg'
+                fill='none'
+                viewBox='0 0 20 20'
+              >
+                <path
+                  stroke='currentColor'
+                  stroke-linecap='round'
+                  stroke-linejoin='round'
+                  stroke-width='2'
+                  d='m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z'
+                />
               </svg>
             </div>
-            <input onChange={(e) => debouncedSetSearch({ context: 'SETTINGS', data: e.target.value })} type="search" id="default-search" className="block w-full px-4 py-2 ps-10 text-sm border-2 border-gray-200  rounded-2xl bg-gray-50  focus:outline-none " placeholder="Search here..." required />
+            <input
+              onChange={(e) =>
+                debouncedSetSearch({
+                  context: 'SETTINGS',
+                  data: e.target.value,
+                })
+              }
+              type='search'
+              id='default-search'
+              className='block w-full px-4 py-2 ps-10 text-sm border-2 border-gray-200  rounded-2xl bg-gray-50  focus:outline-none '
+              placeholder='Search here...'
+              required
+            />
           </div>
         </div>
         <div className='grid1-item text-end filter_pagination'>
-          <select defaultValue="10" onChange={handlePerPageChange} className="focus:outline-none me-3 gap-x-1.5 rounded-md bg-gray-50 px-1 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-200 hover:bg-gray-50">
-            <option value="10">10</option>
-            <option value="25">25</option>
-            <option value="50">50</option>
-            <option value="100">100</option>
-            <option value="250">250</option>
-            <option value="500">500</option>
+          <select
+            defaultValue='10'
+            onChange={handlePerPageChange}
+            className='focus:outline-none me-3 gap-x-1.5 rounded-md bg-gray-50 px-1 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-200 hover:bg-gray-50'
+          >
+            <option value='10'>10</option>
+            <option value='25'>25</option>
+            <option value='50'>50</option>
+            <option value='100'>100</option>
+            <option value='250'>250</option>
+            <option value='500'>500</option>
           </select>
-          <Menu as="div" className="relative inline-block me-2 ">
+          <Menu
+            as='div'
+            className='relative inline-block me-2 '
+          >
             <div className=''>
-              <Menu.Button className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-gray-50 px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-200 hover:bg-gray-50">
+              <Menu.Button className='inline-flex w-full justify-center gap-x-1.5 rounded-md bg-gray-50 px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-200 hover:bg-gray-50'>
                 Filters
-                <ChevronDownIcon className="-mr-1 h-5 w-5 text-gray-400" aria-hidden="true" />
+                <ChevronDownIcon
+                  className='-mr-1 h-5 w-5 text-gray-400'
+                  aria-hidden='true'
+                />
               </Menu.Button>
             </div>
 
             <Transition
               as={Fragment}
-              enter="transition ease-out duration-100"
-              enterFrom="transform opacity-0 scale-95"
-              enterTo="transform opacity-100 scale-100"
-              leave="transition ease-in duration-75"
-              leaveFrom="transform opacity-100 scale-100"
-              leaveTo="transform opacity-0 scale-95"
+              enter='transition ease-out duration-100'
+              enterFrom='transform opacity-0 scale-95'
+              enterTo='transform opacity-100 scale-100'
+              leave='transition ease-in duration-75'
+              leaveFrom='transform opacity-100 scale-100'
+              leaveTo='transform opacity-0 scale-95'
             >
-              <Menu.Items className="absolute right-0 z-50 mt-2 w-48 origin-top-left rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                <div className="py-1">
+              <Menu.Items className='absolute right-0 z-50 mt-2 w-48 origin-top-left rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none'>
+                <div className='py-1'>
                   <Menu.Item>
                     {({ active }) => (
                       <p
                         onClick={() => {
-                          usersDispatch(setSortBy("createdAt", 'SETTINGS'))
+                          usersDispatch(setSortBy('createdAt', 'SETTINGS'));
                         }}
                         className={classNames(
-                          active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
+                          active
+                            ? 'bg-gray-100 text-gray-900'
+                            : 'text-gray-700',
                           'block px-4 py-2 text-sm text-left'
                         )}
                       >
@@ -138,10 +184,12 @@ function Users() {
                     {({ active }) => (
                       <p
                         onClick={() => {
-                          usersDispatch(setSortBy("name", 'SETTINGS'))
+                          usersDispatch(setSortBy('name', 'SETTINGS'));
                         }}
                         className={classNames(
-                          active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
+                          active
+                            ? 'bg-gray-100 text-gray-900'
+                            : 'text-gray-700',
                           'block px-4 py-2 text-sm text-left'
                         )}
                       >
@@ -153,10 +201,12 @@ function Users() {
                     {({ active }) => (
                       <p
                         onClick={() => {
-                          usersDispatch(setSortBy("email", 'SETTINGS'))
+                          usersDispatch(setSortBy('email', 'SETTINGS'));
                         }}
                         className={classNames(
-                          active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
+                          active
+                            ? 'bg-gray-100 text-gray-900'
+                            : 'text-gray-700',
                           'block px-4 py-2 text-sm text-left'
                         )}
                       >
@@ -171,6 +221,7 @@ function Users() {
         </div>
       </div>
       {/* table */}
+
       {/* className='px-6 py-2.5 text-left text-sm  border border-[#e5e7eb] text-white bg-orange-600' */}
       <div className="max-h-[410px] overflow-y-scroll mt-6">
         <table className="w-full">
@@ -241,47 +292,105 @@ function Users() {
             ))}
           </tbody>
         </table>
+
       </div>
 
       {/* pagination */}
       <div className='inset-x-0 bottom-0 mt-5'>
-        <div className="flex justify-between">
+        <div className='flex justify-between'>
           <div className=''>
-            {!settings?.paginatedUsers || settings?.paginatedUsers?.length === 0 ? "no data to show" : settings.loading ? "Loading..." : <p className="text-sm text-gray-700">
-              Showing {settings.startUser} to {settings.endUser} of <span className="font-medium">{settings.totalUsers}</span>
-              <span className="font-medium"> </span> results
-            </p>}
+            {!settings?.paginatedUsers ||
+            settings?.paginatedUsers?.length === 0 ? (
+              'no data to show'
+            ) : settings.loading ? (
+              'Loading...'
+            ) : (
+              <p className='text-sm text-gray-700'>
+                Showing {settings.startUser} to {settings.endUser} of{' '}
+                <span className='font-medium'>{settings.totalUsers}</span>
+                <span className='font-medium'> </span> results
+              </p>
+            )}
           </div>
-          <section className="isolate inline-flex rounded-md shadow-sm ms-4" aria-label="Pagination">
+          <section
+            className='isolate inline-flex rounded-md shadow-sm ms-4'
+            aria-label='Pagination'
+          >
             {/* previos button */}
             <button
-              disabled={settings.loading ? true : false || settings.currentPage === 1}
-              onClick={() => debouncedSetPage({ context: 'SETTINGS', data: settings.currentPage - 1 })}
-              href="#"
-              className={`relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${settings.loading ? 'cursor-wait' : settings.currentPage === 1 ? 'cursor-not-allowed' : 'cursor-auto'}`}
+              disabled={
+                settings.loading ? true : false || settings.currentPage === 1
+              }
+              onClick={() =>
+                debouncedSetPage({
+                  context: 'SETTINGS',
+                  data: settings.currentPage - 1,
+                })
+              }
+              href='#'
+              className={`relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${
+                settings.loading
+                  ? 'cursor-wait'
+                  : settings.currentPage === 1
+                  ? 'cursor-not-allowed'
+                  : 'cursor-auto'
+              }`}
             >
-              <span className="sr-only">Previous</span>
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5" aria-hidden="true">
-                <path fill-rule="evenodd" d="M11.78 5.22a.75.75 0 0 1 0 1.06L8.06 10l3.72 3.72a.75.75 0 1 1-1.06 1.06l-4.25-4.25a.75.75 0 0 1 0-1.06l4.25-4.25a.75.75 0 0 1 1.06 0Z" clip-rule="evenodd" />
+              <span className='sr-only'>Previous</span>
+              <svg
+                xmlns='http://www.w3.org/2000/svg'
+                viewBox='0 0 20 20'
+                fill='currentColor'
+                className='w-5 h-5'
+                aria-hidden='true'
+              >
+                <path
+                  fill-rule='evenodd'
+                  d='M11.78 5.22a.75.75 0 0 1 0 1.06L8.06 10l3.72 3.72a.75.75 0 1 1-1.06 1.06l-4.25-4.25a.75.75 0 0 1 0-1.06l4.25-4.25a.75.75 0 0 1 1.06 0Z'
+                  clip-rule='evenodd'
+                />
               </svg>
-
             </button>
             {/* next button */}
             <button
-              disabled={settings.loading ? true : false || settings.currentPage === settings.totalPages}
-              onClick={() => debouncedSetPage({ context: 'SETTINGS', data: settings.currentPage + 1 })}
-              className={`relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${settings.loading ? 'cursor-wait' : settings.currentPage === settings.totalPages ? 'cursor-not-allowed' : 'cursor-auto'}`}
+              disabled={
+                settings.loading
+                  ? true
+                  : false || settings.currentPage === settings.totalPages
+              }
+              onClick={() =>
+                debouncedSetPage({
+                  context: 'SETTINGS',
+                  data: settings.currentPage + 1,
+                })
+              }
+              className={`relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${
+                settings.loading
+                  ? 'cursor-wait'
+                  : settings.currentPage === settings.totalPages
+                  ? 'cursor-not-allowed'
+                  : 'cursor-auto'
+              }`}
             >
-              <span className="sr-only">Next</span>
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5" aria-hidden="true">
-                <path fill-rule="evenodd" d="M8.22 5.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 0 1-1.06-1.06L11.94 10 8.22 6.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
+              <span className='sr-only'>Next</span>
+              <svg
+                xmlns='http://www.w3.org/2000/svg'
+                viewBox='0 0 20 20'
+                fill='currentColor'
+                className='w-5 h-5'
+                aria-hidden='true'
+              >
+                <path
+                  fill-rule='evenodd'
+                  d='M8.22 5.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 0 1-1.06-1.06L11.94 10 8.22 6.28a.75.75 0 0 1 0-1.06Z'
+                  clip-rule='evenodd'
+                />
               </svg>
             </button>
           </section>
         </div>
       </div>
     </div>
-
   );
 }
 
