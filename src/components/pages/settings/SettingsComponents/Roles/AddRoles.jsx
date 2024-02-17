@@ -7,127 +7,139 @@ const AddRoles = () => {
   const data = useLoaderData();
   const navigation = useNavigation();
   console.log(data, 'yesss', navigation);
+  const getInitialState = () => {
+    if (!!data) {
+      return {
+        role: 'you decide',
+        description: 'you decide',
+        permissions: [...data],
+      };
+    } else {
+      return {
+        role: '',
+        description: '',
+        permissions: [
+          {
+            module: 'dashboard',
+            all: false,
+            create: false,
+            read: false,
+            update: false,
+            delete: false,
+          },
+          {
+            module: 'user',
+            all: false,
+            create: false,
+            read: false,
+            update: false,
+            delete: false,
+          },
+          {
+            module: 'entity',
+            all: false,
+            create: false,
+            read: false,
+            update: false,
+            delete: false,
+          },
+          {
+            module: 'meeting',
+            all: false,
+            create: false,
+            read: false,
+            update: false,
+            delete: false,
+          },
+          {
+            module: 'task',
+            all: false,
+            create: false,
+            read: false,
+            update: false,
+            delete: false,
+          },
+          {
+            module: 'team',
+            all: false,
+            create: false,
+            read: false,
+            update: false,
+            delete: false,
+          },
+          {
+            module: 'report',
+            all: false,
+            create: false,
+            read: false,
+            update: false,
+            delete: false,
+          },
+          {
+            module: 'setting',
+            all: false,
+            create: false,
+            read: false,
+            update: false,
+            delete: false,
+          },
+          // {
+          //   module: 'settings',
+          //   all: false,
+          //   create: false,
+          //   read: false,
+          //   update: false,
+          //   delete: false,
+          //   submenus: [
+          //     {
+          //       module: 'organizationprofile',
+          //       all: false,
+          //       create: false,
+          //       read: false,
+          //       update: false,
+          //       delete: false,
+          //     },
+          //     {
+          //       module: 'form',
+          //       all: false,
+          //       create: false,
+          //       read: false,
+          //       update: false,
+          //       delete: false,
+          //     },
+          //     {
+          //       module: 'communication',
+          //       all: false,
+          //       create: false,
+          //       read: false,
+          //       update: false,
+          //       delete: false,
+          //     },
+          //     {
+          //       module: 'role',
+          //       all: false,
+          //       create: false,
+          //       read: false,
+          //       update: false,
+          //       delete: false,
+          //     },
+          //     {
+          //       module: 'integration',
+          //       all: false,
+          //       create: false,
+          //       read: false,
+          //       update: false,
+          //       delete: false,
+          //     },
+          //   ],
+          // },
+        ],
+      };
+    }
+  };
   // submit({ key: 'value' });
-  const [permission, setPermission] = useState({
-    role: '',
-    description: '',
-    permissions: [
-      {
-        module: 'dashboard',
-        all: false,
-        create: false,
-        read: false,
-        update: false,
-        delete: false,
-      },
-      {
-        module: 'user',
-        all: false,
-        create: false,
-        read: false,
-        update: false,
-        delete: false,
-      },
-      {
-        module: 'entity',
-        all: false,
-        create: false,
-        read: false,
-        update: false,
-        delete: false,
-      },
-      {
-        module: 'meeting',
-        all: false,
-        create: false,
-        read: false,
-        update: false,
-        delete: false,
-      },
-      {
-        module: 'task',
-        all: false,
-        create: false,
-        read: false,
-        update: false,
-        delete: false,
-      },
-      {
-        module: 'team',
-        all: false,
-        create: false,
-        read: false,
-        update: false,
-        delete: false,
-      },
-      {
-        module: 'report',
-        all: false,
-        create: false,
-        read: false,
-        update: false,
-        delete: false,
-      },
-      {
-        module: 'setting',
-        all: false,
-        create: false,
-        read: false,
-        update: false,
-        delete: false,
-      },
-      // {
-      //   module: 'settings',
-      //   all: false,
-      //   create: false,
-      //   read: false,
-      //   update: false,
-      //   delete: false,
-      //   submenus: [
-      //     {
-      //       module: 'organizationprofile',
-      //       all: false,
-      //       create: false,
-      //       read: false,
-      //       update: false,
-      //       delete: false,
-      //     },
-      //     {
-      //       module: 'form',
-      //       all: false,
-      //       create: false,
-      //       read: false,
-      //       update: false,
-      //       delete: false,
-      //     },
-      //     {
-      //       module: 'communication',
-      //       all: false,
-      //       create: false,
-      //       read: false,
-      //       update: false,
-      //       delete: false,
-      //     },
-      //     {
-      //       module: 'role',
-      //       all: false,
-      //       create: false,
-      //       read: false,
-      //       update: false,
-      //       delete: false,
-      //     },
-      //     {
-      //       module: 'integration',
-      //       all: false,
-      //       create: false,
-      //       read: false,
-      //       update: false,
-      //       delete: false,
-      //     },
-      //   ],
-      // },
-    ],
-  });
+  const [permission, setPermission] = useState(() => getInitialState());
+  console.log(permission, 'yess perm');
   useEffect(() => {
     console.log('permissions', permission);
   });
@@ -168,12 +180,26 @@ const AddRoles = () => {
     }
   };
 
-  async function handleSubmit() {
+  async function handleSubmit(id) {
     console.log(permission);
-    const result = await axios.post('http://localhost:3001/rbac/create-role', {
-      ...permission,
-    });
-    console.log(result);
+    if (!id) {
+      const result = await axios.post(
+        'http://localhost:3001/rbac/create-role',
+        {
+          ...permission,
+        }
+      );
+      console.log(result, 'added');
+    }
+    if (!!id) {
+      const result = await axios.put(
+        `http://localhost:3001/rbac/update-role/${id}`,
+        {
+          ...permission,
+        }
+      );
+      console.log(result, 'updated');
+    }
   }
 
   return (
@@ -489,7 +515,7 @@ const AddRoles = () => {
             ></div> */}
         </tbody>
       </table>
-      <button onClick={handleSubmit}>submit</button>
+      <button onClick={() => handleSubmit(10)}>submit</button>
     </div>
   );
 };

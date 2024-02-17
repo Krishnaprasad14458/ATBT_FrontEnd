@@ -67,70 +67,75 @@ import Profile from './components/common/profile/Profile';
 //   return (
 //     <>
 
-      <Routes>
-        <Route element={<RequireAuth />}>
-          <Route path="/" element={<Dashboard />} />
-          <Route path="/reports" element={<Reports />} />
-          <Route path='/settings' element={<Settings />} />
-          <Route path='/organizationprofile' element={<OrganizationProfile />} />
-          <Route path='/roles' element={<Roles />} />
-          <Route path='/integrations' element={<Integrations />} />
-          <Route path='/addroles' element={<AddRoles />} />
-          <Route path='/dupaddroles' element={<Dupaddrole />} />
-          <Route path='/communication' element={<Communication />} />
-          <Route path='/whatsappintegration' element={<WhatsappIntegrations />} />
-          <Route path='/emailintegration' element={<EmailIntegrations />} />
-          <Route path='/addemailtemplate' element={<AddEmailTemplate />} />
-          <Route path='/addwhatsapptemplate' element={<AddWhatsappTemplate />} />
-          <Route path='/editemailtemplate' element={<EditEmailTemplate />} />
-          <Route path='/editwhatsapptemplate' element={<EditWhatsappTemplate />} />
-          <Route path='viewemailtemplate' element={<ViewEmailTemplate />} />
-          <Route path='/fieldswhatsapptemplate' element={<FieldsWhatsappTemplate />} />
-          <Route path="/api" element={<Api />} />
-          <Route path='/webhook' element={<Webhook />} />
-          <Route path='/sms' element={<Sms />} />
-          <Route path='/paymentgateway' element={<PaymentGateway />} />
-          <Route path='/email' element={<Email />} />
-          <Route path='/Whatsapp' element={<Whatsapp />} />
-          <Route path='/forms' element={<Forms />} />
-          <Route path='/teams' element={<Teams />} />
-          <Route path='/teams/new' element={<TeamsForm />} />
-          <Route path='/profile' element={<Profile />} />
+<Routes>
+  <Route element={<RequireAuth />}>
+    <Route path="/" element={<Dashboard />} />
+    <Route path="/reports" element={<Reports />} />
+    <Route path='/settings' element={<Settings />} />
+    <Route path='/organizationprofile' element={<OrganizationProfile />} />
+    <Route path='/roles' element={<Roles />} />
+    <Route path='/integrations' element={<Integrations />} />
+    <Route path='/addroles' element={<AddRoles />} />
+    <Route path='/dupaddroles' element={<Dupaddrole />} />
+    <Route path='/communication' element={<Communication />} />
+    <Route path='/whatsappintegration' element={<WhatsappIntegrations />} />
+    <Route path='/emailintegration' element={<EmailIntegrations />} />
+    <Route path='/addemailtemplate' element={<AddEmailTemplate />} />
+    <Route path='/addwhatsapptemplate' element={<AddWhatsappTemplate />} />
+    <Route path='/editemailtemplate' element={<EditEmailTemplate />} />
+    <Route path='/editwhatsapptemplate' element={<EditWhatsappTemplate />} />
+    <Route path='viewemailtemplate' element={<ViewEmailTemplate />} />
+    <Route path='/fieldswhatsapptemplate' element={<FieldsWhatsappTemplate />} />
+    <Route path="/api" element={<Api />} />
+    <Route path='/webhook' element={<Webhook />} />
+    <Route path='/sms' element={<Sms />} />
+    <Route path='/paymentgateway' element={<PaymentGateway />} />
+    <Route path='/email' element={<Email />} />
+    <Route path='/Whatsapp' element={<Whatsapp />} />
+    <Route path='/forms' element={<Forms />} />
+    <Route path='/teams' element={<Teams />} />
+    <Route path='/teams/new' element={<TeamsForm />} />
+    <Route path='/profile' element={<Profile />} />
 
-          <Route path='/entities' element={<Entities />}>
-            <Route path="otl" element={<EntityForm />} />
-          </Route>
-          <Route path="/entitylandingpage/:id" element={<EntityLandingPage />} />
-          <Route path="/boardmeetinglandingpage/:id" element={<BoardMeetingLandingPage />} />
-          <Route path='/teamslandingpage/:id' element={<TeamsLandingPage />} />
-          <Route path='/userlandingpage/:id' element={<UserLandingPage />} />
-          <Route path="/settingentityform" element={<SettingEntityForm />} />
-          <Route path="/settingboardmeetingform" element={<SettingBoardMeetingForm />} />
-          <Route path="/settingteamsform" element={<SettingTeamsForm />} />
-          <Route path="/settinguserform" element={<SettingUserForm />} />
-          <Route path="/entities/new" element={<EntityForm />} />
-          <Route path='/boardmeetings' element={<BoardMeetings />} />
-          <Route path="/boardmeetings/new" element={<BoardMeetingForm />} />
-          <Route path='/tasks' element={<Tasks />} />
-          <Route path='/users' element={<Users />} />
-          <Route path="/users/new" element={<UserForm />} />
-          <Route path='/userform/dup' element={<UsersFormDup />} />
-          <Route path="/userProfile/:id" element={<UserProfile />} >
-            <Route path="tasks" element={<UserTasks />} />
-            <Route path="teams" element={<UserTeams />} />
-            <Route path="enteties" element={<UserEntities />} />
-          </Route>
-          <Route path='/mycalendar' element={<MyCalendar />} />
-        </Route>
-        {/* public routes only. Note: rendered without side and top bars */}
-        <Route element={<PublicLayout />}>
-          <Route path="/login" element={<Login />} />
-          <Route path='/resetpassword' element={<ResetPassword />} />
-          <Route path='/changepassword/:id' element={<ChangePassword />} />
-        </Route>
-      </Routes>
+    <Route path='/entities' element={<Entities />}>
+      <Route path="otl" element={<EntityForm />} />
+    </Route>
+    <Route path="/entitylandingpage/:id" element={<EntityLandingPage />} />
+    <Route path="/boardmeetinglandingpage/:id" element={<BoardMeetingLandingPage />} />
+    <Route path='/teamslandingpage/:id' element={<TeamsLandingPage />} />
+    <Route path='/userlandingpage/:id' element={<UserLandingPage />} />
+    <Route path="/settingentityform" element={<SettingEntityForm />} />
+    <Route path="/settingboardmeetingform" element={<SettingBoardMeetingForm />} />
+    <Route path="/settingteamsform" element={<SettingTeamsForm />} />
+    <Route path="/settinguserform" element={<SettingUserForm />} />
+    <Route path="/entities/new" element={<EntityForm />} />
+    <Route path='/boardmeetings' element={<BoardMeetings />} />
+    <Route path="/boardmeetings/new" element={<BoardMeetingForm />} />
+    <Route path='/tasks' element={<Tasks />} />
+    <Route path='/users' element={<Users />} />
+    <Route path="/users/new" element={<UserForm />} />
+    <Route path='/userform/dup' element={<UsersFormDup />} />
+    <Route path="/userProfile/:id" element={<UserProfile />} >
+      <Route path="tasks" element={<UserTasks />} />
+      <Route path="teams" element={<UserTeams />} />
+      <Route path="enteties" element={<UserEntities />} />
+    </Route>
+    <Route path='/mycalendar' element={<MyCalendar />} />
+  </Route>
+  {/* public routes only. Note: rendered without side and top bars */}
+  <Route element={<PublicLayout />}>
+    <Route path="/login"
+      loader={() => {
+        
+       }}
+      element={<Login />}
+    />
+    <Route path='/resetpassword' element={<ResetPassword />} />
+    <Route path='/changepassword/:id' element={<ChangePassword />} />
+  </Route>
+</Routes>
 
- 
+
 
 
 export default App;

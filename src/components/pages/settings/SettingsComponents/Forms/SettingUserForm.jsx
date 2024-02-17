@@ -3,7 +3,7 @@ import { Fragment, useRef, useState } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
-const UsersFormDup = () => {
+const SettingUserForm = () => {
   const [open, setOpen] = useState(false);
   const [editIndex, setEditIndex] = useState(null);
   const cancelButtonRef = useRef(null);
@@ -740,7 +740,7 @@ const UsersFormDup = () => {
   );
 };
 
-export default UsersFormDup;
+export default SettingUserForm;
 
 // import React, { useEffect } from "react";
 // import { Fragment, useRef, useState } from 'react'

@@ -11,7 +11,7 @@ import UserDataProvider from './contexts/usersDataContext/usersDataContext';
 import EntitiesDataProvider from './contexts/entitiesDataContext/entitiesDataContext';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import PermissionsProvider from './rbac/PermissionsProvider';
-import { router } from './routes';
+import { router } from './router';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

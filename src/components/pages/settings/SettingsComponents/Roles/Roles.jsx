@@ -115,7 +115,7 @@ const Roles = () => {
                 </tr>
               </thead>
               <tbody className='divide-y divide-gray-200 dark:divide-gray-700'>
-                {data.roles.map((role) => (
+                {data?.roles?.map((role) => (
                   <tr
                     key={role.id}
                     className='hover:bg-gray-100 dark:hover:bg-gray-700'
@@ -163,9 +163,8 @@ const Roles = () => {
                           submit(
                             { id: `${role.id}` },
                             {
-                              method: 'post',
+                              method: 'get',
                               action: '/addroles',
-                              encType: 'application/json',
                             }
                           )
                         }
