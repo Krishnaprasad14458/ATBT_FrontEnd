@@ -6,7 +6,7 @@ import useDebounce from '../../../hooks/debounce/useDebounce';
 import { UserDataContext } from '../../../contexts/usersDataContext/usersDataContext';
 import { EntitiesDataContext } from '../../../contexts/entitiesDataContext/entitiesDataContext';
 import { useNavigate } from 'react-router-dom'
-
+import $ from 'jquery';
 function UserForm() {
   const navigate = useNavigate()
   const { usersState: { users, dashboard }, usersDispatch } = useContext(UserDataContext);
@@ -18,7 +18,49 @@ function UserForm() {
   // const [searchTerm, setSearchTerm] = useState('');
   // const [selected, setSelected] = useState([]);
   // const [showUsers, setShowUsers] = useState(false);
-  let [customFormFields, setCustomFormFields] = useState()
+  let [customFormFields, setCustomFormFields] = useState();
+
+  const [previewCustomform, setPreviewCustomform] = useState([
+    { inputname: "name", index: 0 },
+    { inputname: "image", index: 1 },
+    { inputname: "entityname", index: 2 },
+    { inputname: "email", index: 3 },
+    { inputname: "phonenumber", index: 4 },
+    { inputname: "designation", index: 5 },
+    { inputname: "role", index: 6 }
+  ])
+  useEffect(() => {
+    if (customFormFields && customFormFields.length > 0) {
+      let updatedCustomFormFields = [...customFormFields]
+      for (let i = 0; i < previewCustomform.length; i++) {
+        const obj = customFormFields.filter((item, index) => item.inputname === previewCustomform[i].inputname)
+        updatedCustomFormFields = updatedCustomFormFields.filter((item, index) => item.inputname != previewCustomform[i].inputname)
+        updatedCustomFormFields.splice(previewCustomform[i].index, 0, obj[0])
+      }
+
+      setPreviewCustomform(updatedCustomFormFields)
+
+    }
+
+  }, [customFormFields])
+  // useEffect(() => {
+  //   let updatedCustomFormFields = [...customFormFields];
+
+  //   for (let i = 0; i < previewCustomform.length; i++) {
+  //     const obj = updatedCustomFormFields.find(item => item.inputname === previewCustomform[i].inputname);
+
+  //     if (obj) {
+  //       const index = updatedCustomFormFields.indexOf(obj);
+  //       updatedCustomFormFields[index] = previewCustomform[i];
+  //     } else {
+  //       updatedCustomFormFields.push(previewCustomform[i]);
+  //     }
+  //   }
+
+  //   console.log("updatedCustomFormFields", updatedCustomFormFields);
+  // }, [customFormFields, previewCustomform]);
+
+
   // const handleInputChange = (e) => {
   //   setShowUsers(true)
   //   const value = e.target.value;
@@ -103,7 +145,11 @@ function UserForm() {
       reader.readAsDataURL(file);
     }
   };
-  console.log("customFormFields", customFormFields)
+  useEffect(() => {
+    console.log("customFormFields", customFormFields)
+    console.log("previewCustomform", previewCustomform)
+
+  })
   function handleFormSubmit(e) {
     e.preventDefault();
 
@@ -269,6 +315,9 @@ function UserForm() {
         console.error(error);
       });
   }
+  $('input[type=number]').on('mousewheel', function (e) {
+    $(e.target).blur();
+  });
   return (
     <div className='container p-4 bg-[#f8fafc]'>
       {/* <p className="font-lg font-semibold p-3">Entity Form</p> */}
@@ -283,7 +332,7 @@ function UserForm() {
                   {/* predefined fields */}
                   {item.type === 'text' && item.inputname == "name" && item.field === "predefined" && (
                     <div>
-                      <label htmlFor={item.label} className="block text-sm font-medium leading-6 text-gray-900">
+                      <label htmlFor={item.label} className="block text-sm font-medium leading-6 mt-2 text-gray-900">
                         {item.label.charAt(0).toUpperCase() + item.label.slice(1)}
                       </label>
                       <input
@@ -297,28 +346,28 @@ function UserForm() {
                         placeholder:text-xs"
                         onChange={(e) => handleChange(index, e.target.value)}
                       />
-                      <div className='h-2 text-[#dc2626]'>{errors[item.inputname] && <span>{errors[item.inputname]}</span>}</div>
+                      <div className='h-2 text-[#dc2626]'>{errors[item.inputname] && <span className="text-xs">{errors[item.inputname]}</span>}</div>
                     </div>
                   )}
                   {item.type === 'file' && item.inputname == "image" && item.field === "predefined" && (
                     <div>
-                      <label htmlFor={item.label} className="block text-sm font-medium leading-6 mt-1 text-gray-900">
+                      <label htmlFor={item.label} className="block text-sm font-medium leading-6 mt-2 text-gray-900">
                         {item.label.charAt(0).toUpperCase() + item.label.slice(1)}
                       </label>
                       <input
                         type="file"
                         name={item.inputname}
                         id={item.inputname}
-                        className="px-2 py-1.5 md:py- lg:py-0.5 xl:py-0.5 text-xs  block w-full rounded-md bg-gray-50 border-2 border-gray-200    text-gray-900 appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6"
+                        className="px-2 py-1.5 md:py-1 lg:py-0.5 xl:py-0.5 text-xs  block w-full rounded-md bg-gray-50 border-2 border-gray-200    text-gray-900 appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6"
                         onChange={(event) => handleFileChange(event, index)}
                         accept="image/*"
                       />
-                      <div className='h-2 text-[#dc2626]'>{errors[item.inputname] && <span>{errors[item.inputname]}</span>}</div>
+                      <div className='h-2 text-[#dc2626]'>{errors[item.inputname] && <span className="text-xs">{errors[item.inputname]}</span>}</div>
                     </div>
                   )}
                   {item.type === 'email' && item.inputname == "email" && item.field == "predefined" && (
                     <div>
-                      <label htmlFor={item.label} className="block text-sm font-medium leading-6 mt-1 text-gray-900">
+                      <label htmlFor={item.label} className="block text-sm font-medium leading-6 mt-2 text-gray-900">
                         {item.label.charAt(0).toUpperCase() + item.label.slice(1)}
                       </label>
                       <input
@@ -331,12 +380,12 @@ function UserForm() {
                         placeholder:text-xs"
                         onChange={(e) => handleChange(index, e.target.value)}
                       />
-                      <div className='h-2 text-[#dc2626]'>{errors[item.inputname] && <span>{errors[item.inputname]}</span>}</div>
+                      <div className='h-2 text-[#dc2626]'>{errors[item.inputname] && <span className="text-xs">{errors[item.inputname]}</span>}</div>
                     </div>
                   )}
                   {item.type === 'number' && item.inputname == "phonenumber" && item.field == "predefined" && (
                     <div>
-                      <label htmlFor={item.label} className="block text-sm font-medium leading-6 mt-1 text-gray-900">
+                      <label htmlFor={item.label} className="block text-sm font-medium leading-6 mt-2 text-gray-900">
                         {item.label.charAt(0).toUpperCase() + item.label.slice(1)}
                       </label>
                       <input
@@ -347,15 +396,15 @@ function UserForm() {
                         // value={formData[item.label] || ''}
                         value={customFormFields[index].value || ''}
                         onChange={(e) => handleChange(index, e.target.value)}
-                        className="p-2 block w-full rounded-md bg-gray-50 border-2 border-gray-200 py-1 text-gray-900 appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6
+                        className="p-2 block w-full rounded-md bg-gray-50 border-2 border-gray-200 py-1 text-gray-900 appearance-none hover:appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6
                         placeholder:text-xs"
                       />
-                      <div className='h-2 text-[#dc2626]'>{errors[item.inputname] && <span>{errors[item.inputname]}</span>}</div>
+                      <div className='h-2 text-[#dc2626]'>{errors[item.inputname] && <span className="text-xs">{errors[item.inputname]}</span>}</div>
                     </div>
                   )}
                   {item.type === 'select' && item.inputname == "entityname" && item.field == "predefined" && (
                     <div>
-                      <label htmlFor={item.label} className="block text-sm font-medium leading-6 mt-1 text-gray-900">
+                      <label htmlFor={item.label} className="block text-sm font-medium leading-6 mt-2 text-gray-900">
                         {item.label.charAt(0).toUpperCase() + item.label.slice(1)}
                       </label>
                       <select
@@ -369,12 +418,12 @@ function UserForm() {
                           <option value={option}>{option}</option>
                         ))}
                       </select>
-                      <div className='h-2 text-[#dc2626]'>{errors[item.inputname] && <span>{errors[item.inputname]}</span>}</div>
+                      <div className='h-2 text-[#dc2626]'>{errors[item.inputname] && <span className="text-xs">{errors[item.inputname]}</span>}</div>
                     </div>
                   )}
                   {item.type === 'select' && item.inputname == "designation" && item.field == "predefined" && (
                     <div>
-                      <label htmlFor={item.label} className="block text-sm font-medium leading-6 mt-1 text-gray-900">
+                      <label htmlFor={item.label} className="block text-sm font-medium leading-6 mt-2 text-gray-900">
                         {item.label.charAt(0).toUpperCase() + item.label.slice(1)}
                       </label>
                       <select
@@ -388,12 +437,12 @@ function UserForm() {
                           <option value={option}>{option}</option>
                         ))}
                       </select>
-                      <div className='h-2 text-[#dc2626]'>{errors[item.inputname] && <span>{errors[item.inputname]}</span>}</div>
+                      <div className='h-2 text-[#dc2626]'>{errors[item.inputname] && <span className="text-xs">{errors[item.inputname]}</span>}</div>
                     </div>
                   )}
                   {item.type === 'select' && item.inputname == "role" && item.field == "predefined" && (
                     <div>
-                      <label htmlFor={item.label} className="block text-sm font-medium leading-6 mt-1 text-gray-900">
+                      <label htmlFor={item.label} className="block text-sm font-medium leading-6 mt-2 text-gray-900">
                         {item.label.charAt(0).toUpperCase() + item.label.slice(1)}
                       </label>
                       <select
@@ -407,7 +456,7 @@ function UserForm() {
                           <option value={option}>{option}</option>
                         ))}
                       </select>
-                      <div className='h-2 text-[#dc2626]'>{errors[item.inputname] && <span>{errors[item.inputname]}</span>}</div>
+                      <div className='h-2 text-[#dc2626]'>{errors[item.inputname] && <span className="text-xs">{errors[item.inputname]}</span>}</div>
                     </div>
                   )}
                   {/* custom fields */}
@@ -427,7 +476,7 @@ function UserForm() {
                         placeholder:text-xs"
                         onChange={(e) => handleChange(index, e.target.value)}
                       />
-                      <div className='h-2 text-[#dc2626]'>{errors[item.inputname] && <span>{errors[item.inputname]}</span>}</div>
+                      <div className='h-2 text-[#dc2626]'>{errors[item.inputname] && <span className="text-xs">{errors[item.inputname]}</span>}</div>
                     </div>
                   )}
                   {item.type === 'email' && item.field == "custom" && (
@@ -444,7 +493,7 @@ function UserForm() {
                         placeholder:text-xs"
                         onChange={(e) => handleChange(index, e.target.value)}
                       />
-                      <div className='h-2 text-[#dc2626]'>{errors[item.inputname] && <span>{errors[item.inputname]}</span>}</div>
+                      <div className='h-2 text-[#dc2626]'>{errors[item.inputname] && <span className="text-xs">{errors[item.inputname]}</span>}</div>
                     </div>
                   )}
                   {item.type === 'password' && item.field == "custom" && (
@@ -463,7 +512,7 @@ function UserForm() {
                         // onChange={handleChange}
                         onChange={(e) => handleChange(index, e.target.value)}
                       />
-                      <div className='h-2 text-[#dc2626]'>{errors[item.inputname] && <span>{errors[item.inputname]}</span>}</div>
+                      <div className='h-2 text-[#dc2626]'>{errors[item.inputname] && <span className="text-xs">{errors[item.inputname]}</span>}</div>
                     </div>
                   )}
                   {item.type === 'number' && item.field == "custom" && (
@@ -481,7 +530,7 @@ function UserForm() {
                         className="p-2 block w-full rounded-md bg-gray-50 border-2 border-gray-200 py-1 text-gray-900 appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6
                         placeholder:text-xs"
                       />
-                      <div className='h-2 text-[#dc2626]'>{errors[item.inputname] && <span>{errors[item.inputname]}</span>}</div>
+                      <div className='h-2 text-[#dc2626]'>{errors[item.inputname] && <span className="text-xs">{errors[item.inputname]}</span>}</div>
                     </div>
                   )}
                   {item.type === 'checkbox' && item.field == "custom" && (
@@ -496,7 +545,7 @@ function UserForm() {
                         checked={!!customFormFields[index].value}
                         onChange={(e) => handleChange(index, e.target.checked)}
                       />
-                      <div className='h-2 text-[#dc2626]'>{errors[item.inputname] && <span>{errors[item.inputname]}</span>}</div>
+                      <div className='h-2 text-[#dc2626]'>{errors[item.inputname] && <span className="text-xs">{errors[item.inputname]}</span>}</div>
                     </div>
                   )}
                   {item.type === 'date' && item.field == "custom" && (
@@ -513,7 +562,7 @@ function UserForm() {
                         value={customFormFields[index].value || ''}
                         onChange={(e) => handleChange(index, e.target.value)}
                       />
-                      <div className='h-2 text-[#dc2626]'>{errors[item.inputname] && <span>{errors[item.inputname]}</span>}</div>
+                      <div className='h-2 text-[#dc2626]'>{errors[item.inputname] && <span className="text-xs">{errors[item.inputname]}</span>}</div>
                     </div>
                   )}
                   {item.type === 'time' && item.field == "custom" && (
@@ -533,7 +582,7 @@ function UserForm() {
                         value={customFormFields[index].value || ''}
                         onChange={(e) => handleChange(index, e.target.value)}
                       />
-                      <div className='h-2 text-[#dc2626]'>{errors[item.inputname] && <span>{errors[item.inputname]}</span>}</div>
+                      <div className='h-2 text-[#dc2626]'>{errors[item.inputname] && <span className="text-xs">{errors[item.inputname]}</span>}</div>
                     </div>
                   )}
                   {item.type === 'file' && item.field == "custom" && (
@@ -549,7 +598,7 @@ function UserForm() {
                         onChange={(event) => handleFileChange(event, index)}
                         accept="image/*"
                       />
-                      <div className='h-2 text-[#dc2626]'>{errors[item.inputname] && <span>{errors[item.inputname]}</span>}</div>
+                      <div className='h-2 text-[#dc2626]'>{errors[item.inputname] && <span className="text-xs">{errors[item.inputname]}</span>}</div>
                     </div>
                   )}
                   {item.type === 'range' && item.field == "custom" && (
@@ -564,7 +613,7 @@ function UserForm() {
                         value={customFormFields[index].value || ''}
                         onChange={(e) => handleChange(index, e.target.value)}
                       />
-                      <div className='h-2 text-[#dc2626]'>{errors[item.inputname] && <span>{errors[item.inputname]}</span>}</div>
+                      <div className='h-2 text-[#dc2626]'>{errors[item.inputname] && <span className="text-xs">{errors[item.inputname]}</span>}</div>
                     </div>
                   )}
                   {item.type === 'textarea' && item.field == "custom" && (
@@ -579,7 +628,7 @@ function UserForm() {
                         className="bg-gray-50 rounded-md text-xs p-2 w-full h-20 border-2 border-gray-200 focus:outline-none focus:border-orange-400"
                         onChange={(e) => handleChange(index, e.target.value)}
                       />
-                      <div className='h-2 text-[#dc2626]'>{errors[item.inputname] && <span>{errors[item.inputname]}</span>}</div>
+                      <div className='h-2 text-[#dc2626]'>{errors[item.inputname] && <span className="text-xs">{errors[item.inputname]}</span>}</div>
                     </div>
                   )}
                   {item.type === 'select' && item.field == "custom" && (
@@ -597,7 +646,7 @@ function UserForm() {
                         <option value={option}>{option}</option>
                       ))}
                       </select>
-                      <div className='h-2 text-[#dc2626]'>{errors[item.inputname] && <span>{errors[item.inputname]}</span>}</div>
+                      <div className='h-2 text-[#dc2626]'>{errors[item.inputname] && <span className="text-xs">{errors[item.inputname]}</span>}</div>
                     </div>
                   )}
                   {item.type === 'multiselect' && item.field === "custom" && (
@@ -618,7 +667,7 @@ function UserForm() {
                             ))}
                           </div>
                         )}
-                      <div className='h-2 text-[#dc2626]'>{errors[item.inputname] && <span>{errors[item.inputname]}</span>}</div>
+                      <div className='h-2 text-[#dc2626]'>{errors[item.inputname] && <span className="text-xs">{errors[item.inputname]}</span>}</div>
                     </div>
                   )}
 
@@ -634,7 +683,7 @@ function UserForm() {
         <div className="col-span-2 hidden sm:block md:block ">
           <div className=''>
             <div className=' mt-32 relative flex flex-col text-gray-700 shadow-md bg-clip-border border border-1 border-gray-200 rounded-xl w-10/12 mx-auto  bg-[#f8fafc]'>
-              {customFormFields && customFormFields.length > 0 && customFormFields.map((item) => (
+              {previewCustomform && previewCustomform.length > 0 && previewCustomform.map((item) => (
                 <div class="">
                   {/* predefined fields */}
                   <div
@@ -718,7 +767,7 @@ function UserForm() {
                           <p className='flex gap-4 px-5 mt-3'><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-7 h-7  mt-1 border-1 border-gray-200 bg-[#fff] shadow-md text-[#06b6d4] rounded-sm p-1 ">
                             <path fill-rule="evenodd" d="M1.5 4.5a3 3 0 0 1 3-3h1.372c.86 0 1.61.586 1.819 1.42l1.105 4.423a1.875 1.875 0 0 1-.694 1.955l-1.293.97c-.135.101-.164.249-.126.352a11.285 11.285 0 0 0 6.697 6.697c.103.038.25.009.352-.126l.97-1.293a1.875 1.875 0 0 1 1.955-.694l4.423 1.105c.834.209 1.42.959 1.42 1.82V19.5a3 3 0 0 1-3 3h-2.25C8.552 22.5 1.5 15.448 1.5 6.75V4.5Z" clip-rule="evenodd" />
                           </svg>
-                            <span className='text-md mt-1.5  '>{item.value.slice(0,3)} {item.value.slice(3,6)} {item.value.slice(6,10)}</span>
+                            <span className='text-md mt-1.5  '>{item.value.slice(0, 3)} {item.value.slice(3, 6)} {item.value.slice(6, 10)}</span>
                           </p>
                         ) : (
                           <p className='flex gap-4 px-5 mt-3'><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-7 h-7  mt-1 border-1 border-gray-200 bg-[#fff] shadow-md text-[#06b6d4] rounded-sm p-1 ">
@@ -729,96 +778,7 @@ function UserForm() {
                       </div>
                     )}
                   </div>
-                  {/* {item.type === 'text' && item.inputname == "name" && item.field === "predefined" && (
-                    <div className='absolute left-36 top-10'>
-                      {item.value ? (
-                        <p className='text-2xl'> {item.value.toUpperCase()}</p>
-                      ) : (
-                        <p className='text-2xl text-gray-400'> USER NAME</p>
-                      )}
 
-                    </div>
-                  )}
-                  <div className='flex justify-between flex-wrap  '>
-
-                    <span>
-                      {item.type === 'email' && item.inputname == "email" && item.field == "predefined" && (
-                        <div className='absolute mt-5 ms-3 '>
-                          {item.value ? (
-                            <p className='flex gap-2'>
-                              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-7 h-7 ">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75" />
-                              </svg>
-                              <span className='text-lg'>  {item.value}</span></p>
-                          ) : (
-                            <p className='flex gap-2'> <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-7 h-7 ">
-                              <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75" />
-                            </svg>
-                              <span className='text-lg  text-gray-400'>Eg : abcd@gmail.com </span></p>
-                          )}
-
-                        </div>
-                      )}
-                    </span>
-
-                    <span className='mt-2 me-3'>
-                      {item.type === 'number' && item.inputname == "phonenumber" && item.field == "predefined" && (
-                        <div className=''>
-                          {item.value ? (
-                            <p className='flex gap-2'><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-7 h-7 ">
-                              <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 0 0 2.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 0 1-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 0 0-1.091-.852H4.5A2.25 2.25 0 0 0 2.25 4.5v2.25Z" />
-                            </svg>
-                              <span className='text-lg mt-1 '> {item.value} </span></p>
-                          ) : (
-                            <p className='flex gap-2'><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-7 h-7 ">
-                              <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 0 0 2.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 0 1-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 0 0-1.091-.852H4.5A2.25 2.25 0 0 0 2.25 4.5v2.25Z" />
-                            </svg>
-                              <span className='text-lg  text-gray-400'>  123 456 7890 </span></p>
-                          )}
-
-                        </div>
-                      )}</span>
-
-                  </div>
-                  <div></div>
-                  <div className='flex justify-between flex-wrap mt-2  '>
-                    <div>
-                      {item.type === 'select' && item.inputname == "entityname" && item.field == "predefined" && (
-                        <div className=' absolute mt-4 ms-3'>
-                          {item.value ? (
-                            <p className='flex gap-2'><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-7 h-7">
-                              <path stroke-linecap="round" stroke-linejoin="round" d="M9 17.25v1.007a3 3 0 0 1-.879 2.122L7.5 21h9l-.621-.621A3 3 0 0 1 15 18.257V17.25m6-12V15a2.25 2.25 0 0 1-2.25 2.25H5.25A2.25 2.25 0 0 1 3 15V5.25m18 0A2.25 2.25 0 0 0 18.75 3H5.25A2.25 2.25 0 0 0 3 5.25m18 0V12a2.25 2.25 0 0 1-2.25 2.25H5.25A2.25 2.25 0 0 1 3 12V5.25" />
-                            </svg>
-                              <span className='text-lg  '>  {item.value} </span></p>
-                          ) : (
-                            <p className='flex gap-2'><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-7 h-7">
-                              <path stroke-linecap="round" stroke-linejoin="round" d="M9 17.25v1.007a3 3 0 0 1-.879 2.122L7.5 21h9l-.621-.621A3 3 0 0 1 15 18.257V17.25m6-12V15a2.25 2.25 0 0 1-2.25 2.25H5.25A2.25 2.25 0 0 1 3 15V5.25m18 0A2.25 2.25 0 0 0 18.75 3H5.25A2.25 2.25 0 0 0 3 5.25m18 0V12a2.25 2.25 0 0 1-2.25 2.25H5.25A2.25 2.25 0 0 1 3 12V5.25" />
-                            </svg>
-                              <span className='text-lg  text-gray-400'> Eg : Infoz IT</span></p>
-                          )}
-
-                        </div>
-                      )}
-                    </div>
-                    <div>
-                      {item.type === 'select' && item.inputname == "designation" && item.field == "predefined" && (
-                        <div className='me-3'>
-                          {item.value ? (
-                            <p className='flex gap-2'><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-7 h-7">
-                              <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-                            </svg>
-                              <span className='text-lg  '> {item.value} </span></p>
-                          ) : (
-                            <p className='flex gap-2'><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-7 h-7">
-                              <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-                            </svg>
-                              <span className='text-lg  text-gray-400'>  Eg : Development</span></p>
-                          )}
-
-                        </div>
-                      )}
-                    </div>
-                  </div> */}
 
 
                   {/* custom fields */}
