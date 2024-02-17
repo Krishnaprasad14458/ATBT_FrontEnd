@@ -282,12 +282,9 @@ function TeamsForm() {
                                     {/* predefined fields */}
                                     {item.type === 'text' && item.inputname == "name" && item.field === "predefined" && (
                                         <div>
-                                            <label htmlFor={item.label} className="block text-sm font-medium leading-6 my-2 text-gray-900">
+                                            <label htmlFor={item.label} className="block text-sm font-medium leading-6 mt-2 text-gray-900">
                                                 {item.label.charAt(0).toUpperCase() + item.label.slice(1)}
                                             </label>
-                                            {/* <label htmlFor={item.label} className="block text-sm font-medium leading-6 my-2 text-gray-900">
-                        {item.label.charAt(0).toUpperCase() + item.label.slice(1)}
-                      </label> */}
                                             <input
                                                 type="text"
                                                 // name={item.label}
@@ -296,15 +293,16 @@ function TeamsForm() {
                                                 placeholder='Enter your name'
                                                 // value={formData[item.label] || ''}
                                                 value={customFormFields[index].value || ''}
-                                                className="p-2 block w-full rounded-md bg-gray-50 border-2 border-gray-200  text-xs text-gray-900 appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6 placeholder:text-xs"
+                                                className="px-2 block w-full rounded-md bg-gray-50 border-2 border-gray-200 py-1 text-gray-900 appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6
+                                                placeholder:text-xs"
                                                 onChange={(e) => handleChange(index, e.target.value)}
                                             />
-                                            <div className='h-2 text-[#dc2626]'>{errors[item.inputname] && <span>{errors[item.inputname]}</span>}</div>
+                                            <div className='h-2 text-[#dc2626]'>{errors[item.inputname] && <span className="text-xs">{errors[item.inputname]}</span>}</div>
                                         </div>
                                     )}
                                     {item.type === 'file' && item.inputname == "image" && item.field === "predefined" && (
                                         <div>
-                                            <label htmlFor={item.label} className="block text-sm font-medium leading-6 my-2 text-gray-900">
+                                            <label htmlFor={item.label} className="block text-sm font-medium leading-6 mt-2 text-gray-900">
                                                 {item.label.charAt(0).toUpperCase() + item.label.slice(1)}
                                             </label>
                                             <input
@@ -313,17 +311,17 @@ function TeamsForm() {
 
 
                                                 id={item.inputname}
-                                                className="p-2 block w-full rounded-md bg-gray-50 border-2 border-gray-200  text-xs py-1.5 text-gray-900 appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6 placeholder:text-xs"
+                                                className="px-2 py-1.5 md:py-1 lg:py-0.5 xl:py-0.5 text-xs  block w-full rounded-md bg-gray-50 border-2 border-gray-200    text-gray-900 appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6"
                                                 onChange={(event) => handleFileChange(event, index)}
                                                 accept="image/*"
                                             />
-                                            <div className='h-2 text-[#dc2626]'>{errors[item.inputname] && <span>{errors[item.inputname]}</span>}</div>
+                                            <div className='h-2 text-[#dc2626]'>{errors[item.inputname] && <span className="text-xs">{errors[item.inputname]}</span>}</div>
 
                                         </div>
                                     )}
                                     {item.type === 'textarea' && item.inputname == "description" && item.field === "predefined" && (
                                         <div>
-                                            <label htmlFor={item.label} className="block text-sm font-medium leading-6 my-2 text-gray-900">
+                                            <label htmlFor={item.label} className="block text-sm font-medium leading-6 mt-2 text-gray-900">
                                                 {item.label.charAt(0).toUpperCase() + item.label.slice(1)}
                                             </label>
                                             <textarea
@@ -334,25 +332,24 @@ function TeamsForm() {
 
                                                 value={customFormFields[index].value || ''}
 
-                                                className="bg-gray-50 rounded-md text-sm p-2 w-full h-20 border-2 border-gray-200 focus:outline-none focus:border-orange-400 placeholder:text-xs"
-
+                                                className="p-2 block w-full rounded-md bg-gray-50 border-2 border-gray-200  text-xs  text-gray-900 appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6 placeholder:text-xs"
                                                 onChange={(e) => handleChange(index, e.target.value)}
                                             />
-                                            <div className='h-2 text-[#dc2626]'>{errors[item.inputname] && <span>{errors[item.inputname]}</span>}</div>
+                                            <div className='h-2 text-[#dc2626]'>{errors[item.inputname] && <span className="text-xs">{errors[item.inputname]}</span>}</div>
 
                                         </div>
                                     )}
                                     {item.type === 'multiselect' && item.inputname == "members" && item.field == "predefined" && (
 
                                         <div className='relative'>
-                                            <label htmlFor="email" className="block text-sm my-2 font-medium leading-6 text-gray-900">{item.label}</label>
+                                            <label htmlFor="email" className="block text-sm  font-medium leading-6 my-2 text-gray-900">{item.label}</label>
 
                                             <div className='border-2 border-gray-200 flex flex-wrap gap-1 p-2.5 selected-users-container relative z-50   rounded-md'>
                                                 {selected && selected.length > 0 && selected.map((result) => {
 
                                                     let mail = result.split("@")[0]
                                                     return (
-                                                        <span className='flex gap-1 text-xs mt-1 border-2 border-gray-200 rounded-md p-0.5 focus:border-orange-600'>
+                                                        <span className='flex gap-1 text-xs mt-2 border-2 border-gray-200 rounded-md  focus:border-orange-600'>
                                                             <img className="w-4 h-4 rounded-lg" src={defprop} alt="Neil image" /> {mail} <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor"
                                                                 className="w-4 h-4 " onClick={() => handleRemove(result, index)}>
                                                                 <path d="M5.28 4.22a.75.75 0 0 0-1.06 1.06L6.94 8l-2.72 2.72a.75.75 0 1 0 1.06 1.06L8 9.06l2.72 2.72a.75.75 0 1 0 1.06-1.06L9.06 8l2.72-2.72a.75.75 0 0 0-1.06-1.06L8 6.94 5.28 4.22Z" />
@@ -365,7 +362,7 @@ function TeamsForm() {
                                                     placeholder='Type email id'
                                                     tabindex="0" aria-describedby="lui_5891" aria-invalid="false"
                                                     style={{ border: "none" }}
-                                                    className='bg-[#f8fafc]  h-5  focus:outline-none z-40 placeholder:text-xs'
+                                                    className='bg-[#f8fafc]  h-5  focus:outline-none z-40 placeholder:text-xs placeholder:pt-2'
                                                     value={searchTerm}
                                                     onChange={handleInputChange}
                                                 />
@@ -385,7 +382,7 @@ function TeamsForm() {
                                                         ))}
                                                 </ul>
                                             )}
-                                            <div className='h-2 text-[#dc2626]'>{errors[item.inputname] && <span>{errors[item.inputname]}</span>}</div>
+                                            <div className='h-2 text-[#dc2626]'>{errors[item.inputname] && <span className="text-xs">{errors[item.inputname]}</span>}</div>
 
                                         </div>
 

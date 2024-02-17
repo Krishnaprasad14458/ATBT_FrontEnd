@@ -112,11 +112,11 @@ function EntityForm() {
     for (let i = 0; i < customFormFields.length; i++) {
       if (customFormFields[i].type == "text" && customFormFields[i].mandatory) {
         if (customFormFields[i].value.length == 0) {
-          setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `please enter ${customFormFields[i].label}` }))
+          setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please enter ${customFormFields[i].label}` }))
           return false
         }
         else if (customFormFields[i].value.length < 3) {
-          setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "name should contain atleast 3 characters" }))
+          setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "Name should contain atleast 3 characters" }))
           return false
         }
         else {
@@ -126,7 +126,7 @@ function EntityForm() {
       }
       if (customFormFields[i].type == "file" && customFormFields[i].mandatory) {
         if (!customFormFields[i].value) {
-          setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `please upload ${customFormFields[i].label}` }))
+          setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please upload ${customFormFields[i].label}` }))
           return false
         }
         else {
@@ -136,7 +136,7 @@ function EntityForm() {
       }
       if (customFormFields[i].type == "textarea" && customFormFields[i].mandatory) {
         if (customFormFields[i].value.length == 0) {
-          setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `please enter ${customFormFields[i].label}` }))
+          setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please enter ${customFormFields[i].label}` }))
           return false
         }
         else if (customFormFields[i].value.length < 3) {
@@ -150,7 +150,7 @@ function EntityForm() {
       }
       if (customFormFields[i].type == "email" && customFormFields[i].mandatory) {
         if (customFormFields[i].value.length < 1) {
-          setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `please enter ${customFormFields[i].label}` }))
+          setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please enter ${customFormFields[i].label}` }))
           return false
         }
 
@@ -161,7 +161,7 @@ function EntityForm() {
       }
       if (customFormFields[i].type == "number" && customFormFields[i].mandatory) {
         if (customFormFields[i].value.length < 1) {
-          setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `pease enter ${customFormFields[i].label}` }))
+          setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please enter ${customFormFields[i].label}` }))
           return false
         }
         // else if (customFormFields[i].value.length != 10) {
@@ -176,7 +176,7 @@ function EntityForm() {
       }
       if (customFormFields[i].type == "select" && customFormFields[i].mandatory) {
         if (customFormFields[i].value.length < 1) {
-          setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `please enter ${customFormFields[i].label}` }))
+          setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please enter ${customFormFields[i].label}` }))
           return false
         }
 
@@ -187,7 +187,7 @@ function EntityForm() {
       }
       if (customFormFields[i].type == "multiselect" && customFormFields[i].mandatory) {
         if (customFormFields[i].value.length < 1) {
-          setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `please enter ${customFormFields[i].label}` }))
+          setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please enter ${customFormFields[i].label}` }))
           return false
         }
 
@@ -198,7 +198,7 @@ function EntityForm() {
       }
       if (customFormFields[i].type == "date" && customFormFields[i].mandatory) {
         if (!customFormFields[i].value) {
-          setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `please enter ${customFormFields[i].label}` }))
+          setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please enter ${customFormFields[i].label}` }))
           return false
         }
 
@@ -209,7 +209,7 @@ function EntityForm() {
       }
       if (customFormFields[i].type == "checkbox" && customFormFields[i].mandatory) {
         if (!customFormFields[i].value) {
-          setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `please enter ${customFormFields[i].label}` }))
+          setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please enter ${customFormFields[i].label}` }))
           return false
         }
 
@@ -220,7 +220,7 @@ function EntityForm() {
       }
       if (customFormFields[i].type == "range" && customFormFields[i].mandatory) {
         if (!customFormFields[i].value) {
-          setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `please enter ${customFormFields[i].label}` }))
+          setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please enter ${customFormFields[i].label}` }))
           return false
         }
 
@@ -231,7 +231,7 @@ function EntityForm() {
       }
       if (customFormFields[i].type == "time" && customFormFields[i].mandatory) {
         if (!customFormFields[i].value) {
-          setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `please enter ${customFormFields[i].label}` }))
+          setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please enter ${customFormFields[i].label}` }))
           return false
         }
 
@@ -242,7 +242,7 @@ function EntityForm() {
       }
       if (customFormFields[i].type == "password" && customFormFields[i].mandatory) {
         if (customFormFields[i].value.length < 1) {
-          setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `please enter ${customFormFields[i].label}` }))
+          setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please enter ${customFormFields[i].label}` }))
           return false
         }
 
@@ -311,7 +311,7 @@ function EntityForm() {
                   {/* predefined fields */}
                   {item.type === 'text' && item.inputname == "name" && item.field === "predefined" && (
                     <div>
-                      <label htmlFor={item.label} className="block text-sm font-medium leading-6 my-2 text-gray-900">
+                      <label htmlFor={item.label} className="block text-sm font-medium leading-6 mt-2 text-gray-900">
                         {item.label.charAt(0).toUpperCase() + item.label.slice(1)}
                       </label>
                       <input
@@ -324,28 +324,28 @@ function EntityForm() {
                         placeholder:text-xs"
                         onChange={(e) => handleChange(index, e.target.value)}
                       />
-                      <div className='h-2 text-[#dc2626]'>{errors[item.inputname] && <span>{errors[item.inputname]}</span>}</div>
+                      <div className='h-2 text-[#dc2626]'>{errors[item.inputname] && <span className="text-xs">{errors[item.inputname]}</span>}</div>
                     </div>
                   )}
                   {item.type === 'file' && item.inputname == "image" && item.field === "predefined" && (
                     <div>
-                      <label htmlFor={item.label} className="block text-sm font-medium leading-6 my-2 text-gray-900">
+                      <label htmlFor={item.label} className="block text-sm font-medium leading-6 mt-2 text-gray-900">
                         {item.label.charAt(0).toUpperCase() + item.label.slice(1)}
                       </label>
                       <input
                         type="file"
                         name={item.inputname}
                         id={item.inputname}
-                        className="px-2 py-1.5 md:py- lg:py-0.5 xl:py-0.5 text-xs  block w-full rounded-md bg-gray-50 border-2 border-gray-200    text-gray-900 appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6"
+                        className="px-2 py-1.5 md:py-1 lg:py-0.5 xl:py-0.5 text-xs  block w-full rounded-md bg-gray-50 border-2 border-gray-200    text-gray-900 appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6"
                         onChange={(event) => handleFileChange(event, index)}
                         accept="image/*"
                       />
-                      <div className='h-2 text-[#dc2626]'>{errors[item.inputname] && <span>{errors[item.inputname]}</span>}</div>
+                      <div className='h-2 text-[#dc2626]'>{errors[item.inputname] && <span className="text-xs">{errors[item.inputname]}</span>}</div>
                     </div>
                   )}
                   {item.type === 'textarea' && item.inputname == "description" && item.field === "predefined" && (
                     <div>
-                      <label htmlFor={item.label} className="block text-sm font-medium leading-6 my-2 text-gray-900">
+                      <label htmlFor={item.label} className="block text-sm font-medium leading-6 mt-2 text-gray-900">
                         {item.label.charAt(0).toUpperCase() + item.label.slice(1)}
                       </label>
                       <textarea
@@ -360,7 +360,7 @@ function EntityForm() {
 
                         onChange={(e) => handleChange(index, e.target.value)}
                       />
-                      <div className='h-2 text-[#dc2626]'>{errors[item.inputname] && <span>{errors[item.inputname]}</span>}</div>
+                      <div className='h-2 text-[#dc2626]'>{errors[item.inputname] && <span className="text-xs">{errors[item.inputname]}</span>}</div>
 
                     </div>
                   )}
@@ -369,12 +369,12 @@ function EntityForm() {
                     <div className='relative'>
                       <label htmlFor="email" className="block text-sm  font-medium leading-6 my-2 text-gray-900">{item.label}</label>
 
-                      <div className='border-2 border-gray-200 flex flex-wrap gap-1 p-1.5 selected-users-container relative z-50   rounded-md'>
+                      <div className='border-2 border-gray-200 flex flex-wrap gap-1 p-2.5 selected-users-container relative z-50   rounded-md'>
                         {selected && selected.length > 0 && selected.map((result) => {
 
                           let mail = result.split("@")[0]
                           return (
-                            <span className='flex gap-1 text-xs my-1 border-2 border-gray-200 rounded-md  focus:border-orange-600'>
+                            <span className='flex gap-1 text-xs mt-2 border-2 border-gray-200 rounded-md  focus:border-orange-600'>
                               <img className="w-4 h-4 rounded-lg" src={defprop} alt="Neil image" /> {mail} <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor"
                                 className="w-4 h-4 " onClick={() => handleRemove(result, index)}>
                                 <path d="M5.28 4.22a.75.75 0 0 0-1.06 1.06L6.94 8l-2.72 2.72a.75.75 0 1 0 1.06 1.06L8 9.06l2.72 2.72a.75.75 0 1 0 1.06-1.06L9.06 8l2.72-2.72a.75.75 0 0 0-1.06-1.06L8 6.94 5.28 4.22Z" />
@@ -407,7 +407,7 @@ function EntityForm() {
                             ))}
                         </ul>
                       )}
-                      <div className='h-2 text-[#dc2626]'>{errors[item.inputname] && <span>{errors[item.inputname]}</span>}</div>
+                      <div className='h-2 text-[#dc2626]'>{errors[item.inputname] && <span className="text-xs">{errors[item.inputname]}</span>}</div>
 
                     </div>
 
