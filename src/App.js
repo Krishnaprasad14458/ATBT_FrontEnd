@@ -57,6 +57,8 @@ import { AuthContext } from './contexts/authContext/authContext';
 import { useContext } from 'react';
 import UsersFormDup from './components/pages/settings/SettingsComponents/Forms/UsersFormDup';
 import Profile from './components/common/profile/Profile';
+import PageNotFound from './components/pages/Errorpages/PageNotFound';
+import Error401 from './components/pages/Errorpages/Error401';
 
 function App() {
   const isOnline = useOnlineStatus();
@@ -132,6 +134,8 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path='/resetpassword' element={<ResetPassword />} />
           <Route path='/changepassword/:id' element={<ChangePassword />} />
+          <Route path='*' element={<PageNotFound />} />
+          <Route path="/error401" element={<Error401/>}/>
         </Route>
       </Routes>
     </>
