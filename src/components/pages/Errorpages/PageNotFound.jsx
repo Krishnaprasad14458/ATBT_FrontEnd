@@ -13,7 +13,7 @@ const PageNotFound = () => {
         </div>
         <div className="text-4xl sm:text-6xl md:text-8xl text-center text-orange-600 font-light mt-1 sm:mt-3 md:mt-5">404</div>
         <div className="text-lg sm:text-2xl md:text-3xl text-center text-orange-600 mt-1 sm:mt-3 md:mt-5">Page Not Found</div>
-        <div className="flex justify-center mt-5 sm:mt-8 md:mt-10">
+        <div className="flex justify-center mt-3 sm:mt-4 md:mt-6">
           <button className="border border-1 border-gray-100 px-4 py-2 sm:px-6 sm:py-3 md:px-8 md:py-4 bg-orange-600 text-white rounded-md" onClick={() => navigate("/")}>Back to Home</button>
         </div>
       </div>
