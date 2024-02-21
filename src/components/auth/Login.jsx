@@ -55,9 +55,8 @@ const Login = () => {
     };
     const [showPassword, setShowPassword] = useState(false); // Add this line to define the state
     return (
-        <main className="relative flex flex-1 flex-col overflow-hidden sm:px-6 lg:px-8">
-            <img src={login_bg} alt="background image" className="absolute left-1/2 top-0 -ml-[47.5rem] w-[122.5rem] max-w-none" />
-            <div className="absolute inset-0 text-slate-900/[0.07] [mask-image:linear-gradient(to_bottom_left,white,transparent,transparent)]"></div>
+        <main className="relative overflow-hidden">
+            <img src={login_bg} alt="background image" className="absolute w-screen h-screen" />
             <div className="relative flex justify-center h-screen items-center">
                 <div className="w-96 rounded-lg overflow-hidden shadow-2xl p-8">
                     <div className="sm:mx-auto sm:w-full sm:max-w-sm">
@@ -78,7 +77,7 @@ const Login = () => {
                                 <div className="flex items-center justify-between">
                                     <label htmlFor="password" className="block text-sm font-medium leading-6 text-gray-900">Password <span className='text-[#dc2626]'>*</span></label>
                                     <div className="text-sm">
-                                        <Link to="/resetpassword" className="font-semibold text-orange-600 hover:text-orange-500">Forgot Password ?</Link>
+                                        <Link to="/resetpassword" className="font-semibold text-sm text-orange-600 hover:text-orange-500">Forgot Password ?</Link>
                                     </div>
 
                                 </div>
