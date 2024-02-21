@@ -60,7 +60,33 @@ function ChangePassword() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        if (password.length < 6) {
+            toast.error('Password should be at least 6 characters long');
+            return;
+        }
+        if (!/(?=.*[A-Z])/.test(password)) {
+            toast.error('Password should contain at least one capital letter');
+            return;
+        }
+        if (!/(?=.*[a-z])/.test(password)) {
+            toast.error('Password should contain at least one lowercase letter');
+            return;
+        }
 
+        if (!/(?=.*\d)/.test(password)) {
+            toast.error('Password should contain at least one number');
+            return;
+        }
+
+        if (!/[!@#$%^&*(),.?":{}|<>]/.test(password)) {
+            toast.error('Password should contain at least one special character');
+            return;
+        }
+
+        if (password !== confirmPassword) {
+            toast.error('Passwords do not match');
+            return;
+        }
 
         if (password === confirmPassword) {
             resetPassword({

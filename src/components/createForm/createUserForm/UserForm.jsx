@@ -7,7 +7,7 @@ import { UserDataContext } from '../../../contexts/usersDataContext/usersDataCon
 import { EntitiesDataContext } from '../../../contexts/entitiesDataContext/entitiesDataContext';
 import { useNavigate } from 'react-router-dom'
 import $ from 'jquery';
-import linesimage from '../../../Images/lines_07.svg';
+import linesimage from '../../../Images/lines_10.svg';
 function UserForm() {
   const navigate = useNavigate()
   const { usersState: { users, dashboard }, usersDispatch } = useContext(UserDataContext);
@@ -279,7 +279,7 @@ function UserForm() {
                         type="file"
                         name={item.inputname}
                         id={item.inputname}
-                        className="px-2 py-1.5 md:py-1 lg:py-0.5 xl:py-0.5 text-xs  block w-full rounded-md bg-gray-50 border-2 border-gray-200    text-gray-900 appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6"
+                        className="px-2 py-1.5 md:py-0.5 lg:py-0.5 xl:py-0.5 text-xs  block w-full rounded-md bg-gray-50 border-2 border-gray-200    text-gray-900 appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6"
                         onChange={(event) => handleFileChange(event, index)}
                         accept="image/*" />
                       <div className='h-2 text-[#dc2626]'>{errors[item.inputname] && <span className="text-xs">{errors[item.inputname]}</span>}
@@ -597,9 +597,11 @@ function UserForm() {
           </form>
         </div>
         {/* preview */}
-        <div className="col-span-2  hidden sm:block md:block  bg-cover bg-no-repeat rounded-xl" style={{ backgroundImage: `url(${linesimage}) ` }}>
-          <div className='mt-32 pt-10'>
-            <div className='relative flex flex-col text-gray-700 shadow-md bg-clip-border  rounded-xl w-7/12 justify-center mx-auto  bg-[#fafaf9] border-2 border-gray-200 '>
+        <div className="col-span-2  hidden sm:block md:block bg-cover h-fit bg-no-repeat rounded-xl" style={{
+          backgroundImage: `url(${linesimage}) `,
+        }}>
+          <div className='mt-32 pt-10 pb-20'>
+            <div className='relative  flex flex-col text-gray-700 shadow-md bg-clip-border  rounded-xl w-8/12 justify-center mx-auto  bg-[#fafaf9] border-2 border-gray-200 '>
               {customFormFields && customFormFields.length > 0 && customFormFields.map((item) => (
                 <div className=''>
                   {/* predefined fields*/}
@@ -667,7 +669,7 @@ function UserForm() {
                       </div>
                     )}
                     {item.type === 'select' && item.inputname == "designation" && item.field == "predefined" && (
-                      <div className='mt-2 mb-3 ms-5 '>
+                      <div className='mt-2 ms-5 '>
                         {item.value ? (
                           <p className='flex flex-wrap gap-2'>
                             <span className='w-2/6 text-[#727a85]'>{item.label.charAt(0).toUpperCase() + item.label.slice(1)}  </span>
@@ -703,7 +705,7 @@ function UserForm() {
                       }
                     </div>
                   }
-                  {
+                  {/* {
                     item.type === "password" && item.field == "custom" &&
                     <div className='my-2 ms-5'>
                       {item.value && item.value.length > 0 &&
@@ -713,7 +715,7 @@ function UserForm() {
                         </p>
                       }
                     </div>
-                  }
+                  } */}
                   {
                     item.type === "number" && item.field == "custom" &&
                     <div className='my-2 ms-5'>
@@ -740,7 +742,7 @@ function UserForm() {
                   {
                     item.type === 'file' && item.field == "custom" && (
                       <div className=" 'my-2 ms-5 flex flex-wrap gap-2">
-                        <div className="group h-10 ">
+                        <div >
                           <img
                             src={item.value}
                             name="EntityPhoto"
@@ -781,7 +783,7 @@ function UserForm() {
                         <p className='flex flex-wrap gap-2'>
                           <span className=' w-2/6 text-[#727a85]'>{item.label.charAt(0).toUpperCase() + item.label.slice(1)}</span>
 
-                          <span className=' w-1/2 text-md font-[600]'> : {item.value}</span>
+                          <span className=' w-1/2 text-md font-[600]'> : {item.value.join(",")}</span>
                         </p>
                       }
                     </div>
