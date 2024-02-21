@@ -59,6 +59,8 @@ import UsersFormDup from './components/pages/settings/SettingsComponents/Forms/U
 import Profile from './components/common/profile/Profile';
 import PageNotFound from './components/pages/Errorpages/PageNotFound';
 import Error401 from './components/pages/Errorpages/Error401';
+import Error403 from './components/pages/Errorpages/Error403';
+import Error500 from './components/pages/Errorpages/Error500';
 
 function App() {
   const isOnline = useOnlineStatus();
@@ -135,7 +137,9 @@ function App() {
           <Route path='/resetpassword' element={<ResetPassword />} />
           <Route path='/changepassword/:id' element={<ChangePassword />} />
           <Route path='*' element={<PageNotFound />} />
-          <Route path="/error401" element={<Error401/>}/>
+          <Route path="/error401" element={<Error401 />} />
+          <Route path="/error403" element={<Error403 />} />
+          <Route path="/error500" element={<Error500 />} />
         </Route>
       </Routes>
     </>

@@ -6,6 +6,7 @@ const PageNotFound = () => {
   const navigate = useNavigate();
   document.title = "Page Not Found";
   return (
+
     <main className="relative overflow-hidden">
       <img src={login_bg} alt="background image" className="absolute w-screen h-screen" />
       <div className="relative flex justify-center items-center min-h-screen">
