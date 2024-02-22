@@ -5,7 +5,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
 import { Link } from 'react-router-dom';
-const UsersFormDup = () => {
+const SettingUserForm = () => {
     const [open, setOpen] = useState(false)
     const [editIndex, setEditIndex] = useState(null);
     const cancelButtonRef = useRef(null);
@@ -31,6 +31,10 @@ const UsersFormDup = () => {
                 console.error('Error fetching data:', error);
             });
     }, [])
+
+    useEffect(()=>{
+        console.log("customform" , customForm)
+    } )
     const handleInputChange = (e) => {
         const { name, value, type, checked } = e.target;
         // this is for label for new input 
@@ -111,6 +115,8 @@ const UsersFormDup = () => {
                 newInputField.type === "email" ||
                 newInputField.type === "password" ||
                 newInputField.type === "number" ||
+                newInputField.type === "mobilenumber" ||
+
                 newInputField.type === "textarea" ||
                 newInputField.type === "file" ||
                 newInputField.type === "date" ||
@@ -170,6 +176,7 @@ const UsersFormDup = () => {
   {label:"Email",value:"email"},
   {label:"Password",value:"password"} ,
   {label:"Number",value:"number"},
+  {label:"Mobile Number",value:"mobilenumber"},
   {label:"Text Area",value:"textarea"}, 
   {label:"File",value:"file"} , 
   {label:"Date",value:"date"}, 
@@ -195,14 +202,7 @@ const UsersFormDup = () => {
                         let formData = {
                             arrayOfObjects: customForm,
                         }
-                        axios.post(
-                            `https://atbtmain.teksacademy.com/custom/user`, formData)
-                            .then(response => {
-                                console.log(response);
-                            })
-                            .catch(error => {
-                                console.error(error);
-                            });
+                     
                         return `Form Updated`
                     }
                 },
@@ -535,7 +535,7 @@ const UsersFormDup = () => {
     )
 }
 
-export default UsersFormDup
+export default SettingUserForm
 
 
   

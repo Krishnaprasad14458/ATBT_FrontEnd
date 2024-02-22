@@ -1,16 +1,12 @@
 import React, { useState, useContext, useEffect } from 'react';
 import axios from 'axios';
-// import './EntityForm.css';
 import defprop from '../../../Images/defprof.svg';
 import useDebounce from '../../../hooks/debounce/useDebounce';
 import { UserDataContext } from '../../../contexts/usersDataContext/usersDataContext';
 import { EntitiesDataContext } from '../../../contexts/entitiesDataContext/entitiesDataContext';
 import { useNavigate } from 'react-router-dom'
-
-
 function BoardMeetingForm() {
   const navigate = useNavigate()
-
   const { usersState: { users, dashboard }, usersDispatch } = useContext(UserDataContext);
   const { createEntity } = useContext(EntitiesDataContext);
   const usersEmails = dashboard.paginatedUsers?.map(user => user.email);
@@ -47,7 +43,6 @@ function BoardMeetingForm() {
     setSearchTerm('');
     setShowUsers(false);
   };
-
   const handleRemove = (user, index) => {
     const updatedSelected = selected.filter((selectedUser) => selectedUser !== user);
     setSelected(updatedSelected);
@@ -56,7 +51,6 @@ function BoardMeetingForm() {
     updatedFormData[index].value = updatedMembers;
     setCustomFormFields(updatedFormData);
   };
-
   useEffect(() => {
     axios.get(`https://atbtmain.teksacademy.com/form/list?name=boardmeetingform`)
       .then(response => {
@@ -70,7 +64,6 @@ function BoardMeetingForm() {
       });
   }, [])
   const handleChange = (index, newValue) => {
-
     const updatedFormData = [...customFormFields];
     if (updatedFormData[index].type != "multiselect") {
       updatedFormData[index].value = newValue;
@@ -84,13 +77,10 @@ function BoardMeetingForm() {
       }
       else {
         selectedoptions.push(newValue);
-
       }
       updatedFormData[index].value = selectedoptions;
       setCustomFormFields(updatedFormData);
-
     }
-
   };
   const handleFileChange = (event, index) => {
     const file = event.target.files[0];
@@ -107,7 +97,6 @@ function BoardMeetingForm() {
   };
   function handleFormSubmit(e) {
     e.preventDefault();
-
     for (let i = 0; i < customFormFields.length > 0; i++) {
       if (customFormFields[i].type == "text" && customFormFields[i].mandatory) {
         if (customFormFields[i].value.length == 0) {
@@ -149,7 +138,6 @@ function BoardMeetingForm() {
           setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please Enter ${customFormFields[i].label}` }))
           return false
         }
-
         else {
           setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
         }
@@ -159,11 +147,6 @@ function BoardMeetingForm() {
           setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please Enter ${customFormFields[i].label}` }))
           return false
         }
-        // else if (customFormFields[i].value.length != 10) {
-        //   setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please Enter Correct ${customFormFields[i].label}` }))
-
-        // }
-
         else {
           setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
         }
@@ -173,7 +156,6 @@ function BoardMeetingForm() {
           setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please Enter ${customFormFields[i].label}` }))
           return false
         }
-
         else {
           setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
         }
@@ -183,7 +165,6 @@ function BoardMeetingForm() {
           setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please Enter ${customFormFields[i].label}` }))
           return false
         }
-
         else {
           setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
         }
@@ -193,7 +174,6 @@ function BoardMeetingForm() {
           setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please Enter ${customFormFields[i].label}` }))
           return false
         }
-
         else {
           setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
         }
@@ -203,7 +183,6 @@ function BoardMeetingForm() {
           setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please Enter ${customFormFields[i].label}` }))
           return false
         }
-
         else {
           setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
         }
@@ -213,7 +192,6 @@ function BoardMeetingForm() {
           setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please Enter ${customFormFields[i].label}` }))
           return false
         }
-
         else {
           setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
         }
@@ -223,7 +201,6 @@ function BoardMeetingForm() {
           setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please Enter ${customFormFields[i].label}` }))
           return false
         }
-
         else {
           setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
         }
@@ -233,12 +210,10 @@ function BoardMeetingForm() {
           setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please Enter ${customFormFields[i].label}` }))
           return false
         }
-
         else {
           setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
         }
       }
-
     }
     const jsonData = {};
     jsonData.customFieldsData = JSON.stringify(customFormFields)
@@ -246,7 +221,6 @@ function BoardMeetingForm() {
     for (let i = 0; i < customFormFields.length; i++) {
       if (Array.isArray(customFormFields[i].value)) {
         jsonData[customFormFields[i].inputname] = JSON.stringify(customFormFields[i].value)
-
       } else {
         jsonData[customFormFields[i].inputname] = customFormFields[i].value
       }
@@ -258,7 +232,6 @@ function BoardMeetingForm() {
         // console.log(response.data);
         // console.log("reposnseeeeeeeeee", response.data)
         navigate(`/boardmeetinglandingpage/${parseInt(response.data)}`)
-
       })
       .catch(error => {
         console.error(error);
@@ -281,28 +254,18 @@ function BoardMeetingForm() {
                       <label htmlFor={item.label} className="block text-sm font-medium leading-6  text-gray-900">
                         {item.label.charAt(0).toUpperCase() + item.label.slice(1)}
                       </label>
-                      {/* <label htmlFor={item.label} className="block text-sm font-medium leading-6 my-2 text-gray-900">
-                        {item.label.charAt(0).toUpperCase() + item.label.slice(1)}
-                      </label> */}
                       <input
                         type="text"
-                        // name={item.label}
                         name={item.inputname}
                         id={item.inputname}
                         placeholder='Enter your name'
-                        // value={formData[item.label] || ''}
                         value={customFormFields[index].value || ''}
                         className="px-2 block w-full rounded-md bg-gray-50 border-2 border-gray-200 py-1 text-gray-900 appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6
                         placeholder:text-xs"
-                        onChange={(e) => handleChange(index, e.target.value)}
-                      />
+                        onChange={(e) => handleChange(index, e.target.value)} />
                       <div className='h-2 text-[#dc2626]'>{errors[item.inputname] && <span>{errors[item.inputname]}</span>}</div>
                     </div>
                   )}
-
-
-
-
                   {item.type === 'date' && item.inputname == "date" && item.field == "predefined" && (
                     <div >
                       <label htmlFor={item.label} className="block text-sm font-medium leading-6 mt-1 text-gray-900">
@@ -312,20 +275,12 @@ function BoardMeetingForm() {
                         type="date"
                         name={item.inputname}
                         id={item.inputname}
-                        // value={formData[item.label] || ''}
                         className="px-2  block w-full rounded-md bg-gray-50 border-2 border-gray-200 py-1 text-gray-900 appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-xs sm:leading-6"
-                        // onChange={handleChange}
                         value={customFormFields[index].value || ''}
-
-                        onChange={(e) => handleChange(index, e.target.value)}
-                      />
+                        onChange={(e) => handleChange(index, e.target.value)} />
                       <div className='h-2 text-[#dc2626]'>{errors[item.inputname] && <span>{errors[item.inputname]}</span>}</div>
-
                     </div>
                   )}
-
-
-
                   {item.type === 'time' && item.inputname == "time" && item.field == "predefined" && (
                     <div >
                       <label htmlFor={item.label} className="block text-sm font-medium leading-6 mt-1 text-gray-900">
@@ -334,25 +289,18 @@ function BoardMeetingForm() {
                       <input
                         type="time"
                         name={item.inputname}
-
                         className="px-2 py-1 block w-full rounded-md bg-gray-50 border-2 border-gray-200  text-gray-900 appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6"
                         id={item.inputname}
-
                         value={customFormFields[index].value || ''}
-                        onChange={(e) => handleChange(index, e.target.value)}
-
-                      />
+                        onChange={(e) => handleChange(index, e.target.value)} />
                       <div className='h-2 text-[#dc2626]'>{errors[item.inputname] && <span>{errors[item.inputname]}</span>}</div>
-
                     </div>
                   )}
-
                   {item.type === 'select' && item.inputname == "venue" && item.field == "predefined" && (
                     <div>
                       <label htmlFor={item.label} className="block text-sm font-medium leading-6 mt-1 text-gray-900">
                         {item.label.charAt(0).toUpperCase() + item.label.slice(1)}
                       </label>
-
                       <select
                         id={item.inputname}
                         name={item.inputname}
@@ -362,10 +310,8 @@ function BoardMeetingForm() {
                       >{item.options && item.options.map((option, index) => (
                         <option value={option}>{option}</option>
                       ))}
-
                       </select>
                       <div className='h-2 text-[#dc2626]'>{errors[item.inputname] && <span>{errors[item.inputname]}</span>}</div>
-
                     </div>
                   )}
                   {item.type === 'textarea' && item.inputname == "description" && item.field == "predefined" && (
@@ -375,27 +321,18 @@ function BoardMeetingForm() {
                       </label>
                       <textarea
                         name={item.inputname}
-
-
                         id={item.inputname}
-
                         value={customFormFields[index].value || ''}
                         className="bg-gray-50 rounded-md text-xs p-2 w-full h-20 border-2 border-gray-200 focus:outline-none focus:border-orange-400"
-
-                        onChange={(e) => handleChange(index, e.target.value)}
-                      />
+                        onChange={(e) => handleChange(index, e.target.value)} />
                       <div className='h-2 text-[#dc2626]'>{errors[item.inputname] && <span>{errors[item.inputname]}</span>}</div>
-
                     </div>
                   )}
                   {item.type === 'multiselect' && item.inputname == "members" && item.field == "predefined" && (
-
                     <div className='relative'>
                       <label htmlFor="email" className="block text-sm mt-1 font-medium leading-6 text-gray-900">{item.label}</label>
-
                       <div className='border-2 border-gray-200 flex flex-wrap gap-1 p-1.5 selected-users-container relative z-50   rounded-md'>
                         {selected && selected.length > 0 && selected.map((result) => {
-
                           let mail = result.split("@")[0]
                           return (
                             <span className='flex gap-1 text-xs mt-1 border-2 border-gray-200 rounded-md p-0.5 focus:border-orange-600'>
@@ -413,30 +350,22 @@ function BoardMeetingForm() {
                           style={{ border: "none" }}
                           className='bg-[#f8fafc]  h-5  focus:outline-none z-40 placeholder:text-xs'
                           value={searchTerm}
-                          onChange={handleInputChange}
-                        />
+                          onChange={handleInputChange} />
                       </div>
-                      {showUsers && (
-                        <ul className="user-list z-50 absolute top-full left-0  bg-gray-50 border border-1 border-gray-200 w-full">
-
-                          {usersEmails?.filter(user => !selected.includes(user))
-                            // .filter((item) => item.toLowerCase().includes(query.toLowerCase()))
-                            .map((user, ind) => (
-                              <li key={ind}
-                                className='px-3 py-1 text-sm hover:bg-gray-200'
-
-                                onClick={() => handleClick(user, index)}>
-                                {user}
-                              </li>
-                            ))}
+                      {showUsers && searchTerm.length > 0 && (
+                        <ul className="user-list z-50 absolute top-full left-0  bg-gray-50 border border-1 border-gray-200 w-full">    {usersEmails?.filter(user => !selected.includes(user))
+                          .map((user, ind) => (
+                            <li key={ind}
+                              className='px-3 py-1 text-sm hover:bg-gray-200'
+                              onClick={() => handleClick(user, index)}>
+                              {user}
+                            </li>
+                          ))}
                         </ul>
                       )}
                       <div className='h-2 text-[#dc2626]'>{errors[item.inputname] && <span>{errors[item.inputname]}</span>}</div>
-
                     </div>
-
                   )}
-
                   {/* custom fields */}
                   {item.type === 'text' && item.field == "custom" && (
                     <div>
@@ -445,16 +374,12 @@ function BoardMeetingForm() {
                       </label>
                       <input
                         type="text"
-                        // name={item.label}
                         name={item.inputname}
                         id={item.inputname}
-                        // value={formData[item.label] || ''}
                         value={customFormFields[index].value || ''}
                         className="p-2 block w-full rounded-md bg-gray-50 border-2 border-gray-200  text-gray-900 appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6"
-                        onChange={(e) => handleChange(index, e.target.value)}
-                      />
+                        onChange={(e) => handleChange(index, e.target.value)} />
                       <div className='h-2 text-[#dc2626]'>{errors[item.inputname] && <span>{errors[item.inputname]}</span>}</div>
-
                     </div>
                   )}
                   {item.type === 'email' && item.field == "custom" && (
@@ -466,14 +391,10 @@ function BoardMeetingForm() {
                         type="email"
                         name={item.inputname}
                         id={item.inputname}
-
                         value={customFormFields[index].value || ''}
-
                         className="p-2 block w-full rounded-md bg-gray-50 border-2 border-gray-200 text-gray-900 appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6"
-                        onChange={(e) => handleChange(index, e.target.value)}
-                      />
+                        onChange={(e) => handleChange(index, e.target.value)} />
                       <div className='h-2 text-[#dc2626]'>{errors[item.inputname] && <span>{errors[item.inputname]}</span>}</div>
-
                     </div>
                   )}
                   {item.type === 'password' && item.field == "custom" && (
@@ -484,18 +405,11 @@ function BoardMeetingForm() {
                       <input
                         type="password"
                         name={item.inputname}
-
                         id={item.inputname}
-                        // value={formData[item.label] || ''}
                         value={customFormFields[index].value || ''}
-
                         className="p-2 block w-full rounded-md bg-gray-50 border-2 border-gray-200  text-gray-900 appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6"
-                        // onChange={handleChange}
-                        onChange={(e) => handleChange(index, e.target.value)}
-
-                      />
+                        onChange={(e) => handleChange(index, e.target.value)} />
                       <div className='h-2 text-[#dc2626]'>{errors[item.inputname] && <span>{errors[item.inputname]}</span>}</div>
-
                     </div>
                   )}
                   {item.type === 'number' && item.field == "custom" && (
@@ -506,37 +420,31 @@ function BoardMeetingForm() {
                       <input
                         type="number"
                         name={item.inputname}
-
                         id={item.inputname}
-                        // value={formData[item.label] || ''}
                         value={customFormFields[index].value || ''}
                         onChange={(e) => handleChange(index, e.target.value)}
-                        className="p-2 block w-full rounded-md bg-gray-50 border-2 border-gray-200  text-gray-900 appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6"
-                      // onChange={handleChange}
-
-
-                      />
+                        className="p-2 block w-full rounded-md bg-gray-50 border-2 border-gray-200  text-gray-900 appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6" />
                       <div className='h-2 text-[#dc2626]'>{errors[item.inputname] && <span>{errors[item.inputname]}</span>}</div>
-
                     </div>
                   )}
                   {item.type === 'checkbox' && item.field == "custom" && (
-                    <div className='flex gap-2'>
+                    <div>
+                      <div className='flex gap-2'>
 
-                      <input
-                        type="checkbox"
-                        name={item.inputname}
-                        id={item.inputname}
-                        checked={!!customFormFields[index].value}
-                        onChange={(e) => handleChange(index, e.target.checked)}
+                        <input
+                          type="checkbox"
+                          name={item.inputname}
+                          id={item.inputname}
+                          checked={!!customFormFields[index].value}
+                          onChange={(e) => handleChange(index, e.target.checked)} />
+                        <label htmlFor={item.inputname} className="block text-sm font-medium leading-6 my-1 text-gray-900">
+                          {item.label.charAt(0).toUpperCase() + item.label.slice(1)}
+                        </label>
 
-                      />  <label htmlFor={item.inputname} className="block text-sm font-medium leading-6 my-2 text-gray-900">
-                        {item.label.charAt(0).toUpperCase() + item.label.slice(1)}
-                      </label>
-                      <div className='h-2 text-[#dc2626]'>{errors[item.inputname] && <span>{errors[item.inputname]}</span>}</div>
-
+                      </div>
+                      <div className='h-2 text-[#dc2626]'>{errors[item.inputname] && <span className="text-xs">{errors[item.inputname]}</span>}
+                      </div>
                     </div>
-
                   )}
                   {item.type === 'date' && item.field == "custom" && (
                     <div>
@@ -547,15 +455,10 @@ function BoardMeetingForm() {
                         type="date"
                         name={item.inputname}
                         id={item.inputname}
-                        // value={formData[item.label] || ''}
                         className="p-2 block w-full rounded-md bg-gray-50 border-2 border-gray-200  text-gray-900 appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6"
-                        // onChange={handleChange}
                         value={customFormFields[index].value || ''}
-
-                        onChange={(e) => handleChange(index, e.target.value)}
-                      />
+                        onChange={(e) => handleChange(index, e.target.value)} />
                       <div className='h-2 text-[#dc2626]'>{errors[item.inputname] && <span>{errors[item.inputname]}</span>}</div>
-
                     </div>
                   )}
                   {item.type === 'time' && item.field == "custom" && (
@@ -566,18 +469,11 @@ function BoardMeetingForm() {
                       <input
                         type="time"
                         name={item.inputname}
-
                         className="p-2 block w-full rounded-md bg-gray-50 border-2 border-gray-200  text-gray-900 appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6"
                         id={item.inputname}
-                        // value={formData[item.label] || ''}
-                        // className="p-2 block w-full rounded-md bg-gray-50 border-2 border-gray-200 py-1 text-gray-900 appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6"
-                        // onChange={handleChange}
                         value={customFormFields[index].value || ''}
-                        onChange={(e) => handleChange(index, e.target.value)}
-
-                      />
+                        onChange={(e) => handleChange(index, e.target.value)} />
                       <div className='h-2 text-[#dc2626]'>{errors[item.inputname] && <span>{errors[item.inputname]}</span>}</div>
-
                     </div>
                   )}
                   {item.type === 'file' && item.field == "custom" && (
@@ -588,15 +484,11 @@ function BoardMeetingForm() {
                       <input
                         type="file"
                         name={item.inputname}
-
-
                         id={item.inputname}
                         className="p-2 block w-full rounded-md bg-gray-50 border-2 border-gray-200  text-gray-900 appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6"
                         onChange={(event) => handleFileChange(event, index)}
-                        accept="image/*"
-                      />
+                        accept="image/*" />
                       <div className='h-2 text-[#dc2626]'>{errors[item.inputname] && <span>{errors[item.inputname]}</span>}</div>
-
                     </div>
                   )}
                   {item.type === 'range' && item.field == "custom" && (
@@ -607,17 +499,10 @@ function BoardMeetingForm() {
                       <input
                         type="range"
                         name={item.inputname}
-
-
                         id={item.inputname}
                         value={customFormFields[index].value || ''}
-
-                        // className="p-2 block w-full rounded-md bg-gray-50 border-2 border-gray-200 py-1 text-gray-900 appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6"
-                        onChange={(e) => handleChange(index, e.target.value)}
-
-                      />
+                        onChange={(e) => handleChange(index, e.target.value)} />
                       <div className='h-2 text-[#dc2626]'>{errors[item.inputname] && <span>{errors[item.inputname]}</span>}</div>
-
                     </div>
                   )}
                   {item.type === 'textarea' && item.field == "custom" && (
@@ -627,17 +512,11 @@ function BoardMeetingForm() {
                       </label>
                       <textarea
                         name={item.inputname}
-
-
                         id={item.inputname}
-
                         value={customFormFields[index].value || ''}
                         className="bg-gray-50 rounded-md text-xs p-2 w-full h-20 border-2 border-gray-200 focus:outline-none focus:border-orange-400"
-
-                        onChange={(e) => handleChange(index, e.target.value)}
-                      />
+                        onChange={(e) => handleChange(index, e.target.value)} />
                       <div className='h-2 text-[#dc2626]'>{errors[item.inputname] && <span>{errors[item.inputname]}</span>}</div>
-
                     </div>
                   )}
                   {item.type === 'select' && item.field == "custom" && (
@@ -645,7 +524,6 @@ function BoardMeetingForm() {
                       <label htmlFor={item.label} className="block text-sm font-medium leading-6 my-2 text-gray-900">
                         {item.label.charAt(0).toUpperCase() + item.label.slice(1)}
                       </label>
-
                       <select
                         id={item.inputname}
                         name={item.inputname}
@@ -655,10 +533,8 @@ function BoardMeetingForm() {
                       >{item.options && item.options.map((option, index) => (
                         <option value={option}>{option}</option>
                       ))}
-
                       </select>
                       <div className='h-2 text-[#dc2626]'>{errors[item.inputname] && <span>{errors[item.inputname]}</span>}</div>
-
                     </div>
                   )}
                   {item.type === 'multiselect' && item.field === "custom" && (
@@ -667,7 +543,6 @@ function BoardMeetingForm() {
                         {item.label.charAt(0).toUpperCase() + item.label.slice(1)}
                       </label>
                       <div className='p-2 text-xs flex justify-end w-full bg-gray-50 rounded-md text-gray-900 border-2 border-gray-200 shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-xs sm:leading-6'>
-
                         <span onClick={() => handleOpenOptions(item.inputname)} >
                           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5">
                             <path fillRule="evenodd" d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z" clipRule="evenodd" />
@@ -682,32 +557,26 @@ function BoardMeetingForm() {
                                 id={option}
                                 checked={item.value.includes(option)}
                                 onChange={(e) => handleChange(index, option)}
-                                className="mr-1"
-
-                              />
+                                className="mr-1" />
                               <label htmlFor={option} className="select-none">{option}</label>
                             </div>
                           ))}
                         </div>
                       )}
                       <div className='h-2 text-[#dc2626]'>{errors[item.inputname] && <span>{errors[item.inputname]}</span>}</div>
-
                     </div>
                   )}
                 </div>
               ))}
             <div className=''>
               <button type="submit"
-                className="mt-6 flex w-full justify-center rounded-md bg-orange-600 px-3 py-2.5 text-sm font-medium leading-6 text-white shadow-sm  focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600
-                
-                ">Create Board Meeting</button>
+                className="mt-6 flex w-full justify-center rounded-md bg-orange-600 px-3 py-2.5 text-sm font-medium leading-6 text-white shadow-sm  focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600">Create Board Meeting</button>
             </div>
           </form>
         </div>
         {/* preview */}
         <div className='col-span-2 h-[500px] overflow-auto shadow-md px-6 py-4 border-2 rounded-md bg-[#f8fafc] '>
           {customFormFields && customFormFields.length > 0 && customFormFields.map((item) => (
-
             <div className='relative' >
 
               {/* predefined fields*/}
@@ -929,10 +798,10 @@ function BoardMeetingForm() {
 
 
               </div>}
-              {item.type === "checkbox" && item.field == "custom" && <div>
+              {/* {item.type === "checkbox" && item.field == "custom" && <div>
                 {item.value}
 
-              </div>}
+              </div>} */}
               {item.type === "range" && item.field == "custom" && <div>
                 {item.value}
 

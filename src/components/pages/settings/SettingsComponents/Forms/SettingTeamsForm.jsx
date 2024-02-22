@@ -202,14 +202,7 @@ const SettingTeamsForm = () => {
                         let formData = {
                             arrayOfObjects: customForm,
                         }
-                        axios.post(
-                            `https://atbtmain.teksacademy.com/custom/teams`, formData)
-                            .then(response => {
-                                console.log(response);
-                            })
-                            .catch(error => {
-                                console.error(error);
-                            });
+                       
                         return `Form Updated`
                     }
                 },

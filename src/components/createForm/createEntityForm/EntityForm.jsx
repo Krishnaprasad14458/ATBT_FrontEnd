@@ -330,7 +330,7 @@ function EntityForm() {
                           value={searchTerm}
                           onChange={handleInputChange} />
                       </div>
-                      {showUsers && (
+                      {showUsers && searchTerm.length>0 &&  (
                         <ul className="user-list z-50 absolute top-full left-0  bg-gray-50 border border-1 border-gray-200 w-full">
                           {usersEmails?.filter(user => !selected.includes(user))
                             .map((user, ind) => (
@@ -413,17 +413,22 @@ function EntityForm() {
                     </div>
                   )}
                   {item.type === 'checkbox' && item.field == "custom" && (
-                    <div className='flex gap-2'>
-                      <label htmlFor={item.inputname} className="block text-sm font-medium leading-6 my-2 text-gray-900">
-                        {item.label.charAt(0).toUpperCase() + item.label.slice(1)}
-                      </label>
-                      <input
-                        type="checkbox"
-                        name={item.inputname}
-                        id={item.inputname}
-                        checked={!!customFormFields[index].value}
-                        onChange={(e) => handleChange(index, e.target.checked)} />
-                      <div className='h-2 text-[#dc2626]'>{errors[item.inputname] && <span>{errors[item.inputname]}</span>}</div>
+                    <div>
+                      <div className='flex gap-2'>
+
+                        <input
+                          type="checkbox"
+                          name={item.inputname}
+                          id={item.inputname}
+                          checked={!!customFormFields[index].value}
+                          onChange={(e) => handleChange(index, e.target.checked)} />
+                        <label htmlFor={item.inputname} className="block text-sm font-medium leading-6 my-1 text-gray-900">
+                          {item.label.charAt(0).toUpperCase() + item.label.slice(1)}
+                        </label>
+
+                      </div>
+                      <div className='h-2 text-[#dc2626]'>{errors[item.inputname] && <span className="text-xs">{errors[item.inputname]}</span>}
+                      </div>
                     </div>
                   )}
                   {item.type === 'date' && item.field == "custom" && (
@@ -743,7 +748,7 @@ function EntityForm() {
                     }
                   </div>
                 }
-                {item.type === "checkbox" && item.field == "custom" &&
+                {/* {item.type === "checkbox" && item.field == "custom" &&
                   <div className='my-2 ms-2'>
                     {item.value && item.value.length > 0 &&
                       <p className='flex flex-wrap gap-2'>
@@ -752,7 +757,7 @@ function EntityForm() {
                       </p>
                     }
                   </div>
-                }
+                } */}
                 {item.type === "range" && item.field == "custom" &&
                   <div className='my-2 ms-2'>
                     {item.value && item.value.length > 0 &&
