@@ -150,6 +150,15 @@ function UserForm() {
           setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
         }
       }
+      if (customFormFields[i].type == "phonenumber" && customFormFields[i].mandatory) {
+        if (customFormFields[i].value.length !== 10) {
+          setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please Enter 10 Digits ${customFormFields[i].label}` }))
+          return false
+        }
+        else {
+          setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
+        }
+      }
       if (customFormFields[i].type == "select" && customFormFields[i].mandatory) {
         if (customFormFields[i].value.length < 1) {
           setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please Enter ${customFormFields[i].label}` }))
@@ -304,7 +313,7 @@ function UserForm() {
                       </div>
                     </div>
                   )}
-                  {item.type === 'number' && item.inputname == "phonenumber" && item.field == "predefined" && (
+                  {item.type === 'phonenumber' && item.inputname == "phonenumber" && item.field == "predefined" && (
                     <div>
                       <label htmlFor={item.label} className="block text-sm font-medium leading-6 mt-2 text-gray-900">
                         {item.label.charAt(0).toUpperCase() + item.label.slice(1)}
@@ -316,7 +325,12 @@ function UserForm() {
                         id={item.inputname}
                         // value={formData[item.label] || ''}
                         value={customFormFields[index].value || ''}
-                        onChange={(e) => handleChange(index, e.target.value)}
+                        // onChange={(e) => handleChange(index, e.target.value)}
+                        onChange={(e) => {
+                          const value = e.target.value.slice(0, 10); // Limiting to maximum 10 digits
+                          handleChange(index, value);
+                        }}
+
                         className="p-2 block w-full rounded-md bg-gray-50 border-2 border-gray-200 py-1 text-gray-900 appearance-none hover:appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6
                         placeholder:text-xs"/>
                       <div className='h-2 text-[#dc2626]'>{errors[item.inputname] && <span className="text-xs">{errors[item.inputname]}</span>}
@@ -436,7 +450,7 @@ function UserForm() {
                       </div>
                     </div>
                   )}
-                  {item.type === 'number' && item.field == "custom" && (
+                  {(item.type === 'number' || item.type === 'phonenumber') && item.field == "custom" && (
                     <div>
                       <label htmlFor={item.label} className="block text-sm font-medium leading-6 my-2 text-gray-900">
                         {item.label.charAt(0).toUpperCase() + item.label.slice(1)}
@@ -659,7 +673,7 @@ function UserForm() {
                         )}
                       </div>
                     )}
-                    {item.type === 'number' && item.inputname == "phonenumber" && item.field == "predefined" && (
+                    {item.type === 'phonenumber' && item.inputname == "phonenumber" && item.field == "predefined" && (
                       <div className='my-2 ms-5'>
                         {item.value ? (
                           <p className='flex flex-wrap gap-2'>
@@ -721,7 +735,7 @@ function UserForm() {
                     </div>
                   } */}
                   {
-                    item.type === "number" && item.field == "custom" &&
+                    (item.type === "number" || item.type === "phonenumber") && item.field == "custom" &&
                     <div className='my-2 ms-5'>
                       {item.value && item.value.length > 0 &&
                         <p className='flex flex-wrap gap-2'>

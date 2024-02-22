@@ -60,6 +60,7 @@ import PageNotFound from './components/pages/Errorpages/PageNotFound';
 import Error401 from './components/pages/Errorpages/Error401';
 import Error403 from './components/pages/Errorpages/Error403';
 import Error500 from './components/pages/Errorpages/Error500';
+import Designations from './components/pages/settings/SettingsComponents/Designations/Designations';
 
 function App() {
   const isOnline = useOnlineStatus();
@@ -94,6 +95,7 @@ function App() {
           <Route path='/editwhatsapptemplate' element={<EditWhatsappTemplate />} />
           <Route path='viewemailtemplate' element={<ViewEmailTemplate />} />
           <Route path='/fieldswhatsapptemplate' element={<FieldsWhatsappTemplate />} />
+          <Route path='/designations' element={<Designations />} />
           <Route path="/api" element={<Api />} />
           <Route path='/webhook' element={<Webhook />} />
           <Route path='/sms' element={<Sms />} />
@@ -122,7 +124,7 @@ function App() {
           <Route path='/tasks' element={<Tasks />} />
           <Route path='/users' element={<Users />} />
           <Route path="/users/new" element={<UserForm />} />
-      
+
           <Route path="/userProfile/:id" element={<UserProfile />} >
             <Route path="tasks" element={<UserTasks />} />
             <Route path="teams" element={<UserTeams />} />

@@ -77,7 +77,7 @@ const Settingentityform = () => {
         }
         if (name == "label") {
             if (editIndex == null) {
-                setNewInputField((prev) => ({ ...prev, label: value, inputname: value, }))
+                setNewInputField((prev) => ({ ...prev, label: value, inputname: value.replace(/\s+/g, ''), }))
             }
             if (editIndex != null) {
                 setNewInputField((prev) => ({ ...prev, label: value, }))
@@ -109,6 +109,7 @@ const Settingentityform = () => {
                 newInputField.type === "email" ||
                 newInputField.type === "password" ||
                 newInputField.type === "number" ||
+                newInputField.type === "phonenumber" ||
                 newInputField.type === "textarea" ||
                 newInputField.type === "file" ||
                 newInputField.type === "date" ||
@@ -169,12 +170,12 @@ const Settingentityform = () => {
     };
 
     const inputType = [{ label: "", value: "" }, { label: "Text", value: "text" }, { label: "Email", value: "email" }, { label: "Password", value: "password" },
-    { label: "Number", value: "number" }, { label: "Text Area", value: "textarea" }, { label: "File", value: "file" }, { label: "Date", value: "date" }, { label: "Select", value: "select" }, { label: "Multi Select", value: "multiselect" }, { label: "Checkbox", value: "checkbox" }, { label: "Range", value: "range" }, { label: "Time", value: "time" }
+    { label: "Number", value: "number" },  {label:"Phone Number",value:"phonenumber"}, { label: "Text Area", value: "textarea" }, { label: "File", value: "file" }, { label: "Date", value: "date" }, { label: "Select", value: "select" }, { label: "Multi Select", value: "multiselect" }, { label: "Checkbox", value: "checkbox" }, { label: "Range", value: "range" }, { label: "Time", value: "time" }
     ]
 
     const handleSubmitCustomForm = async () => {
         let formData = {
-            arrayOfObjects: customForm, Name: "entityform"
+            arrayOfObjects: customForm, Name: "entityform" ,Tableview:{}
         }
 
         await saveCustomForm(formData)
@@ -184,7 +185,7 @@ const Settingentityform = () => {
     const saveCustomForm = async (formData) => {
 
         toast.promise(
-            axios.put(`https://atbtmain.teksacademy.com/form/update`, formData),
+            axios.put(`https://atbtmain.teksacademy.com/form/entityform`, formData),
             {
                 pending: 'Updating Form',
                 success: {
@@ -481,6 +482,7 @@ const Settingentityform = () => {
                                                          ${newInputField.type === "text" ||
                                                                 newInputField.type === "email" ||
                                                                 newInputField.type === "number" ||
+                                                                newInputField.type === "phonenumber" ||
                                                                 newInputField.type === "textarea" ||
                                                                 newInputField.type === "date" ||
                                                                 newInputField.type === "select" ||
