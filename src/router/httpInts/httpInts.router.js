@@ -1,4 +1,4 @@
-import PageNotFound from "../../components/pages/pageNotFound/PageNotFound"
+import PageNotFound from "../../components/pages/Errorpages/PageNotFound"
 
 export const httpInterceptors = [
     { path: '*', element: <PageNotFound /> },

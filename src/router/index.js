@@ -51,7 +51,6 @@ import MyCalendar from "../components/pages/task/MyCalendar";
 import Login from "../components/auth/Login";
 import ResetPassword from "../components/auth/ResetPassword";
 import ChangePassword from "../components/auth/ChangePassword";
-import PageNotFound from "../components/pages/pageNotFound/PageNotFound";
 import { createBrowserRouter, redirect } from "react-router-dom";
 import axios from "axios";
 import { authRoutes } from "./auth/auth.router";
