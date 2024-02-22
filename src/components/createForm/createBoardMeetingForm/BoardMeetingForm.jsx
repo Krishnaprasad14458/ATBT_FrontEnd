@@ -151,6 +151,15 @@ function BoardMeetingForm() {
           setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
         }
       }
+      if (customFormFields[i].type == "phonenumber" && customFormFields[i].mandatory) {
+        if (customFormFields[i].value.length !== 10) {
+          setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please Enter 10 Digits ${customFormFields[i].label}` }))
+          return false
+        }
+        else {
+          setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
+        }
+      }
       if (customFormFields[i].type == "select" && customFormFields[i].mandatory) {
         if (customFormFields[i].value.length < 1) {
           setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please Enter ${customFormFields[i].label}` }))
@@ -412,7 +421,7 @@ function BoardMeetingForm() {
                       <div className='h-2 text-[#dc2626]'>{errors[item.inputname] && <span>{errors[item.inputname]}</span>}</div>
                     </div>
                   )}
-                  {item.type === 'number' && item.field == "custom" && (
+                  {(item.type === 'number' || item.type === 'phonenumber') && item.field == "custom" && (
                     <div>
                       <label htmlFor={item.label} className="block text-sm font-medium leading-6 my-2 text-gray-900">
                         {item.label.charAt(0).toUpperCase() + item.label.slice(1)}
@@ -748,10 +757,12 @@ function BoardMeetingForm() {
                 {item.value}
 
               </div>}
-              {item.type === "number" && item.field == "custom" && <div>
-                {item.value}
+              {
+                (item.type === "number" || item.type === "phonenumber") && item.field == "custom" &&
+                <div>
+                  {item.value}
 
-              </div>}
+                </div>}
               {item.type === "textarea" && item.field == "custom" && <div>
                 {item.value}
 
