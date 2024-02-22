@@ -101,17 +101,22 @@ function EntityForm() {
     }
   };
   console.log("customFormFields", customFormFields)
-  function handleFormSubmit(e) {
-    e.preventDefault();
-    for (let i = 0; i < customFormFields.length; i++) {
+  /////
+  const [isErrorspresent, setIsErrorspresent] = useState(false)
+  const checkValidation = () => {
+    let isErrorspresent = false
+    for (let i = 0; i < customFormFields.length > 0; i++) {
       if (customFormFields[i].type == "text" && customFormFields[i].mandatory) {
         if (customFormFields[i].value.length == 0) {
-          setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please enter ${customFormFields[i].label}` }))
-          return false
+          setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please Enter ${customFormFields[i].label}` }))
+
+          isErrorspresent = true
         }
         else if (customFormFields[i].value.length < 3) {
           setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "Name should contain atleast 3 characters" }))
-          return false
+
+          isErrorspresent = true
+
         }
         else {
           setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
@@ -119,8 +124,9 @@ function EntityForm() {
       }
       if (customFormFields[i].type == "file" && customFormFields[i].mandatory) {
         if (!customFormFields[i].value) {
-          setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please upload ${customFormFields[i].label}` }))
-          return false
+          setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please Upload ${customFormFields[i].label}` }))
+
+
         }
         else {
           setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
@@ -128,12 +134,16 @@ function EntityForm() {
       }
       if (customFormFields[i].type == "textarea" && customFormFields[i].mandatory) {
         if (customFormFields[i].value.length == 0) {
-          setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please enter ${customFormFields[i].label}` }))
-          return false
+          setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "Please Enter Text" }))
+
+          isErrorspresent = true
+
         }
         else if (customFormFields[i].value.length < 3) {
           setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "Name should contain atleast 3 characters" }))
-          return false
+          isErrorspresent = true
+
+
         }
         else {
           setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
@@ -141,17 +151,33 @@ function EntityForm() {
       }
       if (customFormFields[i].type == "email" && customFormFields[i].mandatory) {
         if (customFormFields[i].value.length < 1) {
-          setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please enter ${customFormFields[i].label}` }))
-          return false
+          setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please Enter ${customFormFields[i].label}` }))
+
+          isErrorspresent = true
+
         }
+
         else {
           setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
         }
       }
       if (customFormFields[i].type == "number" && customFormFields[i].mandatory) {
         if (customFormFields[i].value.length < 1) {
-          setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please enter ${customFormFields[i].label}` }))
-          return false
+          setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please Enter ${customFormFields[i].label}` }))
+          isErrorspresent = true
+
+
+        }
+        else {
+          setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
+        }
+      }
+      if (customFormFields[i].type == "phonenumber" && customFormFields[i].mandatory) {
+        if (customFormFields[i].value.length !== 10) {
+          setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please Enter 10 Digits ${customFormFields[i].label}` }))
+          isErrorspresent = true
+
+
         }
         else {
           setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
@@ -159,8 +185,10 @@ function EntityForm() {
       }
       if (customFormFields[i].type == "select" && customFormFields[i].mandatory) {
         if (customFormFields[i].value.length < 1) {
-          setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please enter ${customFormFields[i].label}` }))
-          return false
+          setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please Enter ${customFormFields[i].label}` }))
+          isErrorspresent = true
+
+
         }
         else {
           setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
@@ -168,8 +196,10 @@ function EntityForm() {
       }
       if (customFormFields[i].type == "multiselect" && customFormFields[i].mandatory) {
         if (customFormFields[i].value.length < 1) {
-          setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please enter ${customFormFields[i].label}` }))
-          return false
+          setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please Enter ${customFormFields[i].label}` }))
+
+          isErrorspresent = true
+
         }
         else {
           setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
@@ -177,8 +207,10 @@ function EntityForm() {
       }
       if (customFormFields[i].type == "date" && customFormFields[i].mandatory) {
         if (!customFormFields[i].value) {
-          setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please enter ${customFormFields[i].label}` }))
-          return false
+          setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please Enter ${customFormFields[i].label}` }))
+
+          isErrorspresent = true
+
         }
         else {
           setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
@@ -186,8 +218,10 @@ function EntityForm() {
       }
       if (customFormFields[i].type == "checkbox" && customFormFields[i].mandatory) {
         if (!customFormFields[i].value) {
-          setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please enter ${customFormFields[i].label}` }))
-          return false
+          setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please Enter ${customFormFields[i].label}` }))
+
+          isErrorspresent = true
+
         }
         else {
           setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
@@ -195,8 +229,10 @@ function EntityForm() {
       }
       if (customFormFields[i].type == "range" && customFormFields[i].mandatory) {
         if (!customFormFields[i].value) {
-          setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please enter ${customFormFields[i].label}` }))
-          return false
+          setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please Enter ${customFormFields[i].label}` }))
+
+          isErrorspresent = true
+
         }
         else {
           setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
@@ -204,8 +240,10 @@ function EntityForm() {
       }
       if (customFormFields[i].type == "time" && customFormFields[i].mandatory) {
         if (!customFormFields[i].value) {
-          setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please enter ${customFormFields[i].label}` }))
-          return false
+          setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please Enter ${customFormFields[i].label}` }))
+
+          isErrorspresent = true
+
         }
         else {
           setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
@@ -213,34 +251,210 @@ function EntityForm() {
       }
       if (customFormFields[i].type == "password" && customFormFields[i].mandatory) {
         if (customFormFields[i].value.length < 1) {
-          setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please enter ${customFormFields[i].label}` }))
-          return false
+          setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please Enter ${customFormFields[i].label}` }))
+          isErrorspresent = true
+
+
         }
         else {
           setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
         }
       }
     }
-    const jsonData = {};
-    jsonData.customFieldsData = JSON.stringify(customFormFields)
-    jsonData.loggedInUser = parseInt(localStorage.getItem("id"))
-    for (let i = 0; i < customFormFields.length; i++) {
-      if (Array.isArray(customFormFields[i].value)) {
-        jsonData[customFormFields[i].inputname] = JSON.stringify(customFormFields[i].value)
-      } else {
-        jsonData[customFormFields[i].inputname] = customFormFields[i].value
-      }
+    if (isErrorspresent) {
+      setIsErrorspresent(true)
     }
-    console.log("jsonData", jsonData);
-    axios.post(
-      `https://atbtmain.teksacademy.com/entity/data`, jsonData)
-      .then(response => {
-        navigate(`/entitylandingpage/${parseInt(response.data)}`)
-      })
-      .catch(error => {
-        console.error(error);
-      });
+    if (!isErrorspresent) {
+      setIsErrorspresent(false)
+    }
+    return isErrorspresent
   }
+  useEffect(() => {
+    if (isErrorspresent && customFormFields && customFormFields.length > 0) {
+      checkValidation()
+    }
+  }, [customFormFields])
+
+  function handleFormSubmit(e) {
+    e.preventDefault();
+
+    if (!checkValidation()) {
+      const jsonData = {};
+      jsonData.customFieldsData = JSON.stringify(customFormFields)
+      jsonData.loggedInUser = parseInt(localStorage.getItem("id"))
+      for (let i = 0; i < customFormFields.length; i++) {
+        if (Array.isArray(customFormFields[i].value)) {
+          jsonData[customFormFields[i].inputname] = JSON.stringify(customFormFields[i].value)
+        } else {
+          jsonData[customFormFields[i].inputname] = customFormFields[i].value
+        }
+      }
+      console.log("jsonData", jsonData);
+      axios.post(
+        `https://atbtmain.teksacademy.com/user/create-user`, jsonData)
+        .then(response => {
+          // console.log(response.data);
+          // console.log("reposnseeeeeeeeee", response.data)
+          navigate(`/entitylandingpage/${parseInt(response.data)}`)
+        })
+        .catch(error => {
+          console.error(error);
+        });
+    }
+
+  }
+
+
+  ////
+  // function handleFormSubmit(e) {
+  //   e.preventDefault();
+  //   for (let i = 0; i < customFormFields.length; i++) {
+  //     if (customFormFields[i].type == "text" && customFormFields[i].mandatory) {
+  //       if (customFormFields[i].value.length == 0) {
+  //         setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please enter ${customFormFields[i].label}` }))
+  //         return false
+  //       }
+  //       else if (customFormFields[i].value.length < 3) {
+  //         setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "Name should contain atleast 3 characters" }))
+  //         return false
+  //       }
+  //       else {
+  //         setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
+  //       }
+  //     }
+  //     if (customFormFields[i].type == "file" && customFormFields[i].mandatory) {
+  //       if (!customFormFields[i].value) {
+  //         setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please upload ${customFormFields[i].label}` }))
+  //         return false
+  //       }
+  //       else {
+  //         setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
+  //       }
+  //     }
+  //     if (customFormFields[i].type == "textarea" && customFormFields[i].mandatory) {
+  //       if (customFormFields[i].value.length == 0) {
+  //         setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please enter ${customFormFields[i].label}` }))
+  //         return false
+  //       }
+  //       else if (customFormFields[i].value.length < 3) {
+  //         setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "Name should contain atleast 3 characters" }))
+  //         return false
+  //       }
+  //       else {
+  //         setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
+  //       }
+  //     }
+  //     if (customFormFields[i].type == "email" && customFormFields[i].mandatory) {
+  //       if (customFormFields[i].value.length < 1) {
+  //         setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please enter ${customFormFields[i].label}` }))
+  //         return false
+  //       }
+  //       else {
+  //         setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
+  //       }
+  //     }
+  //     if (customFormFields[i].type == "number" && customFormFields[i].mandatory) {
+  //       if (customFormFields[i].value.length < 1) {
+  //         setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please enter ${customFormFields[i].label}` }))
+  //         return false
+  //       }
+  //       else {
+  //         setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
+  //       }
+  //     }
+  //     if (customFormFields[i].type == "phonenumber" && customFormFields[i].mandatory) {
+  //       if (customFormFields[i].value.length !== 10) {
+  //         setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please Enter 10 Digits ${customFormFields[i].label}` }))
+  //         return false
+  //       }
+  //       else {
+  //         setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
+  //       }
+  //     }
+  //     if (customFormFields[i].type == "select" && customFormFields[i].mandatory) {
+  //       if (customFormFields[i].value.length < 1) {
+  //         setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please enter ${customFormFields[i].label}` }))
+  //         return false
+  //       }
+  //       else {
+  //         setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
+  //       }
+  //     }
+  //     if (customFormFields[i].type == "multiselect" && customFormFields[i].mandatory) {
+  //       if (customFormFields[i].value.length < 1) {
+  //         setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please enter ${customFormFields[i].label}` }))
+  //         return false
+  //       }
+  //       else {
+  //         setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
+  //       }
+  //     }
+  //     if (customFormFields[i].type == "date" && customFormFields[i].mandatory) {
+  //       if (!customFormFields[i].value) {
+  //         setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please enter ${customFormFields[i].label}` }))
+  //         return false
+  //       }
+  //       else {
+  //         setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
+  //       }
+  //     }
+  //     if (customFormFields[i].type == "checkbox" && customFormFields[i].mandatory) {
+  //       if (!customFormFields[i].value) {
+  //         setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please enter ${customFormFields[i].label}` }))
+  //         return false
+  //       }
+  //       else {
+  //         setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
+  //       }
+  //     }
+  //     if (customFormFields[i].type == "range" && customFormFields[i].mandatory) {
+  //       if (!customFormFields[i].value) {
+  //         setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please enter ${customFormFields[i].label}` }))
+  //         return false
+  //       }
+  //       else {
+  //         setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
+  //       }
+  //     }
+  //     if (customFormFields[i].type == "time" && customFormFields[i].mandatory) {
+  //       if (!customFormFields[i].value) {
+  //         setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please enter ${customFormFields[i].label}` }))
+  //         return false
+  //       }
+  //       else {
+  //         setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
+  //       }
+  //     }
+  //     if (customFormFields[i].type == "password" && customFormFields[i].mandatory) {
+  //       if (customFormFields[i].value.length < 1) {
+  //         setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please enter ${customFormFields[i].label}` }))
+  //         return false
+  //       }
+  //       else {
+  //         setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
+  //       }
+  //     }
+  //   }
+  //   const jsonData = {};
+  //   jsonData.customFieldsData = JSON.stringify(customFormFields)
+  //   jsonData.loggedInUser = parseInt(localStorage.getItem("id"))
+  //   for (let i = 0; i < customFormFields.length; i++) {
+  //     if (Array.isArray(customFormFields[i].value)) {
+  //       jsonData[customFormFields[i].inputname] = JSON.stringify(customFormFields[i].value)
+  //     } else {
+  //       jsonData[customFormFields[i].inputname] = customFormFields[i].value
+  //     }
+  //   }
+  //   console.log("jsonData", jsonData);
+  //   axios.post(
+  //     `https://atbtmain.teksacademy.com/entity/data`, jsonData)
+  //     .then(response => {
+  //       navigate(`/entitylandingpage/${parseInt(response.data)}`)
+  //     })
+  //     .catch(error => {
+  //       console.error(error);
+  //     });
+  // }
   return (
     <div className='container p-4 bg-[#f8fafc]'>
       {/* <p className="font-lg font-semibold p-3">Entity Form</p> */}
@@ -330,7 +544,7 @@ function EntityForm() {
                           value={searchTerm}
                           onChange={handleInputChange} />
                       </div>
-                      {showUsers && searchTerm.length>0 &&  (
+                      {showUsers && searchTerm.length > 0 && (
                         <ul className="user-list z-50 absolute top-full left-0  bg-gray-50 border border-1 border-gray-200 w-full">
                           {usersEmails?.filter(user => !selected.includes(user))
                             .map((user, ind) => (
@@ -396,7 +610,7 @@ function EntityForm() {
                       <div className='h-2 text-[#dc2626]'>{errors[item.inputname] && <span>{errors[item.inputname]}</span>}</div>
                     </div>
                   )}
-                  {item.type === 'number' && item.field == "custom" && (
+                  {(item.type === 'number' || item.type === 'phonenumber') && item.field == "custom" && (
                     <div>
                       <label htmlFor={item.label} className="block text-sm font-medium leading-6 my-2 text-gray-900">
                         {item.label.charAt(0).toUpperCase() + item.label.slice(1)}
@@ -688,7 +902,7 @@ function EntityForm() {
                   </div>
                 }
                 {
-                  item.type === "number" && item.field == "custom" &&
+                  (item.type === "number" || item.type === "phonenumber") && item.field == "custom" &&
                   <div className='my-2 ms-2'>
                     {item.value && item.value.length > 0 &&
                       <p className='flex flex-wrap gap-2'>
@@ -743,7 +957,7 @@ function EntityForm() {
                     {item.value && item.value.length > 0 &&
                       <p className='flex flex-wrap gap-2'>
                         <span className=' w-1/6 text-[#727a85]'>{item.label.charAt(0).toUpperCase() + item.label.slice(1)}</span>
-                        <span className=' w-4/6 text-md font-[600]'> : {item.value.join(",")}</span>
+                        <span className=' w-4/6 text-md font-[600]'> : {item.value.join(", ")}</span>
                       </p>
                     }
                   </div>
