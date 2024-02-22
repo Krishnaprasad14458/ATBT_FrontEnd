@@ -2,41 +2,40 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import "react-toastify/dist/ReactToastify.css";
-import App from './App';
+// import App, { router_bsckup } from './App';
 import reportWebVitals from './reportWebVitals';
-import { BrowserRouter } from 'react-router-dom';
+import { RouterProvider } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import AuthProvider from './contexts/authContext/authContext';
 import UserDataProvider from './contexts/usersDataContext/usersDataContext';
 import EntitiesDataProvider from './contexts/entitiesDataContext/entitiesDataContext';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import PermissionsProvider from './rbac/PermissionsProvider';
+import { router } from './router';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   // <React.StrictMode>
-  <BrowserRouter>
-    <PermissionsProvider>
-      <AuthProvider>
-        <UserDataProvider>
-          <EntitiesDataProvider>
-            <App />
-            <ToastContainer
-              position="top-right"
-              autoClose={1000}
-              hideProgressBar={false}
-              newestOnTop={false}
-              closeOnClick
-              rtl={false}
-              pauseOnFocusLoss
-              draggable
-              pauseOnHover
-            />
-          </EntitiesDataProvider>
-        </UserDataProvider>
-      </AuthProvider>
-    </PermissionsProvider>
-  </BrowserRouter>,
+  <PermissionsProvider>
+    <AuthProvider>
+      <UserDataProvider>
+        <EntitiesDataProvider>
+          <RouterProvider router={router} />
+          <ToastContainer
+            position="top-right"
+            autoClose={1000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+          />
+        </EntitiesDataProvider>
+      </UserDataProvider>
+    </AuthProvider>
+  </PermissionsProvider>,
   {/* </React.StrictMode> */ }
 );
 

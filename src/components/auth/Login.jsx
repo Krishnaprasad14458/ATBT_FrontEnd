@@ -1,26 +1,27 @@
-
-import React, { useContext, useState } from 'react'
+import React, { useContext, useState } from 'react';
 import { AuthContext } from '../../contexts/authContext/authContext';
 import login_bg from '../../Images/login_bg.jpg';
 import logo from '../../Images/logo.png';
-import { Link } from 'react-router-dom'
+import { Link, Navigate } from 'react-router-dom';
 
 const Login = () => {
-    const { adminLogin } = useContext(AuthContext);
-    const [formData, setFormData] = useState({ email: '', password: '' })
-    const [email, setEmail] = useState()
-    const [passworderror, setPasswordError] = useState();
-    const handleFormData = (e) => {
-        const { name, value } = e.target;
-        setFormData((previous) => ({ ...previous, [name]: value }))
+  const { adminLogin, authState } = useContext(AuthContext);
+  console.log(!!authState.token);
+  const [formData, setFormData] = useState({ email: '', password: '' });
+  const [email, setEmail] = useState();
+  const [passworderror, setPasswordError] = useState();
+  const handleFormData = (e) => {
+    const { name, value } = e.target;
+    setFormData((previous) => ({ ...previous, [name]: value }));
+  };
+
+  const emailPattern = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
+
+  const loginHandler = (e) => {
+    e.preventDefault();
+    {
+      /* Validations*/
     }
-
-    const emailPattern = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
-
-    const loginHandler = (e) => {
-        e.preventDefault();
-        {/* Validations*/ }
-
 
         if (!formData.email) {
             setEmail("Please  enter email id");
@@ -118,16 +119,21 @@ const Login = () => {
                             </div>
 
 
-                            <div>
-                                <button type="submit" onClick={loginHandler}
-                                    className="flex w-full justify-center rounded-md bg-orange-600 px-3 py-1.5 text-sm  leading-6 text-white shadow-sm  focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600">Sign In</button>
-                            </div>
-                        </form>
-                    </div>
+                <div>
+                  <button
+                    type='button'
+                    onClick={loginHandler}
+                    className='flex w-full justify-center rounded-md bg-orange-600 px-3 py-1.5 text-sm  leading-6 text-white shadow-sm  focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600'
+                  >
+                    Sign In
+                  </button>
                 </div>
+              </form>
             </div>
-        </main>
-    )
-}
+          </div>
+        </div>
+      </main>
+  );
+};
 
-export default Login
+export default Login;

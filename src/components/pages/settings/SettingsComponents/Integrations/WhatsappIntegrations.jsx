@@ -1,11 +1,7 @@
 import React from 'react';
 
-const Whatsapp = () => {
-  return (
-    <div>
-      hi whatsApp
-    </div>
-  );
-}
+const WhatsappIntegrations = () => {
+  return <div>hi WhatsappIntegrations</div>;
+};
 
-export default Whatsapp;
+export default WhatsappIntegrations;
