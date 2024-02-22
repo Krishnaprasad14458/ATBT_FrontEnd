@@ -78,7 +78,7 @@ const SettingUserForm = () => {
         }
         if (name == "label") {
             if (editIndex == null) {
-                setNewInputField((prev) => ({ ...prev, label: value, inputname: value, }))
+                setNewInputField((prev) => ({ ...prev, label: value, inputname: value.replace(/\s+/g, ''), }))
             }
             if (editIndex != null) {
                 setNewInputField((prev) => ({ ...prev, label: value, }))
@@ -115,7 +115,7 @@ const SettingUserForm = () => {
                 newInputField.type === "email" ||
                 newInputField.type === "password" ||
                 newInputField.type === "number" ||
-                newInputField.type === "mobilenumber" ||
+                newInputField.type === "phonenumber" ||
 
                 newInputField.type === "textarea" ||
                 newInputField.type === "file" ||
@@ -176,7 +176,7 @@ const SettingUserForm = () => {
   {label:"Email",value:"email"},
   {label:"Password",value:"password"} ,
   {label:"Number",value:"number"},
-  {label:"Mobile Number",value:"mobilenumber"},
+  {label:"Phone Number",value:"phonenumber"},
   {label:"Text Area",value:"textarea"}, 
   {label:"File",value:"file"} , 
   {label:"Date",value:"date"}, 
@@ -188,13 +188,13 @@ const SettingUserForm = () => {
 ]
      const handleSubmitCustomForm = async () => {
         let formData = {
-            arrayOfObjects: customForm, Name: "userform"
+            arrayOfObjects:customForm, Name: "userform" ,Tableview:{name:true,email:false,image:false,entityname:false,phonenumber:false,designation:false,role:false}
         }
         await saveCustomForm(formData)
     }
     const saveCustomForm = async (formData) => {
         toast.promise(
-            axios.put(`https://atbtmain.teksacademy.com/form/update`, formData),
+            axios.put(`https://atbtmain.teksacademy.com/form/userform`, formData),
             {
                 pending: 'Updating Form',
                 success: {
@@ -490,6 +490,8 @@ const SettingUserForm = () => {
                                                          ${newInputField.type === "text" ||
                                                                 newInputField.type === "email" ||
                                                                 newInputField.type === "number" ||
+                                                                newInputField.type === "phonenumber" ||
+
                                                                 newInputField.type === "textarea" ||
                                                                 newInputField.type === "date" ||
                                                                 newInputField.type === "select" ||
