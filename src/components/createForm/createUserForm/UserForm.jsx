@@ -529,9 +529,10 @@ function UserForm() {
                           type="checkbox"
                           name={item.inputname}
                           id={item.inputname}
+                          className='my-1'
                           checked={!!customFormFields[index].value}
                           onChange={(e) => handleChange(index, e.target.checked)} />
-                        <label htmlFor={item.inputname} className="block text-sm font-medium leading-6 my-1 text-gray-900">
+                        <label htmlFor={item.inputname} className="block text-sm font-medium leading-6 text-gray-900">
                           {item.label.charAt(0).toUpperCase() + item.label.slice(1)}
                         </label>
 
@@ -641,23 +642,37 @@ function UserForm() {
                     </div>
                   )}
                   {item.type === 'multiselect' && item.field === "custom" && (
-                    <div> Multiple Select <span onClick={() => handleOpenOptions(item.inputname)}>ICON</span>
-                      {openOptions === item.inputname &&
-                        (
-                          <div>
-                            {item.options.map((option, subindex) => (
-                              <div key={subindex}>
-                                <input
-                                  type="checkbox"
-                                  id={option}
-                                  checked={item.value.includes(option)}
-                                  onChange={(e) => handleChange(index, option)} />
-                                <label htmlFor={option}>{option}</label>
-                              </div>
-                            ))}
-                          </div>
-                        )}
-                      <div className='h-2 text-[#dc2626]'>{errors[item.inputname] && <span className="text-xs">{errors[item.inputname]}</span>}</div>
+                    <div className='relative'>
+                      <label htmlFor={item.label} className="block text-sm font-medium leading-6 my-2 text-gray-900">
+                        {item.label.charAt(0).toUpperCase() + item.label.slice(1)}
+                      </label>
+                      <div className='p-2 text-xs block w-full bg-gray-50   rounded-md  text-gray-900   border-2 border-gray-200 shadow-sm  placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-xs sm:leading-6'>
+                        <span className='flex justify-between'>
+                          <p className='text-sm text-gray-400'> Please select</p>
+                          <span onClick={() => handleOpenOptions(item.inputname)} >
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5">
+                              <path fillRule="evenodd" d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z" clipRule="evenodd" />
+                            </svg>
+                          </span>
+                        </span>
+                      </div>
+                      {openOptions === item.inputname && (
+                        <ul className="h-[100px] overflow-auto z-[3] absolute top-full left-0  bg-gray-50 border border-1 border-gray-200 w-full">
+                          {item.options.map((option, subindex) => (
+                            <li key={subindex} className="px-3 py-1 text-sm">
+                              <input
+                                type="checkbox"
+                                id={option}
+
+                                checked={item.value.includes(option)}
+                                onChange={(e) => handleChange(index, option)}
+                                className="mr-1 " />
+                              <label htmlFor={option} className="select-none">{option}</label>
+                            </li>
+                          ))}
+                        </ul>
+                      )}
+                      <div className='h-2 text-[#dc2626] mb-2'>{errors[item.inputname] && <span className='text-xs'>{errors[item.inputname]}</span>}</div>
                     </div>
                   )}
                 </div>
@@ -813,15 +828,22 @@ function UserForm() {
                   }
                   {
                     item.type === 'file' && item.field == "custom" && (
-                      <div className=" 'my-2 ms-5 flex flex-wrap gap-2">
-                        <div >
-                          <img
-                            src={item.value}
-                            name="EntityPhoto"
-                            alt=" file"
-                            className="rounded-lg w-20 h-20 "
-                          />
-                        </div>
+                      <div className=" 'my-2 ms-5 ">
+                        {item.value && item.value.length > 0 &&
+                          <p className='flex flex-wrap gap-2'>
+                            <span className=' w-2/6 text-[#727a85]'>{item.label.charAt(0).toUpperCase() + item.label.slice(1)}</span>
+                            <div className='flex gap-3'>
+                              <span>:</span>
+                              <img
+                                src={item.value}
+                                name="EntityPhoto"
+                                alt=" file"
+                                className="rounded-lg w-20 h-20   "
+                              />
+                            </div>
+
+                          </p>}
+
                       </div>
                     )
                   }
