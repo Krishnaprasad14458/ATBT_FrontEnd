@@ -3,7 +3,9 @@ import { Fragment, useRef, useState } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import axios from "axios";
 import { toast } from "react-toastify";
-const UsersFormDup = () => {
+import Swal from "sweetalert2";
+import { Link } from 'react-router-dom';
+const SettingUserForm = () => {
     const [open, setOpen] = useState(false)
     const [editIndex, setEditIndex] = useState(null);
     const cancelButtonRef = useRef(null);
@@ -29,6 +31,10 @@ const UsersFormDup = () => {
                 console.error('Error fetching data:', error);
             });
     }, [])
+
+    useEffect(()=>{
+        console.log("customform" , customForm)
+    } )
     const handleInputChange = (e) => {
         const { name, value, type, checked } = e.target;
         // this is for label for new input 
@@ -109,6 +115,8 @@ const UsersFormDup = () => {
                 newInputField.type === "email" ||
                 newInputField.type === "password" ||
                 newInputField.type === "number" ||
+                newInputField.type === "mobilenumber" ||
+
                 newInputField.type === "textarea" ||
                 newInputField.type === "file" ||
                 newInputField.type === "date" ||
@@ -134,10 +142,31 @@ const UsersFormDup = () => {
         }
         setCustomForm(updatedForm);
     };
-    const deleteInput = (index) => {
+    const deleteInput = async (index) => {
         const updatedForm = [...customForm];
-        updatedForm.splice(index, 1);
-        setCustomForm(updatedForm);
+        const confirmDelete = await Swal.fire({
+            title: 'Are you sure?',
+            text: 'Once deleted, you will not be able to recover this feild!',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#ea580c',
+            cancelButtonColor: '#fff',
+            confirmButtonText: 'Delete',
+            customClass: {
+              popup: 'custom-swal2-popup',
+              title: 'custom-swal2-title',
+              content: 'custom-swal2-content',
+            },
+          });
+      
+          if (confirmDelete.isConfirmed) {
+            try {
+              updatedForm.splice(index, 1);
+              setCustomForm(updatedForm);
+            } catch (error) {
+              Swal.fire('Error', 'Unable to delete user 🤯', 'error');
+            }
+          }
      
     };
     // const [inputType, setInputType] = useState(["", "text", "email", "password",
@@ -147,6 +176,7 @@ const UsersFormDup = () => {
   {label:"Email",value:"email"},
   {label:"Password",value:"password"} ,
   {label:"Number",value:"number"},
+  {label:"Mobile Number",value:"mobilenumber"},
   {label:"Text Area",value:"textarea"}, 
   {label:"File",value:"file"} , 
   {label:"Date",value:"date"}, 
@@ -172,14 +202,7 @@ const UsersFormDup = () => {
                         let formData = {
                             arrayOfObjects: customForm,
                         }
-                        axios.post(
-                            `https://atbtmain.teksacademy.com/custom/user`, formData)
-                            .then(response => {
-                                console.log(response);
-                            })
-                            .catch(error => {
-                                console.error(error);
-                            });
+                     
                         return `Form Updated`
                     }
                 },
@@ -209,11 +232,11 @@ const UsersFormDup = () => {
         setFiledOpen(!filedopen);
     }
     return (
-        <div className='container p-3'>
+<div className="p-4 container bg-[#f8fafc]">
             <div className="flex justify-between">
                 <p className="text-xl font-semibold">Custom User Form</p>
                 
-                <div className='flex justify-end'>
+                <div className='flex justify-end gap-3'>
                     <button type="submit" onClick={(e) => {
                         setEditIndex(null)
                         setNewInputField(
@@ -229,26 +252,32 @@ const UsersFormDup = () => {
                              )
                         setOpen(true)
                     }}
-                        className="create-btn px-3 py-2 inline-flex items-center justify-center whitespace-nowrap rounded-full text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white gap-1">+ Add Field</button>
+                        className="create-btn px-3 py-2 inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white gap-1">+ Add Field</button>
+                          <Link to="/forms">
+                        <button type="submit"
+                            className="create-btn px-4 py-2 inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white gap-1">Back</button>
+                    </Link>
                 </div>
             </div>
-            <div class="flex  mt-3">
-                <div class="w-full border-slate04  border-2 px-3 py-4 text-left text-xs">
+
+            <div class="flex  mt-3 h-[500px]">
+                <div class="w-full px-3 py-4 text-left text-xs overflow-y-scroll">
+
                     {customForm && customForm.length > 0 && customForm.map((input, index) => (
-                        <div>
+                        <div className="">
                             <div role="button" class="block w-full  ">
                                 <div class="flex justify-between items-center mb-3  ">
-                                    <div class="flex justify-between items-center bg-[#f3f4f6] p-4 w-full " >
+                                    <div class="flex justify-between items-center bg-[#f2f2f2] p-4 w-full " >
                                         <div class="flex text-black font-semibold">
                                             <div class="" onClick={() => handleFiledOpen(input.inputname)}>{input.label.charAt(0).toUpperCase() + input.label.slice(1)}</div></div>
                                         <div class="flex gap-3 md:gap-10">
                                             {/*up and down moving icons */}
-                                            <svg onClick={() => handleMoveDimension(index, 'up')} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+                                            {/* <svg onClick={() => handleMoveDimension(index, 'up')} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
                                                 <path fill-rule="evenodd" d="M10 17a.75.75 0 0 1-.75-.75V5.612L5.29 9.77a.75.75 0 0 1-1.08-1.04l5.25-5.5a.75.75 0 0 1 1.08 0l5.25 5.5a.75.75 0 1 1-1.08 1.04l-3.96-4.158V16.25A.75.75 0 0 1 10 17Z" clip-rule="evenodd" />
-                                            </svg>
-                                            <svg onClick={() => handleMoveDimension(index, 'down')} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+                                            </svg> */}
+                                            {/* <svg onClick={() => handleMoveDimension(index, 'down')} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
                                                 <path fill-rule="evenodd" d="M10 3a.75.75 0 0 1 .75.75v10.638l3.96-4.158a.75.75 0 1 1 1.08 1.04l-5.25 5.5a.75.75 0 0 1-1.08 0l-5.25-5.5a.75.75 0 1 1 1.08-1.04l3.96 4.158V3.75A.75.75 0 0 1 10 3Z" clip-rule="evenodd" />
-                                            </svg>
+                                            </svg> */}
                                             {/* Open and Close Arrow*/}
 
                                             <svg onClick={() => handleFiledOpen(input.inputname)} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
@@ -494,10 +523,10 @@ const UsersFormDup = () => {
                     </div>
                 </Dialog>
             </Transition.Root>
-            <div class="flex justify-end w-full mt-5 pb-2">
+            <div class="flex justify-end w-full mt-2">
                 <div class="">
                 </div>
-                <div class="me-5 my-4">
+                <div class="me-5">
                     <button class=" flex w-full justify-center rounded-md bg-orange-600 px-3 py-2.5 text-sm font-medium leading-6 text-white shadow-sm  focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600
                        " onClick={handleSubmitCustomForm}>Save</button>
                 </div>
@@ -506,7 +535,7 @@ const UsersFormDup = () => {
     )
 }
 
-export default UsersFormDup
+export default SettingUserForm
 
 
   

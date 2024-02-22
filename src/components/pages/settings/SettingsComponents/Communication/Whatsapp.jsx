@@ -2,11 +2,18 @@ import React from 'react'
 import { Link, Outlet } from 'react-router-dom'
 const Whatsapp = () => {
   return (
-    <div className='p-2'>
+    <div className='container p-4 bg-[#f8fafc]'>
       <div className='flex justify-between my-2'>
-        <p className='text-lg font-semibold'>Whatsapp</p>
-        <button type="submit"
-          className="rounded-md bg-orange-600 px-8 py-1.5 text-sm leading-6 text-white shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600"><Link to="/addwhatsapptemplate" className="text-sm"> Add Whatsapp Templates</Link></button>
+        <p className='text-xl font-semibold'>Whatsapp</p>
+        <div className='flex justify-end gap-3 '>
+          <button type="submit"
+            className="rounded-md bg-orange-600 px-8 py-1.5 text-sm leading-6 text-white shadow-sm  focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600"><Link to="/addwhatsapptemplate" className="text-sm"> Add Whatsapp Templates</Link></button>
+          <Link to="/communication">
+            <button type="submit"
+              className="create-btn px-4 py-2 inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white gap-1">Back</button>
+          </Link>
+        </div>
+
       </div>
       <table className="w-full table-auto min-w-full divide-y divide-gray-200 dark:divide-gray-700 border-collapse border border-[#e5e7eb] rounded-md ">
         <thead className='sticky top-0'>

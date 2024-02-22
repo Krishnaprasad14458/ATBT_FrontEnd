@@ -4,7 +4,8 @@ import { Dialog, Transition } from '@headlessui/react'
 import { ExclamationTriangleIcon } from '@heroicons/react/24/outline'
 import axios from "axios";
 import { toast } from "react-toastify";
-
+import Swal from "sweetalert2";
+import { Link } from 'react-router-dom';
 const Settingentityform = () => {
     const [open, setOpen] = useState(false)
     const [editIndex, setEditIndex] = useState(null);
@@ -17,11 +18,10 @@ const Settingentityform = () => {
             filterable: false, mandatory: false, field: "custom"
         }
     )
-   
     useEffect(() => {
         axios.get(`https://atbtmain.teksacademy.com/form/list?name=entityform`)
             .then(response => {
-                // Handle the successful response
+                // Handle the successful
                 setCustomForm(response.data.array)
                 console.log(response.data);
             })
@@ -138,10 +138,34 @@ const Settingentityform = () => {
         }
         setCustomForm(updatedForm);
     };
-    const deleteInput = (index) => {
+    const deleteInput = async (index) => {
         const updatedForm = [...customForm];
-        updatedForm.splice(index, 1);
-        setCustomForm(updatedForm);
+
+        const confirmDelete = await Swal.fire({
+            title: 'Are you sure?',
+            text: 'Once deleted, you will not be able to recover this feild!',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#ea580c',
+            cancelButtonColor: '#fff',
+            confirmButtonText: 'Delete',
+            customClass: {
+              popup: 'custom-swal2-popup',
+              title: 'custom-swal2-title',
+              content: 'custom-swal2-content',
+            },
+
+          });
+        //       updatedForm.splice(index, 1);
+        // setCustomForm(updatedForm);
+          if (confirmDelete.isConfirmed) {
+            try {
+              updatedForm.splice(index, 1);
+              setCustomForm(updatedForm);
+            } catch (error) {
+              Swal.fire('Error', 'Unable to delete user 🤯', 'error');
+            }
+          }
     };
 
     const inputType = [{ label: "", value: "" }, { label: "Text", value: "text" }, { label: "Email", value: "email" }, { label: "Password", value: "password" },
@@ -168,14 +192,7 @@ const Settingentityform = () => {
                         let formData = {
                             arrayOfObjects: customForm,
                         }
-                        axios.post(
-                            `https://atbtmain.teksacademy.com/custom/entity`, formData)
-                            .then(response => {
-                                console.log(response);
-                            })
-                            .catch(error => {
-                                console.error(error);
-                            });
+                       
                         return `Form Updated`
                     }
                 },
@@ -205,10 +222,10 @@ const Settingentityform = () => {
         setFiledOpen(!filedopen);
     }
     return (
-        <div className='container p-3'>
-            <div className="flex justify-between">
-                <p className="text-xl font-semibold">Custom Entity Form</p>
-                <div className='flex justify-end'>
+        <div className="p-4 container bg-[#f8fafc]">
+        <div className="flex justify-between">
+            <p className="text-xl font-semibold">Custom Entity Form</p>
+                <div className='flex justify-end gap-3'>
                     <button type="submit" onClick={(e) => {
                         setEditIndex(null)
                         setNewInputField(
@@ -224,15 +241,21 @@ const Settingentityform = () => {
                         ) 
                         setOpen(true)
                     }}
-                        className="create-btn px-3 py-2 inline-flex items-center justify-center whitespace-nowrap rounded-full text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white gap-1">+ Add Field</button></div>
+                        className="create-btn px-3 py-2 inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white gap-1">+ Add Field</button>
+                            <Link to="/forms">
+                        <button type="submit"
+                            className="create-btn px-4 py-2 inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white gap-1">Back</button>
+                    </Link></div>
             </div>
-            <div class="flex ">
-                <div class="w-full border-slate04 h-fit border-b py-3 mb-4 text-left text-xs ">
+
+            <div class="flex h-[500px] mt-3">
+                <div class="w-full px-3 py-4 text-left text-xs overflow-y-scroll">
+
                     {customForm && customForm.length > 0 && customForm.map((input, index) => (
                         <div>
                             <div role="button" class="block w-full  ">
                                 <div class="flex justify-between items-center mb-3  ">
-                                    <div class="flex justify-between items-center bg-[#e5e7eb] p-4 w-full " >
+                                    <div class="flex justify-between items-center bg-[#f2f2f2] p-4 w-full " >
                                         <div class="flex text-black font-semibold">
                                             <div class="">{input.label.charAt(0).toUpperCase() + input.label.slice(1)}</div></div>
                                         <div class="flex gap-3 md:gap-10">
@@ -491,12 +514,14 @@ const Settingentityform = () => {
                     </div>
                 </Dialog>
             </Transition.Root>
-            <div class="flex justify-end w-full  pb-2">
-                <div class="mr-4"></div><div class="">
+            <div class="flex justify-end w-full mt-2">
+                <div class="">
+                </div>
+                <div class="me-5">
                     <button class=" flex w-full justify-center rounded-md bg-orange-600 px-3 py-2.5 text-sm font-medium leading-6 text-white shadow-sm  focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600
-                       
                        " onClick={handleSubmitCustomForm}>Save</button>
-                </div></div>
+                </div>
+            </div>
         </div >
     )
 }

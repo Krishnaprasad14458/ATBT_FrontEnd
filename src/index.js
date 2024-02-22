@@ -10,29 +10,32 @@ import AuthProvider from './contexts/authContext/authContext';
 import UserDataProvider from './contexts/usersDataContext/usersDataContext';
 import EntitiesDataProvider from './contexts/entitiesDataContext/entitiesDataContext';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
+import PermissionsProvider from './rbac/PermissionsProvider';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   // <React.StrictMode>
   <BrowserRouter>
-    <AuthProvider>
-      <UserDataProvider>
-        <EntitiesDataProvider>
-          <App />
-          <ToastContainer
-            position="top-right"
-            autoClose={1000}
-            hideProgressBar={false}
-            newestOnTop={false}
-            closeOnClick
-            rtl={false}
-            pauseOnFocusLoss
-            draggable
-            pauseOnHover
-          />
-        </EntitiesDataProvider>
-      </UserDataProvider>
-    </AuthProvider>
+    <PermissionsProvider>
+      <AuthProvider>
+        <UserDataProvider>
+          <EntitiesDataProvider>
+            <App />
+            <ToastContainer
+              position="top-right"
+              autoClose={1000}
+              hideProgressBar={false}
+              newestOnTop={false}
+              closeOnClick
+              rtl={false}
+              pauseOnFocusLoss
+              draggable
+              pauseOnHover
+            />
+          </EntitiesDataProvider>
+        </UserDataProvider>
+      </AuthProvider>
+    </PermissionsProvider>
   </BrowserRouter>,
   {/* </React.StrictMode> */ }
 );

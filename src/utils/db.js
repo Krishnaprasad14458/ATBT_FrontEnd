@@ -210,3 +210,139 @@ export const items = [
         time: "18:00",
     },
 ];
+
+// export const permissionsDb = [
+//     {
+//         module: "dashboard",
+//         all: false,
+//         create: false,
+//         read: true,
+//         update: false,
+//         delete: false
+//     },
+//     {
+//         module: "user",
+//         all: false,
+//         create: true,
+//         read: true,
+//         update: true,
+//         delete: false
+//     },
+//     {
+//         module: "entity",
+//         all: false,
+//         create: false,
+//         read: true,
+//         update: false,
+//         delete: false
+//     },
+//     {
+//         module: "meeting",
+//         all: false,
+//         create: false,
+//         read: false,
+//         update: false,
+//         delete: false
+//     },
+//     {
+//         module: "task",
+//         all: false,
+//         create: false,
+//         read: false,
+//         update: false,
+//         delete: false
+//     },
+//     {
+//         module: "team",
+//         all: false,
+//         create: true,
+//         read: true,
+//         update: false,
+//         delete: true
+//     },
+//     {
+//         module: "report",
+//         all: false,
+//         create: false,
+//         read: true,
+//         update: false,
+//         delete: false
+//     },
+//     {
+//         module: "setting",
+//         all: false,
+//         create: false,
+//         read: true,
+//         update: false,
+//         delete: false
+//     }
+// ]
+
+export const permissionsDb = [
+    {
+        module: "dashboard",
+        all: true,
+        create: true,
+        read: true,
+        update: true,
+        delete: true
+    },
+    {
+        module: "user",
+        all: true,
+        create: true,
+        read: true,
+        update: true,
+        delete: true
+    },
+    {
+        module: "entity",
+        all: true,
+        create: true,
+        read: true,
+        update: true,
+        delete: true
+    },
+    {
+        module: "meeting",
+        all: true,
+        create: true,
+        read: true,
+        update: true,
+        delete: true
+    },
+    {
+        module: "task",
+        all: true,
+        create: true,
+        read: true,
+        update: true,
+        delete: true
+    },
+    {
+        module: "team",
+        all: true,
+        create: true,
+        read: true,
+        update: true,
+        delete: true
+    },
+    {
+        module: "report",
+        all: true,
+        create: true,
+        read: true,
+        update: true,
+        delete: true
+    },
+    {
+        module: "setting",
+        all: true,
+        create: true,
+        read: true,
+        update: true,
+        delete: true
+    }
+]
+
+// export const permissionsDb = []

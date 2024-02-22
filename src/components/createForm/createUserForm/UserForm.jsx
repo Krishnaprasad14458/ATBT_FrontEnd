@@ -1,12 +1,13 @@
 import React, { useState, useContext, useEffect } from 'react';
 import axios from 'axios';
-import './userForm.css';
-import defprop from '../../../Images/defprof.svg';
+import userform from './userForm.css';
+import defprop from '../../../Images/Avatar_new_02.svg';
 import useDebounce from '../../../hooks/debounce/useDebounce';
 import { UserDataContext } from '../../../contexts/usersDataContext/usersDataContext';
 import { EntitiesDataContext } from '../../../contexts/entitiesDataContext/entitiesDataContext';
 import { useNavigate } from 'react-router-dom'
-
+import $ from 'jquery';
+import linesimage from '../../../Images/lines_10.svg';
 function UserForm() {
   const navigate = useNavigate()
   const { usersState: { users, dashboard }, usersDispatch } = useContext(UserDataContext);
@@ -18,15 +19,7 @@ function UserForm() {
   // const [searchTerm, setSearchTerm] = useState('');
   // const [selected, setSelected] = useState([]);
   // const [showUsers, setShowUsers] = useState(false);
-  let [customFormFields, setCustomFormFields] = useState()
-  // const handleInputChange = (e) => {
-  //   setShowUsers(true)
-  //   const value = e.target.value;
-  //   setSearchTerm(() => {
-  //     debouncedSetSearch(value);
-  //     return value;
-  //   });
-  // };
+  let [customFormFields, setCustomFormFields] = useState();
   const handleOpenOptions = (name) => {
     if (openOptions == name) {
       setopenOptions("")
@@ -54,13 +47,11 @@ function UserForm() {
   //   updatedFormData[index].value = updatedMembers;
   //   setCustomFormFields(updatedFormData);
   // };
-
   useEffect(() => {
     axios.get(`https://atbtmain.teksacademy.com/form/list?name=userform`)
       .then(response => {
         // Handle the successful response
         setCustomFormFields(response.data.array)
-
       })
       .catch(error => {
         // Handle errors
@@ -68,7 +59,6 @@ function UserForm() {
       });
   }, [])
   const handleChange = (index, newValue) => {
-
     const updatedFormData = [...customFormFields];
     if (updatedFormData[index].type != "multiselect") {
       updatedFormData[index].value = newValue;
@@ -82,13 +72,10 @@ function UserForm() {
       }
       else {
         selectedoptions.push(newValue);
-
       }
       updatedFormData[index].value = selectedoptions;
       setCustomFormFields(updatedFormData);
-
     }
-
   };
   const handleFileChange = (event, index) => {
     const file = event.target.files[0];
@@ -103,10 +90,11 @@ function UserForm() {
       reader.readAsDataURL(file);
     }
   };
-  console.log("customFormFields", customFormFields)
+  useEffect(() => {
+    console.log("customFormFields", customFormFields)
+  })
   function handleFormSubmit(e) {
     e.preventDefault();
-
     for (let i = 0; i < customFormFields.length > 0; i++) {
       if (customFormFields[i].type == "text" && customFormFields[i].mandatory) {
         if (customFormFields[i].value.length == 0) {
@@ -158,11 +146,6 @@ function UserForm() {
           setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please Enter ${customFormFields[i].label}` }))
           return false
         }
-        // else if (customFormFields[i].value.length != 10) {
-        //   setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please Enter Correct ${customFormFields[i].label}` }))
-
-        // }
-
         else {
           setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
         }
@@ -172,7 +155,6 @@ function UserForm() {
           setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please Enter ${customFormFields[i].label}` }))
           return false
         }
-
         else {
           setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
         }
@@ -182,7 +164,6 @@ function UserForm() {
           setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please Enter ${customFormFields[i].label}` }))
           return false
         }
-
         else {
           setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
         }
@@ -192,7 +173,6 @@ function UserForm() {
           setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please Enter ${customFormFields[i].label}` }))
           return false
         }
-
         else {
           setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
         }
@@ -202,7 +182,6 @@ function UserForm() {
           setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please Enter ${customFormFields[i].label}` }))
           return false
         }
-
         else {
           setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
         }
@@ -212,7 +191,6 @@ function UserForm() {
           setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please Enter ${customFormFields[i].label}` }))
           return false
         }
-
         else {
           setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
         }
@@ -222,7 +200,6 @@ function UserForm() {
           setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please Enter ${customFormFields[i].label}` }))
           return false
         }
-
         else {
           setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
         }
@@ -232,30 +209,21 @@ function UserForm() {
           setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please Enter ${customFormFields[i].label}` }))
           return false
         }
-
         else {
           setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
         }
       }
-
     }
-
     const jsonData = {};
-
     jsonData.customFieldsData = JSON.stringify(customFormFields)
     jsonData.loggedInUser = parseInt(localStorage.getItem("id"))
-
     for (let i = 0; i < customFormFields.length; i++) {
       if (Array.isArray(customFormFields[i].value)) {
         jsonData[customFormFields[i].inputname] = JSON.stringify(customFormFields[i].value)
-
       } else {
         jsonData[customFormFields[i].inputname] = customFormFields[i].value
-
       }
-
     }
-
     console.log("jsonData", jsonData);
     axios.post(
       `https://atbtmain.teksacademy.com/user/data`, jsonData)
@@ -263,18 +231,20 @@ function UserForm() {
         // console.log(response.data);
         // console.log("reposnseeeeeeeeee", response.data)
         navigate(`/userlandingpage/${parseInt(response.data)}`)
-
       })
       .catch(error => {
         console.error(error);
       });
   }
+  $('input[type=number]').on('mousewheel', function (e) {
+    $(e.target).blur();
+  });
   return (
     <div className='container p-4 bg-[#f8fafc]'>
       {/* <p className="font-lg font-semibold p-3">Entity Form</p> */}
-      <p className="text-lg font-semibold">New User</p>
       <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-3 xl:grid-cols-3  gap-4 mt-2 ">
         <div className="col-span-1 ">
+          <p className="text-lg font-semibold">New User</p>
           <form className="" method="POST" onSubmit={handleFormSubmit} >
             {customFormFields &&
               customFormFields.length > 0 &&
@@ -283,7 +253,7 @@ function UserForm() {
                   {/* predefined fields */}
                   {item.type === 'text' && item.inputname == "name" && item.field === "predefined" && (
                     <div>
-                      <label htmlFor={item.label} className="block text-sm font-medium leading-6 text-gray-900">
+                      <label htmlFor={item.label} className="block text-sm font-medium leading-6 mt-2 text-gray-900">
                         {item.label.charAt(0).toUpperCase() + item.label.slice(1)}
                       </label>
                       <input
@@ -295,33 +265,30 @@ function UserForm() {
                         value={customFormFields[index].value || ''}
                         className="px-2 block w-full rounded-md bg-gray-50 border-2 border-gray-200 py-1 text-gray-900 appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6
                         placeholder:text-xs"
-                        onChange={(e) => handleChange(index, e.target.value)}
-                      />
-                      <div className='h-2 text-[#dc2626]'>{errors[item.inputname] && <span>{errors[item.inputname]}</span>}</div>
+                        onChange={(e) => handleChange(index, e.target.value)} />
+                      <div className='h-2 text-[#dc2626]'>{errors[item.inputname] && <span className="text-xs">{errors[item.inputname]}</span>}
+                      </div>
                     </div>
                   )}
                   {item.type === 'file' && item.inputname == "image" && item.field === "predefined" && (
                     <div>
-                      <label htmlFor={item.label} className="block text-sm font-medium leading-6 mt-1 text-gray-900">
+                      <label htmlFor={item.label} className="block text-sm font-medium leading-6 mt-2 text-gray-900">
                         {item.label.charAt(0).toUpperCase() + item.label.slice(1)}
                       </label>
                       <input
                         type="file"
                         name={item.inputname}
-
-
                         id={item.inputname}
-                        className="px-2 py-1.5 md:py- lg:py-0.5 xl:py-0.5 text-xs  block w-full rounded-md bg-gray-50 border-2 border-gray-200    text-gray-900 appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6"
+                        className="px-2 py-1.5 md:py-0.5 lg:py-0.5 xl:py-0.5 text-xs  block w-full rounded-md bg-gray-50 border-2 border-gray-200    text-gray-900 appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6"
                         onChange={(event) => handleFileChange(event, index)}
-                        accept="image/*"
-                      />
-                      <div className='h-2 text-[#dc2626]'>{errors[item.inputname] && <span>{errors[item.inputname]}</span>}</div>
-
+                        accept="image/*" />
+                      <div className='h-2 text-[#dc2626]'>{errors[item.inputname] && <span className="text-xs">{errors[item.inputname]}</span>}
+                      </div>
                     </div>
                   )}
                   {item.type === 'email' && item.inputname == "email" && item.field == "predefined" && (
                     <div>
-                      <label htmlFor={item.label} className="block text-sm font-medium leading-6 mt-1 text-gray-900">
+                      <label htmlFor={item.label} className="block text-sm font-medium leading-6 mt-2 text-gray-900">
                         {item.label.charAt(0).toUpperCase() + item.label.slice(1)}
                       </label>
                       <input
@@ -330,18 +297,16 @@ function UserForm() {
                         id={item.inputname}
                         placeholder='Enter email'
                         value={customFormFields[index].value || ''}
-
                         className="p-2 block w-full rounded-md bg-gray-50 border-2 border-gray-200 py-1 text-gray-900 appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6
                         placeholder:text-xs"
-                        onChange={(e) => handleChange(index, e.target.value)}
-                      />
-                      <div className='h-2 text-[#dc2626]'>{errors[item.inputname] && <span>{errors[item.inputname]}</span>}</div>
-
+                        onChange={(e) => handleChange(index, e.target.value)} />
+                      <div className='h-2 text-[#dc2626]'>{errors[item.inputname] && <span className="text-xs">{errors[item.inputname]}</span>}
+                      </div>
                     </div>
                   )}
                   {item.type === 'number' && item.inputname == "phonenumber" && item.field == "predefined" && (
                     <div>
-                      <label htmlFor={item.label} className="block text-sm font-medium leading-6 mt-1 text-gray-900">
+                      <label htmlFor={item.label} className="block text-sm font-medium leading-6 mt-2 text-gray-900">
                         {item.label.charAt(0).toUpperCase() + item.label.slice(1)}
                       </label>
                       <input
@@ -352,85 +317,73 @@ function UserForm() {
                         // value={formData[item.label] || ''}
                         value={customFormFields[index].value || ''}
                         onChange={(e) => handleChange(index, e.target.value)}
-                        className="p-2 block w-full rounded-md bg-gray-50 border-2 border-gray-200 py-1 text-gray-900 appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6
-                        placeholder:text-xs"
-                      // onChange={handleChange}
-
-
-                      />
-                      <div className='h-2 text-[#dc2626]'>{errors[item.inputname] && <span>{errors[item.inputname]}</span>}</div>
-
+                        className="p-2 block w-full rounded-md bg-gray-50 border-2 border-gray-200 py-1 text-gray-900 appearance-none hover:appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6
+                        placeholder:text-xs"/>
+                      <div className='h-2 text-[#dc2626]'>{errors[item.inputname] && <span className="text-xs">{errors[item.inputname]}</span>}
+                      </div>
                     </div>
                   )}
                   {item.type === 'select' && item.inputname == "entityname" && item.field == "predefined" && (
                     <div>
-                      <label htmlFor={item.label} className="block text-sm font-medium leading-6 mt-1 text-gray-900">
+                      <label htmlFor={item.label} className="block text-sm font-medium leading-6 mt-2 text-gray-900">
                         {item.label.charAt(0).toUpperCase() + item.label.slice(1)}
                       </label>
-
                       <select
                         id={item.inputname}
                         name={item.inputname}
                         className="px-2 py-1.5 block w-full text-xs rounded-md bg-gray-50 border-2 border-gray-200  text-gray-900  shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6"
                         onChange={(e) => handleChange(index, e.target.value)}
-                        value={customFormFields[index].value || ''}
-                      > <option value="" >--select--</option>
+                        value={customFormFields[index].value || ''}>
+                        <option value="" >--select--</option>
                         {item.options && item.options.map((option, index) => (
                           <option value={option}>{option}</option>
                         ))}
-
                       </select>
-                      <div className='h-2 text-[#dc2626]'>{errors[item.inputname] && <span>{errors[item.inputname]}</span>}</div>
-
+                      <div className='h-2 text-[#dc2626]'>{errors[item.inputname] && <span className="text-xs">{errors[item.inputname]}</span>}
+                      </div>
                     </div>
                   )}
                   {item.type === 'select' && item.inputname == "designation" && item.field == "predefined" && (
                     <div>
-                      <label htmlFor={item.label} className="block text-sm font-medium leading-6 mt-1 text-gray-900">
+                      <label htmlFor={item.label} className="block text-sm font-medium leading-6 mt-2 text-gray-900">
                         {item.label.charAt(0).toUpperCase() + item.label.slice(1)}
                       </label>
-
                       <select
                         id={item.inputname}
                         name={item.inputname}
                         className="px-2 py-1.5 text-xs block w-full rounded-md bg-gray-50 border-2 border-gray-200  text-gray-900  shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6"
-
                         onChange={(e) => handleChange(index, e.target.value)}
-                        value={customFormFields[index].value || ''}
-                      ><option value="">--select--</option>
+                        value={customFormFields[index].value || ''}>
+                        <option value="">--select--</option>
                         {item.options && item.options.map((option, index) => (
                           <option value={option}>{option}</option>
                         ))}
-
                       </select>
-                      <div className='h-2 text-[#dc2626]'>{errors[item.inputname] && <span>{errors[item.inputname]}</span>}</div>
-
+                      <div className='h-2 text-[#dc2626]'>{errors[item.inputname] &&
+                        <span className="text-xs">{errors[item.inputname]}</span>}
+                      </div>
                     </div>
                   )}
                   {item.type === 'select' && item.inputname == "role" && item.field == "predefined" && (
                     <div>
-                      <label htmlFor={item.label} className="block text-sm font-medium leading-6 mt-1 text-gray-900">
+                      <label htmlFor={item.label} className="block text-sm font-medium leading-6 mt-2 text-gray-900">
                         {item.label.charAt(0).toUpperCase() + item.label.slice(1)}
                       </label>
-
                       <select
                         id={item.inputname}
                         name={item.inputname}
                         className="px-2 text-xs py-1.5 block w-full rounded-md bg-gray-50 border-2 border-gray-200  text-gray-900  shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6"
-
                         onChange={(e) => handleChange(index, e.target.value)}
-                        value={customFormFields[index].value || ''}
-                      ><option value="">--select--</option>
+                        value={customFormFields[index].value || ''}>
+                        <option value="">--select--</option>
                         {item.options && item.options.map((option, index) => (
                           <option value={option}>{option}</option>
                         ))}
-
                       </select>
-                      <div className='h-2 text-[#dc2626]'>{errors[item.inputname] && <span>{errors[item.inputname]}</span>}</div>
-
+                      <div className='h-2 text-[#dc2626]'>{errors[item.inputname] && <span className="text-xs">{errors[item.inputname]}</span>}
+                      </div>
                     </div>
                   )}
-
                   {/* custom fields */}
                   {item.type === 'text' && item.field == "custom" && (
                     <div>
@@ -439,17 +392,14 @@ function UserForm() {
                       </label>
                       <input
                         type="text"
-                        // name={item.label}
                         name={item.inputname}
                         id={item.inputname}
-                        // value={formData[item.label] || ''}
                         value={customFormFields[index].value || ''}
                         className="p-2 block w-full rounded-md bg-gray-50 border-2 border-gray-200 py-1 text-gray-900 appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6
                         placeholder:text-xs"
-                        onChange={(e) => handleChange(index, e.target.value)}
-                      />
-                      <div className='h-2 text-[#dc2626]'>{errors[item.inputname] && <span>{errors[item.inputname]}</span>}</div>
-
+                        onChange={(e) => handleChange(index, e.target.value)} />
+                      <div className='h-2 text-[#dc2626]'>{errors[item.inputname] && <span className="text-xs">{errors[item.inputname]}</span>}
+                      </div>
                     </div>
                   )}
                   {item.type === 'email' && item.field == "custom" && (
@@ -461,15 +411,12 @@ function UserForm() {
                         type="email"
                         name={item.inputname}
                         id={item.inputname}
-
                         value={customFormFields[index].value || ''}
-
                         className="p-2 block w-full rounded-md bg-gray-50 border-2 border-gray-200 py-1 text-gray-900 appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6
                         placeholder:text-xs"
-                        onChange={(e) => handleChange(index, e.target.value)}
-                      />
-                      <div className='h-2 text-[#dc2626]'>{errors[item.inputname] && <span>{errors[item.inputname]}</span>}</div>
-
+                        onChange={(e) => handleChange(index, e.target.value)} />
+                      <div className='h-2 text-[#dc2626]'>{errors[item.inputname] && <span className="text-xs">{errors[item.inputname]}</span>}
+                      </div>
                     </div>
                   )}
                   {item.type === 'password' && item.field == "custom" && (
@@ -480,19 +427,13 @@ function UserForm() {
                       <input
                         type="password"
                         name={item.inputname}
-
                         id={item.inputname}
-                        // value={formData[item.label] || ''}
                         value={customFormFields[index].value || ''}
-
                         className="p-2 block w-full rounded-md bg-gray-50 border-2 border-gray-200 py-1 text-gray-900 appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6
                         placeholder:text-xs"
-                        // onChange={handleChange}
-                        onChange={(e) => handleChange(index, e.target.value)}
-
-                      />
-                      <div className='h-2 text-[#dc2626]'>{errors[item.inputname] && <span>{errors[item.inputname]}</span>}</div>
-
+                        onChange={(e) => handleChange(index, e.target.value)} />
+                      <div className='h-2 text-[#dc2626]'>{errors[item.inputname] && <span className="text-xs">{errors[item.inputname]}</span>}
+                      </div>
                     </div>
                   )}
                   {item.type === 'number' && item.field == "custom" && (
@@ -503,38 +444,33 @@ function UserForm() {
                       <input
                         type="number"
                         name={item.inputname}
-
                         id={item.inputname}
-                        // value={formData[item.label] || ''}
                         value={customFormFields[index].value || ''}
                         onChange={(e) => handleChange(index, e.target.value)}
                         className="p-2 block w-full rounded-md bg-gray-50 border-2 border-gray-200 py-1 text-gray-900 appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6
-                        placeholder:text-xs"
-                      // onChange={handleChange}
-
-
-                      />
-                      <div className='h-2 text-[#dc2626]'>{errors[item.inputname] && <span>{errors[item.inputname]}</span>}</div>
-
+                        placeholder:text-xs"/>
+                      <div className='h-2 text-[#dc2626]'>{errors[item.inputname] && <span className="text-xs">{errors[item.inputname]}</span>}
+                      </div>
                     </div>
                   )}
                   {item.type === 'checkbox' && item.field == "custom" && (
                     <div>
-                      <label htmlFor={item.inputname} className="block text-sm font-medium leading-6 my-2 text-gray-900">
-                        {item.label.charAt(0).toUpperCase() + item.label.slice(1)}
-                      </label>
-                      <input
-                        type="checkbox"
-                        name={item.inputname}
-                        id={item.inputname}
-                        checked={!!customFormFields[index].value}
-                        onChange={(e) => handleChange(index, e.target.checked)}
+                      <div className='flex gap-2'>
 
-                      />
-                      <div className='h-2 text-[#dc2626]'>{errors[item.inputname] && <span>{errors[item.inputname]}</span>}</div>
+                        <input
+                          type="checkbox"
+                          name={item.inputname}
+                          id={item.inputname}
+                          checked={!!customFormFields[index].value}
+                          onChange={(e) => handleChange(index, e.target.checked)} />
+                        <label htmlFor={item.inputname} className="block text-sm font-medium leading-6 my-1 text-gray-900">
+                          {item.label.charAt(0).toUpperCase() + item.label.slice(1)}
+                        </label>
 
+                      </div>
+                      <div className='h-2 text-[#dc2626]'>{errors[item.inputname] && <span className="text-xs">{errors[item.inputname]}</span>}
+                      </div>
                     </div>
-
                   )}
                   {item.type === 'date' && item.field == "custom" && (
                     <div>
@@ -545,16 +481,12 @@ function UserForm() {
                         type="date"
                         name={item.inputname}
                         id={item.inputname}
-                        // value={formData[item.label] || ''}
                         className="p-2 block w-full rounded-md bg-gray-50 border-2 border-gray-200 py-1 text-gray-900 appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6
                         placeholder:text-xs"
-                        // onChange={handleChange}
                         value={customFormFields[index].value || ''}
-
-                        onChange={(e) => handleChange(index, e.target.value)}
-                      />
-                      <div className='h-2 text-[#dc2626]'>{errors[item.inputname] && <span>{errors[item.inputname]}</span>}</div>
-
+                        onChange={(e) => handleChange(index, e.target.value)} />
+                      <div className='h-2 text-[#dc2626]'>{errors[item.inputname] && <span className="text-xs">{errors[item.inputname]}</span>}
+                      </div>
                     </div>
                   )}
                   {item.type === 'time' && item.field == "custom" && (
@@ -567,17 +499,11 @@ function UserForm() {
                         name={item.inputname}
                         className="p-2 block w-full rounded-md bg-gray-50 border-2 border-gray-200 py-1 text-gray-900 appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6
                         placeholder:text-xs"
-
                         id={item.inputname}
-                        // value={formData[item.label] || ''}
-                        // className="p-2 block w-full rounded-md bg-gray-50 border-2 border-gray-200 py-1 text-gray-900 appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6"
-                        // onChange={handleChange}
                         value={customFormFields[index].value || ''}
-                        onChange={(e) => handleChange(index, e.target.value)}
-
-                      />
-                      <div className='h-2 text-[#dc2626]'>{errors[item.inputname] && <span>{errors[item.inputname]}</span>}</div>
-
+                        onChange={(e) => handleChange(index, e.target.value)} />
+                      <div className='h-2 text-[#dc2626]'>{errors[item.inputname] && <span className="text-xs">{errors[item.inputname]}</span>}
+                      </div>
                     </div>
                   )}
                   {item.type === 'file' && item.field == "custom" && (
@@ -588,18 +514,14 @@ function UserForm() {
                       <input
                         type="file"
                         name={item.inputname}
-
-
                         id={item.inputname}
                         className="px-2 block w-full rounded-md bg-gray-50 border-2 border-gray-200 py-0.5 text-gray-900 appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6"
                         onChange={(event) => handleFileChange(event, index)}
-                        accept="image/*"
-                      />
-                      <div className='h-2 text-[#dc2626]'>{errors[item.inputname] && <span>{errors[item.inputname]}</span>}</div>
-
+                        accept="image/*" />
+                      <div className='h-2 text-[#dc2626]'>{errors[item.inputname] && <span className="text-xs">{errors[item.inputname]}</span>}
+                      </div>
                     </div>
                   )}
-
                   {item.type === 'range' && item.field == "custom" && (
                     <div>
                       <label htmlFor={item.label} className="block text-sm font-medium leading-6 my-2 text-gray-900">
@@ -608,17 +530,11 @@ function UserForm() {
                       <input
                         type="range"
                         name={item.inputname}
-
-
                         id={item.inputname}
                         value={customFormFields[index].value || ''}
-
-                        // className="p-2 block w-full rounded-md bg-gray-50 border-2 border-gray-200 py-1 text-gray-900 appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6"
-                        onChange={(e) => handleChange(index, e.target.value)}
-
-                      />
-                      <div className='h-2 text-[#dc2626]'>{errors[item.inputname] && <span>{errors[item.inputname]}</span>}</div>
-
+                        onChange={(e) => handleChange(index, e.target.value)} />
+                      <div className='h-2 text-[#dc2626]'>{errors[item.inputname] && <span className="text-xs">{errors[item.inputname]}</span>}
+                      </div>
                     </div>
                   )}
                   {item.type === 'textarea' && item.field == "custom" && (
@@ -628,39 +544,32 @@ function UserForm() {
                       </label>
                       <textarea
                         name={item.inputname}
-
-
                         id={item.inputname}
-
                         value={customFormFields[index].value || ''}
                         className="bg-gray-50 rounded-md text-xs p-2 w-full h-20 border-2 border-gray-200 focus:outline-none focus:border-orange-400"
-
-                        onChange={(e) => handleChange(index, e.target.value)}
-                      />
-                      <div className='h-2 text-[#dc2626]'>{errors[item.inputname] && <span>{errors[item.inputname]}</span>}</div>
-
+                        onChange={(e) => handleChange(index, e.target.value)} />
+                      <div className='h-2 text-[#dc2626]'>
+                        {errors[item.inputname] && <span className="text-xs">{errors[item.inputname]}</span>}
+                      </div>
                     </div>
                   )}
-
                   {item.type === 'select' && item.field == "custom" && (
                     <div>
                       <label htmlFor={item.label} className="block text-sm font-medium leading-6 my-2 text-gray-900">
                         {item.label.charAt(0).toUpperCase() + item.label.slice(1)}
                       </label>
-
                       <select
                         id={item.inputname}
                         name={item.inputname}
                         className="p-2 text-xs block w-full bg-gray-50  rounded-md  text-gray-900   border-2 border-gray-200 shadow-sm  placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-xs sm:leading-6"
                         onChange={(e) => handleChange(index, e.target.value)}
-                        value={customFormFields[index].value || ''}
-                      >{item.options && item.options.map((option, index) => (
-                        <option value={option}>{option}</option>
-                      ))}
-
+                        value={customFormFields[index].value || ''}>
+                        {item.options && item.options.map((option, index) => (
+                          <option value={option}>{option}</option>
+                        ))}
                       </select>
-                      <div className='h-2 text-[#dc2626]'>{errors[item.inputname] && <span>{errors[item.inputname]}</span>}</div>
-
+                      <div className='h-2 text-[#dc2626]'>{errors[item.inputname] && <span className="text-xs">{errors[item.inputname]}</span>}
+                      </div>
                     </div>
                   )}
                   {item.type === 'multiselect' && item.field === "custom" && (
@@ -674,19 +583,15 @@ function UserForm() {
                                   type="checkbox"
                                   id={option}
                                   checked={item.value.includes(option)}
-                                  onChange={(e) => handleChange(index, option)}
-                                />
+                                  onChange={(e) => handleChange(index, option)} />
                                 <label htmlFor={option}>{option}</label>
                               </div>
                             ))}
                           </div>
                         )}
-                      <div className='h-2 text-[#dc2626]'>{errors[item.inputname] && <span>{errors[item.inputname]}</span>}</div>
-
+                      <div className='h-2 text-[#dc2626]'>{errors[item.inputname] && <span className="text-xs">{errors[item.inputname]}</span>}</div>
                     </div>
-
                   )}
-
                 </div>
               ))}
             <div className=''>
@@ -696,318 +601,239 @@ function UserForm() {
           </form>
         </div>
         {/* preview */}
-        <div className="col-span-2 hidden sm:block md:block">
-          <div className=' mt-3'>
-            <div className='border border-1   p-5 border-gray-200 rounded-md shadow-md bg-[#f8fafc] h-[550px]'>
+        <div className="col-span-2  hidden sm:block md:block bg-cover  bg-no-repeat rounded-xl" style={{
+          backgroundImage: `url(${linesimage}) `,
+        }}>
+          <div className='mt-32 pt-10 pb-20'>
+            <div className='relative  flex flex-col text-gray-700 shadow-md bg-clip-border  rounded-xl w-8/12 justify-center mx-auto  bg-[#fafaf9] border-2 border-gray-200 '>
               {customFormFields && customFormFields.length > 0 && customFormFields.map((item) => (
-                <div >
-
-
-                  <div class="relative flex flex-col mt-6 text-gray-700 bg-white shadow-md bg-clip-border rounded-xl w-96">
-
+                <div className=''>
+                  {/* predefined fields*/}
+                  <div
+                    className='bg-[#fff7ed] rounded-xl'>
                     {item.type === 'file' && item.inputname == "image" && item.field === "predefined" && (
-                      <div className="mx-auto">
-
+                      <div >
                         {item.value ? (
                           <img
                             src={item.value}
                             name="EntityPhoto"
-                            alt="Selected User Photo"
-                            className="w-32 h-32 rounded-sm aspect-[1/1] object-cover"
-                          />
+                            alt="User Photo"
+                            className=" h-36 w-36 relative mx-auto bottom-20 rounded-full shadow-md" />
                         ) : (
-                          <img className="relative h-56 mx-4 -mt-6 overflow-hidden text-white shadow-lg bg-clip-border rounded-xl bg-blue-gray-500 shadow-blue-gray-500/40" src={defprop} alt="Neil image" />
+                          <img className=" h-36 w-36 relative mx-auto bottom-20 rounded-full shadow-md" src={defprop} alt="photo" />
                         )}
                       </div>
                     )}
-
-                    <div class="p-6">
-                      {item.type === 'text' && item.inputname == "name" && item.field === "predefined" && (
-                        <div className='absolute left-36 top-10'>
-                          {item.value ? (
-                            <p className='block mb-2 font-sans text-xl antialiased font-semibold leading-snug tracking-normal text-blue-gray-900'> {item.value.toUpperCase()}</p>
-                          ) : (
-                            <p className='block mb-2 font-sans text-xl antialiased font-semibold leading-snug tracking-normal text-blue-gray-900'> USER NAME</p>
-                          )}
-
-                        </div>
-                      )}
-                      {/* <h5 class="block mb-2 font-sans text-xl antialiased font-semibold leading-snug tracking-normal text-blue-gray-900">
-                        UI/UX Review Check
-                      </h5> */}
-                      {/* <p class="block font-sans text-base antialiased font-light leading-relaxed text-inherit">
-                        The place is close to Barceloneta Beach and bus stop just 2 min by walk
-                        and near to "Naviglio" where you can enjoy the main night life in
-                        Barcelona.
-                      </p>
-                    </div>
-                    <div class="p-6 pt-0">
-                      <button
-                        class="align-middle select-none font-sans font-bold text-center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 px-6 rounded-lg bg-gray-900 text-white shadow-md shadow-gray-900/10 hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none"
-                        type="button">
-                        Read More
-                      </button> */}
-                    </div>
                   </div>
-                  {/* predefined fields */}
                   {item.type === 'text' && item.inputname == "name" && item.field === "predefined" && (
-                    <div className='absolute left-36 top-10'>
+                    <div className=' flex justify-center'>
                       {item.value ? (
-                        <p className='text-2xl'> {item.value.toUpperCase()}</p>
+                        <p className='absolute top-16 my-3 text-md antialiased font-semibold leading-snug tracking-normal text-blue-gray-900'> {item.value.toUpperCase()}</p>
                       ) : (
-                        <p className='text-2xl text-gray-400'> USER NAME</p>
+                        <p className=' absolute top-16 my-3 text-md antialiased font-semibold leading-snug tracking-normal text-blue-gray-900'> USER NAME</p>
                       )}
-
                     </div>
                   )}
-
-
-                  {/* {item.type === 'file' && item.inputname == "image" && item.field === "predefined" && (
-                    <div className=' border-y-2 border-e-2 border-gray-200'>
-
+                  {item.type === 'select' && item.inputname == "entityname" && item.field == "predefined" && (
+                    <div className='flex  justify-center   border-t-2 border-gray-300 '>
                       {item.value ? (
-                        <img
-                          src={item.value}
-                          name="EntityPhoto"
-                          alt="Selected User Photo"
-                          className="w-32 h-32 rounded-sm aspect-[1/1] object-cover"
-                        />
+                        <p className=' absolute top-20 mt-8   text-sm antialiased  leading-snug tracking-normal text-blue-gray-900 '>
+                          {item.value} </p>
                       ) : (
-                        <img className="w-32 h-32 rounded-sm aspect-[1/1] object-cover" src={defprop} alt="Neil image" />
+                        <p className=' absolute top-20 mt-8   text-sm antialiased  leading-snug tracking-normal text-blue-gray-900 '>
+                          Infoz IT solutions</p>
                       )}
-                    </div>
-                  )} */}
-
-                  <div className='flex justify-between flex-wrap  '>
-
-                    <span>
-                      {item.type === 'email' && item.inputname == "email" && item.field == "predefined" && (
-                        <div className='absolute mt-5 ms-3 '>
-                          {item.value ? (
-                            <p className='flex gap-2'>
-                              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-7 h-7 ">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75" />
-                              </svg>
-                              <span className='text-lg'>  {item.value}</span></p>
-                          ) : (
-                            <p className='flex gap-2'> <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-7 h-7 ">
-                              <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75" />
-                            </svg>
-                              <span className='text-lg  text-gray-400'>Eg : abcd@gmail.com </span></p>
-                          )}
-
-                        </div>
-                      )}
-                    </span>
-
-                    <span className='mt-2 me-3'>
-                      {item.type === 'number' && item.inputname == "phonenumber" && item.field == "predefined" && (
-                        <div className=''>
-                          {item.value ? (
-                            <p className='flex gap-2'><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-7 h-7 ">
-                              <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 0 0 2.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 0 1-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 0 0-1.091-.852H4.5A2.25 2.25 0 0 0 2.25 4.5v2.25Z" />
-                            </svg>
-                              <span className='text-lg mt-1 '> {item.value} </span></p>
-                          ) : (
-                            <p className='flex gap-2'><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-7 h-7 ">
-                              <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 0 0 2.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 0 1-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 0 0-1.091-.852H4.5A2.25 2.25 0 0 0 2.25 4.5v2.25Z" />
-                            </svg>
-                              <span className='text-lg  text-gray-400'>  123 456 7890 </span></p>
-                          )}
-
-                        </div>
-                      )}</span>
-
-                  </div>
-                  <div></div>
-
-                  <div className='flex justify-between flex-wrap mt-2  '>
-                    <div>
-                      {item.type === 'select' && item.inputname == "entityname" && item.field == "predefined" && (
-                        <div className=' absolute mt-4 ms-3'>
-                          {item.value ? (
-                            <p className='flex gap-2'><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-7 h-7">
-                              <path stroke-linecap="round" stroke-linejoin="round" d="M9 17.25v1.007a3 3 0 0 1-.879 2.122L7.5 21h9l-.621-.621A3 3 0 0 1 15 18.257V17.25m6-12V15a2.25 2.25 0 0 1-2.25 2.25H5.25A2.25 2.25 0 0 1 3 15V5.25m18 0A2.25 2.25 0 0 0 18.75 3H5.25A2.25 2.25 0 0 0 3 5.25m18 0V12a2.25 2.25 0 0 1-2.25 2.25H5.25A2.25 2.25 0 0 1 3 12V5.25" />
-                            </svg>
-                              <span className='text-lg  '>  {item.value} </span></p>
-                          ) : (
-                            <p className='flex gap-2'><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-7 h-7">
-                              <path stroke-linecap="round" stroke-linejoin="round" d="M9 17.25v1.007a3 3 0 0 1-.879 2.122L7.5 21h9l-.621-.621A3 3 0 0 1 15 18.257V17.25m6-12V15a2.25 2.25 0 0 1-2.25 2.25H5.25A2.25 2.25 0 0 1 3 15V5.25m18 0A2.25 2.25 0 0 0 18.75 3H5.25A2.25 2.25 0 0 0 3 5.25m18 0V12a2.25 2.25 0 0 1-2.25 2.25H5.25A2.25 2.25 0 0 1 3 12V5.25" />
-                            </svg>
-                              <span className='text-lg  text-gray-400'> Eg : Infoz IT</span></p>
-                          )}
-
-                        </div>
-                      )}
-                    </div>
-                    <div>
-                      {item.type === 'select' && item.inputname == "designation" && item.field == "predefined" && (
-                        <div className='me-3'>
-                          {item.value ? (
-                            <p className='flex gap-2'><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-7 h-7">
-                              <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-                            </svg>
-                              <span className='text-lg  '> {item.value} </span></p>
-                          ) : (
-                            <p className='flex gap-2'><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-7 h-7">
-                              <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-                            </svg>
-                              <span className='text-lg  text-gray-400'>  Eg : Development</span></p>
-                          )}
-
-                        </div>
-                      )}
-                    </div>
-                  </div>
-
-
-                  {/* {item.type === 'email' && item.inputname == "email" && item.field == "predefined" && (
-                    <div className=''>
-                      {item.value ? (
-                        <p> {item.value}</p>
-                      ) : (
-                        <p> email id</p>
-                      )}
-
                     </div>
                   )}
-                  {item.type === 'number' && item.inputname == "phonenumber" && item.field == "predefined" && (
-                    <div className=''>
-                      {item.value ? (
-                        <p> {item.value}</p>
-                      ) : (
-                        <p> Phone number</p>
-                      )}
-
-                    </div>
-                  )} */}
-                  {/* 
-                  {item.type === 'select' && item.inputname == "designation" && item.field == "predefined" && (
-                    <div className=''>
-                      {item.value ? (
-                        <p> {item.value}</p>
-                      ) : (
-                        <p> user Designation</p>
-                      )}
-
-                    </div>
-                  )} */}
-                  {/* {item.type === 'select' && item.inputname == "role" && item.field == "predefined" && (
-                    <div className=''>
-                      {item.value ? (
-                        <p> {item.value}</p>
-                      ) : (
-                        <p> roles</p>
-                      )}
-
-                    </div>
-                  )} */}
-
+                  <div className=' '>
+                    {item.type === 'email' && item.inputname == "email" && item.field == "predefined" && (
+                      <div className='my-2 ms-5'>
+                        {item.value ? (
+                          <p className='flex flex-wrap gap-2'>
+                            <span className='w-2/6 text-[#727a85]'>{item.label.charAt(0).toUpperCase() + item.label.slice(1)}  </span>
+                            <span className='text-md font-[600]'> : {item.value}</span></p>
+                        ) : (
+                          <p className='flex flex-wrap gap-2'>
+                            <span className='w-2/6 text-[#727a85]'>{item.label.charAt(0).toUpperCase() + item.label.slice(1)}  </span>
+                            <span className='text-md font-[600]'> : Email</span></p>
+                        )}
+                      </div>
+                    )}
+                    {item.type === 'number' && item.inputname == "phonenumber" && item.field == "predefined" && (
+                      <div className='my-2 ms-5'>
+                        {item.value ? (
+                          <p className='flex flex-wrap gap-2'>
+                            <span className='w-2/6 text-[#727a85]'>{item.label.charAt(0).toUpperCase() + item.label.slice(1)}  </span>
+                            <span className='text-md font-[600]'> : {item.value}</span></p>
+                        ) : (
+                          <p className='flex flex-wrap gap-2'>
+                            <span className='w-2/6 text-[#727a85]'>{item.label.charAt(0).toUpperCase() + item.label.slice(1)}  </span>
+                            <span className='text-md font-[600]'> : Phone Number</span></p>
+                        )}
+                      </div>
+                    )}
+                    {item.type === 'select' && item.inputname == "designation" && item.field == "predefined" && (
+                      <div className='mt-2 ms-5 '>
+                        {item.value ? (
+                          <p className='flex flex-wrap gap-2'>
+                            <span className='w-2/6 text-[#727a85]'>{item.label.charAt(0).toUpperCase() + item.label.slice(1)}  </span>
+                            <span className='text-md font-[600]'> : {item.value}</span></p>
+                        ) : (
+                          <p className='flex flex-wrap gap-2'>
+                            <span className='w-2/6 text-[#727a85]'>{item.label.charAt(0).toUpperCase() + item.label.slice(1)}  </span>
+                            <span className='text-md font-[600]'> : Designation</span></p>
+                        )}
+                      </div>
+                    )}
+                  </div>
                   {/* custom fields */}
                   {
-                    item.type === "text" && item.field == "custom" && <div>
-                      {item.value}
-
+                    item.type === "text" && item.field == "custom" &&
+                    <div className='my-2 ms-5'>
+                      {item.value && item.value.length > 0 &&
+                        <p className='flex flex-wrap gap-2'>
+                          <span className=' w-2/6 text-[#727a85]'>{item.label.charAt(0).toUpperCase() + item.label.slice(1)}</span>
+                          <span className=' w-1/2 text-md font-[600]'> : {item.value}</span>
+                        </p>
+                      }
                     </div>
                   }
                   {
-                    item.type === "email" && item.field == "custom" && <div>
-                      {item.value}
-
+                    item.type === "email" && item.field == "custom" &&
+                    <div className='my-2 ms-5'>
+                      {item.value && item.value.length > 0 &&
+                        <p className='flex flex-wrap gap-2'>
+                          <span className=' w-2/6 text-[#727a85]'>{item.label.charAt(0).toUpperCase() + item.label.slice(1)}</span>
+                          <span className=' w-1/2 text-md font-[600]'> : {item.value}</span>
+                        </p>
+                      }
+                    </div>
+                  }
+                  {/* {
+                    item.type === "password" && item.field == "custom" &&
+                    <div className='my-2 ms-5'>
+                      {item.value && item.value.length > 0 &&
+                        <p className='flex flex-wrap gap-2'>
+                          <span className=' w-2/6 text-[#727a85]'>{item.label.charAt(0).toUpperCase() + item.label.slice(1)}</span>
+                          <span className=' w-1/2 text-md font-[600]'> : {item.value}</span>
+                        </p>
+                      }
+                    </div>
+                  } */}
+                  {
+                    item.type === "number" && item.field == "custom" &&
+                    <div className='my-2 ms-5'>
+                      {item.value && item.value.length > 0 &&
+                        <p className='flex flex-wrap gap-2'>
+                          <span className=' w-2/6 text-[#727a85]'>{item.label.charAt(0).toUpperCase() + item.label.slice(1)}</span>
+                          <span className=' w-1/2 text-md font-[600]'> : {item.value}</span>
+                        </p>
+                      }
                     </div>
                   }
                   {
-                    item.type === "password" && item.field == "custom" && <div>
-                      {item.value}
-
-                    </div>
-                  }
-                  {
-                    item.type === "number" && item.field == "custom" && <div>
-                      {item.value}
-
-                    </div>
-                  }
-                  {
-                    item.type === "textarea" && item.field == "custom" && <div>
-                      {item.value}
-
+                    item.type === "textarea" && item.field == "custom" &&
+                    // mb-1 ps-6 flex flex-wrap
+                    <div className='my-2 ms-5'>
+                      {item.value && item.value.length > 0 &&
+                        <p className='flex flex-wrap gap-2'>
+                          <span className=' w-2/6 text-[#727a85]'>{item.label.charAt(0).toUpperCase() + item.label.slice(1)}</span>
+                          <span className=' w-1/2 text-md font-[600]'> : {item.value}</span>
+                        </p>
+                      }
                     </div>
                   }
                   {
                     item.type === 'file' && item.field == "custom" && (
-                      <div className="flex gap-4">
-                        <div className="group h-10 ">
-                          {/* <spna>{item.label}</spna> */}
-                          {item.value ? (
-                            <img
-                              src={item.value}
-                              name="EntityPhoto"
-                              alt="Selected User Photo"
-                              className="rounded-lg w-10 h-10 mr-4"
-                            />
-                          ) : (
-                            <img className="w-10 h-10 rounded-lg " src={defprop} alt="Neil image" />
-                            // <img
-                            //   src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?q=80&w=256&h=256&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                            //   alt="Default User Photo"
-                            //   className="rounded-full w-12 h-12 mr-4"
-                            // />
-                          )}
+                      <div className=" 'my-2 ms-5 flex flex-wrap gap-2">
+                        <div >
+                          <img
+                            src={item.value}
+                            name="EntityPhoto"
+                            alt=" file"
+                            className="rounded-lg w-20 h-20 "
+                          />
                         </div>
-
-                        {/* <p className="text-lg font-black text-gray-800 mt-2">{ }</p> */}
-                        <hr className='my-3' />
-
                       </div>
                     )
                   }
                   {
-                    item.type === "date" && item.field == "custom" && <div>
-                      {item.value}
-
+                    item.type === "date" && item.field == "custom" &&
+                    <div className='my-2 ms-5'>
+                      {item.value && item.value.length > 0 &&
+                        <p className='flex flex-wrap gap-2'>
+                          <span className=' w-2/6 text-[#727a85]'>{item.label.charAt(0).toUpperCase() + item.label.slice(1)}</span>
+                          <span className=' w-1/2 text-md font-[600]'> : {item.value}</span>
+                        </p>
+                      }
                     </div>
                   }
                   {
-                    item.type === "select" && item.field == "custom" && <div>
-                      {item.value}
-
+                    item.type === "select" && item.field == "custom" &&
+                    <div className='my-2 ms-5'>
+                      {item.value && item.value.length > 0 &&
+                        <p className='flex flex-wrap gap-2'>
+                          <span className=' w-2/6 text-[#727a85]'>{item.label.charAt(0).toUpperCase() + item.label.slice(1)}</span>
+                          <span className=' w-1/2 text-md font-[600]'> : {item.value}</span>
+                        </p>
+                      }
                     </div>
                   }
-
                   {/* multiselect incomplte */}
                   {
-                    item.type === "multiselect" && item.field == "custom" && <div>
-                      {item.value}
+                    item.type === "multiselect" && item.field == "custom" &&
+                    <div className='my-2 ms-5'>
+                      {item.value && item.value.length > 0 &&
+                        <p className='flex flex-wrap gap-2'>
+                          <span className=' w-2/6 text-[#727a85]'>{item.label.charAt(0).toUpperCase() + item.label.slice(1)}</span>
 
+                          <span className=' w-1/2 text-md font-[600]'> : {item.value.join(",")}</span>
+                        </p>
+                      }
+                    </div>
+                  }
+                  {/* {
+                    item.type === "checkbox" && item.field == "custom" &&
+                    <div className='my-2 ms-5'>
+                      {item.value && item.value.length > 0 &&
+                        <p className='flex flex-wrap gap-2'>
+                          <span className=' w-2/6 text-[#727a85]'>{item.label.charAt(0).toUpperCase() + item.label.slice(1)}</span>
+                          <span className=' w-1/2 text-md font-[600]'> : {item.value}</span>
+                        </p>
+                      }
+                    </div>
+                  } */}
+                  {
+                    item.type === "range" && item.field == "custom" &&
+                    <div className='my-2 ms-5'>
+                      {item.value && item.value.length > 0 &&
+                        <p className='flex flex-wrap gap-2'>
+                          <span className=' w-2/6 text-[#727a85]'>{item.label.charAt(0).toUpperCase() + item.label.slice(1)}</span>
+                          <span className=' w-1/2 text-md font-[600]'> : {item.value}</span>
+                        </p>
+                      }
                     </div>
                   }
                   {
-                    item.type === "checkbox" && item.field == "custom" && <div>
-                      {item.value}
-
+                    item.type === "time" && item.field == "custom" &&
+                    <div className='my-2 ms-5'>
+                      {item.value && item.value.length > 0 &&
+                        <p className='flex flex-wrap gap-2'>
+                          <span className=' w-2/6 text-[#727a85]'>{item.label.charAt(0).toUpperCase() + item.label.slice(1)}</span>
+                          <span className=' w-1/2 text-md font-[600]'> : {item.value}</span>
+                        </p>
+                      }
                     </div>
                   }
-                  {
-                    item.type === "range" && item.field == "custom" && <div>
-                      {item.value}
-
-                    </div>
-                  }
-                  {
-                    item.type === "time" && item.field == "custom" && <div>
-                      {item.value}
-
-                    </div>
-                  }
-
                 </div>
               )
-
               )}
-            </div></div></div>
+            </div>
+          </div>
+        </div>
       </div>
     </div >
+
   );
 }
 

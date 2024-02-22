@@ -1,13 +1,18 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-
 const Forms = () => {
     return (
         <div className='container p-4 bg-[#f8fafc]'>
-            <h1 className='mx-3 font-semibold text-lg grid1-item'>Forms</h1>
-
+            <div className="flex justify-between">
+                <p className="text-xl font-semibold">Forms</p>
+                <div className='flex justify-end'>
+                    <Link to="/settings">
+                        <button type="submit"
+                            className="create-btn px-4 py-2 inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white gap-1">Back</button>
+                    </Link>
+                </div>
+            </div>
             <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4  gap-4 mt-4">
-
                 <Link
                     to="/settingentityform">
                     <div className='grid1-item  text-start'>
@@ -17,9 +22,7 @@ const Forms = () => {
                             </p>
                         </div>
                     </div>
-
                 </Link>
-
                 <Link to="/settingboardmeetingform">
                     <div className='grid1-item  text-start'>
                         <div className=" py-5 px-4 text-center bg-orange-600 rounded-md">
@@ -38,9 +41,7 @@ const Forms = () => {
                             </p>
                         </div>
                     </div>
-
                 </Link>
-
                 <Link to="/settingteamsform">
                     <div className='grid1-item  text-start'>
                         <div className=" py-5 px-4 text-center bg-orange-600 rounded-md">
@@ -54,5 +55,4 @@ const Forms = () => {
         </div>
     )
 }
-
 export default Forms
