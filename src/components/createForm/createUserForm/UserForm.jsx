@@ -455,15 +455,19 @@ function UserForm() {
                   )}
                   {item.type === 'checkbox' && item.field == "custom" && (
                     <div>
-                      <label htmlFor={item.inputname} className="block text-sm font-medium leading-6 my-2 text-gray-900">
-                        {item.label.charAt(0).toUpperCase() + item.label.slice(1)}
-                      </label>
-                      <input
-                        type="checkbox"
-                        name={item.inputname}
-                        id={item.inputname}
-                        checked={!!customFormFields[index].value}
-                        onChange={(e) => handleChange(index, e.target.checked)} />
+                      <div className='flex gap-2'>
+
+                        <input
+                          type="checkbox"
+                          name={item.inputname}
+                          id={item.inputname}
+                          checked={!!customFormFields[index].value}
+                          onChange={(e) => handleChange(index, e.target.checked)} />
+                        <label htmlFor={item.inputname} className="block text-sm font-medium leading-6 my-1 text-gray-900">
+                          {item.label.charAt(0).toUpperCase() + item.label.slice(1)}
+                        </label>
+
+                      </div>
                       <div className='h-2 text-[#dc2626]'>{errors[item.inputname] && <span className="text-xs">{errors[item.inputname]}</span>}
                       </div>
                     </div>
@@ -597,7 +601,7 @@ function UserForm() {
           </form>
         </div>
         {/* preview */}
-        <div className="col-span-2  hidden sm:block md:block bg-cover h-fit bg-no-repeat rounded-xl" style={{
+        <div className="col-span-2  hidden sm:block md:block bg-cover  bg-no-repeat rounded-xl" style={{
           backgroundImage: `url(${linesimage}) `,
         }}>
           <div className='mt-32 pt-10 pb-20'>
@@ -788,7 +792,7 @@ function UserForm() {
                       }
                     </div>
                   }
-                  {
+                  {/* {
                     item.type === "checkbox" && item.field == "custom" &&
                     <div className='my-2 ms-5'>
                       {item.value && item.value.length > 0 &&
@@ -798,7 +802,7 @@ function UserForm() {
                         </p>
                       }
                     </div>
-                  }
+                  } */}
                   {
                     item.type === "range" && item.field == "custom" &&
                     <div className='my-2 ms-5'>
