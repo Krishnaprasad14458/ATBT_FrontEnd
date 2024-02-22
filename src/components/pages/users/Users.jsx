@@ -9,7 +9,11 @@ import { ChevronDownIcon } from '@heroicons/react/20/solid';
 import { UserDataContext } from '../../../contexts/usersDataContext/usersDataContext';
 import useDebounce from '../../../hooks/debounce/useDebounce';
 import * as actions from '../../../contexts/usersDataContext/utils/usersActions';
+
 import GateKeeper from '../../../rbac/GateKeeper';
+
+import axios from 'axios';
+
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
 }
@@ -81,6 +85,74 @@ function Users() {
   const handleToggle = () => {
     setIsChecked((pre) => !pre);
   };
+
+  /////////////////////////////////////////////// Irshad
+  const [customForm, setCustomForm] = useState([
+  ])
+
+    let data = [
+  {id:1,name:"Irshad",image:"img1",entityname:"Infosys",email:"irshad@gmail.com",phonenumber:123456,designation:"developer",role:"admin"},
+  {id:1,name:"Irfan",image:"img1",entityname:"Reliance",email:"Irfan@gmail.com",phonenumber:123456,designation:"developer",role:"admin"},
+  {id:1,name:"Bala Krishna",image:"img1",entityname:"HDFC Bank",email:"Bala Krishna@gmail.com",phonenumber:123456,designation:"developer",role:"admin"},
+ {id:1,name:"Niraj",image:"img1",entityname:"ICICI Bank",email:"Niraj@gmail.com",phonenumber:123456,designation:"developer",role:"admin"} ,
+ {id:1,name:"Bhavita",image:"img1",entityname:"SRF",email:"Bhavita@gmail.com",phonenumber:123456,designation:"developer",role:"admin"}
+]
+  useEffect(() => {
+    axios.get(`https://atbtmain.teksacademy.com/form/list?name=userform`)
+      .then(response => {
+        // Handle the successful response
+        setCustomForm(response.data.array)
+        console.log(response.data);
+      })
+      .catch(error => {
+        // Handle errors
+        console.error('Error fetching data:', error);
+      });
+  }, [])
+  const [filterableInputsInBox, setFilterableInputsInBox] = useState()
+  const [filterableInputsInSearch, setFilterableInputsInSearch] = useState()
+
+  useEffect(() => {
+    const filterableInputsInBox = customForm.filter(obj => obj.filterable && obj.type == "select" || obj.type == "date").map(obj => ({
+      inputname: obj.inputname,
+      label: obj.label
+    }));
+    const filterableInputsInSearch = customForm.filter(obj => obj.filterable && obj.type === "text" || obj.type === "email" || obj.type === "number" || obj.type === "textarea").map(obj => ({
+      inputname: obj.inputname,
+      label: obj.label
+    }));
+
+    // const filterableInputs = customForm.filter(obj => obj.filterable && obj.type==="select").map(obj => ({
+    //   inputname: obj.inputname,
+    //   label: obj.label
+    // }));
+
+    setFilterableInputsInBox(filterableInputsInBox)
+    setFilterableInputsInSearch(filterableInputsInSearch)
+    console.log("customForm", customForm)
+
+    console.log("filterableInputsInBox", filterableInputsInBox)
+    console.log("filterableInputsInSearch", filterableInputsInSearch)
+
+  }, [customForm])
+
+  const [tableColumns, setTableColumns] = useState(
+    {
+    name: true, image: false, entityname: true, email: true, phonenumber: true, designation: false, role: false,
+  }
+  )
+  const handleCheckboxChange = (columnName) => {
+    setTableColumns((prevColumns) => ({
+      ...prevColumns,
+      [columnName]: !prevColumns[columnName],
+    }));
+  };
+  let  keys = Object.keys(data[0])
+const loopArray = Array.from({ length: Object.keys(data[0]).length });
+
+  useEffect(() => {
+    console.log("tableColumns", tableColumns)
+  })
   return (
     <div className='overflow-x-auto p-3'>
       <div className='grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-3 xl:grid-col-3 gap-2 mt-2'>
@@ -138,10 +210,64 @@ function Users() {
             <option value='250'>250</option>
             <option value='500'>500</option>
           </select>
-          <Menu
-            as='div'
-            className='relative inline-block me-2 '
-          >
+
+         
+
+          
+          <Menu as="div" className="relative inline-block me-2 ">
+            <div className=''>
+              <Menu.Button className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-gray-50 px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-200 hover:bg-gray-50">
+                Colums
+                <ChevronDownIcon className="-mr-1 h-5 w-5 text-gray-400" aria-hidden="true" />
+              </Menu.Button>
+            </div>
+
+            <Transition
+              as={Fragment}
+              enter="transition ease-out duration-100"
+              enterFrom="transform opacity-0 scale-95"
+              enterTo="transform opacity-100 scale-100"
+              leave="transition ease-in duration-75"
+              leaveFrom="transform opacity-100 scale-100"
+              leaveTo="transform opacity-0 scale-95"
+            >
+              <Menu.Items className="absolute right-0 z-50 mt-2 w-48 origin-top-left rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                <div className="py-1">
+                  {Object.keys(tableColumns).map((columnName) => (
+                    <Menu.Item >
+                      {({ active }) => (
+                        <p key={columnName} className='flex text-left'
+                        // onClick={() => {
+                        //   usersDispatch(setSortBy(filter.inputname, 'SETTINGS'))
+                        // }}
+                        // className={classNames(
+                        //   active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
+                        //   'block px-4 py-2 text-sm text-left'
+                        // )}
+                        >
+                          {/* {filter.label} */}
+                          <label htmlFor={columnName}>{columnName}</label>
+
+                          <input
+                            className={classNames(
+                              active ? 'bg-gray-100 text-gray-900 flex' : 'text-gray-700',
+                              'block px-4 py-2 text-sm text-left flex')}
+                            type="checkbox"
+                            checked={tableColumns[columnName]}
+                            onChange={() => handleCheckboxChange(columnName)}
+                          />
+
+                        </p>
+                      )}
+                    </Menu.Item>
+                  ))}
+
+                </div>
+              </Menu.Items>
+            </Transition>
+          </Menu>
+          <Menu as="div" className="relative inline-block me-2 ">
+
             <div className=''>
               <Menu.Button className='inline-flex w-full justify-center gap-x-1.5 rounded-md bg-gray-50 px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-200 hover:bg-gray-50'>
                 Filters
@@ -161,59 +287,28 @@ function Users() {
               leaveFrom='transform opacity-100 scale-100'
               leaveTo='transform opacity-0 scale-95'
             >
-              <Menu.Items className='absolute right-0 z-50 mt-2 w-48 origin-top-left rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none'>
-                <div className='py-1'>
-                  <Menu.Item>
-                    {({ active }) => (
-                      <p
-                        onClick={() => {
-                          usersDispatch(setSortBy('createdAt', 'SETTINGS'));
-                        }}
-                        className={classNames(
-                          active
-                            ? 'bg-gray-100 text-gray-900'
-                            : 'text-gray-700',
-                          'block px-4 py-2 text-sm text-left'
-                        )}
-                      >
-                        Date
-                      </p>
-                    )}
-                  </Menu.Item>
-                  <Menu.Item>
-                    {({ active }) => (
-                      <p
-                        onClick={() => {
-                          usersDispatch(setSortBy('name', 'SETTINGS'));
-                        }}
-                        className={classNames(
-                          active
-                            ? 'bg-gray-100 text-gray-900'
-                            : 'text-gray-700',
-                          'block px-4 py-2 text-sm text-left'
-                        )}
-                      >
-                        Email
-                      </p>
-                    )}
-                  </Menu.Item>
-                  <Menu.Item>
-                    {({ active }) => (
-                      <p
-                        onClick={() => {
-                          usersDispatch(setSortBy('email', 'SETTINGS'));
-                        }}
-                        className={classNames(
-                          active
-                            ? 'bg-gray-100 text-gray-900'
-                            : 'text-gray-700',
-                          'block px-4 py-2 text-sm text-left'
-                        )}
-                      >
-                        Name
-                      </p>
-                    )}
-                  </Menu.Item>
+              <Menu.Items className="absolute right-0 z-50 mt-2 w-48 origin-top-left rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                <div className="py-1">
+                  {filterableInputsInBox?.map((filter, index) => (
+                    <Menu.Item>
+                      {({ active }) => (
+                        <p
+                          onClick={() => {
+                            usersDispatch(setSortBy(filter.inputname, 'SETTINGS'))
+                          }}
+                          className={classNames(
+                            active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
+                            'block px-4 py-2 text-sm text-left'
+                          )}
+                        >
+                          {filter.label}
+
+                        </p>
+                      )}
+                    </Menu.Item>
+                  ))}
+
+
                 </div>
               </Menu.Items>
             </Transition>
@@ -221,6 +316,52 @@ function Users() {
         </div>
       </div>
       {/* table */}
+
+
+      <div className="mt-8">
+        <div className="overflow-y-scroll max-h-[410px]">
+        
+          <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700 rounded-md">
+            <thead className='sticky top-0 bg-orange-600'>
+              {/* <tr>
+                <th scope="col" className="px-6 py-2.5 text-left text-sm  border border-[#e5e7eb] text-white bg-orange-600">Name</th>
+                <th scope="col" className="px-6 py-2.5 text-left text-sm  border border-[#e5e7eb] text-white bg-orange-600">Email</th>
+                <th scope="col" className="px-6 py-2.5 text-left text-sm  border border-[#e5e7eb] text-white bg-orange-600">Phone Number</th>
+                <th scope="col" className="px-6 py-2.5 text-left text-sm  border border-[#e5e7eb] text-white bg-orange-600">Entity</th>
+                <th scope="col" className="px-6 py-2.5 text-left text-sm  border border-[#e5e7eb] text-white bg-orange-600">Designation</th>
+                <th scope="col" className="px-6 py-2.5 text-left text-sm  border border-[#e5e7eb] text-white bg-orange-600">Role</th>
+                <th scope="col" className="px-6 py-2.5 text-left text-sm  border border-[#e5e7eb] text-white bg-orange-600">Actions</th>
+              </tr> */}
+              <tr>
+        {keys && keys.map((th, index) => (
+    tableColumns[th] && <th  scope="col" className="px-6 py-2.5 text-left text-sm  border border-[#e5e7eb] text-white bg-orange-600">{th}
+    </th>
+))}
+<th  scope="col" className="px-6 py-2.5 text-left text-sm  border border-[#e5e7eb] text-white bg-orange-600">actions</th>
+</tr>
+            </thead>
+            <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
+              {/* {settings?.paginatedUsers?.map(user => (
+                <tr className="hover:bg-gray-100 dark:hover:bg-gray-700">
+                  <td className="px-6 py-2 text-left border border-[#e5e7eb] text-xs font-medium text-gray-800">{user.userName}</td>
+                  <td className="px-6 py-2 text-left border border-[#e5e7eb] text-xs font-medium text-gray-800">{user.email}</td>
+                  <td className="px-6 py-2 text-left border border-[#e5e7eb] text-xs font-medium text-gray-800">{user.phone}</td>
+                  <td className="px-6 py-2 text-left border border-[#e5e7eb] text-xs font-medium text-gray-800">{user.EntityName ? user.EntityName : 'none'}</td>
+                  <td className="px-6 py-2 text-left border border-[#e5e7eb] text-xs font-medium text-gray-800">{user.Designation ? user.Designation : 'none'}</td>
+                  <td className="px-6 py-2 text-left border border-[#e5e7eb] text-xs font-medium text-gray-800">{user.Role ? user.Role : 'none'}</td>
+                  <td className="px-6 py-2 text-left border border-[#e5e7eb] text-xs font-medium text-gray-800">
+                    <div className='flex justify-start'>
+                      <button type="button" className="me-5 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
+                        <Link to={`/userlandingpage/${user.id}`}><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5">
+                          <path d="M10 12.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z" />
+                          <path fill-rule="evenodd" d="M.664 10.59a1.651 1.651 0 0 1 0-1.186A10.004 10.004 0 0 1 10 3c4.257 0 7.893 2.66 9.336 6.41.147.381.146.804 0 1.186A10.004 10.004 0 0 1 10 17c-4.257 0-7.893-2.66-9.336-6.41ZM14 10a4 4 0 1 1-8 0 4 4 0 0 1 8 0Z" clip-rule="evenodd" />
+                        </svg></Link>
+                      </button>
+                      <button type="button" className="me-5 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5">
+                          <path d="m2.695 14.762-1.262 3.155a.5.5 0 0 0 .65.65l3.155-1.262a4 4 0 0 0 1.343-.886L17.5 5.501a2.121 2.121 0 0 0-3-3L3.58 13.419a4 4 0 0 0-.885 1.343Z" />
+                        </svg>
+
 
       {/* className='px-6 py-2.5 text-left text-sm  border border-[#e5e7eb] text-white bg-orange-600' */}
       <div className="max-h-[410px] overflow-y-scroll mt-6">
@@ -264,34 +405,88 @@ function Users() {
                         <path fill-rule="evenodd" d="M8.75 1A2.75 2.75 0 0 0 6 3.75v.443c-.795.077-1.584.176-2.365.298a.75.75 0 1 0 .23 1.482l.149-.022.841 10.518A2.75 2.75 0 0 0 7.596 19h4.807a2.75 2.75 0 0 0 2.742-2.53l.841-10.52.149.023a.75.75 0 0 0 .23-1.482A41.03 41.03 0 0 0 14 4.193V3.75A2.75 2.75 0 0 0 11.25 1h-2.5ZM10 4c.84 0 1.673.025 2.5.075V3.75c0-.69-.56-1.25-1.25-1.25h-2.5c-.69 0-1.25.56-1.25 1.25v.325C8.327 4.025 9.16 4 10 4ZM8.58 7.72a.75.75 0 0 0-1.5.06l.3 7.5a.75.75 0 1 0 1.5-.06l-.3-7.5Zm4.34.06a.75.75 0 1 0-1.5-.06l-.3 7.5a.75.75 0 1 0 1.5.06l.3-7.5Z" clip-rule="evenodd" />
                       </svg>
 
-                    </button>
-                    <button type="button" className="me-5 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
-                      <div className="flex items-center">
-                        <input
-                          id="toggle"
-                          type="checkbox"
-                          className="hidden"
-                          checked={isChecked}
-                          onChange={handleToggle}
-                        />
-                        <label htmlFor="toggle" className="flex items-center cursor-pointer">
-                          <div className={`w-8 h-4 rounded-full shadow-inner ${isChecked ? ' bg-[#ea580c]' : 'bg-[#c3c6ca]'}`}>
-                            <div
-                              className={`toggle__dot w-4 h-4 rounded-full shadow ${isChecked ? 'ml-4 bg-white' : 'bg-white'}`}
-                            ></div>
-                          </div>
-                          {/* <div className={`ml-3 text-sm font-medium ${isChecked ? 'text-gray-400' : 'text--400'}`}>
+
+                      </button>
+                      <button type="button" className="me-5 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
+                        <div className="flex items-center">
+                          <input
+                            id="toggle"
+                            type="checkbox"
+                            className="hidden"
+                            checked={isChecked}
+                            onChange={handleToggle}
+                          />
+                          <label htmlFor="toggle" className="flex items-center cursor-pointer">
+                            <div className={`w-8 h-4 rounded-full shadow-inner ${isChecked ? ' bg-[#ea580c]' : 'bg-[#c3c6ca]'}`}>
+                              <div
+                                className={`toggle__dot w-4 h-4 rounded-full shadow ${isChecked ? 'ml-4 bg-white' : 'bg-white'}`}
+                              ></div>
+                            </div>
+                            <div className={`ml-3 text-sm font-medium ${isChecked ? 'text-gray-400' : 'text--400'}`}>
                               {isChecked ? 'Enabled' : 'Disabled'}
-                             </div> */}
-                        </label>
-                      </div>
-                    </button>
-                  </div>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+                             </div>
+                          </label>
+                        </div>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              ))} */}
+                {data && data.map((item,index)=>(
+     <tr>
+       {loopArray.map((items, index) => (
+   tableColumns[keys[index]] &&     <td  className="px-6 py-2 text-left border border-[#e5e7eb] text-xs font-medium text-gray-800">{item[keys[index]]}</td>
+   
+
+      ))}
+      <td className="px-6 py-2 text-left border border-[#e5e7eb] text-xs font-medium text-gray-800">
+                    <div className='flex justify-start'>
+                      <button type="button" className="me-5 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
+                        <Link to={`/userlandingpage/`}><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5">
+                          <path d="M10 12.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z" />
+                          <path fill-rule="evenodd" d="M.664 10.59a1.651 1.651 0 0 1 0-1.186A10.004 10.004 0 0 1 10 3c4.257 0 7.893 2.66 9.336 6.41.147.381.146.804 0 1.186A10.004 10.004 0 0 1 10 17c-4.257 0-7.893-2.66-9.336-6.41ZM14 10a4 4 0 1 1-8 0 4 4 0 0 1 8 0Z" clip-rule="evenodd" />
+                        </svg></Link>
+                      </button>
+                      <button type="button" className="me-5 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5">
+                          <path d="m2.695 14.762-1.262 3.155a.5.5 0 0 0 .65.65l3.155-1.262a4 4 0 0 0 1.343-.886L17.5 5.501a2.121 2.121 0 0 0-3-3L3.58 13.419a4 4 0 0 0-.885 1.343Z" />
+                        </svg>
+
+                      </button>
+                      <button type="button" onClick={() => handleDeleteUser()} className="me-5 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5">
+                          <path fill-rule="evenodd" d="M8.75 1A2.75 2.75 0 0 0 6 3.75v.443c-.795.077-1.584.176-2.365.298a.75.75 0 1 0 .23 1.482l.149-.022.841 10.518A2.75 2.75 0 0 0 7.596 19h4.807a2.75 2.75 0 0 0 2.742-2.53l.841-10.52.149.023a.75.75 0 0 0 .23-1.482A41.03 41.03 0 0 0 14 4.193V3.75A2.75 2.75 0 0 0 11.25 1h-2.5ZM10 4c.84 0 1.673.025 2.5.075V3.75c0-.69-.56-1.25-1.25-1.25h-2.5c-.69 0-1.25.56-1.25 1.25v.325C8.327 4.025 9.16 4 10 4ZM8.58 7.72a.75.75 0 0 0-1.5.06l.3 7.5a.75.75 0 1 0 1.5-.06l-.3-7.5Zm4.34.06a.75.75 0 1 0-1.5-.06l-.3 7.5a.75.75 0 1 0 1.5.06l.3-7.5Z" clip-rule="evenodd" />
+                        </svg>
+
+                      </button>
+                      <button type="button" className="me-5 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
+                        <div className="flex items-center">
+                          <input
+                            id="toggle"
+                            type="checkbox"
+                            className="hidden"
+                            checked={isChecked}
+                            onChange={handleToggle}
+                          />
+                          <label htmlFor="toggle" className="flex items-center cursor-pointer">
+                            <div className={`w-8 h-4 rounded-full shadow-inner ${isChecked ? ' bg-[#ea580c]' : 'bg-[#c3c6ca]'}`}>
+                              <div
+                                className={`toggle__dot w-4 h-4 rounded-full shadow ${isChecked ? 'ml-4 bg-white' : 'bg-white'}`}
+                              ></div>
+                            </div>
+                            <div className={`ml-3 text-sm font-medium ${isChecked ? 'text-gray-400' : 'text--400'}`}>
+                              {isChecked ? 'Enabled' : 'Disabled'}
+                             </div>
+                          </label>
+                        </div>
+                      </button>
+                    </div>
+                  </td>
+   </tr>
+  ))}
+            </tbody>
+          </table>
+        </div>
 
       </div>
 
@@ -393,3 +588,80 @@ function Users() {
 }
 
 export default Users;
+
+
+// <div>
+//             {Object.keys(tableColumns).map((columnName) => (
+//               <div key={columnName}>
+//                 <input
+//                   type="checkbox"
+//                   checked={tableColumns[columnName]}
+//                   onChange={() => handleCheckboxChange(columnName)}
+//                 />
+//                 <label htmlFor={columnName}>{columnName}</label>
+//               </div>
+//             ))}
+//           </div>
+
+// import React from 'react'
+ 
+// const Entities = () => {
+//   let data = [
+//   {id:1,name:"irshad",email:"irshad@gmail.com",age:20,},
+//   {id:2,name:"srikanth",email:"irshad@gmail.com",age:20},
+//   {id:3,name:"irshad",email:"irshad@gmail.com",age:20},
+//   {id:4,name:"irshad",email:"irshad@gmail.com",age:20},
+//   {id:5,name:"irshad",email:"irshad@gmail.com",age:20},
+//   {id:6,name:"irshad",email:"irshad@gmail.com",age:20},
+//   {id:7,name:"irshad",email:"irshad@gmail.com",age:23},
+//   {id:8,name:"anil",email:"irshad@gmail.com",age:23}
+// ]
+// let  keys = Object.keys(data[0])
+// const loopArray = Array.from({ length: Object.keys(data[0]).length });
+//   return (
+//     <div>
+     
+// <table >
+// {keys && keys.map((th,index)=>(
+//       <th>{th}</th>
+//     ))}
+//   {data && data.map((item,index)=>(
+//      <tr>
+//        {loopArray.map((items, index) => (
+//         <td>{item[keys[index]]}</td>
+//       ))}
+//    </tr>
+//   ))}
+ 
+ 
+// </table>
+   
+ 
+//     </div>
+//   )
+// }
+ 
+// export default Entities
+{/* <table >
+<tr>
+{keys && keys.map((th, index) => (
+tableColumns[th] && <th key={index} style={{padding:"5px 20px 5px 20px", backgroundColor:"orange"}}>{th}
+</th>
+))}
+<th style={{padding:"5px 20px 5px 20px", backgroundColor:"orange"}}>actions</th>
+</tr>
+
+{data && data.map((item,index)=>(
+<tr>
+{loopArray.map((items, index) => (
+tableColumns[keys[index]] &&     <td style={{padding:"5px 20px 5px 20px"}}>{item[keys[index]]}</td>
+
+
+))}
+<td style={{padding:"5px 20px 5px 20px"}}>view edit delete </td>
+</tr>
+))}
+
+
+
+</table> */}
