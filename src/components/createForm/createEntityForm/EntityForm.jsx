@@ -50,7 +50,6 @@ function EntityForm() {
     setSearchTerm('');
     setShowUsers(false);
   };
-
   const handleRemove = (user, index) => {
     const updatedSelected = selected.filter(
       (selectedUser) => selectedUser !== user
@@ -63,7 +62,6 @@ function EntityForm() {
     updatedFormData[index].value = updatedMembers;
     setCustomFormFields(updatedFormData);
   };
-
   useEffect(() => {
     axios
       .get(`https://atbtmain.teksacademy.com/form/list?name=entityform`)
@@ -110,25 +108,28 @@ function EntityForm() {
     }
   };
   console.log('customFormFields', customFormFields);
-  function handleFormSubmit(e) {
-    e.preventDefault();
-
-    for (let i = 0; i < customFormFields.length; i++) {
+  /////
+  const [isErrorspresent, setIsErrorspresent] = useState(false);
+  const checkValidation = () => {
+    let isErrorspresent = false;
+    for (let i = 0; i < customFormFields.length > 0; i++) {
       if (customFormFields[i].type == 'text' && customFormFields[i].mandatory) {
         if (customFormFields[i].value.length == 0) {
           setErrors((prev) => ({
             ...prev,
             [customFormFields[i]
-              .inputname]: `please enter ${customFormFields[i].label}`,
+              .inputname]: `Please Enter ${customFormFields[i].label}`,
           }));
-          return false;
+
+          isErrorspresent = true;
         } else if (customFormFields[i].value.length < 3) {
           setErrors((prev) => ({
             ...prev,
             [customFormFields[i].inputname]:
-              'name should contain atleast 3 characters',
+              'Name should contain atleast 3 characters',
           }));
-          return false;
+
+          isErrorspresent = true;
         } else {
           setErrors((prev) => ({
             ...prev,
@@ -141,9 +142,8 @@ function EntityForm() {
           setErrors((prev) => ({
             ...prev,
             [customFormFields[i]
-              .inputname]: `please upload ${customFormFields[i].label}`,
+              .inputname]: `Please Upload ${customFormFields[i].label}`,
           }));
-          return false;
         } else {
           setErrors((prev) => ({
             ...prev,
@@ -158,17 +158,17 @@ function EntityForm() {
         if (customFormFields[i].value.length == 0) {
           setErrors((prev) => ({
             ...prev,
-            [customFormFields[i]
-              .inputname]: `please enter ${customFormFields[i].label}`,
+            [customFormFields[i].inputname]: 'Please Enter Text',
           }));
-          return false;
+
+          isErrorspresent = true;
         } else if (customFormFields[i].value.length < 3) {
           setErrors((prev) => ({
             ...prev,
             [customFormFields[i].inputname]:
               'Name should contain atleast 3 characters',
           }));
-          return false;
+          isErrorspresent = true;
         } else {
           setErrors((prev) => ({
             ...prev,
@@ -184,9 +184,10 @@ function EntityForm() {
           setErrors((prev) => ({
             ...prev,
             [customFormFields[i]
-              .inputname]: `please enter ${customFormFields[i].label}`,
+              .inputname]: `Please Enter ${customFormFields[i].label}`,
           }));
-          return false;
+
+          isErrorspresent = true;
         } else {
           setErrors((prev) => ({
             ...prev,
@@ -202,15 +203,28 @@ function EntityForm() {
           setErrors((prev) => ({
             ...prev,
             [customFormFields[i]
-              .inputname]: `pease enter ${customFormFields[i].label}`,
+              .inputname]: `Please Enter ${customFormFields[i].label}`,
           }));
-          return false;
+          isErrorspresent = true;
+        } else {
+          setErrors((prev) => ({
+            ...prev,
+            [customFormFields[i].inputname]: '',
+          }));
         }
-        // else if (customFormFields[i].value.length != 10) {
-        //   setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `please enter correct ${customFormFields[i].label}` }))
-        //   return false
-        // }
-        else {
+      }
+      if (
+        customFormFields[i].type == 'phonenumber' &&
+        customFormFields[i].mandatory
+      ) {
+        if (customFormFields[i].value.length !== 10) {
+          setErrors((prev) => ({
+            ...prev,
+            [customFormFields[i]
+              .inputname]: `Please Enter 10 Digits ${customFormFields[i].label}`,
+          }));
+          isErrorspresent = true;
+        } else {
           setErrors((prev) => ({
             ...prev,
             [customFormFields[i].inputname]: '',
@@ -225,9 +239,9 @@ function EntityForm() {
           setErrors((prev) => ({
             ...prev,
             [customFormFields[i]
-              .inputname]: `please enter ${customFormFields[i].label}`,
+              .inputname]: `Please Enter ${customFormFields[i].label}`,
           }));
-          return false;
+          isErrorspresent = true;
         } else {
           setErrors((prev) => ({
             ...prev,
@@ -243,9 +257,10 @@ function EntityForm() {
           setErrors((prev) => ({
             ...prev,
             [customFormFields[i]
-              .inputname]: `please enter ${customFormFields[i].label}`,
+              .inputname]: `Please Enter ${customFormFields[i].label}`,
           }));
-          return false;
+
+          isErrorspresent = true;
         } else {
           setErrors((prev) => ({
             ...prev,
@@ -258,9 +273,10 @@ function EntityForm() {
           setErrors((prev) => ({
             ...prev,
             [customFormFields[i]
-              .inputname]: `please enter ${customFormFields[i].label}`,
+              .inputname]: `Please Enter ${customFormFields[i].label}`,
           }));
-          return false;
+
+          isErrorspresent = true;
         } else {
           setErrors((prev) => ({
             ...prev,
@@ -276,9 +292,10 @@ function EntityForm() {
           setErrors((prev) => ({
             ...prev,
             [customFormFields[i]
-              .inputname]: `please enter ${customFormFields[i].label}`,
+              .inputname]: `Please Enter ${customFormFields[i].label}`,
           }));
-          return false;
+
+          isErrorspresent = true;
         } else {
           setErrors((prev) => ({
             ...prev,
@@ -294,9 +311,10 @@ function EntityForm() {
           setErrors((prev) => ({
             ...prev,
             [customFormFields[i]
-              .inputname]: `please enter ${customFormFields[i].label}`,
+              .inputname]: `Please Enter ${customFormFields[i].label}`,
           }));
-          return false;
+
+          isErrorspresent = true;
         } else {
           setErrors((prev) => ({
             ...prev,
@@ -309,9 +327,10 @@ function EntityForm() {
           setErrors((prev) => ({
             ...prev,
             [customFormFields[i]
-              .inputname]: `please enter ${customFormFields[i].label}`,
+              .inputname]: `Please Enter ${customFormFields[i].label}`,
           }));
-          return false;
+
+          isErrorspresent = true;
         } else {
           setErrors((prev) => ({
             ...prev,
@@ -327,9 +346,9 @@ function EntityForm() {
           setErrors((prev) => ({
             ...prev,
             [customFormFields[i]
-              .inputname]: `please enter ${customFormFields[i].label}`,
+              .inputname]: `Please Enter ${customFormFields[i].label}`,
           }));
-          return false;
+          isErrorspresent = true;
         } else {
           setErrors((prev) => ({
             ...prev,
@@ -338,54 +357,206 @@ function EntityForm() {
         }
       }
     }
-    // const formData = new FormData(e.target)
-    // let membersArray = ["dfsfds", "Fsdfds"];
-    // formData.set("members", JSON.stringify(membersArray));
-    const jsonData = {};
-    // const jsonDataa = {};
-
-    jsonData.customFieldsData = JSON.stringify(customFormFields);
-    jsonData.loggedInUser = parseInt(localStorage.getItem('id'));
-
-    for (let i = 0; i < customFormFields.length; i++) {
-      if (Array.isArray(customFormFields[i].value)) {
-        jsonData[customFormFields[i].inputname] = JSON.stringify(
-          customFormFields[i].value
-        );
-      } else {
-        jsonData[customFormFields[i].inputname] = customFormFields[i].value;
-      }
+    if (isErrorspresent) {
+      setIsErrorspresent(true);
     }
-    // for (let [key, value] of formData.entries()) {
-    //   if (jsonData.hasOwnProperty(key)) {
-    //     if (Array.isArray(jsonData[key])) {
-    //       jsonData[key].push(value);
-    //     } else {
-    //       jsonData[key] = [jsonData[key], value];
-    //     }
-    //   } else {
-    //     jsonData[key] = value;
-    //   }
-    // }
-    console.log('jsonData', jsonData);
-    axios
-      .post(`https://atbtmain.teksacademy.com/entity/data`, jsonData)
-      .then((response) => {
-        // console.log(response.data);
-        // console.log("reposnseeeeeeeeee", response.data)
-        navigate(`/entitylandingpage/${parseInt(response.data)}`);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-    // createEntity(formData)
+    if (!isErrorspresent) {
+      setIsErrorspresent(false);
+    }
+    return isErrorspresent;
+  };
+  useEffect(() => {
+    if (isErrorspresent && customFormFields && customFormFields.length > 0) {
+      checkValidation();
+    }
+  }, [customFormFields]);
+
+  function handleFormSubmit(e) {
+    e.preventDefault();
+
+    if (!checkValidation()) {
+      const jsonData = {};
+      jsonData.customFieldsData = JSON.stringify(customFormFields);
+      jsonData.loggedInUser = parseInt(localStorage.getItem('id'));
+      for (let i = 0; i < customFormFields.length; i++) {
+        if (Array.isArray(customFormFields[i].value)) {
+          jsonData[customFormFields[i].inputname] = JSON.stringify(
+            customFormFields[i].value
+          );
+        } else {
+          jsonData[customFormFields[i].inputname] = customFormFields[i].value;
+        }
+      }
+      console.log('jsonData', jsonData);
+      axios
+        .post(`https://atbtmain.teksacademy.com/user/create-user`, jsonData)
+        .then((response) => {
+          // console.log(response.data);
+          // console.log("reposnseeeeeeeeee", response.data)
+          navigate(`/entitylandingpage/${parseInt(response.data)}`);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }
   }
+
+  ////
+  // function handleFormSubmit(e) {
+  //   e.preventDefault();
+  //   for (let i = 0; i < customFormFields.length; i++) {
+  //     if (customFormFields[i].type == "text" && customFormFields[i].mandatory) {
+  //       if (customFormFields[i].value.length == 0) {
+  //         setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please enter ${customFormFields[i].label}` }))
+  //         return false
+  //       }
+  //       else if (customFormFields[i].value.length < 3) {
+  //         setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "Name should contain atleast 3 characters" }))
+  //         return false
+  //       }
+  //       else {
+  //         setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
+  //       }
+  //     }
+  //     if (customFormFields[i].type == "file" && customFormFields[i].mandatory) {
+  //       if (!customFormFields[i].value) {
+  //         setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please upload ${customFormFields[i].label}` }))
+  //         return false
+  //       }
+  //       else {
+  //         setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
+  //       }
+  //     }
+  //     if (customFormFields[i].type == "textarea" && customFormFields[i].mandatory) {
+  //       if (customFormFields[i].value.length == 0) {
+  //         setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please enter ${customFormFields[i].label}` }))
+  //         return false
+  //       }
+  //       else if (customFormFields[i].value.length < 3) {
+  //         setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "Name should contain atleast 3 characters" }))
+  //         return false
+  //       }
+  //       else {
+  //         setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
+  //       }
+  //     }
+  //     if (customFormFields[i].type == "email" && customFormFields[i].mandatory) {
+  //       if (customFormFields[i].value.length < 1) {
+  //         setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please enter ${customFormFields[i].label}` }))
+  //         return false
+  //       }
+  //       else {
+  //         setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
+  //       }
+  //     }
+  //     if (customFormFields[i].type == "number" && customFormFields[i].mandatory) {
+  //       if (customFormFields[i].value.length < 1) {
+  //         setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please enter ${customFormFields[i].label}` }))
+  //         return false
+  //       }
+  //       else {
+  //         setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
+  //       }
+  //     }
+  //     if (customFormFields[i].type == "phonenumber" && customFormFields[i].mandatory) {
+  //       if (customFormFields[i].value.length !== 10) {
+  //         setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please Enter 10 Digits ${customFormFields[i].label}` }))
+  //         return false
+  //       }
+  //       else {
+  //         setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
+  //       }
+  //     }
+  //     if (customFormFields[i].type == "select" && customFormFields[i].mandatory) {
+  //       if (customFormFields[i].value.length < 1) {
+  //         setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please enter ${customFormFields[i].label}` }))
+  //         return false
+  //       }
+  //       else {
+  //         setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
+  //       }
+  //     }
+  //     if (customFormFields[i].type == "multiselect" && customFormFields[i].mandatory) {
+  //       if (customFormFields[i].value.length < 1) {
+  //         setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please enter ${customFormFields[i].label}` }))
+  //         return false
+  //       }
+  //       else {
+  //         setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
+  //       }
+  //     }
+  //     if (customFormFields[i].type == "date" && customFormFields[i].mandatory) {
+  //       if (!customFormFields[i].value) {
+  //         setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please enter ${customFormFields[i].label}` }))
+  //         return false
+  //       }
+  //       else {
+  //         setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
+  //       }
+  //     }
+  //     if (customFormFields[i].type == "checkbox" && customFormFields[i].mandatory) {
+  //       if (!customFormFields[i].value) {
+  //         setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please enter ${customFormFields[i].label}` }))
+  //         return false
+  //       }
+  //       else {
+  //         setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
+  //       }
+  //     }
+  //     if (customFormFields[i].type == "range" && customFormFields[i].mandatory) {
+  //       if (!customFormFields[i].value) {
+  //         setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please enter ${customFormFields[i].label}` }))
+  //         return false
+  //       }
+  //       else {
+  //         setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
+  //       }
+  //     }
+  //     if (customFormFields[i].type == "time" && customFormFields[i].mandatory) {
+  //       if (!customFormFields[i].value) {
+  //         setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please enter ${customFormFields[i].label}` }))
+  //         return false
+  //       }
+  //       else {
+  //         setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
+  //       }
+  //     }
+  //     if (customFormFields[i].type == "password" && customFormFields[i].mandatory) {
+  //       if (customFormFields[i].value.length < 1) {
+  //         setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please enter ${customFormFields[i].label}` }))
+  //         return false
+  //       }
+  //       else {
+  //         setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
+  //       }
+  //     }
+  //   }
+  //   const jsonData = {};
+  //   jsonData.customFieldsData = JSON.stringify(customFormFields)
+  //   jsonData.loggedInUser = parseInt(localStorage.getItem("id"))
+  //   for (let i = 0; i < customFormFields.length; i++) {
+  //     if (Array.isArray(customFormFields[i].value)) {
+  //       jsonData[customFormFields[i].inputname] = JSON.stringify(customFormFields[i].value)
+  //     } else {
+  //       jsonData[customFormFields[i].inputname] = customFormFields[i].value
+  //     }
+  //   }
+  //   console.log("jsonData", jsonData);
+  //   axios.post(
+  //     `https://atbtmain.teksacademy.com/entity/data`, jsonData)
+  //     .then(response => {
+  //       navigate(`/entitylandingpage/${parseInt(response.data)}`)
+  //     })
+  //     .catch(error => {
+  //       console.error(error);
+  //     });
+  // }
   return (
     <div className='container p-4 bg-[#f8fafc]'>
       {/* <p className="font-lg font-semibold p-3">Entity Form</p> */}
       <p className='text-lg font-semibold'>New Entity</p>
-      <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-4 '>
-        <div className='col-span-1 p-3'>
+      <div className='grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-3 xl:grid-cols-3  gap-4 mt-2 '>
+        <div className='col-span-1'>
           <form
             className=' '
             method='POST'
@@ -402,7 +573,7 @@ function EntityForm() {
                       <div>
                         <label
                           htmlFor={item.label}
-                          className='block text-sm font-medium leading-6 my-2 text-gray-900'
+                          className='block text-sm font-medium leading-6 mt-2 text-gray-900'
                         >
                           {item.label.charAt(0).toUpperCase() +
                             item.label.slice(1)}
@@ -413,13 +584,15 @@ function EntityForm() {
                           id={item.inputname}
                           placeholder='Enter entity name'
                           value={customFormFields[index].value || ''}
-                          className='p-2 block w-full rounded-md bg-gray-50 border-2 border-gray-200 py-1 text-gray-900 appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6
+                          className='px-2 block w-full rounded-md bg-gray-50 border-2 border-gray-200 py-1 text-gray-900 appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6
                         placeholder:text-xs'
                           onChange={(e) => handleChange(index, e.target.value)}
                         />
                         <div className='h-2 text-[#dc2626]'>
                           {errors[item.inputname] && (
-                            <span>{errors[item.inputname]}</span>
+                            <span className='text-xs'>
+                              {errors[item.inputname]}
+                            </span>
                           )}
                         </div>
                       </div>
@@ -430,7 +603,7 @@ function EntityForm() {
                       <div>
                         <label
                           htmlFor={item.label}
-                          className='block text-sm font-medium leading-6 my-2 text-gray-900'
+                          className='block text-sm font-medium leading-6 mt-2 text-gray-900'
                         >
                           {item.label.charAt(0).toUpperCase() +
                             item.label.slice(1)}
@@ -439,13 +612,15 @@ function EntityForm() {
                           type='file'
                           name={item.inputname}
                           id={item.inputname}
-                          className='px-2  block w-full rounded-md bg-gray-50 border-2 border-gray-200 py-0.5 text-gray-900 appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6'
+                          className='px-2 py-1.5 md:py-0.5 lg:py-0.5 xl:py-0.5 text-xs  block w-full rounded-md bg-gray-50 border-2 border-gray-200    text-gray-900 appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6'
                           onChange={(event) => handleFileChange(event, index)}
                           accept='image/*'
                         />
                         <div className='h-2 text-[#dc2626]'>
                           {errors[item.inputname] && (
-                            <span>{errors[item.inputname]}</span>
+                            <span className='text-xs'>
+                              {errors[item.inputname]}
+                            </span>
                           )}
                         </div>
                       </div>
@@ -456,7 +631,7 @@ function EntityForm() {
                       <div>
                         <label
                           htmlFor={item.label}
-                          className='block text-sm font-medium leading-6 my-2 text-gray-900'
+                          className='block text-sm font-medium leading-6 mt-2 text-gray-900'
                         >
                           {item.label.charAt(0).toUpperCase() +
                             item.label.slice(1)}
@@ -471,7 +646,9 @@ function EntityForm() {
                         />
                         <div className='h-2 text-[#dc2626]'>
                           {errors[item.inputname] && (
-                            <span>{errors[item.inputname]}</span>
+                            <span className='text-xs'>
+                              {errors[item.inputname]}
+                            </span>
                           )}
                         </div>
                       </div>
@@ -486,14 +663,13 @@ function EntityForm() {
                         >
                           {item.label}
                         </label>
-
-                        <div className='border-2 border-gray-200 flex flex-wrap gap-1 p-1.5 selected-users-container relative z-50   rounded-md'>
+                        <div className='border-2 border-gray-200 flex flex-wrap gap-1 p-2 py-1 selected-users-container relative  rounded-md'>
                           {selected &&
                             selected.length > 0 &&
                             selected.map((result) => {
                               let mail = result.split('@')[0];
                               return (
-                                <span className='flex gap-1 text-xs mt-1 border-2 border-gray-200 rounded-md  focus:border-orange-600'>
+                                <span className='flex gap-1 text-xs mt-2 border-2 border-gray-200 rounded-md  focus:border-orange-600'>
                                   <img
                                     className='w-4 h-4 rounded-lg'
                                     src={defprop}
@@ -519,16 +695,15 @@ function EntityForm() {
                             aria-describedby='lui_5891'
                             aria-invalid='false'
                             style={{ border: 'none' }}
-                            className='bg-[#f8fafc]  h-5  focus:outline-none z-40 placeholder:text-xs placeholder:pt-2'
+                            className='bg-[#f8fafc]   focus:outline-none  placeholder:text-xs '
                             value={searchTerm}
                             onChange={handleInputChange}
                           />
                         </div>
-                        {showUsers && (
+                        {showUsers && searchTerm.length > 0 && (
                           <ul className='user-list z-50 absolute top-full left-0  bg-gray-50 border border-1 border-gray-200 w-full'>
                             {usersEmails
                               ?.filter((user) => !selected.includes(user))
-                              // .filter((item) => item.toLowerCase().includes(query.toLowerCase()))
                               .map((user, ind) => (
                                 <li
                                   key={ind}
@@ -542,12 +717,13 @@ function EntityForm() {
                         )}
                         <div className='h-2 text-[#dc2626]'>
                           {errors[item.inputname] && (
-                            <span>{errors[item.inputname]}</span>
+                            <span className='text-xs'>
+                              {errors[item.inputname]}
+                            </span>
                           )}
                         </div>
                       </div>
                     )}
-
                   {/* custom fields */}
                   {item.type === 'text' && item.field == 'custom' && (
                     <div>
@@ -569,7 +745,9 @@ function EntityForm() {
                       />
                       <div className='h-2 text-[#dc2626]'>
                         {errors[item.inputname] && (
-                          <span>{errors[item.inputname]}</span>
+                          <span className='text-xs'>
+                            {errors[item.inputname]}
+                          </span>
                         )}
                       </div>
                     </div>
@@ -612,11 +790,9 @@ function EntityForm() {
                         type='password'
                         name={item.inputname}
                         id={item.inputname}
-                        // value={formData[item.label] || ''}
                         value={customFormFields[index].value || ''}
                         className='p-2 block w-full rounded-md bg-gray-50 border-2 border-gray-200 py-1 text-gray-900 appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6
                         placeholder:text-xs'
-                        // onChange={handleChange}
                         onChange={(e) => handleChange(index, e.target.value)}
                       />
                       <div className='h-2 text-[#dc2626]'>
@@ -626,50 +802,57 @@ function EntityForm() {
                       </div>
                     </div>
                   )}
-                  {item.type === 'number' && item.field == 'custom' && (
-                    <div>
-                      <label
-                        htmlFor={item.label}
-                        className='block text-sm font-medium leading-6 my-2 text-gray-900'
-                      >
-                        {item.label.charAt(0).toUpperCase() +
-                          item.label.slice(1)}
-                      </label>
-                      <input
-                        type='number'
-                        name={item.inputname}
-                        id={item.inputname}
-                        value={customFormFields[index].value || ''}
-                        onChange={(e) => handleChange(index, e.target.value)}
-                        className='p-2 block w-full rounded-md bg-gray-50 border-2 border-gray-200 py-1 text-gray-900 appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6
+                  {(item.type === 'number' || item.type === 'phonenumber') &&
+                    item.field == 'custom' && (
+                      <div>
+                        <label
+                          htmlFor={item.label}
+                          className='block text-sm font-medium leading-6 my-2 text-gray-900'
+                        >
+                          {item.label.charAt(0).toUpperCase() +
+                            item.label.slice(1)}
+                        </label>
+                        <input
+                          type='number'
+                          name={item.inputname}
+                          id={item.inputname}
+                          value={customFormFields[index].value || ''}
+                          onChange={(e) => handleChange(index, e.target.value)}
+                          className='p-2 block w-full rounded-md bg-gray-50 border-2 border-gray-200 py-1 text-gray-900 appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6
                         placeholder:text-xs'
-                      />
-                      <div className='h-2 text-[#dc2626]'>
-                        {errors[item.inputname] && (
-                          <span>{errors[item.inputname]}</span>
-                        )}
+                        />
+                        <div className='h-2 text-[#dc2626]'>
+                          {errors[item.inputname] && (
+                            <span>{errors[item.inputname]}</span>
+                          )}
+                        </div>
                       </div>
-                    </div>
-                  )}
+                    )}
                   {item.type === 'checkbox' && item.field == 'custom' && (
-                    <div className='flex gap-2'>
-                      <input
-                        type='checkbox'
-                        name={item.inputname}
-                        id={item.inputname}
-                        checked={!!customFormFields[index].value}
-                        onChange={(e) => handleChange(index, e.target.checked)}
-                      />{' '}
-                      <label
-                        htmlFor={item.inputname}
-                        className='block text-sm font-medium leading-6 my-2 text-gray-900'
-                      >
-                        {item.label.charAt(0).toUpperCase() +
-                          item.label.slice(1)}
-                      </label>
+                    <div>
+                      <div className='flex gap-2'>
+                        <input
+                          type='checkbox'
+                          name={item.inputname}
+                          id={item.inputname}
+                          checked={!!customFormFields[index].value}
+                          onChange={(e) =>
+                            handleChange(index, e.target.checked)
+                          }
+                        />
+                        <label
+                          htmlFor={item.inputname}
+                          className='block text-sm font-medium leading-6 my-1 text-gray-900'
+                        >
+                          {item.label.charAt(0).toUpperCase() +
+                            item.label.slice(1)}
+                        </label>
+                      </div>
                       <div className='h-2 text-[#dc2626]'>
                         {errors[item.inputname] && (
-                          <span>{errors[item.inputname]}</span>
+                          <span className='text-xs'>
+                            {errors[item.inputname]}
+                          </span>
                         )}
                       </div>
                     </div>
@@ -748,7 +931,6 @@ function EntityForm() {
                       </div>
                     </div>
                   )}
-
                   {item.type === 'range' && item.field == 'custom' && (
                     <div>
                       <label
@@ -763,7 +945,6 @@ function EntityForm() {
                         name={item.inputname}
                         id={item.inputname}
                         value={customFormFields[index].value || ''}
-                        // className="p-2 block w-full rounded-md bg-gray-50 border-2 border-gray-200 py-1 text-gray-900 appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6"
                         onChange={(e) => handleChange(index, e.target.value)}
                       />
                       <div className='h-2 text-[#dc2626]'>
@@ -796,7 +977,6 @@ function EntityForm() {
                       </div>
                     </div>
                   )}
-
                   {item.type === 'select' && item.field == 'custom' && (
                     <div>
                       <label
@@ -806,7 +986,6 @@ function EntityForm() {
                         {item.label.charAt(0).toUpperCase() +
                           item.label.slice(1)}
                       </label>
-
                       <select
                         id={item.inputname}
                         name={item.inputname}
@@ -896,7 +1075,7 @@ function EntityForm() {
         </div>
         {/* preview */}
         <div className='col-span-2 hidden sm:block md:block'>
-          <div className='h-[500px] overflow-auto shadow-md px-6 py-4 border-2 rounded-md bg-[#f8fafc] '>
+          <div className='shadow-md px-6 py-4 mt-4 border-2 rounded-md bg-[#f8fafc] '>
             {customFormFields &&
               customFormFields.length > 0 &&
               customFormFields.map((item) => (
@@ -904,10 +1083,20 @@ function EntityForm() {
                   {/* predefined fields*/}
                   {item.type === 'text' &&
                     item.inputname == 'name' &&
-                    item.field == 'predefined' && (
-                      <p className='text-sm font-black text-gray-800 mt-2 absolute left-12'>
-                        {item.value}
-                      </p>
+                    item.field === 'predefined' && (
+                      <div>
+                        {item.value ? (
+                          <p className='text-sm font-black text-gray-800 mt-2 absolute left-12'>
+                            {' '}
+                            {item.value.toUpperCase()}
+                          </p>
+                        ) : (
+                          <p className='text-sm font-black text-gray-800 mt-2 absolute left-12'>
+                            {' '}
+                            ENTITY NAME
+                          </p>
+                        )}
+                      </div>
                     )}
                   {item.type === 'file' &&
                     item.inputname == 'image' &&
@@ -968,7 +1157,6 @@ function EntityForm() {
                             } else {
                               firstLetter = mail[0];
                             }
-                            //color
                             const colors = [
                               '#818cf8',
                               '#fb923c',
@@ -982,10 +1170,8 @@ function EntityForm() {
                             const getRandomColor = (firstLetter) => {
                               const randomIndex =
                                 firstLetter.charCodeAt(0) % colors.length;
-
                               return colors[randomIndex];
                             };
-
                             return (
                               <div
                                 className='col-span-1 flex justify-start gap-3'
@@ -1069,59 +1255,171 @@ function EntityForm() {
                     )}
                   {/* customfields */}
                   {item.type === 'text' && item.field == 'custom' && (
-                    <div>{item.value}</div>
+                    <div className='my-2 ms-2'>
+                      {item.value && item.value.length > 0 && (
+                        <p className='flex flex-wrap gap-2'>
+                          <span className=' w-1/6 text-[#727a85]'>
+                            {item.label.charAt(0).toUpperCase() +
+                              item.label.slice(1)}
+                          </span>
+                          <span className=' w-4/6 text-md font-[600]'>
+                            {' '}
+                            : {item.value}
+                          </span>
+                        </p>
+                      )}
+                    </div>
                   )}
                   {item.type === 'email' && item.field == 'custom' && (
-                    <div>{item.value}</div>
+                    <div className='my-2 ms-2'>
+                      {item.value && item.value.length > 0 && (
+                        <p className='flex flex-wrap gap-2'>
+                          <span className=' w-1/6 text-[#727a85]'>
+                            {item.label.charAt(0).toUpperCase() +
+                              item.label.slice(1)}
+                          </span>
+                          <span className=' w-4/6 text-md font-[600]'>
+                            {' '}
+                            : {item.value}
+                          </span>
+                        </p>
+                      )}
+                    </div>
                   )}
-                  {item.type === 'password' && item.field == 'custom' && (
-                    <div>{item.value}</div>
-                  )}
-                  {item.type === 'number' && item.field == 'custom' && (
-                    <div>{item.value}</div>
-                  )}
-                  {item.type === 'textarea' && item.field == 'custom' && (
-                    <div>{item.value}</div>
-                  )}
-                  {item.type === 'file' && item.field == 'custom' && (
-                    <div className='flex gap-4'>
-                      <div className='group h-10 '>
-                        {item.value ? (
-                          <img
-                            src={item.value}
-                            name='EntityPhoto'
-                            alt='Selected User Photo'
-                            className='rounded-lg w-10 h-10 mr-4'
-                          />
-                        ) : (
-                          <img
-                            className='w-10 h-10 rounded-lg '
-                            src={defprop}
-                            alt='Neil image'
-                          />
+                  {(item.type === 'number' || item.type === 'phonenumber') &&
+                    item.field == 'custom' && (
+                      <div className='my-2 ms-2'>
+                        {item.value && item.value.length > 0 && (
+                          <p className='flex flex-wrap gap-2'>
+                            <span className=' w-1/6 text-[#727a85]'>
+                              {item.label.charAt(0).toUpperCase() +
+                                item.label.slice(1)}
+                            </span>
+                            <span className=' w-4/6 text-md font-[600]'>
+                              {' '}
+                              : {item.value}
+                            </span>
+                          </p>
                         )}
                       </div>
-                      <hr className='my-3' />
+                    )}
+                  {item.type === 'textarea' && item.field == 'custom' && (
+                    <div className='my-2 ms-2'>
+                      {item.value && item.value.length > 0 && (
+                        <p className='flex flex-wrap gap-2'>
+                          <span className=' w-1/6 text-[#727a85]'>
+                            {item.label.charAt(0).toUpperCase() +
+                              item.label.slice(1)}
+                          </span>
+                          <span className=' w-4/6 text-md font-[600]'>
+                            {' '}
+                            : {item.value}
+                          </span>
+                        </p>
+                      )}
+                    </div>
+                  )}
+                  {item.type === 'file' && item.field == 'custom' && (
+                    <div className='my-2 ms-5 flex flex-wrap gap-2'>
+                      <div className=''>
+                        <img
+                          src={item.value}
+                          // name="EntityPhoto"
+                          alt='file'
+                          className='rounded-lg w-20 h-20 '
+                        />
+                      </div>
                     </div>
                   )}
                   {item.type === 'date' && item.field == 'custom' && (
-                    <div>{item.value}</div>
+                    <div className='my-2 ms-2'>
+                      {item.value && item.value.length > 0 && (
+                        <p className='flex flex-wrap gap-2'>
+                          <span className=' w-1/6 text-[#727a85]'>
+                            {item.label.charAt(0).toUpperCase() +
+                              item.label.slice(1)}
+                          </span>
+                          <span className=' w-4/6 text-md font-[600]'>
+                            {' '}
+                            : {item.value}
+                          </span>
+                        </p>
+                      )}
+                    </div>
                   )}
                   {item.type === 'select' && item.field == 'custom' && (
-                    <div>{item.value}</div>
+                    <div className='my-2 ms-2'>
+                      {item.value && item.value.length > 0 && (
+                        <p className='flex flex-wrap gap-2'>
+                          <span className=' w-1/6 text-[#727a85]'>
+                            {item.label.charAt(0).toUpperCase() +
+                              item.label.slice(1)}
+                          </span>
+                          <span className=' w-4/6 text-md font-[600]'>
+                            {' '}
+                            : {item.value}
+                          </span>
+                        </p>
+                      )}
+                    </div>
                   )}
-
                   {item.type === 'multiselect' && item.field == 'custom' && (
-                    <div>{item.value.join(', ')}</div>
+                    <div className='my-2 ms-2'>
+                      {item.value && item.value.length > 0 && (
+                        <p className='flex flex-wrap gap-2'>
+                          <span className=' w-1/6 text-[#727a85]'>
+                            {item.label.charAt(0).toUpperCase() +
+                              item.label.slice(1)}
+                          </span>
+                          <span className=' w-4/6 text-md font-[600]'>
+                            {' '}
+                            : {item.value.join(', ')}
+                          </span>
+                        </p>
+                      )}
+                    </div>
                   )}
-                  {item.type === 'checkbox' && item.field == 'custom' && (
-                    <div>{item.value}</div>
-                  )}
+                  {/* {item.type === "checkbox" && item.field == "custom" &&
+                  <div className='my-2 ms-2'>
+                    {item.value && item.value.length > 0 &&
+                      <p className='flex flex-wrap gap-2'>
+                        <span className=' w-1/6 text-[#727a85]'>{item.label.charAt(0).toUpperCase() + item.label.slice(1)}</span>
+                        <span className=' w-4/6 text-md font-[600]'> : {item.value.join(",")}</span>
+                      </p>
+                    }
+                  </div>
+                } */}
                   {item.type === 'range' && item.field == 'custom' && (
-                    <div>{item.value}</div>
+                    <div className='my-2 ms-2'>
+                      {item.value && item.value.length > 0 && (
+                        <p className='flex flex-wrap gap-2'>
+                          <span className=' w-1/6 text-[#727a85]'>
+                            {item.label.charAt(0).toUpperCase() +
+                              item.label.slice(1)}
+                          </span>
+                          <span className=' w-4/6 text-md font-[600]'>
+                            {' '}
+                            : {item.value}
+                          </span>
+                        </p>
+                      )}
+                    </div>
                   )}
                   {item.type === 'time' && item.field == 'custom' && (
-                    <div>{item.value}</div>
+                    <div className='my-2 ms-2'>
+                      {item.value && item.value.length > 0 && (
+                        <p className='flex flex-wrap gap-2'>
+                          <span className=' w-1/6 text-[#727a85]'>
+                            {item.label.charAt(0).toUpperCase() +
+                              item.label.slice(1)}
+                          </span>
+                          <span className=' w-4/6 text-md font-[600]'>
+                            {' '}
+                            : {item.value}
+                          </span>
+                        </p>
+                      )}
+                    </div>
                   )}
                 </div>
               ))}
@@ -1131,5 +1429,4 @@ function EntityForm() {
     </div>
   );
 }
-
 export default EntityForm;

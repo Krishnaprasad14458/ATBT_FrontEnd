@@ -60,12 +60,51 @@ import EditWhatsappTemplate from './components/pages/settings/SettingsComponents
 import EditEmailTemplate from './components/pages/settings/SettingsComponents/Communication/EditEmailTemplate';
 import ViewEmailTemplate from './components/pages/settings/SettingsComponents/Communication/ViewEmailTemplate';
 import FieldsWhatsappTemplate from './components/pages/settings/SettingsComponents/Communication/FieldsWhatsappTemplate';
+import useOnlineStatus from './hooks/isOnline/useOnlineStatus ';
+import useServiceWorker from './useSw';
+import { AuthContext } from './contexts/authContext/authContext';
+import { useContext } from 'react';
 import Profile from './components/common/profile/Profile';
+import PageNotFound from './components/pages/Errorpages/PageNotFound';
+import Error401 from './components/pages/Errorpages/Error401';
+import Error403 from './components/pages/Errorpages/Error403';
+import Error500 from './components/pages/Errorpages/Error500';
+import Designations from './components/pages/settings/SettingsComponents/Designations/Designations';
 
 // function App() {
 //   return (
 //     <>
 
+      <Routes>
+        <Route element={<RequireAuth />}>
+          <Route path="/" element={<Dashboard />} />
+          <Route path="/reports" element={<Reports />} />
+          <Route path='/settings' element={<Settings />} />
+          <Route path='/organizationprofile' element={<OrganizationProfile />} />
+          <Route path='/roles' element={<Roles />} />
+          <Route path='/integrations' element={<Integrations />} />
+          <Route path='/addroles' element={<AddRoles />} />
+          <Route path='/dupaddroles' element={<Dupaddrole />} />
+          <Route path='/communication' element={<Communication />} />
+          <Route path='/whatsappintegration' element={<WhatsappIntegrations />} />
+          <Route path='/emailintegration' element={<EmailIntegrations />} />
+          <Route path='/addemailtemplate' element={<AddEmailTemplate />} />
+          <Route path='/addwhatsapptemplate' element={<AddWhatsappTemplate />} />
+          <Route path='/editemailtemplate' element={<EditEmailTemplate />} />
+          <Route path='/editwhatsapptemplate' element={<EditWhatsappTemplate />} />
+          <Route path='viewemailtemplate' element={<ViewEmailTemplate />} />
+          <Route path='/fieldswhatsapptemplate' element={<FieldsWhatsappTemplate />} />
+          <Route path='/designations' element={<Designations />} />
+          <Route path="/api" element={<Api />} />
+          <Route path='/webhook' element={<Webhook />} />
+          <Route path='/sms' element={<Sms />} />
+          <Route path='/paymentgateway' element={<PaymentGateway />} />
+          <Route path='/email' element={<Email />} />
+          <Route path='/Whatsapp' element={<Whatsapp />} />
+          <Route path='/forms' element={<Forms />} />
+          <Route path='/teams' element={<Teams />} />
+          <Route path='/teams/new' element={<TeamsForm />} />
+          <Route path='/profile' element={<Profile />} />
 <Routes>
   <Route element={<RequireAuth />}>
     <Route path="/" element={<Dashboard />} />
@@ -96,6 +135,45 @@ import Profile from './components/common/profile/Profile';
     <Route path='/teams/new' element={<TeamsForm />} />
     <Route path='/profile' element={<Profile />} />
 
+          <Route path='/entities' element={<Entities />}>
+            <Route path="otl" element={<EntityForm />} />
+          </Route>
+          <Route path="/entitylandingpage/:id" element={<EntityLandingPage />} />
+          <Route path="/boardmeetinglandingpage/:id" element={<BoardMeetingLandingPage />} />
+          <Route path='/teamslandingpage/:id' element={<TeamsLandingPage />} />
+          <Route path='/userlandingpage/:id' element={<UserLandingPage />} />
+          <Route path="/settingentityform" element={<SettingEntityForm />} />
+          <Route path="/settingboardmeetingform" element={<SettingBoardMeetingForm />} />
+          <Route path="/settingteamsform" element={<SettingTeamsForm />} />
+          <Route path="/settinguserform" element={<SettingUserForm />} />
+          <Route path="/entities/new" element={<EntityForm />} />
+          <Route path='/boardmeetings' element={<BoardMeetings />} />
+          <Route path="/boardmeetings/new" element={<BoardMeetingForm />} />
+          <Route path='/tasks' element={<Tasks />} />
+          <Route path='/users' element={<Users />} />
+          <Route path="/users/new" element={<UserForm />} />
+
+          <Route path="/userProfile/:id" element={<UserProfile />} >
+            <Route path="tasks" element={<UserTasks />} />
+            <Route path="teams" element={<UserTeams />} />
+            <Route path="enteties" element={<UserEntities />} />
+          </Route>
+          <Route path='/mycalendar' element={<MyCalendar />} />
+        </Route>
+        {/* public routes only. Note: rendered without side and top bars */}
+        <Route element={<PublicLayout />}>
+          <Route path="/login" element={<Login />} />
+          <Route path='/resetpassword' element={<ResetPassword />} />
+          <Route path='/changepassword/:id' element={<ChangePassword />} />
+          <Route path='*' element={<PageNotFound />} />
+          <Route path="/error401" element={<Error401 />} />
+          <Route path="/error403" element={<Error403 />} />
+          <Route path="/error500" element={<Error500 />} />
+        </Route>
+      </Routes>
+    </>
+  );
+}
     <Route path='/entities' element={<Entities />}>
       <Route path="otl" element={<EntityForm />} />
     </Route>
