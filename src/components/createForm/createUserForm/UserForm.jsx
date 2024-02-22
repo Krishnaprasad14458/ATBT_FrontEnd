@@ -752,7 +752,9 @@ function UserForm() {
                           type='checkbox'
                           name={item.inputname}
                           id={item.inputname}
+                          className='my-1'
                           checked={!!customFormFields[index].value}
+
                           onChange={(e) =>
                             handleChange(index, e.target.checked)
                           }

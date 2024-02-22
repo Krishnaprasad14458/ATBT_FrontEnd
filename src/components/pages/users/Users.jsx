@@ -81,14 +81,10 @@ function Users() {
   /////////////////////////////////////////////// Irshad
   const [customForm, setCustomForm] = useState([
   ])
+  const [data, setData] = useState( 
+   
+  )
 
-    let data = [
-  {id:1,name:"Irshad",image:"img1",entityname:"Infosys",email:"irshad@gmail.com",phonenumber:123456,designation:"developer",role:"admin"},
-  {id:1,name:"Irfan",image:"img1",entityname:"Reliance",email:"Irfan@gmail.com",phonenumber:123456,designation:"developer",role:"admin"},
-  {id:1,name:"Bala Krishna",image:"img1",entityname:"HDFC Bank",email:"Bala Krishna@gmail.com",phonenumber:123456,designation:"developer",role:"admin"},
- {id:1,name:"Niraj",image:"img1",entityname:"ICICI Bank",email:"Niraj@gmail.com",phonenumber:123456,designation:"developer",role:"admin"} ,
- {id:1,name:"Bhavita",image:"img1",entityname:"SRF",email:"Bhavita@gmail.com",phonenumber:123456,designation:"developer",role:"admin"}
-]
   useEffect(() => {
     axios.get(`https://atbtmain.teksacademy.com/form/list?name=userform`)
       .then(response => {
@@ -100,7 +96,20 @@ function Users() {
         // Handle errors
         console.error('Error fetching data:', error);
       });
+      axios.get(`https://atbtmain.teksacademy.com/user/list`)
+      .then(response => {
+        // Handle the successful response
+        setData(response.data.users)
+        console.log("dsdsdsdsd",response.data);
+      })
+      .catch(error => {
+        // Handle errors
+        console.error('Error fetching data:', error);
+      });
   }, [])
+  useEffect(()=>{
+    console.log("data",data)
+  })
   const [filterableInputsInBox, setFilterableInputsInBox] = useState()
   const [filterableInputsInSearch, setFilterableInputsInSearch] = useState()
 
@@ -130,8 +139,8 @@ function Users() {
 
   const [tableColumns, setTableColumns] = useState(
     {
-    name: true, image: false, entityname: true, email: true, phonenumber: true, designation: false, role: false,
-  }
+      name: true, image: false, entityname: true, email: true, phonenumber: true, designation: false, role: false,
+    }
   )
   const handleCheckboxChange = (columnName) => {
     setTableColumns((prevColumns) => ({
@@ -139,8 +148,11 @@ function Users() {
       [columnName]: !prevColumns[columnName],
     }));
   };
-  let  keys = Object.keys(data[0])
-const loopArray = Array.from({ length: Object.keys(data[0]).length });
+  let keys = Object.keys(data?.[0] ?? {});
+
+
+  const loopArray = Array.from({ length: Object.keys(data?.[0] ?? {}).length });
+
 
   useEffect(() => {
     console.log("tableColumns", tableColumns)
@@ -169,7 +181,7 @@ const loopArray = Array.from({ length: Object.keys(data[0]).length });
             <option value="250">250</option>
             <option value="500">500</option>
           </select>
-          
+
           <Menu as="div" className="relative inline-block me-2 ">
             <div className=''>
               <Menu.Button className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-gray-50 px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-200 hover:bg-gray-50">
@@ -269,7 +281,7 @@ const loopArray = Array.from({ length: Object.keys(data[0]).length });
       {/* table */}
       <div className="mt-8">
         <div className="overflow-y-scroll max-h-[410px]">
-        
+
           <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700 rounded-md">
             <thead className='sticky top-0 bg-orange-600'>
               {/* <tr>
@@ -282,12 +294,12 @@ const loopArray = Array.from({ length: Object.keys(data[0]).length });
                 <th scope="col" className="px-6 py-2.5 text-left text-sm  border border-[#e5e7eb] text-white bg-orange-600">Actions</th>
               </tr> */}
               <tr>
-        {keys && keys.map((th, index) => (
-    tableColumns[th] && <th  scope="col" className="px-6 py-2.5 text-left text-sm  border border-[#e5e7eb] text-white bg-orange-600">{th}
-    </th>
-))}
-<th  scope="col" className="px-6 py-2.5 text-left text-sm  border border-[#e5e7eb] text-white bg-orange-600">actions</th>
-</tr>
+                {keys && keys.map((th, index) => (
+                  tableColumns[th] && <th scope="col" className="px-6 py-2.5 text-left text-sm  border border-[#e5e7eb] text-white bg-orange-600">{th}
+                  </th>
+                ))}
+                <th scope="col" className="px-6 py-2.5 text-left text-sm  border border-[#e5e7eb] text-white bg-orange-600">actions</th>
+              </tr>
             </thead>
             <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
               {/* {settings?.paginatedUsers?.map(user => (
@@ -343,14 +355,14 @@ const loopArray = Array.from({ length: Object.keys(data[0]).length });
                   </td>
                 </tr>
               ))} */}
-                {data && data.map((item,index)=>(
-     <tr>
-       {loopArray.map((items, index) => (
-   tableColumns[keys[index]] &&     <td  className="px-6 py-2 text-left border border-[#e5e7eb] text-xs font-medium text-gray-800">{item[keys[index]]}</td>
-   
+              {data && data.map((item, index) => (
+                <tr>
+                  {loopArray.map((items, index) => (
+                    tableColumns[keys[index]] && <td className="px-6 py-2 text-left border border-[#e5e7eb] text-xs font-medium text-gray-800">{item[keys[index]]}</td>
 
-      ))}
-      <td className="px-6 py-2 text-left border border-[#e5e7eb] text-xs font-medium text-gray-800">
+
+                  ))}
+                  <td className="px-6 py-2 text-left border border-[#e5e7eb] text-xs font-medium text-gray-800">
                     <div className='flex justify-start'>
                       <button type="button" className="me-5 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
                         <Link to={`/userlandingpage/`}><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5">
@@ -387,14 +399,14 @@ const loopArray = Array.from({ length: Object.keys(data[0]).length });
                             </div>
                             <div className={`ml-3 text-sm font-medium ${isChecked ? 'text-gray-400' : 'text--400'}`}>
                               {isChecked ? 'Enabled' : 'Disabled'}
-                             </div>
+                            </div>
                           </label>
                         </div>
                       </button>
                     </div>
                   </td>
-   </tr>
-  ))}
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>
@@ -458,7 +470,7 @@ export default Users;
 //           </div>
 
 // import React from 'react'
- 
+
 // const Entities = () => {
 //   let data = [
 //   {id:1,name:"irshad",email:"irshad@gmail.com",age:20,},
@@ -474,7 +486,7 @@ export default Users;
 // const loopArray = Array.from({ length: Object.keys(data[0]).length });
 //   return (
 //     <div>
-     
+
 // <table >
 // {keys && keys.map((th,index)=>(
 //       <th>{th}</th>
@@ -486,15 +498,15 @@ export default Users;
 //       ))}
 //    </tr>
 //   ))}
- 
- 
+
+
 // </table>
-   
- 
+
+
 //     </div>
 //   )
 // }
- 
+
 // export default Entities
 {/* <table >
 <tr>
