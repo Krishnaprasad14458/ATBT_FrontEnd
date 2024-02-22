@@ -7,28 +7,30 @@ export const roleRouter = [
     {
         path: 'roles',
         loader: async () => {
-            const data = await axios.get("http://localhost:3001/rbac/getroles")
+            const data = await axios.get("https://atbtmain.teksacademy.com/rbac/getroles")
             console.log(data, "data")
             return data
         },
-        action: async ({ request }) => {
-            console.log("action called")
-            let formData = await request.formData();
+        // https://atbtmain.teksacademy.com/rbac/getroles
+            action: async({ request }) => {
+    console.log("action called")
+    let formData = await request.formData();
 
-            // And then just parse your own format here
-            let { roleId } = JSON.parse(formData.get("serialized"));
-            console.log(roleId);
-            const data = await axios.delete(`http://localhost:3001/rbac/deleteRole/${roleId}`)
-            console.log(data, "resp del")
-            return null;
-        },
-        element: <Roles />
+    // And then just parse your own format here
+    let { roleId } = JSON.parse(formData.get("serialized"));
+    console.log(roleId);
+    const data = await axios.delete(`https://atbtmain.teksacademy.com/rbac/deleteRole/${roleId}`)
+    console.log(data, "resp del")
+    return null;
+},
+element: <Roles />
     },
-    {
-        path: 'addroles',
+{
+    path: 'addroles',
         loader: async ({ request, params }) => {
             let url = new URL(request.url);
             let searchTerm = url.searchParams.get("id");
+            console.log(searchTerm, "searchTerm")
             if (!searchTerm) {
                 return null
             }
@@ -105,7 +107,7 @@ export const roleRouter = [
                 // Check if the response is successful and return the data
                 if (response) {
                     console.log(response, "resp.data")
-                    return response;
+                    return { response: response, id: searchTerm };
                 } else {
                     throw new Error('Failed to fetch data');
                 }
@@ -114,7 +116,10 @@ export const roleRouter = [
                 throw error; // Rethrow the error to be caught by the caller
             }
         },
-        element: <AddRoles />
-    },
-    { path: "dupaddroles", element: <Dupaddrole /> },
+            action: async () => {
+
+            },
+                element: <AddRoles />
+},
+{ path: "dupaddroles", element: <Dupaddrole /> },
 ]

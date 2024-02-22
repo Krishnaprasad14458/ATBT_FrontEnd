@@ -1,5 +1,5 @@
 import React, { createContext, useEffect, useReducer } from 'react';
-import authReducer from '../../reducers/authReducer';
+import authReducer from './authReducer';
 import axios from 'axios';
 import { redirect, useLocation } from 'react-router-dom';
 import { toast } from 'react-toastify';
@@ -18,51 +18,30 @@ const AuthProvider = ({ children }) => {
   const initialAuth = {
     user: localStorageData?.user || {},
     token: localStorageData?.token || '',
+    permissions: localStorageData?.permissions || [],
   };
 
   const [authState, authDispatch] = useReducer(authReducer, initialAuth);
   const adminLogin = async (loginData) => {
     try {
-      let status, data;
-      if (loginData.email === 'admin@atbt.com') {
-        ({ status, data } = await toast.promise(
-          axios.post(`${apiUrl}/auth/su-login`, loginData),
-          {
-            pending: 'Logging In...',
-            success: {
-              render({
+      const { data, status } = await toast.promise(
+        axios.post(`${apiUrl}/auth/login`, loginData),
+        {
+          pending: 'Logging In...',
+          success: {
+            render({
+              data: {
                 data: {
-                  data: {
-                    user: { userName },
-                  },
+                  user: { userName },
                 },
-              }) {
-                return `Welcome ${userName}`;
               },
+            }) {
+              return `Welcome ${userName}`;
             },
-            error: 'Wrong Credentials 🤯',
-          }
-        ));
-      } else {
-        ({ status, data } = await toast.promise(
-          axios.post(`${apiUrl}/auth/login`, loginData),
-          {
-            pending: 'Logging In...',
-            success: {
-              render({
-                data: {
-                  data: {
-                    user: { userName },
-                  },
-                },
-              }) {
-                return `Welcome ${userName}`;
-              },
-            },
-            error: 'Wrong Credentials 🤯',
-          }
-        ));
-      }
+          },
+          error: 'Wrong Credentials 🤯',
+        }
+      );
 
       if (status === 200) {
         localStorage.setItem(

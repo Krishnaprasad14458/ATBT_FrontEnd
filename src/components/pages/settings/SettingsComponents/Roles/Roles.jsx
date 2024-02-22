@@ -3,7 +3,7 @@ import React from 'react';
 import { Link, useFetcher, useLoaderData, useSubmit } from 'react-router-dom';
 
 function deleteRole(id) {
-  return axios.delete(`http://localhost:3001/rbac/deleteRole/${id}`);
+  return axios.delete(`https://atbtmain.teksacademy.com/rbac/deleteRole/${id}`);
 }
 
 export async function action() {}

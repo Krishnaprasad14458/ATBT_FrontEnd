@@ -1,18 +1,24 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { useLoaderData, useSubmit, useNavigation } from 'react-router-dom';
+import {
+  useLoaderData,
+  useSubmit,
+  useNavigation,
+  useFetcher,
+} from 'react-router-dom';
 
 const AddRoles = () => {
   const submit = useSubmit();
   const data = useLoaderData();
   const navigation = useNavigation();
-  console.log(data, 'yesss', navigation);
+  const fetcher = useFetcher();
+  console.log(data?.response, 'yesss', navigation);
   const getInitialState = () => {
-    if (!!data) {
+    if (!!data?.response) {
       return {
         role: 'you decide',
         description: 'you decide',
-        permissions: [...data],
+        permissions: [...data?.response],
       };
     } else {
       return {
@@ -145,30 +151,98 @@ const AddRoles = () => {
   });
 
   //    for toggle active and inactive
+  // const handletoggle = (module, index, subindex) => {
+  //   if (subindex == undefined) {
+  //     let updatePermission = {
+  //       ...permission,
+  //       permissions: [...permission.permissions],
+  //     };
+  //     // [...permission];
+  //     let previosvalue = updatePermission.permissions[index][module];
+  //     updatePermission.permissions[index][module] = !previosvalue;
+  //     setPermission(updatePermission);
+  //   }
+  //   if (subindex != undefined) {
+  //     let updatePermission = {
+  //       ...permission,
+  //       permissions: [...permission.permissions],
+  //     };
+  //     // [...permission];
+  //     let previosvalue =
+  //       updatePermission.permissions[index].submenus[subindex][module];
+  //     updatePermission.permissions[index].submenus[subindex][module] =
+  //       !previosvalue;
+  //     setPermission(updatePermission);
+  //   }
+  // };
+
   const handletoggle = (module, index, subindex) => {
-    if (subindex == undefined) {
-      let updatePermission = {
-        ...permission,
-        permissions: [...permission.permissions],
-      };
-      // [...permission];
+    let updatePermission = {
+      ...permission,
+      permissions: [...permission.permissions],
+    };
+
+    if (subindex === undefined) {
+      // Toggle the selected permission
       let previosvalue = updatePermission.permissions[index][module];
       updatePermission.permissions[index][module] = !previosvalue;
-      setPermission(updatePermission);
-    }
-    if (subindex != undefined) {
-      let updatePermission = {
-        ...permission,
-        permissions: [...permission.permissions],
-      };
-      // [...permission];
+
+      // If "All" is toggled, toggle other permissions accordingly
+      if (module === 'all') {
+        updatePermission.permissions[index].create =
+          updatePermission.permissions[index].read =
+          updatePermission.permissions[index].update =
+          updatePermission.permissions[index].delete =
+            updatePermission.permissions[index].all;
+
+        // If there are submenus, update their permissions as well
+        if (updatePermission.permissions[index].submenus) {
+          updatePermission.permissions[index].submenus.forEach((submenu) => {
+            submenu.create =
+              submenu.read =
+              submenu.update =
+              submenu.delete =
+                updatePermission.permissions[index].all;
+          });
+        }
+      } else {
+        // If any other permission is toggled, check if all permissions are selected, then set "All" to true
+        const allSelected = ['create', 'read', 'update', 'delete'].every(
+          (permissionType) =>
+            updatePermission.permissions[index][permissionType]
+        );
+        updatePermission.permissions[index].all = allSelected;
+      }
+    } else {
+      // Toggle the selected permission for submenus
       let previosvalue =
         updatePermission.permissions[index].submenus[subindex][module];
       updatePermission.permissions[index].submenus[subindex][module] =
         !previosvalue;
-      setPermission(updatePermission);
+
+      // If "All" for submenus is toggled, toggle other permissions accordingly
+      if (module === 'all') {
+        updatePermission.permissions[index].submenus[subindex].create =
+          updatePermission.permissions[index].submenus[subindex].read =
+          updatePermission.permissions[index].submenus[subindex].update =
+          updatePermission.permissions[index].submenus[subindex].delete =
+            updatePermission.permissions[index].submenus[subindex].all;
+      } else {
+        // If any other permission for submenus is toggled, check if all permissions are selected, then set "All" to true
+        const allSelected = ['create', 'read', 'update', 'delete'].every(
+          (permissionType) =>
+            updatePermission.permissions[index].submenus[subindex][
+              permissionType
+            ]
+        );
+        updatePermission.permissions[index].submenus[subindex].all =
+          allSelected;
+      }
     }
+
+    setPermission(updatePermission);
   };
+
   // for submenu opens
   const [selected, setSelected] = useState();
   const handleSubmenuOpen = (module) => {
@@ -180,20 +254,27 @@ const AddRoles = () => {
     }
   };
 
-  async function handleSubmit(id) {
+  async function handleSubmit() {
     console.log(permission);
-    if (!id) {
+    if (!data?.id) {
       const result = await axios.post(
-        'http://localhost:3001/rbac/create-role',
+        'https://atbtmain.teksacademy.com/rbac/create-role',
         {
           ...permission,
         }
       );
+      fetcher.submit(
+        {
+          // You can implement any custom serialization logic here
+          serialized: JSON.stringify(result),
+        },
+        { method: 'post', action: '/addroles' }
+      );
       console.log(result, 'added');
     }
-    if (!!id) {
+    if (!!data?.id) {
       const result = await axios.put(
-        `http://localhost:3001/rbac/update-role/${id}`,
+        `https://atbtmain.teksacademy.com/rbac/update-role/${data?.id}`,
         {
           ...permission,
         }
@@ -515,7 +596,7 @@ const AddRoles = () => {
             ></div> */}
         </tbody>
       </table>
-      <button onClick={() => handleSubmit(10)}>submit</button>
+      <button onClick={() => handleSubmit()}>submit</button>
     </div>
   );
 };
