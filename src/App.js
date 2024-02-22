@@ -60,7 +60,6 @@ import EditWhatsappTemplate from './components/pages/settings/SettingsComponents
 import EditEmailTemplate from './components/pages/settings/SettingsComponents/Communication/EditEmailTemplate';
 import ViewEmailTemplate from './components/pages/settings/SettingsComponents/Communication/ViewEmailTemplate';
 import FieldsWhatsappTemplate from './components/pages/settings/SettingsComponents/Communication/FieldsWhatsappTemplate';
-import UsersFormDup from './components/pages/settings/SettingsComponents/Forms/UsersFormDup';
 import Profile from './components/common/profile/Profile';
 
 // function App() {
@@ -114,7 +113,6 @@ import Profile from './components/common/profile/Profile';
     <Route path='/tasks' element={<Tasks />} />
     <Route path='/users' element={<Users />} />
     <Route path="/users/new" element={<UserForm />} />
-    <Route path='/userform/dup' element={<UsersFormDup />} />
     <Route path="/userProfile/:id" element={<UserProfile />} >
       <Route path="tasks" element={<UserTasks />} />
       <Route path="teams" element={<UserTeams />} />
@@ -126,8 +124,8 @@ import Profile from './components/common/profile/Profile';
   <Route element={<PublicLayout />}>
     <Route path="/login"
       loader={() => {
-        
-       }}
+
+      }}
       element={<Login />}
     />
     <Route path='/resetpassword' element={<ResetPassword />} />
