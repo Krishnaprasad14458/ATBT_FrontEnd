@@ -21,7 +21,7 @@ function Dashboard() {
       <div className='text-center'>
         <h6 className='text-sm date_time'>{getDate()}</h6>
         <h4 className=' text-2xl font-normal dark:text-white welcome_user'>
-          Welcome {localStorageData?.user?.userName ?? 'user'}
+          Welcome {localStorageData?.user?.name ?? 'user'}
         </h4>
         <div className='flex flex-wrap mt-2 justify-center'>
           <div className='tota_tasks border-r-2 border-black-100 bg-gray-100 p-2 rounded-s-full'>
