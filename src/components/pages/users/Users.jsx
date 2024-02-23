@@ -81,21 +81,19 @@ function Users() {
   /////////////////////////////////////////////// Irshad
   const [customForm, setCustomForm] = useState([
   ])
-  const [data, setData] = useState( 
-   
-  )
+  const [data, setData] = useState()
 
   useEffect(() => {
     axios.get(`https://atbtmain.teksacademy.com/form/list?name=userform`)
-      .then(response => {
-        // Handle the successful response
-        setCustomForm(response.data.array)
-        console.log(response.data);
-      })
-      .catch(error => {
-        // Handle errors
-        console.error('Error fetching data:', error);
-      });
+            .then(response => {
+                // Handle the successful response
+                setCustomForm(response.data.Data)
+                setTableView(response.data.Tableview)
+            })
+            .catch(error => {
+                // Handle errors
+                console.error('Error fetching data:', error);
+            });
       axios.get(`https://atbtmain.teksacademy.com/user/list`)
       .then(response => {
         // Handle the successful response
@@ -107,9 +105,8 @@ function Users() {
         console.error('Error fetching data:', error);
       });
   }, [])
-  useEffect(()=>{
-    console.log("data",data)
-  })
+
+  ////////filters start
   const [filterableInputsInBox, setFilterableInputsInBox] = useState()
   const [filterableInputsInSearch, setFilterableInputsInSearch] = useState()
 
@@ -123,27 +120,15 @@ function Users() {
       label: obj.label
     }));
 
-    // const filterableInputs = customForm.filter(obj => obj.filterable && obj.type==="select").map(obj => ({
-    //   inputname: obj.inputname,
-    //   label: obj.label
-    // }));
-
     setFilterableInputsInBox(filterableInputsInBox)
     setFilterableInputsInSearch(filterableInputsInSearch)
-    console.log("customForm", customForm)
-
-    console.log("filterableInputsInBox", filterableInputsInBox)
-    console.log("filterableInputsInSearch", filterableInputsInSearch)
 
   }, [customForm])
+  ////////filters end
 
-  const [tableColumns, setTableColumns] = useState(
-    {
-      name: true, image: false, entityname: true, email: true, phonenumber: true, designation: false, role: false,
-    }
-  )
+  const [tableView,setTableView] = useState()
   const handleCheckboxChange = (columnName) => {
-    setTableColumns((prevColumns) => ({
+    setTableView((prevColumns) => ({
       ...prevColumns,
       [columnName]: !prevColumns[columnName],
     }));
@@ -155,7 +140,7 @@ function Users() {
 
 
   useEffect(() => {
-    console.log("tableColumns", tableColumns)
+    console.log("tableView", tableView)
   })
   return (
     <div className="overflow-x-auto p-3">
@@ -201,7 +186,7 @@ function Users() {
             >
               <Menu.Items className="absolute right-0 z-50 mt-2 w-48 origin-top-left rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                 <div className="py-1">
-                  {Object.keys(tableColumns).map((columnName) => (
+                  {tableView && Object.keys(tableView).map((columnName) => (
                     <Menu.Item >
                       {({ active }) => (
                         <p key={columnName} className='flex text-left'
@@ -221,7 +206,7 @@ function Users() {
                               active ? 'bg-gray-100 text-gray-900 flex' : 'text-gray-700',
                               'block px-4 py-2 text-sm text-left flex')}
                             type="checkbox"
-                            checked={tableColumns[columnName]}
+                            checked={tableView[columnName]}
                             onChange={() => handleCheckboxChange(columnName)}
                           />
 
@@ -295,7 +280,7 @@ function Users() {
               </tr> */}
               <tr>
                 {keys && keys.map((th, index) => (
-                  tableColumns[th] && <th scope="col" className="px-6 py-2.5 text-left text-sm  border border-[#e5e7eb] text-white bg-orange-600">{th}
+                  tableView[th] && <th scope="col" className="px-6 py-2.5 text-left text-sm  border border-[#e5e7eb] text-white bg-orange-600">{th}
                   </th>
                 ))}
                 <th scope="col" className="px-6 py-2.5 text-left text-sm  border border-[#e5e7eb] text-white bg-orange-600">actions</th>
@@ -358,7 +343,7 @@ function Users() {
               {data && data.map((item, index) => (
                 <tr>
                   {loopArray.map((items, index) => (
-                    tableColumns[keys[index]] && <td className="px-6 py-2 text-left border border-[#e5e7eb] text-xs font-medium text-gray-800">{item[keys[index]]}</td>
+                    tableView[keys[index]] && <td className="px-6 py-2 text-left border border-[#e5e7eb] text-xs font-medium text-gray-800">{item[keys[index]]}</td>
 
 
                   ))}

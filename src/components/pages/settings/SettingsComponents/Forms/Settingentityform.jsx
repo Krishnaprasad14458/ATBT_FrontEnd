@@ -22,7 +22,7 @@ const Settingentityform = () => {
         axios.get(`https://atbtmain.teksacademy.com/form/list?name=entityform`)
             .then(response => {
                 // Handle the successful
-                setCustomForm(response.data.array)
+                setCustomForm(response.data.Data)
                 console.log(response.data);
             })
             .catch(error => {
