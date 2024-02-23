@@ -11,20 +11,24 @@ const SettingUserForm = () => {
     const cancelButtonRef = useRef(null);
     const [customForm, setCustomForm] = useState([
     ])
+    const [tableView,setTableView] = useState()
+    useEffect(()=>{
+        console.log("tableView",tableView)
+    })
     const [newInputField, setNewInputField] = useState(
        
     {
         label: "", type: "", inputname: "", value: "",
         filterable: false, mandatory: false, field: "custom"
     }
-    
     )
     useEffect(() => {
         axios.get(`https://atbtmain.teksacademy.com/form/list?name=userform`)
             .then(response => {
                 // Handle the successful response
-                setCustomForm(response.data.array)
-                console.log(response.data);
+                setCustomForm(response.data.Data)
+                setTableView(response.data.Tableview)
+              
             })
             .catch(error => {
                 // Handle errors
@@ -78,7 +82,7 @@ const SettingUserForm = () => {
         }
         if (name == "label") {
             if (editIndex == null) {
-                setNewInputField((prev) => ({ ...prev, label: value, inputname: value.replace(/\s+/g, ''), }))
+                setNewInputField((prev) => ({ ...prev, label: value, inputname: value.replace(/\s+/g, '').toLowerCase() }))
             }
             if (editIndex != null) {
                 setNewInputField((prev) => ({ ...prev, label: value, }))
@@ -125,9 +129,21 @@ const SettingUserForm = () => {
                 let newField = { ...newInputField }
                 delete newField.options
                 setCustomForm((prev) => [...prev, newField]);
+             
+                setTableView(prevState => {
+                    const updatedState = { ...prevState };
+                    updatedState[newInputField.inputname] = false;
+                    return updatedState;
+                  });
+                  
             }
             else {
                 setCustomForm((prev) => [...prev, newInputField]);
+                setTableView(prevState => {
+                    const updatedState = { ...prevState };
+                    updatedState[newInputField.inputname] = false;
+                    return updatedState;
+                  });
             }
         }
         // setNewInputField({ label: '', type: '', inputname: "", value: "", filterable: false, mandatory: false });
@@ -161,6 +177,10 @@ const SettingUserForm = () => {
       
           if (confirmDelete.isConfirmed) {
             try {
+                let deletedInputName = updatedForm[index].inputname;
+                let newTableView = { ...tableView };
+                delete newTableView[deletedInputName];               
+                setTableView(newTableView)
               updatedForm.splice(index, 1);
               setCustomForm(updatedForm);
             } catch (error) {
@@ -186,9 +206,10 @@ const SettingUserForm = () => {
   {label:"Range",value:"range"}, 
   {label:"Time",value:"time"}
 ]
+
      const handleSubmitCustomForm = async () => {
         let formData = {
-            arrayOfObjects:customForm, Name: "userform" ,Tableview:{name:true,email:false,image:false,entityname:false,phonenumber:false,designation:false,role:false}
+            arrayOfObjects:customForm, Name: "userform" ,Tableview:tableView
         }
         await saveCustomForm(formData)
     }

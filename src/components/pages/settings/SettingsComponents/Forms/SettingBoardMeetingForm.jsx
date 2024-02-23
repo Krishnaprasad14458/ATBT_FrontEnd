@@ -24,7 +24,7 @@ const SettingBoardMeetingForm = () => {
     axios.get(`https://atbtmain.teksacademy.com/form/list?name=boardmeetingform`)
       .then(response => {
         // Handle the successful response
-        setCustomForm(response.data.array)
+        setCustomForm(response.data.Data)
         console.log(response.data);
       })
       .catch(error => {
@@ -187,7 +187,7 @@ const SettingBoardMeetingForm = () => {
 
 
   const inputType = [{ label: "", value: "" }, { label: "Text", value: "text" }, { label: "Email", value: "email" }, { label: "Password", value: "password" },
-  { label: "Number", value: "number" },{label:"Phone Number",value:"phonenumber"}, { label: "Text Area", value: "textarea" }, { label: "File", value: "file" }, { label: "Date", value: "date" }, { label: "Select", value: "select" }, { label: "Multi Select", value: "multiselect" }, { label: "Checkbox", value: "checkbox" }, { label: "Range", value: "range" }, { label: "Time", value: "time" }
+  { label: "Number", value: "number" }, { label: "Phone Number", value: "phonenumber" }, { label: "Text Area", value: "textarea" }, { label: "File", value: "file" }, { label: "Date", value: "date" }, { label: "Select", value: "select" }, { label: "Multi Select", value: "multiselect" }, { label: "Checkbox", value: "checkbox" }, { label: "Range", value: "range" }, { label: "Time", value: "time" }
   ]
 
 

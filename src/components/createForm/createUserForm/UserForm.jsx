@@ -51,7 +51,7 @@ function UserForm() {
     axios.get(`https://atbtmain.teksacademy.com/form/list?name=userform`)
       .then(response => {
         // Handle the successful response
-        setCustomFormFields(response.data.array)
+        setCustomFormFields(response.data.Data)
       })
       .catch(error => {
         // Handle errors
@@ -286,7 +286,7 @@ function UserForm() {
       axios.post(
         `https://atbtmain.teksacademy.com/user/create-user`, jsonData)
         .then(response => {
-          // console.log(response.data);
+          console.log(response);
           // console.log("reposnseeeeeeeeee", response.data)
           navigate(`/userlandingpage/${parseInt(response.data)}`)
         })
