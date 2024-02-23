@@ -1,17 +1,21 @@
-import React, { useContext } from "react";
-import { AuthContext } from "../../contexts/authContext/authContext";
-import { Navigate, useLocation, Routes, Outlet } from "react-router-dom";
-import Layout from "./SideAndTopBars";
+import React, { useContext } from 'react';
+import { AuthContext } from '../../contexts/authContext/authContext';
+import { Navigate, useLocation, Routes, Outlet } from 'react-router-dom';
+import PanelLayout from './PanelLayout';
 
 const RequireAuth = () => {
   const { authState } = useContext(AuthContext);
   const location = useLocation();
   return authState.token ? (
-    <Layout>
-      <Outlet/>
-    </Layout>
+    <PanelLayout>
+      <Outlet />
+    </PanelLayout>
   ) : (
-    <Navigate to="/login" state={{ from: location }} replace />
+    <Navigate
+      to='/login'
+      state={{ from: location }}
+      replace
+    />
   );
 };
 
