@@ -24,7 +24,7 @@ const SettingTeamsForm = () => {
         axios.get(`https://atbtmain.teksacademy.com/form/list?name=teamform`)
             .then(response => {
                 // Handle the successful response
-                setCustomForm(response.data.array)
+                setCustomForm(response.data.Data)
                 console.log(response.data);
             })
             .catch(error => {
