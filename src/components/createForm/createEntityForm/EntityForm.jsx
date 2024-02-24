@@ -673,7 +673,7 @@ function EntityForm() {
                                   <img
                                     className='w-4 h-4 rounded-lg'
                                     src={defprop}
-                                    alt='Neil image'
+                                    alt='image'
                                   />{' '}
                                   {mail}{' '}
                                   <svg
@@ -701,7 +701,7 @@ function EntityForm() {
                           />
                         </div>
                         {showUsers && searchTerm.length > 0 && (
-                          <ul className='user-list z-50 absolute top-full left-0  bg-gray-50 border border-1 border-gray-200 w-full'>
+                          <ul className='user-list z-10 absolute top-full left-0  bg-gray-50 border border-1 border-gray-200 w-full'>
                             {usersEmails
                               ?.filter((user) => !selected.includes(user))
                               .map((user, ind) => (
@@ -772,7 +772,7 @@ function EntityForm() {
                       />
                       <div className='h-2 text-[#dc2626]'>
                         {errors[item.inputname] && (
-                          <span>{errors[item.inputname]}</span>
+                          <span className='text-xs'>{errors[item.inputname]}</span>
                         )}
                       </div>
                     </div>
@@ -797,7 +797,7 @@ function EntityForm() {
                       />
                       <div className='h-2 text-[#dc2626]'>
                         {errors[item.inputname] && (
-                          <span>{errors[item.inputname]}</span>
+                          <span className='text-xs'>{errors[item.inputname]}</span>
                         )}
                       </div>
                     </div>
@@ -823,7 +823,7 @@ function EntityForm() {
                         />
                         <div className='h-2 text-[#dc2626]'>
                           {errors[item.inputname] && (
-                            <span>{errors[item.inputname]}</span>
+                            <span className='text-xs'>{errors[item.inputname]}</span>
                           )}
                         </div>
                       </div>
@@ -870,14 +870,13 @@ function EntityForm() {
                         type='date'
                         name={item.inputname}
                         id={item.inputname}
-                        className='p-2 block w-full rounded-md bg-gray-50 border-2 border-gray-200 py-1 text-gray-900 appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6
-                        placeholder:text-xs'
+                        className="p-2 block w-full rounded-md bg-gray-50 border-2 border-gray-200  text-gray-900 appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6"
                         value={customFormFields[index].value || ''}
                         onChange={(e) => handleChange(index, e.target.value)}
                       />
                       <div className='h-2 text-[#dc2626]'>
                         {errors[item.inputname] && (
-                          <span>{errors[item.inputname]}</span>
+                          <span className='text-xs'>{errors[item.inputname]}</span>
                         )}
                       </div>
                     </div>
@@ -902,7 +901,7 @@ function EntityForm() {
                       />
                       <div className='h-2 text-[#dc2626]'>
                         {errors[item.inputname] && (
-                          <span>{errors[item.inputname]}</span>
+                          <span className='text-xs'>{errors[item.inputname]}</span>
                         )}
                       </div>
                     </div>
@@ -926,7 +925,7 @@ function EntityForm() {
                       />
                       <div className='h-2 text-[#dc2626]'>
                         {errors[item.inputname] && (
-                          <span>{errors[item.inputname]}</span>
+                          <span className='text-xs'>{errors[item.inputname]}</span>
                         )}
                       </div>
                     </div>
@@ -949,7 +948,7 @@ function EntityForm() {
                       />
                       <div className='h-2 text-[#dc2626]'>
                         {errors[item.inputname] && (
-                          <span>{errors[item.inputname]}</span>
+                          <span className='text-xs'>{errors[item.inputname]}</span>
                         )}
                       </div>
                     </div>
@@ -972,7 +971,7 @@ function EntityForm() {
                       />
                       <div className='h-2 text-[#dc2626]'>
                         {errors[item.inputname] && (
-                          <span>{errors[item.inputname]}</span>
+                          <span className='text-xs'>{errors[item.inputname]}</span>
                         )}
                       </div>
                     </div>
@@ -1000,7 +999,7 @@ function EntityForm() {
                       </select>
                       <div className='h-2 text-[#dc2626]'>
                         {errors[item.inputname] && (
-                          <span>{errors[item.inputname]}</span>
+                          <span className='text-xs'>{errors[item.inputname]}</span>
                         )}
                       </div>
                     </div>
@@ -1056,7 +1055,7 @@ function EntityForm() {
                       )}
                       <div className='h-2 text-[#dc2626]'>
                         {errors[item.inputname] && (
-                          <span>{errors[item.inputname]}</span>
+                          <span className='text-xs'>{errors[item.inputname]}</span>
                         )}
                       </div>
                     </div>
