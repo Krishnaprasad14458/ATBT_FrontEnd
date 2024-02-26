@@ -106,14 +106,13 @@ const UserLandingPage = () => {
   const [expand, setExpand] = useState(false);
 
   let [customFormField, setCustomFormField] = useState()
+  
   useEffect(() => {
-    axios.get(`https://atbtmain.teksacademy.com/user/data/${id}`)
+    axios.get(`https://atbtmain.teksacademy.com/user/list/${id}`)
       .then(response => {
         // Handle the successful response
-        console.log("response", response.data
-        )
-        setCustomFormField(response.data.customFieldsData
-        )
+        console.log("response", response.data.user.customFieldsData)
+        setCustomFormField(response.data.user.customFieldsData)
       })
       .catch(error => {
         // Handle errors
