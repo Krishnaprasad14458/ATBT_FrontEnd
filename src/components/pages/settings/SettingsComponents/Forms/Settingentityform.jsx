@@ -10,8 +10,7 @@ const Settingentityform = () => {
     const [open, setOpen] = useState(false)
     const [editIndex, setEditIndex] = useState(null);
     const cancelButtonRef = useRef(null);
-    const [customForm, setCustomForm] = useState([
-    ])
+    const [customForm, setCustomForm] = useState()
     const [newInputField, setNewInputField] = useState(
         {
             label: "", type: "", inputname: "", value: "",
@@ -224,9 +223,9 @@ const Settingentityform = () => {
     }
     return (
         <div className="p-4 container bg-[#f8fafc]">
-        <div className="flex justify-between">
-            <p className="text-xl font-semibold">Custom Entity Form</p>
-                <div className='flex justify-end gap-3'>
+        <div className=" grid grid-cols-1 md:grid-cols-2 ">
+            <p className="col-span-1 text-xl sm:text-lg md:text-xl lg:text-xl xl:text-xl font-semibold">Custom Entity Form</p>
+                <div className="col-span-1 text-end mt-4 sm:mt-0">
                     <button type="submit" onClick={(e) => {
                         setEditIndex(null)
                         setNewInputField(
@@ -242,7 +241,7 @@ const Settingentityform = () => {
                         ) 
                         setOpen(true)
                     }}
-                        className="create-btn px-3 py-2 inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white gap-1">+ Add Field</button>
+                        className=" mr-3  px-3 py-2 inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white ">+ Add Field</button>
                             <Link to="/forms">
                         <button type="submit"
                             className="create-btn px-4 py-2 inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white gap-1">Back</button>
@@ -360,7 +359,7 @@ const Settingentityform = () => {
                         <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
                     </Transition.Child>
                     <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
-                        <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+                        <div className="flex min-h-full items-center justify-center p-4 text-center sm:items-center sm:p-0">
                             <Transition.Child
                                 as={Fragment}
                                 enter="ease-out duration-300"
@@ -530,7 +529,9 @@ const Settingentityform = () => {
 
 export default Settingentityform
 
-// let predefinedFields = [
+// let predefinedFields = 
+
+// [
 //     {
 //       "label": "Full Name",
 //       "inputname": "name",
@@ -546,7 +547,7 @@ export default Settingentityform
 //       "type": "file",
 //       "value": "",
 //       "field": "predefined",
-//       "mandatory": true,
+//       "mandatory": false,
 //       "filterable": false
 //     },
 //     {

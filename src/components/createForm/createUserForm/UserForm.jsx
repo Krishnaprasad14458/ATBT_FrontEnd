@@ -12,9 +12,9 @@ function UserForm() {
   const navigate = useNavigate();
   const {
     usersState: { users, dashboard },
-    usersDispatch,
+    usersDispatch,createUser
   } = useContext(UserDataContext);
-  const { createEntity } = useContext(EntitiesDataContext);
+ 
   // const usersEmails = dashboard.paginatedUsers?.map(user => user.email);
   // const { debouncedSetPage, debouncedSetSearch } = useDebounce(usersDispatch);
   const [errors, setErrors] = useState({});
@@ -380,17 +380,18 @@ function UserForm() {
         }
       }
       console.log('jsonData', jsonData);
-      axios
-        .post(`https://atbtmain.teksacademy.com/user/create-user`, jsonData)
-        // .post(`http://localhost:3000/user/create-user`, jsonData)
-        .then((response) => {
-          console.log(response);
-          // console.log("reposnseeeeeeeeee", response.data)
-          navigate(`/userlandingpage/${parseInt(response.data)}`);
-        })
-        .catch((error) => {
-          console.error(error);
-        });
+      createUser(jsonData)
+      // axios
+      //   .post(`https://atbtmain.teksacademy.com/user/create-user`, jsonData)
+      //   // .post(`http://localhost:3000/user/create-user`, jsonData)
+      //   .then((response) => {
+      //     console.log(response);
+      //     // console.log("reposnseeeeeeeeee", response.data)
+      //     navigate(`/userlandingpage/${parseInt(response.data)}`);
+      //   })
+      //   .catch((error) => {
+      //     console.error(error);
+      //   });
     }
   }
 
