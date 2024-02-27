@@ -55,7 +55,7 @@ export const createUser = async (userData, token) => {
 }
 
 export const deleteUser = async (id, token) => {
-    const url = `${apiUrl}/admin/delete-user/${id}`;
+    const url = `${apiUrl}/user/delete-user/${id}`;
     return await toast.promise(
         axios.delete(url, {
             headers: {

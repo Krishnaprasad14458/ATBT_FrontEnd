@@ -538,3 +538,45 @@ const SettingTeamsForm = () => {
     )
 }
 export default SettingTeamsForm
+
+
+////////// predefined fields
+
+// [
+//     {
+//         "label": "Full Name",
+//         "inputname": "name",
+//         "type": "text",
+//         "value": "",
+//         "field": "predefined",
+//         "mandatory": true,
+//         "filterable": true
+//     },
+//     {
+//         "label": "Image",
+//         "inputname": "image",
+//         "type": "file",
+//         "value": "",
+//         "field": "predefined",
+//         "mandatory": false,
+//         "filterable": false
+//     },
+//     {
+//         "label": "Description",
+//         "inputname": "description",
+//         "type": "textarea",
+//         "value": "",
+//         "field": "predefined",
+//         "mandatory": true,
+//         "filterable": false
+//     },
+//     {
+//         "label": "Add Members",
+//         "inputname": "members",
+//         "type": "multiselect",
+//         "value": [],
+//         "field": "predefined",
+//         "mandatory": true,
+//         "filterable": false
+//     }
+// ]

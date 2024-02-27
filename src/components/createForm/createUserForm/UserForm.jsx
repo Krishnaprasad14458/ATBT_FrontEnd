@@ -15,13 +15,10 @@ function UserForm() {
     usersDispatch,createUser
   } = useContext(UserDataContext);
  
-  // const usersEmails = dashboard.paginatedUsers?.map(user => user.email);
-  // const { debouncedSetPage, debouncedSetSearch } = useDebounce(usersDispatch);
+
   const [errors, setErrors] = useState({});
   let [openOptions, setopenOptions] = useState('');
-  // const [searchTerm, setSearchTerm] = useState('');
-  // const [selected, setSelected] = useState([]);
-  // const [showUsers, setShowUsers] = useState(false);
+  
   let [customFormFields, setCustomFormFields] = useState();
   const handleOpenOptions = (name) => {
     if (openOptions == name) {
@@ -31,25 +28,7 @@ function UserForm() {
       setopenOptions(name);
     }
   };
-  // const handleClick = (value, index) => {
-  //   setSelected((e) => [...e, value])
-  //   const updatedFormData = [...customFormFields];
-  //   let members = updatedFormData[index].value
-  //   members.push(value)
-  //   updatedFormData[index].value = members
-  //   setCustomFormFields(updatedFormData);
-  //   setSearchTerm('');
-  //   setShowUsers(false);
-  // };
-
-  // const handleRemove = (user, index) => {
-  //   const updatedSelected = selected.filter((selectedUser) => selectedUser !== user);
-  //   setSelected(updatedSelected);
-  //   const updatedMembers = customFormFields[index].value.filter((selectedUser) => selectedUser !== user);
-  //   const updatedFormData = [...customFormFields];
-  //   updatedFormData[index].value = updatedMembers;
-  //   setCustomFormFields(updatedFormData);
-  // };
+ 
   useEffect(() => {
     axios
       .get(`https://atbtmain.teksacademy.com/form/list?name=userform`)
