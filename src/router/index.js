@@ -63,6 +63,7 @@ import { meetingRouter } from "./meeting/meeting.router";
 import { userRouter } from "./user/user.router";
 import { entityRouter } from "./entity/entity.router";
 import { taskRouter } from "./task/task.router";
+import '../App.css';
 
 
 export const router = createBrowserRouter([

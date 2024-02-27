@@ -16,8 +16,12 @@ const SettingUserForm = () => {
     console.log("tableView", tableView)
   })
   const [newInputField, setNewInputField] = useState(
+
+
     {
-      label: "", type: "", inputname: "", value: "", filterable: false, mandatory: false, field: "custom"
+      label: "", type: "", inputname: "", value: "",
+      filterable: false, mandatory: false, field: "custom"
+
     }
   )
   useEffect(() => {
@@ -26,6 +30,7 @@ const SettingUserForm = () => {
         // Handle the successful response
         setCustomForm(response.data.Data)
         setTableView(response.data.Tableview)
+
       })
       .catch(error => {
         // Handle errors
@@ -38,6 +43,8 @@ const SettingUserForm = () => {
   })
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
+
+
 
     if (name == "type" && value === "select") {
       let newfield = { ...newInputField }
@@ -83,11 +90,13 @@ const SettingUserForm = () => {
       const updatedForm = [...customForm];
       updatedForm[editIndex] = newInputField;
       setCustomForm(updatedForm);
+
       setTableView(prevState => {
         const updatedState = { ...prevState };
         updatedState[newInputField.inputname] = { label: newInputField.label, value: false };
         return updatedState;
       });
+
       // setEditIndex(null);
     } else {
       // Add new field
@@ -108,7 +117,9 @@ const SettingUserForm = () => {
 
         setTableView(prevState => {
           const updatedState = { ...prevState };
+
           updatedState[newInputField.inputname] = { label: newInputField.label, value: false };
+
           return updatedState;
         });
 
@@ -117,7 +128,9 @@ const SettingUserForm = () => {
         setCustomForm((prev) => [...prev, newInputField]);
         setTableView(prevState => {
           const updatedState = { ...prevState };
+
           updatedState[newInputField.inputname] = { label: newInputField.label, value: false };
+
           return updatedState;
         });
       }
@@ -186,15 +199,7 @@ const SettingUserForm = () => {
   const handleSubmitCustomForm = async () => {
     let formData = {
       arrayOfObjects: customForm, Name: "userform", Tableview: tableView
-      //   {
-      //     name: { label: "Name", value: true },
-      //     entityname:{label:"Entity Name",value:true},
-      //     email: { label: "Email Id", value: true },
-      //     phonenumber: { label: "Phone Number", value: true },
-      //     designation :{label:"Designation",value:false},
-      //     role:{label:"Role",value:false},
 
-      // }
     }
     await saveCustomForm(formData)
   }
@@ -239,14 +244,18 @@ const SettingUserForm = () => {
   }
   return (
     <div className="p-4 container bg-[#f8fafc]">
-      <div className="flex justify-between">
-        <p className="text-xl font-semibold">Custom User Form</p>
 
-        <div className='flex justify-end gap-3'>
-          <button type="submit" onClick={(e) => {
-            setEditIndex(null)
-            setNewInputField(
-              {
+      <div className=" grid grid-cols-1 md:grid-cols-2 ">
+        <p className="col-span-1 text-xl sm:text-lg md:text-xl lg:text-xl xl:text-xl font-semibold">Custom User Form</p>
+
+        {/* sm:text-start md:text-end lg:text-end xl:text-end */}
+        <div className="col-span-1 text-end mt-4 sm:mt-0">
+          <button
+            type="submit"
+            onClick={(e) => {
+              setEditIndex(null);
+              setNewInputField({
+
                 label: "",
                 type: "",
                 inputname: "",
@@ -254,20 +263,29 @@ const SettingUserForm = () => {
                 filterable: false,
                 mandatory: false,
                 field: "custom"
-              }
-            )
-            setOpen(true)
-          }}
-            className="create-btn px-3 py-2 inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white gap-1">+ Add Field</button>
+
+              });
+              setOpen(true);
+            }}
+            className="mr-3 create-btn px-3 py-2 inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white "
+          >
+            + Add Field
+          </button>
           <Link to="/forms">
-            <button type="submit"
-              className="create-btn px-4 py-2 inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white gap-1">Back</button>
+            <button
+              type="submit"
+              className=" px-4 py-2 inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white "
+            >
+              Back
+            </button>
           </Link>
         </div>
       </div>
 
+
       <div class="flex  mt-3 h-[500px]">
         <div class="w-full px-3 py-4 text-left text-xs overflow-y-scroll">
+
 
           {customForm && customForm.length > 0 && customForm.map((input, index) => (
             <div className="">
@@ -344,7 +362,9 @@ const SettingUserForm = () => {
                       </div>
                     </div>
                   </div>
-                  <div className='flex flex-wrap mb-5 gap-10'>
+
+                  <div className='flex flex-wrap mb-4  sm:gap-0 md:gap-10 '>
+
                     {/* {input.type.charAt(0).toUpperCase() + input.type.slice(1)} */}
                     <div className='w-1/5 hidden sm:block'></div>
                     <div class=' flex flex-wrap pt-5  gap-1 '>
@@ -403,7 +423,9 @@ const SettingUserForm = () => {
                   <div class='flex justify-end w-full  pb-2'>
                     <div class='mr-4'>
                       <button
-                        class=' flex  justify-center rounded-md  border-2 border-orange-600 px-3 py-2 text-sm font-medium leading-6 text-orange-600 shadow-sm  focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600                       
+
+                        class='create-btn flex  justify-center rounded-md  border-2 border-orange-600 px-3 py-2 text-sm font-medium leading-6 text-orange-600 shadow-sm  focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600                       
+
                        '
                         onClick={() => {
                           setNewInputField(input);
@@ -417,8 +439,10 @@ const SettingUserForm = () => {
                     <div class='mr-4'>
                       <button
                         class={`flex w-full justify-center rounded-md bg-[#dc2626] px-3 py-2.5 text-sm font-medium leading-6 text-white shadow-sm  focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600 ${input.field === 'custom'
-                            ? ''
-                            : 'pointer-events-none opacity-30  cursor-not-allowed'
+
+                          ? ''
+                          : 'pointer-events-none opacity-30  cursor-not-allowed'
+
                           }`}
                         onClick={() => {
                           deleteInput(index);
