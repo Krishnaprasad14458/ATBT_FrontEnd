@@ -35,7 +35,7 @@ export const getUserById = async (id) => {
 };
 
 export const createUser = async (userData, token) => {
-    const url = `${apiUrl}/admin/create-user`;
+    const url = `${apiUrl}/user/create-user`;
     return await toast.promise(
         axios.post(url, { ...userData }, {
             headers: {
