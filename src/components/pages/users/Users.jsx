@@ -85,20 +85,20 @@ function Users() {
 
   useEffect(() => {
     axios.get(`https://atbtmain.teksacademy.com/form/list?name=userform`)
-            .then(response => {
-                // Handle the successful response
-                setCustomForm(response.data.Data)
-                setTableView(response.data.Tableview)
-            })
-            .catch(error => {
-                // Handle errors
-                console.error('Error fetching data:', error);
-            });
-      axios.get(`https://atbtmain.teksacademy.com/user/list`)
+      .then(response => {
+        // Handle the successful response
+        setCustomForm(response.data.Data)
+        setTableView(response.data.Tableview)
+      })
+      .catch(error => {
+        // Handle errors
+        console.error('Error fetching data:', error);
+      });
+    axios.get(`https://atbtmain.teksacademy.com/user/list`)
       .then(response => {
         // Handle the successful response
         setData(response.data.users)
-        console.log("dsdsdsdsd",response.data);
+        console.log("dsdsdsdsd", response.data);
       })
       .catch(error => {
         // Handle errors
@@ -126,7 +126,7 @@ function Users() {
   }, [customForm])
   ////////filters end
 
-  const [tableView,setTableView] = useState()
+  const [tableView, setTableView] = useState()
   const handleCheckboxChange = (columnName) => {
     setTableView((prevColumns) => ({
       ...prevColumns,

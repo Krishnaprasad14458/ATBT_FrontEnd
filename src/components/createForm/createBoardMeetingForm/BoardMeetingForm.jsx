@@ -60,8 +60,8 @@ function BoardMeetingForm() {
       .get(`https://atbtmain.teksacademy.com/form/list?name=boardmeetingform`)
       .then((response) => {
         // Handle the successful response
-        setCustomFormFields(response.data.array);
-        console.log('customFormFields', response.data.array);
+        setCustomFormFields(response.data.Data);
+        // console.log('customFormFields', response.data.array);
       })
       .catch((error) => {
         // Handle errors

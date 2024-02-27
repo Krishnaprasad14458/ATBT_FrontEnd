@@ -67,7 +67,8 @@ function EntityForm() {
       .get(`https://atbtmain.teksacademy.com/form/list?name=entityform`)
       .then((response) => {
         // Handle the successful response
-        setCustomFormFields(response.data.array);
+        setCustomFormFields(response.data.Data)
+        
       })
       .catch((error) => {
         // Handle errors

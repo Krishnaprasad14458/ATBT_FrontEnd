@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
+import Swal from 'sweetalert2';
 import {
   useLoaderData,
   useSubmit,
@@ -193,7 +194,7 @@ const AddRoles = () => {
           updatePermission.permissions[index].read =
           updatePermission.permissions[index].update =
           updatePermission.permissions[index].delete =
-            updatePermission.permissions[index].all;
+          updatePermission.permissions[index].all;
 
         // If there are submenus, update their permissions as well
         if (updatePermission.permissions[index].submenus) {
@@ -202,7 +203,7 @@ const AddRoles = () => {
               submenu.read =
               submenu.update =
               submenu.delete =
-                updatePermission.permissions[index].all;
+              updatePermission.permissions[index].all;
           });
         }
       } else {
@@ -226,13 +227,13 @@ const AddRoles = () => {
           updatePermission.permissions[index].submenus[subindex].read =
           updatePermission.permissions[index].submenus[subindex].update =
           updatePermission.permissions[index].submenus[subindex].delete =
-            updatePermission.permissions[index].submenus[subindex].all;
+          updatePermission.permissions[index].submenus[subindex].all;
       } else {
         // If any other permission for submenus is toggled, check if all permissions are selected, then set "All" to true
         const allSelected = ['create', 'read', 'update', 'delete'].every(
           (permissionType) =>
             updatePermission.permissions[index].submenus[subindex][
-              permissionType
+            permissionType
             ]
         );
         updatePermission.permissions[index].submenus[subindex].all =
@@ -255,39 +256,35 @@ const AddRoles = () => {
   };
 
   async function handleSubmit() {
-    console.log(permission);
+
+
+
+
     if (!data?.id) {
       const result = await axios.post(
         'https://atbtmain.teksacademy.com/rbac/create-role',
-        {
-          ...permission,
-        }
+        { ...permission }
       );
-      fetcher.submit(
-        {
-          // You can implement any custom serialization logic here
-          serialized: JSON.stringify(result),
-        },
-        { method: 'post', action: '/addroles' }
-      );
+      // Log the result and indicate that a role was added
       console.log(result, 'added');
+      // You may want to handle form submission here as well
     }
     if (!!data?.id) {
       const result = await axios.put(
         `https://atbtmain.teksacademy.com/rbac/update-role/${data?.id}`,
-        {
-          ...permission,
-        }
+        { ...permission }
       );
+      // Log the result and indicate that a role was updated
       console.log(result, 'updated');
     }
   }
 
+
   return (
     <div className=' p-3 bg-[#f8fafc] overflow-hidden'>
       <h1 className='font-semibold text-lg grid1-item'> Add Roles</h1>
-      <div className='grid grid-cols-2 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-col-2 gap-2 mt-2'>
-        <div className='grid1-item text-start w-96'>
+      <div className='grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-col-2 gap-2 mt-2'>
+        <div className='col-span-1 text-start  xl:w-96 '>
           <div>
             <label
               htmlFor='role'
@@ -308,12 +305,13 @@ const AddRoles = () => {
                 type='text'
                 autoComplete='role'
                 required
-                className='p-2 text-xs block w-full bg-gray-50  rounded-md  border-2 border-gray-200 py-1 text-gray-900 appearance-none shadow-sm  placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-xs sm:leading-6'
+                className='  p-2 block w-full rounded-md bg-gray-50 border-2 border-gray-200 py-1.5 text-gray-900 appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6
+                placeholder:text-xs'
               />
             </div>
           </div>
         </div>
-        <div className='grid1-item text-start w-96'>
+        <div className='col-span-1 text-start xl:w-96 '>
           <div>
             <label
               htmlFor='description'
@@ -334,269 +332,266 @@ const AddRoles = () => {
                 type='text'
                 autoComplete='description'
                 required
-                className='p-2 text-xs block w-full bg-gray-50  rounded-md  border-2 border-gray-200 py-1 text-gray-900 appearance-none shadow-sm  placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-xs sm:leading-6'
+                className=' p-2 block w-full rounded-md bg-gray-50 border-2 border-gray-200 py-1.5 text-gray-900 appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6
+                placeholder:text-xs '
               />
             </div>
           </div>
         </div>
       </div>
       <p className='text-md my-3 font-semibold'>Permissions</p>
-      <table className=' min-w-full divide-y divide-gray-200 dark:divide-gray-700 border-collapse border border-[#e5e7eb] rounded-md '>
-        <thead className='sticky top-0 z-10'>
-          <tr>
-            <th
-              scope='col'
-              className='px-6 py-2 text-center text-sm  text-white bg-orange-600 border-collapse border border-[#e5e7eb] '
-            >
-              Name
-            </th>
-            <th
-              scope='col'
-              className='px-6 py-2 text-center text-sm  text-white bg-orange-600 border-collapse border border-[#e5e7eb]'
-            >
-              All
-            </th>
-            <th
-              scope='col'
-              className='px-6 py-2 text-center text-sm  text-white bg-orange-600 border-collapse border border-[#e5e7eb]'
-              colSpan={4}
-            >
-              Access
-            </th>
-          </tr>
-        </thead>
-        <tbody className='divide-y divide-gray-200 dark:divide-gray-700 '>
-          <tr>
-            <td className='px-6 py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]'></td>
-            <td className='px-6 py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]'>
-              {' '}
-              All
-            </td>
-            <td className='px-6 py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]'>
-              {' '}
-              Create
-            </td>
-            <td className='px-6 py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]'>
-              {' '}
-              Read
-            </td>
-            <td className='px-6 py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]'>
-              {' '}
-              Update
-            </td>
-            <td className='px-6 py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]'>
-              {' '}
-              Delete
-            </td>
-          </tr>
-          {permission &&
-            permission.permissions.map((item, index) => {
-              return (
-                <>
-                  <tr key={item}>
-                    <td className='px-6 flex justify-between py-2.5 whitespace-nowrap text-center  text-sm font-semibold  text-gray-800 border-collapse '>
-                      {item.module}{' '}
-                      {!!item.submenus && (
-                        <svg
-                          onClick={() => handleSubmenuOpen(item.module)}
-                          xmlns='http://www.w3.org/2000/svg'
-                          viewBox='0 0 16 16'
-                          fill='currentColor'
-                          className='w-4 h-4 mt-1'
-                        >
-                          <path
-                            fill-rule='evenodd'
-                            d='M4.22 6.22a.75.75 0 0 1 1.06 0L8 8.94l2.72-2.72a.75.75 0 1 1 1.06 1.06l-3.25 3.25a.75.75 0 0 1-1.06 0L4.22 7.28a.75.75 0 0 1 0-1.06Z'
-                            clip-rule='evenodd'
+      <div className="max-h-[410px] overflow-y-scroll ">
+        <table className=' w-full divide-y divide-gray-200 dark:divide-gray-700 rounded-md '>
+          <thead className=''>
+            <tr>
+              <th
+
+                className='sticky top-0 bg-orange-600 text-white text-sm text-left px-6 py-2.5 border-l-2 border-gray-200'
+              >
+                Name
+              </th>
+              <th
+
+                className='sticky top-0 bg-orange-600 text-white text-sm text-left px-6 py-2.5 border-l-2 border-gray-200'
+              >
+                All
+              </th>
+              <th
+                scope='col'
+                className='sticky top-0 bg-orange-600 text-white text-sm text-left px-6 py-2.5 border-l-2 border-gray-200'
+                colSpan={4}
+              >
+                Access
+              </th>
+            </tr>
+          </thead>
+          <tbody className='divide-y divide-gray-200 dark:divide-gray-700 '>
+            <tr>
+              <td className='px-6 py-2.5 whitespace-nowrap text-left  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]'></td>
+              <td className='px-6 py-2.5 whitespace-nowrap text-left  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]'>
+                {' '}
+                All
+              </td>
+              <td className='px-6 py-2.5 whitespace-nowrap text-left  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]'>
+                {' '}
+                Create
+              </td>
+              <td className='px-6 py-2.5 whitespace-nowrap text-left  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]'>
+                {' '}
+                Read
+              </td>
+              <td className='px-6 py-2.5 whitespace-nowrap text-left  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]'>
+                {' '}
+                Update
+              </td>
+              <td className='px-6 py-2.5 whitespace-nowrap text-left  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]'>
+                {' '}
+                Delete
+              </td>
+            </tr>
+            {permission &&
+              permission.permissions.map((item, index) => {
+                return (
+                  <>
+                    <tr key={item}>
+                      <td className='px-6  py-2.5 whitespace-nowrap text-left  text-sm font-semibold  text-gray-800 border-collapse border border-[#e5e7eb]'>
+                        {item.module}{' '}
+                        {!!item.submenus && (
+                          <svg
+                            onClick={() => handleSubmenuOpen(item.module)}
+                            xmlns='http://www.w3.org/2000/svg'
+                            viewBox='0 0 16 16'
+                            fill='currentColor'
+                            className='w-4 h-4 mt-1'
+                          >
+                            <path
+                              fill-rule='evenodd'
+                              d='M4.22 6.22a.75.75 0 0 1 1.06 0L8 8.94l2.72-2.72a.75.75 0 1 1 1.06 1.06l-3.25 3.25a.75.75 0 0 1-1.06 0L4.22 7.28a.75.75 0 0 1 0-1.06Z'
+                              clip-rule='evenodd'
+                            />
+                          </svg>
+                        )}
+                      </td>
+                      <td className='px-6 py-2.5 whitespace-nowrap text-left  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]'>
+                        <label className='relative inline-flex items-center cursor-pointer'>
+                          <input
+                            type='checkbox'
+                            name='all'
+                            value={item.all}
+                            className='sr-only peer'
+                            checked={item.all}
+                            onChange={() => handletoggle('all', index)}
                           />
-                        </svg>
-                      )}
-                    </td>
-                    <td className='px-6 py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]'>
-                      <label className='relative inline-flex items-center cursor-pointer'>
-                        <input
-                          type='checkbox'
-                          name='all'
-                          value={item.all}
-                          className='sr-only peer'
-                          checked={item.all}
-                          onChange={() => handletoggle('all', index)}
-                        />
-                        <div
-                          className={`w-7 h-4  ${
-                            item.all ? 'bg-orange-600' : 'bg-slate-300'
-                          } peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[1px] after:start-[1px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-3.5 after:w-3.5 after:transition-all dark:border-orange-600 checked:bg-orange-600`}
-                        ></div>
-                      </label>
-                    </td>
-                    <td className='px-6 py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]'>
-                      <label className='relative inline-flex items-center cursor-pointer'>
-                        <input
-                          type='checkbox'
-                          value={item.create}
-                          className='sr-only peer'
-                          checked={item.create}
-                          onChange={() => handletoggle('create', index)}
-                        />
-                        <div
-                          className={`w-7 h-4  ${
-                            item.create ? 'bg-orange-600' : 'bg-slate-300'
-                          } peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[1px] after:start-[1px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-3.5 after:w-3.5 after:transition-all dark:border-orange-600 checked:bg-orange-600`}
-                        ></div>
-                      </label>
-                    </td>
-                    <td className='px-6 py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]'>
-                      <label className='relative inline-flex items-center cursor-pointer'>
-                        <input
-                          type='checkbox'
-                          value={item.read}
-                          className='sr-only peer'
-                          checked={item.read}
-                          onChange={() => handletoggle('read', index)}
-                        />
-                        <div
-                          className={`w-7 h-4  ${
-                            item.read ? 'bg-orange-600' : 'bg-slate-300'
-                          } peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[1px] after:start-[1px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-3.5 after:w-3.5 after:transition-all dark:border-orange-600 checked:bg-orange-600`}
-                        ></div>
-                      </label>
-                    </td>
-                    <td className='px-6 py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]'>
-                      <label className='relative inline-flex items-center cursor-pointer'>
-                        <input
-                          type='checkbox'
-                          value={item.update}
-                          className='sr-only peer'
-                          checked={item.update}
-                          onChange={() => handletoggle('update', index)}
-                        />
-                        <div
-                          className={`w-7 h-4  ${
-                            item.update ? 'bg-orange-600' : 'bg-slate-300'
-                          } peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[1px] after:start-[1px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-3.5 after:w-3.5 after:transition-all dark:border-orange-600 checked:bg-orange-600`}
-                        ></div>
-                      </label>
-                    </td>
-                    <td className='px-6 py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]'>
-                      <label className='relative inline-flex items-center cursor-pointer'>
-                        <input
-                          type='checkbox'
-                          value={item.delete}
-                          className='sr-only peer'
-                          checked={item.delete}
-                          onChange={() => handletoggle('delete', index)}
-                        />
-                        <div
-                          className={`w-7 h-4  ${
-                            item.delete ? 'bg-orange-600' : 'bg-slate-300'
-                          } peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[1px] after:start-[1px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-3.5 after:w-3.5 after:transition-all dark:border-orange-600 checked:bg-orange-600`}
-                        ></div>
-                      </label>
-                    </td>
-                  </tr>
-                  {item.module == selected &&
-                    item.submenus.length > 0 &&
-                    item.submenus.map((subitem, subindex) => {
-                      return (
-                        <tr>
-                          <td className=' py-2.5 whitespace-nowrap text-center  text-xs   text-gray-800 border-collapse '>
-                            {subitem.module}
-                          </td>
-                          <td className='px-6 py-2.5 whitespace-nowrap text-center  text-xs   text-gray-800 border-collapse border border-[#e5e7eb]'>
-                            {' '}
-                          </td>
-                          <td className='px-6 py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]'>
-                            <label className='relative inline-flex items-center cursor-pointer'>
-                              <input
-                                type='checkbox'
-                                value={subitem.create}
-                                className='sr-only peer'
-                                checked={subitem.create}
-                                onChange={() =>
-                                  handletoggle('create', index, subindex)
-                                }
-                              />
-                              <div
-                                className={`w-7 h-4  ${
-                                  subitem.create
+                          <div
+                            className={`w-7 h-4  ${item.all ? 'bg-orange-600' : 'bg-slate-300'
+                              } peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[1px] after:start-[1px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-3.5 after:w-3.5 after:transition-all dark:border-orange-600 checked:bg-orange-600`}
+                          ></div>
+                        </label>
+                      </td>
+                      <td className='px-6 py-2.5 whitespace-nowrap text-left  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]'>
+                        <label className='relative inline-flex items-center cursor-pointer'>
+                          <input
+                            type='checkbox'
+                            value={item.create}
+                            className='sr-only peer'
+                            checked={item.create}
+                            onChange={() => handletoggle('create', index)}
+                          />
+                          <div
+                            className={`w-7 h-4  ${item.create ? 'bg-orange-600' : 'bg-slate-300'
+                              } peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[1px] after:start-[1px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-3.5 after:w-3.5 after:transition-all dark:border-orange-600 checked:bg-orange-600`}
+                          ></div>
+                        </label>
+                      </td>
+                      <td className='px-6 py-2.5 whitespace-nowrap text-left  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]'>
+                        <label className='relative inline-flex items-center cursor-pointer'>
+                          <input
+                            type='checkbox'
+                            value={item.read}
+                            className='sr-only peer'
+                            checked={item.read}
+                            onChange={() => handletoggle('read', index)}
+                          />
+                          <div
+                            className={`w-7 h-4  ${item.read ? 'bg-orange-600' : 'bg-slate-300'
+                              } peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[1px] after:start-[1px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-3.5 after:w-3.5 after:transition-all dark:border-orange-600 checked:bg-orange-600`}
+                          ></div>
+                        </label>
+                      </td>
+                      <td className='px-6 py-2.5 whitespace-nowrap text-left  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]'>
+                        <label className='relative inline-flex items-center cursor-pointer'>
+                          <input
+                            type='checkbox'
+                            value={item.update}
+                            className='sr-only peer'
+                            checked={item.update}
+                            onChange={() => handletoggle('update', index)}
+                          />
+                          <div
+                            className={`w-7 h-4  ${item.update ? 'bg-orange-600' : 'bg-slate-300'
+                              } peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[1px] after:start-[1px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-3.5 after:w-3.5 after:transition-all dark:border-orange-600 checked:bg-orange-600`}
+                          ></div>
+                        </label>
+                      </td>
+                      <td className='px-6 py-2.5 whitespace-nowrap text-left text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]'>
+                        <label className='relative inline-flex items-center cursor-pointer'>
+                          <input
+                            type='checkbox'
+                            value={item.delete}
+                            className='sr-only peer'
+                            checked={item.delete}
+                            onChange={() => handletoggle('delete', index)}
+                          />
+                          <div
+                            className={`w-7 h-4  ${item.delete ? 'bg-orange-600' : 'bg-slate-300'
+                              } peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[1px] after:start-[1px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-3.5 after:w-3.5 after:transition-all dark:border-orange-600 checked:bg-orange-600`}
+                          ></div>
+                        </label>
+                      </td>
+                    </tr>
+                    {item.module == selected &&
+                      item.submenus.length > 0 &&
+                      item.submenus.map((subitem, subindex) => {
+                        return (
+                          <tr>
+                            <td className=' py-2.5 whitespace-nowrap text-left  text-xs   text-gray-800 border-collapse '>
+                              {subitem.module}
+                            </td>
+                            <td className='px-6 py-2.5 whitespace-nowrap text-left  text-xs   text-gray-800 border-collapse border border-[#e5e7eb]'>
+                              {' '}
+                            </td>
+                            <td className='px-6 py-2.5 whitespace-nowrap text-left  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]'>
+                              <label className='relative inline-flex items-center cursor-pointer'>
+                                <input
+                                  type='checkbox'
+                                  value={subitem.create}
+                                  className='sr-only peer'
+                                  checked={subitem.create}
+                                  onChange={() =>
+                                    handletoggle('create', index, subindex)
+                                  }
+                                />
+                                <div
+                                  className={`w-7 h-4  ${subitem.create
                                     ? 'bg-orange-600'
                                     : 'bg-slate-300'
-                                } peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[1px] after:start-[1px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-3.5 after:w-3.5 after:transition-all dark:border-orange-600 checked:bg-orange-600`}
-                              ></div>
-                            </label>
-                          </td>
-                          <td className='px-6 py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]'>
-                            <label className='relative inline-flex items-center cursor-pointer'>
-                              <input
-                                type='checkbox'
-                                value={subitem.read}
-                                className='sr-only peer'
-                                checked={subitem.read}
-                                onChange={() =>
-                                  handletoggle('read', index, subindex)
-                                }
-                              />
-                              <div
-                                className={`w-7 h-4  ${
-                                  subitem.read
+                                    } peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[1px] after:start-[1px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-3.5 after:w-3.5 after:transition-all dark:border-orange-600 checked:bg-orange-600`}
+                                ></div>
+                              </label>
+                            </td>
+                            <td className='px-6 py-2.5 whitespace-nowrap text-left  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]'>
+                              <label className='relative inline-flex items-center cursor-pointer'>
+                                <input
+                                  type='checkbox'
+                                  value={subitem.read}
+                                  className='sr-only peer'
+                                  checked={subitem.read}
+                                  onChange={() =>
+                                    handletoggle('read', index, subindex)
+                                  }
+                                />
+                                <div
+                                  className={`w-7 h-4  ${subitem.read
                                     ? 'bg-orange-600'
                                     : 'bg-slate-300'
-                                } peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[1px] after:start-[1px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-3.5 after:w-3.5 after:transition-all dark:border-orange-600 checked:bg-orange-600`}
-                              ></div>
-                            </label>
-                          </td>
-                          <td className='px-6 py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]'>
-                            <label className='relative inline-flex items-center cursor-pointer'>
-                              <input
-                                type='checkbox'
-                                value={subitem.update}
-                                className='sr-only peer'
-                                checked={subitem.update}
-                                onChange={() =>
-                                  handletoggle('update', index, subindex)
-                                }
-                              />
-                              <div
-                                className={`w-7 h-4  ${
-                                  subitem.update
+                                    } peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[1px] after:start-[1px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-3.5 after:w-3.5 after:transition-all dark:border-orange-600 checked:bg-orange-600`}
+                                ></div>
+                              </label>
+                            </td>
+                            <td className='px-6 py-2.5 whitespace-nowrap text-left  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]'>
+                              <label className='relative inline-flex items-center cursor-pointer'>
+                                <input
+                                  type='checkbox'
+                                  value={subitem.update}
+                                  className='sr-only peer'
+                                  checked={subitem.update}
+                                  onChange={() =>
+                                    handletoggle('update', index, subindex)
+                                  }
+                                />
+                                <div
+                                  className={`w-7 h-4  ${subitem.update
                                     ? 'bg-orange-600'
                                     : 'bg-slate-300'
-                                } peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[1px] after:start-[1px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-3.5 after:w-3.5 after:transition-all dark:border-orange-600 checked:bg-orange-600`}
-                              ></div>
-                            </label>
-                          </td>
-                          <td className='px-6 py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]'>
-                            <label className='relative inline-flex items-center cursor-pointer'>
-                              <input
-                                type='checkbox'
-                                value={subitem.delete}
-                                className='sr-only peer'
-                                checked={subitem.delete}
-                                onChange={() =>
-                                  handletoggle('delete', index, subindex)
-                                }
-                              />
-                              <div
-                                className={`w-7 h-4  ${
-                                  subitem.delete
+                                    } peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[1px] after:start-[1px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-3.5 after:w-3.5 after:transition-all dark:border-orange-600 checked:bg-orange-600`}
+                                ></div>
+                              </label>
+                            </td>
+                            <td className='px-6 py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]'>
+                              <label className='relative inline-flex items-center cursor-pointer'>
+                                <input
+                                  type='checkbox'
+                                  value={subitem.delete}
+                                  className='sr-only peer'
+                                  checked={subitem.delete}
+                                  onChange={() =>
+                                    handletoggle('delete', index, subindex)
+                                  }
+                                />
+                                <div
+                                  className={`w-7 h-4  ${subitem.delete
                                     ? 'bg-orange-600'
                                     : 'bg-slate-300'
-                                } peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[1px] after:start-[1px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-3.5 after:w-3.5 after:transition-all dark:border-orange-600 checked:bg-orange-600`}
-                              ></div>
-                            </label>
-                          </td>
-                        </tr>
-                      );
-                    })}
-                </>
-              );
-            })}
-          {/* <div className={item.all ? "w-7 h-4 bg-orange-600 peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[1px] after:start-[1px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-3.5 after:w-3.5 after:transition-all dark:border-orange-600 checked:bg-orange-600" : ""}
+                                    } peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[1px] after:start-[1px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-3.5 after:w-3.5 after:transition-all dark:border-orange-600 checked:bg-orange-600`}
+                                ></div>
+                              </label>
+                            </td>
+                          </tr>
+                        );
+                      })}
+                  </>
+                );
+              })}
+            {/* <div className={item.all ? "w-7 h-4 bg-orange-600 peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[1px] after:start-[1px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-3.5 after:w-3.5 after:transition-all dark:border-orange-600 checked:bg-orange-600" : ""}
 
             ></div> */}
-        </tbody>
-      </table>
-      <button onClick={() => handleSubmit()}>submit</button>
+          </tbody>
+        </table>
+      </div>
+      <div className='flex justify-end mt-5'>
+        <button onClick={() => handleSubmit()} className='px-3 py-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white gap-1'>Submit</button>
+      </div>
+
     </div>
   );
 };
