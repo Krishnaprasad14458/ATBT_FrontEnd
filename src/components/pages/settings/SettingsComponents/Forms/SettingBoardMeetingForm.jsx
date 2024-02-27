@@ -547,3 +547,66 @@ const SettingBoardMeetingForm = () => {
   )
 }
 export default SettingBoardMeetingForm
+
+/////////////////predefined fields  
+// [
+//   {
+//       "label": "Full Name",
+//       "inputname": "name",
+//       "type": "text",
+//       "value": "",
+//       "field": "predefined",
+//       "mandatory": true,
+//       "filterable": true
+//   },
+//   {
+//       "label": "Select a Date",
+//       "inputname": "date",
+//       "type": "date",
+//       "value": "",
+//       "field": "predefined",
+//       "mandatory": true,
+//       "filterable": true
+//   },
+//   {
+//       "label": "Select a Time",
+//       "inputname": "time",
+//       "type": "time",
+//       "value": "",
+//       "field": "predefined",
+//       "mandatory": true,
+//       "filterable": true
+//   },
+//   {
+//       "label": "Venue",
+//       "inputname": "venue",
+//       "type": "select",
+//       "value": "",
+//       "options": [
+//           "London",
+//           "California",
+//           "USA"
+//       ],
+//       "field": "predefined",
+//       "mandatory": true,
+//       "filterable": true
+//   },
+//   {
+//       "label": "Description",
+//       "inputname": "description",
+//       "type": "textarea",
+//       "value": "",
+//       "field": "predefined",
+//       "mandatory": true,
+//       "filterable": false
+//   },
+//   {
+//       "label": "Add Members",
+//       "inputname": "members",
+//       "type": "multiselect",
+//       "value": [],
+//       "field": "predefined",
+//       "mandatory": true,
+//       "filterable": false
+//   }
+// ]
