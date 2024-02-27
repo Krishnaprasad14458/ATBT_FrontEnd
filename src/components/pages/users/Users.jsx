@@ -59,7 +59,7 @@ function Users() {
     console.log("hio", id, userStatus, userRemarksHistory)
     setId(id);
     setUser_Status(userStatus);
-    setuser_remarks_history(JSON.parse(userRemarksHistory));
+    setuser_remarks_history(userRemarksHistory);
     setOpen(true);
   };
 
