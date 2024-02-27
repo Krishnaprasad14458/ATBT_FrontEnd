@@ -197,7 +197,8 @@ const SettingUserForm = () => {
   }
   const saveCustomForm = async (formData) => {
     toast.promise(
-      axios.put(`https://atbtmain.teksacademy.com/form/userform`, formData),
+      axios.put(`https://atbtmain.teksacademy.com/form/userform`, formData)
+      ,
       {
         pending: 'Updating Form',
         success: {
@@ -236,12 +237,6 @@ const SettingUserForm = () => {
   }
 
 
-  useEffect(()=>{
-    let data = 	"[{\"label\":\"Full Name\",\"inputname\":\"name\",\"type\":\"text\",\"value\":\"\",\"field\":\"predefined\",\"mandatory\":true,\"filterable\":true},{\"label\":\"Image\",\"inputname\":\"image\",\"type\":\"file\",\"value\":\"\",\"field\":\"predefined\",\"mandatory\":false,\"filterable\":false},{\"label\":\"Description\",\"inputname\":\"description\",\"type\":\"textarea\",\"value\":\"\",\"field\":\"predefined\",\"mandatory\":true,\"filterable\":true},{\"label\":\"Add Members\",\"inputname\":\"members\",\"type\":\"multiselect\",\"value\":[],\"field\":\"predefined\",\"mandatory\":true,\"filterable\":false}]"
-		console.log("datart",JSON.parse(data))
-  }
-  
-  )
   return (
     <div className="p-4 container bg-[#f8fafc]">
 
