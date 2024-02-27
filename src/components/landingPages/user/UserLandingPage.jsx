@@ -42,7 +42,7 @@ const UserLandingPage = () => {
   const { id } = useParams();
   const data = useLoaderData();
   console.log(data.user.customFieldsData, 'rrd');
-  const customFormField = JSON.parse(data.user.customFieldsData);
+  const customFormField = data.user.customFieldsData;
   console.log(customFormField, 'rdd');
   const {
     usersState: { users },
