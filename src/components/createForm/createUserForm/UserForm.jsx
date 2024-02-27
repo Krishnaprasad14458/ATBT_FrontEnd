@@ -53,9 +53,10 @@ function UserForm() {
   useEffect(() => {
     axios
       .get(`https://atbtmain.teksacademy.com/form/list?name=userform`)
+      // .get(`http://localhost:3000/form/list?name=userform`)
       .then((response) => {
         // Handle the successful response
-        setCustomFormFields(response.data.Data)
+        setCustomFormFields(response.data.Data);
       })
       .catch((error) => {
         // Handle errors
@@ -368,7 +369,7 @@ function UserForm() {
     if (!checkValidation()) {
       const jsonData = {};
       jsonData.customFieldsData = JSON.stringify(customFormFields);
-      jsonData.loggedInUser = parseInt(localStorage.getItem('id'));
+      jsonData.createdBy = parseInt(localStorage.getItem('id'));
       for (let i = 0; i < customFormFields.length; i++) {
         if (Array.isArray(customFormFields[i].value)) {
           jsonData[customFormFields[i].inputname] = JSON.stringify(
@@ -378,10 +379,11 @@ function UserForm() {
           jsonData[customFormFields[i].inputname] = customFormFields[i].value;
         }
       }
-      console.log("jsonData", jsonData);
-      axios.post(
-        `https://atbtmain.teksacademy.com/user/create-user`, jsonData)
-        .then(response => {
+      console.log('jsonData', jsonData);
+      axios
+        .post(`https://atbtmain.teksacademy.com/user/create-user`, jsonData)
+        // .post(`http://localhost:3000/user/create-user`, jsonData)
+        .then((response) => {
           console.log(response);
           // console.log("reposnseeeeeeeeee", response.data)
           navigate(`/userlandingpage/${parseInt(response.data)}`);
@@ -754,7 +756,6 @@ function UserForm() {
                           id={item.inputname}
                           className='my-1'
                           checked={!!customFormFields[index].value}
-
                           onChange={(e) =>
                             handleChange(index, e.target.checked)
                           }

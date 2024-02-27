@@ -54,14 +54,14 @@ function Dashboard() {
         <div className=' grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-col-2 gap-10 px-7 dashboard-main'>
           <GateKeeper
             permissionCheck={(permission) =>
-              permission.module === 'entity' && permission.read
+              permission.module === 'entity' && permission.canRead
             }
           >
             <EntityDashboard />
           </GateKeeper>
           <GateKeeper
             permissionCheck={(permission) =>
-              permission.module === 'user' && permission.read
+              permission.module === 'user' && permission.canRead
             }
           >
             <UserDashboard />
@@ -70,14 +70,14 @@ function Dashboard() {
         <div className='mb-12 pb-5 grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-col-2 gap-10 px-7 dashboard-main mt-4'>
           <GateKeeper
             permissionCheck={(permission) =>
-              permission.module === 'meeting' && permission.read
+              permission.module === 'meeting' && permission.canRead
             }
           >
             <BoardMeetingDashboard />
           </GateKeeper>
           <GateKeeper
             permissionCheck={(permission) =>
-              permission.module === 'team' && permission.read
+              permission.module === 'team' && permission.canRead
             }
           >
             <TeamsDashboard />

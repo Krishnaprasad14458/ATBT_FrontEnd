@@ -22,19 +22,20 @@ const handlePermissionsUpdate = async (setPermissions, setLoading) => {
 };
 
 const PermissionsProvider = ({ children }) => {
-  const authState = useContext(AuthContext);
-  console.log(authState, permissionsDb, "pdb")
-  const [permissions, setPermissions] = useState([...permissionsDb] || []);
+  const { authState } = useContext(AuthContext);
+  const initialPermissions = authState?.role?.Permissions || [];
+  const [permissions, setPermissions] = useState([...initialPermissions]);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     // const socket = io('your_socket_server_url');
     // socket.on('permissionsUpdate', () => handlePermissionsUpdate(setPermissions, setLoading));
 
+    setPermissions(authState?.role?.Permissions);
     return () => {
       // socket.off('permissionsUpdate');
     };
-  }, []);
+  }, [authState]);
 
   return (
     <PermissionsContext.Provider value={{ permissions, loading }}>
@@ -43,11 +44,9 @@ const PermissionsProvider = ({ children }) => {
   );
 };
 
-export default PermissionsProvider
+export default PermissionsProvider;
 
 // export const usePermissions = () => useContext(PermissionsContext);
-
-
 
 // import React, { createContext, useEffect, useState } from 'react';
 // import faker from '../utils/faker';
@@ -101,8 +100,6 @@ export default PermissionsProvider
 
 // export default PermissionProvider;
 
-
-
 // const defaultBehaviour = {
 //     isAllowedTo: () => Promise.resolve(false)
 // };
@@ -144,8 +141,6 @@ export default PermissionsProvider
 // };
 
 // export default PermissionProvider;
-
-
 
 // const defaultBehaviour = {
 //     isAllowedTo: () => Promise.resolve(false)
