@@ -34,7 +34,7 @@ function EntityDashboard() {
             </h5>
             <GateKeeper
               permissionCheck={(permission) =>
-                permission.module === 'entity' && permission.create
+                permission.module === 'entity' && permission.canCreate
               }
             >
               <Link

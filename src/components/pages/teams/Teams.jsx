@@ -247,22 +247,55 @@ function Teams() {
         </div>
       </div>
 
-
       <div className='max-h-[410px] overflow-y-scroll mt-6'>
         <table className='w-full divide-gray-200 dark:divide-gray-700 rounded-md'>
-          <thead >
+          <thead>
             <tr>
-              <th scope='col' className='sticky top-0 bg-orange-600 text-white text-sm text-left px-6 py-2.5 border-l-2 border-gray-200' > Team </th>
-              <th scope='col' className='sticky top-0 bg-orange-600 text-white text-sm text-left px-6 py-2.5 border-l-2 border-gray-200'>Total Tasks</th>
-              <th scope='col' className='sticky top-0 bg-orange-600 text-white text-sm text-left px-6 py-2.5 border-l-2 border-gray-200'> Completed Tasks</th>
-              <th scope='col' className='sticky top-0 bg-orange-600 text-white text-sm text-left px-6 py-2.5 border-l-2 border-gray-200'>Upcoming Tasks</th>
-              <th scope='col' className='sticky top-0 bg-orange-600 text-white text-sm text-left px-6 py-2.5 border-l-2 border-gray-200'> Overdue Tasks</th>
-              <th scope='col' className='sticky top-0 bg-orange-600 text-white text-sm text-left px-6 py-2.5 border-l-2 border-gray-200' > Actions </th>
+              <th
+                scope='col'
+                className='sticky top-0 bg-orange-600 text-white text-sm text-left px-6 py-2.5 border-l-2 border-gray-200'
+              >
+                {' '}
+                Team{' '}
+              </th>
+              <th
+                scope='col'
+                className='sticky top-0 bg-orange-600 text-white text-sm text-left px-6 py-2.5 border-l-2 border-gray-200'
+              >
+                Total Tasks
+              </th>
+              <th
+                scope='col'
+                className='sticky top-0 bg-orange-600 text-white text-sm text-left px-6 py-2.5 border-l-2 border-gray-200'
+              >
+                {' '}
+                Completed Tasks
+              </th>
+              <th
+                scope='col'
+                className='sticky top-0 bg-orange-600 text-white text-sm text-left px-6 py-2.5 border-l-2 border-gray-200'
+              >
+                Upcoming Tasks
+              </th>
+              <th
+                scope='col'
+                className='sticky top-0 bg-orange-600 text-white text-sm text-left px-6 py-2.5 border-l-2 border-gray-200'
+              >
+                {' '}
+                Overdue Tasks
+              </th>
+              <th
+                scope='col'
+                className='sticky top-0 bg-orange-600 text-white text-sm text-left px-6 py-2.5 border-l-2 border-gray-200'
+              >
+                {' '}
+                Actions{' '}
+              </th>
             </tr>
           </thead>
-          <tbody >
+          <tbody>
             {!entitiesList?.paginatedEntities ||
-              entitiesList?.paginatedEntities?.length === 0 ? (
+            entitiesList?.paginatedEntities?.length === 0 ? (
               <p className='text-center m-auto'>no entity found</p>
             ) : (
               entitiesList?.paginatedEntities?.map((item, index) => (
@@ -289,7 +322,7 @@ function Teams() {
                     <div className='flex justify-start'>
                       <GateKeeper
                         permissionCheck={(permission) =>
-                          permission.module === 'team' && permission.read
+                          permission.module === 'team' && permission.canRead
                         }
                       >
                         <button
@@ -316,7 +349,7 @@ function Teams() {
                       </GateKeeper>
                       <GateKeeper
                         permissionCheck={(permission) =>
-                          permission.module === 'team' && permission.update
+                          permission.module === 'team' && permission.canUpdate
                         }
                       >
                         <button
@@ -335,7 +368,7 @@ function Teams() {
                       </GateKeeper>
                       <GateKeeper
                         permissionCheck={(permission) =>
-                          permission.module === 'team' && permission.delete
+                          permission.module === 'team' && permission.canDelete
                         }
                       >
                         <button
@@ -359,7 +392,7 @@ function Teams() {
                       </GateKeeper>
                       <GateKeeper
                         permissionCheck={(permission) =>
-                          permission.module === 'team' && permission.update
+                          permission.module === 'team' && permission.canUpdate
                         }
                       >
                         <button
@@ -379,12 +412,14 @@ function Teams() {
                               className='flex items-center cursor-pointer'
                             >
                               <div
-                                className={`w-8 h-4 rounded-full shadow-inner ${isChecked ? ' bg-[#ea580c]' : 'bg-[#c3c6ca]'
-                                  }`}
+                                className={`w-8 h-4 rounded-full shadow-inner ${
+                                  isChecked ? ' bg-[#ea580c]' : 'bg-[#c3c6ca]'
+                                }`}
                               >
                                 <div
-                                  className={`toggle__dot w-4 h-4 rounded-full shadow ${isChecked ? 'ml-4 bg-white' : 'bg-white'
-                                    }`}
+                                  className={`toggle__dot w-4 h-4 rounded-full shadow ${
+                                    isChecked ? 'ml-4 bg-white' : 'bg-white'
+                                  }`}
                                 ></div>
                               </div>
                               {/* <div className={`ml-3 text-sm font-medium ${isChecked ? 'text-gray-400' : 'text--400'}`}>
@@ -403,12 +438,11 @@ function Teams() {
         </table>
       </div>
 
-
       <div className='inset-x-0 bottom-0 mt-5'>
         <div className='flex justify-between'>
           <div className=''>
             {!entitiesList?.paginatedEntities ||
-              entitiesList?.paginatedEntities?.length === 0 ? (
+            entitiesList?.paginatedEntities?.length === 0 ? (
               'no data to show'
             ) : entitiesList.loading ? (
               'Loading...'

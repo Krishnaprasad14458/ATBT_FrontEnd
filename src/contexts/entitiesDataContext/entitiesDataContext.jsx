@@ -16,8 +16,16 @@ const EntitiesDataProvider = ({ children }) => {
   );
 
   const getAllEntities = async () => {
-    const { data } = await api.getAllEntities();
-    entitiesDispatch(actions.setEntities(data));
+    try {
+      const { data, status } = await api.getAllEntities();
+      if (status === 200) {
+        entitiesDispatch(actions.setEntities(data));
+      } else {
+        return null;
+      }
+    } catch (error) {
+      console.error(`the error is ${error}`);
+    }
   };
 
   const getDashboardEntitiesData = async () => {
@@ -25,15 +33,19 @@ const EntitiesDataProvider = ({ children }) => {
       entitiesState.dashboardEntities;
     entitiesDispatch(actions.setLoading('DASHBOARD'));
     try {
-      const { data } = await api.getEntities(
+      const { data, status } = await api.getEntities(
         currentPage,
         perPage,
         sortBy,
         search
       );
-      return entitiesDispatch(actions.setPaginatedEntities('DASHBOARD', data));
+      if (status === 200) {
+        entitiesDispatch(actions.setPaginatedEntities('DASHBOARD', data));
+      } else {
+        return null;
+      }
     } catch (error) {
-      console.error(error);
+      console.error(`the error is: ${error}`);
     } finally {
       entitiesDispatch(actions.setLoading('DASHBOARD'));
     }
@@ -43,15 +55,19 @@ const EntitiesDataProvider = ({ children }) => {
     const { currentPage, perPage, sortBy, search } = entitiesState.entitiesList;
     entitiesDispatch(actions.setLoading('ENTITES'));
     try {
-      const { data } = await api.getEntities(
+      const { data, status } = await api.getEntities(
         currentPage,
         perPage,
         sortBy,
         search
       );
-      return entitiesDispatch(actions.setPaginatedEntities('ENTITES', data));
+      if (status === 200) {
+        entitiesDispatch(actions.setPaginatedEntities('ENTITES', data));
+      } else {
+        return null;
+      }
     } catch (error) {
-      console.error(error);
+      console.error(`the error is ${error}`);
     } finally {
       entitiesDispatch(actions.setLoading('ENTITES'));
     }
@@ -59,12 +75,16 @@ const EntitiesDataProvider = ({ children }) => {
 
   const deleteEntitybyId = async (id) => {
     try {
-      const data = await api.deleteEntity(id);
-      getpaginatedEntitiesData();
-      getDashboardEntitiesData();
-      getAllEntities();
+      const { status } = await api.deleteEntity(id);
+      if (status === 200) {
+        getpaginatedEntitiesData();
+        getDashboardEntitiesData();
+        getAllEntities();
+      } else {
+        return null;
+      }
     } catch (error) {
-      console.error(error);
+      console.error(`the error is ${error}`);
     }
   };
 
@@ -75,7 +95,7 @@ const EntitiesDataProvider = ({ children }) => {
       getDashboardEntitiesData();
       return data;
     } catch (error) {
-      console.error(error);
+      console.error(`the error is ${error}`);
     }
   };
 
@@ -89,7 +109,7 @@ const EntitiesDataProvider = ({ children }) => {
         // navigate(`entitylandingpage/${data.Entites.id}`)
       }
     } catch (error) {
-      console.error(error);
+      console.error(`the error is ${error}`);
     }
   };
 

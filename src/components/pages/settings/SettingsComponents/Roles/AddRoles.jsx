@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
+import Swal from 'sweetalert2';
 import {
   useLoaderData,
   useSubmit,
@@ -9,16 +10,17 @@ import {
 
 const AddRoles = () => {
   const submit = useSubmit();
-  const data = useLoaderData();
+  const response = useLoaderData();
   const navigation = useNavigation();
   const fetcher = useFetcher();
-  console.log(data?.response, 'yesss', navigation);
+  console.log(response, 'yesss', navigation);
   const getInitialState = () => {
-    if (!!data?.response) {
+    if (!!response) {
+      console.log(response.response, 'data');
       return {
-        role: 'you decide',
-        description: 'you decide',
-        permissions: [...data?.response],
+        role: response?.response?.name,
+        description: response?.response?.description,
+        permissions: [...response?.response.Permissions],
       };
     } else {
       return {
@@ -28,114 +30,114 @@ const AddRoles = () => {
           {
             module: 'dashboard',
             all: false,
-            create: false,
-            read: false,
-            update: false,
-            delete: false,
+            canCreate: false,
+            canRead: false,
+            canUpdate: false,
+            canDelete: false,
           },
           {
             module: 'user',
             all: false,
-            create: false,
-            read: false,
-            update: false,
-            delete: false,
+            canCreate: false,
+            canRead: false,
+            canUpdate: false,
+            canDelete: false,
           },
           {
             module: 'entity',
             all: false,
-            create: false,
-            read: false,
-            update: false,
-            delete: false,
+            canCreate: false,
+            canRead: false,
+            canUpdate: false,
+            canDelete: false,
           },
           {
             module: 'meeting',
             all: false,
-            create: false,
-            read: false,
-            update: false,
-            delete: false,
+            canCreate: false,
+            canRead: false,
+            canUpdate: false,
+            canDelete: false,
           },
           {
             module: 'task',
             all: false,
-            create: false,
-            read: false,
-            update: false,
-            delete: false,
+            canCreate: false,
+            canRead: false,
+            canUpdate: false,
+            canDelete: false,
           },
           {
             module: 'team',
             all: false,
-            create: false,
-            read: false,
-            update: false,
-            delete: false,
+            canCreate: false,
+            canRead: false,
+            canUpdate: false,
+            canDelete: false,
           },
           {
             module: 'report',
             all: false,
-            create: false,
-            read: false,
-            update: false,
-            delete: false,
+            canCreate: false,
+            canRead: false,
+            canUpdate: false,
+            canDelete: false,
           },
           {
             module: 'setting',
             all: false,
-            create: false,
-            read: false,
-            update: false,
-            delete: false,
+            canCreate: false,
+            canRead: false,
+            canUpdate: false,
+            canDelete: false,
           },
           // {
           //   module: 'settings',
           //   all: false,
-          //   create: false,
-          //   read: false,
-          //   update: false,
-          //   delete: false,
+          //   canCreate: false,
+          //   canRead: false,
+          //   canUpdate: false,
+          //   canDelete: false,
           //   submenus: [
           //     {
           //       module: 'organizationprofile',
           //       all: false,
-          //       create: false,
-          //       read: false,
-          //       update: false,
-          //       delete: false,
+          //       canCreate: false,
+          //       canRead: false,
+          //       canUpdate: false,
+          //       canDelete: false,
           //     },
           //     {
           //       module: 'form',
           //       all: false,
-          //       create: false,
-          //       read: false,
-          //       update: false,
-          //       delete: false,
+          //       canCreate: false,
+          //       canRead: false,
+          //       canUpdate: false,
+          //       canDelete: false,
           //     },
           //     {
           //       module: 'communication',
           //       all: false,
-          //       create: false,
-          //       read: false,
-          //       update: false,
-          //       delete: false,
+          //       canCreate: false,
+          //       canRead: false,
+          //       canUpdate: false,
+          //       canDelete: false,
           //     },
           //     {
           //       module: 'role',
           //       all: false,
-          //       create: false,
-          //       read: false,
-          //       update: false,
-          //       delete: false,
+          //       canCreate: false,
+          //       canRead: false,
+          //       canUpdate: false,
+          //       canDelete: false,
           //     },
           //     {
           //       module: 'integration',
           //       all: false,
-          //       create: false,
-          //       read: false,
-          //       update: false,
-          //       delete: false,
+          //       canCreate: false,
+          //       canRead: false,
+          //       canUpdate: false,
+          //       canDelete: false,
           //     },
           //   ],
           // },
@@ -189,25 +191,30 @@ const AddRoles = () => {
 
       // If "All" is toggled, toggle other permissions accordingly
       if (module === 'all') {
-        updatePermission.permissions[index].create =
-          updatePermission.permissions[index].read =
-          updatePermission.permissions[index].update =
-          updatePermission.permissions[index].delete =
+        updatePermission.permissions[index].canCreate =
+          updatePermission.permissions[index].canRead =
+          updatePermission.permissions[index].canUpdate =
+          updatePermission.permissions[index].canDelete =
             updatePermission.permissions[index].all;
 
-        // If there are submenus, update their permissions as well
+        // If there are submenus, canUpdate their permissions as well
         if (updatePermission.permissions[index].submenus) {
           updatePermission.permissions[index].submenus.forEach((submenu) => {
-            submenu.create =
-              submenu.read =
-              submenu.update =
-              submenu.delete =
+            submenu.canCreate =
+              submenu.canRead =
+              submenu.canUpdate =
+              submenu.canDelete =
                 updatePermission.permissions[index].all;
           });
         }
       } else {
         // If any other permission is toggled, check if all permissions are selected, then set "All" to true
-        const allSelected = ['create', 'read', 'update', 'delete'].every(
+        const allSelected = [
+          'canCreate',
+          'canRead',
+          'canUpdate',
+          'canDelete',
+        ].every(
           (permissionType) =>
             updatePermission.permissions[index][permissionType]
         );
@@ -222,14 +229,19 @@ const AddRoles = () => {
 
       // If "All" for submenus is toggled, toggle other permissions accordingly
       if (module === 'all') {
-        updatePermission.permissions[index].submenus[subindex].create =
-          updatePermission.permissions[index].submenus[subindex].read =
-          updatePermission.permissions[index].submenus[subindex].update =
-          updatePermission.permissions[index].submenus[subindex].delete =
+        updatePermission.permissions[index].submenus[subindex].canCreate =
+          updatePermission.permissions[index].submenus[subindex].canRead =
+          updatePermission.permissions[index].submenus[subindex].canUpdate =
+          updatePermission.permissions[index].submenus[subindex].canDelete =
             updatePermission.permissions[index].submenus[subindex].all;
       } else {
         // If any other permission for submenus is toggled, check if all permissions are selected, then set "All" to true
-        const allSelected = ['create', 'read', 'update', 'delete'].every(
+        const allSelected = [
+          'canCreate',
+          'canRead',
+          'canUpdate',
+          'canDelete',
+        ].every(
           (permissionType) =>
             updatePermission.permissions[index].submenus[subindex][
               permissionType
@@ -256,29 +268,26 @@ const AddRoles = () => {
 
   async function handleSubmit() {
     console.log(permission);
-    if (!data?.id) {
+    if (!response?.response.id) {
       const result = await axios.post(
         'https://atbtmain.teksacademy.com/rbac/create-role',
         {
           ...permission,
         }
       );
-      fetcher.submit(
-        {
-          // You can implement any custom serialization logic here
-          serialized: JSON.stringify(result),
-        },
-        { method: 'post', action: '/addroles' }
-      );
+      fetcher.submit('added', { method: 'post', action: '/addroles' });
       console.log(result, 'added');
+      // You may want to handle form submission here as well
     }
-    if (!!data?.id) {
+    if (!!response?.response?.id) {
       const result = await axios.put(
-        `https://atbtmain.teksacademy.com/rbac/update-role/${data?.id}`,
+        `https://atbtmain.teksacademy.com/rbac/update-role/${response?.response?.id}`,
+        // `http://localhost:3000/rbac/update-role/${response?.id}`,
         {
           ...permission,
         }
       );
+      fetcher.submit('updated', { method: 'post', action: '/addroles' });
       console.log(result, 'updated');
     }
   }
@@ -286,8 +295,8 @@ const AddRoles = () => {
   return (
     <div className=' p-3 bg-[#f8fafc] overflow-hidden'>
       <h1 className='font-semibold text-lg grid1-item'> Add Roles</h1>
-      <div className='grid grid-cols-2 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-col-2 gap-2 mt-2'>
-        <div className='grid1-item text-start w-96'>
+      <div className='grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-col-2 gap-2 mt-2'>
+        <div className='col-span-1 text-start  xl:w-96 '>
           <div>
             <label
               htmlFor='role'
@@ -297,6 +306,7 @@ const AddRoles = () => {
             </label>
             <div className=''>
               <input
+                value={permission.role}
                 onChange={(e) => {
                   setPermission({
                     ...permission,
@@ -308,12 +318,13 @@ const AddRoles = () => {
                 type='text'
                 autoComplete='role'
                 required
-                className='p-2 text-xs block w-full bg-gray-50  rounded-md  border-2 border-gray-200 py-1 text-gray-900 appearance-none shadow-sm  placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-xs sm:leading-6'
+                className='  p-2 block w-full rounded-md bg-gray-50 border-2 border-gray-200 py-1.5 text-gray-900 appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6
+                placeholder:text-xs'
               />
             </div>
           </div>
         </div>
-        <div className='grid1-item text-start w-96'>
+        <div className='col-span-1 text-start xl:w-96 '>
           <div>
             <label
               htmlFor='description'
@@ -323,6 +334,7 @@ const AddRoles = () => {
             </label>
             <div className=''>
               <input
+                value={permission.description}
                 onChange={(e) => {
                   setPermission({
                     ...permission,
@@ -334,7 +346,8 @@ const AddRoles = () => {
                 type='text'
                 autoComplete='description'
                 required
-                className='p-2 text-xs block w-full bg-gray-50  rounded-md  border-2 border-gray-200 py-1 text-gray-900 appearance-none shadow-sm  placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-xs sm:leading-6'
+                className=' p-2 block w-full rounded-md bg-gray-50 border-2 border-gray-200 py-1.5 text-gray-900 appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6
+                placeholder:text-xs '
               />
             </div>
           </div>
@@ -374,19 +387,19 @@ const AddRoles = () => {
             </td>
             <td className='px-6 py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]'>
               {' '}
-              Create
+              canCreate
             </td>
             <td className='px-6 py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]'>
               {' '}
-              Read
+              canRead
             </td>
             <td className='px-6 py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]'>
               {' '}
-              Update
+              canUpdate
             </td>
             <td className='px-6 py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]'>
               {' '}
-              Delete
+              canDelete
             </td>
           </tr>
           {permission &&
@@ -433,14 +446,14 @@ const AddRoles = () => {
                       <label className='relative inline-flex items-center cursor-pointer'>
                         <input
                           type='checkbox'
-                          value={item.create}
+                          value={item.canCreate}
                           className='sr-only peer'
-                          checked={item.create}
-                          onChange={() => handletoggle('create', index)}
+                          checked={item.canCreate}
+                          onChange={() => handletoggle('canCreate', index)}
                         />
                         <div
                           className={`w-7 h-4  ${
-                            item.create ? 'bg-orange-600' : 'bg-slate-300'
+                            item.canCreate ? 'bg-orange-600' : 'bg-slate-300'
                           } peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[1px] after:start-[1px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-3.5 after:w-3.5 after:transition-all dark:border-orange-600 checked:bg-orange-600`}
                         ></div>
                       </label>
@@ -449,14 +462,14 @@ const AddRoles = () => {
                       <label className='relative inline-flex items-center cursor-pointer'>
                         <input
                           type='checkbox'
-                          value={item.read}
+                          value={item.canRead}
                           className='sr-only peer'
-                          checked={item.read}
-                          onChange={() => handletoggle('read', index)}
+                          checked={item.canRead}
+                          onChange={() => handletoggle('canRead', index)}
                         />
                         <div
                           className={`w-7 h-4  ${
-                            item.read ? 'bg-orange-600' : 'bg-slate-300'
+                            item.canRead ? 'bg-orange-600' : 'bg-slate-300'
                           } peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[1px] after:start-[1px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-3.5 after:w-3.5 after:transition-all dark:border-orange-600 checked:bg-orange-600`}
                         ></div>
                       </label>
@@ -465,14 +478,14 @@ const AddRoles = () => {
                       <label className='relative inline-flex items-center cursor-pointer'>
                         <input
                           type='checkbox'
-                          value={item.update}
+                          value={item.canUpdate}
                           className='sr-only peer'
-                          checked={item.update}
-                          onChange={() => handletoggle('update', index)}
+                          checked={item.canUpdate}
+                          onChange={() => handletoggle('canUpdate', index)}
                         />
                         <div
                           className={`w-7 h-4  ${
-                            item.update ? 'bg-orange-600' : 'bg-slate-300'
+                            item.canUpdate ? 'bg-orange-600' : 'bg-slate-300'
                           } peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[1px] after:start-[1px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-3.5 after:w-3.5 after:transition-all dark:border-orange-600 checked:bg-orange-600`}
                         ></div>
                       </label>
@@ -481,14 +494,14 @@ const AddRoles = () => {
                       <label className='relative inline-flex items-center cursor-pointer'>
                         <input
                           type='checkbox'
-                          value={item.delete}
+                          value={item.canDelete}
                           className='sr-only peer'
-                          checked={item.delete}
-                          onChange={() => handletoggle('delete', index)}
+                          checked={item.canDelete}
+                          onChange={() => handletoggle('canDelete', index)}
                         />
                         <div
                           className={`w-7 h-4  ${
-                            item.delete ? 'bg-orange-600' : 'bg-slate-300'
+                            item.canDelete ? 'bg-orange-600' : 'bg-slate-300'
                           } peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[1px] after:start-[1px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-3.5 after:w-3.5 after:transition-all dark:border-orange-600 checked:bg-orange-600`}
                         ></div>
                       </label>
@@ -509,16 +522,16 @@ const AddRoles = () => {
                             <label className='relative inline-flex items-center cursor-pointer'>
                               <input
                                 type='checkbox'
-                                value={subitem.create}
+                                value={subitem.canCreate}
                                 className='sr-only peer'
-                                checked={subitem.create}
+                                checked={subitem.canCreate}
                                 onChange={() =>
-                                  handletoggle('create', index, subindex)
+                                  handletoggle('canCreate', index, subindex)
                                 }
                               />
                               <div
                                 className={`w-7 h-4  ${
-                                  subitem.create
+                                  subitem.canCreate
                                     ? 'bg-orange-600'
                                     : 'bg-slate-300'
                                 } peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[1px] after:start-[1px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-3.5 after:w-3.5 after:transition-all dark:border-orange-600 checked:bg-orange-600`}
@@ -529,16 +542,16 @@ const AddRoles = () => {
                             <label className='relative inline-flex items-center cursor-pointer'>
                               <input
                                 type='checkbox'
-                                value={subitem.read}
+                                value={subitem.canRead}
                                 className='sr-only peer'
-                                checked={subitem.read}
+                                checked={subitem.canRead}
                                 onChange={() =>
-                                  handletoggle('read', index, subindex)
+                                  handletoggle('canRead', index, subindex)
                                 }
                               />
                               <div
                                 className={`w-7 h-4  ${
-                                  subitem.read
+                                  subitem.canRead
                                     ? 'bg-orange-600'
                                     : 'bg-slate-300'
                                 } peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[1px] after:start-[1px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-3.5 after:w-3.5 after:transition-all dark:border-orange-600 checked:bg-orange-600`}
@@ -549,16 +562,16 @@ const AddRoles = () => {
                             <label className='relative inline-flex items-center cursor-pointer'>
                               <input
                                 type='checkbox'
-                                value={subitem.update}
+                                value={subitem.canUpdate}
                                 className='sr-only peer'
-                                checked={subitem.update}
+                                checked={subitem.canUpdate}
                                 onChange={() =>
-                                  handletoggle('update', index, subindex)
+                                  handletoggle('canUpdate', index, subindex)
                                 }
                               />
                               <div
                                 className={`w-7 h-4  ${
-                                  subitem.update
+                                  subitem.canUpdate
                                     ? 'bg-orange-600'
                                     : 'bg-slate-300'
                                 } peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[1px] after:start-[1px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-3.5 after:w-3.5 after:transition-all dark:border-orange-600 checked:bg-orange-600`}
@@ -569,16 +582,16 @@ const AddRoles = () => {
                             <label className='relative inline-flex items-center cursor-pointer'>
                               <input
                                 type='checkbox'
-                                value={subitem.delete}
+                                value={subitem.canDelete}
                                 className='sr-only peer'
-                                checked={subitem.delete}
+                                checked={subitem.canDelete}
                                 onChange={() =>
-                                  handletoggle('delete', index, subindex)
+                                  handletoggle('canDelete', index, subindex)
                                 }
                               />
                               <div
                                 className={`w-7 h-4  ${
-                                  subitem.delete
+                                  subitem.canDelete
                                     ? 'bg-orange-600'
                                     : 'bg-slate-300'
                                 } peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[1px] after:start-[1px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-3.5 after:w-3.5 after:transition-all dark:border-orange-600 checked:bg-orange-600`}

@@ -175,28 +175,62 @@ function Entities() {
       </div>
       {/* table */}
 
-
       <div className='max-h-[410px] overflow-y-scroll mt-6'>
         <table className='w-full divide-y divide-gray-200 dark:divide-gray-700 rounded-md'>
           <thead className=''>
             <tr>
-              <th scope='col' className='sticky top-0 bg-orange-600 text-white text-sm text-left px-6 py-2.5 border-l-2 border-gray-200'>
-                Entity</th>
-              <th scope='col' className='sticky top-0 bg-orange-600 text-white text-sm text-left px-6 py-2.5 border-l-2 border-gray-200'> Total Tasks</th>
-              <th scope='col' className='sticky top-0 bg-orange-600 text-white text-sm text-left px-6 py-2.5 border-l-2 border-gray-200'>Completed Tasks</th>
-              <th scope='col' className='sticky top-0 bg-orange-600 text-white text-sm text-left px-6 py-2.5 border-l-2 border-gray-200' >  Upcoming Tasks</th>
-              <th scope='col' className='sticky top-0 bg-orange-600 text-white text-sm text-left px-6 py-2.5 border-l-2 border-gray-200'>  Overdue Tasks</th>
-              <th scope='col' className='sticky top-0 bg-orange-600 text-white text-sm text-left px-6 py-2.5 border-l-2 border-gray-200'>  Actions  </th>
+              <th
+                scope='col'
+                className='sticky top-0 bg-orange-600 text-white text-sm text-left px-6 py-2.5 border-l-2 border-gray-200'
+              >
+                Entity
+              </th>
+              <th
+                scope='col'
+                className='sticky top-0 bg-orange-600 text-white text-sm text-left px-6 py-2.5 border-l-2 border-gray-200'
+              >
+                {' '}
+                Total Tasks
+              </th>
+              <th
+                scope='col'
+                className='sticky top-0 bg-orange-600 text-white text-sm text-left px-6 py-2.5 border-l-2 border-gray-200'
+              >
+                Completed Tasks
+              </th>
+              <th
+                scope='col'
+                className='sticky top-0 bg-orange-600 text-white text-sm text-left px-6 py-2.5 border-l-2 border-gray-200'
+              >
+                {' '}
+                Upcoming Tasks
+              </th>
+              <th
+                scope='col'
+                className='sticky top-0 bg-orange-600 text-white text-sm text-left px-6 py-2.5 border-l-2 border-gray-200'
+              >
+                {' '}
+                Overdue Tasks
+              </th>
+              <th
+                scope='col'
+                className='sticky top-0 bg-orange-600 text-white text-sm text-left px-6 py-2.5 border-l-2 border-gray-200'
+              >
+                {' '}
+                Actions{' '}
+              </th>
             </tr>
           </thead>
-          <tbody >
+          <tbody>
             {!entitiesList?.paginatedEntities ||
-              entitiesList?.paginatedEntities?.length === 0 ? (
+            entitiesList?.paginatedEntities?.length === 0 ? (
               <p className='text-center m-auto'>no entity found</p>
-            ) : ( entitiesList?.paginatedEntities?.map((item, index) => (
+            ) : (
+              entitiesList?.paginatedEntities?.map((item, index) => (
                 <tr
                   key={item.id}
-                  className='hover:bg-gray-100 dark:hover:bg-gray-700'>
+                  className='hover:bg-gray-100 dark:hover:bg-gray-700'
+                >
                   <td className='px-6 py-2 text-left border border-[#e5e7eb] text-xs font-medium text-gray-800'>
                     Kapil Knowledge Hub Private Limited
                   </td>
@@ -216,7 +250,7 @@ function Entities() {
                     <div className='flex justify-start'>
                       <GateKeeper
                         permissionCheck={(permission) =>
-                          permission.module === 'entity' && permission.read
+                          permission.module === 'entity' && permission.canRead
                         }
                       >
                         <button
@@ -242,7 +276,7 @@ function Entities() {
                       </GateKeeper>
                       <GateKeeper
                         permissionCheck={(permission) =>
-                          permission.module === 'entity' && permission.update
+                          permission.module === 'entity' && permission.canUpdate
                         }
                       >
                         <button
@@ -263,7 +297,7 @@ function Entities() {
                       </GateKeeper>
                       <GateKeeper
                         permissionCheck={(permission) =>
-                          permission.module === 'entity' && permission.delete
+                          permission.module === 'entity' && permission.canDelete
                         }
                       >
                         <button
@@ -287,7 +321,7 @@ function Entities() {
                       </GateKeeper>
                       <GateKeeper
                         permissionCheck={(permission) =>
-                          permission.module === 'entity' && permission.update
+                          permission.module === 'entity' && permission.canUpdate
                         }
                       >
                         <button
@@ -307,12 +341,14 @@ function Entities() {
                               className='flex items-center cursor-pointer'
                             >
                               <div
-                                className={`w-8 h-4 rounded-full shadow-inner ${isChecked ? ' bg-[#ea580c]' : 'bg-[#c3c6ca]'
-                                  }`}
+                                className={`w-8 h-4 rounded-full shadow-inner ${
+                                  isChecked ? ' bg-[#ea580c]' : 'bg-[#c3c6ca]'
+                                }`}
                               >
                                 <div
-                                  className={`toggle__dot w-4 h-4 rounded-full shadow ${isChecked ? 'ml-4 bg-white' : 'bg-white'
-                                    }`}
+                                  className={`toggle__dot w-4 h-4 rounded-full shadow ${
+                                    isChecked ? 'ml-4 bg-white' : 'bg-white'
+                                  }`}
                                 ></div>
                               </div>
                               {/* <div className={`ml-3 text-sm font-medium ${isChecked ? 'text-gray-400' : 'text--400'}`}>
@@ -336,7 +372,7 @@ function Entities() {
         <div className='flex justify-between'>
           <div className=''>
             {!entitiesList?.paginatedEntities ||
-              entitiesList?.paginatedEntities?.length === 0 ? (
+            entitiesList?.paginatedEntities?.length === 0 ? (
               'no data to show'
             ) : entitiesList.loading ? (
               'Loading...'
@@ -364,12 +400,13 @@ function Entities() {
                 })
               }
               href='#'
-              className={`relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${entitiesList.loading
-                ? 'cursor-wait'
-                : entitiesList.currentPage === 1
+              className={`relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${
+                entitiesList.loading
+                  ? 'cursor-wait'
+                  : entitiesList.currentPage === 1
                   ? 'cursor-not-allowed'
                   : 'cursor-auto'
-                }`}
+              }`}
             >
               <span className='sr-only'>Previous</span>
               <svg
@@ -397,12 +434,13 @@ function Entities() {
                   data: entitiesList.currentPage + 1,
                 })
               }
-              className={`relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${entitiesList.loading
-                ? 'cursor-wait'
-                : entitiesList.currentPage === entitiesList.totalPages
+              className={`relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${
+                entitiesList.loading
+                  ? 'cursor-wait'
+                  : entitiesList.currentPage === entitiesList.totalPages
                   ? 'cursor-not-allowed'
                   : 'cursor-auto'
-                }`}
+              }`}
             >
               <span className='sr-only'>Next</span>
               <svg

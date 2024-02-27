@@ -34,6 +34,7 @@ const UserDataProvider = ({ children }) => {
         search
       );
       if (status === 200) {
+        console.log(data, 'udud is 200');
         usersDispatch(actions.setDashboardUsers(data, 'DASHBOARD'));
       }
     } catch (error) {

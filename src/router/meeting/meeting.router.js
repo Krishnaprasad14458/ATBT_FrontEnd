@@ -10,10 +10,10 @@ const dashboardLoader = async () => {
         // const checkPermission = (permissions, module, action) => {
         //   return permissions.some(permission => permission.module === module && permission[action]);
         // };
-        const hasPermission = true
+        const hasPermission = true;
         if (!hasPermission) {
             // If user doesn't have permission, redirect to a forbidden page
-            throw redirect("/403");
+            throw new Response("No permission", { status: 401 });
         }
 
         // If user is logged in and has permission, fetch dashboard stats
@@ -23,7 +23,7 @@ const dashboardLoader = async () => {
         // Handle any errors
         console.error("Error loading dashboard:", error);
         // Redirect to a generic error page
-        throw redirect("/error");
+        throw redirect(`/${error.status}`);
     }
 };
 

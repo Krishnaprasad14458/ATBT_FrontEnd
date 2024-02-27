@@ -18,7 +18,7 @@ const AuthProvider = ({ children }) => {
   const initialAuth = {
     user: localStorageData?.user || {},
     token: localStorageData?.token || '',
-    permissions: localStorageData?.permissions || [],
+    role: localStorageData?.role || {},
   };
 
   const [authState, authDispatch] = useReducer(authReducer, initialAuth);
@@ -32,24 +32,29 @@ const AuthProvider = ({ children }) => {
             render({
               data: {
                 data: {
-                  user: { userName },
+                  user: { name },
                 },
               },
             }) {
-              return `Welcome ${userName}`;
+              return `Welcome ${name}`;
             },
           },
           error: 'Wrong Credentials 🤯',
         }
       );
-
+      console.log(data, 'data');
       if (status === 200) {
         localStorage.setItem(
           'data',
-          JSON.stringify({ user: data?.user, token: data?.token })
+          JSON.stringify({
+            user: data?.user,
+            token: data?.token,
+            role: data?.role,
+          })
         );
-        authDispatch({ type: 'SET_USER', payload: data?.adminData });
+        authDispatch({ type: 'SET_USER', payload: data?.user });
         authDispatch({ type: 'SET_TOKEN', payload: data?.token });
+        authDispatch({ type: 'SET_ROLE', payload: data?.role });
         // navigate(location?.state?.from?.pathname || "/");
         return redirect('/');
       }
