@@ -10,8 +10,7 @@ const Settingentityform = () => {
     const [open, setOpen] = useState(false)
     const [editIndex, setEditIndex] = useState(null);
     const cancelButtonRef = useRef(null);
-    const [customForm, setCustomForm] = useState([
-    ])
+    const [customForm, setCustomForm] = useState()
     const [newInputField, setNewInputField] = useState(
         {
             label: "", type: "", inputname: "", value: "",
@@ -530,7 +529,9 @@ const Settingentityform = () => {
 
 export default Settingentityform
 
-// let predefinedFields = [
+// let predefinedFields = 
+
+// [
 //     {
 //       "label": "Full Name",
 //       "inputname": "name",
@@ -546,7 +547,7 @@ export default Settingentityform
 //       "type": "file",
 //       "value": "",
 //       "field": "predefined",
-//       "mandatory": true,
+//       "mandatory": false,
 //       "filterable": false
 //     },
 //     {
