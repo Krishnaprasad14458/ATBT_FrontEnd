@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
+import Swal from 'sweetalert2';
 import {
   useLoaderData,
   useSubmit,
@@ -276,6 +277,7 @@ const AddRoles = () => {
       );
       fetcher.submit('added', { method: 'post', action: '/addroles' });
       console.log(result, 'added');
+      // You may want to handle form submission here as well
     }
     if (!!response?.response?.id) {
       const result = await axios.put(
@@ -293,8 +295,8 @@ const AddRoles = () => {
   return (
     <div className=' p-3 bg-[#f8fafc] overflow-hidden'>
       <h1 className='font-semibold text-lg grid1-item'> Add Roles</h1>
-      <div className='grid grid-cols-2 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-col-2 gap-2 mt-2'>
-        <div className='grid1-item text-start w-96'>
+      <div className='grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-col-2 gap-2 mt-2'>
+        <div className='col-span-1 text-start  xl:w-96 '>
           <div>
             <label
               htmlFor='role'
@@ -316,12 +318,13 @@ const AddRoles = () => {
                 type='text'
                 autoComplete='role'
                 required
-                className='p-2 text-xs block w-full bg-gray-50  rounded-md  border-2 border-gray-200 py-1 text-gray-900 appearance-none shadow-sm  placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-xs sm:leading-6'
+                className='  p-2 block w-full rounded-md bg-gray-50 border-2 border-gray-200 py-1.5 text-gray-900 appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6
+                placeholder:text-xs'
               />
             </div>
           </div>
         </div>
-        <div className='grid1-item text-start w-96'>
+        <div className='col-span-1 text-start xl:w-96 '>
           <div>
             <label
               htmlFor='description'
@@ -343,7 +346,8 @@ const AddRoles = () => {
                 type='text'
                 autoComplete='description'
                 required
-                className='p-2 text-xs block w-full bg-gray-50  rounded-md  border-2 border-gray-200 py-1 text-gray-900 appearance-none shadow-sm  placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-xs sm:leading-6'
+                className=' p-2 block w-full rounded-md bg-gray-50 border-2 border-gray-200 py-1.5 text-gray-900 appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6
+                placeholder:text-xs '
               />
             </div>
           </div>

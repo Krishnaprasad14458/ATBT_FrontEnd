@@ -1,6 +1,7 @@
 import React, { useState, useContext, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import $ from 'jquery';
+import { Dialog } from '@headlessui/react';
 import Swal from 'sweetalert2';
 import { Fragment } from 'react';
 import { Dialog, Menu, Transition } from '@headlessui/react';
@@ -13,16 +14,8 @@ import axios from 'axios';
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
 }
-
 function Users() {
-  const {
-    usersState: { settings },
-    usersDispatch,
-    deleteUser,
-    setSortBy,
-    toggleUser,
-  } = useContext(UserDataContext);
-  console.log(settings, 'settings');
+  const { usersState: { settings }, usersDispatch, deleteUser, setSortBy, toggleUser } = useContext(UserDataContext);
   const { debouncedSetPage, debouncedSetSearch } = useDebounce(usersDispatch);
   const handlePerPageChange = (event) => {
     const selectedValue = parseInt(event.target.value, 10);
@@ -118,7 +111,7 @@ function Users() {
         user_status,
         user_remarks_history,
       };
-      console.log('updatedDataInActivate', updatedData);
+      console.log("updatedDataInActivate",updatedData)
 
       // let uploadcontext = { user_status, user_remarks_history, id };
       // uploadcontext.user_remarks_history = JSON.stringify(
@@ -138,9 +131,9 @@ function Users() {
       //     }
       //   });
       // setcourseStartDate("");
-      setText('');
+      setText("");
     } else {
-      alert('enter remarks');
+      alert("enter remarks");
     }
   };
   const [activeTab, setActiveTab] = useState(1);
