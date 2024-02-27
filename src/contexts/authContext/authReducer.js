@@ -4,6 +4,8 @@ const authReducer = (state, action) => {
             return { ...state, user: action.payload };
         case "SET_TOKEN":
             return { ...state, token: action.payload };
+        case "SET_ROLE":
+            return { ...state, role: action.payload };
         default:
             return state;
     }

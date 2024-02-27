@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 import { Fragment, useRef, useState } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
-import axios from "axios";
-import { toast } from "react-toastify";
-import Swal from "sweetalert2";
+import axios from 'axios';
+import { toast } from 'react-toastify';
+import Swal from 'sweetalert2';
 import { Link } from 'react-router-dom';
 const SettingUserForm = () => {
   const [open, setOpen] = useState(false)
@@ -683,7 +683,7 @@ const SettingUserForm = () => {
   )
 }
 
-export default SettingUserForm
+export default SettingUserForm;
 
 
 

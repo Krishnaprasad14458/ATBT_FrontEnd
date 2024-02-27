@@ -7,6 +7,7 @@ import { Fragment } from 'react';
 import { Menu, Transition } from '@headlessui/react';
 import { ChevronDownIcon } from '@heroicons/react/20/solid';
 import GateKeeper from '../../../rbac/GateKeeper';
+import usePermissionCheck from '../../../rbac/usePermissionCheck';
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
 }
@@ -32,6 +33,7 @@ function BoardMeetings() {
   const handleToggle = () => {
     setIsChecked((pre) => !pre);
   };
+  // const { allowed, loading } = usePermissionCheck(permissionCheck);
   return (
     <div className='p-3'>
       {/* name, search, filter */}
@@ -159,35 +161,71 @@ function BoardMeetings() {
       <div className=''>
         <div className='flex justify-start mt-2'>
           <div
-            className={`cursor-pointer px-5 py-1 font-semibold ${activeTab === 1 ? 'border-b-2 border-orange-600  text-black' : ''
-              }`}
+            className={`cursor-pointer px-5 py-1 font-semibold ${
+              activeTab === 1 ? 'border-b-2 border-orange-600  text-black' : ''
+            }`}
             onClick={() => handleTabClick(1)}
           >
             Completed
           </div>
           <div
-            className={`cursor-pointer px-5 py-1 font-semibold ${activeTab === 2 ? 'border-b-2 border-orange-600  text-black' : ''
-              }`}
+            className={`cursor-pointer px-5 py-1 font-semibold ${
+              activeTab === 2 ? 'border-b-2 border-orange-600  text-black' : ''
+            }`}
             onClick={() => handleTabClick(2)}
           >
             Upcoming
           </div>
         </div>
         {activeTab === 1 && (
-
           <div className='max-h-[410px] overflow-y-scroll mt-6'>
             <table className='w-full divide-gray-200 dark:divide-gray-700 rounded-md'>
               <thead>
                 <tr>
-                  <th scope='col' className='sticky top-0 bg-orange-600 text-white text-sm text-left px-6 py-2.5 border-l-2 border-gray-200'> ID</th>
-                  <th scope='col' className='sticky top-0 bg-orange-600 text-white text-sm text-left px-6 py-2.5 border-l-2 border-gray-200'>Entity </th>
-                  <th scope='col' className='sticky top-0 bg-orange-600 text-white text-sm text-left px-6 py-2.5 border-l-2 border-gray-200'> Date</th>
-                  <th scope='col' className='sticky top-0 bg-orange-600 text-white text-sm text-left px-6 py-2.5 border-l-2 border-gray-200'> Time</th>
-                  <th scope='col' className='sticky top-0 bg-orange-600 text-white text-sm text-left px-6 py-2.5 border-l-2 border-gray-200' > Venue</th>
-                  <th scope='col' className='sticky top-0 bg-orange-600 text-white text-sm text-left px-6 py-2.5 border-l-2 border-gray-200' > Actions </th>
+                  <th
+                    scope='col'
+                    className='sticky top-0 bg-orange-600 text-white text-sm text-left px-6 py-2.5 border-l-2 border-gray-200'
+                  >
+                    {' '}
+                    ID
+                  </th>
+                  <th
+                    scope='col'
+                    className='sticky top-0 bg-orange-600 text-white text-sm text-left px-6 py-2.5 border-l-2 border-gray-200'
+                  >
+                    Entity{' '}
+                  </th>
+                  <th
+                    scope='col'
+                    className='sticky top-0 bg-orange-600 text-white text-sm text-left px-6 py-2.5 border-l-2 border-gray-200'
+                  >
+                    {' '}
+                    Date
+                  </th>
+                  <th
+                    scope='col'
+                    className='sticky top-0 bg-orange-600 text-white text-sm text-left px-6 py-2.5 border-l-2 border-gray-200'
+                  >
+                    {' '}
+                    Time
+                  </th>
+                  <th
+                    scope='col'
+                    className='sticky top-0 bg-orange-600 text-white text-sm text-left px-6 py-2.5 border-l-2 border-gray-200'
+                  >
+                    {' '}
+                    Venue
+                  </th>
+                  <th
+                    scope='col'
+                    className='sticky top-0 bg-orange-600 text-white text-sm text-left px-6 py-2.5 border-l-2 border-gray-200'
+                  >
+                    {' '}
+                    Actions{' '}
+                  </th>
                 </tr>
               </thead>
-              <tbody >
+              <tbody>
                 {entitiesList?.paginatedEntities?.map((item, index) => (
                   <tr
                     key={item.id}
@@ -212,7 +250,8 @@ function BoardMeetings() {
                       <div className='flex justify-start'>
                         <GateKeeper
                           permissionCheck={(permission) =>
-                            permission.module === 'meeting' && permission.read
+                            permission.module === 'meeting' &&
+                            permission.canRead
                           }
                         >
                           <button
@@ -239,7 +278,8 @@ function BoardMeetings() {
                         </GateKeeper>
                         <GateKeeper
                           permissionCheck={(permission) =>
-                            permission.module === 'meeting' && permission.update
+                            permission.module === 'meeting' &&
+                            permission.canUpdate
                           }
                         >
                           <button
@@ -258,7 +298,8 @@ function BoardMeetings() {
                         </GateKeeper>
                         <GateKeeper
                           permissionCheck={(permission) =>
-                            permission.module === 'meeting' && permission.delete
+                            permission.module === 'meeting' &&
+                            permission.canDelete
                           }
                         >
                           <button
@@ -282,7 +323,8 @@ function BoardMeetings() {
                         </GateKeeper>
                         <GateKeeper
                           permissionCheck={(permission) =>
-                            permission.module === 'meeting' && permission.update
+                            permission.module === 'meeting' &&
+                            permission.canUpdate
                           }
                         >
                           <button
@@ -302,14 +344,14 @@ function BoardMeetings() {
                                 className='flex items-center cursor-pointer'
                               >
                                 <div
-                                  className={`w-8 h-4 rounded-full shadow-inner ${isChecked
-                                    ? ' bg-[#ea580c]'
-                                    : 'bg-[#c3c6ca]'
-                                    }`}
+                                  className={`w-8 h-4 rounded-full shadow-inner ${
+                                    isChecked ? ' bg-[#ea580c]' : 'bg-[#c3c6ca]'
+                                  }`}
                                 >
                                   <div
-                                    className={`toggle__dot w-4 h-4 rounded-full shadow ${isChecked ? 'ml-4 bg-white' : 'bg-white'
-                                      }`}
+                                    className={`toggle__dot w-4 h-4 rounded-full shadow ${
+                                      isChecked ? 'ml-4 bg-white' : 'bg-white'
+                                    }`}
                                   ></div>
                                 </div>
                                 {/* <div className={`ml-3 text-sm font-medium ${isChecked ? 'text-gray-400' : 'text--400'}`}>
@@ -326,7 +368,6 @@ function BoardMeetings() {
               </tbody>
             </table>
           </div>
-
         )}
         {activeTab === 2 && (
           <div className='mt-4 overflow-x-auto'>
@@ -397,7 +438,8 @@ function BoardMeetings() {
                         <div className='flex justify-start'>
                           <GateKeeper
                             permissionCheck={(permission) =>
-                              permission.module === 'meeting' && permission.read
+                              permission.module === 'meeting' &&
+                              permission.canRead
                             }
                           >
                             <button
@@ -424,7 +466,8 @@ function BoardMeetings() {
                           </GateKeeper>
                           <GateKeeper
                             permissionCheck={(permission) =>
-                              permission.module === 'meeting' && permission.update
+                              permission.module === 'meeting' &&
+                              permission.canUpdate
                             }
                           >
                             <button
@@ -443,7 +486,8 @@ function BoardMeetings() {
                           </GateKeeper>
                           <GateKeeper
                             permissionCheck={(permission) =>
-                              permission.module === 'meeting' && permission.delete
+                              permission.module === 'meeting' &&
+                              permission.canDelete
                             }
                           >
                             <button
@@ -467,7 +511,8 @@ function BoardMeetings() {
                           </GateKeeper>
                           <GateKeeper
                             permissionCheck={(permission) =>
-                              permission.module === 'meeting' && permission.update
+                              permission.module === 'meeting' &&
+                              permission.canUpdate
                             }
                           >
                             <button
@@ -487,14 +532,16 @@ function BoardMeetings() {
                                   className='flex items-center cursor-pointer'
                                 >
                                   <div
-                                    className={`w-8 h-4 rounded-full shadow-inner ${isChecked
-                                      ? ' bg-[#ea580c]'
-                                      : 'bg-[#c3c6ca]'
-                                      }`}
+                                    className={`w-8 h-4 rounded-full shadow-inner ${
+                                      isChecked
+                                        ? ' bg-[#ea580c]'
+                                        : 'bg-[#c3c6ca]'
+                                    }`}
                                   >
                                     <div
-                                      className={`toggle__dot w-4 h-4 rounded-full shadow ${isChecked ? 'ml-4 bg-white' : 'bg-white'
-                                        }`}
+                                      className={`toggle__dot w-4 h-4 rounded-full shadow ${
+                                        isChecked ? 'ml-4 bg-white' : 'bg-white'
+                                      }`}
                                     ></div>
                                   </div>
                                   {/* <div className={`ml-3 text-sm font-medium ${isChecked ? 'text-gray-400' : 'text--400'}`}>
@@ -518,7 +565,7 @@ function BoardMeetings() {
         <div className='flex justify-between'>
           <div className=''>
             {!entitiesList?.paginatedEntities ||
-              entitiesList?.paginatedEntities?.length === 0 ? (
+            entitiesList?.paginatedEntities?.length === 0 ? (
               'no data to show'
             ) : entitiesList.loading ? (
               'Loading...'

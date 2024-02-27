@@ -3,24 +3,35 @@ import { apiUrl } from "../../../utils/constants";
 import { toast } from 'react-toastify';
 import Swal from 'sweetalert2';
 
+const userData = JSON.parse(localStorage.getItem("data"))
+const token = userData?.token
+console.log(userData?.token, "bla")
 export const getAllUsers = async () => {
     const url = `${apiUrl}/user/list`;
-    return axios.get(url);
+    return axios.get(url, {
+        headers: { authorization: token },
+    });
 };
 
 export const getDashboardUsers = async (page, pageSize, sortBy, search) => {
     const url = `${apiUrl}/user/list?page=${page}&pageSize=${pageSize}&sortBy=${sortBy}&search=${search}`;
-    return axios.get(url);
+    return axios.get(url, {
+        headers: { authorization: token },
+    });
 };
 
 export const getSettingsUsers = async (page, pageSize, sortBy, search) => {
     const url = `${apiUrl}/user/list?page=${page}&pageSize=${pageSize}&sortBy=${sortBy}&search=${search}`;
-    return axios.get(url);
+    return axios.get(url, {
+        headers: { authorization: token },
+    });
 };
 
 export const getUserById = async (id) => {
     const url = `${apiUrl}/user/list/${id}`;
-    return axios.get(url);
+    return axios.get(url, {
+        headers: { authorization: token },
+    });
 };
 
 export const createUser = async (userData, token) => {

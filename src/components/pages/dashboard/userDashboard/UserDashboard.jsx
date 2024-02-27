@@ -11,9 +11,9 @@ function UserDashboard() {
     usersState: { users, dashboard },
     usersDispatch,
   } = useContext(UserDataContext);
+  console.log(dashboard, "udud")
   const { debouncedSetPage, debouncedSetSearch } = useDebounce(usersDispatch);
   useEffect(() => {
-    // usersDispatch(actions.setPerPage(5))
     return () => {
       usersDispatch({
         type: 'SET_SEARCH',
@@ -22,7 +22,6 @@ function UserDashboard() {
           context: 'DASHBOARD',
         },
       });
-      // usersDispatch(actions.setPerPage(10))
     };
   }, []);
   return (
@@ -36,7 +35,7 @@ function UserDashboard() {
             </h5>
             <GateKeeper
               permissionCheck={(permission) =>
-                permission.module === 'user' && permission.create
+                permission.module === 'user' && permission.canCreate
               }
             >
               <Link

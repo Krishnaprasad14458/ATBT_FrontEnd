@@ -16,8 +16,8 @@ import { router } from './router';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   // <React.StrictMode>
-  <PermissionsProvider>
-    <AuthProvider>
+  <AuthProvider>
+    <PermissionsProvider>
       <UserDataProvider>
         <EntitiesDataProvider>
           <RouterProvider router={router} />
@@ -34,8 +34,8 @@ root.render(
           />
         </EntitiesDataProvider>
       </UserDataProvider>
-    </AuthProvider>
-  </PermissionsProvider>,
+    </PermissionsProvider>
+  </AuthProvider>,
   {/* </React.StrictMode> */ }
 );
 
