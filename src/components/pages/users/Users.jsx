@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect, useRef } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useSubmit } from 'react-router-dom';
 import $ from 'jquery';
 import Swal from 'sweetalert2';
 import { Fragment } from 'react';
@@ -14,6 +14,7 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
 }
 function Users() {
+  const submit = useSubmit();
   const {
     usersState: { settings },
     usersDispatch,
