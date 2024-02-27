@@ -14,7 +14,6 @@ function UserDashboard() {
   console.log(dashboard, "udud")
   const { debouncedSetPage, debouncedSetSearch } = useDebounce(usersDispatch);
   useEffect(() => {
-    // usersDispatch(actions.setPerPage(5))
     return () => {
       usersDispatch({
         type: 'SET_SEARCH',
@@ -23,7 +22,6 @@ function UserDashboard() {
           context: 'DASHBOARD',
         },
       });
-      // usersDispatch(actions.setPerPage(10))
     };
   }, []);
   return (
