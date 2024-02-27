@@ -47,7 +47,7 @@ const Roles = () => {
   }
   return (
     <div className=' p-3 bg-[#f8fafc] overflow-hidden'>
-      <div className='grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-3 xl:grid-col-3 gap-2 mt-2'>
+      <div className='grid grid-cols-1 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3 xl:grid-col-3 gap-2 mt-2'>
         <h1 className='font-semibold text-lg grid1-item'>Roles</h1>
         <div className='grid1-item  text-start'>
           <label
@@ -84,7 +84,7 @@ const Roles = () => {
           </div>
         </div>
         <div className='grid1-item  sm:text-start md:text-end lg:text-end xl:text-end flex justify-end'>
-          <div className='mt-2'>
+          {/* <div className='mt-2'>
             <select
               defaultValue='10'
               // onChange={handlePerPageChange}
@@ -96,7 +96,7 @@ const Roles = () => {
               <option value='100'>100</option>
               <option value='250'>250</option>
               <option value='500'>500</option>
-            </select></div>
+            </select></div> */}
 
 
           <Link to='/addroles'>
@@ -260,7 +260,7 @@ const Roles = () => {
         </div>
       </div>
       {/* pagination */}
-      <div className='inset-x-0 bottom-0 mt-5 flex justify-end'>
+      {/* <div className='inset-x-0 bottom-0 mt-5 flex justify-end'>
         <section
           className='isolate inline-flex -px rounded-md shadow-sm'
           aria-label='Pagination'
@@ -302,7 +302,7 @@ const Roles = () => {
             </svg>
           </button>
         </section>
-      </div>
+      </div> */}
     </div>
   );
 };
