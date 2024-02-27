@@ -1,6 +1,7 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import $ from 'jquery';
+import { Dialog } from '@headlessui/react';
 import Swal from 'sweetalert2';
 import { Fragment } from 'react';
 import { Menu, Transition } from '@headlessui/react';
@@ -13,10 +14,7 @@ import axios from 'axios';
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
-
-
 function Users() {
-
   const { usersState: { settings }, usersDispatch, deleteUser, setSortBy, toggleUser } = useContext(UserDataContext);
   const { debouncedSetPage, debouncedSetSearch } = useDebounce(usersDispatch);
   const handlePerPageChange = (event) => {
@@ -42,6 +40,103 @@ function Users() {
       //   usersDispatch(actions.setPerPage(5))
     }
   }, [])
+  const [open, setOpen] = useState(false);
+  // const [opening, setOpening] = useState(false);
+
+  const cancelButtonRef = useRef(null);
+  const [userstatus, setUser_Status] = useState(false);
+  const [userremarkshistory, setuser_remarks_history] = useState([]);
+  const [text, setText] = useState("");
+  const [id, setId] = useState("");
+
+  const handleClickOpen = (id, userStatus, userRemarksHistory) => {
+    
+    setId(id);
+    setUser_Status(userStatus);
+    setuser_remarks_history(userRemarksHistory);
+    setOpen(true);
+  };
+  
+  const handleClosed = () => {
+    setOpen(false);
+  };
+  const handleActivate = () => {
+    setOpen(false);
+
+    if (text) {
+      let user_status = true;
+      let user_remarks_history = userremarkshistory;
+      let newObject = {
+        Activate_remarks: text,
+        date: new Date(),
+      };
+      user_remarks_history.push(newObject);
+      const updatedData = {
+        user_status,
+        user_remarks_history,
+      };
+      console.log("updatedDataActivate",updatedData)
+      // let uploadcontext = { user_status, user_remarks_history, id };
+
+      // axios
+      //   .put(`${process.env.REACT_APP_API_URL}/userstatus/${id}`, updatedData)
+      //   .then((res) => {
+      //     if (res.data.updated) {
+      //       // alert("Certificate updated successfully");
+      //       dispatch({
+      //         type: "UPDATE_USER_REMARKS_HISTORY",
+      //         payload: uploadcontext,
+      //       });
+      //     } else {
+      //       alert("Error please Try Again");
+      //     }
+      //   });
+      // setcourseStartDate("");
+      setText("");
+    } else {
+      alert("enter remarks");
+    }
+  };
+  const handleInActivate = () => {
+    setOpen(false);
+
+    if (text) {
+      let user_status = false;
+      let user_remarks_history = userremarkshistory;
+      let newObject = {
+        Inactivate_remarks: text,
+        date: new Date(),
+      };
+      user_remarks_history.push(newObject);
+      const updatedData = {
+        user_status,
+        user_remarks_history,
+      };
+      console.log("updatedDataInActivate",updatedData)
+
+      // let uploadcontext = { user_status, user_remarks_history, id };
+      // uploadcontext.user_remarks_history = JSON.stringify(
+      //   uploadcontext.user_remarks_history
+      // );
+      // axios
+      //   .put(`${process.env.REACT_APP_API_URL}/userstatus/${id}`, updatedData)
+      //   .then((res) => {
+      //     if (res.data.updated) {
+      //       // alert("Certificate updated successfully");
+      //       dispatch({
+      //         type: "UPDATE_USER_REMARKS_HISTORY",
+      //         payload: uploadcontext,
+      //       });
+      //     } else {
+      //       alert("Error please Try Again");
+      //     }
+      //   });
+      // setcourseStartDate("");
+      setText("");
+    } else {
+      alert("enter remarks");
+    }
+  };
   const [activeTab, setActiveTab] = useState(1);
 
   const handleTabClick = (tabNumber) => {
@@ -82,9 +177,9 @@ function Users() {
   const [customForm, setCustomForm] = useState([
   ])
   const [data, setData] = useState()
-
   useEffect(() => {
     axios.get(`https://atbtmain.teksacademy.com/form/list?name=userform`)
+
       .then(response => {
         // Handle the successful response
         setCustomForm(response.data.Data)
@@ -97,7 +192,8 @@ function Users() {
     axios.get(`https://atbtmain.teksacademy.com/user/list`)
       .then(response => {
         // Handle the successful response
-        setData(response.data.users)
+        setData(response.data)
+
         console.log("dsdsdsdsd", response.data);
       })
       .catch(error => {
@@ -130,17 +226,19 @@ function Users() {
   const handleCheckboxChange = (columnName) => {
     setTableView((prevColumns) => ({
       ...prevColumns,
-      [columnName]: !prevColumns[columnName],
+      [columnName]: {
+        ...prevColumns[columnName],
+        value: !prevColumns[columnName].value
+      }
     }));
   };
-  let keys = Object.keys(data?.[0] ?? {});
-
-
-  const loopArray = Array.from({ length: Object.keys(data?.[0] ?? {}).length });
-
-
+  const [visibleColumns, setvisibleColumns] = useState()
   useEffect(() => {
-    console.log("tableView", tableView)
+    let visibleColumns = Object.keys(tableView || {}).filter(key => tableView[key]?.value);
+    setvisibleColumns(visibleColumns)
+  }, [tableView])
+  useEffect(() => {
+    console.log("data", data)
   })
   return (
     <div className="overflow-x-auto p-3">
@@ -170,7 +268,7 @@ function Users() {
           <Menu as="div" className="relative inline-block me-2 ">
             <div className=''>
               <Menu.Button className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-gray-50 px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-200 hover:bg-gray-50">
-                Colums
+                Columns
                 <ChevronDownIcon className="-mr-1 h-5 w-5 text-gray-400" aria-hidden="true" />
               </Menu.Button>
             </div>
@@ -199,14 +297,14 @@ function Users() {
                         // )}
                         >
                           {/* {filter.label} */}
-                          <label htmlFor={columnName}>{columnName}</label>
+                          <label htmlFor={columnName}>{tableView[columnName].label}</label>
 
                           <input
                             className={classNames(
                               active ? 'bg-gray-100 text-gray-900 flex' : 'text-gray-700',
                               'block px-4 py-2 text-sm text-left flex')}
                             type="checkbox"
-                            checked={tableView[columnName]}
+                            checked={tableView[columnName].value}
                             onChange={() => handleCheckboxChange(columnName)}
                           />
 
@@ -267,135 +365,154 @@ function Users() {
       <div className="mt-8">
         <div className="overflow-y-scroll max-h-[410px]">
 
-          <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700 rounded-md">
-            <thead className='sticky top-0 bg-orange-600'>
-              {/* <tr>
-                <th scope="col" className="px-6 py-2.5 text-left text-sm  border border-[#e5e7eb] text-white bg-orange-600">Name</th>
-                <th scope="col" className="px-6 py-2.5 text-left text-sm  border border-[#e5e7eb] text-white bg-orange-600">Email</th>
-                <th scope="col" className="px-6 py-2.5 text-left text-sm  border border-[#e5e7eb] text-white bg-orange-600">Phone Number</th>
-                <th scope="col" className="px-6 py-2.5 text-left text-sm  border border-[#e5e7eb] text-white bg-orange-600">Entity</th>
-                <th scope="col" className="px-6 py-2.5 text-left text-sm  border border-[#e5e7eb] text-white bg-orange-600">Designation</th>
-                <th scope="col" className="px-6 py-2.5 text-left text-sm  border border-[#e5e7eb] text-white bg-orange-600">Role</th>
-                <th scope="col" className="px-6 py-2.5 text-left text-sm  border border-[#e5e7eb] text-white bg-orange-600">Actions</th>
-              </tr> */}
-              <tr>
-                {keys && keys.map((th, index) => (
-                  tableView[th] && <th scope="col" className="px-6 py-2.5 text-left text-sm  border border-[#e5e7eb] text-white bg-orange-600">{th}
-                  </th>
-                ))}
-                <th scope="col" className="px-6 py-2.5 text-left text-sm  border border-[#e5e7eb] text-white bg-orange-600">actions</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
-              {/* {settings?.paginatedUsers?.map(user => (
-                <tr className="hover:bg-gray-100 dark:hover:bg-gray-700">
-                  <td className="px-6 py-2 text-left border border-[#e5e7eb] text-xs font-medium text-gray-800">{user.userName}</td>
-                  <td className="px-6 py-2 text-left border border-[#e5e7eb] text-xs font-medium text-gray-800">{user.email}</td>
-                  <td className="px-6 py-2 text-left border border-[#e5e7eb] text-xs font-medium text-gray-800">{user.phone}</td>
-                  <td className="px-6 py-2 text-left border border-[#e5e7eb] text-xs font-medium text-gray-800">{user.EntityName ? user.EntityName : 'none'}</td>
-                  <td className="px-6 py-2 text-left border border-[#e5e7eb] text-xs font-medium text-gray-800">{user.Designation ? user.Designation : 'none'}</td>
-                  <td className="px-6 py-2 text-left border border-[#e5e7eb] text-xs font-medium text-gray-800">{user.Role ? user.Role : 'none'}</td>
-                  <td className="px-6 py-2 text-left border border-[#e5e7eb] text-xs font-medium text-gray-800">
-                    <div className='flex justify-start'>
-                      <button type="button" className="me-5 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
-                        <Link to={`/userlandingpage/${user.id}`}><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5">
-                          <path d="M10 12.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z" />
-                          <path fill-rule="evenodd" d="M.664 10.59a1.651 1.651 0 0 1 0-1.186A10.004 10.004 0 0 1 10 3c4.257 0 7.893 2.66 9.336 6.41.147.381.146.804 0 1.186A10.004 10.004 0 0 1 10 17c-4.257 0-7.893-2.66-9.336-6.41ZM14 10a4 4 0 1 1-8 0 4 4 0 0 1 8 0Z" clip-rule="evenodd" />
-                        </svg></Link>
-                      </button>
-                      <button type="button" className="me-5 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5">
-                          <path d="m2.695 14.762-1.262 3.155a.5.5 0 0 0 .65.65l3.155-1.262a4 4 0 0 0 1.343-.886L17.5 5.501a2.121 2.121 0 0 0-3-3L3.58 13.419a4 4 0 0 0-.885 1.343Z" />
-                        </svg>
+          {visibleColumns && tableView && data &&
+            <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700 rounded-md">
+              <thead className='sticky top-0 bg-orange-600'>
 
-                      </button>
-                      <button type="button" onClick={() => handleDeleteUser(user.id)} className="me-5 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5">
-                          <path fill-rule="evenodd" d="M8.75 1A2.75 2.75 0 0 0 6 3.75v.443c-.795.077-1.584.176-2.365.298a.75.75 0 1 0 .23 1.482l.149-.022.841 10.518A2.75 2.75 0 0 0 7.596 19h4.807a2.75 2.75 0 0 0 2.742-2.53l.841-10.52.149.023a.75.75 0 0 0 .23-1.482A41.03 41.03 0 0 0 14 4.193V3.75A2.75 2.75 0 0 0 11.25 1h-2.5ZM10 4c.84 0 1.673.025 2.5.075V3.75c0-.69-.56-1.25-1.25-1.25h-2.5c-.69 0-1.25.56-1.25 1.25v.325C8.327 4.025 9.16 4 10 4ZM8.58 7.72a.75.75 0 0 0-1.5.06l.3 7.5a.75.75 0 1 0 1.5-.06l-.3-7.5Zm4.34.06a.75.75 0 1 0-1.5-.06l-.3 7.5a.75.75 0 1 0 1.5.06l.3-7.5Z" clip-rule="evenodd" />
-                        </svg>
-
-                      </button>
-                      <button type="button" className="me-5 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
-                        <div className="flex items-center">
-                          <input
-                            id="toggle"
-                            type="checkbox"
-                            className="hidden"
-                            checked={isChecked}
-                            onChange={handleToggle}
-                          />
-                          <label htmlFor="toggle" className="flex items-center cursor-pointer">
-                            <div className={`w-8 h-4 rounded-full shadow-inner ${isChecked ? ' bg-[#ea580c]' : 'bg-[#c3c6ca]'}`}>
-                              <div
-                                className={`toggle__dot w-4 h-4 rounded-full shadow ${isChecked ? 'ml-4 bg-white' : 'bg-white'}`}
-                              ></div>
-                            </div>
-                            <div className={`ml-3 text-sm font-medium ${isChecked ? 'text-gray-400' : 'text--400'}`}>
-                              {isChecked ? 'Enabled' : 'Disabled'}
-                             </div>
-                          </label>
-                        </div>
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-              ))} */}
-              {data && data.map((item, index) => (
                 <tr>
-                  {loopArray.map((items, index) => (
-                    tableView[keys[index]] && <td className="px-6 py-2 text-left border border-[#e5e7eb] text-xs font-medium text-gray-800">{item[keys[index]]}</td>
-
-
+                  {visibleColumns.map(key => (
+                    <th key={key} scope="col" className="px-6 py-2.5 text-left text-sm  border border-[#e5e7eb] text-white bg-orange-600">{tableView[key].label}</th>
                   ))}
-                  <td className="px-6 py-2 text-left border border-[#e5e7eb] text-xs font-medium text-gray-800">
-                    <div className='flex justify-start'>
-                      <button type="button" className="me-5 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
-                        <Link to={`/userlandingpage/`}><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5">
-                          <path d="M10 12.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z" />
-                          <path fill-rule="evenodd" d="M.664 10.59a1.651 1.651 0 0 1 0-1.186A10.004 10.004 0 0 1 10 3c4.257 0 7.893 2.66 9.336 6.41.147.381.146.804 0 1.186A10.004 10.004 0 0 1 10 17c-4.257 0-7.893-2.66-9.336-6.41ZM14 10a4 4 0 1 1-8 0 4 4 0 0 1 8 0Z" clip-rule="evenodd" />
-                        </svg></Link>
-                      </button>
-                      <button type="button" className="me-5 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5">
-                          <path d="m2.695 14.762-1.262 3.155a.5.5 0 0 0 .65.65l3.155-1.262a4 4 0 0 0 1.343-.886L17.5 5.501a2.121 2.121 0 0 0-3-3L3.58 13.419a4 4 0 0 0-.885 1.343Z" />
-                        </svg>
-
-                      </button>
-                      <button type="button" onClick={() => handleDeleteUser()} className="me-5 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5">
-                          <path fill-rule="evenodd" d="M8.75 1A2.75 2.75 0 0 0 6 3.75v.443c-.795.077-1.584.176-2.365.298a.75.75 0 1 0 .23 1.482l.149-.022.841 10.518A2.75 2.75 0 0 0 7.596 19h4.807a2.75 2.75 0 0 0 2.742-2.53l.841-10.52.149.023a.75.75 0 0 0 .23-1.482A41.03 41.03 0 0 0 14 4.193V3.75A2.75 2.75 0 0 0 11.25 1h-2.5ZM10 4c.84 0 1.673.025 2.5.075V3.75c0-.69-.56-1.25-1.25-1.25h-2.5c-.69 0-1.25.56-1.25 1.25v.325C8.327 4.025 9.16 4 10 4ZM8.58 7.72a.75.75 0 0 0-1.5.06l.3 7.5a.75.75 0 1 0 1.5-.06l-.3-7.5Zm4.34.06a.75.75 0 1 0-1.5-.06l-.3 7.5a.75.75 0 1 0 1.5.06l.3-7.5Z" clip-rule="evenodd" />
-                        </svg>
-
-                      </button>
-                      <button type="button" className="me-5 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
-                        <div className="flex items-center">
-                          <input
-                            id="toggle"
-                            type="checkbox"
-                            className="hidden"
-                            checked={isChecked}
-                            onChange={handleToggle}
-                          />
-                          <label htmlFor="toggle" className="flex items-center cursor-pointer">
-                            <div className={`w-8 h-4 rounded-full shadow-inner ${isChecked ? ' bg-[#ea580c]' : 'bg-[#c3c6ca]'}`}>
-                              <div
-                                className={`toggle__dot w-4 h-4 rounded-full shadow ${isChecked ? 'ml-4 bg-white' : 'bg-white'}`}
-                              ></div>
-                            </div>
-                            <div className={`ml-3 text-sm font-medium ${isChecked ? 'text-gray-400' : 'text--400'}`}>
-                              {isChecked ? 'Enabled' : 'Disabled'}
-                            </div>
-                          </label>
-                        </div>
-                      </button>
-                    </div>
-                  </td>
+                  <th scope="col" className="px-6 py-2.5 text-left text-sm  border border-[#e5e7eb] text-white bg-orange-600">Actions</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
+
+                {data && data.map((row) => (
+                  <tr key={row.id}>
+                    {visibleColumns.map(key => (
+                      <td key={key} className="px-6 py-2 text-left border border-[#e5e7eb] text-xs font-medium text-gray-800">{row[key]}
+
+                      </td>
+                    ))}
+
+                    <td className="px-6 py-2 text-left border border-[#e5e7eb] text-xs font-medium text-gray-800">
+                      <div className='flex justify-start'>
+                        <button type="button" className="me-5 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
+                          <Link to={`/userlandingpage/${row.id}`}><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5">
+                            <path d="M10 12.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z" />
+                            <path fill-rule="evenodd" d="M.664 10.59a1.651 1.651 0 0 1 0-1.186A10.004 10.004 0 0 1 10 3c4.257 0 7.893 2.66 9.336 6.41.147.381.146.804 0 1.186A10.004 10.004 0 0 1 10 17c-4.257 0-7.893-2.66-9.336-6.41ZM14 10a4 4 0 1 1-8 0 4 4 0 0 1 8 0Z" clip-rule="evenodd" />
+                          </svg></Link>
+                        </button>
+                        <button type="button" className="me-5 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
+
+
+                          <Link to={`/updateuser/${row.id}`}>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5">
+                              <path d="m2.695 14.762-1.262 3.155a.5.5 0 0 0 .65.65l3.155-1.262a4 4 0 0 0 1.343-.886L17.5 5.501a2.121 2.121 0 0 0-3-3L3.58 13.419a4 4 0 0 0-.885 1.343Z" />
+                            </svg>
+                          </Link>
+                        </button>
+                        <button type="button" onClick={() => handleDeleteUser()} className="me-5 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5">
+                            <path fill-rule="evenodd" d="M8.75 1A2.75 2.75 0 0 0 6 3.75v.443c-.795.077-1.584.176-2.365.298a.75.75 0 1 0 .23 1.482l.149-.022.841 10.518A2.75 2.75 0 0 0 7.596 19h4.807a2.75 2.75 0 0 0 2.742-2.53l.841-10.52.149.023a.75.75 0 0 0 .23-1.482A41.03 41.03 0 0 0 14 4.193V3.75A2.75 2.75 0 0 0 11.25 1h-2.5ZM10 4c.84 0 1.673.025 2.5.075V3.75c0-.69-.56-1.25-1.25-1.25h-2.5c-.69 0-1.25.56-1.25 1.25v.325C8.327 4.025 9.16 4 10 4ZM8.58 7.72a.75.75 0 0 0-1.5.06l.3 7.5a.75.75 0 1 0 1.5-.06l-.3-7.5Zm4.34.06a.75.75 0 1 0-1.5-.06l-.3 7.5a.75.75 0 1 0 1.5.06l.3-7.5Z" clip-rule="evenodd" />
+                          </svg>
+
+                        </button>
+                        <button type="button" className="me-5 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
+                          {
+                            row.userstatus !== undefined && <div className="flex items-center">
+                              <input
+                                id="toggle"
+                                type="checkbox"
+                                className=""
+                                checked={row.userstatus ? true : false}
+                                onChange={(e) =>
+                                  handleClickOpen(
+                                    row.id,
+                                    row.userstatus,
+                                    row.userremarkshistory
+                                  )
+                                }
+                             
+                              />
+                              <label htmlFor="toggle" className="flex items-center cursor-pointer">
+                                <div className={`w-8 h-4 rounded-full shadow-inner ${row.userstatus ? ' bg-[#ea580c]' : 'bg-[#c3c6ca]'}`}>
+                                  <div
+                                    className={`toggle__dot w-4 h-4 rounded-full shadow ${row.userstatus ? 'ml-4 bg-white' : 'bg-white'}`}
+                                  ></div>
+                                </div>
+                                <div className={`ml-3 text-sm font-medium ${row.userstatus ? 'text-gray-400' : 'text--400'}`}>
+                                  {row.userstatus ? 'Enabled' : 'Disabled'}
+                                </div>
+                              </label>
+                            </div>}
+                        </button>
+
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>}
         </div>
       </div>
+      <Transition.Root
+        show={open}
+        as={Fragment}
+      >
+        <Dialog
+          as='div'
+          className='relative z-10'
+          initialFocus={cancelButtonRef}
+          onClose={handleClosed}
+        >
+          <Transition.Child
+            as={Fragment}
+            enter='ease-out duration-300'
+            enterFrom='opacity-0'
+            enterTo='opacity-100'
+            leave='ease-in duration-200'
+            leaveFrom='opacity-100'
+            leaveTo='opacity-0'
+          >
+            <div className='fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity' />
+          </Transition.Child>
+          <div className='fixed inset-0 z-10 w-screen overflow-y-auto'>
+            <div className='flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0'>
+              <Transition.Child
+                as={Fragment}
+                enter='ease-out duration-300'
+                enterFrom='opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95'
+                enterTo='opacity-100 translate-y-0 sm:scale-100'
+                leave='ease-in duration-200'
+                leaveFrom='opacity-100 translate-y-0 sm:scale-100'
+                leaveTo='opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95'
+              >
+                <Dialog.Panel className='relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 px-2 py-5 sm:max-w-lg'>
+                  <div className='flex justify-between'>
+                    <p className='text-md'>Enter Remarks :<span className='text-red-600 '>  *</span></p>
+                    <svg
+                      xmlns='http://www.w3.org/2000/svg'
+                      viewBox='0 0 20 20'
+                      onClick={
+                        handleClosed
+                      }
+                      fill='currentColor'
+                      className='w-5 h-5 me-2'
+                    >
+                      <path d='M6.28 5.22a.75.75 0 0 0-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 1 0 1.06 1.06L10 11.06l3.72 3.72a.75.75 0 1 0 1.06-1.06L11.06 10l3.72-3.72a.75.75 0 0 0-1.06-1.06L10 8.94 6.28 5.22Z' />
+                    </svg>
+                  </div>
+                  <textarea class=" my-3 bg-gray-50 rounded-md text-xs p-2 w-full h-20 border-2 border-gray-200 focus:outline-none focus:border-orange-400"
+                    onChange={(e) => setText(e.target.value)}
+                    value={text}></textarea>
+
+                  <div className="w-full ">
+                  
+                    {userstatus === 0 || userstatus === false ? (
+                      <button onClick={(e) => handleActivate()}>Activate</button>
+                    ) : userstatus === 1 || userstatus === true ? (
+                      <button onClick={(e) => handleInActivate()}>InActivate</button>
+                    ) : null}
+
+                  </div>
+                </Dialog.Panel>
+              </Transition.Child>
+            </div>
+          </div>
+        </Dialog>
+      </Transition.Root>
       {/* pagination */}
       <div className='inset-x-0 bottom-0 mt-5'>
         <div className="flex justify-between">

@@ -6,4 +6,5 @@ export const userRouter = [
     { path: 'users', element: <Users /> },
     { path: 'userlandingpage/:id', element: <UserLandingPage /> },
     { path: 'users/new', element: <UserForm /> },
+    { path: 'updateuser/:userid', element: <UserForm /> }
 ]
