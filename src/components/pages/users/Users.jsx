@@ -49,98 +49,102 @@ function Users() {
   // const [opening, setOpening] = useState(false);
 
   const cancelButtonRef = useRef(null);
-  const [userstatus, setUser_Status] = useState(false);
+  const [user_status, setUser_Status] = useState(false);
   const [userremarkshistory, setuser_remarks_history] = useState([]);
   const [text, setText] = useState('');
   const [id, setId] = useState('');
 
   const handleClickOpen = (id, userStatus, userRemarksHistory) => {
+    console.log("hio", id, userStatus, userRemarksHistory)
     setId(id);
     setUser_Status(userStatus);
-    setuser_remarks_history(userRemarksHistory);
+    setuser_remarks_history(JSON.parse(userRemarksHistory));
     setOpen(true);
   };
 
   const handleClosed = () => {
     setOpen(false);
   };
-  const handleActivate = () => {
+  const handleUserStatus = async () => {
     setOpen(false);
-
     if (text) {
-      let user_status = true;
+      let userstatus = !user_status;
       let user_remarks_history = userremarkshistory;
-      let newObject = {
-        Activate_remarks: text,
-        date: new Date(),
-      };
+      let newObject
+      if (!user_status) {
+        newObject = {
+          Activate_remarks: text,
+          date: new Date(),
+        };
+      }
+      if (user_status) {
+        newObject = {
+          Inactivate_remarks: text,
+          date: new Date(),
+        };
+      }
+
       user_remarks_history.push(newObject);
       const updatedData = {
-        user_status,
+        userstatus,
         user_remarks_history,
       };
-      console.log('updatedDataActivate', updatedData);
-      // let uploadcontext = { user_status, user_remarks_history, id };
-
-      // axios
-      //   .put(`${process.env.REACT_APP_API_URL}/userstatus/${id}`, updatedData)
-      //   .then((res) => {
-      //     if (res.data.updated) {
-      //       // alert("Certificate updated successfully");
-      //       dispatch({
-      //         type: "UPDATE_USER_REMARKS_HISTORY",
-      //         payload: uploadcontext,
-      //       });
-      //     } else {
-      //       alert("Error please Try Again");
-      //     }
-      //   });
-      // setcourseStartDate("");
+      await toggleUser(id, updatedData)
       setText('');
     } else {
       alert('enter remarks');
     }
-  };
-  const handleInActivate = () => {
-    setOpen(false);
+  }
+  // const handleActivate = async () => {
 
-    if (text) {
-      let user_status = false;
-      let user_remarks_history = userremarkshistory;
-      let newObject = {
-        Inactivate_remarks: text,
-        date: new Date(),
-      };
-      user_remarks_history.push(newObject);
-      const updatedData = {
-        user_status,
-        user_remarks_history,
-      };
-      console.log('updatedDataInActivate', updatedData);
+  //   if (text) {
+  //     let userstatus = true;
+  //     let user_remarks_history = userremarkshistory;
+  //     let newObject = {
+  //       Activate_remarks: text,
+  //       date: new Date(),
+  //     };
+  //     user_remarks_history.push(newObject);
+  //     const updatedData = {
+  //       userstatus,
+  //       user_remarks_history,
+  //     };
+  //     console.log("start toggle")
+  //     const data = await toggleUser(id, updatedData)
+  //     console.log(data, "toggle response")
+  //     console.log("end toggle")
+  //     setText('');
+  //   } else {
+  //     alert('enter remarks');
+  //   }
+  // };
 
-      // let uploadcontext = { user_status, user_remarks_history, id };
-      // uploadcontext.user_remarks_history = JSON.stringify(
-      //   uploadcontext.user_remarks_history
-      // );
-      // axios
-      //   .put(`${process.env.REACT_APP_API_URL}/userstatus/${id}`, updatedData)
-      //   .then((res) => {
-      //     if (res.data.updated) {
-      //       // alert("Certificate updated successfully");
-      //       dispatch({
-      //         type: "UPDATE_USER_REMARKS_HISTORY",
-      //         payload: uploadcontext,
-      //       });
-      //     } else {
-      //       alert("Error please Try Again");
-      //     }
-      //   });
-      // setcourseStartDate("");
-      setText('');
-    } else {
-      alert('enter remarks');
-    }
-  };
+
+  // const handleInActivate = async () => {
+  //   setOpen(false);
+
+  //   if (text) {
+  //     let userstatus = false;
+  //     let user_remarks_history = userremarkshistory;
+  //     let newObject = {
+  //       Inactivate_remarks: text,
+  //       date: new Date(),
+  //     };
+  //     user_remarks_history.push(newObject);
+  //     const updatedData = {
+  //       userstatus,
+  //       user_remarks_history,
+  //     };
+  //     console.log("updatedData", updatedData)
+  //     console.log("start toggle")
+  //     const data = await toggleUser(id, updatedData)
+  //     console.log(data, "toggle response")
+  //     console.log("end toggle")
+  //     setText('');
+  //   } else {
+  //     alert('enter remarks');
+  //   }
+  // };
   const [activeTab, setActiveTab] = useState(1);
 
   const handleTabClick = (tabNumber) => {
@@ -170,16 +174,11 @@ function Users() {
       }
     }
   };
-  // toggle
-  const [isChecked, setIsChecked] = useState(false);
 
-  const handleToggle = () => {
-    setIsChecked((pre) => !pre);
-  };
 
   /////////////////////////////////////////////// Irshad
   const [customForm, setCustomForm] = useState([]);
-  // const [data, setData] = useState();
+
   useEffect(() => {
     axios
       .get(`https://atbtmain.teksacademy.com/form/list?name=userform`)
@@ -193,18 +192,7 @@ function Users() {
         // Handle errors
         console.error('Error fetching data:', error);
       });
-    // axios
-    //   .get(`https://atbtmain.teksacademy.com/user/list`)
-    //   .then((response) => {
-    //     // Handle the successful response
-    //     setData(response.data);
 
-    //     console.log('dsdsdsdsd', response.data);
-    //   })
-    //   .catch((error) => {
-    //     // Handle errors
-    //     console.error('Error fetching data:', error);
-    //   });
   }, []);
 
   ////////filters start
@@ -255,9 +243,7 @@ function Users() {
     );
     setvisibleColumns(visibleColumns);
   }, [tableView]);
-  useEffect(() => {
-    // console.log('data', data);
-  });
+
   return (
     <div className='overflow-x-auto p-3'>
       <div className='grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-3 xl:grid-col-3 gap-2 mt-2'>
@@ -348,13 +334,13 @@ function Users() {
                           <p
                             key={columnName}
                             className='flex text-left'
-                            // onClick={() => {
-                            //   usersDispatch(setSortBy(filter.inputname, 'SETTINGS'))
-                            // }}
-                            // className={classNames(
-                            //   active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                            //   'block px-4 py-2 text-sm text-left'
-                            // )}
+                          // onClick={() => {
+                          //   usersDispatch(setSortBy(filter.inputname, 'SETTINGS'))
+                          // }}
+                          // className={classNames(
+                          //   active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
+                          //   'block px-4 py-2 text-sm text-left'
+                          // )}
                           >
                             {/* {filter.label} */}
                             <label htmlFor={columnName}>
@@ -530,7 +516,7 @@ function Users() {
                           >
                             {row.userstatus !== undefined && (
                               <div className='flex items-center'>
-                                <input
+                                {/* <input
                                   id='toggle'
                                   type='checkbox'
                                   className=''
@@ -542,35 +528,39 @@ function Users() {
                                       row.userremarkshistory
                                     )
                                   }
-                                />
+                                /> */}
                                 <label
                                   htmlFor='toggle'
                                   className='flex items-center cursor-pointer'
+                                  onClick={(e) =>
+                                    handleClickOpen(
+                                      row.id,
+                                      row.userstatus,
+                                      row.userremarkshistory
+                                    )
+                                  }
                                 >
                                   <div
-                                    className={`w-8 h-4 rounded-full shadow-inner ${
-                                      row.userstatus
-                                        ? ' bg-[#ea580c]'
-                                        : 'bg-[#c3c6ca]'
-                                    }`}
+                                    className={`w-8 h-4 rounded-full shadow-inner ${row.userstatus
+                                      ? ' bg-[#ea580c]'
+                                      : 'bg-[#c3c6ca]'
+                                      }`}
                                   >
                                     <div
-                                      className={`toggle__dot w-4 h-4 rounded-full shadow ${
-                                        row.userstatus
-                                          ? 'ml-4 bg-white'
-                                          : 'bg-white'
-                                      }`}
+                                      className={`toggle__dot w-4 h-4 rounded-full shadow ${row.userstatus
+                                        ? 'ml-4 bg-white'
+                                        : 'bg-white'
+                                        }`}
                                     ></div>
                                   </div>
-                                  <div
-                                    className={`ml-3 text-sm font-medium ${
-                                      row.userstatus
-                                        ? 'text-gray-400'
-                                        : 'text--400'
-                                    }`}
+                                  {/* <div
+                                    className={`ml-3 text-sm font-medium ${row.userstatus
+                                      ? 'text-gray-400'
+                                      : 'text--400'
+                                      }`}
                                   >
                                     {row.userstatus ? 'Enabled' : 'Disabled'}
-                                  </div>
+                                  </div> */}
                                 </label>
                               </div>
                             )}
@@ -638,15 +628,21 @@ function Users() {
                   ></textarea>
 
                   <div className='w-full '>
-                    {userstatus === 0 || userstatus === false ? (
+                    {/* {user_status === 0 || user_status === false ? (
                       <button onClick={(e) => handleActivate()}>
                         Activate
                       </button>
-                    ) : userstatus === 1 || userstatus === true ? (
+                    ) : user_status === 1 || user_status === true ? (
                       <button onClick={(e) => handleInActivate()}>
                         InActivate
                       </button>
-                    ) : null}
+                    ) : null} */}
+
+                    {
+                      <button onClick={(e) => handleUserStatus()}>
+                        {user_status ? "InActivate" : "Activate"}
+                      </button>
+                    }
                   </div>
                 </Dialog.Panel>
               </Transition.Child>
@@ -659,7 +655,7 @@ function Users() {
         <div className='flex justify-between'>
           <div className=''>
             {!settings?.paginatedUsers ||
-            settings?.paginatedUsers?.length === 0 ? (
+              settings?.paginatedUsers?.length === 0 ? (
               'no data to show'
             ) : settings.loading ? (
               'Loading...'
@@ -687,13 +683,12 @@ function Users() {
                 })
               }
               href='#'
-              className={`relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${
-                settings.loading
-                  ? 'cursor-wait'
-                  : settings.currentPage === 1
+              className={`relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${settings.loading
+                ? 'cursor-wait'
+                : settings.currentPage === 1
                   ? 'cursor-not-allowed'
                   : 'cursor-auto'
-              }`}
+                }`}
             >
               <span className='sr-only'>Previous</span>
               <svg
@@ -723,13 +718,12 @@ function Users() {
                   data: settings.currentPage + 1,
                 })
               }
-              className={`relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${
-                settings.loading
-                  ? 'cursor-wait'
-                  : settings.currentPage === settings.totalPages
+              className={`relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${settings.loading
+                ? 'cursor-wait'
+                : settings.currentPage === settings.totalPages
                   ? 'cursor-not-allowed'
                   : 'cursor-auto'
-              }`}
+                }`}
             >
               <span className='sr-only'>Next</span>
               <svg

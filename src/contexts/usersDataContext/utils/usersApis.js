@@ -74,8 +74,8 @@ export const deleteUser = async (id, token) => {
     )
 }
 
-export const toggleUser = async (id) => {
-    const url = `${apiUrl}/toggle${!!id ? `?id=${id}` : null}`
+export const toggleUser = async (id, data) => {
+    const url = `${apiUrl}/toggle/${id}`
     // const confirmed = await Swal.fire({
     //     title: 'Are you sure?',
     //     text: 'Do you want to toggle your online status?',
@@ -86,5 +86,7 @@ export const toggleUser = async (id) => {
     //     confirmButtonText: 'Yes, toggle it!',
     //     confirmButtonTextColor: "pink"
     // });
-    console.log(url, "toggle url")
+    return axios.put(url, { ...data }, {
+        headers: { authorization: token },
+    });
 }
