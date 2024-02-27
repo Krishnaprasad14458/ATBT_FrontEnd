@@ -63,6 +63,7 @@ import { meetingRouter } from "./meeting/meeting.router";
 import { userRouter } from "./user/user.router";
 import { entityRouter } from "./entity/entity.router";
 import { taskRouter } from "./task/task.router";
+import RouteBlocker from "../rbac/RouteBlocker";
 import '../App.css';
 
 
@@ -71,14 +72,62 @@ export const router = createBrowserRouter([
         path: '/',
         element: <RequireAuth />,
         children: [
-            ...dashboardRouter,
-            ...userRouter,
-            ...entityRouter,
-            ...meetingRouter,
-            ...taskRouter,
-            ...teamRouter,
-            ...reportRouter,
-            ...settingRouter,
+            {
+                element: <RouteBlocker permissionCheck={(permission) =>
+                    permission.module === 'dashboard' && permission.canRead} />,
+                children: [
+                    ...dashboardRouter,
+                ]
+            },
+            {
+                element: <RouteBlocker permissionCheck={(permission) =>
+                    permission.module === 'user' && permission.canRead} />,
+                children: [
+                    ...userRouter,
+                ]
+            },
+            {
+                element: <RouteBlocker permissionCheck={(permission) =>
+                    permission.module === 'entity' && permission.canRead} />,
+                children: [
+                    ...entityRouter,
+                ]
+            },
+            {
+                element: <RouteBlocker permissionCheck={(permission) =>
+                    permission.module === 'meeting' && permission.canRead} />,
+                children: [
+                    ...meetingRouter,
+                ]
+            },
+            {
+                element: <RouteBlocker permissionCheck={(permission) =>
+                    permission.module === 'task' && permission.canRead} />,
+                children: [
+                    ...taskRouter,
+                ]
+            },
+            {
+                element: <RouteBlocker permissionCheck={(permission) =>
+                    permission.module === 'team' && permission.canRead} />,
+                children: [
+                    ...teamRouter,
+                ]
+            },
+            {
+                element: <RouteBlocker permissionCheck={(permission) =>
+                    permission.module === 'report' && permission.canRead} />,
+                children: [
+                    ...reportRouter,
+                ]
+            },
+            {
+                element: <RouteBlocker permissionCheck={(permission) =>
+                    permission.module === 'setting' && permission.canRead} />,
+                children: [
+                    ...settingRouter,
+                ]
+            },
             { path: 'mycalendar', element: <MyCalendar /> },
         ]
     },

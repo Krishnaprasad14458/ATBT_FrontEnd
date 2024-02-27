@@ -10,16 +10,17 @@ import {
 
 const AddRoles = () => {
   const submit = useSubmit();
-  const data = useLoaderData();
+  const response = useLoaderData();
   const navigation = useNavigation();
   const fetcher = useFetcher();
-  console.log(data?.response, 'yesss', navigation);
+  console.log(response, 'yesss', navigation);
   const getInitialState = () => {
-    if (!!data?.response) {
+    if (!!response) {
+      console.log(response.response, 'data');
       return {
-        role: 'you decide',
-        description: 'you decide',
-        permissions: [...data?.response],
+        role: response?.response?.name,
+        description: response?.response?.description,
+        permissions: [...response?.response.Permissions],
       };
     } else {
       return {
@@ -29,114 +30,114 @@ const AddRoles = () => {
           {
             module: 'dashboard',
             all: false,
-            create: false,
-            read: false,
-            update: false,
-            delete: false,
+            canCreate: false,
+            canRead: false,
+            canUpdate: false,
+            canDelete: false,
           },
           {
             module: 'user',
             all: false,
-            create: false,
-            read: false,
-            update: false,
-            delete: false,
+            canCreate: false,
+            canRead: false,
+            canUpdate: false,
+            canDelete: false,
           },
           {
             module: 'entity',
             all: false,
-            create: false,
-            read: false,
-            update: false,
-            delete: false,
+            canCreate: false,
+            canRead: false,
+            canUpdate: false,
+            canDelete: false,
           },
           {
             module: 'meeting',
             all: false,
-            create: false,
-            read: false,
-            update: false,
-            delete: false,
+            canCreate: false,
+            canRead: false,
+            canUpdate: false,
+            canDelete: false,
           },
           {
             module: 'task',
             all: false,
-            create: false,
-            read: false,
-            update: false,
-            delete: false,
+            canCreate: false,
+            canRead: false,
+            canUpdate: false,
+            canDelete: false,
           },
           {
             module: 'team',
             all: false,
-            create: false,
-            read: false,
-            update: false,
-            delete: false,
+            canCreate: false,
+            canRead: false,
+            canUpdate: false,
+            canDelete: false,
           },
           {
             module: 'report',
             all: false,
-            create: false,
-            read: false,
-            update: false,
-            delete: false,
+            canCreate: false,
+            canRead: false,
+            canUpdate: false,
+            canDelete: false,
           },
           {
             module: 'setting',
             all: false,
-            create: false,
-            read: false,
-            update: false,
-            delete: false,
+            canCreate: false,
+            canRead: false,
+            canUpdate: false,
+            canDelete: false,
           },
           // {
           //   module: 'settings',
           //   all: false,
-          //   create: false,
-          //   read: false,
-          //   update: false,
-          //   delete: false,
+          //   canCreate: false,
+          //   canRead: false,
+          //   canUpdate: false,
+          //   canDelete: false,
           //   submenus: [
           //     {
           //       module: 'organizationprofile',
           //       all: false,
-          //       create: false,
-          //       read: false,
-          //       update: false,
-          //       delete: false,
+          //       canCreate: false,
+          //       canRead: false,
+          //       canUpdate: false,
+          //       canDelete: false,
           //     },
           //     {
           //       module: 'form',
           //       all: false,
-          //       create: false,
-          //       read: false,
-          //       update: false,
-          //       delete: false,
+          //       canCreate: false,
+          //       canRead: false,
+          //       canUpdate: false,
+          //       canDelete: false,
           //     },
           //     {
           //       module: 'communication',
           //       all: false,
-          //       create: false,
-          //       read: false,
-          //       update: false,
-          //       delete: false,
+          //       canCreate: false,
+          //       canRead: false,
+          //       canUpdate: false,
+          //       canDelete: false,
           //     },
           //     {
           //       module: 'role',
           //       all: false,
-          //       create: false,
-          //       read: false,
-          //       update: false,
-          //       delete: false,
+          //       canCreate: false,
+          //       canRead: false,
+          //       canUpdate: false,
+          //       canDelete: false,
           //     },
           //     {
           //       module: 'integration',
           //       all: false,
-          //       create: false,
-          //       read: false,
-          //       update: false,
-          //       delete: false,
+          //       canCreate: false,
+          //       canRead: false,
+          //       canUpdate: false,
+          //       canDelete: false,
           //     },
           //   ],
           // },
@@ -190,25 +191,30 @@ const AddRoles = () => {
 
       // If "All" is toggled, toggle other permissions accordingly
       if (module === 'all') {
-        updatePermission.permissions[index].create =
-          updatePermission.permissions[index].read =
-          updatePermission.permissions[index].update =
-          updatePermission.permissions[index].delete =
-          updatePermission.permissions[index].all;
+        updatePermission.permissions[index].canCreate =
+          updatePermission.permissions[index].canRead =
+          updatePermission.permissions[index].canUpdate =
+          updatePermission.permissions[index].canDelete =
+            updatePermission.permissions[index].all;
 
-        // If there are submenus, update their permissions as well
+        // If there are submenus, canUpdate their permissions as well
         if (updatePermission.permissions[index].submenus) {
           updatePermission.permissions[index].submenus.forEach((submenu) => {
-            submenu.create =
-              submenu.read =
-              submenu.update =
-              submenu.delete =
-              updatePermission.permissions[index].all;
+            submenu.canCreate =
+              submenu.canRead =
+              submenu.canUpdate =
+              submenu.canDelete =
+                updatePermission.permissions[index].all;
           });
         }
       } else {
         // If any other permission is toggled, check if all permissions are selected, then set "All" to true
-        const allSelected = ['create', 'read', 'update', 'delete'].every(
+        const allSelected = [
+          'canCreate',
+          'canRead',
+          'canUpdate',
+          'canDelete',
+        ].every(
           (permissionType) =>
             updatePermission.permissions[index][permissionType]
         );
@@ -223,17 +229,22 @@ const AddRoles = () => {
 
       // If "All" for submenus is toggled, toggle other permissions accordingly
       if (module === 'all') {
-        updatePermission.permissions[index].submenus[subindex].create =
-          updatePermission.permissions[index].submenus[subindex].read =
-          updatePermission.permissions[index].submenus[subindex].update =
-          updatePermission.permissions[index].submenus[subindex].delete =
-          updatePermission.permissions[index].submenus[subindex].all;
+        updatePermission.permissions[index].submenus[subindex].canCreate =
+          updatePermission.permissions[index].submenus[subindex].canRead =
+          updatePermission.permissions[index].submenus[subindex].canUpdate =
+          updatePermission.permissions[index].submenus[subindex].canDelete =
+            updatePermission.permissions[index].submenus[subindex].all;
       } else {
         // If any other permission for submenus is toggled, check if all permissions are selected, then set "All" to true
-        const allSelected = ['create', 'read', 'update', 'delete'].every(
+        const allSelected = [
+          'canCreate',
+          'canRead',
+          'canUpdate',
+          'canDelete',
+        ].every(
           (permissionType) =>
             updatePermission.permissions[index].submenus[subindex][
-            permissionType
+              permissionType
             ]
         );
         updatePermission.permissions[index].submenus[subindex].all =
@@ -256,29 +267,30 @@ const AddRoles = () => {
   };
 
   async function handleSubmit() {
-
-
-
-
-    if (!data?.id) {
+    console.log(permission);
+    if (!response?.response.id) {
       const result = await axios.post(
         'https://atbtmain.teksacademy.com/rbac/create-role',
-        { ...permission }
+        {
+          ...permission,
+        }
       );
-      // Log the result and indicate that a role was added
+      fetcher.submit('added', { method: 'post', action: '/addroles' });
       console.log(result, 'added');
       // You may want to handle form submission here as well
     }
-    if (!!data?.id) {
+    if (!!response?.response?.id) {
       const result = await axios.put(
-        `https://atbtmain.teksacademy.com/rbac/update-role/${data?.id}`,
-        { ...permission }
+        `https://atbtmain.teksacademy.com/rbac/update-role/${response?.response?.id}`,
+        // `http://localhost:3000/rbac/update-role/${response?.id}`,
+        {
+          ...permission,
+        }
       );
-      // Log the result and indicate that a role was updated
+      fetcher.submit('updated', { method: 'post', action: '/addroles' });
       console.log(result, 'updated');
     }
   }
-
 
   return (
     <div className=' p-3 bg-[#f8fafc] overflow-hidden'>
@@ -294,6 +306,7 @@ const AddRoles = () => {
             </label>
             <div className=''>
               <input
+                value={permission.role}
                 onChange={(e) => {
                   setPermission({
                     ...permission,
@@ -321,6 +334,7 @@ const AddRoles = () => {
             </label>
             <div className=''>
               <input
+                value={permission.description}
                 onChange={(e) => {
                   setPermission({
                     ...permission,
@@ -340,258 +354,262 @@ const AddRoles = () => {
         </div>
       </div>
       <p className='text-md my-3 font-semibold'>Permissions</p>
-      <div className="max-h-[410px] overflow-y-scroll ">
-        <table className=' w-full divide-y divide-gray-200 dark:divide-gray-700 rounded-md '>
-          <thead className=''>
-            <tr>
-              <th
-
-                className='sticky top-0 bg-orange-600 text-white text-sm text-left px-6 py-2.5 border-l-2 border-gray-200'
-              >
-                Name
-              </th>
-              <th
-
-                className='sticky top-0 bg-orange-600 text-white text-sm text-left px-6 py-2.5 border-l-2 border-gray-200'
-              >
-                All
-              </th>
-              <th
-                scope='col'
-                className='sticky top-0 bg-orange-600 text-white text-sm text-left px-6 py-2.5 border-l-2 border-gray-200'
-                colSpan={4}
-              >
-                Access
-              </th>
-            </tr>
-          </thead>
-          <tbody className='divide-y divide-gray-200 dark:divide-gray-700 '>
-            <tr>
-              <td className='px-6 py-2.5 whitespace-nowrap text-left  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]'></td>
-              <td className='px-6 py-2.5 whitespace-nowrap text-left  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]'>
-                {' '}
-                All
-              </td>
-              <td className='px-6 py-2.5 whitespace-nowrap text-left  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]'>
-                {' '}
-                Create
-              </td>
-              <td className='px-6 py-2.5 whitespace-nowrap text-left  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]'>
-                {' '}
-                Read
-              </td>
-              <td className='px-6 py-2.5 whitespace-nowrap text-left  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]'>
-                {' '}
-                Update
-              </td>
-              <td className='px-6 py-2.5 whitespace-nowrap text-left  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]'>
-                {' '}
-                Delete
-              </td>
-            </tr>
-            {permission &&
-              permission.permissions.map((item, index) => {
-                return (
-                  <>
-                    <tr key={item}>
-                      <td className='px-6  py-2.5 whitespace-nowrap text-left  text-sm font-semibold  text-gray-800 border-collapse border border-[#e5e7eb]'>
-                        {item.module}{' '}
-                        {!!item.submenus && (
-                          <svg
-                            onClick={() => handleSubmenuOpen(item.module)}
-                            xmlns='http://www.w3.org/2000/svg'
-                            viewBox='0 0 16 16'
-                            fill='currentColor'
-                            className='w-4 h-4 mt-1'
-                          >
-                            <path
-                              fill-rule='evenodd'
-                              d='M4.22 6.22a.75.75 0 0 1 1.06 0L8 8.94l2.72-2.72a.75.75 0 1 1 1.06 1.06l-3.25 3.25a.75.75 0 0 1-1.06 0L4.22 7.28a.75.75 0 0 1 0-1.06Z'
-                              clip-rule='evenodd'
-                            />
-                          </svg>
-                        )}
-                      </td>
-                      <td className='px-6 py-2.5 whitespace-nowrap text-left  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]'>
-                        <label className='relative inline-flex items-center cursor-pointer'>
-                          <input
-                            type='checkbox'
-                            name='all'
-                            value={item.all}
-                            className='sr-only peer'
-                            checked={item.all}
-                            onChange={() => handletoggle('all', index)}
+      <table className=' min-w-full divide-y divide-gray-200 dark:divide-gray-700 border-collapse border border-[#e5e7eb] rounded-md '>
+        <thead className='sticky top-0 z-10'>
+          <tr>
+            <th
+              scope='col'
+              className='px-6 py-2 text-center text-sm  text-white bg-orange-600 border-collapse border border-[#e5e7eb] '
+            >
+              Name
+            </th>
+            <th
+              scope='col'
+              className='px-6 py-2 text-center text-sm  text-white bg-orange-600 border-collapse border border-[#e5e7eb]'
+            >
+              All
+            </th>
+            <th
+              scope='col'
+              className='px-6 py-2 text-center text-sm  text-white bg-orange-600 border-collapse border border-[#e5e7eb]'
+              colSpan={4}
+            >
+              Access
+            </th>
+          </tr>
+        </thead>
+        <tbody className='divide-y divide-gray-200 dark:divide-gray-700 '>
+          <tr>
+            <td className='px-6 py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]'></td>
+            <td className='px-6 py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]'>
+              {' '}
+              All
+            </td>
+            <td className='px-6 py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]'>
+              {' '}
+              canCreate
+            </td>
+            <td className='px-6 py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]'>
+              {' '}
+              canRead
+            </td>
+            <td className='px-6 py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]'>
+              {' '}
+              canUpdate
+            </td>
+            <td className='px-6 py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]'>
+              {' '}
+              canDelete
+            </td>
+          </tr>
+          {permission &&
+            permission.permissions.map((item, index) => {
+              return (
+                <>
+                  <tr key={item}>
+                    <td className='px-6 flex justify-between py-2.5 whitespace-nowrap text-center  text-sm font-semibold  text-gray-800 border-collapse '>
+                      {item.module}{' '}
+                      {!!item.submenus && (
+                        <svg
+                          onClick={() => handleSubmenuOpen(item.module)}
+                          xmlns='http://www.w3.org/2000/svg'
+                          viewBox='0 0 16 16'
+                          fill='currentColor'
+                          className='w-4 h-4 mt-1'
+                        >
+                          <path
+                            fill-rule='evenodd'
+                            d='M4.22 6.22a.75.75 0 0 1 1.06 0L8 8.94l2.72-2.72a.75.75 0 1 1 1.06 1.06l-3.25 3.25a.75.75 0 0 1-1.06 0L4.22 7.28a.75.75 0 0 1 0-1.06Z'
+                            clip-rule='evenodd'
                           />
-                          <div
-                            className={`w-7 h-4  ${item.all ? 'bg-orange-600' : 'bg-slate-300'
-                              } peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[1px] after:start-[1px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-3.5 after:w-3.5 after:transition-all dark:border-orange-600 checked:bg-orange-600`}
-                          ></div>
-                        </label>
-                      </td>
-                      <td className='px-6 py-2.5 whitespace-nowrap text-left  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]'>
-                        <label className='relative inline-flex items-center cursor-pointer'>
-                          <input
-                            type='checkbox'
-                            value={item.create}
-                            className='sr-only peer'
-                            checked={item.create}
-                            onChange={() => handletoggle('create', index)}
-                          />
-                          <div
-                            className={`w-7 h-4  ${item.create ? 'bg-orange-600' : 'bg-slate-300'
-                              } peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[1px] after:start-[1px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-3.5 after:w-3.5 after:transition-all dark:border-orange-600 checked:bg-orange-600`}
-                          ></div>
-                        </label>
-                      </td>
-                      <td className='px-6 py-2.5 whitespace-nowrap text-left  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]'>
-                        <label className='relative inline-flex items-center cursor-pointer'>
-                          <input
-                            type='checkbox'
-                            value={item.read}
-                            className='sr-only peer'
-                            checked={item.read}
-                            onChange={() => handletoggle('read', index)}
-                          />
-                          <div
-                            className={`w-7 h-4  ${item.read ? 'bg-orange-600' : 'bg-slate-300'
-                              } peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[1px] after:start-[1px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-3.5 after:w-3.5 after:transition-all dark:border-orange-600 checked:bg-orange-600`}
-                          ></div>
-                        </label>
-                      </td>
-                      <td className='px-6 py-2.5 whitespace-nowrap text-left  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]'>
-                        <label className='relative inline-flex items-center cursor-pointer'>
-                          <input
-                            type='checkbox'
-                            value={item.update}
-                            className='sr-only peer'
-                            checked={item.update}
-                            onChange={() => handletoggle('update', index)}
-                          />
-                          <div
-                            className={`w-7 h-4  ${item.update ? 'bg-orange-600' : 'bg-slate-300'
-                              } peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[1px] after:start-[1px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-3.5 after:w-3.5 after:transition-all dark:border-orange-600 checked:bg-orange-600`}
-                          ></div>
-                        </label>
-                      </td>
-                      <td className='px-6 py-2.5 whitespace-nowrap text-left text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]'>
-                        <label className='relative inline-flex items-center cursor-pointer'>
-                          <input
-                            type='checkbox'
-                            value={item.delete}
-                            className='sr-only peer'
-                            checked={item.delete}
-                            onChange={() => handletoggle('delete', index)}
-                          />
-                          <div
-                            className={`w-7 h-4  ${item.delete ? 'bg-orange-600' : 'bg-slate-300'
-                              } peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[1px] after:start-[1px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-3.5 after:w-3.5 after:transition-all dark:border-orange-600 checked:bg-orange-600`}
-                          ></div>
-                        </label>
-                      </td>
-                    </tr>
-                    {item.module == selected &&
-                      item.submenus.length > 0 &&
-                      item.submenus.map((subitem, subindex) => {
-                        return (
-                          <tr>
-                            <td className=' py-2.5 whitespace-nowrap text-left  text-xs   text-gray-800 border-collapse '>
-                              {subitem.module}
-                            </td>
-                            <td className='px-6 py-2.5 whitespace-nowrap text-left  text-xs   text-gray-800 border-collapse border border-[#e5e7eb]'>
-                              {' '}
-                            </td>
-                            <td className='px-6 py-2.5 whitespace-nowrap text-left  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]'>
-                              <label className='relative inline-flex items-center cursor-pointer'>
-                                <input
-                                  type='checkbox'
-                                  value={subitem.create}
-                                  className='sr-only peer'
-                                  checked={subitem.create}
-                                  onChange={() =>
-                                    handletoggle('create', index, subindex)
-                                  }
-                                />
-                                <div
-                                  className={`w-7 h-4  ${subitem.create
+                        </svg>
+                      )}
+                    </td>
+                    <td className='px-6 py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]'>
+                      <label className='relative inline-flex items-center cursor-pointer'>
+                        <input
+                          type='checkbox'
+                          name='all'
+                          value={item.all}
+                          className='sr-only peer'
+                          checked={item.all}
+                          onChange={() => handletoggle('all', index)}
+                        />
+                        <div
+                          className={`w-7 h-4  ${
+                            item.all ? 'bg-orange-600' : 'bg-slate-300'
+                          } peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[1px] after:start-[1px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-3.5 after:w-3.5 after:transition-all dark:border-orange-600 checked:bg-orange-600`}
+                        ></div>
+                      </label>
+                    </td>
+                    <td className='px-6 py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]'>
+                      <label className='relative inline-flex items-center cursor-pointer'>
+                        <input
+                          type='checkbox'
+                          value={item.canCreate}
+                          className='sr-only peer'
+                          checked={item.canCreate}
+                          onChange={() => handletoggle('canCreate', index)}
+                        />
+                        <div
+                          className={`w-7 h-4  ${
+                            item.canCreate ? 'bg-orange-600' : 'bg-slate-300'
+                          } peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[1px] after:start-[1px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-3.5 after:w-3.5 after:transition-all dark:border-orange-600 checked:bg-orange-600`}
+                        ></div>
+                      </label>
+                    </td>
+                    <td className='px-6 py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]'>
+                      <label className='relative inline-flex items-center cursor-pointer'>
+                        <input
+                          type='checkbox'
+                          value={item.canRead}
+                          className='sr-only peer'
+                          checked={item.canRead}
+                          onChange={() => handletoggle('canRead', index)}
+                        />
+                        <div
+                          className={`w-7 h-4  ${
+                            item.canRead ? 'bg-orange-600' : 'bg-slate-300'
+                          } peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[1px] after:start-[1px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-3.5 after:w-3.5 after:transition-all dark:border-orange-600 checked:bg-orange-600`}
+                        ></div>
+                      </label>
+                    </td>
+                    <td className='px-6 py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]'>
+                      <label className='relative inline-flex items-center cursor-pointer'>
+                        <input
+                          type='checkbox'
+                          value={item.canUpdate}
+                          className='sr-only peer'
+                          checked={item.canUpdate}
+                          onChange={() => handletoggle('canUpdate', index)}
+                        />
+                        <div
+                          className={`w-7 h-4  ${
+                            item.canUpdate ? 'bg-orange-600' : 'bg-slate-300'
+                          } peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[1px] after:start-[1px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-3.5 after:w-3.5 after:transition-all dark:border-orange-600 checked:bg-orange-600`}
+                        ></div>
+                      </label>
+                    </td>
+                    <td className='px-6 py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]'>
+                      <label className='relative inline-flex items-center cursor-pointer'>
+                        <input
+                          type='checkbox'
+                          value={item.canDelete}
+                          className='sr-only peer'
+                          checked={item.canDelete}
+                          onChange={() => handletoggle('canDelete', index)}
+                        />
+                        <div
+                          className={`w-7 h-4  ${
+                            item.canDelete ? 'bg-orange-600' : 'bg-slate-300'
+                          } peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[1px] after:start-[1px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-3.5 after:w-3.5 after:transition-all dark:border-orange-600 checked:bg-orange-600`}
+                        ></div>
+                      </label>
+                    </td>
+                  </tr>
+                  {item.module == selected &&
+                    item.submenus.length > 0 &&
+                    item.submenus.map((subitem, subindex) => {
+                      return (
+                        <tr>
+                          <td className=' py-2.5 whitespace-nowrap text-center  text-xs   text-gray-800 border-collapse '>
+                            {subitem.module}
+                          </td>
+                          <td className='px-6 py-2.5 whitespace-nowrap text-center  text-xs   text-gray-800 border-collapse border border-[#e5e7eb]'>
+                            {' '}
+                          </td>
+                          <td className='px-6 py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]'>
+                            <label className='relative inline-flex items-center cursor-pointer'>
+                              <input
+                                type='checkbox'
+                                value={subitem.canCreate}
+                                className='sr-only peer'
+                                checked={subitem.canCreate}
+                                onChange={() =>
+                                  handletoggle('canCreate', index, subindex)
+                                }
+                              />
+                              <div
+                                className={`w-7 h-4  ${
+                                  subitem.canCreate
                                     ? 'bg-orange-600'
                                     : 'bg-slate-300'
-                                    } peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[1px] after:start-[1px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-3.5 after:w-3.5 after:transition-all dark:border-orange-600 checked:bg-orange-600`}
-                                ></div>
-                              </label>
-                            </td>
-                            <td className='px-6 py-2.5 whitespace-nowrap text-left  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]'>
-                              <label className='relative inline-flex items-center cursor-pointer'>
-                                <input
-                                  type='checkbox'
-                                  value={subitem.read}
-                                  className='sr-only peer'
-                                  checked={subitem.read}
-                                  onChange={() =>
-                                    handletoggle('read', index, subindex)
-                                  }
-                                />
-                                <div
-                                  className={`w-7 h-4  ${subitem.read
+                                } peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[1px] after:start-[1px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-3.5 after:w-3.5 after:transition-all dark:border-orange-600 checked:bg-orange-600`}
+                              ></div>
+                            </label>
+                          </td>
+                          <td className='px-6 py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]'>
+                            <label className='relative inline-flex items-center cursor-pointer'>
+                              <input
+                                type='checkbox'
+                                value={subitem.canRead}
+                                className='sr-only peer'
+                                checked={subitem.canRead}
+                                onChange={() =>
+                                  handletoggle('canRead', index, subindex)
+                                }
+                              />
+                              <div
+                                className={`w-7 h-4  ${
+                                  subitem.canRead
                                     ? 'bg-orange-600'
                                     : 'bg-slate-300'
-                                    } peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[1px] after:start-[1px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-3.5 after:w-3.5 after:transition-all dark:border-orange-600 checked:bg-orange-600`}
-                                ></div>
-                              </label>
-                            </td>
-                            <td className='px-6 py-2.5 whitespace-nowrap text-left  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]'>
-                              <label className='relative inline-flex items-center cursor-pointer'>
-                                <input
-                                  type='checkbox'
-                                  value={subitem.update}
-                                  className='sr-only peer'
-                                  checked={subitem.update}
-                                  onChange={() =>
-                                    handletoggle('update', index, subindex)
-                                  }
-                                />
-                                <div
-                                  className={`w-7 h-4  ${subitem.update
+                                } peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[1px] after:start-[1px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-3.5 after:w-3.5 after:transition-all dark:border-orange-600 checked:bg-orange-600`}
+                              ></div>
+                            </label>
+                          </td>
+                          <td className='px-6 py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]'>
+                            <label className='relative inline-flex items-center cursor-pointer'>
+                              <input
+                                type='checkbox'
+                                value={subitem.canUpdate}
+                                className='sr-only peer'
+                                checked={subitem.canUpdate}
+                                onChange={() =>
+                                  handletoggle('canUpdate', index, subindex)
+                                }
+                              />
+                              <div
+                                className={`w-7 h-4  ${
+                                  subitem.canUpdate
                                     ? 'bg-orange-600'
                                     : 'bg-slate-300'
-                                    } peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[1px] after:start-[1px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-3.5 after:w-3.5 after:transition-all dark:border-orange-600 checked:bg-orange-600`}
-                                ></div>
-                              </label>
-                            </td>
-                            <td className='px-6 py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]'>
-                              <label className='relative inline-flex items-center cursor-pointer'>
-                                <input
-                                  type='checkbox'
-                                  value={subitem.delete}
-                                  className='sr-only peer'
-                                  checked={subitem.delete}
-                                  onChange={() =>
-                                    handletoggle('delete', index, subindex)
-                                  }
-                                />
-                                <div
-                                  className={`w-7 h-4  ${subitem.delete
+                                } peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[1px] after:start-[1px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-3.5 after:w-3.5 after:transition-all dark:border-orange-600 checked:bg-orange-600`}
+                              ></div>
+                            </label>
+                          </td>
+                          <td className='px-6 py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]'>
+                            <label className='relative inline-flex items-center cursor-pointer'>
+                              <input
+                                type='checkbox'
+                                value={subitem.canDelete}
+                                className='sr-only peer'
+                                checked={subitem.canDelete}
+                                onChange={() =>
+                                  handletoggle('canDelete', index, subindex)
+                                }
+                              />
+                              <div
+                                className={`w-7 h-4  ${
+                                  subitem.canDelete
                                     ? 'bg-orange-600'
                                     : 'bg-slate-300'
-                                    } peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[1px] after:start-[1px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-3.5 after:w-3.5 after:transition-all dark:border-orange-600 checked:bg-orange-600`}
-                                ></div>
-                              </label>
-                            </td>
-                          </tr>
-                        );
-                      })}
-                  </>
-                );
-              })}
-            {/* <div className={item.all ? "w-7 h-4 bg-orange-600 peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[1px] after:start-[1px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-3.5 after:w-3.5 after:transition-all dark:border-orange-600 checked:bg-orange-600" : ""}
+                                } peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[1px] after:start-[1px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-3.5 after:w-3.5 after:transition-all dark:border-orange-600 checked:bg-orange-600`}
+                              ></div>
+                            </label>
+                          </td>
+                        </tr>
+                      );
+                    })}
+                </>
+              );
+            })}
+          {/* <div className={item.all ? "w-7 h-4 bg-orange-600 peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[1px] after:start-[1px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-3.5 after:w-3.5 after:transition-all dark:border-orange-600 checked:bg-orange-600" : ""}
 
             ></div> */}
-          </tbody>
-        </table>
-      </div>
-      <div className='flex justify-end mt-5'>
-        <button onClick={() => handleSubmit()} className='px-3 py-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white gap-1'>Submit</button>
-      </div>
-
+        </tbody>
+      </table>
+      <button onClick={() => handleSubmit()}>submit</button>
     </div>
   );
 };

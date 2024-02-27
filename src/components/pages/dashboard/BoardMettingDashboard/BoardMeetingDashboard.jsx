@@ -16,7 +16,7 @@ const BoardMeetingDashboard = () => {
             </h5>
             <GateKeeper
               permissionCheck={(permission) =>
-                permission.module === 'meeting' && permission.create
+                permission.module === 'meeting' && permission.canCreate
               }
             >
               <Link to='/boardmeetingform'>
