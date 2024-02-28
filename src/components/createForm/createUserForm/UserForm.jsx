@@ -3,7 +3,6 @@ import axios from 'axios';
 import defprop from '../../../Images/Avatar_new_02.svg';
 import { UserDataContext } from '../../../contexts/usersDataContext/usersDataContext';
 import { EntitiesDataContext } from '../../../contexts/entitiesDataContext/entitiesDataContext';
-import { json, useNavigate } from 'react-router-dom';
 import $ from 'jquery';
 import linesimage from '../../../Images/lines_10.svg';
 import {
@@ -359,8 +358,8 @@ function UserForm() {
 
     if (!checkValidation()) {
       const jsonData = {};
-      let userremarkshistory =[]
-      jsonData.userremarkshistory = JSON.stringify(userremarkshistory)
+      let userremarkshistory = [];
+      jsonData.userremarkshistory = JSON.stringify(userremarkshistory);
       jsonData.customFieldsData = JSON.stringify(customFormFields);
       jsonData.createdBy = parseInt(localStorage.getItem('id'));
       for (let i = 0; i < customFormFields.length; i++) {
@@ -1368,7 +1367,6 @@ function UserForm() {
 }
 
 export default UserForm;
-
 
 // const array = [
 //   {
