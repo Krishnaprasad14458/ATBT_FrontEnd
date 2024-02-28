@@ -195,7 +195,7 @@ const AddRoles = () => {
           updatePermission.permissions[index].canRead =
           updatePermission.permissions[index].canUpdate =
           updatePermission.permissions[index].canDelete =
-            updatePermission.permissions[index].all;
+          updatePermission.permissions[index].all;
 
         // If there are submenus, canUpdate their permissions as well
         if (updatePermission.permissions[index].submenus) {
@@ -204,7 +204,7 @@ const AddRoles = () => {
               submenu.canRead =
               submenu.canUpdate =
               submenu.canDelete =
-                updatePermission.permissions[index].all;
+              updatePermission.permissions[index].all;
           });
         }
       } else {
@@ -233,7 +233,7 @@ const AddRoles = () => {
           updatePermission.permissions[index].submenus[subindex].canRead =
           updatePermission.permissions[index].submenus[subindex].canUpdate =
           updatePermission.permissions[index].submenus[subindex].canDelete =
-            updatePermission.permissions[index].submenus[subindex].all;
+          updatePermission.permissions[index].submenus[subindex].all;
       } else {
         // If any other permission for submenus is toggled, check if all permissions are selected, then set "All" to true
         const allSelected = [
@@ -244,7 +244,7 @@ const AddRoles = () => {
         ].every(
           (permissionType) =>
             updatePermission.permissions[index].submenus[subindex][
-              permissionType
+            permissionType
             ]
         );
         updatePermission.permissions[index].submenus[subindex].all =
@@ -436,9 +436,8 @@ const AddRoles = () => {
                           onChange={() => handletoggle('all', index)}
                         />
                         <div
-                          className={`w-7 h-4  ${
-                            item.all ? 'bg-orange-600' : 'bg-slate-300'
-                          } peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[1px] after:start-[1px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-3.5 after:w-3.5 after:transition-all dark:border-orange-600 checked:bg-orange-600`}
+                          className={`w-7 h-4  ${item.all ? 'bg-orange-600' : 'bg-slate-300'
+                            } peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[1px] after:start-[1px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-3.5 after:w-3.5 after:transition-all dark:border-orange-600 checked:bg-orange-600`}
                         ></div>
                       </label>
                     </td>
@@ -452,9 +451,8 @@ const AddRoles = () => {
                           onChange={() => handletoggle('canCreate', index)}
                         />
                         <div
-                          className={`w-7 h-4  ${
-                            item.canCreate ? 'bg-orange-600' : 'bg-slate-300'
-                          } peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[1px] after:start-[1px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-3.5 after:w-3.5 after:transition-all dark:border-orange-600 checked:bg-orange-600`}
+                          className={`w-7 h-4  ${item.canCreate ? 'bg-orange-600' : 'bg-slate-300'
+                            } peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[1px] after:start-[1px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-3.5 after:w-3.5 after:transition-all dark:border-orange-600 checked:bg-orange-600`}
                         ></div>
                       </label>
                     </td>
@@ -468,9 +466,8 @@ const AddRoles = () => {
                           onChange={() => handletoggle('canRead', index)}
                         />
                         <div
-                          className={`w-7 h-4  ${
-                            item.canRead ? 'bg-orange-600' : 'bg-slate-300'
-                          } peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[1px] after:start-[1px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-3.5 after:w-3.5 after:transition-all dark:border-orange-600 checked:bg-orange-600`}
+                          className={`w-7 h-4  ${item.canRead ? 'bg-orange-600' : 'bg-slate-300'
+                            } peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[1px] after:start-[1px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-3.5 after:w-3.5 after:transition-all dark:border-orange-600 checked:bg-orange-600`}
                         ></div>
                       </label>
                     </td>
@@ -484,9 +481,8 @@ const AddRoles = () => {
                           onChange={() => handletoggle('canUpdate', index)}
                         />
                         <div
-                          className={`w-7 h-4  ${
-                            item.canUpdate ? 'bg-orange-600' : 'bg-slate-300'
-                          } peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[1px] after:start-[1px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-3.5 after:w-3.5 after:transition-all dark:border-orange-600 checked:bg-orange-600`}
+                          className={`w-7 h-4  ${item.canUpdate ? 'bg-orange-600' : 'bg-slate-300'
+                            } peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[1px] after:start-[1px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-3.5 after:w-3.5 after:transition-all dark:border-orange-600 checked:bg-orange-600`}
                         ></div>
                       </label>
                     </td>
@@ -500,9 +496,8 @@ const AddRoles = () => {
                           onChange={() => handletoggle('canDelete', index)}
                         />
                         <div
-                          className={`w-7 h-4  ${
-                            item.canDelete ? 'bg-orange-600' : 'bg-slate-300'
-                          } peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[1px] after:start-[1px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-3.5 after:w-3.5 after:transition-all dark:border-orange-600 checked:bg-orange-600`}
+                          className={`w-7 h-4  ${item.canDelete ? 'bg-orange-600' : 'bg-slate-300'
+                            } peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[1px] after:start-[1px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-3.5 after:w-3.5 after:transition-all dark:border-orange-600 checked:bg-orange-600`}
                         ></div>
                       </label>
                     </td>
@@ -530,11 +525,10 @@ const AddRoles = () => {
                                 }
                               />
                               <div
-                                className={`w-7 h-4  ${
-                                  subitem.canCreate
-                                    ? 'bg-orange-600'
-                                    : 'bg-slate-300'
-                                } peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[1px] after:start-[1px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-3.5 after:w-3.5 after:transition-all dark:border-orange-600 checked:bg-orange-600`}
+                                className={`w-7 h-4  ${subitem.canCreate
+                                  ? 'bg-orange-600'
+                                  : 'bg-slate-300'
+                                  } peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[1px] after:start-[1px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-3.5 after:w-3.5 after:transition-all dark:border-orange-600 checked:bg-orange-600`}
                               ></div>
                             </label>
                           </td>
@@ -550,11 +544,10 @@ const AddRoles = () => {
                                 }
                               />
                               <div
-                                className={`w-7 h-4  ${
-                                  subitem.canRead
-                                    ? 'bg-orange-600'
-                                    : 'bg-slate-300'
-                                } peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[1px] after:start-[1px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-3.5 after:w-3.5 after:transition-all dark:border-orange-600 checked:bg-orange-600`}
+                                className={`w-7 h-4  ${subitem.canRead
+                                  ? 'bg-orange-600'
+                                  : 'bg-slate-300'
+                                  } peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[1px] after:start-[1px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-3.5 after:w-3.5 after:transition-all dark:border-orange-600 checked:bg-orange-600`}
                               ></div>
                             </label>
                           </td>
@@ -570,11 +563,10 @@ const AddRoles = () => {
                                 }
                               />
                               <div
-                                className={`w-7 h-4  ${
-                                  subitem.canUpdate
-                                    ? 'bg-orange-600'
-                                    : 'bg-slate-300'
-                                } peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[1px] after:start-[1px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-3.5 after:w-3.5 after:transition-all dark:border-orange-600 checked:bg-orange-600`}
+                                className={`w-7 h-4  ${subitem.canUpdate
+                                  ? 'bg-orange-600'
+                                  : 'bg-slate-300'
+                                  } peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[1px] after:start-[1px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-3.5 after:w-3.5 after:transition-all dark:border-orange-600 checked:bg-orange-600`}
                               ></div>
                             </label>
                           </td>
@@ -590,11 +582,10 @@ const AddRoles = () => {
                                 }
                               />
                               <div
-                                className={`w-7 h-4  ${
-                                  subitem.canDelete
-                                    ? 'bg-orange-600'
-                                    : 'bg-slate-300'
-                                } peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[1px] after:start-[1px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-3.5 after:w-3.5 after:transition-all dark:border-orange-600 checked:bg-orange-600`}
+                                className={`w-7 h-4  ${subitem.canDelete
+                                  ? 'bg-orange-600'
+                                  : 'bg-slate-300'
+                                  } peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[1px] after:start-[1px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-3.5 after:w-3.5 after:transition-all dark:border-orange-600 checked:bg-orange-600`}
                               ></div>
                             </label>
                           </td>
@@ -609,7 +600,14 @@ const AddRoles = () => {
             ></div> */}
         </tbody>
       </table>
-      <button onClick={() => handleSubmit()}>submit</button>
+      <div className='flex justify-end mt-5'>
+        <button
+          onClick={() => handleSubmit()}
+          className='px-3 py-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white gap-1'
+        >
+          Submit
+        </button>
+      </div>
     </div>
   );
 };

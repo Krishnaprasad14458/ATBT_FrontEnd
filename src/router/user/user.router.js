@@ -3,8 +3,8 @@ import UserLandingPage, { userLandingLoader } from "../../components/landingPage
 import Users from "../../components/pages/users/Users";
 
 export const userRouter = [
-    { path: 'users', element: <Users /> },
-    { path: 'userlandingpage/:id', loader: userLandingLoader, element: <UserLandingPage /> },
-    { path: 'users/new', element: <UserForm /> },
-    { path: 'updateuser/:userid', element: <UserForm /> }
+    { index: true, element: <Users /> },
+    { path: ':id', loader: userLandingLoader, element: <UserLandingPage /> },
+    { path: ':userid/edit', element: <UserForm /> },
+    { path: 'new', element: <UserForm /> },
 ]
