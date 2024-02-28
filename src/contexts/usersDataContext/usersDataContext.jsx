@@ -4,13 +4,14 @@ import * as api from './utils/usersApis';
 import userDataReducer from './userDataReducer';
 import { initialState } from './utils/usersConfig';
 import { AuthContext } from '../authContext/authContext';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSubmit } from 'react-router-dom';
 
 export const UserDataContext = createContext();
 
 const localStorageData = JSON.parse(localStorage.getItem('data'));
 
 const UserDataProvider = ({ children }) => {
+  // const submit = useSubmit();
   // const navigate = useNavigate();
   const [usersState, usersDispatch] = useReducer(userDataReducer, initialState);
 
@@ -89,6 +90,7 @@ const UserDataProvider = ({ children }) => {
         getAllUsers();
         // navigate(`/`)
       }
+      return { data, status };
     } catch (e) {
       console.error(e);
     }
