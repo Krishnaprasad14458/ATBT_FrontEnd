@@ -15,8 +15,8 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
 }
 function Users() {
-  const userData = JSON.parse(localStorage.getItem("data"))
-  const token = userData?.token
+  const userData = JSON.parse(localStorage.getItem('data'));
+  const token = userData?.token;
   const submit = useSubmit();
   const {
     usersState: { settings },
@@ -149,7 +149,6 @@ function Users() {
   //   }
   // };
 
-
   const [activeTab, setActiveTab] = useState(1);
 
   const handleTabClick = (tabNumber) => {
@@ -186,7 +185,6 @@ function Users() {
   useEffect(() => {
     axios
       .get(`https://atbtmain.teksacademy.com/form/list?name=userform`)
-
       .then((response) => {
         // Handle the successful response
         setCustomForm(response.data.Data);
