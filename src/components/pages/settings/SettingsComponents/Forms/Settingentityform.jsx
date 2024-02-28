@@ -30,19 +30,19 @@ const Settingentityform = () => {
                 console.error('Error fetching data:', error);
             });
     }, [])
-    useEffect(() => {
-        console.log("customForm", customForm)
-        console.log("newInputField", newInputField)
+//     useEffect(() => {
+//         console.log("customForm", customForm)
+//         console.log("newInputField", newInputField)
 
-    })
-    .catch(error => {
-    // Handle errors
-     console.error('Error fetching data:', error);
-    });}, [])
-useEffect(() => {
-    console.log("customForm", customForm)
-    console.log("newInputField", newInputField)
-    })
+//     })
+//     .catch(error => {
+//     // Handle errors
+//      console.error('Error fetching data:', error);
+//     }); [])
+// useEffect(() => {
+//     console.log("customForm", customForm)
+//     console.log("newInputField", newInputField)
+//     })
 const handleInputChange = (e) => {
 const { name, value, type, checked } = e.target;
     if (name == "type" && value === "select") {
