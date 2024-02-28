@@ -116,7 +116,7 @@ const UserDataProvider = ({ children }) => {
         getSettingsUsersData();
         getAllUsers();
       }
-      return data
+      return data;
     } catch (e) {
       console.error(e);
     }

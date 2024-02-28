@@ -11,7 +11,7 @@ function UserDashboard() {
     usersState: { users, dashboard },
     usersDispatch,
   } = useContext(UserDataContext);
-  console.log(dashboard, "udud")
+  console.log(dashboard, 'udud');
   const { debouncedSetPage, debouncedSetSearch } = useDebounce(usersDispatch);
   useEffect(() => {
     return () => {
@@ -105,7 +105,7 @@ function UserDashboard() {
                   className='py-2 sm:py-2'
                   key={user.id}
                 >
-                  <Link to={`/userlandingpage/${user.id}`}>
+                  <Link to={`/users/${user.id}`}>
                     <DashboardList user={user} />
                   </Link>
                 </li>

@@ -59,7 +59,7 @@ function Users() {
   const [id, setId] = useState('');
 
   const handleClickOpen = (id, userStatus, userRemarksHistory) => {
-    console.log("hio", id, userStatus, userRemarksHistory)
+    console.log('hio', id, userStatus, userRemarksHistory);
     setId(id);
     setUser_Status(userStatus);
     setuser_remarks_history(userRemarksHistory);
@@ -74,7 +74,7 @@ function Users() {
     if (text) {
       let userstatus = !user_status;
       let user_remarks_history = userremarkshistory;
-      let newObject
+      let newObject;
       if (!user_status) {
         newObject = {
           Activate_remarks: text,
@@ -93,12 +93,12 @@ function Users() {
         userstatus,
         user_remarks_history,
       };
-      await toggleUser(id, updatedData)
+      await toggleUser(id, updatedData);
       setText('');
     } else {
       alert('enter remarks');
     }
-  }
+  };
   // const handleActivate = async () => {
 
   //   if (text) {
@@ -122,7 +122,6 @@ function Users() {
   //     alert('enter remarks');
   //   }
   // };
-
 
   // const handleInActivate = async () => {
   //   setOpen(false);
@@ -181,7 +180,6 @@ function Users() {
     }
   };
 
-
   /////////////////////////////////////////////// Irshad
   const [customForm, setCustomForm] = useState([]);
 
@@ -198,7 +196,6 @@ function Users() {
         // Handle errors
         console.error('Error fetching data:', error);
       });
-    
   }, []);
 
   ////////filters start
@@ -340,13 +337,13 @@ function Users() {
                           <p
                             key={columnName}
                             className='flex text-left'
-                          // onClick={() => {
-                          //   usersDispatch(setSortBy(filter.inputname, 'SETTINGS'))
-                          // }}
-                          // className={classNames(
-                          //   active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                          //   'block px-4 py-2 text-sm text-left'
-                          // )}
+                            // onClick={() => {
+                            //   usersDispatch(setSortBy(filter.inputname, 'SETTINGS'))
+                            // }}
+                            // className={classNames(
+                            //   active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
+                            //   'block px-4 py-2 text-sm text-left'
+                            // )}
                           >
                             {/* {filter.label} */}
                             <label htmlFor={columnName}>
@@ -467,7 +464,7 @@ function Users() {
                             type='button'
                             className='me-5 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600'
                           >
-                            <Link to={`/userlandingpage/${row.id}`}>
+                            <Link to={`${row.id}`}>
                               <svg
                                 xmlns='http://www.w3.org/2000/svg'
                                 viewBox='0 0 20 20'
@@ -487,7 +484,7 @@ function Users() {
                             type='button'
                             className='me-5 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600'
                           >
-                            <Link to={`/updateuser/${row.id}`}>
+                            <Link to={`${row.id}/edit`}>
                               <svg
                                 xmlns='http://www.w3.org/2000/svg'
                                 viewBox='0 0 20 20'
@@ -547,16 +544,18 @@ function Users() {
                                   }
                                 >
                                   <div
-                                    className={`w-8 h-4 rounded-full shadow-inner ${row.userstatus
-                                      ? ' bg-[#ea580c]'
-                                      : 'bg-[#c3c6ca]'
-                                      }`}
+                                    className={`w-8 h-4 rounded-full shadow-inner ${
+                                      row.userstatus
+                                        ? ' bg-[#ea580c]'
+                                        : 'bg-[#c3c6ca]'
+                                    }`}
                                   >
                                     <div
-                                      className={`toggle__dot w-4 h-4 rounded-full shadow ${row.userstatus
-                                        ? 'ml-4 bg-white'
-                                        : 'bg-white'
-                                        }`}
+                                      className={`toggle__dot w-4 h-4 rounded-full shadow ${
+                                        row.userstatus
+                                          ? 'ml-4 bg-white'
+                                          : 'bg-white'
+                                      }`}
                                     ></div>
                                   </div>
                                   {/* <div
@@ -646,7 +645,7 @@ function Users() {
 
                     {
                       <button onClick={(e) => handleUserStatus()}>
-                        {user_status ? "InActivate" : "Activate"}
+                        {user_status ? 'InActivate' : 'Activate'}
                       </button>
                     }
                   </div>
@@ -661,7 +660,7 @@ function Users() {
         <div className='flex justify-between'>
           <div className=''>
             {!settings?.paginatedUsers ||
-              settings?.paginatedUsers?.length === 0 ? (
+            settings?.paginatedUsers?.length === 0 ? (
               'no data to show'
             ) : settings.loading ? (
               'Loading...'
@@ -689,12 +688,13 @@ function Users() {
                 })
               }
               href='#'
-              className={`relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${settings.loading
-                ? 'cursor-wait'
-                : settings.currentPage === 1
+              className={`relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${
+                settings.loading
+                  ? 'cursor-wait'
+                  : settings.currentPage === 1
                   ? 'cursor-not-allowed'
                   : 'cursor-auto'
-                }`}
+              }`}
             >
               <span className='sr-only'>Previous</span>
               <svg
@@ -724,12 +724,13 @@ function Users() {
                   data: settings.currentPage + 1,
                 })
               }
-              className={`relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${settings.loading
-                ? 'cursor-wait'
-                : settings.currentPage === settings.totalPages
+              className={`relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${
+                settings.loading
+                  ? 'cursor-wait'
+                  : settings.currentPage === settings.totalPages
                   ? 'cursor-not-allowed'
                   : 'cursor-auto'
-                }`}
+              }`}
             >
               <span className='sr-only'>Next</span>
               <svg
