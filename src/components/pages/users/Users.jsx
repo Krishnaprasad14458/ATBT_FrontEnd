@@ -10,10 +10,13 @@ import useDebounce from '../../../hooks/debounce/useDebounce';
 import * as actions from '../../../contexts/usersDataContext/utils/usersActions';
 import GateKeeper from '../../../rbac/GateKeeper';
 import axios from 'axios';
+import { AuthContext } from '../../../contexts/authContext/authContext';
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
 }
 function Users() {
+  const userData = JSON.parse(localStorage.getItem("data"))
+  const token = userData?.token
   const submit = useSubmit();
   const {
     usersState: { settings },
@@ -59,7 +62,7 @@ function Users() {
     console.log('hio', id, userStatus, userRemarksHistory);
     setId(id);
     setUser_Status(userStatus);
-    setuser_remarks_history(JSON.parse(userRemarksHistory));
+    setuser_remarks_history(userRemarksHistory);
     setOpen(true);
   };
 
@@ -145,6 +148,8 @@ function Users() {
   //     alert('enter remarks');
   //   }
   // };
+
+
   const [activeTab, setActiveTab] = useState(1);
 
   const handleTabClick = (tabNumber) => {

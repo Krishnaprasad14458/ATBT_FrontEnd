@@ -168,50 +168,44 @@ const UserLandingPage = () => {
       <div className=''>
         <div className='flex overflow-auto'>
           <div
-            className={`cursor-pointer px-1 py-1 text-md font-semibold  ${
-              activeTab === 1 ? 'border-b-2 border-orange-600 text-black' : ''
-            }`}
+            className={`cursor-pointer px-1 py-1 text-md font-semibold  ${activeTab === 1 ? 'border-b-2 border-orange-600 text-black' : ''
+              }`}
             onClick={() => handleTabClick(1)}
           >
             Overview
           </div>
 
           <div
-            className={`cursor-pointer px-5 py-1 text-md font-semibold  ${
-              activeTab === 2 ? 'border-b-2 border-orange-600 text-black' : ''
-            }`}
+            className={`cursor-pointer px-5 py-1 text-md font-semibold  ${activeTab === 2 ? 'border-b-2 border-orange-600 text-black' : ''
+              }`}
             onClick={() => handleTabClick(2)}
           >
             List
           </div>
           <div
-            className={`cursor-pointer px-5 py-1 text-md font-semibold  ${
-              activeTab === 3 ? 'border-b-2 border-orange-600 text-black' : ''
-            }`}
+            className={`cursor-pointer px-5 py-1 text-md font-semibold  ${activeTab === 3 ? 'border-b-2 border-orange-600 text-black' : ''
+              }`}
             onClick={() => handleTabClick(3)}
           >
             Calendar
           </div>
           <div
-            className={`cursor-pointer px-5 py-1 text-md font-semibold ${
-              activeTab === 4 ? 'border-b-2 border-orange-600 text-black' : ''
-            }`}
+            className={`cursor-pointer px-5 py-1 text-md font-semibold ${activeTab === 4 ? 'border-b-2 border-orange-600 text-black' : ''
+              }`}
             onClick={() => handleTabClick(4)}
           >
             Dashboard
           </div>
           <div
-            className={`cursor-pointer px-5 py-1 text-md font-semibold  ${
-              activeTab === 5 ? 'border-b-2 border-orange-600 text-black' : ''
-            }`}
+            className={`cursor-pointer px-5 py-1 text-md font-semibold  ${activeTab === 5 ? 'border-b-2 border-orange-600 text-black' : ''
+              }`}
             onClick={() => handleTabClick(5)}
           >
             Messages
           </div>
           <div
-            className={`cursor-pointer px-5 py-1 text-md font-semibold  ${
-              activeTab === 6 ? 'border-b-2 border-orange-600 text-black' : ''
-            }`}
+            className={`cursor-pointer px-5 py-1 text-md font-semibold  ${activeTab === 6 ? 'border-b-2 border-orange-600 text-black' : ''
+              }`}
             onClick={() => handleTabClick(6)}
           >
             Attachments
@@ -220,369 +214,339 @@ const UserLandingPage = () => {
         <hr />
       </div>
       {activeTab === 1 && (
-        <div className='mt-4 flex justify-center '>
-          <div className='h-[500px] lg:w-3/6 shadow-md p-5 border-2 rounded-md bg-[#f8fafc]'>
+        <div className='mt-20 flex justify-center '>
+          <div className='h-[500px] lg:w-3/6 shadow-md p-5 border-2 rounded-md bg-[#f8fafc] '>
+
             {customFormField &&
               customFormField.length > 0 &&
               customFormField.map((item) => (
-                <div className='relative'>
-                  {/* predefined fields */}
+                <div className=''>
+                  {/* predefined fields*/}
+                  <div className='bg-[#fff7ed] rounded-xl'>
+                    {item.type === 'file' &&
+                      item.inputname == 'image' &&
+                      item.field === 'predefined' && (
+                        <div>
+                          {item.value ? (
+                            <img
+                              src={item.value}
+                              name='EntityPhoto'
+                              alt='User Photo'
+                              className=' h-36 w-36 relative mx-auto bottom-20 rounded-full shadow-md'
+                            />
+                          ) : (
+                            <img
+                              className=' h-36 w-36 relative mx-auto bottom-20 rounded-full shadow-md'
+                              src={defprop}
+                              alt='photo'
+                            />
+                          )}
+                        </div>
+                      )}
+                  </div>
                   {item.type === 'text' &&
                     item.inputname == 'name' &&
                     item.field === 'predefined' && (
-                      <div className='absolute left-36 top-10'>
+                      <div className=' flex justify-center'>
                         {item.value ? (
-                          <p className='text-2xl'>
+                          <p className='absolute top-16 my-3 text-md antialiased font-semibold leading-snug tracking-normal text-blue-gray-900'>
                             {' '}
                             {item.value.toUpperCase()}
                           </p>
                         ) : (
-                          <p className='text-2xl text-gray-400'> USER NAME</p>
+                          <p className=' absolute top-16 my-3 text-md antialiased font-semibold leading-snug tracking-normal text-blue-gray-900'>
+                            {' '}
+                            USER NAME
+                          </p>
                         )}
                       </div>
                     )}
-
-                  {item.type === 'file' &&
-                    item.inputname == 'image' &&
-                    item.field === 'predefined' && (
-                      <div className=' border-y-2 border-e-2 border-gray-200'>
+                  {item.type === 'select' &&
+                    item.inputname == 'entityname' &&
+                    item.field == 'predefined' && (
+                      <div className='flex  justify-center   border-t-2 border-gray-300 '>
                         {item.value ? (
-                          <img
-                            src={item.value}
-                            name='EntityPhoto'
-                            alt='Selected User Photo'
-                            className='w-32 h-32 rounded-sm aspect-[1/1] object-cover'
-                          />
+                          <p className=' absolute top-20 mt-8   text-sm antialiased  leading-snug tracking-normal text-blue-gray-900 '>
+                            {item.value}{' '}
+                          </p>
                         ) : (
-                          <img
-                            className='w-32 h-32 rounded-sm aspect-[1/1] object-cover'
-                            src={defprop}
-                            alt='Neil image'
-                          />
-                          // <img
-                          //   src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?q=80&w=256&h=256&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                          //   alt="Default User Photo"
-                          //   className="rounded-full w-12 h-12 mr-4"
-                          // />
+                          <p className=' absolute top-20 mt-8   text-sm antialiased  leading-snug tracking-normal text-blue-gray-900 '>
+                            Infoz IT solutions
+                          </p>
                         )}
                       </div>
                     )}
-
-                  <div className='flex justify-between flex-wrap  '>
-                    <span>
-                      {item.type === 'email' &&
-                        item.inputname == 'email' &&
-                        item.field == 'predefined' && (
-                          <div className='absolute mt-5 ms-3 '>
-                            {item.value ? (
-                              <p className='flex gap-2'>
-                                <svg
-                                  xmlns='http://www.w3.org/2000/svg'
-                                  fill='none'
-                                  viewBox='0 0 24 24'
-                                  stroke-width='1.5'
-                                  stroke='currentColor'
-                                  class='w-7 h-7 '
-                                >
-                                  <path
-                                    stroke-linecap='round'
-                                    stroke-linejoin='round'
-                                    d='M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75'
-                                  />
-                                </svg>
-                                <span className='text-lg'> {item.value}</span>
-                              </p>
-                            ) : (
-                              <p className='flex gap-2'>
+                  <div className=' '>
+                    {item.type === 'email' &&
+                      item.inputname == 'email' &&
+                      item.field == 'predefined' && (
+                        <div className='my-2 ms-5'>
+                          {item.value ? (
+                            <p className='flex flex-wrap gap-2'>
+                              <span className='w-2/6 text-[#727a85]'>
+                                {item.label.charAt(0).toUpperCase() +
+                                  item.label.slice(1)}{' '}
+                              </span>
+                              <span className='text-md font-[600]'>
                                 {' '}
-                                <svg
-                                  xmlns='http://www.w3.org/2000/svg'
-                                  fill='none'
-                                  viewBox='0 0 24 24'
-                                  stroke-width='1.5'
-                                  stroke='currentColor'
-                                  class='w-7 h-7 '
-                                >
-                                  <path
-                                    stroke-linecap='round'
-                                    stroke-linejoin='round'
-                                    d='M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75'
-                                  />
-                                </svg>
-                                <span className='text-lg  text-gray-400'>
-                                  Eg : abcd@gmail.com{' '}
-                                </span>
-                              </p>
-                            )}
-                          </div>
-                        )}
-                    </span>
-
-                    <span className='mt-2 me-3'>
-                      {item.type === 'number' &&
-                        item.inputname == 'phonenumber' &&
-                        item.field == 'predefined' && (
-                          <div className=''>
-                            {item.value ? (
-                              <p className='flex gap-2'>
-                                <svg
-                                  xmlns='http://www.w3.org/2000/svg'
-                                  fill='none'
-                                  viewBox='0 0 24 24'
-                                  stroke-width='1.5'
-                                  stroke='currentColor'
-                                  class='w-7 h-7 '
-                                >
-                                  <path
-                                    stroke-linecap='round'
-                                    stroke-linejoin='round'
-                                    d='M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 0 0 2.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 0 1-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 0 0-1.091-.852H4.5A2.25 2.25 0 0 0 2.25 4.5v2.25Z'
-                                  />
-                                </svg>
-                                <span className='text-lg mt-1 '>
-                                  {' '}
-                                  {item.value}{' '}
-                                </span>
-                              </p>
-                            ) : (
-                              <p className='flex gap-2'>
-                                <svg
-                                  xmlns='http://www.w3.org/2000/svg'
-                                  fill='none'
-                                  viewBox='0 0 24 24'
-                                  stroke-width='1.5'
-                                  stroke='currentColor'
-                                  class='w-7 h-7 '
-                                >
-                                  <path
-                                    stroke-linecap='round'
-                                    stroke-linejoin='round'
-                                    d='M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 0 0 2.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 0 1-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 0 0-1.091-.852H4.5A2.25 2.25 0 0 0 2.25 4.5v2.25Z'
-                                  />
-                                </svg>
-                                <span className='text-lg  text-gray-400'>
-                                  {' '}
-                                  123 456 7890{' '}
-                                </span>
-                              </p>
-                            )}
-                          </div>
-                        )}
-                    </span>
+                                : {item.value}
+                              </span>
+                            </p>
+                          ) : (
+                            <p className='flex flex-wrap gap-2'>
+                              <span className='w-2/6 text-[#727a85]'>
+                                {item.label.charAt(0).toUpperCase() +
+                                  item.label.slice(1)}{' '}
+                              </span>
+                              <span className='text-md font-[600]'>
+                                {' '}
+                                : Email
+                              </span>
+                            </p>
+                          )}
+                        </div>
+                      )}
+                    {item.type === 'phonenumber' &&
+                      item.inputname == 'phonenumber' &&
+                      item.field == 'predefined' && (
+                        <div className='my-2 ms-5'>
+                          {item.value ? (
+                            <p className='flex flex-wrap gap-2'>
+                              <span className='w-2/6 text-[#727a85]'>
+                                {item.label.charAt(0).toUpperCase() +
+                                  item.label.slice(1)}{' '}
+                              </span>
+                              <span className='text-md font-[600]'>
+                                {' '}
+                                : {item.value}
+                              </span>
+                            </p>
+                          ) : (
+                            <p className='flex flex-wrap gap-2'>
+                              <span className='w-2/6 text-[#727a85]'>
+                                {item.label.charAt(0).toUpperCase() +
+                                  item.label.slice(1)}{' '}
+                              </span>
+                              <span className='text-md font-[600]'>
+                                {' '}
+                                : Phone Number
+                              </span>
+                            </p>
+                          )}
+                        </div>
+                      )}
+                    {item.type === 'select' &&
+                      item.inputname == 'designation' &&
+                      item.field == 'predefined' && (
+                        <div className='my-2 ms-5 '>
+                          {item.value ? (
+                            <p className='flex flex-wrap gap-2'>
+                              <span className='w-2/6 text-[#727a85]'>
+                                {item.label.charAt(0).toUpperCase() +
+                                  item.label.slice(1)}{' '}
+                              </span>
+                              <span className='text-md font-[600]'>
+                                {' '}
+                                : {item.value}
+                              </span>
+                            </p>
+                          ) : (
+                            <p className='flex flex-wrap gap-2'>
+                              <span className='w-2/6 text-[#727a85]'>
+                                {item.label.charAt(0).toUpperCase() +
+                                  item.label.slice(1)}{' '}
+                              </span>
+                              <span className='text-md font-[600]'>
+                                {' '}
+                                : Designation
+                              </span>
+                            </p>
+                          )}
+                        </div>
+                      )}
                   </div>
-                  <div></div>
-
-                  <div className='flex justify-between flex-wrap mt-2  '>
-                    <div>
-                      {item.type === 'select' &&
-                        item.inputname == 'entityname' &&
-                        item.field == 'predefined' && (
-                          <div className=' absolute mt-4 ms-3'>
-                            {item.value ? (
-                              <p className='flex gap-2'>
-                                <svg
-                                  xmlns='http://www.w3.org/2000/svg'
-                                  fill='none'
-                                  viewBox='0 0 24 24'
-                                  stroke-width='1.5'
-                                  stroke='currentColor'
-                                  class='w-7 h-7'
-                                >
-                                  <path
-                                    stroke-linecap='round'
-                                    stroke-linejoin='round'
-                                    d='M9 17.25v1.007a3 3 0 0 1-.879 2.122L7.5 21h9l-.621-.621A3 3 0 0 1 15 18.257V17.25m6-12V15a2.25 2.25 0 0 1-2.25 2.25H5.25A2.25 2.25 0 0 1 3 15V5.25m18 0A2.25 2.25 0 0 0 18.75 3H5.25A2.25 2.25 0 0 0 3 5.25m18 0V12a2.25 2.25 0 0 1-2.25 2.25H5.25A2.25 2.25 0 0 1 3 12V5.25'
-                                  />
-                                </svg>
-                                <span className='text-lg  '>
-                                  {' '}
-                                  {item.value}{' '}
-                                </span>
-                              </p>
-                            ) : (
-                              <p className='flex gap-2'>
-                                <svg
-                                  xmlns='http://www.w3.org/2000/svg'
-                                  fill='none'
-                                  viewBox='0 0 24 24'
-                                  stroke-width='1.5'
-                                  stroke='currentColor'
-                                  class='w-7 h-7'
-                                >
-                                  <path
-                                    stroke-linecap='round'
-                                    stroke-linejoin='round'
-                                    d='M9 17.25v1.007a3 3 0 0 1-.879 2.122L7.5 21h9l-.621-.621A3 3 0 0 1 15 18.257V17.25m6-12V15a2.25 2.25 0 0 1-2.25 2.25H5.25A2.25 2.25 0 0 1 3 15V5.25m18 0A2.25 2.25 0 0 0 18.75 3H5.25A2.25 2.25 0 0 0 3 5.25m18 0V12a2.25 2.25 0 0 1-2.25 2.25H5.25A2.25 2.25 0 0 1 3 12V5.25'
-                                  />
-                                </svg>
-                                <span className='text-lg  text-gray-400'>
-                                  {' '}
-                                  Eg : Infoz IT
-                                </span>
-                              </p>
-                            )}
-                          </div>
-                        )}
-                    </div>
-                    <div>
-                      {item.type === 'select' &&
-                        item.inputname == 'designation' &&
-                        item.field == 'predefined' && (
-                          <div className='me-3'>
-                            {item.value ? (
-                              <p className='flex gap-2'>
-                                <svg
-                                  xmlns='http://www.w3.org/2000/svg'
-                                  fill='none'
-                                  viewBox='0 0 24 24'
-                                  stroke-width='1.5'
-                                  stroke='currentColor'
-                                  class='w-7 h-7'
-                                >
-                                  <path
-                                    stroke-linecap='round'
-                                    stroke-linejoin='round'
-                                    d='M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z'
-                                  />
-                                </svg>
-                                <span className='text-lg  '>
-                                  {' '}
-                                  {item.value}{' '}
-                                </span>
-                              </p>
-                            ) : (
-                              <p className='flex gap-2'>
-                                <svg
-                                  xmlns='http://www.w3.org/2000/svg'
-                                  fill='none'
-                                  viewBox='0 0 24 24'
-                                  stroke-width='1.5'
-                                  stroke='currentColor'
-                                  class='w-7 h-7'
-                                >
-                                  <path
-                                    stroke-linecap='round'
-                                    stroke-linejoin='round'
-                                    d='M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z'
-                                  />
-                                </svg>
-                                <span className='text-lg  text-gray-400'>
-                                  {' '}
-                                  Eg : Development
-                                </span>
-                              </p>
-                            )}
-                          </div>
-                        )}
-                    </div>
-                  </div>
-
-                  {/* {item.type === 'email' && item.inputname == "email" && item.field == "predefined" && (
-                         <div className=''>
-                           {item.value ? (
-                             <p> {item.value}</p>
-                           ) : (
-                             <p> email id</p>
-                           )}
-     
-                         </div>
-                       )}
-                       {item.type === 'number' && item.inputname == "phonenumber" && item.field == "predefined" && (
-                         <div className=''>
-                           {item.value ? (
-                             <p> {item.value}</p>
-                           ) : (
-                             <p> Phone number</p>
-                           )}
-     
-                         </div>
-                       )} */}
-                  {/* 
-                       {item.type === 'select' && item.inputname == "designation" && item.field == "predefined" && (
-                         <div className=''>
-                           {item.value ? (
-                             <p> {item.value}</p>
-                           ) : (
-                             <p> user Designation</p>
-                           )}
-     
-                         </div>
-                       )} */}
-                  {/* {item.type === 'select' && item.inputname == "role" && item.field == "predefined" && (
-                         <div className=''>
-                           {item.value ? (
-                             <p> {item.value}</p>
-                           ) : (
-                             <p> roles</p>
-                           )}
-     
-                         </div>
-                       )} */}
-
                   {/* custom fields */}
                   {item.type === 'text' && item.field == 'custom' && (
-                    <div>{item.value}</div>
+                    <div className='my-2 ms-5'>
+                      {item.value && item.value.length > 0 && (
+                        <p className='flex flex-wrap gap-2'>
+                          <span className=' w-2/6 text-[#727a85]'>
+                            {item.label.charAt(0).toUpperCase() +
+                              item.label.slice(1)}
+                          </span>
+                          <span className=' w-1/2 text-md font-[600]'>
+                            {' '}
+                            : {item.value}
+                          </span>
+                        </p>
+                      )}
+                    </div>
                   )}
                   {item.type === 'email' && item.field == 'custom' && (
-                    <div>{item.value}</div>
+                    <div className='my-2 ms-5'>
+                      {item.value && item.value.length > 0 && (
+                        <p className='flex flex-wrap gap-2'>
+                          <span className=' w-2/6 text-[#727a85]'>
+                            {item.label.charAt(0).toUpperCase() +
+                              item.label.slice(1)}
+                          </span>
+                          <span className=' w-1/2 text-md font-[600]'>
+                            {' '}
+                            : {item.value}
+                          </span>
+                        </p>
+                      )}
+                    </div>
                   )}
-                  {item.type === 'password' && item.field == 'custom' && (
-                    <div>{item.value}</div>
-                  )}
-                  {item.type === 'number' && item.field == 'custom' && (
-                    <div>{item.value}</div>
-                  )}
-                  {item.type === 'textarea' && item.field == 'custom' && (
-                    <div>{item.value}</div>
-                  )}
-                  {item.type === 'file' && item.field == 'custom' && (
-                    <div className='flex gap-4'>
-                      <div className='group h-10 '>
-                        {/* <spna>{item.label}</spna> */}
-                        {item.value ? (
-                          <img
-                            src={item.value}
-                            name='EntityPhoto'
-                            alt='Selected User Photo'
-                            className='rounded-lg w-10 h-10 mr-4'
-                          />
-                        ) : (
-                          <img
-                            className='w-10 h-10 rounded-lg '
-                            src={defprop}
-                            alt='Neil image'
-                          />
-                          // <img
-                          //   src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?q=80&w=256&h=256&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                          //   alt="Default User Photo"
-                          //   className="rounded-full w-12 h-12 mr-4"
-                          // />
+                  {/* {
+                    item.type === "password" && item.field == "custom" &&
+                    <div className='my-2 ms-5'>
+                      {item.value && item.value.length > 0 &&
+                        <p className='flex flex-wrap gap-2'>
+                          <span className=' w-2/6 text-[#727a85]'>{item.label.charAt(0).toUpperCase() + item.label.slice(1)}</span>
+                          <span className=' w-1/2 text-md font-[600]'> : {item.value}</span>
+                        </p>
+                      }
+                    </div>
+                  } */}
+                  {(item.type === 'number' || item.type === 'phonenumber') &&
+                    item.field == 'custom' && (
+                      <div className='my-2 ms-5'>
+                        {item.value && item.value.length > 0 && (
+                          <p className='flex flex-wrap gap-2'>
+                            <span className=' w-2/6 text-[#727a85]'>
+                              {item.label.charAt(0).toUpperCase() +
+                                item.label.slice(1)}
+                            </span>
+                            <span className=' w-1/2 text-md font-[600]'>
+                              {' '}
+                              : {item.value}
+                            </span>
+                          </p>
                         )}
                       </div>
-
-                      {/* <p className="text-lg font-black text-gray-800 mt-2">{ }</p> */}
-                      <hr className='my-3' />
+                    )}
+                  {item.type === 'textarea' && item.field == 'custom' && (
+                    // mb-1 ps-6 flex flex-wrap
+                    <div className='my-2 ms-5'>
+                      {item.value && item.value.length > 0 && (
+                        <p className='flex flex-wrap gap-2'>
+                          <span className=' w-2/6 text-[#727a85]'>
+                            {item.label.charAt(0).toUpperCase() +
+                              item.label.slice(1)}
+                          </span>
+                          <span className=' w-1/2 text-md font-[600]'>
+                            {' '}
+                            : {item.value}
+                          </span>
+                        </p>
+                      )}
+                    </div>
+                  )}
+                  {item.type === 'file' && item.field == 'custom' && (
+                    <div className=" 'my-2 ms-5 flex flex-wrap gap-2">
+                      <div>
+                        <img
+                          src={item.value}
+                          name='EntityPhoto'
+                          alt=' file'
+                          className='rounded-lg w-20 h-20 '
+                        />
+                      </div>
                     </div>
                   )}
                   {item.type === 'date' && item.field == 'custom' && (
-                    <div>{item.value}</div>
+                    <div className='my-2 ms-5'>
+                      {item.value && item.value.length > 0 && (
+                        <p className='flex flex-wrap gap-2'>
+                          <span className=' w-2/6 text-[#727a85]'>
+                            {item.label.charAt(0).toUpperCase() +
+                              item.label.slice(1)}
+                          </span>
+                          <span className=' w-1/2 text-md font-[600]'>
+                            {' '}
+                            : {item.value}
+                          </span>
+                        </p>
+                      )}
+                    </div>
                   )}
                   {item.type === 'select' && item.field == 'custom' && (
-                    <div>{item.value}</div>
+                    <div className='my-2 ms-5'>
+                      {item.value && item.value.length > 0 && (
+                        <p className='flex flex-wrap gap-2'>
+                          <span className=' w-2/6 text-[#727a85]'>
+                            {item.label.charAt(0).toUpperCase() +
+                              item.label.slice(1)}
+                          </span>
+                          <span className=' w-1/2 text-md font-[600]'>
+                            {' '}
+                            : {item.value}
+                          </span>
+                        </p>
+                      )}
+                    </div>
                   )}
 
-                  {/* multiselect incomplte */}
                   {item.type === 'multiselect' && item.field == 'custom' && (
-                    <div>{item.value}</div>
+                    <div className='my-2 ms-5'>
+                      {item.value && item.value.length > 0 && (
+                        <p className='flex flex-wrap gap-2'>
+                          <span className=' w-2/6 text-[#727a85]'>
+                            {item.label.charAt(0).toUpperCase() +
+                              item.label.slice(1)}
+                          </span>
+
+                          <span className=' w-1/2 text-md font-[600]'>
+                            {' '}
+                            : {item.value.join(', ')}
+                          </span>
+                        </p>
+                      )}
+                    </div>
                   )}
-                  {item.type === 'checkbox' && item.field == 'custom' && (
-                    <div>{item.value}</div>
-                  )}
+                  {/* {
+                    item.type === "checkbox" && item.field == "custom" &&
+                    <div className='my-2 ms-5'>
+                      {item.value && item.value.length > 0 &&
+                        <p className='flex flex-wrap gap-2'>
+                          <span className=' w-2/6 text-[#727a85]'>{item.label.charAt(0).toUpperCase() + item.label.slice(1)}</span>
+                          <span className=' w-1/2 text-md font-[600]'> : {item.value}</span>
+                        </p>
+                      }
+                    </div>
+                  } */}
                   {item.type === 'range' && item.field == 'custom' && (
-                    <div>{item.value}</div>
+                    <div className='my-2 ms-5'>
+                      {item.value && item.value.length > 0 && (
+                        <p className='flex flex-wrap gap-2'>
+                          <span className=' w-2/6 text-[#727a85]'>
+                            {item.label.charAt(0).toUpperCase() +
+                              item.label.slice(1)}
+                          </span>
+                          <span className=' w-1/2 text-md font-[600]'>
+                            {' '}
+                            : {item.value}
+                          </span>
+                        </p>
+                      )}
+                    </div>
                   )}
                   {item.type === 'time' && item.field == 'custom' && (
-                    <div>{item.value}</div>
+                    <div className='my-2 ms-5'>
+                      {item.value && item.value.length > 0 && (
+                        <p className='flex flex-wrap gap-2'>
+                          <span className=' w-2/6 text-[#727a85]'>
+                            {item.label.charAt(0).toUpperCase() +
+                              item.label.slice(1)}
+                          </span>
+                          <span className=' w-1/2 text-md font-[600]'>
+                            {' '}
+                            : {item.value}
+                          </span>
+                        </p>
+                      )}
+                    </div>
                   )}
                 </div>
               ))}
@@ -880,14 +844,12 @@ const UserLandingPage = () => {
                   </td>
                 </tr>
                 <div
-                  className={`fixed inset-0 transition-all duration-500 bg-gray-800 bg-opacity-50 z-50 ${
-                    isOpen ? '' : 'hidden'
-                  }`}
+                  className={`fixed inset-0 transition-all duration-500 bg-gray-800 bg-opacity-50 z-50 ${isOpen ? '' : 'hidden'
+                    }`}
                 >
                   <div
-                    className={`${
-                      expand ? 'w-5/6' : 'w-1/2'
-                    } p-3 fixed inset-y-0 right-0 w-1/2 bg-white shadow-lg transform translate-x-0 transition-transform duration-300 ease-in-out`}
+                    className={`${expand ? 'w-5/6' : 'w-1/2'
+                      } p-3 fixed inset-y-0 right-0 w-1/2 bg-white shadow-lg transform translate-x-0 transition-transform duration-300 ease-in-out`}
                   >
                     <div className='flex justify-start'>
                       <div className='relative inline-block ms-2'>
