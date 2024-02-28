@@ -64,6 +64,7 @@ import { userRouter } from "./user/user.router";
 import { entityRouter } from "./entity/entity.router";
 import { taskRouter } from "./task/task.router";
 import RouteBlocker from "../rbac/RouteBlocker";
+import ErrorPage from "../components/pages/Errorpages/ErrorPage";
 import '../App.css';
 
 
@@ -71,6 +72,7 @@ export const router = createBrowserRouter([
     {
         path: '/',
         element: <RequireAuth />,
+        errorElement: <ErrorPage />,
         children: [
             {
                 element: <RouteBlocker permissionCheck={(permission) =>
@@ -82,6 +84,7 @@ export const router = createBrowserRouter([
             {
                 element: <RouteBlocker permissionCheck={(permission) =>
                     permission.module === 'user' && permission.canRead} />,
+                path: 'users',
                 children: [
                     ...userRouter,
                 ]

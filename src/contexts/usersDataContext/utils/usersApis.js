@@ -35,7 +35,7 @@ export const getUserById = async (id) => {
 };
 
 export const createUser = async (userData, token) => {
-    const url = `${apiUrl}/admin/create-user`;
+    const url = `${apiUrl}/user/create-user`;
     return await toast.promise(
         axios.post(url, { ...userData }, {
             headers: {
@@ -55,7 +55,7 @@ export const createUser = async (userData, token) => {
 }
 
 export const deleteUser = async (id, token) => {
-    const url = `${apiUrl}/admin/delete-user/${id}`;
+    const url = `${apiUrl}/user/delete-user/${id}`;
     return await toast.promise(
         axios.delete(url, {
             headers: {
@@ -74,8 +74,8 @@ export const deleteUser = async (id, token) => {
     )
 }
 
-export const toggleUser = async (id) => {
-    const url = `${apiUrl}/toggle${!!id ? `?id=${id}` : null}`
+export const toggleUser = async (id, data) => {
+    const url = `${apiUrl}/toggle/${id}`
     // const confirmed = await Swal.fire({
     //     title: 'Are you sure?',
     //     text: 'Do you want to toggle your online status?',
@@ -86,5 +86,7 @@ export const toggleUser = async (id) => {
     //     confirmButtonText: 'Yes, toggle it!',
     //     confirmButtonTextColor: "pink"
     // });
-    console.log(url, "toggle url")
+    return axios.put(url, { ...data }, {
+        headers: { authorization: token },
+    });
 }

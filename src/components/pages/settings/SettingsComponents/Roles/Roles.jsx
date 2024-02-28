@@ -9,7 +9,7 @@ function deleteRole(id) {
   return axios.delete(`https://atbtmain.teksacademy.com/rbac/deleteRole/${id}`);
 }
 
-export async function action() { }
+export async function action() {}
 
 const Roles = () => {
   const { data } = useLoaderData();
@@ -44,7 +44,7 @@ const Roles = () => {
         Swal.fire('Error', 'Unable to delete role 🤯', 'error');
       }
     }
-  }
+  };
   return (
     <div className=' p-3 bg-[#f8fafc] overflow-hidden'>
       <div className='grid grid-cols-1 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3 xl:grid-col-3 gap-2 mt-2'>
@@ -98,7 +98,6 @@ const Roles = () => {
               <option value='500'>500</option>
             </select></div> */}
 
-
           <Link to='/addroles'>
             <button className='mt-1 px-3 py-2 inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white '>
               <svg
@@ -117,38 +116,22 @@ const Roles = () => {
       {/* table */}
       <div className='mt-8'>
         <div className='max-h-[457px] overflow-y-scroll '>
-
           <table className=' w-full divide-y divide-gray-200 dark:divide-gray-700 rounded-md'>
             <thead>
               <tr>
-                <th
-
-                  className='sticky top-0 bg-orange-600 text-white text-sm text-left px-6 py-2.5 border-l-2 border-gray-200'
-                >
+                <th className='sticky top-0 bg-orange-600 text-white text-sm text-left px-6 py-2.5 border-l-2 border-gray-200'>
                   S.No
                 </th>
-                <th
-
-                  className='sticky top-0 bg-orange-600 text-white text-sm text-left px-6 py-2.5 border-l-2 border-gray-200'
-                >
+                <th className='sticky top-0 bg-orange-600 text-white text-sm text-left px-6 py-2.5 border-l-2 border-gray-200'>
                   Name
                 </th>
-                <th
-
-                  className='sticky top-0 bg-orange-600 text-white text-sm text-left px-6 py-2.5 border-l-2 border-gray-200'
-                >
+                <th className='sticky top-0 bg-orange-600 text-white text-sm text-left px-6 py-2.5 border-l-2 border-gray-200'>
                   Description
                 </th>
-                <th
-
-                  className='sticky top-0 bg-orange-600 text-white text-sm text-left px-6 py-2.5 border-l-2 border-gray-200'
-                >
+                <th className='sticky top-0 bg-orange-600 text-white text-sm text-left px-6 py-2.5 border-l-2 border-gray-200'>
                   Created At
                 </th>
-                <th
-
-                  className='sticky top-0 bg-orange-600 text-white text-sm text-left px-6 py-2.5 border-l-2 border-gray-200 '
-                >
+                <th className='sticky top-0 bg-orange-600 text-white text-sm text-left px-6 py-2.5 border-l-2 border-gray-200 '>
                   Actions{' '}
                 </th>
               </tr>
@@ -162,7 +145,10 @@ const Roles = () => {
                   <td className='px-3 py-2 whitespace-nowrap  text-left text-xs font-[600] text-gray-800 border-collapse border border-[#e5e7eb]'>
                     {role.id}
                   </td>
-                  <td className='px-3 py-2 whitespace-nowrap text-left  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb] hover:text-orange-500  overflow-hidden' style={{ maxWidth: '160px' }}>
+                  <td
+                    className='px-3 py-2 whitespace-nowrap text-left  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb] hover:text-orange-500  overflow-hidden'
+                    style={{ maxWidth: '160px' }}
+                  >
                     <Link
                       to='/taskform'
                       className='text-xs truncate'
@@ -171,10 +157,11 @@ const Roles = () => {
                       {role.name}
                     </Link>
                   </td>
+
                   <td className='px-3 py-2 whitespace-nowrap text-left text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb] overflow-hidden' style={{ maxWidth: '160px' }}>
                     <div className="truncate text-xs" title={role.description}>{role.description}</div>
-                  </td>
 
+                  </td>
 
                   <td className='px-3 py-2 whitespace-nowrap text-left  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]'>
                     {role.createdAt}
@@ -256,7 +243,6 @@ const Roles = () => {
               ))}
             </tbody>
           </table>
-
         </div>
       </div>
       {/* pagination */}

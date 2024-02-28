@@ -7,21 +7,33 @@ import { toast } from "react-toastify";
 import Swal from "sweetalert2";
 import { Link } from 'react-router-dom';
 const Settingentityform = () => {
-const [open, setOpen] = useState(false)
-const [editIndex, setEditIndex] = useState(null);
-const cancelButtonRef = useRef(null);
-const [customForm, setCustomForm] = useState([])
-const [newInputField, setNewInputField] = useState(
-{
- label: "", type: "", inputname: "", value: "",
-filterable: false, mandatory: false, field: "custom"
-})
-useEffect(() => {
-axios.get(`https://atbtmain.teksacademy.com/form/list?name=entityform`)
-     .then(response => {
-    // Handle the successful
-    setCustomForm(response.data.Data)
-    console.log(response.data);
+
+    const [open, setOpen] = useState(false)
+    const [editIndex, setEditIndex] = useState(null);
+    const cancelButtonRef = useRef(null);
+    const [customForm, setCustomForm] = useState()
+    const [newInputField, setNewInputField] = useState(
+        {
+            label: "", type: "", inputname: "", value: "",
+            filterable: false, mandatory: false, field: "custom"
+        }
+    )
+    useEffect(() => {
+        axios.get(`https://atbtmain.teksacademy.com/form/list?name=entityform`)
+            .then(response => {
+                // Handle the successful
+                setCustomForm(response.data.Data)
+                console.log(response.data);
+            })
+            .catch(error => {
+                // Handle errors
+                console.error('Error fetching data:', error);
+            });
+    }, [])
+    useEffect(() => {
+        console.log("customForm", customForm)
+        console.log("newInputField", newInputField)
+
     })
     .catch(error => {
     // Handle errors
@@ -460,7 +472,9 @@ return (
 
 export default Settingentityform
 
-// let predefinedFields = [
+// let predefinedFields = 
+
+// [
 //     {
 //       "label": "Full Name",
 //       "inputname": "name",
@@ -476,7 +490,7 @@ export default Settingentityform
 //       "type": "file",
 //       "value": "",
 //       "field": "predefined",
-//       "mandatory": true,
+//       "mandatory": false,
 //       "filterable": false
 //     },
 //     {

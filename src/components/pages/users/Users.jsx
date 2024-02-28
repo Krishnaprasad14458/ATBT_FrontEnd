@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect, useRef } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useSubmit } from 'react-router-dom';
 import $ from 'jquery';
 import Swal from 'sweetalert2';
 import { Fragment } from 'react';
@@ -10,10 +10,14 @@ import useDebounce from '../../../hooks/debounce/useDebounce';
 import * as actions from '../../../contexts/usersDataContext/utils/usersActions';
 import GateKeeper from '../../../rbac/GateKeeper';
 import axios from 'axios';
+import { AuthContext } from '../../../contexts/authContext/authContext';
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
 }
 function Users() {
+  const userData = JSON.parse(localStorage.getItem("data"))
+  const token = userData?.token
+  const submit = useSubmit();
   const {
     usersState: { settings },
     usersDispatch,
@@ -49,12 +53,13 @@ function Users() {
   // const [opening, setOpening] = useState(false);
 
   const cancelButtonRef = useRef(null);
-  const [userstatus, setUser_Status] = useState(false);
+  const [user_status, setUser_Status] = useState(false);
   const [userremarkshistory, setuser_remarks_history] = useState([]);
   const [text, setText] = useState('');
   const [id, setId] = useState('');
 
   const handleClickOpen = (id, userStatus, userRemarksHistory) => {
+    console.log('hio', id, userStatus, userRemarksHistory);
     setId(id);
     setUser_Status(userStatus);
     setuser_remarks_history(userRemarksHistory);
@@ -64,83 +69,87 @@ function Users() {
   const handleClosed = () => {
     setOpen(false);
   };
-  const handleActivate = () => {
+  const handleUserStatus = async () => {
     setOpen(false);
-
     if (text) {
-      let user_status = true;
+      let userstatus = !user_status;
       let user_remarks_history = userremarkshistory;
-      let newObject = {
-        Activate_remarks: text,
-        date: new Date(),
-      };
+      let newObject;
+      if (!user_status) {
+        newObject = {
+          Activate_remarks: text,
+          date: new Date(),
+        };
+      }
+      if (user_status) {
+        newObject = {
+          Inactivate_remarks: text,
+          date: new Date(),
+        };
+      }
+
       user_remarks_history.push(newObject);
       const updatedData = {
-        user_status,
+        userstatus,
         user_remarks_history,
       };
-      console.log('updatedDataActivate', updatedData);
-      // let uploadcontext = { user_status, user_remarks_history, id };
-
-      // axios
-      //   .put(`${process.env.REACT_APP_API_URL}/userstatus/${id}`, updatedData)
-      //   .then((res) => {
-      //     if (res.data.updated) {
-      //       // alert("Certificate updated successfully");
-      //       dispatch({
-      //         type: "UPDATE_USER_REMARKS_HISTORY",
-      //         payload: uploadcontext,
-      //       });
-      //     } else {
-      //       alert("Error please Try Again");
-      //     }
-      //   });
-      // setcourseStartDate("");
+      await toggleUser(id, updatedData);
       setText('');
     } else {
       alert('enter remarks');
     }
   };
-  const handleInActivate = () => {
-    setOpen(false);
+  // const handleActivate = async () => {
 
-    if (text) {
-      let user_status = false;
-      let user_remarks_history = userremarkshistory;
-      let newObject = {
-        Inactivate_remarks: text,
-        date: new Date(),
-      };
-      user_remarks_history.push(newObject);
-      const updatedData = {
-        user_status,
-        user_remarks_history,
-      };
-      console.log('updatedDataInActivate', updatedData);
+  //   if (text) {
+  //     let userstatus = true;
+  //     let user_remarks_history = userremarkshistory;
+  //     let newObject = {
+  //       Activate_remarks: text,
+  //       date: new Date(),
+  //     };
+  //     user_remarks_history.push(newObject);
+  //     const updatedData = {
+  //       userstatus,
+  //       user_remarks_history,
+  //     };
+  //     console.log("start toggle")
+  //     const data = await toggleUser(id, updatedData)
+  //     console.log(data, "toggle response")
+  //     console.log("end toggle")
+  //     setText('');
+  //   } else {
+  //     alert('enter remarks');
+  //   }
+  // };
 
-      // let uploadcontext = { user_status, user_remarks_history, id };
-      // uploadcontext.user_remarks_history = JSON.stringify(
-      //   uploadcontext.user_remarks_history
-      // );
-      // axios
-      //   .put(`${process.env.REACT_APP_API_URL}/userstatus/${id}`, updatedData)
-      //   .then((res) => {
-      //     if (res.data.updated) {
-      //       // alert("Certificate updated successfully");
-      //       dispatch({
-      //         type: "UPDATE_USER_REMARKS_HISTORY",
-      //         payload: uploadcontext,
-      //       });
-      //     } else {
-      //       alert("Error please Try Again");
-      //     }
-      //   });
-      // setcourseStartDate("");
-      setText('');
-    } else {
-      alert('enter remarks');
-    }
-  };
+  // const handleInActivate = async () => {
+  //   setOpen(false);
+
+  //   if (text) {
+  //     let userstatus = false;
+  //     let user_remarks_history = userremarkshistory;
+  //     let newObject = {
+  //       Inactivate_remarks: text,
+  //       date: new Date(),
+  //     };
+  //     user_remarks_history.push(newObject);
+  //     const updatedData = {
+  //       userstatus,
+  //       user_remarks_history,
+  //     };
+  //     console.log("updatedData", updatedData)
+  //     console.log("start toggle")
+  //     const data = await toggleUser(id, updatedData)
+  //     console.log(data, "toggle response")
+  //     console.log("end toggle")
+  //     setText('');
+  //   } else {
+  //     alert('enter remarks');
+  //   }
+  // };
+
+
   const [activeTab, setActiveTab] = useState(1);
 
   const handleTabClick = (tabNumber) => {
@@ -170,16 +179,10 @@ function Users() {
       }
     }
   };
-  // toggle
-  const [isChecked, setIsChecked] = useState(false);
-
-  const handleToggle = () => {
-    setIsChecked((pre) => !pre);
-  };
 
   /////////////////////////////////////////////// Irshad
   const [customForm, setCustomForm] = useState([]);
-  // const [data, setData] = useState();
+
   useEffect(() => {
     axios
       .get(`https://atbtmain.teksacademy.com/form/list?name=userform`)
@@ -193,18 +196,6 @@ function Users() {
         // Handle errors
         console.error('Error fetching data:', error);
       });
-    // axios
-    //   .get(`https://atbtmain.teksacademy.com/user/list`)
-    //   .then((response) => {
-    //     // Handle the successful response
-    //     setData(response.data);
-
-    //     console.log('dsdsdsdsd', response.data);
-    //   })
-    //   .catch((error) => {
-    //     // Handle errors
-    //     console.error('Error fetching data:', error);
-    //   });
   }, []);
 
   ////////filters start
@@ -255,9 +246,7 @@ function Users() {
     );
     setvisibleColumns(visibleColumns);
   }, [tableView]);
-  useEffect(() => {
-    // console.log('data', data);
-  });
+
   return (
     <div className='overflow-x-auto p-3'>
       <div className='grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-3 xl:grid-col-3 gap-2 mt-2'>
@@ -475,7 +464,7 @@ function Users() {
                             type='button'
                             className='me-5 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600'
                           >
-                            <Link to={`/userlandingpage/${row.id}`}>
+                            <Link to={`${row.id}`}>
                               <svg
                                 xmlns='http://www.w3.org/2000/svg'
                                 viewBox='0 0 20 20'
@@ -495,7 +484,7 @@ function Users() {
                             type='button'
                             className='me-5 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600'
                           >
-                            <Link to={`/updateuser/${row.id}`}>
+                            <Link to={`${row.id}/edit`}>
                               <svg
                                 xmlns='http://www.w3.org/2000/svg'
                                 viewBox='0 0 20 20'
@@ -508,7 +497,7 @@ function Users() {
                           </button>
                           <button
                             type='button'
-                            onClick={() => handleDeleteUser()}
+                            onClick={() => handleDeleteUser(row.id)}
                             className='me-5 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600'
                           >
                             <svg
@@ -530,7 +519,7 @@ function Users() {
                           >
                             {row.userstatus !== undefined && (
                               <div className='flex items-center'>
-                                <input
+                                {/* <input
                                   id='toggle'
                                   type='checkbox'
                                   className=''
@@ -542,10 +531,17 @@ function Users() {
                                       row.userremarkshistory
                                     )
                                   }
-                                />
+                                /> */}
                                 <label
                                   htmlFor='toggle'
                                   className='flex items-center cursor-pointer'
+                                  onClick={(e) =>
+                                    handleClickOpen(
+                                      row.id,
+                                      row.userstatus,
+                                      row.userremarkshistory
+                                    )
+                                  }
                                 >
                                   <div
                                     className={`w-8 h-4 rounded-full shadow-inner ${
@@ -562,15 +558,14 @@ function Users() {
                                       }`}
                                     ></div>
                                   </div>
-                                  <div
-                                    className={`ml-3 text-sm font-medium ${
-                                      row.userstatus
-                                        ? 'text-gray-400'
-                                        : 'text--400'
-                                    }`}
+                                  {/* <div
+                                    className={`ml-3 text-sm font-medium ${row.userstatus
+                                      ? 'text-gray-400'
+                                      : 'text--400'
+                                      }`}
                                   >
                                     {row.userstatus ? 'Enabled' : 'Disabled'}
-                                  </div>
+                                  </div> */}
                                 </label>
                               </div>
                             )}
@@ -638,15 +633,21 @@ function Users() {
                   ></textarea>
 
                   <div className='w-full '>
-                    {userstatus === 0 || userstatus === false ? (
+                    {/* {user_status === 0 || user_status === false ? (
                       <button onClick={(e) => handleActivate()}>
                         Activate
                       </button>
-                    ) : userstatus === 1 || userstatus === true ? (
+                    ) : user_status === 1 || user_status === true ? (
                       <button onClick={(e) => handleInActivate()}>
                         InActivate
                       </button>
-                    ) : null}
+                    ) : null} */}
+
+                    {
+                      <button onClick={(e) => handleUserStatus()}>
+                        {user_status ? 'InActivate' : 'Activate'}
+                      </button>
+                    }
                   </div>
                 </Dialog.Panel>
               </Transition.Child>

@@ -108,6 +108,20 @@ const UserDataProvider = ({ children }) => {
     }
   };
 
+  const toggleUser = async (id, toggleData) => {
+    try {
+      const { data, status } = await api.toggleUser(id, toggleData);
+      if (status === 200) {
+        getDashboardUsersData();
+        getSettingsUsersData();
+        getAllUsers();
+      }
+      return data;
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
   useEffect(() => {
     getDashboardUsersData();
     getSettingsUsersData();
@@ -139,8 +153,8 @@ const UserDataProvider = ({ children }) => {
         getDashboardUsersData,
         getSettingsUsersData,
         deleteUser,
+        toggleUser,
         setSortBy: actions.setSortBy,
-        toggleUser: api.toggleUser,
       }}
     >
       {children}
