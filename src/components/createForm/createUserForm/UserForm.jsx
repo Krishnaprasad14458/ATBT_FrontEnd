@@ -9,16 +9,18 @@ import { useNavigate } from 'react-router-dom';
 import $ from 'jquery';
 import linesimage from '../../../Images/lines_10.svg';
 function UserForm() {
+  const userData = JSON.parse(localStorage.getItem("data"))
+  const token = userData?.token
   const navigate = useNavigate();
   const {
     usersState: { users, dashboard },
-    usersDispatch,createUser
+    usersDispatch, createUser
   } = useContext(UserDataContext);
- 
+
 
   const [errors, setErrors] = useState({});
   let [openOptions, setopenOptions] = useState('');
-  
+
   let [customFormFields, setCustomFormFields] = useState();
   const handleOpenOptions = (name) => {
     if (openOptions == name) {
@@ -28,8 +30,26 @@ function UserForm() {
       setopenOptions(name);
     }
   };
- 
+
   useEffect(() => {
+    // axios
+    //   .get(`https://atbtmain.teksacademy.com/user/list/115`, {
+    //     headers: {
+    //       authorization: token
+    //     }
+    //   })
+    //   // .get(`http://localhost:3000/form/list?name=userform`)
+    //   .then((response) => {
+    //     // Handle the successful response
+    //     console.log("response", response.data.user.customFieldsData)
+    //     setCustomFormFields(response.data.user.customFieldsData)
+    //     // setCustomFormFields(response.data.Data);
+    //   })
+    //   .catch((error) => {
+    //     // Handle errors
+
+    //     console.error('Error fetching data:', error);
+    //   });
     axios
       .get(`https://atbtmain.teksacademy.com/form/list?name=userform`)
       // .get(`http://localhost:3000/form/list?name=userform`)
@@ -1242,7 +1262,7 @@ function UserForm() {
                         )}
                       </div>
                     )}
-                
+
                     {item.type === 'multiselect' && item.field == 'custom' && (
                       <div className='my-2 ms-5'>
                         {item.value && item.value.length > 0 && (

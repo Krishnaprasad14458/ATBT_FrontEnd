@@ -10,10 +10,13 @@ import useDebounce from '../../../hooks/debounce/useDebounce';
 import * as actions from '../../../contexts/usersDataContext/utils/usersActions';
 import GateKeeper from '../../../rbac/GateKeeper';
 import axios from 'axios';
+import { AuthContext } from '../../../contexts/authContext/authContext';
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
 }
 function Users() {
+  const userData = JSON.parse(localStorage.getItem("data"))
+  const token = userData?.token
   const submit = useSubmit();
   const {
     usersState: { settings },
@@ -146,6 +149,8 @@ function Users() {
   //     alert('enter remarks');
   //   }
   // };
+
+
   const [activeTab, setActiveTab] = useState(1);
 
   const handleTabClick = (tabNumber) => {
@@ -193,7 +198,7 @@ function Users() {
         // Handle errors
         console.error('Error fetching data:', error);
       });
-
+    
   }, []);
 
   ////////filters start
