@@ -2,6 +2,8 @@ import React, { useState, useContext, useEffect } from 'react';
 import axios from 'axios';
 import defprop from '../../../Images/Avatar_new_02.svg';
 import { UserDataContext } from '../../../contexts/usersDataContext/usersDataContext';
+import { EntitiesDataContext } from '../../../contexts/entitiesDataContext/entitiesDataContext';
+import { json, useNavigate } from 'react-router-dom';
 import $ from 'jquery';
 import linesimage from '../../../Images/lines_10.svg';
 import {
@@ -357,6 +359,8 @@ function UserForm() {
 
     if (!checkValidation()) {
       const jsonData = {};
+      let userremarkshistory =[]
+      jsonData.userremarkshistory = JSON.stringify(userremarkshistory)
       jsonData.customFieldsData = JSON.stringify(customFormFields);
       jsonData.createdBy = parseInt(localStorage.getItem('id'));
       for (let i = 0; i < customFormFields.length; i++) {
@@ -1364,3 +1368,111 @@ function UserForm() {
 }
 
 export default UserForm;
+
+
+// const array = [
+//   {
+//     "label": "Full Name",
+//     "inputname": "name",
+//     "type": "text",
+//     "value": "",
+//     "field": "predefined",
+//     "mandatory": true,
+//     "filterable": true
+//   },
+//   {
+//     "label": "Image",
+//     "inputname": "image",
+//     "type": "file",
+//     "value": "",
+//     "field": "predefined",
+//     "mandatory": false,
+//     "filterable": false
+//   },
+//   {
+//     "label": "Entity Name",
+//     "type": "select",
+//     "inputname": "entityname",
+//     "value": "",
+//     "filterable": true,
+//     "mandatory": true,
+//     "field": "predefined",
+//     "options": [
+//       "Reliace",
+//       "Infosys",
+//       "Tata consultancy",
+//       "Reliace"
+//     ]
+//   },
+//   {
+//     "label": "Email Id",
+//     "inputname": "email",
+//     "type": "email",
+//     "value": "",
+//     "field": "predefined",
+//     "mandatory": true,
+//     "filterable": true
+//   },
+//   {
+//     "label": "Phone Number",
+//     "inputname": "phonenumber",
+//     "type": "phonenumber",
+//     "value": "",
+//     "field": "predefined",
+//     "mandatory": true,
+//     "filterable": true
+//   },
+//   {
+//     "label": "Designation",
+//     "type": "select",
+//     "inputname": "designation",
+//     "value": "",
+//     "filterable": true,
+//     "mandatory": true,
+//     "field": "predefined",
+//     "options": [
+//       "Developer",
+//       "Quality Analyst",
+//       "Data Analyst"
+//     ]
+//   },
+//   {
+//     "label": "Role",
+//     "type": "select",
+//     "inputname": "role",
+//     "value": "",
+//     "filterable": true,
+//     "mandatory": true,
+//     "field": "predefined",
+//     "options": [
+//       "admin",
+//       "associate",
+//       "Accountant",
+//       "Manager"
+//     ]
+//   }, {
+//     "label": "Role",
+//     "type": "select",
+//     "inputname": "sunny",
+//     "value": "",
+//     "filterable": true,
+//     "mandatory": true,
+//     "field": "predefined",
+//     "options": [
+//       "admin",
+//       "associate",
+//       "Accountant",
+//       "Manager"
+//     ]
+//   }
+// ];
+
+// const values = {name: "irshad", entityname: "infisys", email: "irshad@gmail.com", phonenumber: 12345, designation: "djlkdja", role: "manager",sunny:"uiouiui"};
+
+// array.forEach(input => {
+//   if (values.hasOwnProperty(input.inputname)) {
+//     input.value = values[input.inputname];
+//   }
+// });
+
+// console.log(array);
