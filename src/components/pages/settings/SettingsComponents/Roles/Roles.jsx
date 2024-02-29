@@ -119,19 +119,19 @@ const Roles = () => {
           <table className=' w-full divide-y divide-gray-200 dark:divide-gray-700 rounded-md'>
             <thead>
               <tr>
-                <th className='sticky top-0 bg-orange-600 text-white text-sm text-left px-6 py-2.5 border-l-2 border-gray-200'>
+                <th className='sticky top-0 bg-orange-600 text-white text-sm text-left px-5 py-2.5 border-l-2 border-gray-200'>
                   S.No
                 </th>
-                <th className='sticky top-0 bg-orange-600 text-white text-sm text-left px-6 py-2.5 border-l-2 border-gray-200'>
+                <th className='sticky top-0 bg-orange-600 text-white text-sm text-left px-5 py-2.5 border-l-2 border-gray-200'>
                   Name
                 </th>
-                <th className='sticky top-0 bg-orange-600 text-white text-sm text-left px-6 py-2.5 border-l-2 border-gray-200'>
+                <th className='sticky top-0 bg-orange-600 text-white text-sm text-left px-5 py-2.5 border-l-2 border-gray-200'>
                   Description
                 </th>
-                <th className='sticky top-0 bg-orange-600 text-white text-sm text-left px-6 py-2.5 border-l-2 border-gray-200'>
+                <th className='sticky top-0 bg-orange-600 text-white text-sm text-left px-5 py-2.5 border-l-2 border-gray-200'>
                   Created At
                 </th>
-                <th className='sticky top-0 bg-orange-600 text-white text-sm text-left px-6 py-2.5 border-l-2 border-gray-200 '>
+                <th className='sticky top-0 bg-orange-600 text-white text-sm text-left px-5 py-2.5 border-l-2 border-gray-200 '>
                   Actions{' '}
                 </th>
               </tr>
@@ -142,11 +142,11 @@ const Roles = () => {
                   key={role.id}
                   className='hover:bg-gray-100 dark:hover:bg-gray-700'
                 >
-                  <td className='px-3 py-2 whitespace-nowrap  text-left text-xs font-[600] text-gray-800 border-collapse border border-[#e5e7eb]'>
+                  <td className='px-5 py-2 whitespace-nowrap  text-left text-xs font-[600] text-gray-800 border-collapse border border-[#e5e7eb]'>
                     {role.id}
                   </td>
                   <td
-                    className='px-3 py-2 whitespace-nowrap text-left  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb] hover:text-orange-500  overflow-hidden'
+                    className='px-5 py-2 whitespace-nowrap text-left  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb] hover:text-orange-500  overflow-hidden'
                     style={{ maxWidth: '160px' }}
                   >
                     <Link
@@ -158,15 +158,15 @@ const Roles = () => {
                     </Link>
                   </td>
 
-                  <td className='px-3 py-2 whitespace-nowrap text-left text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb] overflow-hidden' style={{ maxWidth: '160px' }}>
+                  <td className='px-5 py-2 whitespace-nowrap text-left text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb] overflow-hidden' style={{ maxWidth: '160px' }}>
                     <div className="truncate text-xs" title={role.description}>{role.description}</div>
 
                   </td>
 
-                  <td className='px-3 py-2 whitespace-nowrap text-left  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]'>
+                  <td className='px-5 py-2 whitespace-nowrap text-left  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]'>
                     {role.createdAt}
                   </td>
-                  <td className='px-3 py-2 whitespace-nowrap text-left  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]  '>
+                  <td className='px-5 py-2 whitespace-nowrap text-left  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]  '>
                     {/* <button
                         type='button'
                         className='inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600'

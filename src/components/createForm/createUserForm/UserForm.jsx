@@ -1,19 +1,91 @@
 import React, { useState, useContext, useEffect } from 'react';
 import axios from 'axios';
-import userform from './userForm.css';
 import defprop from '../../../Images/Avatar_new_02.svg';
-import useDebounce from '../../../hooks/debounce/useDebounce';
 import { UserDataContext } from '../../../contexts/usersDataContext/usersDataContext';
 import { EntitiesDataContext } from '../../../contexts/entitiesDataContext/entitiesDataContext';
-import { json, useNavigate } from 'react-router-dom';
 import $ from 'jquery';
 import linesimage from '../../../Images/lines_10.svg';
+import {
+  Navigate,
+  redirect,
+  useSubmit,
+  useNavigate,
+  useLoaderData,
+} from 'react-router-dom';
+
+// import axios from 'axios';
+const userData = JSON.parse(localStorage.getItem('data'));
+const token = userData?.token;
+
+export async function userFormLoader({ params }) {
+  try {
+    const formApi = 'https://atbtmain.teksacademy.com/form/list?name=userform';
+    let userData = null;
+
+    if (params && params.id) {
+      const userApi = `https://atbtmain.teksacademy.com/user/list/${params.id}`;
+      const userResponse = await axios.get(userApi, {
+        headers: {
+          Authorization: token,
+        },
+      });
+      userData = userResponse.data;
+    }
+
+    const formResponse = await axios.get(formApi);
+    const formData = formResponse.data;
+    return { userData, formData };
+  } catch (error) {
+    if (error.response) {
+      throw new Error(`Failed to fetch data: ${error.response.status}`);
+    } else if (error.request) {
+      throw new Error('Request made but no response received');
+    } else {
+      throw new Error(`Error setting up request: ${error.message}`);
+    }
+  }
+}
+
+// export async function userFormLoader({ request, params }) {
+//   console.log('loaded', params);
+//   const api = `https://atbtmain.teksacademy.com/form/list?name=userform`;
+//   if (!!params.id) {
+//     const userId = await axios.get(
+//       `https://atbtmain.teksacademy.com//user/list/${params?.id}`
+//     );
+//   }
+//   const { data, status } = await axios.get(api);
+//   if (status === 200) {
+//     return data;
+//   } else {
+//     throw new Error(`unable to fetch form structure ${status}`);
+//   }
+// }
+
 function UserForm() {
   const userData = JSON.parse(localStorage.getItem("data"))
   let createdBy = userData.user.id
   console.log("createdBy",createdBy)
   const token = userData?.token
   const navigate = useNavigate();
+  const formStructure = useLoaderData();
+  console.log(formStructure, 'fs');
+  let submit = useSubmit();
+  function setInitialForm() {
+    let response = formStructure?.formData?.Data ?? [];
+    if (!!formStructure?.userData) {
+      let user = formStructure?.userData?.user;
+      console.log('getUser data', user);
+      response.forEach((input) => {
+        if (user.hasOwnProperty(input.inputname)) {
+          input.value = user[input.inputname];
+        }
+      });
+      return response;
+    } else {
+      return response;
+    }
+  }
   const {
     usersState: { users, dashboard },
     usersDispatch,
@@ -23,8 +95,9 @@ function UserForm() {
   const [errors, setErrors] = useState({});
   let [openOptions, setopenOptions] = useState('');
 
-
-  let [customFormFields, setCustomFormFields] = useState();
+  let [customFormFields, setCustomFormFields] = useState(() =>
+    setInitialForm()
+  );
   const handleOpenOptions = (name) => {
     if (openOptions == name) {
       setopenOptions('');
@@ -34,51 +107,6 @@ function UserForm() {
     }
   };
 
-
-  useEffect(() => {
-    // axios
-    //   .get(`https://atbtmain.teksacademy.com/user/list/115`, {
-    //     headers: {
-    //       authorization: token
-    //     }
-    //   })
-    //   // .get(`http://localhost:3000/form/list?name=userform`)
-    //   .then((response) => {
-    //     // Handle the successful response
-    //     console.log("response", response.data.user.customFieldsData)
-    //     setCustomFormFields(response.data.user.customFieldsData)
-    //     // setCustomFormFields(response.data.Data);
-    //   })
-    //   .catch((error) => {
-    //     // Handle errors
-
-    //     console.error('Error fetching data:', error);
-    //   });
-    axios
-      .get(`https://atbtmain.teksacademy.com/form/list?name=userform`)
-      // .get(`http://localhost:3000/form/list?name=userform`)
-      .then((response) => {
-        // Handle the successful response
-        setCustomFormFields(response.data.Data);
-      })
-      .catch((error) => {
-        // Handle errors
-        console.error('Error fetching data:', error);
-      });
-    // axios
-    //   .get(`https://atbtmain.teksacademy.com/user/list/115`, {
-    //     headers: {
-    //       authorization: token,
-    //     },
-    //   })
-    //   .then((response) => {
-    //     console.log('response', response.data.user.customFieldsData);
-    //     setCustomFormFields(response.data.user.customFieldsData);
-    //   })
-    //   .catch((error) => {
-    //     console.error('Error fetching data:', error);
-    //   });
-  }, []);
   const handleChange = (index, newValue) => {
     const updatedFormData = [...customFormFields];
     if (updatedFormData[index].type != 'multiselect') {
@@ -379,13 +407,13 @@ function UserForm() {
     }
   }, [customFormFields]);
 
-  function handleFormSubmit(e) {
+  async function handleFormSubmit(e) {
     e.preventDefault();
 
     if (!checkValidation()) {
       const jsonData = {};
-      let userremarkshistory =[]
-      jsonData.userremarkshistory = JSON.stringify(userremarkshistory)
+      let userremarkshistory = [];
+      jsonData.userremarkshistory = JSON.stringify(userremarkshistory);
       jsonData.customFieldsData = JSON.stringify(customFormFields);
       jsonData.createdBy = createdBy
       for (let i = 0; i < customFormFields.length; i++) {
@@ -398,14 +426,22 @@ function UserForm() {
         }
       }
       console.log('jsonData', jsonData);
-      createUser(jsonData);
+      // submit(jsonData, {
+      //   method: 'post',
+      //   encType: 'encType: "application/x-www-form-urlencoded',
+      // });
+      const response = await createUser(jsonData);
+      if (response.status === 201) {
+        console.log('data is 201');
+        navigate(`/users/${response.data}`);
+      }
+      console.log('jsonData submitted', response);
       // axios
       //   .post(`https://atbtmain.teksacademy.com/user/create-user`, jsonData)
       //   // .post(`http://localhost:3000/user/create-user`, jsonData)
       //   .then((response) => {
       //     console.log(response);
       //     // console.log("reposnseeeeeeeeee", response.data)
-      //     navigate(`/userlandingpage/${parseInt(response.data)}`);
       //   })
       //   .catch((error) => {
       //     console.error(error);
@@ -1314,7 +1350,6 @@ function UserForm() {
                       </div>
                     )}
 
-
                     {item.type === 'multiselect' && item.field == 'custom' && (
                       <div className='my-2 ms-5'>
                         {item.value && item.value.length > 0 && (
@@ -1386,7 +1421,6 @@ function UserForm() {
 }
 
 export default UserForm;
-
 
 // const array = [
 //   {
