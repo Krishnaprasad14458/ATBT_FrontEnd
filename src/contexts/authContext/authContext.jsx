@@ -66,7 +66,11 @@ const AuthProvider = ({ children }) => {
   const changePassword = async ({ email }) => {
     try {
       const { status } = await toast.promise(
-        axios.put(`${apiUrl}/user/forgotpassword?email=${email}`),
+        axios.put(`${apiUrl}/auth/forgotpassword?email=${email}`, {
+          headers: {
+            authorization: authState?.token,
+          },
+        }),
         {
           pending: 'verifying email',
           success: {
@@ -100,9 +104,17 @@ const AuthProvider = ({ children }) => {
   const resetPassword = async ({ id, password }) => {
     try {
       const { data, status } = await toast.promise(
-        axios.put(`${apiUrl}/user/changepassword/${id}`, {
-          newPassword: password,
-        }),
+        axios.put(
+          `${apiUrl}/auth/changepassword/${id}`,
+          {
+            newPassword: password,
+          },
+          {
+            headers: {
+              authorization: authState?.token,
+            },
+          }
+        ),
         {
           pending: 'verifying data',
           success: {
