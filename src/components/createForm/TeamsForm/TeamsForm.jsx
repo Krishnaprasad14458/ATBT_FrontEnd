@@ -729,7 +729,9 @@ function TeamsForm() {
                                                 className="p-2 text-xs block w-full bg-gray-50  rounded-md  text-gray-900   border-2 border-gray-200 shadow-sm  placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-xs sm:leading-6"
                                                 onChange={(e) => handleChange(index, e.target.value)}
                                                 value={customFormFields[index].value || ''}
-                                            >{item.options && item.options.map((option, index) => (
+                                            >
+                                               <option value=''>--select--</option> 
+                                                {item.options && item.options.map((option, index) => (
                                                 <option value={option}>{option}</option>
                                             ))}
                                             </select>

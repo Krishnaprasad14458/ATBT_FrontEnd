@@ -73,7 +73,7 @@ const Login = () => {
               </h2>
             </div>
             <div className='mt-10 sm:mx-auto sm:w-full sm:max-w-sm'>
-              <form
+              <form onSubmit={loginHandler}
                 className='space-y-6'
                 method='post'
               >
@@ -128,10 +128,9 @@ const Login = () => {
                       required
                       className='p-3 block w-full rounded-md border border-1 border-gray-400 py-1.5 text-gray-900 bg-gray-100  appearance-none shadow-sm  placeholder:text-gray-400 placeholder:text-sm focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6'
                     />
-                    <button
-                      type='submit'
+                    <div
                       onClick={() => setShowPassword(!showPassword)}
-                      className='absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 focus:outline-none'
+                      className='absolute cursor-pointer right-3 top-1/2 transform -translate-y-1/2 text-gray-500 focus:outline-none'
                     >
                       {showPassword ? (
                         <svg
@@ -162,7 +161,7 @@ const Login = () => {
                           <path d='m7.812 10.994 1.816 1.816A7.003 7.003 0 0 1 1.38 8.28a.87.87 0 0 1 0-.566 6.985 6.985 0 0 1 1.113-2.039l2.513 2.513a3 3 0 0 0 2.806 2.806Z' />
                         </svg>
                       )}
-                    </button>
+                    </div>
                   </div>
                   <span className='text-[#dc2626] text-xs p-0 h-6 m-0'>
                     {' '}
@@ -172,8 +171,7 @@ const Login = () => {
 
                 <div>
                   <button
-                    type='button'
-                    onClick={loginHandler}
+                     type='submit'
                     className='flex w-full justify-center rounded-md bg-orange-600 px-3 py-1.5 text-sm  leading-6 text-white shadow-sm  focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600'
                   >
                     Sign In
