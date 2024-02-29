@@ -99,6 +99,11 @@ function Users() {
       alert('enter remarks');
     }
   };
+  const [isOpen, setIsOpen] = useState(false);
+
+  const toggleDrawer = () => {
+    setIsOpen(!isOpen);
+  };
   // const handleActivate = async () => {
 
   //   if (text) {
@@ -244,9 +249,9 @@ function Users() {
     );
     setvisibleColumns(visibleColumns);
   }, [tableView]);
-useEffect(()=>{
-  console.log("tableview",tableView)
-})
+  useEffect(() => {
+    console.log("tableview", tableView)
+  })
   return (
     <div className='overflow-x-auto p-3'>
       <div className='grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-3 xl:grid-col-3 gap-2 mt-2'>
@@ -305,6 +310,44 @@ useEffect(()=>{
             <option value='500'>500</option>
           </select>
 
+          <button onClick={toggleDrawer} className='transition-opacity duration-500'>
+            columnsdrag
+          </button>
+          <div className={`fixed inset-0 transition-opacity duration-500 z-10 ${isOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}>
+            <div className="fixed inset-0 bg-gray-800 bg-opacity-50 transition-transform duration-500 ease-in-out">
+              <div className="p-3 fixed inset-y-0 right-0 w-3/12 bg-white shadow-lg transform transition-transform duration-500 ease-in-out translate-x-0">
+                <div className="flex justify-start">
+                  <div className='absolute top-4 right-4 flex flex-row'>
+                    <button onClick={toggleDrawer} className=" translate-x-20">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5 text-gray-500">
+                        <path fillRule="evenodd" d="M5.47 5.47a.75.75 0 0 1 1.06 0L12 10.94l5.47-5.47a.75.75 0 1 1 1.06 1.06L13.06 12l5.47 5.47a.75.75 0 1 1-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 0 1-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 0 1 0-1.06Z" clipRule="evenodd" />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+          {/* for coloumns open */}
+          <div className={`fixed inset-0 transition-all duration-500 bg-gray-800 bg-opacity-50 z-10 ${isOpen ? '' : 'hidden'}`}>
+            <div className="p-3 fixed inset-y-0 right-0 w-3/12 bg-white shadow-lg transform translate-x-0 transition-transform duration-300 ease-in-out">
+              <div className="flex justify-start">
+
+                <div className='absolute top-4 right-4 flex flex-row'>
+
+                  <button onClick={toggleDrawer} className="">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5 text-gray-500">
+                      <path fillRule="evenodd" d="M5.47 5.47a.75.75 0 0 1 1.06 0L12 10.94l5.47-5.47a.75.75 0 1 1 1.06 1.06L13.06 12l5.47 5.47a.75.75 0 1 1-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 0 1-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 0 1 0-1.06Z" clipRule="evenodd" />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
           <Menu
             as='div'
             className='relative inline-block me-2 '
@@ -337,13 +380,13 @@ useEffect(()=>{
                           <p
                             key={columnName}
                             className='flex text-left'
-                            // onClick={() => {
-                            //   usersDispatch(setSortBy(filter.inputname, 'SETTINGS'))
-                            // }}
-                            // className={classNames(
-                            //   active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                            //   'block px-4 py-2 text-sm text-left'
-                            // )}
+                          // onClick={() => {
+                          //   usersDispatch(setSortBy(filter.inputname, 'SETTINGS'))
+                          // }}
+                          // className={classNames(
+                          //   active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
+                          //   'block px-4 py-2 text-sm text-left'
+                          // )}
                           >
                             {/* {filter.label} */}
                             <label htmlFor={columnName}>
@@ -422,104 +465,104 @@ useEffect(()=>{
         </div>
       </div>
       {/* table */}
-      <div className='mt-8'>
-        <div className='overflow-y-scroll max-h-[410px]'>
-          {visibleColumns && tableView && settings?.paginatedUsers && (
-            <table className='min-w-full divide-y divide-gray-200 dark:divide-gray-700 rounded-md'>
-              <thead className='sticky top-0 bg-orange-600'>
-                <tr>
-                  {visibleColumns.map((key) => (
-                    <th
-                      key={key}
-                      scope='col'
-                      className='px-6 py-2.5 text-left text-sm  border border-[#e5e7eb] text-white bg-orange-600'
-                    >
-                      {tableView[key].label}
-                    </th>
-                  ))}
-                  <th
-                    scope='col'
-                    className='px-6 py-2.5 text-left text-sm  border border-[#e5e7eb] text-white bg-orange-600'
-                  >
-                    Actions
-                  </th>
-                </tr>
-              </thead>
-              <tbody className='divide-y divide-gray-200 dark:divide-gray-700'>
-                {settings?.paginatedUsers &&
-                  settings?.paginatedUsers?.map((row) => (
-                    <tr key={row.id}>
-                      {visibleColumns.map((key) => (
-                        <td
-                          key={key}
-                          className='px-6 py-2 text-left border border-[#e5e7eb] text-xs font-medium text-gray-800'
-                        >
-                          {row[key]}
-                        </td>
-                      ))}
 
-                      <td className='px-6 py-2 text-left border border-[#e5e7eb] text-xs font-medium text-gray-800'>
-                        <div className='flex justify-start'>
-                          <button
-                            type='button'
-                            className='me-5 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600'
-                          >
-                            <Link to={`${row.id}`}>
-                              <svg
-                                xmlns='http://www.w3.org/2000/svg'
-                                viewBox='0 0 20 20'
-                                fill='currentColor'
-                                className='w-5 h-5'
-                              >
-                                <path d='M10 12.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z' />
-                                <path
-                                  fill-rule='evenodd'
-                                  d='M.664 10.59a1.651 1.651 0 0 1 0-1.186A10.004 10.004 0 0 1 10 3c4.257 0 7.893 2.66 9.336 6.41.147.381.146.804 0 1.186A10.004 10.004 0 0 1 10 17c-4.257 0-7.893-2.66-9.336-6.41ZM14 10a4 4 0 1 1-8 0 4 4 0 0 1 8 0Z'
-                                  clip-rule='evenodd'
-                                />
-                              </svg>
-                            </Link>
-                          </button>
-                          <button
-                            type='button'
-                            className='me-5 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600'
-                          >
-                            <Link to={`${row.id}/edit`}>
-                              <svg
-                                xmlns='http://www.w3.org/2000/svg'
-                                viewBox='0 0 20 20'
-                                fill='currentColor'
-                                className='w-5 h-5'
-                              >
-                                <path d='m2.695 14.762-1.262 3.155a.5.5 0 0 0 .65.65l3.155-1.262a4 4 0 0 0 1.343-.886L17.5 5.501a2.121 2.121 0 0 0-3-3L3.58 13.419a4 4 0 0 0-.885 1.343Z' />
-                              </svg>
-                            </Link>
-                          </button>
-                          <button
-                            type='button'
-                            onClick={() => handleDeleteUser(row.id)}
-                            className='me-5 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600'
-                          >
+      <div className='max-h-[457px] overflow-y-scroll mt-8'>
+        {visibleColumns && tableView && settings?.paginatedUsers && (
+          <table className='w-full divide-y divide-gray-200 dark:divide-gray-700 rounded-md'>
+            <thead >
+              <tr>
+                {visibleColumns.map((key) => (
+                  <th
+                    key={key}
+
+                    className='sticky top-0 bg-orange-600 text-white text-sm text-left px-5 py-2.5 border-l-2 border-gray-200'
+                  >
+                    {tableView[key].label}
+                  </th>
+                ))}
+                <th
+                  scope='col'
+                  className='sticky top-0 bg-orange-600 text-white text-sm text-left px-5 py-2.5 border-l-2 border-gray-200'
+                >
+                  Actions
+                </th>
+              </tr>
+            </thead>
+            <tbody className='divide-y divide-gray-200 dark:divide-gray-700'>
+              {settings?.paginatedUsers &&
+                settings?.paginatedUsers?.map((row) => (
+                  <tr key={row.id}>
+                    {visibleColumns.map((key) => (
+                      <td
+                        key={key}
+                        className='px-6 py-2 text-left border border-[#e5e7eb] text-xs font-medium text-gray-800'
+                      >
+                        {row[key]}
+                      </td>
+                    ))}
+
+                    <td className='px-6 py-2 text-left border border-[#e5e7eb] text-xs font-medium text-gray-800'>
+                      <div className='flex justify-start'>
+                        <button
+                          type='button'
+                          className='me-5 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600'
+                        >
+                          <Link to={`${row.id}`}>
                             <svg
                               xmlns='http://www.w3.org/2000/svg'
                               viewBox='0 0 20 20'
                               fill='currentColor'
                               className='w-5 h-5'
                             >
+                              <path d='M10 12.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z' />
                               <path
                                 fill-rule='evenodd'
-                                d='M8.75 1A2.75 2.75 0 0 0 6 3.75v.443c-.795.077-1.584.176-2.365.298a.75.75 0 1 0 .23 1.482l.149-.022.841 10.518A2.75 2.75 0 0 0 7.596 19h4.807a2.75 2.75 0 0 0 2.742-2.53l.841-10.52.149.023a.75.75 0 0 0 .23-1.482A41.03 41.03 0 0 0 14 4.193V3.75A2.75 2.75 0 0 0 11.25 1h-2.5ZM10 4c.84 0 1.673.025 2.5.075V3.75c0-.69-.56-1.25-1.25-1.25h-2.5c-.69 0-1.25.56-1.25 1.25v.325C8.327 4.025 9.16 4 10 4ZM8.58 7.72a.75.75 0 0 0-1.5.06l.3 7.5a.75.75 0 1 0 1.5-.06l-.3-7.5Zm4.34.06a.75.75 0 1 0-1.5-.06l-.3 7.5a.75.75 0 1 0 1.5.06l.3-7.5Z'
+                                d='M.664 10.59a1.651 1.651 0 0 1 0-1.186A10.004 10.004 0 0 1 10 3c4.257 0 7.893 2.66 9.336 6.41.147.381.146.804 0 1.186A10.004 10.004 0 0 1 10 17c-4.257 0-7.893-2.66-9.336-6.41ZM14 10a4 4 0 1 1-8 0 4 4 0 0 1 8 0Z'
                                 clip-rule='evenodd'
                               />
                             </svg>
-                          </button>
-                          <button
-                            type='button'
-                            className='me-5 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600'
+                          </Link>
+                        </button>
+                        <button
+                          type='button'
+                          className='me-5 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600'
+                        >
+                          <Link to={`${row.id}/edit`}>
+                            <svg
+                              xmlns='http://www.w3.org/2000/svg'
+                              viewBox='0 0 20 20'
+                              fill='currentColor'
+                              className='w-5 h-5'
+                            >
+                              <path d='m2.695 14.762-1.262 3.155a.5.5 0 0 0 .65.65l3.155-1.262a4 4 0 0 0 1.343-.886L17.5 5.501a2.121 2.121 0 0 0-3-3L3.58 13.419a4 4 0 0 0-.885 1.343Z' />
+                            </svg>
+                          </Link>
+                        </button>
+                        <button
+                          type='button'
+                          onClick={() => handleDeleteUser(row.id)}
+                          className='me-5 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600'
+                        >
+                          <svg
+                            xmlns='http://www.w3.org/2000/svg'
+                            viewBox='0 0 20 20'
+                            fill='currentColor'
+                            className='w-5 h-5'
                           >
-                            {row.userstatus !== undefined && (
-                              <div className='flex items-center'>
-                                {/* <input
+                            <path
+                              fill-rule='evenodd'
+                              d='M8.75 1A2.75 2.75 0 0 0 6 3.75v.443c-.795.077-1.584.176-2.365.298a.75.75 0 1 0 .23 1.482l.149-.022.841 10.518A2.75 2.75 0 0 0 7.596 19h4.807a2.75 2.75 0 0 0 2.742-2.53l.841-10.52.149.023a.75.75 0 0 0 .23-1.482A41.03 41.03 0 0 0 14 4.193V3.75A2.75 2.75 0 0 0 11.25 1h-2.5ZM10 4c.84 0 1.673.025 2.5.075V3.75c0-.69-.56-1.25-1.25-1.25h-2.5c-.69 0-1.25.56-1.25 1.25v.325C8.327 4.025 9.16 4 10 4ZM8.58 7.72a.75.75 0 0 0-1.5.06l.3 7.5a.75.75 0 1 0 1.5-.06l-.3-7.5Zm4.34.06a.75.75 0 1 0-1.5-.06l-.3 7.5a.75.75 0 1 0 1.5.06l.3-7.5Z'
+                              clip-rule='evenodd'
+                            />
+                          </svg>
+                        </button>
+                        <button
+                          type='button'
+                          className='me-5 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600'
+                        >
+                          {row.userstatus !== undefined && (
+                            <div className='flex items-center'>
+                              {/* <input
                                   id='toggle'
                                   type='checkbox'
                                   className=''
@@ -532,33 +575,31 @@ useEffect(()=>{
                                     )
                                   }
                                 /> */}
-                                <label
-                                  htmlFor='toggle'
-                                  className='flex items-center cursor-pointer'
-                                  onClick={(e) =>
-                                    handleClickOpen(
-                                      row.id,
-                                      row.userstatus,
-                                      row.userremarkshistory
-                                    )
-                                  }
+                              <label
+                                htmlFor='toggle'
+                                className='flex items-center cursor-pointer'
+                                onClick={(e) =>
+                                  handleClickOpen(
+                                    row.id,
+                                    row.userstatus,
+                                    row.userremarkshistory
+                                  )
+                                }
+                              >
+                                <div
+                                  className={`w-8 h-4 rounded-full shadow-inner ${row.userstatus
+                                    ? ' bg-[#ea580c]'
+                                    : 'bg-[#c3c6ca]'
+                                    }`}
                                 >
                                   <div
-                                    className={`w-8 h-4 rounded-full shadow-inner ${
-                                      row.userstatus
-                                        ? ' bg-[#ea580c]'
-                                        : 'bg-[#c3c6ca]'
-                                    }`}
-                                  >
-                                    <div
-                                      className={`toggle__dot w-4 h-4 rounded-full shadow ${
-                                        row.userstatus
-                                          ? 'ml-4 bg-white'
-                                          : 'bg-white'
+                                    className={`toggle__dot w-4 h-4 rounded-full shadow ${row.userstatus
+                                      ? 'ml-4 bg-white'
+                                      : 'bg-white'
                                       }`}
-                                    ></div>
-                                  </div>
-                                  {/* <div
+                                  ></div>
+                                </div>
+                                {/* <div
                                     className={`ml-3 text-sm font-medium ${row.userstatus
                                       ? 'text-gray-400'
                                       : 'text--400'
@@ -566,19 +607,19 @@ useEffect(()=>{
                                   >
                                     {row.userstatus ? 'Enabled' : 'Disabled'}
                                   </div> */}
-                                </label>
-                              </div>
-                            )}
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
-              </tbody>
-            </table>
-          )}
-        </div>
+                              </label>
+                            </div>
+                          )}
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+            </tbody>
+          </table>
+        )}
       </div>
+
       <Transition.Root
         show={open}
         as={Fragment}
@@ -660,7 +701,7 @@ useEffect(()=>{
         <div className='flex justify-between'>
           <div className=''>
             {!settings?.paginatedUsers ||
-            settings?.paginatedUsers?.length === 0 ? (
+              settings?.paginatedUsers?.length === 0 ? (
               'no data to show'
             ) : settings.loading ? (
               'Loading...'
@@ -688,13 +729,12 @@ useEffect(()=>{
                 })
               }
               href='#'
-              className={`relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${
-                settings.loading
-                  ? 'cursor-wait'
-                  : settings.currentPage === 1
+              className={`relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${settings.loading
+                ? 'cursor-wait'
+                : settings.currentPage === 1
                   ? 'cursor-not-allowed'
                   : 'cursor-auto'
-              }`}
+                }`}
             >
               <span className='sr-only'>Previous</span>
               <svg
@@ -724,13 +764,12 @@ useEffect(()=>{
                   data: settings.currentPage + 1,
                 })
               }
-              className={`relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${
-                settings.loading
-                  ? 'cursor-wait'
-                  : settings.currentPage === settings.totalPages
+              className={`relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${settings.loading
+                ? 'cursor-wait'
+                : settings.currentPage === settings.totalPages
                   ? 'cursor-not-allowed'
                   : 'cursor-auto'
-              }`}
+                }`}
             >
               <span className='sr-only'>Next</span>
               <svg

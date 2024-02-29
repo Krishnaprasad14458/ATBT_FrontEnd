@@ -115,8 +115,8 @@ const Roles = () => {
       </div>
       {/* table */}
       <div className='mt-8'>
-        <div className='max-h-[457px] overflow-y-scroll '>
-          <table className=' w-full divide-y divide-gray-200 dark:divide-gray-700 rounded-md'>
+        <div className='max-h-[457px] overflow-y-scroll'>
+          <table className='w-full divide-y divide-gray-200 dark:divide-gray-700 rounded-md'>
             <thead>
               <tr>
                 <th className='sticky top-0 bg-orange-600 text-white text-sm text-left px-5 py-2.5 border-l-2 border-gray-200'>
