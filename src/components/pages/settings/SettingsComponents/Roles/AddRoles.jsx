@@ -354,252 +354,254 @@ const AddRoles = () => {
         </div>
       </div>
       <p className='text-md my-3 font-semibold'>Permissions</p>
-      <table className=' min-w-full divide-y divide-gray-200 dark:divide-gray-700 border-collapse border border-[#e5e7eb] rounded-md '>
-        <thead className='sticky top-0 z-10'>
-          <tr>
-            <th
-              scope='col'
-              className='px-6 py-2 text-center text-sm  text-white bg-orange-600 border-collapse border border-[#e5e7eb] '
-            >
-              Name
-            </th>
-            <th
-              scope='col'
-              className='px-6 py-2 text-center text-sm  text-white bg-orange-600 border-collapse border border-[#e5e7eb]'
-            >
-              All
-            </th>
-            <th
-              scope='col'
-              className='px-6 py-2 text-center text-sm  text-white bg-orange-600 border-collapse border border-[#e5e7eb]'
-              colSpan={4}
-            >
-              Access
-            </th>
-          </tr>
-        </thead>
-        <tbody className='divide-y divide-gray-200 dark:divide-gray-700 '>
-          <tr>
-            <td className='px-6 py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]'></td>
-            <td className='px-6 py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]'>
-              {' '}
-              All
-            </td>
-            <td className='px-6 py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]'>
-              {' '}
-              canCreate
-            </td>
-            <td className='px-6 py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]'>
-              {' '}
-              canRead
-            </td>
-            <td className='px-6 py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]'>
-              {' '}
-              canUpdate
-            </td>
-            <td className='px-6 py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]'>
-              {' '}
-              canDelete
-            </td>
-          </tr>
-          {permission &&
-            permission.permissions.map((item, index) => {
-              return (
-                <>
-                  <tr key={item}>
-                    <td className='px-6 flex justify-between py-2.5 whitespace-nowrap text-center  text-sm font-semibold  text-gray-800 border-collapse '>
-                      {item.module}{' '}
-                      {!!item.submenus && (
-                        <svg
-                          onClick={() => handleSubmenuOpen(item.module)}
-                          xmlns='http://www.w3.org/2000/svg'
-                          viewBox='0 0 16 16'
-                          fill='currentColor'
-                          className='w-4 h-4 mt-1'
-                        >
-                          <path
-                            fill-rule='evenodd'
-                            d='M4.22 6.22a.75.75 0 0 1 1.06 0L8 8.94l2.72-2.72a.75.75 0 1 1 1.06 1.06l-3.25 3.25a.75.75 0 0 1-1.06 0L4.22 7.28a.75.75 0 0 1 0-1.06Z'
-                            clip-rule='evenodd'
+      <div className='max-h-[457px] overflow-y-scroll '>
+        <table className="w-full divide-y divide-gray-200 dark:divide-gray-700 rounded-md">
+          <thead className=''>
+            <tr>
+              <th
+                scope='col'
+                className='sticky top-0 bg-orange-600 text-white text-sm text-left px-6 py-2.5 border-l-2 border-gray-200'
+              >
+                Name
+              </th>
+              <th
+                scope='col'
+                className='sticky top-0 bg-orange-600 text-white text-sm text-left px-6 py-2.5 border-l-2 border-gray-200'
+              >
+                All
+              </th>
+              <th
+                scope='col'
+                className='sticky top-0 bg-orange-600 text-white text-sm text-left px-6 py-2.5 border-l-2 border-gray-200'
+                colSpan={4}
+              >
+                Access
+              </th>
+            </tr>
+          </thead>
+          <tbody className='divide-y divide-gray-200 dark:divide-gray-700 '>
+            <tr>
+              <td className='px-6 py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]'></td>
+              <td className='px-6 py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]'>
+                {' '}
+                All
+              </td>
+              <td className='px-6 py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]'>
+                {' '}
+                canCreate
+              </td>
+              <td className='px-6 py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]'>
+                {' '}
+                canRead
+              </td>
+              <td className='px-6 py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]'>
+                {' '}
+                canUpdate
+              </td>
+              <td className='px-6 py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]'>
+                {' '}
+                canDelete
+              </td>
+            </tr>
+            {permission &&
+              permission.permissions.map((item, index) => {
+                return (
+                  <>
+                    <tr key={item}>
+                      <td className='px-6 py-2.5 whitespace-nowrap text-center  text-sm font-semibold  text-gray-800 border-collapse border border-[#e5e7eb]'>
+                        {item.module}{' '}
+                        {!!item.submenus && (
+                          <svg
+                            onClick={() => handleSubmenuOpen(item.module)}
+                            xmlns='http://www.w3.org/2000/svg'
+                            viewBox='0 0 16 16'
+                            fill='currentColor'
+                            className='w-4 h-4 mt-1'
+                          >
+                            <path
+                              fill-rule='evenodd'
+                              d='M4.22 6.22a.75.75 0 0 1 1.06 0L8 8.94l2.72-2.72a.75.75 0 1 1 1.06 1.06l-3.25 3.25a.75.75 0 0 1-1.06 0L4.22 7.28a.75.75 0 0 1 0-1.06Z'
+                              clip-rule='evenodd'
+                            />
+                          </svg>
+                        )}
+                      </td>
+                      <td className='px-6 py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]'>
+                        <label className='relative inline-flex items-center cursor-pointer'>
+                          <input
+                            type='checkbox'
+                            name='all'
+                            value={item.all}
+                            className='sr-only peer'
+                            checked={item.all}
+                            onChange={() => handletoggle('all', index)}
                           />
-                        </svg>
-                      )}
-                    </td>
-                    <td className='px-6 py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]'>
-                      <label className='relative inline-flex items-center cursor-pointer'>
-                        <input
-                          type='checkbox'
-                          name='all'
-                          value={item.all}
-                          className='sr-only peer'
-                          checked={item.all}
-                          onChange={() => handletoggle('all', index)}
-                        />
-                        <div
-                          className={`w-7 h-4  ${item.all ? 'bg-orange-600' : 'bg-slate-300'
-                            } peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[1px] after:start-[1px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-3.5 after:w-3.5 after:transition-all dark:border-orange-600 checked:bg-orange-600`}
-                        ></div>
-                      </label>
-                    </td>
-                    <td className='px-6 py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]'>
-                      <label className='relative inline-flex items-center cursor-pointer'>
-                        <input
-                          type='checkbox'
-                          value={item.canCreate}
-                          className='sr-only peer'
-                          checked={item.canCreate}
-                          onChange={() => handletoggle('canCreate', index)}
-                        />
-                        <div
-                          className={`w-7 h-4  ${item.canCreate ? 'bg-orange-600' : 'bg-slate-300'
-                            } peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[1px] after:start-[1px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-3.5 after:w-3.5 after:transition-all dark:border-orange-600 checked:bg-orange-600`}
-                        ></div>
-                      </label>
-                    </td>
-                    <td className='px-6 py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]'>
-                      <label className='relative inline-flex items-center cursor-pointer'>
-                        <input
-                          type='checkbox'
-                          value={item.canRead}
-                          className='sr-only peer'
-                          checked={item.canRead}
-                          onChange={() => handletoggle('canRead', index)}
-                        />
-                        <div
-                          className={`w-7 h-4  ${item.canRead ? 'bg-orange-600' : 'bg-slate-300'
-                            } peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[1px] after:start-[1px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-3.5 after:w-3.5 after:transition-all dark:border-orange-600 checked:bg-orange-600`}
-                        ></div>
-                      </label>
-                    </td>
-                    <td className='px-6 py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]'>
-                      <label className='relative inline-flex items-center cursor-pointer'>
-                        <input
-                          type='checkbox'
-                          value={item.canUpdate}
-                          className='sr-only peer'
-                          checked={item.canUpdate}
-                          onChange={() => handletoggle('canUpdate', index)}
-                        />
-                        <div
-                          className={`w-7 h-4  ${item.canUpdate ? 'bg-orange-600' : 'bg-slate-300'
-                            } peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[1px] after:start-[1px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-3.5 after:w-3.5 after:transition-all dark:border-orange-600 checked:bg-orange-600`}
-                        ></div>
-                      </label>
-                    </td>
-                    <td className='px-6 py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]'>
-                      <label className='relative inline-flex items-center cursor-pointer'>
-                        <input
-                          type='checkbox'
-                          value={item.canDelete}
-                          className='sr-only peer'
-                          checked={item.canDelete}
-                          onChange={() => handletoggle('canDelete', index)}
-                        />
-                        <div
-                          className={`w-7 h-4  ${item.canDelete ? 'bg-orange-600' : 'bg-slate-300'
-                            } peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[1px] after:start-[1px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-3.5 after:w-3.5 after:transition-all dark:border-orange-600 checked:bg-orange-600`}
-                        ></div>
-                      </label>
-                    </td>
-                  </tr>
-                  {item.module == selected &&
-                    item.submenus.length > 0 &&
-                    item.submenus.map((subitem, subindex) => {
-                      return (
-                        <tr>
-                          <td className=' py-2.5 whitespace-nowrap text-center  text-xs   text-gray-800 border-collapse '>
-                            {subitem.module}
-                          </td>
-                          <td className='px-6 py-2.5 whitespace-nowrap text-center  text-xs   text-gray-800 border-collapse border border-[#e5e7eb]'>
-                            {' '}
-                          </td>
-                          <td className='px-6 py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]'>
-                            <label className='relative inline-flex items-center cursor-pointer'>
-                              <input
-                                type='checkbox'
-                                value={subitem.canCreate}
-                                className='sr-only peer'
-                                checked={subitem.canCreate}
-                                onChange={() =>
-                                  handletoggle('canCreate', index, subindex)
-                                }
-                              />
-                              <div
-                                className={`w-7 h-4  ${subitem.canCreate
-                                  ? 'bg-orange-600'
-                                  : 'bg-slate-300'
-                                  } peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[1px] after:start-[1px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-3.5 after:w-3.5 after:transition-all dark:border-orange-600 checked:bg-orange-600`}
-                              ></div>
-                            </label>
-                          </td>
-                          <td className='px-6 py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]'>
-                            <label className='relative inline-flex items-center cursor-pointer'>
-                              <input
-                                type='checkbox'
-                                value={subitem.canRead}
-                                className='sr-only peer'
-                                checked={subitem.canRead}
-                                onChange={() =>
-                                  handletoggle('canRead', index, subindex)
-                                }
-                              />
-                              <div
-                                className={`w-7 h-4  ${subitem.canRead
-                                  ? 'bg-orange-600'
-                                  : 'bg-slate-300'
-                                  } peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[1px] after:start-[1px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-3.5 after:w-3.5 after:transition-all dark:border-orange-600 checked:bg-orange-600`}
-                              ></div>
-                            </label>
-                          </td>
-                          <td className='px-6 py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]'>
-                            <label className='relative inline-flex items-center cursor-pointer'>
-                              <input
-                                type='checkbox'
-                                value={subitem.canUpdate}
-                                className='sr-only peer'
-                                checked={subitem.canUpdate}
-                                onChange={() =>
-                                  handletoggle('canUpdate', index, subindex)
-                                }
-                              />
-                              <div
-                                className={`w-7 h-4  ${subitem.canUpdate
-                                  ? 'bg-orange-600'
-                                  : 'bg-slate-300'
-                                  } peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[1px] after:start-[1px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-3.5 after:w-3.5 after:transition-all dark:border-orange-600 checked:bg-orange-600`}
-                              ></div>
-                            </label>
-                          </td>
-                          <td className='px-6 py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]'>
-                            <label className='relative inline-flex items-center cursor-pointer'>
-                              <input
-                                type='checkbox'
-                                value={subitem.canDelete}
-                                className='sr-only peer'
-                                checked={subitem.canDelete}
-                                onChange={() =>
-                                  handletoggle('canDelete', index, subindex)
-                                }
-                              />
-                              <div
-                                className={`w-7 h-4  ${subitem.canDelete
-                                  ? 'bg-orange-600'
-                                  : 'bg-slate-300'
-                                  } peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[1px] after:start-[1px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-3.5 after:w-3.5 after:transition-all dark:border-orange-600 checked:bg-orange-600`}
-                              ></div>
-                            </label>
-                          </td>
-                        </tr>
-                      );
-                    })}
-                </>
-              );
-            })}
-          {/* <div className={item.all ? "w-7 h-4 bg-orange-600 peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[1px] after:start-[1px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-3.5 after:w-3.5 after:transition-all dark:border-orange-600 checked:bg-orange-600" : ""}
+                          <div
+                            className={`w-7 h-4  ${item.all ? 'bg-orange-600' : 'bg-slate-300'
+                              } peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[1px] after:start-[1px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-3.5 after:w-3.5 after:transition-all dark:border-orange-600 checked:bg-orange-600`}
+                          ></div>
+                        </label>
+                      </td>
+                      <td className='px-6 py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]'>
+                        <label className='relative inline-flex items-center cursor-pointer'>
+                          <input
+                            type='checkbox'
+                            value={item.canCreate}
+                            className='sr-only peer'
+                            checked={item.canCreate}
+                            onChange={() => handletoggle('canCreate', index)}
+                          />
+                          <div
+                            className={`w-7 h-4  ${item.canCreate ? 'bg-orange-600' : 'bg-slate-300'
+                              } peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[1px] after:start-[1px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-3.5 after:w-3.5 after:transition-all dark:border-orange-600 checked:bg-orange-600`}
+                          ></div>
+                        </label>
+                      </td>
+                      <td className='px-6 py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]'>
+                        <label className='relative inline-flex items-center cursor-pointer'>
+                          <input
+                            type='checkbox'
+                            value={item.canRead}
+                            className='sr-only peer'
+                            checked={item.canRead}
+                            onChange={() => handletoggle('canRead', index)}
+                          />
+                          <div
+                            className={`w-7 h-4  ${item.canRead ? 'bg-orange-600' : 'bg-slate-300'
+                              } peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[1px] after:start-[1px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-3.5 after:w-3.5 after:transition-all dark:border-orange-600 checked:bg-orange-600`}
+                          ></div>
+                        </label>
+                      </td>
+                      <td className='px-6 py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]'>
+                        <label className='relative inline-flex items-center cursor-pointer'>
+                          <input
+                            type='checkbox'
+                            value={item.canUpdate}
+                            className='sr-only peer'
+                            checked={item.canUpdate}
+                            onChange={() => handletoggle('canUpdate', index)}
+                          />
+                          <div
+                            className={`w-7 h-4  ${item.canUpdate ? 'bg-orange-600' : 'bg-slate-300'
+                              } peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[1px] after:start-[1px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-3.5 after:w-3.5 after:transition-all dark:border-orange-600 checked:bg-orange-600`}
+                          ></div>
+                        </label>
+                      </td>
+                      <td className='px-6 py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]'>
+                        <label className='relative inline-flex items-center cursor-pointer'>
+                          <input
+                            type='checkbox'
+                            value={item.canDelete}
+                            className='sr-only peer'
+                            checked={item.canDelete}
+                            onChange={() => handletoggle('canDelete', index)}
+                          />
+                          <div
+                            className={`w-7 h-4  ${item.canDelete ? 'bg-orange-600' : 'bg-slate-300'
+                              } peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[1px] after:start-[1px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-3.5 after:w-3.5 after:transition-all dark:border-orange-600 checked:bg-orange-600`}
+                          ></div>
+                        </label>
+                      </td>
+                    </tr>
+                    {item.module == selected &&
+                      item.submenus.length > 0 &&
+                      item.submenus.map((subitem, subindex) => {
+                        return (
+                          <tr>
+                            <td className=' py-2.5 whitespace-nowrap text-center  text-xs   text-gray-800 border-collapse '>
+                              {subitem.module}
+                            </td>
+                            <td className='px-6 py-2.5 whitespace-nowrap text-center  text-xs   text-gray-800 border-collapse border border-[#e5e7eb]'>
+                              {' '}
+                            </td>
+                            <td className='px-6 py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]'>
+                              <label className='relative inline-flex items-center cursor-pointer'>
+                                <input
+                                  type='checkbox'
+                                  value={subitem.canCreate}
+                                  className='sr-only peer'
+                                  checked={subitem.canCreate}
+                                  onChange={() =>
+                                    handletoggle('canCreate', index, subindex)
+                                  }
+                                />
+                                <div
+                                  className={`w-7 h-4  ${subitem.canCreate
+                                    ? 'bg-orange-600'
+                                    : 'bg-slate-300'
+                                    } peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[1px] after:start-[1px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-3.5 after:w-3.5 after:transition-all dark:border-orange-600 checked:bg-orange-600`}
+                                ></div>
+                              </label>
+                            </td>
+                            <td className='px-6 py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]'>
+                              <label className='relative inline-flex items-center cursor-pointer'>
+                                <input
+                                  type='checkbox'
+                                  value={subitem.canRead}
+                                  className='sr-only peer'
+                                  checked={subitem.canRead}
+                                  onChange={() =>
+                                    handletoggle('canRead', index, subindex)
+                                  }
+                                />
+                                <div
+                                  className={`w-7 h-4  ${subitem.canRead
+                                    ? 'bg-orange-600'
+                                    : 'bg-slate-300'
+                                    } peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[1px] after:start-[1px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-3.5 after:w-3.5 after:transition-all dark:border-orange-600 checked:bg-orange-600`}
+                                ></div>
+                              </label>
+                            </td>
+                            <td className='px-6 py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]'>
+                              <label className='relative inline-flex items-center cursor-pointer'>
+                                <input
+                                  type='checkbox'
+                                  value={subitem.canUpdate}
+                                  className='sr-only peer'
+                                  checked={subitem.canUpdate}
+                                  onChange={() =>
+                                    handletoggle('canUpdate', index, subindex)
+                                  }
+                                />
+                                <div
+                                  className={`w-7 h-4  ${subitem.canUpdate
+                                    ? 'bg-orange-600'
+                                    : 'bg-slate-300'
+                                    } peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[1px] after:start-[1px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-3.5 after:w-3.5 after:transition-all dark:border-orange-600 checked:bg-orange-600`}
+                                ></div>
+                              </label>
+                            </td>
+                            <td className='px-6 py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]'>
+                              <label className='relative inline-flex items-center cursor-pointer'>
+                                <input
+                                  type='checkbox'
+                                  value={subitem.canDelete}
+                                  className='sr-only peer'
+                                  checked={subitem.canDelete}
+                                  onChange={() =>
+                                    handletoggle('canDelete', index, subindex)
+                                  }
+                                />
+                                <div
+                                  className={`w-7 h-4  ${subitem.canDelete
+                                    ? 'bg-orange-600'
+                                    : 'bg-slate-300'
+                                    } peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[1px] after:start-[1px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-3.5 after:w-3.5 after:transition-all dark:border-orange-600 checked:bg-orange-600`}
+                                ></div>
+                              </label>
+                            </td>
+                          </tr>
+                        );
+                      })}
+                  </>
+                );
+              })}
+            {/* <div className={item.all ? "w-7 h-4 bg-orange-600 peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[1px] after:start-[1px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-3.5 after:w-3.5 after:transition-all dark:border-orange-600 checked:bg-orange-600" : ""}
 
             ></div> */}
-        </tbody>
-      </table>
+          </tbody>
+        </table>
+      </div>
       <div className='flex justify-end mt-5'>
         <button
           onClick={() => handleSubmit()}
