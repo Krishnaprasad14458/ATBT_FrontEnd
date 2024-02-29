@@ -993,6 +993,7 @@ function EntityForm() {
                         onChange={(e) => handleChange(index, e.target.value)}
                         value={customFormFields[index].value || ''}
                       >
+                        <option value=''>--select--</option>
                         {item.options &&
                           item.options.map((option, index) => (
                             <option value={option}>{option}</option>
