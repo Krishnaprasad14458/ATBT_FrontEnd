@@ -6,6 +6,7 @@ import {
   useSubmit,
   useNavigation,
   useFetcher,
+  Link,
 } from 'react-router-dom';
 
 const AddRoles = () => {
@@ -27,14 +28,14 @@ const AddRoles = () => {
         role: '',
         description: '',
         permissions: [
-          {
-            module: 'dashboard',
-            all: false,
-            canCreate: false,
-            canRead: false,
-            canUpdate: false,
-            canDelete: false,
-          },
+          // {
+          //   module: 'dashboard',
+          //   all: false,
+          //   canCreate: false,
+          //   canRead: false,
+          //   canUpdate: false,
+          //   canDelete: false,
+          // },
           {
             module: 'user',
             all: false,
@@ -294,7 +295,15 @@ const AddRoles = () => {
 
   return (
     <div className=' p-3 bg-[#f8fafc] overflow-hidden'>
-      <h1 className='font-semibold text-lg grid1-item'> Add Roles</h1>
+      <div className=" grid grid-cols-1 md:grid-cols-2 ">
+        <p className='col-span-1 text-xl sm:text-lg md:text-xl lg:text-xl xl:text-xl font-semibold'> Add Roles</p>
+        <div className="col-span-1 text-end mt-4 sm:mt-0">
+          <Link to="/roles">
+            <button type="submit"
+              className="create-btn px-4 py-2 inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white gap-1">Back</button>
+          </Link>
+        </div>
+      </div>
       <div className='grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-col-2 gap-2 mt-2'>
         <div className='col-span-1 text-start  xl:w-96 '>
           <div>
@@ -360,19 +369,19 @@ const AddRoles = () => {
             <tr>
               <th
                 scope='col'
-                className='sticky top-0 bg-orange-600 text-white text-sm text-left px-6 py-2.5 border-l-2 border-gray-200'
+                className='sticky top-0 bg-orange-600 text-white text-sm text-left px-5 py-2.5 border-l-2 border-gray-200'
               >
                 Name
               </th>
               <th
                 scope='col'
-                className='sticky top-0 bg-orange-600 text-white text-sm text-left px-6 py-2.5 border-l-2 border-gray-200'
+                className='sticky top-0 bg-orange-600 text-white text-sm text-left px-5 py-2.5 border-l-2 border-gray-200'
               >
                 All
               </th>
               <th
                 scope='col'
-                className='sticky top-0 bg-orange-600 text-white text-sm text-left px-6 py-2.5 border-l-2 border-gray-200'
+                className='sticky top-0 bg-orange-600 text-white text-sm text-left px-5 py-2.5 border-l-2 border-gray-200'
                 colSpan={4}
               >
                 Access
@@ -381,35 +390,36 @@ const AddRoles = () => {
           </thead>
           <tbody className='divide-y divide-gray-200 dark:divide-gray-700 '>
             <tr>
-              <td className='px-6 py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]'></td>
-              <td className='px-6 py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]'>
+              <td className='px-5 py-2.5 whitespace-nowrap  text-xs font-[500] text-gray-800 border-collapse border border-[#e5e7eb]'></td>
+              <td className='px-5 py-2.5 whitespace-nowrap  text-xs font-[500] text-gray-800 border-collapse border border-[#e5e7eb]'>
                 {' '}
                 All
               </td>
-              <td className='px-6 py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]'>
+              <td className='px-5 py-2.5 whitespace-nowrap  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]'>
                 {' '}
-                canCreate
+                Create
               </td>
-              <td className='px-6 py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]'>
+              <td className='px-5 py-2.5 whitespace-nowrap  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]'>
                 {' '}
-                canRead
+                Read
               </td>
-              <td className='px-6 py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]'>
+              <td className='px-5 py-2.5 whitespace-nowrap  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]'>
                 {' '}
-                canUpdate
+                Update
               </td>
-              <td className='px-6 py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]'>
+              <td className='px-5 py-2.5 whitespace-nowrap  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]'>
                 {' '}
-                canDelete
+                Delete
               </td>
             </tr>
             {permission &&
               permission.permissions.map((item, index) => {
                 return (
                   <>
+                    {/* "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white */}
                     <tr key={item}>
-                      <td className='px-6 py-2.5 whitespace-nowrap text-center  text-sm font-semibold  text-gray-800 border-collapse border border-[#e5e7eb]'>
-                        {item.module}{' '}
+                      <td className='px-5 py-2.5 whitespace-nowrap dark:text-white  text-sm font-semibold  text-gray-900 border-collapse border border-[#e5e7eb]'>
+                        {item.module.charAt(0).toUpperCase() + item.module.slice(1)}{' '}
                         {!!item.submenus && (
                           <svg
                             onClick={() => handleSubmenuOpen(item.module)}
@@ -426,7 +436,7 @@ const AddRoles = () => {
                           </svg>
                         )}
                       </td>
-                      <td className='px-6 py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]'>
+                      <td className='px-5 py-2.5 whitespace-nowrap   text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]'>
                         <label className='relative inline-flex items-center cursor-pointer'>
                           <input
                             type='checkbox'
@@ -442,7 +452,7 @@ const AddRoles = () => {
                           ></div>
                         </label>
                       </td>
-                      <td className='px-6 py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]'>
+                      <td className='px-5 py-2.5 whitespace-nowrap   text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]'>
                         <label className='relative inline-flex items-center cursor-pointer'>
                           <input
                             type='checkbox'
@@ -457,7 +467,7 @@ const AddRoles = () => {
                           ></div>
                         </label>
                       </td>
-                      <td className='px-6 py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]'>
+                      <td className='px-5 py-2.5 whitespace-nowrap   text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]'>
                         <label className='relative inline-flex items-center cursor-pointer'>
                           <input
                             type='checkbox'
@@ -472,7 +482,7 @@ const AddRoles = () => {
                           ></div>
                         </label>
                       </td>
-                      <td className='px-6 py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]'>
+                      <td className='px-5 py-2.5 whitespace-nowrap   text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]'>
                         <label className='relative inline-flex items-center cursor-pointer'>
                           <input
                             type='checkbox'
@@ -487,7 +497,7 @@ const AddRoles = () => {
                           ></div>
                         </label>
                       </td>
-                      <td className='px-6 py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]'>
+                      <td className='px-5 py-2.5 whitespace-nowrap   text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]'>
                         <label className='relative inline-flex items-center cursor-pointer'>
                           <input
                             type='checkbox'
@@ -511,10 +521,10 @@ const AddRoles = () => {
                             <td className=' py-2.5 whitespace-nowrap text-center  text-xs   text-gray-800 border-collapse '>
                               {subitem.module}
                             </td>
-                            <td className='px-6 py-2.5 whitespace-nowrap text-center  text-xs   text-gray-800 border-collapse border border-[#e5e7eb]'>
+                            <td className='px-5 py-2.5 whitespace-nowrap text-center  text-xs   text-gray-800 border-collapse border border-[#e5e7eb]'>
                               {' '}
                             </td>
-                            <td className='px-6 py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]'>
+                            <td className='px-5 py-2.5 whitespace-nowrap   text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]'>
                               <label className='relative inline-flex items-center cursor-pointer'>
                                 <input
                                   type='checkbox'
@@ -533,7 +543,7 @@ const AddRoles = () => {
                                 ></div>
                               </label>
                             </td>
-                            <td className='px-6 py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]'>
+                            <td className='px-5 py-2.5 whitespace-nowrap   text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]'>
                               <label className='relative inline-flex items-center cursor-pointer'>
                                 <input
                                   type='checkbox'
@@ -552,7 +562,7 @@ const AddRoles = () => {
                                 ></div>
                               </label>
                             </td>
-                            <td className='px-6 py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]'>
+                            <td className='px-5 py-2.5 whitespace-nowrap   text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]'>
                               <label className='relative inline-flex items-center cursor-pointer'>
                                 <input
                                   type='checkbox'
@@ -571,7 +581,7 @@ const AddRoles = () => {
                                 ></div>
                               </label>
                             </td>
-                            <td className='px-6 py-2.5 whitespace-nowrap text-center  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]'>
+                            <td className='px-5 py-2.5 whitespace-nowrap   text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]'>
                               <label className='relative inline-flex items-center cursor-pointer'>
                                 <input
                                   type='checkbox'
