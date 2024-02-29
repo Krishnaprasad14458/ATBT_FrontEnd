@@ -13,6 +13,16 @@ const Forms = () => {
                 </div>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4  gap-4 mt-4">
+            <Link
+                    to="/settinguserform">
+                    <div className='grid1-item  text-start'>
+                        <div className=" py-5 px-4 text-center bg-orange-600 rounded-md">
+                            <p className="text-white text-base">
+                                User Form
+                            </p>
+                        </div>
+                    </div>
+                </Link>
                 <Link
                     to="/settingentityform">
                     <div className='grid1-item  text-start'>
@@ -32,16 +42,7 @@ const Forms = () => {
                         </div>
                     </div>
                 </Link>
-                <Link
-                    to="/settinguserform">
-                    <div className='grid1-item  text-start'>
-                        <div className=" py-5 px-4 text-center bg-orange-600 rounded-md">
-                            <p className="text-white text-base">
-                                User Form
-                            </p>
-                        </div>
-                    </div>
-                </Link>
+             
                 <Link to="/settingteamsform">
                     <div className='grid1-item  text-start'>
                         <div className=" py-5 px-4 text-center bg-orange-600 rounded-md">

@@ -390,7 +390,7 @@ const SettingBoardMeetingForm = () => {
                 <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white shadow-xl transition-all sm:my-8 px-2 py-5 ">
                   <span className="flex justify-between mb-2">
                     <span>
-                      {editIndex == null ? <p className="text-md ms-16 md:ms-24 font-semibold">Add New Input Field</p > : <p className="text-md   ms-14 md:ms-28 font-semibold">Edit Input Field</p>}
+                      {editIndex == null ? <p className="text-md ms-16 md:ms-24 font-semibold">Add New Input Field</p > : <p className="text-md   ms-20 md:ms-28 font-semibold">Edit Input Field</p>}
                     </span>
                     <span className="text-end">
                       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" onClick={() => {
@@ -525,7 +525,7 @@ const SettingBoardMeetingForm = () => {
 }
 export default SettingBoardMeetingForm
 
-/////////////////predefined fields  
+/////////////////predefined fields
 // [
 //   {
 //       "label": "Full Name",
