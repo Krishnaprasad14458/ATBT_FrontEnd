@@ -63,6 +63,10 @@ export async function userFormLoader({ params }) {
 // }
 
 function UserForm() {
+  const userData = JSON.parse(localStorage.getItem("data"))
+  let createdBy = userData.user.id
+  console.log("createdBy",createdBy)
+  const token = userData?.token
   const navigate = useNavigate();
   const formStructure = useLoaderData();
   console.log(formStructure, 'fs');
@@ -411,7 +415,7 @@ function UserForm() {
       let userremarkshistory = [];
       jsonData.userremarkshistory = JSON.stringify(userremarkshistory);
       jsonData.customFieldsData = JSON.stringify(customFormFields);
-      jsonData.createdBy = parseInt(localStorage.getItem('id'));
+      jsonData.createdBy = createdBy
       for (let i = 0; i < customFormFields.length; i++) {
         if (Array.isArray(customFormFields[i].value)) {
           jsonData[customFormFields[i].inputname] = JSON.stringify(
