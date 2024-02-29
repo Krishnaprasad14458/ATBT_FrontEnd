@@ -198,7 +198,8 @@ const addOrUpdateInput = (e) => {
     }
 return (
 <div className="p-4 container bg-[#f8fafc]">
-    <div className=" grid grid-cols-1 md:grid-cols-2 ">
+    {/* for heading and back button */}
+    <div className="grid grid-cols-1 md:grid-cols-2">
       <p className="col-span-1 text-xl sm:text-lg md:text-xl lg:text-xl xl:text-xl font-semibold">Custom Entity Form</p>
         <div className="col-span-1 text-end mt-4 sm:mt-0">
             <button type="submit" onClick={(e) => {
@@ -215,33 +216,34 @@ return (
                 }) 
                 setOpen(true)
                     }}
-                    className=" mr-3  px-3 py-2 inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white ">+ Add Field</button>
+                    className="mr-3 px-3 py-2 inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white">+ Add Field</button>
                  <Link to="/forms">
                     <button type="submit"
                         className="create-btn px-4 py-2 inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white gap-1">Back</button>
                 </Link>
                 </div>
-    </div>
-         <div class="flex h-[500px] mt-3">
-             <div class="w-full px-3 py-4 text-left text-xs overflow-y-scroll">
+             </div>
+    {/* custom fields */}
+         <div className="flex h-[500px] mt-3">
+             <div className="w-full px-3 py-4 text-left text-xs overflow-y-scroll">
                 {customForm && customForm.length > 0 && customForm.map((input, index) => (
                      <div>
-                        <div role="button" class="block w-full  ">
-                             <div class="flex justify-between items-center mb-3  ">
-                                <div class="flex justify-between items-center bg-[#f2f2f2] p-4 w-full " >
-                                    <div class="flex text-black font-semibold">
-                                        <div class="">{input.label.charAt(0).toUpperCase() + input.label.slice(1)}</div>
+                        <div role="button" className="block w-full  ">
+                             <div className="flex justify-between items-center mb-3 ">
+                                <div className="flex justify-between items-center bg-[#f2f2f2] p-4 w-full " >
+                                    <div className="flex text-black font-semibold ">
+                                    <div className="" onClick={() => handleFiledOpen(input.inputname)}>{input.label.charAt(0).toUpperCase() + input.label.slice(1)}</div> 
                                     </div>
-                                          <div class="flex gap-3 md:gap-10">
+                                          <div className="flex gap-3 md:gap-10">
                                             {/*up and down moving icons */}
-                                            {/* <svg onClick={() => handleMoveDimension(index, 'up')} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+                                            {/* <svg onClick={() => handleMoveDimension(index, 'up')} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5">
                                                 <path fill-rule="evenodd" d="M10 17a.75.75 0 0 1-.75-.75V5.612L5.29 9.77a.75.75 0 0 1-1.08-1.04l5.25-5.5a.75.75 0 0 1 1.08 0l5.25 5.5a.75.75 0 1 1-1.08 1.04l-3.96-4.158V16.25A.75.75 0 0 1 10 17Z" clip-rule="evenodd" />
                                             </svg>
-                                            <svg onClick={() => handleMoveDimension(index, 'down')} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+                                            <svg onClick={() => handleMoveDimension(index, 'down')} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5">
                                                 <path fill-rule="evenodd" d="M10 3a.75.75 0 0 1 .75.75v10.638l3.96-4.158a.75.75 0 1 1 1.08 1.04l-5.25 5.5a.75.75 0 0 1-1.08 0l-5.25-5.5a.75.75 0 1 1 1.08-1.04l3.96 4.158V3.75A.75.75 0 0 1 10 3Z" clip-rule="evenodd" />
                                             </svg> */}
                                             {/* Open and Close Arrow*/}
-                                           <svg onClick={() => handleFiledOpen(input.inputname)} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+                                           <svg onClick={() => handleFiledOpen(input.inputname)} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
                                                 {input.inputname == selected ? (
                                                     <path fill-rule="evenodd" d="M11.47 7.72a.75.75 0 0 1 1.06 0l7.5 7.5a.75.75 0 1 1-1.06 1.06L12 9.31l-6.97 6.97a.75.75 0 0 1-1.06-1.06l7.5-7.5Z" clip-rule="evenodd" />
                                                 ) : (
@@ -253,58 +255,58 @@ return (
                             </div>
                         </div>
                             {input.inputname == selected &&
-                                <div class="px-6">
-                                    <div class="border-b border-slateStroke flex flex-wrap py-4  gap-2">
-                                        <div class="sm:w-full sm-py-1 md:w-1/5 lg:w-1/5 xl:w-1/5 text-body text-darkSlate01 text-md text-body pt-2">Field Title</div>
-                                        <div class=" sm:w-full md:w-1/2 lg:w-1/2 xl:1/2 ">
-                                            <div class="w-full relative m-0 ">
-                                                <div class="w-full">
-                                                    <div class="input-mol  p-[0.5rem]   w-full text-darkSlate01 text-sm rounded focus:outline-none bg-[#f8fafc] focus:shadow-none border border-slate04 focus:border-slate01!rounded-none py-3 !text-body px-4  undefined cursor-default"   > {input.label.charAt(0).toUpperCase() + input.label.slice(1)}</div>
+                                <div className="px-6">
+                                    <div className="border-b border-slateStroke flex flex-wrap py-4  gap-2">
+                                        <div className="sm:w-full sm-py-1 md:w-1/5 lg:w-1/5 xl:w-1/5 text-body text-darkSlate01 text-md text-body pt-2">Field Title</div>
+                                        <div className="sm:w-full md:w-1/2 lg:w-1/2 xl:1/2">
+                                            <div className="w-full relative m-0">
+                                                <div className="w-full">
+                                                    <div className="input-mol  p-[0.5rem] w-full text-darkSlate01 text-sm rounded focus:outline-none bg-[#f8fafc] focus:shadow-none border border-slate04 focus:border-slate01!rounded-none py-3 !text-body px-4  undefined cursor-default"> {input.label.charAt(0).toUpperCase() + input.label.slice(1)}</div>
                                                 </div></div></div></div>
-                                    <div class="border-b border-slateStroke flex flex-wrap py-4 gap-2">
-                                        <div class="sm:w-full sm-py-1 md:w-1/5 lg:w-1/5 xl:w-1/5 text-body text-darkSlate01 text-md text-body pt-2">Field Type</div>
-                                        <div class="sm:w-full md:w-1/2 lg:w-1/2 xl:1/2  ">
-                                            <div class="relative w-full m-0 ">
-                                                <div class="w-full">
-                                                    <div class="input-mol  p-[0.5rem]   w-full text-darkSlate01 text-sm rounded focus:outline-none bg-[#f8fafc] focus:shadow-none border border-slate04 focus:border-slate01!rounded-none py-3 !text-body px-4  undefined cursor-default">{input.type.charAt(0).toUpperCase() + input.type.slice(1)}</div>
+                                    <div className="border-b border-slateStroke flex flex-wrap py-4 gap-2">
+                                        <div className="sm:w-full sm-py-1 md:w-1/5 lg:w-1/5 xl:w-1/5 text-body text-darkSlate01 text-md text-body pt-2">Field Type</div>
+                                        <div className="sm:w-full md:w-1/2 lg:w-1/2 xl:1/2">
+                                            <div className="relative w-full m-0">
+                                                <div className="w-full">
+                                                    <div className="input-mol  p-[0.5rem] w-full text-darkSlate01 text-sm rounded focus:outline-none bg-[#f8fafc] focus:shadow-none border border-slate04 focus:border-slate01!rounded-none py-3 !text-body px-4  undefined cursor-default">{input.type.charAt(0).toUpperCase() + input.type.slice(1)}</div>
                                                 </div></div></div></div>
-                                                <div className='flex flex-wrap mb-4  sm:gap-0 md:gap-10 '>
+                                                <div className="flex flex-wrap mb-4 sm:gap-0 md:gap-10">
 
-{/* {input.type.charAt(0).toUpperCase() + input.type.slice(1)} */}
-<div className='w-1/5 hidden sm:block'></div>
-<div class=' flex flex-wrap pt-5  gap-1 '>
+                                              {/* {input.type.charAt(0).toUpperCase() + input.type.slice(1)} */}
+                                           <div className="w-1/5 hidden sm:block"></div>
+                                            <div className="flex flex-wrap pt-5  gap-1">
+                                                     <svg
+                                                 xmlns='http://www.w3.org/2000/svg'
+                                         fill='none'
+                                         viewBox='0 0 24 24'
+                                         stroke-width='1.5'
+                                         stroke='currentColor'
+                                         className="w-4 h-4 mt-1"
+                                        >
+                                        {input.mandatory ? (
+                                             <path
+                                               stroke-linecap='round'
+                                               stroke-linejoin='round'
+                                               d='M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z'
+                                             />
+                                         ) : (
+                                             <path
+                                              stroke-linecap='round'
+                                              stroke-linejoin='round'
+                                              d='m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z'
+                                             />
+                                         )}
+                                        </svg>
+                                        <div className="text-body text-darkSlate01"> Mandatory</div>
+                                              </div>
+                                                <div className="flex flex-wrap pt-5 gap-1">
   <svg
     xmlns='http://www.w3.org/2000/svg'
     fill='none'
     viewBox='0 0 24 24'
     stroke-width='1.5'
     stroke='currentColor'
-    class='w-4 h-4 mt-1'
-  >
-    {input.mandatory ? (
-      <path
-        stroke-linecap='round'
-        stroke-linejoin='round'
-        d='M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z'
-      />
-    ) : (
-      <path
-        stroke-linecap='round'
-        stroke-linejoin='round'
-        d='m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z'
-      />
-    )}
-  </svg>
-  <div class=' text-body text-darkSlate01'> Required</div>
-</div>
-<div class='  flex flex-wrap pt-5  gap-1 '>
-  <svg
-    xmlns='http://www.w3.org/2000/svg'
-    fill='none'
-    viewBox='0 0 24 24'
-    stroke-width='1.5'
-    stroke='currentColor'
-    class='w-4 h-4 mt-1'
+    className="w-4 h-4 mt-1"
   >
     {input.filterable ? (
       <path
@@ -320,21 +322,21 @@ return (
       />
     )}
   </svg>
-  <div class=' text-body text-darkSlate01  lg:pe-20'>
+  <div className="text-body text-darkSlate01 lg:pe-20">
     Filtered
   </div>
-</div>
-</div>
-                                    <div class="flex justify-end w-full pb-2">
-                                        <div class="mr-4">
-                                            <button class="flex  justify-center rounded-md  border-2 border-orange-600 px-3 py-2 text-sm font-medium leading-6 text-orange-600 shadow-sm  focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600" onClick={() => {
+                                                     </div>
+                                                  </div>
+                                    <div className="flex justify-end w-full pb-2">
+                                        <div className="mr-4">
+                                            <button className="flex  justify-center rounded-md  border-2 border-orange-600 px-3 py-2 text-sm font-medium leading-6 text-orange-600 shadow-sm  focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600" onClick={() => {
                                                     setNewInputField(input);
                                                     setEditIndex(index);
                                                     setOpen(true);
                                                 }}>Edit</button>
                                         </div>
-                                        <div class="mr-4">
-                                            <button class={`flex w-full justify-center rounded-md bg-[#dc2626] px-3 py-2.5 text-sm font-medium leading-6 text-white shadow-sm  focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600 ${input.field === "custom" ? "" : "pointer-events-none opacity-30  cursor-not-allowed"}`}
+                                        <div className="mr-4">
+                                            <button className={`flex w-full justify-center rounded-md bg-[#dc2626] px-3 py-2.5 text-sm font-medium leading-6 text-white shadow-sm  focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600 ${input.field === "custom" ? "" : "pointer-events-none opacity-30  cursor-not-allowed"}`}
                                                 onClick={() => {
                                                     deleteInput(index);
                                                 }}>Delete</button>
@@ -412,7 +414,7 @@ return (
                                                 {
                                                     (newInputField.type === "select" || newInputField.type === "multiselect") && (
                                                         <div>
-                                                            <p className="text-xs  flex justify-center"> Add options for  &nbsp;<span className="font-semibold text-xs">  select </span></p>
+                                                            <p className="text-xs  flex ms-16 md:ms-0 justify-center"> Add options for  &nbsp;<span className="font-semibold text-xs">  multiselect </span></p>
                                                             <div className="flex ">
                                                                 <label htmlFor="venue" className="inline-flex text-sm font-medium leading-6 mt-3 text-gray-900 ">Option <span className='text-[#dc2626]'> * </span>  </label><span className="mt-3 ms-4 ">:</span>
                                                                <input
@@ -431,11 +433,11 @@ return (
                                                                 </button>
                                                             </div>
                                                             <div className="ps-2 py-2"> {newInputField.options && newInputField.options.length > 0 && (
-                                                                <div class="  border border-1 md:w-[360px] border-gray-200 mb-3  ps-1 py-1 rounded-md gap-2 flex flex-wrap overflow-y-auto" style={{ maxHeight: '100px' }}>
+                                                                <div className="  border border-1 md:w-[360px] border-gray-200 mb-3  ps-1 py-1 rounded-md gap-2 flex flex-wrap overflow-y-auto" style={{ maxHeight: '100px' }}>
                                                                     {newInputField.options.map((option, index) => (
                                                                         <span key={index} className="text-xs border border-1 border-gray-200 rounded-md p-1  flex">
                                                                             {option}
-                                                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-4 h-4" onClick={() => deleteOption(index)}>
+                                                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="w-4 h-4" onClick={() => deleteOption(index)}>
                                                                                 <path d="M5.28 4.22a.75.75 0 0 0-1.06 1.06L6.94 8l-2.72 2.72a.75.75 0 1 0 1.06 1.06L8 9.06l2.72 2.72a.75.75 0 1 0 1.06-1.06L9.06 8l2.72-2.72a.75.75 0 0 0-1.06-1.06L8 6.94 5.28 4.22Z" />
                                                                             </svg>
                                                                         </span>
@@ -492,11 +494,11 @@ return (
                     </div>
                 </Dialog>
             </Transition.Root>
-            <div class="flex justify-end w-full mt-2">
-                <div class="">
+            <div className="flex justify-end w-full mt-2">
+                <div className="">
                 </div>
-                <div class="me-5">
-                    <button class=" flex w-full justify-center rounded-md bg-orange-600 px-3 py-2.5 text-sm font-medium leading-6 text-white shadow-sm  focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600" onClick={handleSubmitCustomForm}>Save</button>
+                <div className="me-5">
+                    <button className=" flex w-full justify-center rounded-md bg-orange-600 px-3 py-2.5 text-sm font-medium leading-6 text-white shadow-sm  focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600" onClick={handleSubmitCustomForm}>Save</button>
                 </div>
             </div>
         </div >
