@@ -13,25 +13,79 @@ import {
   useLoaderData,
 } from 'react-router-dom';
 
-export async function userFormLoader({ request }) {
-  console.log('loaded');
-  const api = `https://atbtmain.teksacademy.com/form/list?name=userform`;
-  const { data, status } = await axios.get(api);
-  if (status === 200) {
-    return data;
-  } else {
-    throw new Error(`unable to fetch form structure ${status}`);
+// import axios from 'axios';
+const userData = JSON.parse(localStorage.getItem('data'));
+const token = userData?.token;
+
+export async function userFormLoader({ params }) {
+  try {
+    const formApi = 'https://atbtmain.teksacademy.com/form/list?name=userform';
+    let userData = null;
+
+    if (params && params.id) {
+      const userApi = `https://atbtmain.teksacademy.com/user/list/${params.id}`;
+      const userResponse = await axios.get(userApi, {
+        headers: {
+          Authorization: token,
+        },
+      });
+      userData = userResponse.data;
+    }
+
+    const formResponse = await axios.get(formApi);
+    const formData = formResponse.data;
+    return { userData, formData };
+  } catch (error) {
+    if (error.response) {
+      throw new Error(`Failed to fetch data: ${error.response.status}`);
+    } else if (error.request) {
+      throw new Error('Request made but no response received');
+    } else {
+      throw new Error(`Error setting up request: ${error.message}`);
+    }
   }
 }
 
+// export async function userFormLoader({ request, params }) {
+//   console.log('loaded', params);
+//   const api = `https://atbtmain.teksacademy.com/form/list?name=userform`;
+//   if (!!params.id) {
+//     const userId = await axios.get(
+//       `https://atbtmain.teksacademy.com//user/list/${params?.id}`
+//     );
+//   }
+//   const { data, status } = await axios.get(api);
+//   if (status === 200) {
+//     return data;
+//   } else {
+//     throw new Error(`unable to fetch form structure ${status}`);
+//   }
+// }
+
 function UserForm() {
+  const userData = JSON.parse(localStorage.getItem("data"))
+  let createdBy = userData.user.id
+  console.log("createdBy",createdBy)
+  const token = userData?.token
   const navigate = useNavigate();
   const formStructure = useLoaderData();
-  const customFormField = formStructure.Data;
-  console.log(customFormField, 'fs');
+  console.log(formStructure, 'fs');
   let submit = useSubmit();
-  const userData = JSON.parse(localStorage.getItem('data'));
-  const token = userData?.token;
+  function setInitialForm() {
+    let response = formStructure?.formData?.Data ?? [];
+    if (!!formStructure?.userData) {
+      let user = formStructure?.userData?.user;
+      console.log('getUser data', user);
+      response.forEach((input) => {
+        if (user.hasOwnProperty(input.inputname)) {
+          input.value = user[input.inputname];
+        }
+      });
+      return response;
+    } else {
+      return response;
+    }
+  }
   const {
     usersState: { users, dashboard },
     usersDispatch,
@@ -41,8 +95,8 @@ function UserForm() {
   const [errors, setErrors] = useState({});
   let [openOptions, setopenOptions] = useState('');
 
-  let [customFormFields, setCustomFormFields] = useState(
-    formStructure?.Data ?? []
+  let [customFormFields, setCustomFormFields] = useState(() =>
+    setInitialForm()
   );
   const handleOpenOptions = (name) => {
     if (openOptions == name) {
@@ -361,7 +415,7 @@ function UserForm() {
       let userremarkshistory = [];
       jsonData.userremarkshistory = JSON.stringify(userremarkshistory);
       jsonData.customFieldsData = JSON.stringify(customFormFields);
-      jsonData.createdBy = parseInt(localStorage.getItem('id'));
+      jsonData.createdBy = createdBy
       for (let i = 0; i < customFormFields.length; i++) {
         if (Array.isArray(customFormFields[i].value)) {
           jsonData[customFormFields[i].inputname] = JSON.stringify(
@@ -924,6 +978,8 @@ function UserForm() {
                         onChange={(e) => handleChange(index, e.target.value)}
                         value={customFormFields[index].value || ''}
                       >
+                          <option value=''>--select--</option>
+
                         {item.options &&
                           item.options.map((option, index) => (
                             <option value={option}>{option}</option>

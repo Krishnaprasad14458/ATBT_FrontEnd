@@ -18,6 +18,8 @@ function ResetPassword() {
             return;
         } else if (!emailPattern.test(email)) {
             setValidityEmail("Invalid email id");
+            // setValidityEmail("Oops! It seems the entered email is not registered");
+
             return;
             // errors.email = 'Invalid email address';
 

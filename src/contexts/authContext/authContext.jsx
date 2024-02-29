@@ -78,7 +78,9 @@ const AuthProvider = ({ children }) => {
               return `${message}`;
             },
           },
-          error: 'invalid email 🤯',
+          error: 'Oops! It seems the entered email is not registered 🤯',
+         
+
         }
       );
       if (status === 200) {
