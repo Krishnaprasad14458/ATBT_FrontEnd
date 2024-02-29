@@ -77,34 +77,126 @@ const addOption = (e) => {
     }
         setSelectOption("")
     }
-const addOrUpdateInput = (e) => {
-     e.preventDefault();
-     if (editIndex !== null) {
-    // Edit existing field
-     const updatedForm = [...customForm];
-    updatedForm[editIndex] = newInputField;
-     setCustomForm(updatedForm);
-    } else {
-     // Add new field
-    if (newInputField.type === "text" ||
-      newInputField.type === "email" ||
-      newInputField.type === "password" ||
-      newInputField.type === "number" ||
-      newInputField.type === "phonenumber" ||
-      newInputField.type === "textarea" ||
-      newInputField.type === "file" ||
-      newInputField.type === "date" ||
-      newInputField.type === "checkbox" ||
-      newInputField.type === "range" || newInputField.type === "time") {
-      let newField = { ...newInputField }
-      delete newField.options
-     setCustomForm((prev) => [...prev, newField]);
-     }
-    else {
-    setCustomForm((prev) => [...prev, newInputField]);
-    }}
-    setOpen(false);
-    };
+
+
+    /////validations
+    const [addInputerrors, setAddInputErrors] = useState({});
+
+    const [isAddInputFormErrorspresent, setIsAddInputFormErrorspresent] = useState(false);
+  
+    const checkAddInpuValidation = () => {
+        let isErrorspresent = false;
+    
+        if (!newInputField.label.trim()) {
+            setAddInputErrors((prev) => ({
+              ...prev,
+             label: 'Label is required',
+            }));
+  
+            isErrorspresent = true;
+          } 
+          else if (newInputField.label.trim().length < 2) {
+            setAddInputErrors((prev) => ({
+                ...prev,
+               label: 'Label should contain atleast 3 characters',
+              }));
+  
+            isErrorspresent = true;
+          } else {
+            setAddInputErrors((prev) => ({
+              ...prev,
+             label: '',
+            }));
+          }
+       
+        if (!newInputField.type.trim()) {
+            setAddInputErrors((prev) => ({
+              ...prev,
+             type: 'Type is required',
+            }));
+  
+            isErrorspresent = true;
+          }  else {
+            setAddInputErrors((prev) => ({
+              ...prev,
+             type: '',
+            }));
+          }
+
+          if ((newInputField.type === 'select' || newInputField.type === 'multiselect') && newInputField.options.length === 0) {
+          ;
+          setAddInputErrors((prev) => ({
+                ...prev,
+               options: 'At least one option is required',
+              }));
+    
+              isErrorspresent = true;
+        }  else {
+            setAddInputErrors((prev) => ({
+              ...prev,
+              options: '',
+            }));
+          }
+        if (isErrorspresent) {
+            setIsAddInputFormErrorspresent(true);
+        }
+        if (!isErrorspresent) {
+            setIsAddInputFormErrorspresent(false);
+        }
+        return isErrorspresent;
+      };
+      useEffect(() => {
+        if (isAddInputFormErrorspresent && newInputField) {
+            checkAddInpuValidation();
+        }
+      }, [newInputField]);
+
+   
+     const  addOrUpdateInput = (e) =>{
+        e.preventDefault();
+    
+        if (!checkAddInpuValidation()) {
+
+            //////
+            if (editIndex !== null) {
+                // Edit existing field
+                 const updatedForm = [...customForm];
+                updatedForm[editIndex] = newInputField;
+                 setCustomForm(updatedForm);
+                } else {
+                 // Add new field
+                if (newInputField.type === "text" ||
+                  newInputField.type === "email" ||
+                  newInputField.type === "password" ||
+                  newInputField.type === "number" ||
+                  newInputField.type === "phonenumber" ||
+                  newInputField.type === "textarea" ||
+                  newInputField.type === "file" ||
+                  newInputField.type === "date" ||
+                  newInputField.type === "checkbox" ||
+                  newInputField.type === "range" || newInputField.type === "time") {
+                  let newField = { ...newInputField }
+                  delete newField.options
+                 setCustomForm((prev) => [...prev, newField]);
+                 }
+                else {
+                setCustomForm((prev) => [...prev, newInputField]);
+                }}
+                setOpen(false);
+        //////////////////////
+        }
+      }
+  
+///// validations
+
+
+
+
+
+
+
+
+
     const handleMoveDimension = (index, direction) => {
         const updatedForm = [...customForm];
         if (direction === 'up' && index > 0) {
@@ -397,6 +489,15 @@ return (
                                                     onChange={handleInputChange}
                                                     className="p-2 m-2 text-xs w-full md:w-72 lg:w-72 xl:w-72 bg-gray-50 rounded-md border-2 border-gray-200  text-gray-900 appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400"/>
                                            </div>
+                                           <div className='h-2 text-[#dc2626]'>
+   
+                          {addInputerrors.label && (
+                            <span className='text-xs'>
+                              {addInputerrors.label}
+                            </span>
+                          )}
+                        </div>
+
                                         {
                                             <div >
                                                 <div className="flex">
@@ -405,6 +506,8 @@ return (
                                                     <span className="mt-3 ms-3">:</span>
                                                         <select name="type" className={`p-2 mx-2  py-1.5 my-2 text-xs w-full md:w-72 lg:w-72 xl:w-72 bg-gray-50 rounded-md border-2  border-gray-200  text-gray-900 shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-xs  custom-scroll " ${editIndex == null ? "" : "pointer-events-none opacity-30"}`}
                                                             value={newInputField.type} onChange={handleInputChange} >
+                                                                <option value=''>
+                                                                    --select--</option>
                                                             {inputType && inputType.map((type, index) => (    
                                                                    <option value={type.value}>
                                                                     {type.label}</option>
@@ -479,8 +582,7 @@ return (
                                                     </div>}
                                                 </div>
                                             </div>}
-                                    </form>
-                                    <div className="w-full flex justify-end  ">
+                                            <div className="w-full flex justify-end  ">
                                         <button
                                             type="button"
                                             className="rounded-md  bg-orange-600 me-2 px-3 py-2 text-sm  text-white shadow-sm sm:ml-3 "
@@ -488,6 +590,8 @@ return (
                                             Submit
                                         </button>
                                     </div>
+                                    </form>
+                                  
                                 </Dialog.Panel>
                             </Transition.Child>
                         </div>
