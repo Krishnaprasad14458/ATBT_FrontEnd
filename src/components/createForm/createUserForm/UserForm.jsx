@@ -92,7 +92,6 @@ function UserForm() {
     createUser,
   } = useContext(UserDataContext);
 
-  const [errors, setErrors] = useState({});
   let [openOptions, setopenOptions] = useState('');
 
   let [customFormFields, setCustomFormFields] = useState(() =>
@@ -145,6 +144,8 @@ function UserForm() {
   });
 
   /////
+  const [errors, setErrors] = useState({});
+
   const [isErrorspresent, setIsErrorspresent] = useState(false);
   const checkValidation = () => {
     let isErrorspresent = false;
