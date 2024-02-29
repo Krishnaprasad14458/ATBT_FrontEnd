@@ -139,7 +139,7 @@ const addOrUpdateInput = (e) => {
             }
           }
     };
-    const inputType = [{ label: "", value: "" }, 
+    const inputType = [ 
     { label: "Text", value: "text" }, 
     { label: "Email", value: "email" },
     { label: "Password", value: "password" },
@@ -268,30 +268,63 @@ return (
                                                 <div class="w-full">
                                                     <div class="input-mol  p-[0.5rem]   w-full text-darkSlate01 text-sm rounded focus:outline-none bg-[#f8fafc] focus:shadow-none border border-slate04 focus:border-slate01!rounded-none py-3 !text-body px-4  undefined cursor-default">{input.type.charAt(0).toUpperCase() + input.type.slice(1)}</div>
                                                 </div></div></div></div>
-                                    <div className="flex flex-wrap mb-5 gap-10">
-                                        {/* {input.type.charAt(0).toUpperCase() + input.type.slice(1)} */}
-                                        <div className="w-1/5 hidden sm:block"></div>
-                                        <div class=" flex flex-wrap pt-5  gap-1 ">
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 mt-1">
-                                                {input.mandatory ? (
-                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                                                ) : (
-                                                    <path stroke-linecap="round" stroke-linejoin="round" d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                                                )}
-                                            </svg>
-                                            <div class=" text-body text-darkSlate01"> Required</div>
-                                        </div>
-                                        <div class="  flex flex-wrap pt-5  gap-1 ">
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 mt-1">
-                                                {input.filterable ? (
-                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                                                ) : (
-                                                    <path stroke-linecap="round" stroke-linejoin="round" d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                                                )}
-                                            </svg>
-                                            <div class=" text-body text-darkSlate01  lg:pe-20">Filtered</div>
-                                        </div>
-                                    </div>
+                                                <div className='flex flex-wrap mb-4  sm:gap-0 md:gap-10 '>
+
+{/* {input.type.charAt(0).toUpperCase() + input.type.slice(1)} */}
+<div className='w-1/5 hidden sm:block'></div>
+<div class=' flex flex-wrap pt-5  gap-1 '>
+  <svg
+    xmlns='http://www.w3.org/2000/svg'
+    fill='none'
+    viewBox='0 0 24 24'
+    stroke-width='1.5'
+    stroke='currentColor'
+    class='w-4 h-4 mt-1'
+  >
+    {input.mandatory ? (
+      <path
+        stroke-linecap='round'
+        stroke-linejoin='round'
+        d='M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z'
+      />
+    ) : (
+      <path
+        stroke-linecap='round'
+        stroke-linejoin='round'
+        d='m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z'
+      />
+    )}
+  </svg>
+  <div class=' text-body text-darkSlate01'> Required</div>
+</div>
+<div class='  flex flex-wrap pt-5  gap-1 '>
+  <svg
+    xmlns='http://www.w3.org/2000/svg'
+    fill='none'
+    viewBox='0 0 24 24'
+    stroke-width='1.5'
+    stroke='currentColor'
+    class='w-4 h-4 mt-1'
+  >
+    {input.filterable ? (
+      <path
+        stroke-linecap='round'
+        stroke-linejoin='round'
+        d='M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z'
+      />
+    ) : (
+      <path
+        stroke-linecap='round'
+        stroke-linejoin='round'
+        d='m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z'
+      />
+    )}
+  </svg>
+  <div class=' text-body text-darkSlate01  lg:pe-20'>
+    Filtered
+  </div>
+</div>
+</div>
                                     <div class="flex justify-end w-full pb-2">
                                         <div class="mr-4">
                                             <button class="flex  justify-center rounded-md  border-2 border-orange-600 px-3 py-2 text-sm font-medium leading-6 text-orange-600 shadow-sm  focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600" onClick={() => {
@@ -338,7 +371,7 @@ return (
                                 <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white shadow-xl transition-all sm:my-8 px-2 py-5 ">
                                     <span className="flex justify-between mb-2">
                                         <span>
-                                        {editIndex == null ? <p className="text-md ms-16 md:ms-24 font-semibold">Add New Input Field</p > : <p className="text-md   ms-14 md:ms-28 font-semibold">Edit Input Field</p>}
+                                        {editIndex == null ? <p className="text-md ms-16 md:ms-28 font-semibold">Add New Input Field</p > : <p className="text-md   ms-20 md:ms-28 font-semibold">Edit Input Field</p>}
                                         </span>
                                         <span className="text-end">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" onClick={() => {
@@ -389,7 +422,7 @@ return (
                                                                         required
                                                                         value={selectOption}
                                                                         onChange={(e) => setSelectOption(e.target.value)}
-                                                                        className="p-2 m-2 text-xs w-full  md:w-56 lg:w-56 xl:w-56 bg-gray-50 rounded-md border-2 border-gray-200  text-gray-900 appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 "/>
+                                                                        className="p-2 m-2 text-xs w-full py-1.5  md:w-56 lg:w-56 xl:w-56 bg-gray-50 rounded-md border-2 border-gray-200  text-gray-900 appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 "/>
                                                                     <button
                                                                     type="button"
                                                                     className="inline-flex justify-center rounded-md bg-orange-600 px-3 py-2 m-2 text-sm font-semibold text-white shadow-sm sm:text-end"
