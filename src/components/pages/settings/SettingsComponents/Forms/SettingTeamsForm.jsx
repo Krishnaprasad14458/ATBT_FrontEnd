@@ -108,42 +108,117 @@ const SettingTeamsForm = () => {
     }
     useEffect(() => {
         console.log("newInputField", newInputField)
-    })
+    });
+    // validation for popup
+
+    const [addInputerrors, setAddInputErrors] = useState({});
+
+    const [isAddInputFormErrorspresent, setIsAddInputFormErrorspresent] = useState(false);
+
+    const checkAddInpuValidation = () => {
+        let isErrorspresent = false;
+
+        if (!newInputField.label.trim()) {
+            setAddInputErrors((prev) => ({
+                ...prev,
+                label: 'Label is required',
+            }));
+
+            isErrorspresent = true;
+        }
+        else if (newInputField.label.trim().length < 2) {
+            setAddInputErrors((prev) => ({
+                ...prev,
+                label: 'Enter atleast 2 characters',
+            }));
+
+            isErrorspresent = true;
+        } else {
+            setAddInputErrors((prev) => ({
+                ...prev,
+                label: '',
+            }));
+        }
+
+        if (!newInputField.type.trim()) {
+            setAddInputErrors((prev) => ({
+                ...prev,
+                type: 'Type is required',
+            }));
+
+            isErrorspresent = true;
+        } else {
+            setAddInputErrors((prev) => ({
+                ...prev,
+                type: '',
+            }));
+        }
+
+        if ((newInputField.type === 'select' || newInputField.type === 'multiselect') && newInputField.options.length === 0) {
+            ;
+            setAddInputErrors((prev) => ({
+                ...prev,
+                options: 'At least one option is required',
+            }));
+
+            isErrorspresent = true;
+        } else {
+            setAddInputErrors((prev) => ({
+                ...prev,
+                options: '',
+            }));
+        }
+        if (isErrorspresent) {
+            setIsAddInputFormErrorspresent(true);
+        }
+        if (!isErrorspresent) {
+            setIsAddInputFormErrorspresent(false);
+        }
+        return isErrorspresent;
+    };
+    useEffect(() => {
+        if (isAddInputFormErrorspresent && newInputField) {
+            checkAddInpuValidation();
+        }
+    }, [newInputField]);
 
     const addOrUpdateInput = (e) => {
         e.preventDefault();
-        if (editIndex !== null) {
-            // Edit existing field
-            const updatedForm = [...customForm];
-            updatedForm[editIndex] = newInputField;
-            setCustomForm(updatedForm);
-            // setEditIndex(null);
-        } else {
-            // Add new field
-            if (newInputField.type === "text" ||
-                newInputField.type === "email" ||
-                newInputField.type === "password" ||
-                newInputField.type === "number" ||
-                newInputField.type === "phonenumber" ||
-                newInputField.type === "textarea" ||
-                newInputField.type === "file" ||
-                newInputField.type === "date" ||
-                newInputField.type === "checkbox" ||
-                newInputField.type === "range" || newInputField.type === "time") {
-                let newField = { ...newInputField }
-                delete newField.options
-                setCustomForm((prev) => [...prev, newField]);
+        if (!checkAddInpuValidation()) {
+            if (editIndex !== null) {
+                // Edit existing field
+                const updatedForm = [...customForm];
+                updatedForm[editIndex] = newInputField;
+                setCustomForm(updatedForm);
+                // setEditIndex(null);
+            } else {
+                // Add new field
+                if (newInputField.type === "text" ||
+                    newInputField.type === "email" ||
+                    newInputField.type === "password" ||
+                    newInputField.type === "number" ||
+                    newInputField.type === "phonenumber" ||
+                    newInputField.type === "textarea" ||
+                    newInputField.type === "file" ||
+                    newInputField.type === "date" ||
+                    newInputField.type === "checkbox" ||
+                    newInputField.type === "range" || newInputField.type === "time") {
+                    let newField = { ...newInputField }
+                    delete newField.options
+                    setCustomForm((prev) => [...prev, newField]);
+
+                }
+                else {
+                    setCustomForm((prev) => [...prev, newInputField]);
+                }
 
             }
-            else {
-                setCustomForm((prev) => [...prev, newInputField]);
-            }
 
-        }
-
-        // setNewInputField({ label: '', type: '', inputname: "", value: "", filterable: false, mandatory: false });
-        setOpen(false);
-    };
+            // setNewInputField({ label: '', type: '', inputname: "", value: "", filterable: false, mandatory: false });
+            setOpen(false);
+        };
+    }
+    //  validation end
     const handleMoveDimension = (index, direction) => {
         const updatedForm = [...customForm];
         if (direction === 'up' && index > 0) {
@@ -182,8 +257,20 @@ const SettingTeamsForm = () => {
     };
 
 
-    const inputType = [{ label: "", value: "" }, { label: "Text", value: "text" }, { label: "Email", value: "email" }, { label: "Password", value: "password" },
-    { label: "Number", value: "number" }, { label: "Phone Number", value: "phonenumber" }, { label: "Text Area", value: "textarea" }, { label: "File", value: "file" }, { label: "Date", value: "date" }, { label: "Select", value: "select" }, { label: "Multi Select", value: "multiselect" }, { label: "Checkbox", value: "checkbox" }, { label: "Range", value: "range" }, { label: "Time", value: "time" }
+    const inputType = [
+        { label: "Text", value: "text" },
+        { label: "Email", value: "email" },
+        { label: "Password", value: "password" },
+        { label: "Number", value: "number" },
+        { label: "Phone Number", value: "phonenumber" },
+        { label: "Text Area", value: "textarea" },
+        { label: "File", value: "file" },
+        { label: "Date", value: "date" },
+        { label: "Select", value: "select" },
+        { label: "Multi Select", value: "multiselect" },
+        { label: "Checkbox", value: "checkbox" },
+        { label: "Range", value: "range" },
+        { label: "Time", value: "time" }
     ]
 
     const handleSubmitCustomForm = async () => {
@@ -298,16 +385,16 @@ const SettingTeamsForm = () => {
                                         <div class=" sm:w-full md:w-1/2 lg:w-1/2 xl:1/2 ">
                                             <div class="w-full relative m-0 ">
                                                 <div class="w-full">
-                                                    <div class="input-mol  p-[0.5rem]   w-full text-darkSlate01 text-sm rounded focus:outline-none bg-[#f8fafc] focus:shadow-none border border-slate04 focus:border-slate01!rounded-none py-3 !text-body px-4  undefined cursor-default"   > {input.label.charAt(0).toUpperCase() + input.label.slice(1)}</div>
+                                                    <div class="input-mol  p-[0.5rem]  w-full text-darkSlate01 text-sm rounded focus:outline-none bg-[#f8fafc] focus:shadow-none border border-slate04 focus:border-slate01!rounded-none py-3 !text-body px-4 undefined cursor-default"> {input.label.charAt(0).toUpperCase() + input.label.slice(1)}</div>
                                                 </div></div></div></div>
                                     <div class="border-b border-slateStroke flex flex-wrap py-4 gap-2">
                                         <div class="sm:w-full sm-py-1 md:w-1/5 lg:w-1/5 xl:w-1/5 text-body text-darkSlate01 text-md text-body pt-2">Field Type</div>
                                         <div class="sm:w-full md:w-1/2 lg:w-1/2 xl:1/2  ">
                                             <div class="relative w-full m-0 ">
                                                 <div class="w-full">
-                                                    <div class="input-mol  p-[0.5rem]   w-full text-darkSlate01 text-sm rounded focus:outline-none bg-[#f8fafc] focus:shadow-none border border-slate04 focus:border-slate01!rounded-none py-3 !text-body px-4  undefined cursor-default">{input.type.charAt(0).toUpperCase() + input.type.slice(1)}</div>
+                                                    <div class="input-mol  p-[0.5rem]   w-full text-darkSlate01 text-sm rounded focus:outline-none bg-[#f8fafc] focus:shadow-none border border-slate04 focus:border-slate01!rounded-none py-3 !text-body px-4  undefined ">{input.type.charAt(0).toUpperCase() + input.type.slice(1)}</div>
                                                 </div></div></div></div>
-                                    <div className="flex flex-wrap mb-5 gap-10">
+                                    <div className="flex flex-wrap mb-4  sm:gap-0 md:gap-10 ">
                                         {/* {input.type.charAt(0).toUpperCase() + input.type.slice(1)} */}
                                         <div className="w-1/5 hidden sm:block"></div>
                                         <div class=" flex flex-wrap pt-5  gap-1 ">
@@ -319,7 +406,7 @@ const SettingTeamsForm = () => {
                                                     <path stroke-linecap="round" stroke-linejoin="round" d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                                                 )}
                                             </svg>
-                                            <div class=" text-body text-darkSlate01"> Required</div>
+                                            <div class=" text-body text-darkSlate01"> Mandatory</div>
                                         </div>
                                         <div class="  flex flex-wrap pt-5  gap-1 ">
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 mt-1">
@@ -334,8 +421,8 @@ const SettingTeamsForm = () => {
                                     </div>
                                     <div class="flex justify-end w-full  pb-2">
                                         <div class="mr-4">
-                                            <button class=" flex  justify-center rounded-md  border-2 border-orange-600 px-3 py-2 text-sm font-medium leading-6 text-orange-600 shadow-sm  focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600                       
-                       " onClick={() => {
+                                            <button class=" flex  justify-center rounded-md  border-2 border-orange-600 px-3 py-2 text-sm font-medium leading-6 text-orange-600 shadow-sm  focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600"
+                                                onClick={() => {
                                                     setNewInputField(input);
                                                     setEditIndex(index);
                                                     setOpen(true);
@@ -343,11 +430,12 @@ const SettingTeamsForm = () => {
                                         </div>
                                         <div class="mr-4">
                                             <button class={`flex w-full justify-center rounded-md bg-[#dc2626] px-3 py-2.5 text-sm font-medium leading-6 text-white shadow-sm  focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600 ${input.field === "custom" ? "" : "pointer-events-none opacity-30  cursor-not-allowed"}`}
-
                                                 onClick={() => {
                                                     deleteInput(index);
                                                 }}>Delete</button>
                                         </div>
+
+
                                     </div>
                                 </div>
                             }
@@ -380,7 +468,7 @@ const SettingTeamsForm = () => {
                                 <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white shadow-xl transition-all sm:my-8 px-2 py-5 ">
                                     <span className="flex justify-between mb-2">
                                         <span>
-                                            {editIndex == null ? <p className="text-md ms-16 md:ms-24 font-semibold">Add New Input Field</p > : <p className="text-md   ms-14 md:ms-28 font-semibold">Edit Input Field</p>}
+                                            {editIndex == null ? <p className="text-md ms-16 md:ms-28 font-semibold">Add New Input Field</p > : <p className="text-md   ms-20 md:ms-28 font-semibold">Edit Input Field</p>}
                                         </span>
                                         <span className="text-end">
                                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" onClick={() => {
@@ -404,26 +492,40 @@ const SettingTeamsForm = () => {
                                                 onChange={handleInputChange}
                                                 className="p-2 m-2 text-xs w-full md:w-72 lg:w-72 xl:w-72 bg-gray-50 rounded-md border-2 border-gray-200  text-gray-900 appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400" />
                                         </div>
+                                        <span className=' text-[#dc2626]'>
+                                            {addInputerrors.label && (
+                                                <span className='text-xs flex justify-center ms-14 md:ms-0'>
+                                                    {addInputerrors.label}
+                                                </span>
+                                            )}
+                                        </span>
                                         {
                                             <div >
-
-
                                                 <div className="flex">
-                                                    <label htmlFor="venue" className="inline-flex text-sm font-medium leading-6 mt-3 mb-2  mx-2 text-gray-900 ">Type   <span className='text-[#dc2626]'> * </span>
+                                                    <label htmlFor="venue" className="inline-flex text-sm font-medium leading-6 mt-3 mb-2  mx-2 text-gray-900 ">Type  <span className='text-[#dc2626]'> * </span>
                                                     </label>
                                                     <span className="mt-3 ms-3">:</span>
-                                                    <select name="type" className={`p-2 mx-2 py-1.5  my-2 text-xs w-full md:w-72 lg:w-72 xl:w-72 bg-gray-50 rounded-md border-2  border-gray-200  text-gray-900 shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-xs  custom-scroll " ${editIndex == null ? "" : "pointer-events-none opacity-30"}`}
+                                                    <select name="type" className={`p-2 mx-2  py-1.5 my-2 text-xs w-full md:w-72 lg:w-72 xl:w-72 bg-gray-50 rounded-md border-2  border-gray-200  text-gray-900 shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-xs  custom-scroll " ${editIndex == null ? "" : "pointer-events-none opacity-30"}`}
                                                         value={newInputField.type} onChange={handleInputChange} >
+                                                        <option value=''>
+                                                            --select type--</option>
                                                         {inputType && inputType.map((type, index) => (
                                                             <option value={type.value}>
                                                                 {type.label}</option>
                                                         ))}
                                                     </select>
                                                 </div>
+                                                <div className=' text-[#dc2626]'>
+                                                    {addInputerrors.type && (
+                                                        <span className='text-xs flex justify-center ms-14 md:ms-0'>
+                                                            {addInputerrors.type}
+                                                        </span>
+                                                    )}
+                                                </div>
                                                 {
                                                     (newInputField.type === "select" || newInputField.type === "multiselect") && (
                                                         <div>
-                                                            <p className="text-xs  flex justify-center"> Add options for  &nbsp;<span className="font-semibold text-xs">  select  </span></p>
+                                                            <p className="text-xs   ms-16 md:ms-0 md:justify-center "> Add options for  &nbsp;<span className="font-semibold text-xs">  multi select </span></p>
                                                             <div className="flex ">
                                                                 <label htmlFor="venue" className="inline-flex text-sm font-medium leading-6 mt-3 text-gray-900 ">Option <span className='text-[#dc2626]'> * </span>  </label><span className="mt-3 ms-4 ">:</span>
                                                                 <input
@@ -433,7 +535,7 @@ const SettingTeamsForm = () => {
                                                                     required
                                                                     value={selectOption}
                                                                     onChange={(e) => setSelectOption(e.target.value)}
-                                                                    className="p-2 m-2 text-xs w-full  md:w-56 lg:w-56 xl:w-56 bg-gray-50 rounded-md border-2 border-gray-200  text-gray-900 appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 " />
+                                                                    className="p-2 m-2 text-xs w-full py-1.5  md:w-56 lg:w-56 xl:w-56 bg-gray-50 rounded-md border-2 border-gray-200  text-gray-900 appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 " />
                                                                 <button
                                                                     type="button"
                                                                     className="inline-flex justify-center rounded-md bg-orange-600 px-3 py-2 m-2 text-sm font-semibold text-white shadow-sm sm:text-end"
@@ -441,12 +543,19 @@ const SettingTeamsForm = () => {
                                                                     Add
                                                                 </button>
                                                             </div>
+                                                            <div className=' text-[#dc2626]'>
+                                                                {addInputerrors.options && (
+                                                                    <span className='text-xs flex justify-center ms-16 md:ms-0'>
+                                                                        {addInputerrors.options}
+                                                                    </span>
+                                                                )}
+                                                            </div>
                                                             <div className="ps-2 py-2"> {newInputField.options && newInputField.options.length > 0 && (
-                                                                <div class="  border border-1 md:w-[360px] border-gray-200 mb-3  ps-1 py-1 rounded-md gap-2 flex flex-wrap overflow-y-auto" style={{ maxHeight: '100px' }}>
+                                                                <div className="  border border-1 md:w-[360px] border-gray-200 mb-3  ps-1 py-1 rounded-md gap-2 flex flex-wrap overflow-y-auto" style={{ maxHeight: '100px' }}>
                                                                     {newInputField.options.map((option, index) => (
                                                                         <span key={index} className="text-xs border border-1 border-gray-200 rounded-md p-1  flex">
                                                                             {option}
-                                                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-4 h-4" onClick={() => deleteOption(index)}>
+                                                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="w-4 h-4" onClick={() => deleteOption(index)}>
                                                                                 <path d="M5.28 4.22a.75.75 0 0 0-1.06 1.06L6.94 8l-2.72 2.72a.75.75 0 1 0 1.06 1.06L8 9.06l2.72 2.72a.75.75 0 1 0 1.06-1.06L9.06 8l2.72-2.72a.75.75 0 0 0-1.06-1.06L8 6.94 5.28 4.22Z" />
                                                                             </svg>
                                                                         </span>
