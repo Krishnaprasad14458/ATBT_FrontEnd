@@ -72,51 +72,130 @@ const SettingUserForm = () => {
     }
     setSelectOption("")
   }
+
+
+  // validations for popup
+
+  const [addInputerrors, setAddInputErrors] = useState({});
+
+  const [isAddInputFormErrorspresent, setIsAddInputFormErrorspresent] = useState(false);
+
+  const checkAddInpuValidation = () => {
+    let isErrorspresent = false;
+
+    if (!newInputField.label.trim()) {
+      setAddInputErrors((prev) => ({
+        ...prev,
+        label: 'Label is required',
+      }));
+
+      isErrorspresent = true;
+    }
+    else if (newInputField.label.trim().length < 2) {
+      setAddInputErrors((prev) => ({
+        ...prev,
+        label: 'Enter atleast 2 characters',
+      }));
+
+      isErrorspresent = true;
+    } else {
+      setAddInputErrors((prev) => ({
+        ...prev,
+        label: '',
+      }));
+    }
+
+    if (!newInputField.type.trim()) {
+      setAddInputErrors((prev) => ({
+        ...prev,
+        type: 'Type is required',
+      }));
+
+      isErrorspresent = true;
+    } else {
+      setAddInputErrors((prev) => ({
+        ...prev,
+        type: '',
+      }));
+    }
+
+    if ((newInputField.type === 'select' || newInputField.type === 'multiselect') && newInputField.options.length === 0) {
+      ;
+      setAddInputErrors((prev) => ({
+        ...prev,
+        options: 'At least one option is required',
+      }));
+
+      isErrorspresent = true;
+    } else {
+      setAddInputErrors((prev) => ({
+        ...prev,
+        options: '',
+      }));
+    }
+    if (isErrorspresent) {
+      setIsAddInputFormErrorspresent(true);
+    }
+    if (!isErrorspresent) {
+      setIsAddInputFormErrorspresent(false);
+    }
+    return isErrorspresent;
+  };
+  useEffect(() => {
+    if (isAddInputFormErrorspresent && newInputField) {
+      checkAddInpuValidation();
+    }
+  }, [newInputField]);
+
   const addOrUpdateInput = (e) => {
     e.preventDefault();
-    if (editIndex !== null) {
-      // Edit existing field
-      const updatedForm = [...customForm];
-      updatedForm[editIndex] = newInputField;
-      setCustomForm(updatedForm);
 
-      setTableView(prevState => {
-        const updatedState = { ...prevState };
-        updatedState[newInputField.inputname] = { label: newInputField.label, value: false };
-        return updatedState;
-      });
-    } else {
-      // Add new field
-      if (newInputField.type === "text" ||
-        newInputField.type === "email" ||
-        newInputField.type === "password" ||
-        newInputField.type === "number" ||
-        newInputField.type === "phonenumber" ||
-        newInputField.type === "textarea" ||
-        newInputField.type === "file" ||
-        newInputField.type === "date" ||
-        newInputField.type === "checkbox" ||
-        newInputField.type === "range" || newInputField.type === "time") {
-        let newField = { ...newInputField }
-        delete newField.options
-        setCustomForm((prev) => [...prev, newField]);
+    if (!checkAddInpuValidation()) {
+      if (editIndex !== null) {
+        // Edit existing field
+        const updatedForm = [...customForm];
+        updatedForm[editIndex] = newInputField;
+        setCustomForm(updatedForm);
+
         setTableView(prevState => {
           const updatedState = { ...prevState };
           updatedState[newInputField.inputname] = { label: newInputField.label, value: false };
           return updatedState;
         });
+      } else {
+        // Add new field
+        if (newInputField.type === "text" ||
+          newInputField.type === "email" ||
+          newInputField.type === "password" ||
+          newInputField.type === "number" ||
+          newInputField.type === "phonenumber" ||
+          newInputField.type === "textarea" ||
+          newInputField.type === "file" ||
+          newInputField.type === "date" ||
+          newInputField.type === "checkbox" ||
+          newInputField.type === "range" || newInputField.type === "time") {
+          let newField = { ...newInputField }
+          delete newField.options
+          setCustomForm((prev) => [...prev, newField]);
+          setTableView(prevState => {
+            const updatedState = { ...prevState };
+            updatedState[newInputField.inputname] = { label: newInputField.label, value: false };
+            return updatedState;
+          });
+        }
+        else {
+          setCustomForm((prev) => [...prev, newInputField]);
+          setTableView(prevState => {
+            const updatedState = { ...prevState };
+            updatedState[newInputField.inputname] = { label: newInputField.label, value: false };
+            return updatedState;
+          });
+        }
       }
-      else {
-        setCustomForm((prev) => [...prev, newInputField]);
-        setTableView(prevState => {
-          const updatedState = { ...prevState };
-          updatedState[newInputField.inputname] = { label: newInputField.label, value: false };
-          return updatedState;
-        });
-      }
-    }
-    setOpen(false);
+      setOpen(false);
+    };
   };
+  // validations end
   const handleMoveDimension = (index, direction) => {
     const updatedForm = [...customForm];
     if (direction === 'up' && index > 0) {
@@ -156,20 +235,20 @@ const SettingUserForm = () => {
     }
 
   };
-  const inputType = [{ label: "", value: "" },
-  { label: "Text", value: "text" },
-  { label: "Email", value: "email" },
-  { label: "Password", value: "password" },
-  { label: "Number", value: "number" },
-  { label: "Phone Number", value: "phonenumber" },
-  { label: "Text Area", value: "textarea" },
-  { label: "File", value: "file" },
-  { label: "Date", value: "date" },
-  { label: "Select", value: "select" },
-  { label: "Multi Select", value: "multiselect" },
-  { label: "Checkbox", value: "checkbox" },
-  { label: "Range", value: "range" },
-  { label: "Time", value: "time" }
+  const inputType = [
+    { label: "Text", value: "text" },
+    { label: "Email", value: "email" },
+    { label: "Password", value: "password" },
+    { label: "Number", value: "number" },
+    { label: "Phone Number", value: "phonenumber" },
+    { label: "Text Area", value: "textarea" },
+    { label: "File", value: "file" },
+    { label: "Date", value: "date" },
+    { label: "Select", value: "select" },
+    { label: "Multi Select", value: "multiselect" },
+    { label: "Checkbox", value: "checkbox" },
+    { label: "Range", value: "range" },
+    { label: "Time", value: "time" }
   ]
   const handleSubmitCustomForm = async () => {
     let formData = {
@@ -451,6 +530,13 @@ const SettingUserForm = () => {
                         onChange={handleInputChange}
                         className="p-2 m-2 text-xs w-full md:w-72 lg:w-72 xl:w-72 bg-gray-50 rounded-md border-2 border-gray-200  text-gray-900 appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400" />
                     </div>
+                    <span className=' text-[#dc2626]'>
+                      {addInputerrors.label && (
+                        <span className='text-xs flex justify-center ms-14 md:ms-0'>
+                          {addInputerrors.label}
+                        </span>
+                      )}
+                    </span>
                     {
                       <div >
                         <div className="flex">
@@ -459,11 +545,20 @@ const SettingUserForm = () => {
                           <span className="mt-3 ms-3">:</span>
                           <select name="type" className={`p-2 mx-2  py-1.5 my-2 text-xs w-full md:w-72 lg:w-72 xl:w-72 bg-gray-50 rounded-md border-2  border-gray-200  text-gray-900 shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-xs  custom-scroll " ${editIndex == null ? "" : "pointer-events-none opacity-30"}`}
                             value={newInputField.type} onChange={handleInputChange} >
+                            <option value=''>
+                              --select type--</option>
                             {inputType && inputType.map((type, index) => (
                               <option value={type.value}>
                                 {type.label}</option>
                             ))}
                           </select>
+                        </div>
+                        <div className=' text-[#dc2626]'>
+                          {addInputerrors.type && (
+                            <span className='text-xs flex justify-center ms-14 md:ms-0'>
+                              {addInputerrors.type}
+                            </span>
+                          )}
                         </div>
                         {
                           (newInputField.type === "select" || newInputField.type === "multiselect") && (
@@ -485,6 +580,13 @@ const SettingUserForm = () => {
                                   onClick={addOption}>
                                   Add
                                 </button>
+                              </div>
+                              <div className=' text-[#dc2626]'>
+                                {addInputerrors.options && (
+                                  <span className='text-xs flex justify-center ms-16 md:ms-0'>
+                                    {addInputerrors.options}
+                                  </span>
+                                )}
                               </div>
                               <div className="ps-2 py-2"> {newInputField.options && newInputField.options.length > 0 && (
                                 <div className="  border border-1 md:w-[360px] border-gray-200 mb-3  ps-1 py-1 rounded-md gap-2 flex flex-wrap overflow-y-auto" style={{ maxHeight: '100px' }}>
