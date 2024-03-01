@@ -19,14 +19,21 @@
     list-style: none;
     padding: 0;
     margin: 0;
- 
+
 }
+
 .draggable-element {
     position: absolute;
     cursor: grab;
     user-select: none;
-  }
-  
-  .draggable-element:active {
+}
+
+.draggable-element:active {
     cursor: grabbing;
-  }
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}

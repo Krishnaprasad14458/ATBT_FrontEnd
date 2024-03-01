@@ -626,26 +626,65 @@ function BoardMeetingForm() {
                       <div className='h-2 text-[#dc2626]'>{errors[item.inputname] && <span className='text-xs'>{errors[item.inputname]}</span>}</div>
                     </div>
                   )}
-                  {(item.type === 'number' || item.type === 'phonenumber') && item.field == "custom" && (
-                    <div>
-                      <label
-                        htmlFor={item.label}
-                        className='block text-sm font-medium leading-6 my-2 text-gray-900'
-                      >
-                        {item.label.charAt(0).toUpperCase() +
-                          item.label.slice(1)}
-                      </label>
-                      <input
-                        type='number'
-                        name={item.inputname}
-                        id={item.inputname}
-                        value={customFormFields[index].value || ''}
-                        onChange={(e) => handleChange(index, e.target.value)}
-                        className='p-2 block w-full rounded-md bg-gray-50 border-2 border-gray-200 py-1 text-gray-900 appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6
-                        placeholder:text-xs' />
-                      <div className='h-2 text-[#dc2626]'>{errors[item.inputname] && <span className='text-xs'>{errors[item.inputname]}</span>}</div>
-                    </div>
-                  )}
+                  {(item.type === 'number') &&
+                    item.field == 'custom' && (
+                      <div>
+                        <label
+                          htmlFor={item.label}
+                          className='block text-sm font-medium leading-6 my-2 text-gray-900'
+                        >
+                          {item.label.charAt(0).toUpperCase() +
+                            item.label.slice(1)}
+                        </label>
+                        <input
+                          type='number'
+                          name={item.inputname}
+                          id={item.inputname}
+                          value={customFormFields[index].value || ''}
+                          onChange={(e) => handleChange(index, e.target.value)}
+                          className='p-2 block w-full rounded-md bg-gray-50 border-2 border-gray-200 py-1 text-gray-900 appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6
+                        placeholder:text-xs'
+                        />
+                        <div className='h-2 text-[#dc2626]'>
+                          {errors[item.inputname] && (
+                            <span className='text-xs'>
+                              {errors[item.inputname]}
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                    )}
+                  {(item.type === 'phonenumber') &&
+                    item.field == 'custom' && (
+                      <div>
+                        <label
+                          htmlFor={item.label}
+                          className='block text-sm font-medium leading-6 my-2 text-gray-900'
+                        >
+                          {item.label.charAt(0).toUpperCase() +
+                            item.label.slice(1)}
+                        </label>
+                        <input
+                          type='number'
+                          name={item.inputname}
+                          id={item.inputname}
+                          value={customFormFields[index].value || ''}
+                          onChange={(e) => {
+                            const value = e.target.value.slice(0, 10); // Limiting to maximum 10 digits
+                            handleChange(index, value);
+                          }}
+                          className='p-2 block w-full rounded-md bg-gray-50 border-2 border-gray-200 py-1 text-gray-900 appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6
+                        placeholder:text-xs'
+                        />
+                        <div className='h-2 text-[#dc2626]'>
+                          {errors[item.inputname] && (
+                            <span className='text-xs'>
+                              {errors[item.inputname]}
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                    )}
                   {item.type === 'checkbox' && item.field == "custom" && (
                     <div>
                       <div className='flex gap-2'>
@@ -775,10 +814,10 @@ function BoardMeetingForm() {
                         onChange={(e) => handleChange(index, e.target.value)}
                         value={customFormFields[index].value || ''}
                       >
-                        <option value=''>--select--</option>
+                        <option value='' className='appearance-none'>--select--</option>
                         {item.options && item.options.map((option, index) => (
-                        <option value={option}>{option}</option>
-                      ))}
+                          <option value={option}>{option}</option>
+                        ))}
                       </select>
                       <div className='h-2 text-[#dc2626]'>{errors[item.inputname] && <span className='text-xs'>{errors[item.inputname]}</span>}</div>
                     </div>
@@ -793,10 +832,26 @@ function BoardMeetingForm() {
                           item.label.slice(1)}
                       </label>
                       <div className='p-2 text-xs flex justify-end w-full bg-gray-50 rounded-md text-gray-900 border-2 border-gray-200 shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-xs sm:leading-6'>
-                        <span onClick={() => handleOpenOptions(item.inputname)} >
-                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5">
-                            <path fillRule="evenodd" d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z" clipRule="evenodd" />
-                          </svg>
+                        <span className='flex justify-between'>
+                          <p className='text-sm text-gray-400'>
+                            {item.value.length > 0 ? <span className='text-xs'>{item.value.join(', ')}</span> : <span className='text-xs'>Please select</span>}
+                          </p>
+                          <span
+                            onClick={() => handleOpenOptions(item.inputname)}
+                          >
+                            <svg
+                              xmlns='http://www.w3.org/2000/svg'
+                              viewBox='0 0 20 20'
+                              fill='currentColor'
+                              className='w-5 h-5'
+                            >
+                              <path
+                                fillRule='evenodd'
+                                d='M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z'
+                                clipRule='evenodd'
+                              />
+                            </svg>
+                          </span>
                         </span>
                       </div>
                       {openOptions === item.inputname && (

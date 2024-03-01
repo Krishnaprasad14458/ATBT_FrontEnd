@@ -95,211 +95,211 @@ function TeamsForm() {
         }
     };
     console.log("customFormFields", customFormFields)
-    
-  /////
-  const [isErrorspresent, setIsErrorspresent] = useState(false)
-  const checkValidation = () => {
-    let isErrorspresent = false
-    for (let i = 0; i < customFormFields.length > 0; i++) {
-      if (customFormFields[i].type == "text" && customFormFields[i].mandatory) {
-        if (customFormFields[i].value.length == 0) {
-          setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please Enter ${customFormFields[i].label}` }))
 
-          isErrorspresent = true
+    /////
+    const [isErrorspresent, setIsErrorspresent] = useState(false)
+    const checkValidation = () => {
+        let isErrorspresent = false
+        for (let i = 0; i < customFormFields.length > 0; i++) {
+            if (customFormFields[i].type == "text" && customFormFields[i].mandatory) {
+                if (customFormFields[i].value.length == 0) {
+                    setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please Enter ${customFormFields[i].label}` }))
+
+                    isErrorspresent = true
+                }
+                else if (customFormFields[i].value.length < 3) {
+                    setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "Name should contain atleast 3 characters" }))
+
+                    isErrorspresent = true
+
+                }
+                else {
+                    setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
+                }
+            }
+            if (customFormFields[i].type == "file" && customFormFields[i].mandatory) {
+                if (!customFormFields[i].value) {
+                    setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please Upload ${customFormFields[i].label}` }))
+
+
+                }
+                else {
+                    setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
+                }
+            }
+            if (customFormFields[i].type == "textarea" && customFormFields[i].mandatory) {
+                if (customFormFields[i].value.length == 0) {
+                    setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "Please Enter Text" }))
+                    isErrorspresent = true
+
+                }
+                else if (customFormFields[i].value.length < 3) {
+                    setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "Name should contain atleast 3 characters" }))
+                    isErrorspresent = true
+
+
+                }
+                else {
+                    setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
+                }
+            }
+            if (customFormFields[i].type == "email" && customFormFields[i].mandatory) {
+                if (customFormFields[i].value.length < 1) {
+                    setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please Enter ${customFormFields[i].label}` }))
+
+                    isErrorspresent = true
+
+                }
+
+                else {
+                    setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
+                }
+            }
+            if (customFormFields[i].type == "number" && customFormFields[i].mandatory) {
+                if (customFormFields[i].value.length < 1) {
+                    setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please Enter ${customFormFields[i].label}` }))
+                    isErrorspresent = true
+
+
+                }
+                else {
+                    setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
+                }
+            }
+            if (customFormFields[i].type == "phonenumber" && customFormFields[i].mandatory) {
+                if (customFormFields[i].value.length !== 10) {
+                    setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please Enter 10 Digits ${customFormFields[i].label}` }))
+                    isErrorspresent = true
+
+
+                }
+                else {
+                    setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
+                }
+            }
+            if (customFormFields[i].type == "select" && customFormFields[i].mandatory) {
+                if (customFormFields[i].value.length < 1) {
+                    setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please Enter ${customFormFields[i].label}` }))
+                    isErrorspresent = true
+
+
+                }
+                else {
+                    setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
+                }
+            }
+            if (customFormFields[i].type == "multiselect" && customFormFields[i].mandatory) {
+                if (customFormFields[i].value.length < 1) {
+                    setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please Enter ${customFormFields[i].label}` }))
+
+                    isErrorspresent = true
+
+                }
+                else {
+                    setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
+                }
+            }
+            if (customFormFields[i].type == "date" && customFormFields[i].mandatory) {
+                if (!customFormFields[i].value) {
+                    setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please Enter ${customFormFields[i].label}` }))
+
+                    isErrorspresent = true
+
+                }
+                else {
+                    setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
+                }
+            }
+            if (customFormFields[i].type == "checkbox" && customFormFields[i].mandatory) {
+                if (!customFormFields[i].value) {
+                    setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please Enter ${customFormFields[i].label}` }))
+
+                    isErrorspresent = true
+
+                }
+                else {
+                    setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
+                }
+            }
+            if (customFormFields[i].type == "range" && customFormFields[i].mandatory) {
+                if (!customFormFields[i].value) {
+                    setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please Enter ${customFormFields[i].label}` }))
+
+                    isErrorspresent = true
+
+                }
+                else {
+                    setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
+                }
+            }
+            if (customFormFields[i].type == "time" && customFormFields[i].mandatory) {
+                if (!customFormFields[i].value) {
+                    setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please Enter ${customFormFields[i].label}` }))
+
+                    isErrorspresent = true
+
+                }
+                else {
+                    setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
+                }
+            }
+            if (customFormFields[i].type == "password" && customFormFields[i].mandatory) {
+                if (customFormFields[i].value.length < 1) {
+                    setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please Enter ${customFormFields[i].label}` }))
+                    isErrorspresent = true
+
+
+                }
+                else {
+                    setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
+                }
+            }
         }
-        else if (customFormFields[i].value.length < 3) {
-          setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "Name should contain atleast 3 characters" }))
-
-          isErrorspresent = true
-
+        if (isErrorspresent) {
+            setIsErrorspresent(true)
         }
-        else {
-          setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
+        if (!isErrorspresent) {
+            setIsErrorspresent(false)
         }
-      }
-      if (customFormFields[i].type == "file" && customFormFields[i].mandatory) {
-        if (!customFormFields[i].value) {
-          setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please Upload ${customFormFields[i].label}` }))
-
-
-        }
-        else {
-          setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
-        }
-      }
-      if (customFormFields[i].type == "textarea" && customFormFields[i].mandatory) {
-        if (customFormFields[i].value.length == 0) {
-            setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "Please Enter Text" }))
-          isErrorspresent = true
-
-        }
-        else if (customFormFields[i].value.length < 3) {
-          setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "Name should contain atleast 3 characters" }))
-          isErrorspresent = true
-
-
-        }
-        else {
-          setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
-        }
-      }
-      if (customFormFields[i].type == "email" && customFormFields[i].mandatory) {
-        if (customFormFields[i].value.length < 1) {
-          setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please Enter ${customFormFields[i].label}` }))
-
-          isErrorspresent = true
-
-        }
-
-        else {
-          setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
-        }
-      }
-      if (customFormFields[i].type == "number" && customFormFields[i].mandatory) {
-        if (customFormFields[i].value.length < 1) {
-          setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please Enter ${customFormFields[i].label}` }))
-          isErrorspresent = true
-
-
-        }
-        else {
-          setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
-        }
-      }
-      if (customFormFields[i].type == "phonenumber" && customFormFields[i].mandatory) {
-        if (customFormFields[i].value.length !== 10) {
-          setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please Enter 10 Digits ${customFormFields[i].label}` }))
-          isErrorspresent = true
-
-
-        }
-        else {
-          setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
-        }
-      }
-      if (customFormFields[i].type == "select" && customFormFields[i].mandatory) {
-        if (customFormFields[i].value.length < 1) {
-          setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please Enter ${customFormFields[i].label}` }))
-          isErrorspresent = true
-
-
-        }
-        else {
-          setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
-        }
-      }
-      if (customFormFields[i].type == "multiselect" && customFormFields[i].mandatory) {
-        if (customFormFields[i].value.length < 1) {
-          setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please Enter ${customFormFields[i].label}` }))
-
-          isErrorspresent = true
-
-        }
-        else {
-          setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
-        }
-      }
-      if (customFormFields[i].type == "date" && customFormFields[i].mandatory) {
-        if (!customFormFields[i].value) {
-          setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please Enter ${customFormFields[i].label}` }))
-
-          isErrorspresent = true
-
-        }
-        else {
-          setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
-        }
-      }
-      if (customFormFields[i].type == "checkbox" && customFormFields[i].mandatory) {
-        if (!customFormFields[i].value) {
-          setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please Enter ${customFormFields[i].label}` }))
-
-          isErrorspresent = true
-
-        }
-        else {
-          setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
-        }
-      }
-      if (customFormFields[i].type == "range" && customFormFields[i].mandatory) {
-        if (!customFormFields[i].value) {
-          setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please Enter ${customFormFields[i].label}` }))
-
-          isErrorspresent = true
-
-        }
-        else {
-          setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
-        }
-      }
-      if (customFormFields[i].type == "time" && customFormFields[i].mandatory) {
-        if (!customFormFields[i].value) {
-          setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please Enter ${customFormFields[i].label}` }))
-
-          isErrorspresent = true
-
-        }
-        else {
-          setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
-        }
-      }
-      if (customFormFields[i].type == "password" && customFormFields[i].mandatory) {
-        if (customFormFields[i].value.length < 1) {
-          setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please Enter ${customFormFields[i].label}` }))
-          isErrorspresent = true
-
-
-        }
-        else {
-          setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
-        }
-      }
+        return isErrorspresent
     }
-    if (isErrorspresent) {
-      setIsErrorspresent(true)
-    }
-    if (!isErrorspresent) {
-      setIsErrorspresent(false)
-    }
-    return isErrorspresent
-  }
-  useEffect(() => {
-    if (isErrorspresent && customFormFields && customFormFields.length > 0) {
-      checkValidation()
-    }
-  }, [customFormFields])
-
-  function handleFormSubmit(e) {
-    e.preventDefault();
-
-    if (!checkValidation()) {
-      const jsonData = {};
-      jsonData.customFieldsData = JSON.stringify(customFormFields)
-      jsonData.loggedInUser = parseInt(localStorage.getItem("id"))
-      for (let i = 0; i < customFormFields.length; i++) {
-        if (Array.isArray(customFormFields[i].value)) {
-          jsonData[customFormFields[i].inputname] = JSON.stringify(customFormFields[i].value)
-        } else {
-          jsonData[customFormFields[i].inputname] = customFormFields[i].value
+    useEffect(() => {
+        if (isErrorspresent && customFormFields && customFormFields.length > 0) {
+            checkValidation()
         }
-      }
-      console.log("jsonData", jsonData);
-      axios.post(
-        `https://atbtmain.teksacademy.com/user/create-user`, jsonData)
-        .then(response => {
-          // console.log(response.data);
-          // console.log("reposnseeeeeeeeee", response.data)
-          navigate(`/teamslandingpage/${parseInt(response.data)}`)
-        })
-        .catch(error => {
-          console.error(error);
-        });
+    }, [customFormFields])
+
+    function handleFormSubmit(e) {
+        e.preventDefault();
+
+        if (!checkValidation()) {
+            const jsonData = {};
+            jsonData.customFieldsData = JSON.stringify(customFormFields)
+            jsonData.loggedInUser = parseInt(localStorage.getItem("id"))
+            for (let i = 0; i < customFormFields.length; i++) {
+                if (Array.isArray(customFormFields[i].value)) {
+                    jsonData[customFormFields[i].inputname] = JSON.stringify(customFormFields[i].value)
+                } else {
+                    jsonData[customFormFields[i].inputname] = customFormFields[i].value
+                }
+            }
+            console.log("jsonData", jsonData);
+            axios.post(
+                `https://atbtmain.teksacademy.com/user/create-user`, jsonData)
+                .then(response => {
+                    // console.log(response.data);
+                    // console.log("reposnseeeeeeeeee", response.data)
+                    navigate(`/teamslandingpage/${parseInt(response.data)}`)
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+        }
+
     }
 
-  }
 
-
-  ////
+    ////
     // function handleFormSubmit(e) {
     //     e.preventDefault();
     //     for (let i = 0; i < customFormFields.length > 0; i++) {
@@ -606,23 +606,65 @@ function TeamsForm() {
                                             <div className='h-2 text-[#dc2626]'>{errors[item.inputname] && <span>{errors[item.inputname]}</span>}</div>
                                         </div>
                                     )}
-                                    {(item.type === 'number' || item.type === 'phonenumber') && item.field == "custom" && (
-                                        <div>
-                                            <label htmlFor={item.label} className="block text-sm font-medium leading-6 my-2 text-gray-900">
-                                                {item.label.charAt(0).toUpperCase() + item.label.slice(1)}
-                                            </label>
-                                            <input
-                                                type="number"
-                                                name={item.inputname}
-
-                                                id={item.inputname}
-                                                value={customFormFields[index].value || ''}
-                                                onChange={(e) => handleChange(index, e.target.value)}
-                                                className="p-2 block w-full rounded-md bg-gray-50 border-2 border-gray-200 py-1 text-gray-900 appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6
-                                                placeholder:text-xs"/>
-                                            <div className='h-2 text-[#dc2626]'>{errors[item.inputname] && <span>{errors[item.inputname]}</span>}</div>
-                                        </div>
-                                    )}
+                                    {(item.type === 'number') &&
+                                        item.field == 'custom' && (
+                                            <div>
+                                                <label
+                                                    htmlFor={item.label}
+                                                    className='block text-sm font-medium leading-6 my-2 text-gray-900'
+                                                >
+                                                    {item.label.charAt(0).toUpperCase() +
+                                                        item.label.slice(1)}
+                                                </label>
+                                                <input
+                                                    type='number'
+                                                    name={item.inputname}
+                                                    id={item.inputname}
+                                                    value={customFormFields[index].value || ''}
+                                                    onChange={(e) => handleChange(index, e.target.value)}
+                                                    className='p-2 block w-full rounded-md bg-gray-50 border-2 border-gray-200 py-1 text-gray-900 appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6
+                        placeholder:text-xs'
+                                                />
+                                                <div className='h-2 text-[#dc2626]'>
+                                                    {errors[item.inputname] && (
+                                                        <span className='text-xs'>
+                                                            {errors[item.inputname]}
+                                                        </span>
+                                                    )}
+                                                </div>
+                                            </div>
+                                        )}
+                                    {(item.type === 'phonenumber') &&
+                                        item.field == 'custom' && (
+                                            <div>
+                                                <label
+                                                    htmlFor={item.label}
+                                                    className='block text-sm font-medium leading-6 my-2 text-gray-900'
+                                                >
+                                                    {item.label.charAt(0).toUpperCase() +
+                                                        item.label.slice(1)}
+                                                </label>
+                                                <input
+                                                    type='number'
+                                                    name={item.inputname}
+                                                    id={item.inputname}
+                                                    value={customFormFields[index].value || ''}
+                                                    onChange={(e) => {
+                                                        const value = e.target.value.slice(0, 10); // Limiting to maximum 10 digits
+                                                        handleChange(index, value);
+                                                    }}
+                                                    className='p-2 block w-full rounded-md bg-gray-50 border-2 border-gray-200 py-1 text-gray-900 appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6
+                        placeholder:text-xs'
+                                                />
+                                                <div className='h-2 text-[#dc2626]'>
+                                                    {errors[item.inputname] && (
+                                                        <span className='text-xs'>
+                                                            {errors[item.inputname]}
+                                                        </span>
+                                                    )}
+                                                </div>
+                                            </div>
+                                        )}
                                     {item.type === 'checkbox' && item.field == "custom" && (
                                         <div>
                                             <div className='flex gap-2'>
@@ -730,10 +772,10 @@ function TeamsForm() {
                                                 onChange={(e) => handleChange(index, e.target.value)}
                                                 value={customFormFields[index].value || ''}
                                             >
-                                               <option value=''>--select--</option> 
+                                                <option value=''>--select--</option>
                                                 {item.options && item.options.map((option, index) => (
-                                                <option value={option}>{option}</option>
-                                            ))}
+                                                    <option value={option}>{option}</option>
+                                                ))}
                                             </select>
                                             <div className='h-2 text-[#dc2626]'>{errors[item.inputname] && <span>{errors[item.inputname]}</span>}</div>
                                         </div>
@@ -744,11 +786,28 @@ function TeamsForm() {
                                                 {item.label.charAt(0).toUpperCase() + item.label.slice(1)}
                                             </label>
                                             <div className='p-2 text-xs block w-full bg-gray-50  rounded-md  text-gray-900   border-2 border-gray-200 shadow-sm  placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-xs sm:leading-6'>
-                                                <span onClick={() => handleOpenOptions(item.inputname)} >
-                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5">
-                                                        <path fillRule="evenodd" d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z" clipRule="evenodd" />
-                                                    </svg>
-                                                </span></div>
+                                                <span className='flex justify-between'>
+                                                    <p className='text-sm text-gray-400'>
+                                                        {item.value.length > 0 ? <span className='text-xs'>{item.value.join(', ')}</span> : <span className='text-xs'>Please select</span>}
+                                                    </p>
+                                                    <span
+                                                        onClick={() => handleOpenOptions(item.inputname)}
+                                                    >
+                                                        <svg
+                                                            xmlns='http://www.w3.org/2000/svg'
+                                                            viewBox='0 0 20 20'
+                                                            fill='currentColor'
+                                                            className='w-5 h-5'
+                                                        >
+                                                            <path
+                                                                fillRule='evenodd'
+                                                                d='M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z'
+                                                                clipRule='evenodd'
+                                                            />
+                                                        </svg>
+                                                    </span>
+                                                </span>
+                                            </div>
                                             {openOptions === item.inputname && (
                                                 <div className="block  border-2 border-gray-200 px-3 h-28 overflow-y-auto">
                                                     {item.options.map((option, subindex) => (
