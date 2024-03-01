@@ -30,19 +30,7 @@ const Settingentityform = () => {
                 console.error('Error fetching data:', error);
             });
     }, [])
-//     useEffect(() => {
-//         console.log("customForm", customForm)
-//         console.log("newInputField", newInputField)
 
-//     })
-//     .catch(error => {
-//     // Handle errors
-//      console.error('Error fetching data:', error);
-//     }); [])
-// useEffect(() => {
-//     console.log("customForm", customForm)
-//     console.log("newInputField", newInputField)
-//     })
 const handleInputChange = (e) => {
 const { name, value, type, checked } = e.target;
     if (name == "type" && value === "select") {
@@ -79,7 +67,7 @@ const addOption = (e) => {
     }
 
 
-    /////validations
+    /////validations for popup
     const [addInputerrors, setAddInputErrors] = useState({});
 
     const [isAddInputFormErrorspresent, setIsAddInputFormErrorspresent] = useState(false);
@@ -188,16 +176,7 @@ const addOption = (e) => {
       }
   
 ///// validations
-
-
-
-
-
-
-
-
-
-    const handleMoveDimension = (index, direction) => {
+ const handleMoveDimension = (index, direction) => {
         const updatedForm = [...customForm];
         if (direction === 'up' && index > 0) {
             [updatedForm[index], updatedForm[index - 1]] = [updatedForm[index - 1], updatedForm[index]];
@@ -492,7 +471,7 @@ return (
                                            <span className=' text-[#dc2626]'>
    
                           {addInputerrors.label && (
-                            <span className='text-xs flex justify-center ms-10 md:ms-0'>
+                            <span className='text-xs flex justify-center ms-14 md:ms-0'>
                               {addInputerrors.label}
                             </span>
                           )}
@@ -517,7 +496,7 @@ return (
                                               <div className=' text-[#dc2626]'>
    
    {addInputerrors.type && (
-     <span className='text-xs flex justify-center ms-10 md:ms-0'>
+     <span className='text-xs flex justify-center ms-14 md:ms-0'>
        {addInputerrors.type}
      </span>
    )}
