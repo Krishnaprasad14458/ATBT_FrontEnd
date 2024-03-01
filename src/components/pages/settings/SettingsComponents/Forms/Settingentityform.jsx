@@ -98,7 +98,7 @@ const addOption = (e) => {
           else if (newInputField.label.trim().length < 2) {
             setAddInputErrors((prev) => ({
                 ...prev,
-               label: 'Label should contain atleast 3 characters',
+               label: 'Enter atleast 2 characters',
               }));
   
             isErrorspresent = true;
@@ -242,9 +242,9 @@ const addOption = (e) => {
     { label: "Date", value: "date" },
     { label: "Select", value: "select" }, 
     { label: "Multi Select", value: "multiselect" }, 
-    { label: "Checkbox", value: "checkbox" }, 
     { label: "Range", value: "range" },
-    { label: "Time", value: "time" }
+    { label: "Time", value: "time" },
+    { label: "Consent", value: "checkbox" }, 
     ]
     const handleSubmitCustomForm = async () => {
     let formData = {
@@ -489,14 +489,14 @@ return (
                                                     onChange={handleInputChange}
                                                     className="p-2 m-2 text-xs w-full md:w-72 lg:w-72 xl:w-72 bg-gray-50 rounded-md border-2 border-gray-200  text-gray-900 appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400"/>
                                            </div>
-                                           <div className='h-2 text-[#dc2626]'>
+                                           <span className=' text-[#dc2626]'>
    
                           {addInputerrors.label && (
-                            <span className='text-xs'>
+                            <span className='text-xs flex justify-center ms-10 md:ms-0'>
                               {addInputerrors.label}
                             </span>
                           )}
-                        </div>
+                        </span>
 
                                         {
                                             <div >
@@ -507,13 +507,21 @@ return (
                                                         <select name="type" className={`p-2 mx-2  py-1.5 my-2 text-xs w-full md:w-72 lg:w-72 xl:w-72 bg-gray-50 rounded-md border-2  border-gray-200  text-gray-900 shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-xs  custom-scroll " ${editIndex == null ? "" : "pointer-events-none opacity-30"}`}
                                                             value={newInputField.type} onChange={handleInputChange} >
                                                                 <option value=''>
-                                                                    --select--</option>
+                                                                    --select type--</option>
                                                             {inputType && inputType.map((type, index) => (    
                                                                    <option value={type.value}>
                                                                     {type.label}</option>
                                                             ))}
                                                         </select>                                                   
                                               </div>
+                                              <div className=' text-[#dc2626]'>
+   
+   {addInputerrors.type && (
+     <span className='text-xs flex justify-center ms-10 md:ms-0'>
+       {addInputerrors.type}
+     </span>
+   )}
+ </div>
                                                 {
                                                     (newInputField.type === "select" || newInputField.type === "multiselect") && (
                                                         <div>
@@ -535,6 +543,14 @@ return (
                                                                     Add
                                                                 </button>
                                                             </div>
+                                                            <div className=' text-[#dc2626]'>
+   
+   {addInputerrors.options && (
+     <span className='text-xs flex justify-center ms-16 md:ms-0'>
+       {addInputerrors.options}
+     </span>
+   )}
+ </div>
                                                             <div className="ps-2 py-2"> {newInputField.options && newInputField.options.length > 0 && (
                                                                 <div className="  border border-1 md:w-[360px] border-gray-200 mb-3  ps-1 py-1 rounded-md gap-2 flex flex-wrap overflow-y-auto" style={{ maxHeight: '100px' }}>
                                                                     {newInputField.options.map((option, index) => (
