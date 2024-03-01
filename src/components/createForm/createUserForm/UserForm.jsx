@@ -1,5 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react';
 import axios from 'axios';
+
 import defprop from '../../../Images/Avatar_new_02.svg';
 import { UserDataContext } from '../../../contexts/usersDataContext/usersDataContext';
 import { EntitiesDataContext } from '../../../contexts/entitiesDataContext/entitiesDataContext';
@@ -65,7 +66,7 @@ export async function userFormLoader({ params }) {
 function UserForm() {
   const userData = JSON.parse(localStorage.getItem("data"))
   let createdBy = userData.user.id
-  console.log("createdBy",createdBy)
+  console.log("createdBy", createdBy)
   const token = userData?.token
   const navigate = useNavigate();
   const formStructure = useLoaderData();
@@ -450,7 +451,7 @@ function UserForm() {
     }
   }
 
-  ////
+  ////for number scrolling stop
   $('input[type=number]').on('mousewheel', function (e) {
     $(e.target).blur();
   });
@@ -775,7 +776,7 @@ function UserForm() {
                       </div>
                     </div>
                   )}
-                  {(item.type === 'number' || item.type === 'phonenumber') &&
+                  {(item.type === 'number') &&
                     item.field == 'custom' && (
                       <div>
                         <label
@@ -791,6 +792,37 @@ function UserForm() {
                           id={item.inputname}
                           value={customFormFields[index].value || ''}
                           onChange={(e) => handleChange(index, e.target.value)}
+                          className='p-2 block w-full rounded-md bg-gray-50 border-2 border-gray-200 py-1 text-gray-900 appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6
+                        placeholder:text-xs'
+                        />
+                        <div className='h-2 text-[#dc2626]'>
+                          {errors[item.inputname] && (
+                            <span className='text-xs'>
+                              {errors[item.inputname]}
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                    )}
+                  {(item.type === 'phonenumber') &&
+                    item.field == 'custom' && (
+                      <div>
+                        <label
+                          htmlFor={item.label}
+                          className='block text-sm font-medium leading-6 my-2 text-gray-900'
+                        >
+                          {item.label.charAt(0).toUpperCase() +
+                            item.label.slice(1)}
+                        </label>
+                        <input
+                          type='number'
+                          name={item.inputname}
+                          id={item.inputname}
+                          value={customFormFields[index].value || ''}
+                          onChange={(e) => {
+                            const value = e.target.value.slice(0, 10); // Limiting to maximum 10 digits
+                            handleChange(index, value);
+                          }}
                           className='p-2 block w-full rounded-md bg-gray-50 border-2 border-gray-200 py-1 text-gray-900 appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6
                         placeholder:text-xs'
                         />
@@ -979,7 +1011,7 @@ function UserForm() {
                         onChange={(e) => handleChange(index, e.target.value)}
                         value={customFormFields[index].value || ''}
                       >
-                          <option value=''>--select--</option>
+                        <option value=''>--select--</option>
 
                         {item.options &&
                           item.options.map((option, index) => (
@@ -1007,8 +1039,7 @@ function UserForm() {
                       <div className='p-2 text-xs block w-full bg-gray-50   rounded-md  text-gray-900   border-2 border-gray-200 shadow-sm  placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-xs sm:leading-6'>
                         <span className='flex justify-between'>
                           <p className='text-sm text-gray-400'>
-                            {' '}
-                            Please select
+                            {item.value.length > 0 ? <span className='text-xs'>{item.value.join(', ')}</span> : <span className='text-xs'>Please select</span>}
                           </p>
                           <span
                             onClick={() => handleOpenOptions(item.inputname)}

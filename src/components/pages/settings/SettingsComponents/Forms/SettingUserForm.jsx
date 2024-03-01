@@ -5,6 +5,7 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import Swal from 'sweetalert2';
 import { Link } from 'react-router-dom';
+import $ from 'jquery';
 const SettingUserForm = () => {
   const [open, setOpen] = useState(false)
   const [editIndex, setEditIndex] = useState(null);
@@ -295,6 +296,10 @@ const SettingUserForm = () => {
     }
     setFiledOpen(!filedopen);
   }
+
+  $('input[type=number]').on('mousewheel', function (e) {
+    $(e.target).blur();
+  });
   return (
     <div className="p-4 container bg-[#f8fafc]">
       {/* for heading and back button */}
