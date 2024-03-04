@@ -170,14 +170,14 @@ const UserLandingPage = () => {
         <hr />
       </div>
       {activeTab === 1 && (
-        <div >
-
-          <div className='mt-20 flex justify-center ' 
-          // style={{
-          //   backgroundImage: `url(${linesimage}) `,
-          // }}
+        <div>
+          <div
+            className='mt-20 flex justify-center '
+            // style={{
+            //   backgroundImage: `url(${linesimage}) `,
+            // }}
           >
-            <div className='h-[500px] lg:w-4/6 shadow-md p-5 border-2 rounded-md bg-[#f8fafc] ' >
+            <div className='h-[500px] lg:w-4/6 shadow-md p-5 border-2 rounded-md bg-[#f8fafc] '>
               {customFormField &&
                 customFormField.length > 0 &&
                 customFormField.map((item) => (
