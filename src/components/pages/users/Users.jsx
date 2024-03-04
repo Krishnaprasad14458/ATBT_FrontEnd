@@ -110,7 +110,7 @@ function Users() {
   const filterDrawer = () => {
     setFilterDrawerOpen(!filterDrawerOpen);
   };
- 
+
 
   const [activeTab, setActiveTab] = useState(1);
 
@@ -144,14 +144,14 @@ function Users() {
 
   /////////////////////////////////////////////// Irshad
   const [customForm, setCustomForm] = useState([]);
-let [fieldsDropDownData, setFieldsDropDownData] = useState(
-  
-  {
-  role:[],entityname:["infosys","relid"]
-}
+  let [fieldsDropDownData, setFieldsDropDownData] = useState(
+
+    {
+      role: [], entityname: ["infosys", "relid"]
+    }
 
 
-)
+  )
   useEffect(() => {
     axios
       .get(`https://atbtmain.teksacademy.com/form/list?name=userform`)
@@ -166,7 +166,7 @@ let [fieldsDropDownData, setFieldsDropDownData] = useState(
         console.error('Error fetching data:', error);
       });
 
-      axios
+    axios
       .get(`https://atbtmain.teksacademy.com/rbac/getroles`)
       .then((response) => {
         setFieldsDropDownData(prevState => ({
@@ -178,7 +178,7 @@ let [fieldsDropDownData, setFieldsDropDownData] = useState(
         // Handle errors
         console.error('Error fetching data:', error);
       });
-     
+
 
   }, []);
 
@@ -218,7 +218,7 @@ let [fieldsDropDownData, setFieldsDropDownData] = useState(
   useEffect(() => {
     console.log("filterableInputsInBox", filterableInputsInBox)
   })
- 
+
 
   ////////filters end
 
@@ -267,7 +267,14 @@ let [fieldsDropDownData, setFieldsDropDownData] = useState(
   useEffect(() => {
     console.log("tableview", tableView)
   })
+  const [selectedFilters, setSelectedFilters] = useState({});
 
+  const handleFilterChange = (filterName, selectedValue) => {
+    setSelectedFilters(prevState => ({
+      ...prevState,
+      [filterName]: selectedValue
+    }));
+  };
 
 
   return (
@@ -328,29 +335,30 @@ let [fieldsDropDownData, setFieldsDropDownData] = useState(
             <option value='500'>500</option>
           </select>
 
-          <button onClick={columnsDrawer} className='transition-opacity duration-500'>
-            columns
+          <button onClick={columnsDrawer} className='transition-opacity duration-500 focus:outline-none me-3 gap-x-1.5 rounded-md bg-gray-50 px-1 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-200 hover:bg-gray-50'>
+            Columns
           </button>
 
           {/* for coloumns open */}
           <div className={`fixed inset-0 transition-all duration-500 bg-gray-800 bg-opacity-50 z-10 ${columnsDrawerOpen ? '' : 'hidden'}`}>
-            <div className="p-3 fixed inset-y-0 right-0 w-3/12 bg-white shadow-lg transform translate-x-0 transition-transform duration-300 ease-in-out">
-              <div className="flex justify-start">
-                <div className='absolute top-4 right-4 flex flex-row'>
-                  <button onClick={columnsDrawer} className="">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5 text-gray-500">
-                      <path fillRule="evenodd" d="M5.47 5.47a.75.75 0 0 1 1.06 0L12 10.94l5.47-5.47a.75.75 0 1 1 1.06 1.06L13.06 12l5.47 5.47a.75.75 0 1 1-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 0 1-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 0 1 0-1.06Z" clipRule="evenodd" />
-                    </svg>
-                  </button>
-                </div>
+            <div className=" fixed inset-y-0 right-0 w-3/12 bg-white shadow-lg transform translate-x-0 transition-transform duration-300 ease-in-out">
+
+              <div className='flex justify-between p-3 bg-gray-100'>
+                <p className='font-semibold'> Coloumns</p>
+                <button onClick={columnsDrawer} className="">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5 text-gray-500">
+                    <path fillRule="evenodd" d="M5.47 5.47a.75.75 0 0 1 1.06 0L12 10.94l5.47-5.47a.75.75 0 1 1 1.06 1.06L13.06 12l5.47 5.47a.75.75 0 1 1-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 0 1-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 0 1 0-1.06Z" clipRule="evenodd" />
+                  </svg>
+                </button>
               </div>
-              <div>
+              <hr className='h-1 w-full' />
+
+
+              <div className='px-4 py-2.5'>
                 {dupTableView &&
                   Object.keys(dupTableView).map((columnName) => (
-                    <p key={columnName} className='flex text-left'>
-                      <label htmlFor={columnName}>
-                        {dupTableView[columnName].label}
-                      </label>
+                    <p key={columnName} className='flex text-left gap-5 '>
+
                       <input
                         className={classNames(
                           tableView[columnName].value ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
@@ -360,17 +368,26 @@ let [fieldsDropDownData, setFieldsDropDownData] = useState(
                         checked={dupTableView[columnName].value}
                         onChange={() => handleColumnsCheckboxChange(columnName)}
                       />
+                      <label htmlFor={columnName}>
+                        {dupTableView[columnName].label}
+                      </label>
                     </p>
                   ))}
-                <button className='border border-1 bg-orange-600 p-1 m-1' onClick={handleColumnsApply}>Apply</button>
-                <button className='border border-1 bg-orange-600 p-1 m-1' onClick={handleColumnsSave}>Save</button>
               </div>
+
+              <div className='bg-gray-100 flex justify-between p-3 absolute bottom-0 w-full'>
+
+                <button className='mr-3 px-3 py-2 inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white ' onClick={handleColumnsApply}>Apply</button>
+                <button className='mr-3 px-3 py-2 inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white' onClick={handleColumnsSave}>Save</button>
+
+              </div>
+
 
 
             </div>
           </div>
 
-          <button onClick={filterDrawer} className='transition-opacity duration-500'>
+          <button onClick={filterDrawer} className='transition-opacity duration-500 focus:outline-none me-3 gap-x-1.5 rounded-md bg-gray-50 px-1.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-200 hover:bg-gray-50'>
             filters
           </button>
 
@@ -387,52 +404,32 @@ let [fieldsDropDownData, setFieldsDropDownData] = useState(
                 </div>
               </div>
               <div className='text-start'>
+
                 {filterableInputsInBox?.map((filter, index) => (
-                  <div
-                    key={index}
-                    onClick={() => {
-                      usersDispatch(setSortBy(filter.inputname, 'SETTINGS'));
-                    }}
+                  <div key={index}>
+                    {filter.options && (
+                      <div>
+                        <label> {filter.label}</label>
+                        <select
+                          id={filter.inputname}
+                          name={filter.inputname}
+                          className='px-2 py-1.5 text-xs block w-full bg-gray-50 rounded-md text-gray-900 border-2 border-gray-200 shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-xs sm:leading-6'
+                          onChange={(e) => handleFilterChange(filter.inputname, e.target.value)}
+                          value={selectedFilters[filter.inputname] || ''}
+                        >
+                          <option value=''>--select--</option>
 
-                  >
-                    {filter.options && <div>
-                      <label> {filter.label}</label>
-                      <select
-                        id={filter.inputname}
-                        name={filter.inputname}
-                        className='px-2 py-1.5 text-xs block w-full bg-gray-50  rounded-md  text-gray-900   border-2 border-gray-200 shadow-sm  placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-xs sm:leading-6'
-                      // onChange={(e) => handleChange(index, e.target.value)}
-                      // value={}
-                      >
-                        <option value=''>--select--</option>
-
-                        {filter.options && filter.options.type === "custom" && filter.options.value &&
-                          filter.options.value.map((option, index) => (
-                            <option value={option}>{option}</option>
-                          ))}
-                           {filter.options && filter.options.type === "predefined" && filter.options.value &&
-                          fieldsDropDownData[filter.options.value]?.map((option, index) => (
-                            <option value={option}>{option}</option>
-                          ))}
-                      </select>
-                    </div>}
-                    
-          
-
-                    {/* {filter.label} */}
-                    {/* let filtersData = {
-    Role:["admin","associate","manager"],
-    Designation:["developer","serdeveloper","srmanager"],
-  } */}
-
-                    {/* <ul>
-                      {filtersData[filter.label] && filtersData[filter.label].map((role, index) => (
-                        <li key={index} className='text-orange-600'>{role}</li>
-                      ))}
-                    </ul> */}
-
-
-
+                          {filter.options && filter.options.type === "custom" && filter.options.value &&
+                            filter.options.value.map((option, index) => (
+                              <option key={index} value={option}>{option}</option>
+                            ))}
+                          {filter.options && filter.options.type === "predefined" && filter.options.value &&
+                            fieldsDropDownData[filter.options.value]?.map((option, index) => (
+                              <option key={index} value={option}>{option}</option>
+                            ))}
+                        </select>
+                      </div>
+                    )}
                   </div>
                 ))}
                 <button className='border border-1 bg-orange-600 p-1 m-1'>Apply</button>
