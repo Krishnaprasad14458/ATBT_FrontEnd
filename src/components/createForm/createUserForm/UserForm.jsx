@@ -98,6 +98,28 @@ function UserForm() {
   let [customFormFields, setCustomFormFields] = useState(() =>
     setInitialForm()
   );
+  let [fieldsDropDownData, setFieldsDropDownData] = useState(
+
+    {
+      role: [], entityname: ["infosys", "relid"]
+    }
+
+
+  )
+  useEffect(() => {
+    axios
+      .get(`https://atbtmain.teksacademy.com/rbac/getroles`)
+      .then((response) => {
+        setFieldsDropDownData(prevState => ({
+          ...prevState,
+          role: response.data.roles.map(item => item.name)
+        }));
+      })
+      .catch((error) => {
+        // Handle errors
+        console.error('Error fetching data:', error);
+      });
+  }, [])
   const handleOpenOptions = (name) => {
     if (openOptions == name) {
       setopenOptions('');
@@ -614,8 +636,8 @@ function UserForm() {
                           value={customFormFields[index].value || ''}
                         >
                           <option value=''>--select--</option>
-                          {item.options &&
-                            item.options.map((option, index) => (
+                          {item.options.value && fieldsDropDownData.entityname &&
+                            fieldsDropDownData.entityname.map((option, index) => (
                               <option value={option}>{option}</option>
                             ))}
                         </select>
@@ -647,8 +669,8 @@ function UserForm() {
                           value={customFormFields[index].value || ''}
                         >
                           <option value=''>--select--</option>
-                          {item.options &&
-                            item.options.map((option, index) => (
+                          {item.options && item.options.value && item.options.value.length > 0 &&
+                            item.options.value.map((option, index) => (
                               <option value={option}>{option}</option>
                             ))}
                         </select>
@@ -680,8 +702,8 @@ function UserForm() {
                           value={customFormFields[index].value || ''}
                         >
                           <option value=''>--select--</option>
-                          {item.options &&
-                            item.options.map((option, index) => (
+                          {item.options.value && fieldsDropDownData.role &&
+                            fieldsDropDownData.role.map((option, index) => (
                               <option value={option}>{option}</option>
                             ))}
                         </select>
@@ -1013,8 +1035,8 @@ function UserForm() {
                       >
                         <option value=''>--select--</option>
 
-                        {item.options &&
-                          item.options.map((option, index) => (
+                        {item.options && item.options.value &&
+                          item.options.value.map((option, index) => (
                             <option value={option}>{option}</option>
                           ))}
                       </select>
@@ -1061,7 +1083,7 @@ function UserForm() {
                       </div>
                       {openOptions === item.inputname && (
                         <ul className='h-[100px] overflow-auto z-[3] absolute top-full left-0  bg-gray-50 border border-1 border-gray-200 w-full'>
-                          {item.options.map((option, subindex) => (
+                          {item.options.value.map((option, subindex) => (
                             <li
                               key={subindex}
                               className='px-3 py-1 text-sm'
