@@ -12,6 +12,7 @@ import {
   useSubmit,
   useNavigate,
   useLoaderData,
+  useParams,
 } from 'react-router-dom';
 
 // import axios from 'axios';
@@ -21,20 +22,18 @@ const token = userData?.token;
 export async function userFormLoader({ params }) {
   try {
     const formApi = 'https://atbtmain.teksacademy.com/form/list?name=userform';
+    const userApi = `https://atbtmain.teksacademy.com/user/list/${params.id}`;
     let userData = null;
-
     if (params && params.id) {
-      const userApi = `https://atbtmain.teksacademy.com/user/list/${params.id}`;
       const userResponse = await axios.get(userApi, {
         headers: {
           Authorization: token,
         },
       });
-      userData = userResponse.data;
+      userData = userResponse?.data?.user;
     }
-
     const formResponse = await axios.get(formApi);
-    const formData = formResponse.data;
+    const formData = formResponse.data.Data;
     return { userData, formData };
   } catch (error) {
     if (error.response) {
@@ -47,50 +46,33 @@ export async function userFormLoader({ params }) {
   }
 }
 
-// export async function userFormLoader({ request, params }) {
-//   console.log('loaded', params);
-//   const api = `https://atbtmain.teksacademy.com/form/list?name=userform`;
-//   if (!!params.id) {
-//     const userId = await axios.get(
-//       `https://atbtmain.teksacademy.com//user/list/${params?.id}`
-//     );
-//   }
-//   const { data, status } = await axios.get(api);
-//   if (status === 200) {
-//     return data;
-//   } else {
-//     throw new Error(`unable to fetch form structure ${status}`);
-//   }
-// }
-
 function UserForm() {
-  const userData = JSON.parse(localStorage.getItem("data"))
-  let createdBy = userData.user.id
-  console.log("createdBy", createdBy)
-  const token = userData?.token
+  let { id } = useParams();
+  const userData = JSON.parse(localStorage.getItem('data'));
+  let createdBy = userData.user.id;
+  const token = userData?.token;
   const navigate = useNavigate();
-  const formStructure = useLoaderData();
-  console.log(formStructure, 'fs');
+  const user = useLoaderData();
   let submit = useSubmit();
   function setInitialForm() {
-    let response = formStructure?.formData?.Data ?? [];
-    if (!!formStructure?.userData) {
-      let user = formStructure?.userData?.user;
-      console.log('getUser data', user);
+    let response = user?.formData ?? [];
+    if (!!id && !!user?.userData) {
+      let user = user?.userData;
       response.forEach((input) => {
         if (user.hasOwnProperty(input.inputname)) {
-          input.value = user[input.inputname];
+          if (user[input.inputname] !== null) {
+            input.value = user[input.inputname];
+          }
         }
       });
-      return response;
-    } else {
-      return response;
     }
+    return response;
   }
   const {
     usersState: { users, dashboard },
     usersDispatch,
     createUser,
+    updateUser,
   } = useContext(UserDataContext);
 
   let [openOptions, setopenOptions] = useState('');
@@ -98,6 +80,24 @@ function UserForm() {
   let [customFormFields, setCustomFormFields] = useState(() =>
     setInitialForm()
   );
+  let [fieldsDropDownData, setFieldsDropDownData] = useState({
+    role: [],
+    entityname: ['infosys', 'relid'],
+  });
+  useEffect(() => {
+    axios
+      .get(`https://atbtmain.teksacademy.com/rbac/getroles`)
+      .then((response) => {
+        setFieldsDropDownData((prevState) => ({
+          ...prevState,
+          role: response.data.roles.map((item) => item.name),
+        }));
+      })
+      .catch((error) => {
+        // Handle errors
+        console.error('Error fetching data:', error);
+      });
+  }, []);
   const handleOpenOptions = (name) => {
     if (openOptions == name) {
       setopenOptions('');
@@ -129,21 +129,21 @@ function UserForm() {
   };
   const handleFileChange = (event, index) => {
     const file = event.target.files[0];
+    const updatedFormData = [...customFormFields];
+    updatedFormData[index].value = event.target.files[0];
+    setCustomFormFields(updatedFormData);
+    // setCustomFormFields(event.target.files[0]);
     const name = event.target.name;
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        const updatedFormData = [...customFormFields];
-        updatedFormData[index].value = reader.result;
-        setCustomFormFields(updatedFormData);
-      };
-      reader.readAsDataURL(file);
-    }
+    // if (file) {
+    //   const reader = new FileReader();
+    //   reader.onloadend = () => {
+    //     const updatedFormData = [...customFormFields];
+    //     updatedFormData[index].value = reader.result;
+    //     setCustomFormFields(updatedFormData);
+    //   };
+    //   reader.readAsDataURL(file);
+    // }
   };
-  useEffect(() => {
-    console.log('customFormFields', customFormFields);
-  });
-
   /////
   const [errors, setErrors] = useState({});
 
@@ -411,43 +411,38 @@ function UserForm() {
 
   async function handleFormSubmit(e) {
     e.preventDefault();
-
     if (!checkValidation()) {
-      const jsonData = {};
-      let userremarkshistory = [];
-      jsonData.userremarkshistory = JSON.stringify(userremarkshistory);
-      jsonData.customFieldsData = JSON.stringify(customFormFields);
-      jsonData.createdBy = createdBy
+      const formData = new FormData(e.target);
       for (let i = 0; i < customFormFields.length; i++) {
         if (Array.isArray(customFormFields[i].value)) {
-          jsonData[customFormFields[i].inputname] = JSON.stringify(
-            customFormFields[i].value
+          formData.set(
+            customFormFields[i].inputname,
+            JSON.stringify(customFormFields[i].value)
           );
-        } else {
-          jsonData[customFormFields[i].inputname] = customFormFields[i].value;
         }
       }
-      console.log('jsonData', jsonData);
-      // submit(jsonData, {
-      //   method: 'post',
-      //   encType: 'encType: "application/x-www-form-urlencoded',
-      // });
-      const response = await createUser(jsonData);
-      if (response.status === 201) {
-        console.log('data is 201');
-        navigate(`/users/${response.data}`);
+      formData.set('userremarkshistory', JSON.stringify([]));
+      formData.set('customFieldsData', JSON.stringify(customFormFields));
+      formData.set('createdBy', createdBy);
+      const formDataObj = {};
+      formData.forEach((value, key) => {
+        formDataObj[key] = value;
+      });
+      // Log form data
+      console.log(formDataObj, 'foj');
+      let response;
+      if (!!id && !!user?.userData) {
+        console.log('updating');
+        response = await updateUser(formData, id);
+      } else {
+        console.log('creating');
+        response = await createUser(formData);
       }
       console.log('jsonData submitted', response);
-      // axios
-      //   .post(`https://atbtmain.teksacademy.com/user/create-user`, jsonData)
-      //   // .post(`http://localhost:3000/user/create-user`, jsonData)
-      //   .then((response) => {
-      //     console.log(response);
-      //     // console.log("reposnseeeeeeeeee", response.data)
-      //   })
-      //   .catch((error) => {
-      //     console.error(error);
-      //   });
+      // if (response.status === 201) {
+      //   console.log('data is 201');
+      //   navigate(`/users/${response.data}`);
+      // }
     }
   }
 
@@ -463,7 +458,7 @@ function UserForm() {
       {/* <p className="font-lg font-semibold p-3">Entity Form</p> */}
       <div className='grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-3 xl:grid-cols-3  gap-4 mt-2 '>
         <div className='col-span-1 '>
-          <p className='text-lg font-semibold'>New User</p>
+          <p className='text-lg font-semibold'>User Form</p>
           <form
             className=''
             method='POST'
@@ -617,11 +612,14 @@ function UserForm() {
                           onChange={(e) => handleChange(index, e.target.value)}
                           value={customFormFields[index].value || ''}
                         >
-                          <option value='' >--select--</option>
-                          {item.options &&
-                            item.options.map((option, index) => (
-                              <option value={option}>{option}</option>
-                            ))}
+                          <option value=''>--select--</option>
+                          {item.options.value &&
+                            fieldsDropDownData.entityname &&
+                            fieldsDropDownData.entityname.map(
+                              (option, index) => (
+                                <option value={option}>{option}</option>
+                              )
+                            )}
                         </select>
                         <div className='h-2 text-[#dc2626]'>
                           {errors[item.inputname] && (
@@ -652,7 +650,9 @@ function UserForm() {
                         >
                           <option value=''>--select--</option>
                           {item.options &&
-                            item.options.map((option, index) => (
+                            item.options.value &&
+                            item.options.value.length > 0 &&
+                            item.options.value.map((option, index) => (
                               <option value={option}>{option}</option>
                             ))}
                         </select>
@@ -684,8 +684,9 @@ function UserForm() {
                           value={customFormFields[index].value || ''}
                         >
                           <option value=''>--select--</option>
-                          {item.options &&
-                            item.options.map((option, index) => (
+                          {item.options.value &&
+                            fieldsDropDownData.role &&
+                            fieldsDropDownData.role.map((option, index) => (
                               <option value={option}>{option}</option>
                             ))}
                         </select>
@@ -784,67 +785,63 @@ function UserForm() {
                       </div>
                     </div>
                   )}
-                  {(item.type === 'number') &&
-                    item.field == 'custom' && (
-                      <div>
-                        <label
-                          htmlFor={item.label}
-                          className='block text-sm font-medium leading-6 my-2 text-gray-900'
-                        >
-                          {item.label.charAt(0).toUpperCase() +
-                            item.label.slice(1)}
-                        </label>
-                        <input
-                          type='number'
-                          placeholder={`Enter ${item.inputname}`}
-                          name={item.inputname}
-                          id={item.inputname}
-                          value={customFormFields[index].value || ''}
-                          onChange={(e) => handleChange(index, e.target.value)}
-                          className='p-2 block w-full rounded-md bg-gray-50 border-2 border-gray-200 py-1 text-gray-900 appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6
+                  {item.type === 'number' && item.field == 'custom' && (
+                    <div>
+                      <label
+                        htmlFor={item.label}
+                        className='block text-sm font-medium leading-6 my-2 text-gray-900'
+                      >
+                        {item.label.charAt(0).toUpperCase() +
+                          item.label.slice(1)}
+                      </label>
+                      <input
+                        type='number'
+                        name={item.inputname}
+                        id={item.inputname}
+                        value={customFormFields[index].value || ''}
+                        onChange={(e) => handleChange(index, e.target.value)}
+                        className='p-2 block w-full rounded-md bg-gray-50 border-2 border-gray-200 py-1 text-gray-900 appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6
                         placeholder:text-xs'
-                        />
-                        <div className='h-2 text-[#dc2626]'>
-                          {errors[item.inputname] && (
-                            <span className='text-xs'>
-                              {errors[item.inputname]}
-                            </span>
-                          )}
-                        </div>
+                      />
+                      <div className='h-2 text-[#dc2626]'>
+                        {errors[item.inputname] && (
+                          <span className='text-xs'>
+                            {errors[item.inputname]}
+                          </span>
+                        )}
                       </div>
-                    )}
-                  {(item.type === 'phonenumber') &&
-                    item.field == 'custom' && (
-                      <div>
-                        <label
-                          htmlFor={item.label}
-                          className='block text-sm font-medium leading-6 my-2 text-gray-900'
-                        >
-                          {item.label.charAt(0).toUpperCase() +
-                            item.label.slice(1)}
-                        </label>
-                        <input
-                          type='number'
-                          placeholder={`Enter ${item.inputname}`}
-                          name={item.inputname}
-                          id={item.inputname}
-                          value={customFormFields[index].value || ''}
-                          onChange={(e) => {
-                            const value = e.target.value.slice(0, 10); // Limiting to maximum 10 digits
-                            handleChange(index, value);
-                          }}
-                          className='p-2 block w-full rounded-md bg-gray-50 border-2 border-gray-200 py-1 text-gray-900 appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6
+                    </div>
+                  )}
+                  {item.type === 'phonenumber' && item.field == 'custom' && (
+                    <div>
+                      <label
+                        htmlFor={item.label}
+                        className='block text-sm font-medium leading-6 my-2 text-gray-900'
+                      >
+                        {item.label.charAt(0).toUpperCase() +
+                          item.label.slice(1)}
+                      </label>
+                      <input
+                        type='number'
+                        name={item.inputname}
+                        id={item.inputname}
+                        value={customFormFields[index].value || ''}
+                        onChange={(e) => {
+                          const value = e.target.value.slice(0, 10); // Limiting to maximum 10 digits
+                          handleChange(index, value);
+                        }}
+                        className='p-2 block w-full rounded-md bg-gray-50 border-2 border-gray-200 py-1 text-gray-900 appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6
                         placeholder:text-xs'
-                        />
-                        <div className='h-2 text-[#dc2626]'>
-                          {errors[item.inputname] && (
-                            <span className='text-xs'>
-                              {errors[item.inputname]}
-                            </span>
-                          )}
-                        </div>
+                      />
+                      <div className='h-2 text-[#dc2626]'>
+                        {errors[item.inputname] && (
+                          <span className='text-xs'>
+                            {errors[item.inputname]}
+                          </span>
+                        )}
                       </div>
-                    )}
+                    </div>
+                  )}
                   {item.type === 'checkbox' && item.field == 'custom' && (
                     <div>
                       <div className='flex gap-2'>
@@ -1027,7 +1024,8 @@ function UserForm() {
                         <option value=''>--select--</option>
 
                         {item.options &&
-                          item.options.map((option, index) => (
+                          item.options.value &&
+                          item.options.value.map((option, index) => (
                             <option value={option}>{option}</option>
                           ))}
                       </select>
@@ -1052,7 +1050,13 @@ function UserForm() {
                       <div  className='px-2 py-1.5 text-xs block w-full bg-gray-50   rounded-md  text-gray-900   border-2 border-gray-200 shadow-sm  placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-xs sm:leading-6'>
                         <span className='flex justify-between'>
                           <p className='text-sm text-gray-400'>
-                            {item.value.length > 0 ? <span className='text-xs'>{item.value.join(', ')}</span> : <span className='text-xs'>Please select</span>}
+                            {item.value.length > 0 ? (
+                              <span className='text-xs'>
+                                {item.value.join(', ')}
+                              </span>
+                            ) : (
+                              <span className='text-xs'>Please select</span>
+                            )}
                           </p>
                           <span
                             onClick={() => handleOpenOptions(item.inputname)}
@@ -1074,7 +1078,7 @@ function UserForm() {
                       </div>
                       {openOptions === item.inputname && (
                         <ul className='h-[100px] overflow-auto z-[3] absolute top-full left-0  bg-gray-50 border border-1 border-gray-200 w-full'>
-                          {item.options.map((option, subindex) => (
+                          {item.options.value.map((option, subindex) => (
                             <li
                               key={subindex}
                               className='px-3 py-1 text-sm'
@@ -1112,7 +1116,7 @@ function UserForm() {
                 type='submit'
                 className='mt-6 flex w-full justify-center rounded-md bg-orange-600 px-3 py-2.5 text-sm font-medium leading-6 text-white shadow-sm  focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600'
               >
-                Create User
+                {id ? 'Edit User' : 'Create User'}
               </button>
             </div>
           </form>
@@ -1136,9 +1140,20 @@ function UserForm() {
                         item.inputname == 'image' &&
                         item.field === 'predefined' && (
                           <div>
+                            {console.log(item.value, 'item.value')}
                             {item.value ? (
                               <img
-                                src={item.value}
+                                // src={item.value}
+                                src={
+                                  typeof item.value === 'string'
+                                    ? item.value
+                                    : URL.createObjectURL(item.value)
+                                }
+                                // src={
+                                //   media
+                                //     ? URL.createObjectURL(media)
+                                //     : updatedPost?.mediaURL
+                                // }
                                 name='EntityPhoto'
                                 alt='User Photo'
                                 className=' h-36 w-36 relative mx-auto bottom-20 rounded-full shadow-md'

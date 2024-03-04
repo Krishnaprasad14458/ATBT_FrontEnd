@@ -26,12 +26,8 @@ function classNames(...classes) {
 }
 export const userLandingLoader = async ({ params }) => {
   try {
-    // const hasPermission = false;
     const { data } = await getUserById(params?.id);
     console.log(data, 'id data');
-    // if (!hasPermission) {
-    //   throw new Response('No permission', { status: 401 });
-    // }
     return data;
   } catch (error) {
     console.error('Error loading dashboard:', error);
@@ -49,38 +45,6 @@ const UserLandingPage = () => {
     usersState: { users },
     getUser,
   } = useContext(UserDataContext);
-  const [singleUser, setSingleUser] = useState({});
-
-  console.log(singleUser);
-
-  // const findUserById = useCallback((users, userId) => {
-  //   return users?.users?.find(user => user.id === parseInt(userId, 10));
-  // }, []);
-
-  // const user = useMemo(() => findUserById(users, id), [findUserById, users, id]);
-
-  // if(!user) {
-
-  // }
-
-  // const getuserById = async () => {
-  //   try {
-  //     const userById = users?.users?.find(
-  //       (user) => user.id === parseInt(id, 10)
-  //     );
-  //     if (!userById) {
-  //       const product = await getUser(id);
-  //       setSingleUser(product?.user);
-  //     } else {
-  //       setSingleUser(userById);
-  //     }
-  //   } catch (e) {
-  //     console.error(e);
-  //   }
-  // };
-  // useEffect(() => {
-  //   getuserById();
-  // }, [id]);
 
   const [activeTab, setActiveTab] = useState(1);
 
@@ -136,21 +100,6 @@ const UserLandingPage = () => {
   // full screen
   const [expand, setExpand] = useState(false);
 
-  // let [customFormField, setCustomFormField] = useState();
-
-  // useEffect(() => {
-  //   axios
-  //     .get(`https://atbtmain.teksacademy.com/user/list/${id}`)
-  //     .then((response) => {
-  //       // Handle the successful response
-  //       console.log('response', response.data.user.customFieldsData);
-  //       setCustomFormField(response.data.user.customFieldsData);
-  //     })
-  //     .catch((error) => {
-  //       // Handle errors
-  //       console.error('Error fetching data:', error);
-  //     });
-  // }, []);
   return (
     <div className='container p-4 bg-[#f8fafc]'>
       <div className='flex justify-between my-2'>
@@ -169,44 +118,50 @@ const UserLandingPage = () => {
       <div className=''>
         <div className='flex overflow-auto'>
           <div
-            className={`cursor-pointer px-1 py-1 text-md font-semibold  ${activeTab === 1 ? 'border-b-2 border-orange-600 text-black' : ''
-              }`}
+            className={`cursor-pointer px-1 py-1 text-md font-semibold  ${
+              activeTab === 1 ? 'border-b-2 border-orange-600 text-black' : ''
+            }`}
             onClick={() => handleTabClick(1)}
           >
             Overview
           </div>
 
           <div
-            className={`cursor-pointer px-5 py-1 text-md font-semibold  ${activeTab === 2 ? 'border-b-2 border-orange-600 text-black' : ''
-              }`}
+            className={`cursor-pointer px-5 py-1 text-md font-semibold  ${
+              activeTab === 2 ? 'border-b-2 border-orange-600 text-black' : ''
+            }`}
             onClick={() => handleTabClick(2)}
           >
             List
           </div>
           <div
-            className={`cursor-pointer px-5 py-1 text-md font-semibold  ${activeTab === 3 ? 'border-b-2 border-orange-600 text-black' : ''
-              }`}
+            className={`cursor-pointer px-5 py-1 text-md font-semibold  ${
+              activeTab === 3 ? 'border-b-2 border-orange-600 text-black' : ''
+            }`}
             onClick={() => handleTabClick(3)}
           >
             Calendar
           </div>
           <div
-            className={`cursor-pointer px-5 py-1 text-md font-semibold ${activeTab === 4 ? 'border-b-2 border-orange-600 text-black' : ''
-              }`}
+            className={`cursor-pointer px-5 py-1 text-md font-semibold ${
+              activeTab === 4 ? 'border-b-2 border-orange-600 text-black' : ''
+            }`}
             onClick={() => handleTabClick(4)}
           >
             Dashboard
           </div>
           <div
-            className={`cursor-pointer px-5 py-1 text-md font-semibold  ${activeTab === 5 ? 'border-b-2 border-orange-600 text-black' : ''
-              }`}
+            className={`cursor-pointer px-5 py-1 text-md font-semibold  ${
+              activeTab === 5 ? 'border-b-2 border-orange-600 text-black' : ''
+            }`}
             onClick={() => handleTabClick(5)}
           >
             Messages
           </div>
           <div
-            className={`cursor-pointer px-5 py-1 text-md font-semibold  ${activeTab === 6 ? 'border-b-2 border-orange-600 text-black' : ''
-              }`}
+            className={`cursor-pointer px-5 py-1 text-md font-semibold  ${
+              activeTab === 6 ? 'border-b-2 border-orange-600 text-black' : ''
+            }`}
             onClick={() => handleTabClick(6)}
           >
             Attachments
@@ -851,12 +806,14 @@ const UserLandingPage = () => {
                   </td>
                 </tr>
                 <div
-                  className={`fixed inset-0 transition-all duration-500 bg-gray-800 bg-opacity-50 z-50 ${isOpen ? '' : 'hidden'
-                    }`}
+                  className={`fixed inset-0 transition-all duration-500 bg-gray-800 bg-opacity-50 z-50 ${
+                    isOpen ? '' : 'hidden'
+                  }`}
                 >
                   <div
-                    className={`${expand ? 'w-5/6' : 'w-1/2'
-                      } p-3 fixed inset-y-0 right-0 w-1/2 bg-white shadow-lg transform translate-x-0 transition-transform duration-300 ease-in-out`}
+                    className={`${
+                      expand ? 'w-5/6' : 'w-1/2'
+                    } p-3 fixed inset-y-0 right-0 w-1/2 bg-white shadow-lg transform translate-x-0 transition-transform duration-300 ease-in-out`}
                   >
                     <div className='flex justify-start'>
                       <div className='relative inline-block ms-2'>

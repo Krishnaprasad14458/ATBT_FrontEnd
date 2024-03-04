@@ -14,5 +14,6 @@ const createUser = async (userData) => {
         }
     } catch (e) {
         console.error(e);
+        throw e;
     }
 };

@@ -21,9 +21,6 @@ function EntityForm() {
   const [selected, setSelected] = useState([]);
   const [showUsers, setShowUsers] = useState(false);
   let [customFormFields, setCustomFormFields] = useState();
-  useEffect(() => {
-    console.log('errors', errors);
-  });
   const handleInputChange = (e) => {
     setShowUsers(true);
     const value = e.target.value;
@@ -67,8 +64,7 @@ function EntityForm() {
       .get(`https://atbtmain.teksacademy.com/form/list?name=entityform`)
       .then((response) => {
         // Handle the successful response
-        setCustomFormFields(response.data.Data)
-
+        setCustomFormFields(response.data.Data);
       })
       .catch((error) => {
         // Handle errors
@@ -109,7 +105,6 @@ function EntityForm() {
     }
   };
   console.log('customFormFields', customFormFields);
-  /////
   const [isErrorspresent, setIsErrorspresent] = useState(false);
   const checkValidation = () => {
     let isErrorspresent = false;
@@ -398,6 +393,7 @@ function EntityForm() {
         })
         .catch((error) => {
           console.error(error);
+          throw error;
         });
     }
   }
@@ -549,7 +545,7 @@ function EntityForm() {
   //       navigate(`/entitylandingpage/${parseInt(response.data)}`)
   //     })
   //     .catch(error => {
-  //       console.error(error);
+  //       console.error(error);  throw error;
   //     });
   // }
   return (
@@ -776,7 +772,9 @@ function EntityForm() {
                       />
                       <div className='h-2 text-[#dc2626]'>
                         {errors[item.inputname] && (
-                          <span className='text-xs'>{errors[item.inputname]}</span>
+                          <span className='text-xs'>
+                            {errors[item.inputname]}
+                          </span>
                         )}
                       </div>
                     </div>
@@ -860,16 +858,16 @@ function EntityForm() {
                           }}
                           className='p-2 block w-full rounded-md bg-gray-50 border-2 border-gray-200 py-1 text-gray-900 appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6
                         placeholder:text-xs'
-                        />
-                        <div className='h-2 text-[#dc2626]'>
-                          {errors[item.inputname] && (
-                            <span className='text-xs'>
-                              {errors[item.inputname]}
-                            </span>
-                          )}
-                        </div>
+                      />
+                      <div className='h-2 text-[#dc2626]'>
+                        {errors[item.inputname] && (
+                          <span className='text-xs'>
+                            {errors[item.inputname]}
+                          </span>
+                        )}
                       </div>
-                    )}
+                    </div>
+                  )}
                   {item.type === 'checkbox' && item.field == 'custom' && (
                     <div>
                       <div className='flex gap-2'>
@@ -924,6 +922,9 @@ function EntityForm() {
                           <span className='text-xs'>
                             {errors[item.inputname]}
                           </span>
+                          <span className='text-xs'>
+                            {errors[item.inputname]}
+                          </span>
                         )}
                       </div>
                     </div>
@@ -948,6 +949,9 @@ function EntityForm() {
                       />
                       <div className='h-2 text-[#dc2626]'>
                         {errors[item.inputname] && (
+                          <span className='text-xs'>
+                            {errors[item.inputname]}
+                          </span>
                           <span className='text-xs'>
                             {errors[item.inputname]}
                           </span>
@@ -978,6 +982,9 @@ function EntityForm() {
                           <span className='text-xs'>
                             {errors[item.inputname]}
                           </span>
+                          <span className='text-xs'>
+                            {errors[item.inputname]}
+                          </span>
                         )}
                       </div>
                     </div>
@@ -1000,6 +1007,9 @@ function EntityForm() {
                       />
                       <div className='h-2 text-[#dc2626]'>
                         {errors[item.inputname] && (
+                          <span className='text-xs'>
+                            {errors[item.inputname]}
+                          </span>
                           <span className='text-xs'>
                             {errors[item.inputname]}
                           </span>
@@ -1026,6 +1036,9 @@ function EntityForm() {
                       />
                       <div className='h-2 text-[#dc2626]'>
                         {errors[item.inputname] && (
+                          <span className='text-xs'>
+                            {errors[item.inputname]}
+                          </span>
                           <span className='text-xs'>
                             {errors[item.inputname]}
                           </span>
@@ -1061,6 +1074,9 @@ function EntityForm() {
                           <span className='text-xs'>
                             {errors[item.inputname]}
                           </span>
+                          <span className='text-xs'>
+                            {errors[item.inputname]}
+                          </span>
                         )}
                       </div>
                     </div>
@@ -1077,7 +1093,13 @@ function EntityForm() {
                       <div className='px-2 py-1.5 text-xs block w-full bg-gray-50   rounded-md  text-gray-900   border-2 border-gray-200 shadow-sm  placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-xs sm:leading-6'>
                         <span className='flex justify-between'>
                           <p className='text-sm text-gray-400'>
-                            {item.value.length > 0 ? <span className='text-xs'>{item.value.join(', ')}</span> : <span className='text-xs'>Please select</span>}
+                            {item.value.length > 0 ? (
+                              <span className='text-xs'>
+                                {item.value.join(', ')}
+                              </span>
+                            ) : (
+                              <span className='text-xs'>Please select</span>
+                            )}
                           </p>
                           <span
                             onClick={() => handleOpenOptions(item.inputname)}
@@ -1123,6 +1145,9 @@ function EntityForm() {
                       )}
                       <div className='h-2 text-[#dc2626] mb-2'>
                         {errors[item.inputname] && (
+                          <span className='text-xs'>
+                            {errors[item.inputname]}
+                          </span>
                           <span className='text-xs'>
                             {errors[item.inputname]}
                           </span>

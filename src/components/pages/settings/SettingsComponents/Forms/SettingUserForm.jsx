@@ -41,13 +41,17 @@ const SettingUserForm = () => {
     const { name, value, type, checked } = e.target;
     if (name == "type" && value === "select") {
       let newfield = { ...newInputField }
-      newfield.options = []
+      newfield.options = {
+        type: "custom", value: []
+      }
       newfield.value = ""
       setNewInputField(newfield)
     }
     if (name == "type" && value === "multiselect") {
       let newfield = { ...newInputField }
-      newfield.options = []
+      newfield.options = {
+        type: "custom", value: []
+      }
       newfield.value = []
       setNewInputField(newfield)
     }
@@ -65,11 +69,29 @@ const SettingUserForm = () => {
   let [selectOption, setSelectOption] = useState("")
   const addOption = (e) => {
     e.preventDefault()
-    if (selectOption != "" && newInputField.options) {
-      setNewInputField((prev) => ({ ...prev, options: [...prev.options, selectOption] }))
+    if (selectOption !== "") {
 
+      setSelectOption("");
+    }
+
+    if (selectOption != "" && newInputField.options.value) {
+      // setNewInputField((prev) => ({ ...prev, options: [...prev.options, selectOption] }))
+      setNewInputField((prev) => ({
+        ...prev,
+        options: {
+          ...prev.options,
+          value: [...prev.options.value, selectOption]
+        }
+      }));
     } else if (selectOption != "") {
-      setNewInputField((prev) => ({ ...prev, options: [selectOption] }))
+      // setNewInputField((prev) => ({ ...prev, options: [selectOption] }))
+      setNewInputField((prev) => ({
+        ...prev,
+        options: {
+          ...prev.options,
+          value: [selectOption]
+        }
+      }));
     }
     setSelectOption("")
   }
@@ -78,7 +100,9 @@ const SettingUserForm = () => {
   // validations for popup
 
   const [addInputerrors, setAddInputErrors] = useState({});
-
+  useEffect(() => {
+    console.log("addInputerrors", addInputerrors)
+  })
   const [isAddInputFormErrorspresent, setIsAddInputFormErrorspresent] = useState(false);
 
   const checkAddInpuValidation = () => {
@@ -105,7 +129,19 @@ const SettingUserForm = () => {
         label: '',
       }));
     }
-
+    if(editIndex == null){
+      for (let i = 0; i < customForm.length; i++) {
+        if (customForm[i].inputname === newInputField.inputname) {
+          setAddInputErrors((prev) => ({
+            ...prev,
+            label: `You can't give ${newInputField.label} as label because it is already used`,
+          }));
+          isErrorspresent = true;
+  
+        }
+      }
+    }
+    
     if (!newInputField.type.trim()) {
       setAddInputErrors((prev) => ({
         ...prev,
@@ -120,7 +156,7 @@ const SettingUserForm = () => {
       }));
     }
 
-    if ((newInputField.type === 'select' || newInputField.type === 'multiselect') && newInputField.options.length === 0) {
+    if ((newInputField.type === 'select' || newInputField.type === 'multiselect') && newInputField.options.value.length === 0) {
       ;
       setAddInputErrors((prev) => ({
         ...prev,
@@ -160,7 +196,8 @@ const SettingUserForm = () => {
 
         setTableView(prevState => {
           const updatedState = { ...prevState };
-          updatedState[newInputField.inputname] = { label: newInputField.label, value: false };
+          updatedState[newInputField.inputname] = { ...updatedState[newInputField.inputname], label: newInputField.label };
+          
           return updatedState;
         });
       } else {
@@ -253,7 +290,9 @@ const SettingUserForm = () => {
   ]
   const handleSubmitCustomForm = async () => {
     let formData = {
-      arrayOfObjects: customForm, Name: "userform", Tableview: tableView
+      arrayOfObjects: 
+  customForm
+, Name: "userform", Tableview: tableView
     }
     await saveCustomForm(formData)
   }
@@ -276,14 +315,23 @@ const SettingUserForm = () => {
     )
   }
   const deleteOption = (index) => {
+  
     let updatedNewInputField = { ...newInputField };
-    // Use slice to create a copy of the options array and remove the specified index
-    let updatedOptions = [...updatedNewInputField.options];
+    let updatedOptions = [...updatedNewInputField.options.value];
     updatedOptions.splice(index, 1);
-    updatedNewInputField.options = updatedOptions;
+    updatedNewInputField.options.value = updatedOptions;
     setNewInputField(updatedNewInputField);
     console.log("updatedNewInputField", updatedNewInputField);
-  };
+};
+  // const deleteOption = (index) => {
+  //   let updatedNewInputField = { ...newInputField };
+  //   // Use slice to create a copy of the options array and remove the specified index
+  //   let updatedOptions = [...updatedNewInputField.options];
+  //   updatedOptions.splice(index, 1);
+  //   updatedNewInputField.options = updatedOptions;
+  //   setNewInputField(updatedNewInputField);
+  //   console.log("updatedNewInputField", updatedNewInputField);
+  // };
   const [filedopen, setFiledOpen] = useState(false);
   const [selected, setSelected] = useState("");
   const handleFiledOpen = (select) => {
@@ -566,7 +614,7 @@ const SettingUserForm = () => {
                           )}
                         </div>
                         {
-                          (newInputField.type === "select" || newInputField.type === "multiselect") && (
+                          (newInputField.type === "select" || newInputField.type === "multiselect") && newInputField.options.type === "custom" &&(
                             <div>
                               <p className="text-xs   ms-16 md:ms-0 md:justify-center "> Add options for  &nbsp;<span className="font-semibold text-xs">  multi select </span></p>
                               <div className="flex ">
@@ -593,16 +641,17 @@ const SettingUserForm = () => {
                                   </span>
                                 )}
                               </div>
-                              <div className="ps-2 py-2"> {newInputField.options && newInputField.options.length > 0 && (
+                              <div className="ps-2 py-2"> {newInputField.options.type === "custom"   && newInputField.options.value && newInputField.options.value.length > 0 && (
                                 <div className="  border border-1 md:w-[360px] border-gray-200 mb-3  ps-1 py-1 rounded-md gap-2 flex flex-wrap overflow-y-auto" style={{ maxHeight: '100px' }}>
-                                  {newInputField.options.map((option, index) => (
+                                  {newInputField?.options?.value?.map((option, index) => (
                                     <span key={index} className="text-xs border border-1 border-gray-200 rounded-md p-1  flex">
                                       {option}
                                       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="w-4 h-4" onClick={() => deleteOption(index)}>
                                         <path d="M5.28 4.22a.75.75 0 0 0-1.06 1.06L6.94 8l-2.72 2.72a.75.75 0 1 0 1.06 1.06L8 9.06l2.72 2.72a.75.75 0 1 0 1.06-1.06L9.06 8l2.72-2.72a.75.75 0 0 0-1.06-1.06L8 6.94 5.28 4.22Z" />
                                       </svg>
                                     </span>
-                                  ))}&nbsp;
+                                  ))}
+                                  &nbsp;
                                 </div>
                               )}
                               </div>
@@ -671,7 +720,6 @@ export default SettingUserForm;
 
 
 /////////predefined fields
-
 // [
 //   {
 //     "label": "Full Name",
@@ -699,12 +747,9 @@ export default SettingUserForm;
 //     "filterable": true,
 //     "mandatory": true,
 //     "field": "predefined",
-//     "options": [
-//       "Reliace",
-//       "Infosys",
-//       "Tata consultancy",
-//       "Reliace"
-//     ]
+//     "options": {
+//       "type":"predefined","value":"entityname"
+//     }
 //   },
 //   {
 //     "label": "Email Id",
@@ -732,11 +777,9 @@ export default SettingUserForm;
 //     "filterable": true,
 //     "mandatory": true,
 //     "field": "predefined",
-//     "options": [
-//       "Developer",
-//       "Quality Analyst",
-//       "Data Analyst"
-//     ]
+//     "options": {
+//       "type":"custom","value":["developer","marketer"]
+//     }
 //   },
 //   {
 //     "label": "Role",
@@ -746,15 +789,11 @@ export default SettingUserForm;
 //     "filterable": true,
 //     "mandatory": true,
 //     "field": "predefined",
-//     "options": [
-//       "admin",
-//       "associate",
-//       "Accountant",
-//       "Manager"
-//     ]
+//     "options": {
+//       "type":"predefined","value":"role"
+//     }
 //   }
 // ]
-
 
 //////////////////////predefined tableview
 // {
