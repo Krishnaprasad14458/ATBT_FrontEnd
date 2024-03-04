@@ -147,9 +147,32 @@ swal2-default-outline:focus {
   }
 }
 
-
+/*  for removing phone number arrows */
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
+}
+
+
+/* for decrease the choosefile name defult in the browser */
+input[type="file"]::-webkit-file-upload-button {
+  font-size: smaller;
+  height: 27px;
+  padding: 0;
+  /* Adjust font size */
+}
+
+input[type="file"]::-moz-file-upload-button {
+  font-size: smaller;
+  height: 27px;
+  padding: 0;
+  /* Adjust font size */
+}
+
+input[type="file"]::-ms-browse {
+  font-size: smaller;
+  height: 27px;
+  padding: 0;
+  /* Adjust font size */
 }
