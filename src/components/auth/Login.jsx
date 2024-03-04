@@ -6,7 +6,6 @@ import { Link, Navigate } from 'react-router-dom';
 
 const Login = () => {
   const { adminLogin, authState } = useContext(AuthContext);
-  console.log(!!authState.token);
   const [formData, setFormData] = useState({ email: '', password: '' });
   const [email, setEmail] = useState();
   const [passworderror, setPasswordError] = useState();
@@ -73,7 +72,8 @@ const Login = () => {
               </h2>
             </div>
             <div className='mt-10 sm:mx-auto sm:w-full sm:max-w-sm'>
-              <form onSubmit={loginHandler}
+              <form
+                onSubmit={loginHandler}
                 className='space-y-6'
                 method='post'
               >
@@ -171,7 +171,7 @@ const Login = () => {
 
                 <div>
                   <button
-                     type='submit'
+                    type='submit'
                     className='flex w-full justify-center rounded-md bg-orange-600 px-3 py-1.5 text-sm  leading-6 text-white shadow-sm  focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600'
                   >
                     Sign In

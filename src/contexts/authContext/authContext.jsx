@@ -60,6 +60,7 @@ const AuthProvider = ({ children }) => {
       }
     } catch (e) {
       console.error(e);
+      throw e;
     }
   };
 
@@ -83,8 +84,6 @@ const AuthProvider = ({ children }) => {
             },
           },
           error: 'Oops! It seems the entered email is not registered 🤯',
-         
-
         }
       );
       if (status === 200) {
@@ -98,6 +97,7 @@ const AuthProvider = ({ children }) => {
       return redirect('/login');
     } catch (e) {
       console.error(e);
+      throw e;
     }
   };
 
@@ -136,6 +136,7 @@ const AuthProvider = ({ children }) => {
       }
     } catch (e) {
       console.error(e);
+      throw e;
     }
   };
 

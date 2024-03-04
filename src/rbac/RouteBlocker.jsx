@@ -7,7 +7,6 @@ function RouteBlocker({ permissionCheck, fallback, loadingFallback }) {
   if (loading) {
     return loadingFallback || <div>Loading...</div>;
   }
-  console.log(allowed, 'chk');
   return allowed ? (
     <Outlet />
   ) : (
