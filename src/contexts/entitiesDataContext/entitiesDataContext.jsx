@@ -1,9 +1,10 @@
-import React, { createContext, useEffect, useReducer } from 'react';
+import React, { createContext, useContext, useEffect, useReducer } from 'react';
 import * as actions from './utils/entitiesActions';
 import * as api from './utils/entitiesApis';
 import entitiesDataReducer from './entitiesDataReducer';
 import { useNavigate } from 'react-router-dom';
 import { initialState } from './utils/entitiesConfig';
+import { AuthContext } from '../authContext/authContext';
 
 export const EntitiesDataContext = createContext();
 
@@ -15,9 +16,11 @@ const EntitiesDataProvider = ({ children }) => {
     initialState
   );
 
+  const { authState } = useContext(AuthContext);
+
   const getAllEntities = async () => {
     try {
-      const { data, status } = await api.getAllEntities();
+      const { data, status } = await api.getAllEntities(authState?.token);
       if (status === 200) {
         entitiesDispatch(actions.setEntities(data));
       } else {
@@ -37,7 +40,8 @@ const EntitiesDataProvider = ({ children }) => {
         currentPage,
         perPage,
         sortBy,
-        search
+        search,
+        authState?.token
       );
       if (status === 200) {
         entitiesDispatch(actions.setPaginatedEntities('DASHBOARD', data));
@@ -59,7 +63,8 @@ const EntitiesDataProvider = ({ children }) => {
         currentPage,
         perPage,
         sortBy,
-        search
+        search,
+        authState?.token
       );
       if (status === 200) {
         entitiesDispatch(actions.setPaginatedEntities('ENTITES', data));
@@ -75,7 +80,7 @@ const EntitiesDataProvider = ({ children }) => {
 
   const deleteEntitybyId = async (id) => {
     try {
-      const { status } = await api.deleteEntity(id);
+      const { status } = await api.deleteEntity(id, authState?.token);
       if (status === 200) {
         getpaginatedEntitiesData();
         getDashboardEntitiesData();
@@ -90,7 +95,7 @@ const EntitiesDataProvider = ({ children }) => {
 
   const getEntitybyId = async (id) => {
     try {
-      const data = await api.getEntityById(id);
+      const data = await api.getEntityById(id, authState?.token);
       getpaginatedEntitiesData();
       getDashboardEntitiesData();
       return data;
@@ -101,7 +106,10 @@ const EntitiesDataProvider = ({ children }) => {
 
   const createEntity = async (entityData) => {
     try {
-      const { data, status } = await api.createEntity(entityData);
+      const { data, status } = await api.createEntity(
+        entityData,
+        authState?.token
+      );
       if (status === 201) {
         getpaginatedEntitiesData();
         getDashboardEntitiesData();
@@ -114,9 +122,11 @@ const EntitiesDataProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    getpaginatedEntitiesData();
-    getDashboardEntitiesData();
-    getAllEntities();
+    if (authState?.token) {
+      getpaginatedEntitiesData();
+      getDashboardEntitiesData();
+      getAllEntities();
+    }
     // eslint-disable-next-line
   }, [
     entitiesDispatch,
@@ -126,6 +136,7 @@ const EntitiesDataProvider = ({ children }) => {
     entitiesState?.dashboardEntities?.currentPage,
     entitiesState?.dashboardEntities?.search,
     entitiesState?.dashboardEntities?.perPage,
+    authState?.token,
   ]);
 
   return (

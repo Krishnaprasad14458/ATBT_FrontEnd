@@ -12,12 +12,12 @@ self.addEventListener("message", onMessage);
 main().catch(console.error);
 
 async function main() {
-    console.log(`service worker ${version} is starting....`);
+    // console.log(`service worker ${version} is starting....`);
     await sendMessage({ statusUpdateRequest: true });
 }
 
 function onInstall(evt) {
-    console.log(`Service Worker (v${version}) installed`);
+    // console.log(`Service Worker (v${version}) installed`);
     self.skipWaiting();
 }
 
@@ -33,10 +33,10 @@ async function sendMessage(msg) {
 }
 
 function onMessage({ data }) {
-    console.log(data, "sw", Date.now())
+    // console.log(data, "sw", Date.now())
     if ("statusUpdate" in data) {
         ({ isOnline, isLoggedIn } = data.statusUpdate);
-        console.log(`Service Worker (v${version}) status update... isOnline:${isOnline}, isLoggedIn:${isLoggedIn}`);
+        // console.log(`Service Worker (v${version}) status update... isOnline:${isOnline}, isLoggedIn:${isLoggedIn}`);
     }
 }
 
@@ -48,7 +48,7 @@ async function handleActivation() {
     // await clearCaches();
     // await cacheLoggedOutFiles(/*forceReload=*/true);
     await clients.claim();
-    console.log(`Service Worker (v${version}) activated`);
+    // console.log(`Service Worker (v${version}) activated`);
 
     // spin off background caching of all past posts (over time)
     // cacheAllPosts(/*forceReload=*/true).catch(console.error);
