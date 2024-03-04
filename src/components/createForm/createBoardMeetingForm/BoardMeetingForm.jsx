@@ -4,13 +4,10 @@ import defprop from '../../../Images/defprof.svg';
 import useDebounce from '../../../hooks/debounce/useDebounce';
 import { UserDataContext } from '../../../contexts/usersDataContext/usersDataContext';
 import { EntitiesDataContext } from '../../../contexts/entitiesDataContext/entitiesDataContext';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom'
 function BoardMeetingForm() {
-  const navigate = useNavigate();
-  const {
-    usersState: { users, dashboard },
-    usersDispatch,
-  } = useContext(UserDataContext);
+  const navigate = useNavigate()
+  const { usersState: { users, dashboard }, usersDispatch } = useContext(UserDataContext);
   const { createEntity } = useContext(EntitiesDataContext);
   const usersEmails = dashboard.paginatedUsers?.map((user) => user.email);
   const { debouncedSetPage, debouncedSetSearch } = useDebounce(usersDispatch);
@@ -106,283 +103,171 @@ function BoardMeetingForm() {
   };
 
   /////
-  const [isErrorspresent, setIsErrorspresent] = useState(false);
+  const [isErrorspresent, setIsErrorspresent] = useState(false)
   const checkValidation = () => {
-    let isErrorspresent = false;
+    let isErrorspresent = false
     for (let i = 0; i < customFormFields.length > 0; i++) {
-      if (customFormFields[i].type == 'text' && customFormFields[i].mandatory) {
+      if (customFormFields[i].type == "text" && customFormFields[i].mandatory) {
         if (customFormFields[i].value.length == 0) {
-          setErrors((prev) => ({
-            ...prev,
-            [customFormFields[i]
-              .inputname]: `Please Enter ${customFormFields[i].label}`,
-          }));
-          isErrorspresent = true;
-        } else if (customFormFields[i].value.length < 3) {
-          setErrors((prev) => ({
-            ...prev,
-            [customFormFields[i].inputname]:
-              'Name should contain atleast 3 characters',
-          }));
-          isErrorspresent = true;
-        } else {
-          setErrors((prev) => ({
-            ...prev,
-            [customFormFields[i].inputname]: '',
-          }));
+          setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please Enter ${customFormFields[i].label}` }))
+          isErrorspresent = true
+        }
+        else if (customFormFields[i].value.length < 3) {
+          setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "Name should contain atleast 3 characters" }))
+          isErrorspresent = true
+        }
+        else {
+          setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
         }
       }
-      if (customFormFields[i].type == 'file' && customFormFields[i].mandatory) {
+      if (customFormFields[i].type == "file" && customFormFields[i].mandatory) {
         if (!customFormFields[i].value) {
-          setErrors((prev) => ({
-            ...prev,
-            [customFormFields[i]
-              .inputname]: `Please Upload ${customFormFields[i].label}`,
-          }));
-        } else {
-          setErrors((prev) => ({
-            ...prev,
-            [customFormFields[i].inputname]: '',
-          }));
+          setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please Upload ${customFormFields[i].label}` }))
+        }
+        else {
+          setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
         }
       }
-      if (
-        customFormFields[i].type == 'textarea' &&
-        customFormFields[i].mandatory
-      ) {
+      if (customFormFields[i].type == "textarea" && customFormFields[i].mandatory) {
         if (customFormFields[i].value.length == 0) {
-          setErrors((prev) => ({
-            ...prev,
-            [customFormFields[i].inputname]: 'Please Enter Text',
-          }));
-          isErrorspresent = true;
-        } else if (customFormFields[i].value.length < 3) {
-          setErrors((prev) => ({
-            ...prev,
-            [customFormFields[i].inputname]:
-              'Name should contain atleast 3 characters',
-          }));
-          isErrorspresent = true;
-        } else {
-          setErrors((prev) => ({
-            ...prev,
-            [customFormFields[i].inputname]: '',
-          }));
+          setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "Please Enter Text" }))
+          isErrorspresent = true
+        }
+        else if (customFormFields[i].value.length < 3) {
+          setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "Name should contain atleast 3 characters" }))
+          isErrorspresent = true
+        }
+        else {
+          setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
         }
       }
-      if (
-        customFormFields[i].type == 'email' &&
-        customFormFields[i].mandatory
-      ) {
+      if (customFormFields[i].type == "email" && customFormFields[i].mandatory) {
         if (customFormFields[i].value.length < 1) {
-          setErrors((prev) => ({
-            ...prev,
-            [customFormFields[i]
-              .inputname]: `Please Enter ${customFormFields[i].label}`,
-          }));
-          isErrorspresent = true;
-        } else {
-          setErrors((prev) => ({
-            ...prev,
-            [customFormFields[i].inputname]: '',
-          }));
+          setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please Enter ${customFormFields[i].label}` }))
+          isErrorspresent = true
+        }
+        else {
+          setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
         }
       }
-      if (
-        customFormFields[i].type == 'number' &&
-        customFormFields[i].mandatory
-      ) {
+      if (customFormFields[i].type == "number" && customFormFields[i].mandatory) {
         if (customFormFields[i].value.length < 1) {
-          setErrors((prev) => ({
-            ...prev,
-            [customFormFields[i]
-              .inputname]: `Please Enter ${customFormFields[i].label}`,
-          }));
-          isErrorspresent = true;
-        } else {
-          setErrors((prev) => ({
-            ...prev,
-            [customFormFields[i].inputname]: '',
-          }));
+          setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please Enter ${customFormFields[i].label}` }))
+          isErrorspresent = true
+        }
+        else {
+          setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
         }
       }
-      if (
-        customFormFields[i].type == 'phonenumber' &&
-        customFormFields[i].mandatory
-      ) {
+      if (customFormFields[i].type == "phonenumber" && customFormFields[i].mandatory) {
         if (customFormFields[i].value.length !== 10) {
-          setErrors((prev) => ({
-            ...prev,
-            [customFormFields[i]
-              .inputname]: `Please Enter 10 Digits ${customFormFields[i].label}`,
-          }));
-          isErrorspresent = true;
-        } else {
-          setErrors((prev) => ({
-            ...prev,
-            [customFormFields[i].inputname]: '',
-          }));
+          setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please Enter 10 Digits ${customFormFields[i].label}` }))
+          isErrorspresent = true
+        }
+        else {
+          setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
         }
       }
-      if (
-        customFormFields[i].type == 'select' &&
-        customFormFields[i].mandatory
-      ) {
+      if (customFormFields[i].type == "select" && customFormFields[i].mandatory) {
         if (customFormFields[i].value.length < 1) {
-          setErrors((prev) => ({
-            ...prev,
-            [customFormFields[i]
-              .inputname]: `Please Enter ${customFormFields[i].label}`,
-          }));
-          isErrorspresent = true;
-        } else {
-          setErrors((prev) => ({
-            ...prev,
-            [customFormFields[i].inputname]: '',
-          }));
+          setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please Enter ${customFormFields[i].label}` }))
+          isErrorspresent = true
+        }
+        else {
+          setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
         }
       }
-      if (
-        customFormFields[i].type == 'multiselect' &&
-        customFormFields[i].mandatory
-      ) {
+      if (customFormFields[i].type == "multiselect" && customFormFields[i].mandatory) {
         if (customFormFields[i].value.length < 1) {
-          setErrors((prev) => ({
-            ...prev,
-            [customFormFields[i]
-              .inputname]: `Please Enter ${customFormFields[i].label}`,
-          }));
-          isErrorspresent = true;
-        } else {
-          setErrors((prev) => ({
-            ...prev,
-            [customFormFields[i].inputname]: '',
-          }));
+          setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please Enter ${customFormFields[i].label}` }))
+          isErrorspresent = true
+        }
+        else {
+          setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
         }
       }
-      if (customFormFields[i].type == 'date' && customFormFields[i].mandatory) {
+      if (customFormFields[i].type == "date" && customFormFields[i].mandatory) {
         if (!customFormFields[i].value) {
-          setErrors((prev) => ({
-            ...prev,
-            [customFormFields[i]
-              .inputname]: `Please Enter ${customFormFields[i].label}`,
-          }));
-          isErrorspresent = true;
-        } else {
-          setErrors((prev) => ({
-            ...prev,
-            [customFormFields[i].inputname]: '',
-          }));
+          setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please Enter ${customFormFields[i].label}` }))
+          isErrorspresent = true
+        }
+        else {
+          setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
         }
       }
-      if (
-        customFormFields[i].type == 'checkbox' &&
-        customFormFields[i].mandatory
-      ) {
+      if (customFormFields[i].type == "checkbox" && customFormFields[i].mandatory) {
         if (!customFormFields[i].value) {
-          setErrors((prev) => ({
-            ...prev,
-            [customFormFields[i]
-              .inputname]: `Please Enter ${customFormFields[i].label}`,
-          }));
-          isErrorspresent = true;
-        } else {
-          setErrors((prev) => ({
-            ...prev,
-            [customFormFields[i].inputname]: '',
-          }));
+          setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please Enter ${customFormFields[i].label}` }))
+          isErrorspresent = true
+        }
+        else {
+          setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
         }
       }
-      if (
-        customFormFields[i].type == 'range' &&
-        customFormFields[i].mandatory
-      ) {
+      if (customFormFields[i].type == "range" && customFormFields[i].mandatory) {
         if (!customFormFields[i].value) {
-          setErrors((prev) => ({
-            ...prev,
-            [customFormFields[i]
-              .inputname]: `Please Enter ${customFormFields[i].label}`,
-          }));
-          isErrorspresent = true;
-        } else {
-          setErrors((prev) => ({
-            ...prev,
-            [customFormFields[i].inputname]: '',
-          }));
+          setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please Enter ${customFormFields[i].label}` }))
+          isErrorspresent = true
+        }
+        else {
+          setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
         }
       }
-      if (customFormFields[i].type == 'time' && customFormFields[i].mandatory) {
+      if (customFormFields[i].type == "time" && customFormFields[i].mandatory) {
         if (!customFormFields[i].value) {
-          setErrors((prev) => ({
-            ...prev,
-            [customFormFields[i]
-              .inputname]: `Please Enter ${customFormFields[i].label}`,
-          }));
-          isErrorspresent = true;
-        } else {
-          setErrors((prev) => ({
-            ...prev,
-            [customFormFields[i].inputname]: '',
-          }));
+          setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please Enter ${customFormFields[i].label}` }))
+          isErrorspresent = true
+        }
+        else {
+          setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
         }
       }
-      if (
-        customFormFields[i].type == 'password' &&
-        customFormFields[i].mandatory
-      ) {
+      if (customFormFields[i].type == "password" && customFormFields[i].mandatory) {
         if (customFormFields[i].value.length < 1) {
-          setErrors((prev) => ({
-            ...prev,
-            [customFormFields[i]
-              .inputname]: `Please Enter ${customFormFields[i].label}`,
-          }));
-          isErrorspresent = true;
-        } else {
-          setErrors((prev) => ({
-            ...prev,
-            [customFormFields[i].inputname]: '',
-          }));
+          setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please Enter ${customFormFields[i].label}` }))
+          isErrorspresent = true
+        }
+        else {
+          setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
         }
       }
     }
     if (isErrorspresent) {
-      setIsErrorspresent(true);
+      setIsErrorspresent(true)
     }
     if (!isErrorspresent) {
-      setIsErrorspresent(false);
+      setIsErrorspresent(false)
     }
-    return isErrorspresent;
-  };
+    return isErrorspresent
+  }
   useEffect(() => {
     if (isErrorspresent && customFormFields && customFormFields.length > 0) {
-      checkValidation();
+      checkValidation()
     }
-  }, [customFormFields]);
+  }, [customFormFields])
   function handleFormSubmit(e) {
     e.preventDefault();
     if (!checkValidation()) {
       const jsonData = {};
-      jsonData.customFieldsData = JSON.stringify(customFormFields);
-      jsonData.loggedInUser = parseInt(localStorage.getItem('id'));
+      jsonData.customFieldsData = JSON.stringify(customFormFields)
+      jsonData.loggedInUser = parseInt(localStorage.getItem("id"))
       for (let i = 0; i < customFormFields.length; i++) {
         if (Array.isArray(customFormFields[i].value)) {
-          jsonData[customFormFields[i].inputname] = JSON.stringify(
-            customFormFields[i].value
-          );
+          jsonData[customFormFields[i].inputname] = JSON.stringify(customFormFields[i].value)
         } else {
-          jsonData[customFormFields[i].inputname] = customFormFields[i].value;
+          jsonData[customFormFields[i].inputname] = customFormFields[i].value
         }
       }
-      axios
-        .post(`https://atbtmain.teksacademy.com/user/create-user`, jsonData)
-        .then((response) => {
+      console.log("jsonData", jsonData);
+      axios.post(
+        `https://atbtmain.teksacademy.com/user/create-user`, jsonData)
+        .then(response => {
           // console.log(response.data);
           // console.log("reposnseeeeeeeeee", response.data)
-          navigate(`/boardmeetinglandingpage/${parseInt(response.data)}`);
+          navigate(`/boardmeetinglandingpage/${parseInt(response.data)}`)
         })
-        .catch((error) => {
+        .catch(error => {
           console.error(error);
-          throw error;
         });
     }
   }
@@ -535,7 +420,7 @@ function BoardMeetingForm() {
   //       navigate(`/boardmeetinglandingpage/${parseInt(response.data)}`)
   //     })
   //     .catch(error => {
-  //       console.error(error);  throw error;
+  //       console.error(error);
   //     });
   // }
   return (
@@ -726,21 +611,14 @@ function BoardMeetingForm() {
                           item.label.slice(1)}
                       </label>
                       <input
-                        type='text'
+                        type="text"
                         name={item.inputname}
                         id={item.inputname}
                         value={customFormFields[index].value || ''}
                         className='px-2  py-1 block w-full rounded-md bg-gray-50 border-2 border-gray-200  text-gray-900 appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6
                         placeholder:text-xs'
-                        onChange={(e) => handleChange(index, e.target.value)}
-                      />
-                      <div className='h-2 text-[#dc2626]'>
-                        {errors[item.inputname] && (
-                          <span className='text-xs'>
-                            {errors[item.inputname]}
-                          </span>
-                        )}
-                      </div>
+                        onChange={(e) => handleChange(index, e.target.value)} />
+                      <div className='h-2 text-[#dc2626]'>{errors[item.inputname] && <span className='text-xs'>{errors[item.inputname]}</span>}</div>
                     </div>
                   )}
                   {item.type === 'email' && item.field == 'custom' && (
@@ -759,15 +637,8 @@ function BoardMeetingForm() {
                         value={customFormFields[index].value || ''}
                         className='px-2  py-1 block w-full rounded-md bg-gray-50 border-2 border-gray-200  text-gray-900 appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6
                         placeholder:text-xs'
-                        onChange={(e) => handleChange(index, e.target.value)}
-                      />
-                      <div className='h-2 text-[#dc2626]'>
-                        {errors[item.inputname] && (
-                          <span className='text-xs'>
-                            {errors[item.inputname]}
-                          </span>
-                        )}
-                      </div>
+                        onChange={(e) => handleChange(index, e.target.value)} />
+                      <div className='h-2 text-[#dc2626]'>{errors[item.inputname] && <span className='text-xs'>{errors[item.inputname]}</span>}</div>
                     </div>
                   )}
                   {item.type === 'password' && item.field == 'custom' && (
@@ -786,15 +657,8 @@ function BoardMeetingForm() {
                         value={customFormFields[index].value || ''}
                         className='px-2  py-1 block w-full rounded-md bg-gray-50 border-2 border-gray-200  text-gray-900 appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6
                         placeholder:text-xs'
-                        onChange={(e) => handleChange(index, e.target.value)}
-                      />
-                      <div className='h-2 text-[#dc2626]'>
-                        {errors[item.inputname] && (
-                          <span className='text-xs'>
-                            {errors[item.inputname]}
-                          </span>
-                        )}
-                      </div>
+                        onChange={(e) => handleChange(index, e.target.value)} />
+                      <div className='h-2 text-[#dc2626]'>{errors[item.inputname] && <span className='text-xs'>{errors[item.inputname]}</span>}</div>
                     </div>
                   )}
                   {(item.type === 'number') &&
@@ -859,29 +723,19 @@ function BoardMeetingForm() {
                   {item.type === 'checkbox' && item.field == "custom" && (
                     <div>
                       <div className='flex gap-2'>
+
                         <input
-                          type='checkbox'
+                          type="checkbox"
                           name={item.inputname}
                           id={item.inputname}
                           checked={!!customFormFields[index].value}
-                          onChange={(e) =>
-                            handleChange(index, e.target.checked)
-                          }
-                        />
-                        <label
-                          htmlFor={item.inputname}
-                          className='block text-sm font-medium leading-6 my-1 text-gray-900'
-                        >
-                          {item.label.charAt(0).toUpperCase() +
-                            item.label.slice(1)}
+                          onChange={(e) => handleChange(index, e.target.checked)} />
+                        <label htmlFor={item.inputname} className="block text-sm font-medium leading-6 my-1 text-gray-900">
+                          {item.label.charAt(0).toUpperCase() + item.label.slice(1)}
                         </label>
+
                       </div>
-                      <div className='h-2 text-[#dc2626]'>
-                        {errors[item.inputname] && (
-                          <span className='text-xs'>
-                            {errors[item.inputname]}
-                          </span>
-                        )}
+                      <div className='h-2 text-[#dc2626]'>{errors[item.inputname] && <span className="text-xs">{errors[item.inputname]}</span>}
                       </div>
                     </div>
                   )}
@@ -901,15 +755,8 @@ function BoardMeetingForm() {
                         className='px-2  py-1 block w-full rounded-md bg-gray-50 border-2 border-gray-200  text-gray-900 appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6
                         placeholder:text-xs'
                         value={customFormFields[index].value || ''}
-                        onChange={(e) => handleChange(index, e.target.value)}
-                      />
-                      <div className='h-2 text-[#dc2626]'>
-                        {errors[item.inputname] && (
-                          <span className='text-xs'>
-                            {errors[item.inputname]}
-                          </span>
-                        )}
-                      </div>
+                        onChange={(e) => handleChange(index, e.target.value)} />
+                      <div className='h-2 text-[#dc2626]'>{errors[item.inputname] && <span className='text-xs'>{errors[item.inputname]}</span>}</div>
                     </div>
                   )}
                   {item.type === 'time' && item.field == 'custom' && (
@@ -928,15 +775,8 @@ function BoardMeetingForm() {
                         placeholder:text-xs'
                         id={item.inputname}
                         value={customFormFields[index].value || ''}
-                        onChange={(e) => handleChange(index, e.target.value)}
-                      />
-                      <div className='h-2 text-[#dc2626]'>
-                        {errors[item.inputname] && (
-                          <span className='text-xs'>
-                            {errors[item.inputname]}
-                          </span>
-                        )}
-                      </div>
+                        onChange={(e) => handleChange(index, e.target.value)} />
+                      <div className='h-2 text-[#dc2626]'>{errors[item.inputname] && <span className='text-xs'>{errors[item.inputname]}</span>}</div>
                     </div>
                   )}
                   {item.type === 'file' && item.field == 'custom' && (
@@ -954,15 +794,8 @@ function BoardMeetingForm() {
                         id={item.inputname}
                         className='px-2 block w-full rounded-md bg-gray-50 border-2 border-gray-200 py-0.5 text-gray-900 appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6'
                         onChange={(event) => handleFileChange(event, index)}
-                        accept='image/*'
-                      />
-                      <div className='h-2 text-[#dc2626]'>
-                        {errors[item.inputname] && (
-                          <span className='text-xs'>
-                            {errors[item.inputname]}
-                          </span>
-                        )}
-                      </div>
+                        accept="image/*" />
+                      <div className='h-2 text-[#dc2626]'>{errors[item.inputname] && <span className='text-xs'>{errors[item.inputname]}</span>}</div>
                     </div>
                   )}
                   {item.type === 'range' && item.field == 'custom' && (
@@ -988,15 +821,6 @@ function BoardMeetingForm() {
                           </span>
                         )}
                       </div>
-                        onChange={(e) => handleChange(index, e.target.value)}
-                      />
-                      <div className='h-2 text-[#dc2626]'>
-                        {errors[item.inputname] && (
-                          <span className='text-xs'>
-                            {errors[item.inputname]}
-                          </span>
-                        )}
-                      </div>
                     </div>
                   )}
                   {item.type === 'textarea' && item.field == 'custom' && (
@@ -1013,16 +837,6 @@ function BoardMeetingForm() {
                         placeholder={`Enter ${item.inputname}`}
                         id={item.inputname}
                         value={customFormFields[index].value || ''}
-                        className='bg-gray-50 rounded-md text-xs p-2 w-full h-20 border-2 border-gray-200 focus:outline-none focus:border-orange-400'
-                        onChange={(e) => handleChange(index, e.target.value)}
-                      />
-                      <div className='h-2 text-[#dc2626]'>
-                        {errors[item.inputname] && (
-                          <span className='text-xs'>
-                            {errors[item.inputname]}
-                          </span>
-                        )}
-                      </div>
                         className='bg-gray-50 rounded-md text-xs p-2 w-full h-20 border-2 border-gray-200 focus:outline-none focus:border-orange-400'
                         onChange={(e) => handleChange(index, e.target.value)}
                       />
@@ -1065,13 +879,6 @@ function BoardMeetingForm() {
                           </span>
                         )}
                       </div>
-                      <div className='h-2 text-[#dc2626]'>
-                        {errors[item.inputname] && (
-                          <span className='text-xs'>
-                            {errors[item.inputname]}
-                          </span>
-                        )}
-                      </div>
                     </div>
                   )}
                   {item.type === 'multiselect' && item.field === 'custom' && (
@@ -1086,13 +893,7 @@ function BoardMeetingForm() {
                       <div className='px-2 py-1.5 text-xs block w-full bg-gray-50   rounded-md  text-gray-900   border-2 border-gray-200 shadow-sm  placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-xs sm:leading-6'>
                         <span className='flex justify-between'>
                           <p className='text-sm text-gray-400'>
-                            {item.value.length > 0 ? (
-                              <span className='text-xs'>
-                                {item.value.join(', ')}
-                              </span>
-                            ) : (
-                              <span className='text-xs'>Please select</span>
-                            )}
+                            {item.value.length > 0 ? <span className='text-xs'>{item.value.join(', ')}</span> : <span className='text-xs'>Please select</span>}
                           </p>
                           <span
                             onClick={() => handleOpenOptions(item.inputname)}
@@ -1226,7 +1027,7 @@ function BoardMeetingForm() {
 
                 </div>
 
-                  {/* {item.type === "select" && item.inputname == "venue" && item.field == "predefined" && <div>
+                {/* {item.type === "select" && item.inputname == "venue" && item.field == "predefined" && <div>
                 {item.value}
 
               </div>}
