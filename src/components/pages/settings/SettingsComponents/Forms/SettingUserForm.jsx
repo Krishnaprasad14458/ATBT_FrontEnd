@@ -196,7 +196,8 @@ const SettingUserForm = () => {
 
         setTableView(prevState => {
           const updatedState = { ...prevState };
-          updatedState[newInputField.inputname] = { label: newInputField.label, value: false };
+          updatedState[newInputField.inputname] = { ...updatedState[newInputField.inputname], label: newInputField.label };
+          
           return updatedState;
         });
       } else {
