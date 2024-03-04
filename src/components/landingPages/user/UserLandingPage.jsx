@@ -20,6 +20,7 @@ import useDebounce from '../../../hooks/debounce/useDebounce';
 import { UserDataContext } from '../../../contexts/usersDataContext/usersDataContext';
 import axios from 'axios';
 import { getUserById } from '../../../contexts/usersDataContext/utils/usersApis';
+import linesimage from '../../../Images/lines_10.svg';
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
 }
@@ -214,202 +215,164 @@ const UserLandingPage = () => {
         <hr />
       </div>
       {activeTab === 1 && (
-        <div className='mt-20 flex justify-center '>
-          <div className='h-[500px] lg:w-4/6 shadow-md p-5 border-2 rounded-md bg-[#f8fafc] '>
-            {customFormField &&
-              customFormField.length > 0 &&
-              customFormField.map((item) => (
-                <div className=''>
-                  {/* predefined fields*/}
-                  <div className='bg-[#fff7ed] rounded-xl'>
-                    {item.type === 'file' &&
-                      item.inputname == 'image' &&
+        <div >
+
+          <div className='mt-20 flex justify-center ' 
+          // style={{
+          //   backgroundImage: `url(${linesimage}) `,
+          // }}
+          >
+            <div className='h-[500px] lg:w-4/6 shadow-md p-5 border-2 rounded-md bg-[#f8fafc] ' >
+              {customFormField &&
+                customFormField.length > 0 &&
+                customFormField.map((item) => (
+                  <div className=''>
+                    {/* predefined fields*/}
+                    <div className='bg-[#fff7ed] rounded-xl'>
+                      {item.type === 'file' &&
+                        item.inputname == 'image' &&
+                        item.field === 'predefined' && (
+                          <div>
+                            {item.value ? (
+                              <img
+                                src={item.value}
+                                name='EntityPhoto'
+                                alt='User Photo'
+                                className=' h-36 w-36 relative mx-auto bottom-20 rounded-full shadow-md'
+                              />
+                            ) : (
+                              <img
+                                className=' h-36 w-36 relative mx-auto bottom-20 rounded-full shadow-md'
+                                src={defprop}
+                                alt='photo'
+                              />
+                            )}
+                          </div>
+                        )}
+                    </div>
+                    {item.type === 'text' &&
+                      item.inputname == 'name' &&
                       item.field === 'predefined' && (
-                        <div>
+                        <div className=' flex justify-center relative'>
                           {item.value ? (
-                            <img
-                              src={item.value}
-                              name='EntityPhoto'
-                              alt='User Photo'
-                              className=' h-36 w-36 relative mx-auto bottom-20 rounded-full shadow-md'
-                            />
-                          ) : (
-                            <img
-                              className=' h-36 w-36 relative mx-auto bottom-20 rounded-full shadow-md'
-                              src={defprop}
-                              alt='photo'
-                            />
-                          )}
-                        </div>
-                      )}
-                  </div>
-                  {item.type === 'text' &&
-                    item.inputname == 'name' &&
-                    item.field === 'predefined' && (
-                      <div className=' flex justify-center relative'>
-                        {item.value ? (
-                          <p className='absolute top-20 text-md antialiased font-semibold leading-snug tracking-normal text-blue-gray-900'>
-                            {' '}
-                            {item.value.toUpperCase()}
-                          </p>
-                        ) : (
-                          <p className=' absolute top-20 my-3 text-md antialiased font-semibold leading-snug tracking-normal text-blue-gray-900'>
-                            {' '}
-                            USER NAME
-                          </p>
-                        )}
-                      </div>
-                    )}
-                  {item.type === 'select' &&
-                    item.inputname == 'entityname' &&
-                    item.field == 'predefined' && (
-                      <div className='flex  justify-center   border-t-2 border-gray-300 relative'>
-                        {item.value ? (
-                          <p className=' absolute bottom-4 mt-8   text-sm antialiased  leading-snug tracking-normal text-blue-gray-900 '>
-                            {item.value}{' '}
-                          </p>
-                        ) : (
-                          <p className=' absolute top-10 mt-8   text-sm antialiased  leading-snug tracking-normal text-blue-gray-900 '>
-                            Infoz IT solutions
-                          </p>
-                        )}
-                      </div>
-                    )}
-                  <div className=' '>
-                    {item.type === 'email' &&
-                      item.inputname == 'email' &&
-                      item.field == 'predefined' && (
-                        <div className='my-2 ms-5'>
-                          {item.value ? (
-                            <p className='flex flex-wrap gap-2'>
-                              <span className='w-2/6 text-[#727a85]'>
-                                {item.label.charAt(0).toUpperCase() +
-                                  item.label.slice(1)}{' '}
-                              </span>
-                              <span className='text-md font-[600]'>
-                                {' '}
-                                : {item.value}
-                              </span>
+                            <p className='absolute top-20 text-md antialiased font-semibold leading-snug tracking-normal text-blue-gray-900'>
+                              {' '}
+                              {item.value.toUpperCase()}
                             </p>
                           ) : (
-                            <p className='flex flex-wrap gap-2'>
-                              <span className='w-2/6 text-[#727a85]'>
-                                {item.label.charAt(0).toUpperCase() +
-                                  item.label.slice(1)}{' '}
-                              </span>
-                              <span className='text-md font-[600]'>
-                                {' '}
-                                : Email
-                              </span>
-                            </p>
-                          )}
-                        </div>
-                      )}
-                    {item.type === 'phonenumber' &&
-                      item.inputname == 'phonenumber' &&
-                      item.field == 'predefined' && (
-                        <div className='my-2 ms-5'>
-                          {item.value ? (
-                            <p className='flex flex-wrap gap-2'>
-                              <span className='w-2/6 text-[#727a85]'>
-                                {item.label.charAt(0).toUpperCase() +
-                                  item.label.slice(1)}{' '}
-                              </span>
-                              <span className='text-md font-[600]'>
-                                {' '}
-                                : {item.value}
-                              </span>
-                            </p>
-                          ) : (
-                            <p className='flex flex-wrap gap-2'>
-                              <span className='w-2/6 text-[#727a85]'>
-                                {item.label.charAt(0).toUpperCase() +
-                                  item.label.slice(1)}{' '}
-                              </span>
-                              <span className='text-md font-[600]'>
-                                {' '}
-                                : Phone Number
-                              </span>
+                            <p className=' absolute top-20 my-3 text-md antialiased font-semibold leading-snug tracking-normal text-blue-gray-900'>
+                              {' '}
+                              USER NAME
                             </p>
                           )}
                         </div>
                       )}
                     {item.type === 'select' &&
-                      item.inputname == 'designation' &&
+                      item.inputname == 'entityname' &&
                       item.field == 'predefined' && (
-                        <div className='my-2 ms-5 '>
+                        <div className='flex  justify-center   border-t-2 border-gray-300 relative'>
                           {item.value ? (
-                            <p className='flex flex-wrap gap-2'>
-                              <span className='w-2/6 text-[#727a85]'>
-                                {item.label.charAt(0).toUpperCase() +
-                                  item.label.slice(1)}{' '}
-                              </span>
-                              <span className='text-md font-[600]'>
-                                {' '}
-                                : {item.value}
-                              </span>
+                            <p className=' absolute bottom-4 mt-8   text-sm antialiased  leading-snug tracking-normal text-blue-gray-900 '>
+                              {item.value}{' '}
                             </p>
                           ) : (
-                            <p className='flex flex-wrap gap-2'>
-                              <span className='w-2/6 text-[#727a85]'>
-                                {item.label.charAt(0).toUpperCase() +
-                                  item.label.slice(1)}{' '}
-                              </span>
-                              <span className='text-md font-[600]'>
-                                {' '}
-                                : Designation
-                              </span>
+                            <p className=' absolute top-10 mt-8   text-sm antialiased  leading-snug tracking-normal text-blue-gray-900 '>
+                              Infoz IT solutions
                             </p>
                           )}
                         </div>
                       )}
-                  </div>
-                  {/* custom fields */}
-                  {item.type === 'text' && item.field == 'custom' && (
-                    <div className='my-2 ms-5'>
-                      {item.value && item.value.length > 0 && (
-                        <p className='flex flex-wrap gap-2'>
-                          <span className=' w-2/6 text-[#727a85]'>
-                            {item.label.charAt(0).toUpperCase() +
-                              item.label.slice(1)}
-                          </span>
-                          <span className=' w-1/2 text-md font-[600]'>
-                            {' '}
-                            : {item.value}
-                          </span>
-                        </p>
-                      )}
+                    <div className=' '>
+                      {item.type === 'email' &&
+                        item.inputname == 'email' &&
+                        item.field == 'predefined' && (
+                          <div className='my-2 ms-5'>
+                            {item.value ? (
+                              <p className='flex flex-wrap gap-2'>
+                                <span className='w-2/6 text-[#727a85]'>
+                                  {item.label.charAt(0).toUpperCase() +
+                                    item.label.slice(1)}{' '}
+                                </span>
+                                <span className='text-md font-[600]'>
+                                  {' '}
+                                  : {item.value}
+                                </span>
+                              </p>
+                            ) : (
+                              <p className='flex flex-wrap gap-2'>
+                                <span className='w-2/6 text-[#727a85]'>
+                                  {item.label.charAt(0).toUpperCase() +
+                                    item.label.slice(1)}{' '}
+                                </span>
+                                <span className='text-md font-[600]'>
+                                  {' '}
+                                  : Email
+                                </span>
+                              </p>
+                            )}
+                          </div>
+                        )}
+                      {item.type === 'phonenumber' &&
+                        item.inputname == 'phonenumber' &&
+                        item.field == 'predefined' && (
+                          <div className='my-2 ms-5'>
+                            {item.value ? (
+                              <p className='flex flex-wrap gap-2'>
+                                <span className='w-2/6 text-[#727a85]'>
+                                  {item.label.charAt(0).toUpperCase() +
+                                    item.label.slice(1)}{' '}
+                                </span>
+                                <span className='text-md font-[600]'>
+                                  {' '}
+                                  : {item.value}
+                                </span>
+                              </p>
+                            ) : (
+                              <p className='flex flex-wrap gap-2'>
+                                <span className='w-2/6 text-[#727a85]'>
+                                  {item.label.charAt(0).toUpperCase() +
+                                    item.label.slice(1)}{' '}
+                                </span>
+                                <span className='text-md font-[600]'>
+                                  {' '}
+                                  : Phone Number
+                                </span>
+                              </p>
+                            )}
+                          </div>
+                        )}
+                      {item.type === 'select' &&
+                        item.inputname == 'designation' &&
+                        item.field == 'predefined' && (
+                          <div className='my-2 ms-5 '>
+                            {item.value ? (
+                              <p className='flex flex-wrap gap-2'>
+                                <span className='w-2/6 text-[#727a85]'>
+                                  {item.label.charAt(0).toUpperCase() +
+                                    item.label.slice(1)}{' '}
+                                </span>
+                                <span className='text-md font-[600]'>
+                                  {' '}
+                                  : {item.value}
+                                </span>
+                              </p>
+                            ) : (
+                              <p className='flex flex-wrap gap-2'>
+                                <span className='w-2/6 text-[#727a85]'>
+                                  {item.label.charAt(0).toUpperCase() +
+                                    item.label.slice(1)}{' '}
+                                </span>
+                                <span className='text-md font-[600]'>
+                                  {' '}
+                                  : Designation
+                                </span>
+                              </p>
+                            )}
+                          </div>
+                        )}
                     </div>
-                  )}
-                  {item.type === 'email' && item.field == 'custom' && (
-                    <div className='my-2 ms-5'>
-                      {item.value && item.value.length > 0 && (
-                        <p className='flex flex-wrap gap-2'>
-                          <span className=' w-2/6 text-[#727a85]'>
-                            {item.label.charAt(0).toUpperCase() +
-                              item.label.slice(1)}
-                          </span>
-                          <span className=' w-1/2 text-md font-[600]'>
-                            {' '}
-                            : {item.value}
-                          </span>
-                        </p>
-                      )}
-                    </div>
-                  )}
-                  {/* {
-                    item.type === "password" && item.field == "custom" &&
-                    <div className='my-2 ms-5'>
-                      {item.value && item.value.length > 0 &&
-                        <p className='flex flex-wrap gap-2'>
-                          <span className=' w-2/6 text-[#727a85]'>{item.label.charAt(0).toUpperCase() + item.label.slice(1)}</span>
-                          <span className=' w-1/2 text-md font-[600]'> : {item.value}</span>
-                        </p>
-                      }
-                    </div>
-                  } */}
-                  {(item.type === 'number' || item.type === 'phonenumber') &&
-                    item.field == 'custom' && (
+                    {/* custom fields */}
+                    {item.type === 'text' && item.field == 'custom' && (
                       <div className='my-2 ms-5'>
                         {item.value && item.value.length > 0 && (
                           <p className='flex flex-wrap gap-2'>
@@ -425,86 +388,130 @@ const UserLandingPage = () => {
                         )}
                       </div>
                     )}
-                  {item.type === 'textarea' && item.field == 'custom' && (
-                    // mb-1 ps-6 flex flex-wrap
-                    <div className='my-2 ms-5'>
-                      {item.value && item.value.length > 0 && (
-                        <p className='flex flex-wrap gap-2'>
-                          <span className=' w-2/6 text-[#727a85]'>
-                            {item.label.charAt(0).toUpperCase() +
-                              item.label.slice(1)}
-                          </span>
-                          <span className=' w-1/2 text-md font-[600]'>
-                            {' '}
-                            : {item.value}
-                          </span>
-                        </p>
-                      )}
-                    </div>
-                  )}
-                  {item.type === 'file' && item.field == 'custom' && (
-                    <div className=" 'my-2 ms-5 flex flex-wrap gap-2">
-                      <div>
-                        <img
-                          src={item.value}
-                          name='EntityPhoto'
-                          alt=' file'
-                          className='rounded-lg w-20 h-20 '
-                        />
+                    {item.type === 'email' && item.field == 'custom' && (
+                      <div className='my-2 ms-5'>
+                        {item.value && item.value.length > 0 && (
+                          <p className='flex flex-wrap gap-2'>
+                            <span className=' w-2/6 text-[#727a85]'>
+                              {item.label.charAt(0).toUpperCase() +
+                                item.label.slice(1)}
+                            </span>
+                            <span className=' w-1/2 text-md font-[600]'>
+                              {' '}
+                              : {item.value}
+                            </span>
+                          </p>
+                        )}
                       </div>
-                    </div>
-                  )}
-                  {item.type === 'date' && item.field == 'custom' && (
+                    )}
+                    {/* {
+                    item.type === "password" && item.field == "custom" &&
                     <div className='my-2 ms-5'>
-                      {item.value && item.value.length > 0 && (
+                      {item.value && item.value.length > 0 &&
                         <p className='flex flex-wrap gap-2'>
-                          <span className=' w-2/6 text-[#727a85]'>
-                            {item.label.charAt(0).toUpperCase() +
-                              item.label.slice(1)}
-                          </span>
-                          <span className=' w-1/2 text-md font-[600]'>
-                            {' '}
-                            : {item.value}
-                          </span>
+                          <span className=' w-2/6 text-[#727a85]'>{item.label.charAt(0).toUpperCase() + item.label.slice(1)}</span>
+                          <span className=' w-1/2 text-md font-[600]'> : {item.value}</span>
                         </p>
-                      )}
+                      }
                     </div>
-                  )}
-                  {item.type === 'select' && item.field == 'custom' && (
-                    <div className='my-2 ms-5'>
-                      {item.value && item.value.length > 0 && (
-                        <p className='flex flex-wrap gap-2'>
-                          <span className=' w-2/6 text-[#727a85]'>
-                            {item.label.charAt(0).toUpperCase() +
-                              item.label.slice(1)}
-                          </span>
-                          <span className=' w-1/2 text-md font-[600]'>
-                            {' '}
-                            : {item.value}
-                          </span>
-                        </p>
+                  } */}
+                    {(item.type === 'number' || item.type === 'phonenumber') &&
+                      item.field == 'custom' && (
+                        <div className='my-2 ms-5'>
+                          {item.value && item.value.length > 0 && (
+                            <p className='flex flex-wrap gap-2'>
+                              <span className=' w-2/6 text-[#727a85]'>
+                                {item.label.charAt(0).toUpperCase() +
+                                  item.label.slice(1)}
+                              </span>
+                              <span className=' w-1/2 text-md font-[600]'>
+                                {' '}
+                                : {item.value}
+                              </span>
+                            </p>
+                          )}
+                        </div>
                       )}
-                    </div>
-                  )}
+                    {item.type === 'textarea' && item.field == 'custom' && (
+                      // mb-1 ps-6 flex flex-wrap
+                      <div className='my-2 ms-5'>
+                        {item.value && item.value.length > 0 && (
+                          <p className='flex flex-wrap gap-2'>
+                            <span className=' w-2/6 text-[#727a85]'>
+                              {item.label.charAt(0).toUpperCase() +
+                                item.label.slice(1)}
+                            </span>
+                            <span className=' w-1/2 text-md font-[600]'>
+                              {' '}
+                              : {item.value}
+                            </span>
+                          </p>
+                        )}
+                      </div>
+                    )}
+                    {item.type === 'file' && item.field == 'custom' && (
+                      <div className=" 'my-2 ms-5 flex flex-wrap gap-2">
+                        <div>
+                          <img
+                            src={item.value}
+                            name='EntityPhoto'
+                            alt=' file'
+                            className='rounded-lg w-20 h-20 '
+                          />
+                        </div>
+                      </div>
+                    )}
+                    {item.type === 'date' && item.field == 'custom' && (
+                      <div className='my-2 ms-5'>
+                        {item.value && item.value.length > 0 && (
+                          <p className='flex flex-wrap gap-2'>
+                            <span className=' w-2/6 text-[#727a85]'>
+                              {item.label.charAt(0).toUpperCase() +
+                                item.label.slice(1)}
+                            </span>
+                            <span className=' w-1/2 text-md font-[600]'>
+                              {' '}
+                              : {item.value}
+                            </span>
+                          </p>
+                        )}
+                      </div>
+                    )}
+                    {item.type === 'select' && item.field == 'custom' && (
+                      <div className='my-2 ms-5'>
+                        {item.value && item.value.length > 0 && (
+                          <p className='flex flex-wrap gap-2'>
+                            <span className=' w-2/6 text-[#727a85]'>
+                              {item.label.charAt(0).toUpperCase() +
+                                item.label.slice(1)}
+                            </span>
+                            <span className=' w-1/2 text-md font-[600]'>
+                              {' '}
+                              : {item.value}
+                            </span>
+                          </p>
+                        )}
+                      </div>
+                    )}
 
-                  {item.type === 'multiselect' && item.field == 'custom' && (
-                    <div className='my-2 ms-5'>
-                      {item.value && item.value.length > 0 && (
-                        <p className='flex flex-wrap gap-2'>
-                          <span className=' w-2/6 text-[#727a85]'>
-                            {item.label.charAt(0).toUpperCase() +
-                              item.label.slice(1)}
-                          </span>
+                    {item.type === 'multiselect' && item.field == 'custom' && (
+                      <div className='my-2 ms-5'>
+                        {item.value && item.value.length > 0 && (
+                          <p className='flex flex-wrap gap-2'>
+                            <span className=' w-2/6 text-[#727a85]'>
+                              {item.label.charAt(0).toUpperCase() +
+                                item.label.slice(1)}
+                            </span>
 
-                          <span className=' w-1/2 text-md font-[600]'>
-                            {' '}
-                            : {item.value.join(', ')}
-                          </span>
-                        </p>
-                      )}
-                    </div>
-                  )}
-                  {/* {
+                            <span className=' w-1/2 text-md font-[600]'>
+                              {' '}
+                              : {item.value.join(', ')}
+                            </span>
+                          </p>
+                        )}
+                      </div>
+                    )}
+                    {/* {
                     item.type === "checkbox" && item.field == "custom" &&
                     <div className='my-2 ms-5'>
                       {item.value && item.value.length > 0 &&
@@ -515,40 +522,41 @@ const UserLandingPage = () => {
                       }
                     </div>
                   } */}
-                  {item.type === 'range' && item.field == 'custom' && (
-                    <div className='my-2 ms-5'>
-                      {item.value && item.value.length > 0 && (
-                        <p className='flex flex-wrap gap-2'>
-                          <span className=' w-2/6 text-[#727a85]'>
-                            {item.label.charAt(0).toUpperCase() +
-                              item.label.slice(1)}
-                          </span>
-                          <span className=' w-1/2 text-md font-[600]'>
-                            {' '}
-                            : {item.value}
-                          </span>
-                        </p>
-                      )}
-                    </div>
-                  )}
-                  {item.type === 'time' && item.field == 'custom' && (
-                    <div className='my-2 ms-5'>
-                      {item.value && item.value.length > 0 && (
-                        <p className='flex flex-wrap gap-2'>
-                          <span className=' w-2/6 text-[#727a85]'>
-                            {item.label.charAt(0).toUpperCase() +
-                              item.label.slice(1)}
-                          </span>
-                          <span className=' w-1/2 text-md font-[600]'>
-                            {' '}
-                            : {item.value}
-                          </span>
-                        </p>
-                      )}
-                    </div>
-                  )}
-                </div>
-              ))}
+                    {item.type === 'range' && item.field == 'custom' && (
+                      <div className='my-2 ms-5'>
+                        {item.value && item.value.length > 0 && (
+                          <p className='flex flex-wrap gap-2'>
+                            <span className=' w-2/6 text-[#727a85]'>
+                              {item.label.charAt(0).toUpperCase() +
+                                item.label.slice(1)}
+                            </span>
+                            <span className=' w-1/2 text-md font-[600]'>
+                              {' '}
+                              : {item.value}
+                            </span>
+                          </p>
+                        )}
+                      </div>
+                    )}
+                    {item.type === 'time' && item.field == 'custom' && (
+                      <div className='my-2 ms-5'>
+                        {item.value && item.value.length > 0 && (
+                          <p className='flex flex-wrap gap-2'>
+                            <span className=' w-2/6 text-[#727a85]'>
+                              {item.label.charAt(0).toUpperCase() +
+                                item.label.slice(1)}
+                            </span>
+                            <span className=' w-1/2 text-md font-[600]'>
+                              {' '}
+                              : {item.value}
+                            </span>
+                          </p>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                ))}
+            </div>
           </div>
         </div>
       )}
