@@ -5,7 +5,7 @@ import Swal from 'sweetalert2';
 
 const userData = JSON.parse(localStorage.getItem("data"))
 const localToken = userData?.token
-// console.log(userData?.token, "bla")
+console.log(userData?.token, "bla")
 export const getAllUsers = async (token) => {
     console.log(`${token} token is present in getAllUsers api`);
     const url = `${apiUrl}/user/list`;

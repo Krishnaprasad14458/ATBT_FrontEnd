@@ -1,6 +1,6 @@
 import Error401 from "../../components/pages/Errorpages/Error401"
 import Error403 from "../../components/pages/Errorpages/Error403"
-import ErrorPage from "../../components/pages/Errorpages/ErrorPage"
+import ErrorPage from "../../components/pages/Errorpages/ErrorBoundary"
 import PageNotFound from "../../components/pages/Errorpages/PageNotFound"
 
 
