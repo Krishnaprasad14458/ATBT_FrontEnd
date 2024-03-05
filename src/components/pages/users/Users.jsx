@@ -34,7 +34,6 @@
 
 // export default Users;
 
-
 import React, { useState, useContext, useEffect, useRef } from 'react';
 import { Link, useSubmit } from 'react-router-dom';
 import $ from 'jquery';
@@ -54,14 +53,14 @@ function classNames(...classes) {
 function Users() {
   const [hoveredOption, setHoveredOption] = useState(4);
   useEffect(() => {
-    console.log("hoveredOption", hoveredOption)
-  })
+    console.log('hoveredOption', hoveredOption);
+  });
   const handleMouseEnter = () => {
-    setHoveredOption("hi")
+    setHoveredOption('hi');
   };
 
   const handleMouseLeave = () => {
-    setHoveredOption("heloo")
+    setHoveredOption('heloo');
   };
   const userData = JSON.parse(localStorage.getItem('data'));
   const token = userData?.token;
@@ -399,14 +398,29 @@ function Users() {
           </button>
 
           {/* for coloumns open */}
-          <div className={`fixed inset-0 transition-all duration-500 bg-gray-800 bg-opacity-50 z-10 ${columnsDrawerOpen ? '' : 'hidden'}`}>
-            <div className=" fixed inset-y-0 right-0 w-3/12 bg-white shadow-lg transform translate-x-0 transition-transform duration-300 ease-in-out">
-
+          <div
+            className={`fixed inset-0 transition-all duration-500 bg-gray-800 bg-opacity-50 z-10 ${
+              columnsDrawerOpen ? '' : 'hidden'
+            }`}
+          >
+            <div className=' fixed inset-y-0 right-0 w-3/12 bg-white shadow-lg transform translate-x-0 transition-transform duration-300 ease-in-out'>
               <div className='flex justify-between p-5 bg-gray-100'>
                 <h5 className='font-[500]'> Columns</h5>
-                <button onClick={columnsDrawer} className="">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5 text-gray-500">
-                    <path fillRule="evenodd" d="M5.47 5.47a.75.75 0 0 1 1.06 0L12 10.94l5.47-5.47a.75.75 0 1 1 1.06 1.06L13.06 12l5.47 5.47a.75.75 0 1 1-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 0 1-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 0 1 0-1.06Z" clipRule="evenodd" />
+                <button
+                  onClick={columnsDrawer}
+                  className=''
+                >
+                  <svg
+                    xmlns='http://www.w3.org/2000/svg'
+                    viewBox='0 0 24 24'
+                    fill='currentColor'
+                    className='w-5 h-5 text-gray-500'
+                  >
+                    <path
+                      fillRule='evenodd'
+                      d='M5.47 5.47a.75.75 0 0 1 1.06 0L12 10.94l5.47-5.47a.75.75 0 1 1 1.06 1.06L13.06 12l5.47 5.47a.75.75 0 1 1-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 0 1-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 0 1 0-1.06Z'
+                      clipRule='evenodd'
+                    />
                   </svg>
                 </button>
               </div>
@@ -462,26 +476,47 @@ function Users() {
           </button>
 
           {/* for filter open */}
-          <div className={`fixed inset-0 transition-all duration-500 bg-gray-800 bg-opacity-50 z-10 ${filterDrawerOpen ? '' : 'hidden'}`}>
-            <div className=" fixed inset-y-0 right-0 w-11/12 md:w-4/12 lg:w-3/12 xl:w-3/12   bg-white shadow-lg transform translate-x-0 transition-transform duration-300 ease-in-out">
-
+          <div
+            className={`fixed inset-0 transition-all duration-500 bg-gray-800 bg-opacity-50 z-10 ${
+              filterDrawerOpen ? '' : 'hidden'
+            }`}
+          >
+            <div className=' fixed inset-y-0 right-0 w-11/12 md:w-4/12 lg:w-3/12 xl:w-3/12   bg-white shadow-lg transform translate-x-0 transition-transform duration-300 ease-in-out'>
               <div className=' flex justify-between p-5 bg-gray-100'>
                 <h5 className='font-[500] '> Filters</h5>
-                <button onClick={filterDrawer} className="">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5 text-gray-500">
-                    <path fillRule="evenodd" d="M5.47 5.47a.75.75 0 0 1 1.06 0L12 10.94l5.47-5.47a.75.75 0 1 1 1.06 1.06L13.06 12l5.47 5.47a.75.75 0 1 1-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 0 1-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 0 1 0-1.06Z" clipRule="evenodd" />
+                <button
+                  onClick={filterDrawer}
+                  className=''
+                >
+                  <svg
+                    xmlns='http://www.w3.org/2000/svg'
+                    viewBox='0 0 24 24'
+                    fill='currentColor'
+                    className='w-5 h-5 text-gray-500'
+                  >
+                    <path
+                      fillRule='evenodd'
+                      d='M5.47 5.47a.75.75 0 0 1 1.06 0L12 10.94l5.47-5.47a.75.75 0 1 1 1.06 1.06L13.06 12l5.47 5.47a.75.75 0 1 1-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 0 1-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 0 1 0-1.06Z'
+                      clipRule='evenodd'
+                    />
                   </svg>
                 </button>
-
               </div>
               <div className='h-[600px] overflow-auto'>
                 <div className='text-start p-3 '>
                   {/* {filter.label} */}
                   {filterableInputsInBox?.map((filter, index) => (
-                    <div key={index} className=''>
+                    <div
+                      key={index}
+                      className=''
+                    >
                       {filter.options && (
                         <div>
-                          <label className='mb-4 text-sm text-[#878a99] font-medium'> {filter.label.charAt(0).toUpperCase() + filter.label.slice(1)}</label>
+                          <label className='mb-4 text-sm text-[#878a99] font-medium'>
+                            {' '}
+                            {filter.label.charAt(0).toUpperCase() +
+                              filter.label.slice(1)}
+                          </label>
                           {/* <select
                           id={filter.inputname}
                           name={filter.inputname}
@@ -522,46 +557,74 @@ function Users() {
                             id={filter.inputname}
                             name={filter.inputname}
                             className='px-3 py-2 my-2 text-xs block w-full bg-gray-50 rounded-md text-gray-900 border border-1 border-[#e9ebec] placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-xs sm:leading-6'
-                            onChange={(e) => handleFilterChange(filter.inputname, e.target.value)}
+                            onChange={(e) =>
+                              handleFilterChange(
+                                filter.inputname,
+                                e.target.value
+                              )
+                            }
                             value={selectedFilters[filter.inputname] || ''}
-                          // onMouseEnter={handleMouseEnter}
-                          // onMouseLeave={handleMouseLeave}
+                            // onMouseEnter={handleMouseEnter}
+                            // onMouseLeave={handleMouseLeave}
                           >
-                            <option value="" disabled defaultValue>Please select</option>
-                            {filter.options && filter.options.type === "custom" && filter.options.value &&
+                            <option
+                              value=''
+                              disabled
+                              defaultValue
+                            >
+                              Please select
+                            </option>
+                            {filter.options &&
+                              filter.options.type === 'custom' &&
+                              filter.options.value &&
                               filter.options.value.map((option, index) => (
-                                <option key={index} value={option}>{option}</option>
-                              ))}
-                            {filter.options && filter.options.type === "predefined" && filter.options.value &&
-                              fieldsDropDownData[filter.options.value]?.map((option, index) => (
                                 <option
                                   key={index}
                                   value={option}
-                                // style={{
-                                //   backgroundColor: hoveredOption === index ? 'orange' : 'white',
-                                //   cursor: 'pointer'
-                                // }}
-                                // onMouseEnter={() => setHoveredOption(index)}
-                                // onMouseLeave={() => setHoveredOption(null)}
-
                                 >
                                   {option}
                                 </option>
                               ))}
+                            {filter.options &&
+                              filter.options.type === 'predefined' &&
+                              filter.options.value &&
+                              fieldsDropDownData[filter.options.value]?.map(
+                                (option, index) => (
+                                  <option
+                                    key={index}
+                                    value={option}
+                                    // style={{
+                                    //   backgroundColor: hoveredOption === index ? 'orange' : 'white',
+                                    //   cursor: 'pointer'
+                                    // }}
+                                    // onMouseEnter={() => setHoveredOption(index)}
+                                    // onMouseLeave={() => setHoveredOption(null)}
+                                  >
+                                    {option}
+                                  </option>
+                                )
+                              )}
                           </select>
-
-
                         </div>
                       )}
                     </div>
                   ))}
-
-
                 </div>
               </div>
 
               <div className='flex justify-end mt-2 bg-gray-100 p-3 '>
-                <button className='mr-3 px-3 py-2 inline-flex  whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white '>Apply</button>
+                <button
+                  onClick={handlefilters}
+                  className='mr-3 px-3 py-2 inline-flex  whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white '
+                >
+                  Apply
+                </button>
+                <button
+                  onClick={handleFilterReset}
+                  className='mr-3 px-3 py-2 inline-flex  whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white '
+                >
+                  Clear
+                </button>
               </div>
             </div>
           </div>
@@ -663,7 +726,6 @@ function Users() {
                         >
                           {row.userstatus !== undefined && (
                             <div className='flex items-center'>
-
                               <label
                                 htmlFor='toggle'
                                 className='flex items-center cursor-pointer'
@@ -882,7 +944,7 @@ function Users() {
           </section>
         </div>
       </div>
-    </div >
+    </div>
   );
 }
 
