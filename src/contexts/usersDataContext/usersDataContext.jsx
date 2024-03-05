@@ -11,6 +11,8 @@ export const UserDataContext = createContext();
 const UserDataProvider = ({ children }) => {
   const [usersState, usersDispatch] = useReducer(userDataReducer, initialState);
 
+  console.log(usersState, 'userState for filters');
+
   const { authState } = useContext(AuthContext);
 
   const getAllUsers = async () => {
@@ -23,7 +25,8 @@ const UserDataProvider = ({ children }) => {
 
   const getDashboardUsersData = async () => {
     console.log(`${authState.token} token is present in getDashboardUsersData`);
-    const { currentPage, pageSize, sortBy, search } = usersState.dashboard;
+    const { currentPage, pageSize, sortBy, search, filters } =
+      usersState.dashboard;
     usersDispatch(actions.setLoading('DASHBOARD'));
     try {
       const { status, data } = await api.getDashboardUsers(
@@ -47,7 +50,8 @@ const UserDataProvider = ({ children }) => {
 
   const getSettingsUsersData = async () => {
     console.log(`${authState.token} token is present in getSettingsUsersData`);
-    const { currentPage, pageSize, sortBy, search } = usersState.settings;
+    const { currentPage, pageSize, sortBy, search, filters } =
+      usersState.settings;
     usersDispatch(actions.setLoading('SETTINGS'));
     try {
       const { status, data } = await api.getSettingsUsers(
@@ -55,6 +59,7 @@ const UserDataProvider = ({ children }) => {
         pageSize,
         sortBy,
         search,
+        filters,
         authState?.token
       );
       if (status === 200) {
@@ -177,6 +182,7 @@ const UserDataProvider = ({ children }) => {
     usersState?.settings?.search,
     usersState?.settings?.pageSize,
     usersState?.settings?.sortBy,
+    usersState?.settings?.filters,
     authState?.token,
   ]);
   useEffect(() => {
@@ -199,6 +205,7 @@ const UserDataProvider = ({ children }) => {
         toggleUser,
         updateUser,
         setSortBy: actions.setSortBy,
+        setFilters: actions.setFilters,
       }}
     >
       {children}
