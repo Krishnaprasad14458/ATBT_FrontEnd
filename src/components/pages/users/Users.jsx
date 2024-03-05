@@ -360,9 +360,7 @@ function Users() {
 
           <button
             onClick={columnsDrawer}
-
             className=" focus:outline-none me-3 gap-x-1.5 rounded-md bg-orange-600 px-4 py-2 text-sm font-[500] text-white shadow-md  hover:shadow-lg"
-
           >
             Columns
           </button>
@@ -382,7 +380,6 @@ function Users() {
               </div>
               <hr className='h-1 w-full' />
 
-
               <div className='px-4 py-2.5 h-[615px] overflow-auto flex-wrap'>
                 {dupTableView &&
                   Object.keys(dupTableView).map((columnName) => (
@@ -391,7 +388,6 @@ function Users() {
                         className={classNames(
                           tableView[columnName].value ? 'bg-gray-100 text-gray-700 hover:text-black' : 'text-gray-700 bg-gray-100 hover:text-black',
                           'appearance-none border border-gray-300 hover:border-gray-900 checked:hover:border-white rounded-md checked:bg-orange-600 checked:border-transparent w-3 h-3 cursor-pointer hover:text-black'
-
                         )}
                         type='checkbox'
                         id={columnName}
@@ -420,7 +416,6 @@ function Users() {
                 </button>
               </div>
 
-
             </div>
           </div>
 
@@ -428,7 +423,6 @@ function Users() {
 
           <button onClick={filterDrawer} className="transition-opacity duration-500 focus:outline-none me-3 gap-x-1.5 rounded-md bg-orange-600 px-4 py-2 text-sm font-[500] text-white shadow-md  hover:shadow-lg">
             Filters
-
           </button>
 
           {/* for filter open */}
@@ -452,13 +446,10 @@ function Users() {
                   {filterableInputsInBox?.map((filter, index) => (
                     <div key={index} className=''>
                       {filter.options && (
-
-
                         <div className="mb-4">
                           <label className="text-sm text-gray-600 font-medium">
                             {filter.label.charAt(0).toUpperCase() + filter.label.slice(1)}
                           </label>
-
                           <select
                             id={filter.inputname}
                             name={filter.inputname}
