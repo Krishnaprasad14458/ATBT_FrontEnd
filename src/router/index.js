@@ -64,15 +64,17 @@ import { userRouter } from "./user/user.router";
 import { entityRouter } from "./entity/entity.router";
 import { taskRouter } from "./task/task.router";
 import RouteBlocker from "../rbac/RouteBlocker";
-import ErrorPage from "../components/pages/Errorpages/ErrorPage";
+import ErrorBoundary from "../components/pages/Errorpages/ErrorBoundary";
 import '../App.css';
+
 
 
 export const router = createBrowserRouter([
     {
         path: '/',
         element: <RequireAuth />,
-        errorElement: <ErrorPage />,
+        // errorElement: <ErrorBoundary />,
+        ErrorBoundary: ErrorBoundary,
         children: [
             {
                 element: <RouteBlocker permissionCheck={(permission) =>
