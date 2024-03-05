@@ -344,7 +344,7 @@ function Users() {
             <div className=" fixed inset-y-0 right-0 w-3/12 bg-white shadow-lg transform translate-x-0 transition-transform duration-300 ease-in-out">
 
               <div className='flex justify-between p-3 bg-gray-100'>
-                <p className='font-semibold'> Coloumns</p>
+                <p className='font-semibold'> Columns</p>
                 <button onClick={columnsDrawer} className="">
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5 text-gray-500">
                     <path fillRule="evenodd" d="M5.47 5.47a.75.75 0 0 1 1.06 0L12 10.94l5.47-5.47a.75.75 0 1 1 1.06 1.06L13.06 12l5.47 5.47a.75.75 0 1 1-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 0 1-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 0 1 0-1.06Z" clipRule="evenodd" />
@@ -388,20 +388,21 @@ function Users() {
           </div>
 
           <button onClick={filterDrawer} className='transition-opacity duration-500 focus:outline-none me-3 gap-x-1.5 rounded-md bg-gray-50 px-1.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-200 hover:bg-gray-50'>
-            filters
+            Filters
           </button>
 
           {/* for filter open */}
           <div className={`fixed inset-0 transition-all duration-500 bg-gray-800 bg-opacity-50 z-10 ${filterDrawerOpen ? '' : 'hidden'}`}>
-            <div className="p-3 fixed inset-y-0 right-0 w-3/12 bg-white shadow-lg transform translate-x-0 transition-transform duration-300 ease-in-out">
-              <div className="flex justify-start">
-                <div className='absolute top-4 right-4 flex flex-row'>
-                  <button onClick={filterDrawer} className="">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5 text-gray-500">
-                      <path fillRule="evenodd" d="M5.47 5.47a.75.75 0 0 1 1.06 0L12 10.94l5.47-5.47a.75.75 0 1 1 1.06 1.06L13.06 12l5.47 5.47a.75.75 0 1 1-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 0 1-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 0 1 0-1.06Z" clipRule="evenodd" />
-                    </svg>
-                  </button>
-                </div>
+            <div className=" fixed inset-y-0 right-0 w-11/12 md:w-3/12  bg-white shadow-lg transform translate-x-0 transition-transform duration-300 ease-in-out">
+
+              <div className=' flex justify-between p-3 bg-gray-100'>
+                <p className='font-semibold'> Filters</p>
+                <button onClick={filterDrawer} className="">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5 text-gray-500">
+                    <path fillRule="evenodd" d="M5.47 5.47a.75.75 0 0 1 1.06 0L12 10.94l5.47-5.47a.75.75 0 1 1 1.06 1.06L13.06 12l5.47 5.47a.75.75 0 1 1-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 0 1-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 0 1 0-1.06Z" clipRule="evenodd" />
+                  </svg>
+                </button>
+
               </div>
               <div className='text-start'>
 
@@ -438,9 +439,6 @@ function Users() {
               </div>
             </div>
           </div>
-
-
-
         </div>
       </div>
       {/* table */}
