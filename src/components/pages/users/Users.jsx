@@ -1,43 +1,10 @@
-// import React from 'react';
 
-// const Users = () => {
-//   const handleMouseEnter = () => {
-//     console.log('Mouse entered');
-//   };
-
-//   const handleMouseLeave = () => {
-//     console.log('Mouse left');
-//   };
-
-//   const handleClick = () => {
-//     console.log('Clicked');
-//   };
-
-//   const handleDoubleClick = () => {
-//     console.log('Double clicked');
-//   };
-
-//   return (
-//     <div>
-//       <div
-//         onMouseEnter={handleMouseEnter}
-//         onMouseLeave={handleMouseLeave}
-//         onClick={handleClick}
-//         onDoubleClick={handleDoubleClick}
-//         style={{ width: 200, height: 200, backgroundColor: 'lightblue' }}
-//       >
-//         Hover over me!
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default Users;
 
 
 import React, { useState, useContext, useEffect, useRef } from 'react';
 import { Link, useSubmit } from 'react-router-dom';
 import $ from 'jquery';
+import './User.css'
 import Swal from 'sweetalert2';
 import { Fragment } from 'react';
 import { Dialog, Menu, Transition } from '@headlessui/react';
@@ -393,17 +360,20 @@ function Users() {
 
           <button
             onClick={columnsDrawer}
-            className='transition-opacity duration-500 focus:outline-none me-3 gap-x-1.5 rounded-md bg-gray-50 px-1 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-200 hover:bg-gray-50'
+
+            className=" focus:outline-none me-3 gap-x-1.5 rounded-md bg-orange-600 px-4 py-2 text-sm font-[500] text-white shadow-md  hover:shadow-lg"
+
           >
             Columns
           </button>
 
-          {/* for coloumns open */}
-          <div className={`fixed inset-0 transition-all duration-500 bg-gray-800 bg-opacity-50 z-10 ${columnsDrawerOpen ? '' : 'hidden'}`}>
-            <div className=" fixed inset-y-0 right-0 w-3/12 bg-white shadow-lg transform translate-x-0 transition-transform duration-300 ease-in-out">
 
-              <div className='flex justify-between p-5 bg-gray-100'>
-                <h5 className='font-[500]'> Columns</h5>
+          {/* for coloumns open */}
+          <div className={`fixed inset-0 bg-gray-800 bg-opacity-50 z-10 ${columnsDrawerOpen ? '' : 'opacity-0 pointer-events-none'}`} style={{ transition: 'opacity 0.3s ease-in-out' }}>
+            <div className="fixed inset-y-0 right-0 w-11/12 md:w-4/12 lg:w-1/5 xl:w-1/5 bg-white shadow-lg transform translate-x-full transition-transform duration-300 ease-in-out" style={{ transform: `translateX(${columnsDrawerOpen ? '0%' : '100%'})`, transition: 'transform 0.3s ease-in-out' }}>
+
+              <div className='flex justify-between px-5 py-4 bg-gray-100'>
+                <h5 className='font-[500]'>Columns</h5>
                 <button onClick={columnsDrawer} className="">
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5 text-gray-500">
                     <path fillRule="evenodd" d="M5.47 5.47a.75.75 0 0 1 1.06 0L12 10.94l5.47-5.47a.75.75 0 1 1 1.06 1.06L13.06 12l5.47 5.47a.75.75 0 1 1-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 0 1-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 0 1 0-1.06Z" clipRule="evenodd" />
@@ -412,28 +382,26 @@ function Users() {
               </div>
               <hr className='h-1 w-full' />
 
-              <div className='px-4 py-2.5'>
+
+              <div className='px-4 py-2.5 h-[615px] overflow-auto flex-wrap'>
                 {dupTableView &&
                   Object.keys(dupTableView).map((columnName) => (
-                    <p
-                      key={columnName}
-                      className='flex text-left gap-5 '
-                    >
+                    <div key={columnName} className='flex items-center gap-2'>
                       <input
                         className={classNames(
-                          tableView[columnName].value
-                            ? 'bg-gray-100 text-gray-900'
-                            : 'text-gray-700',
-                          'block px-4 py-2 text-sm text-left'
+                          tableView[columnName].value ? 'bg-gray-100 text-gray-700 hover:text-black' : 'text-gray-700 bg-gray-100 hover:text-black',
+                          'appearance-none border border-gray-300 hover:border-gray-900 checked:hover:border-white rounded-md checked:bg-orange-600 checked:border-transparent w-3 h-3 cursor-pointer hover:text-black'
+
                         )}
                         type='checkbox'
+                        id={columnName}
                         checked={dupTableView[columnName].value}
                         onChange={() => handleColumnsCheckboxChange(columnName)}
                       />
-                      <label htmlFor={columnName}>
+                      <label htmlFor={columnName} className='cursor-pointer text-md py-1'>
                         {dupTableView[columnName].label}
                       </label>
-                    </p>
+                    </div>
                   ))}
               </div>
 
@@ -451,21 +419,25 @@ function Users() {
                   Save
                 </button>
               </div>
+
+
             </div>
           </div>
 
-          <button
-            onClick={filterDrawer}
-            className='transition-opacity duration-500 focus:outline-none me-3 gap-x-1.5 rounded-md bg-gray-50 px-1.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-200 hover:bg-gray-50'
-          >
-            filters
+
+
+          <button onClick={filterDrawer} className="transition-opacity duration-500 focus:outline-none me-3 gap-x-1.5 rounded-md bg-orange-600 px-4 py-2 text-sm font-[500] text-white shadow-md  hover:shadow-lg">
+            Filters
+
           </button>
 
           {/* for filter open */}
-          <div className={`fixed inset-0 transition-all duration-500 bg-gray-800 bg-opacity-50 z-10 ${filterDrawerOpen ? '' : 'hidden'}`}>
-            <div className=" fixed inset-y-0 right-0 w-11/12 md:w-4/12 lg:w-3/12 xl:w-3/12   bg-white shadow-lg transform translate-x-0 transition-transform duration-300 ease-in-out">
+          <div className={`fixed inset-0 bg-gray-800 bg-opacity-50 z-10 ${filterDrawerOpen ? '' : 'opacity-0 pointer-events-none'}`} style={{ transition: 'opacity 0.3s ease-in-out' }}>
+            <div className="fixed inset-y-0 right-0 w-11/12 md:w-4/12 lg:w-1/5 xl:w-w-1/5 bg-white shadow-lg transform translate-x-full transition-transform duration-300 ease-in-out" style={{ transform: `translateX(${filterDrawerOpen ? '0%' : '100%'})`, transition: 'transform 0.3s ease-in-out' }}>
+              {/* <div className={`fixed inset-0 transition-all duration-500 bg-gray-800 bg-opacity-50 z-10 ${filterDrawerOpen ? '' : 'hidden'}`}>
+            <div className=" fixed inset-y-0 right-0 w-11/12 md:w-4/12 lg:w-1/5 xl:w-w-1/5   bg-white shadow-lg transform translate-x-0 transition-transform duration-300 ease-in-out"> */}
 
-              <div className=' flex justify-between p-5 bg-gray-100'>
+              <div className=' flex justify-between px-5 py-4 bg-gray-100'>
                 <h5 className='font-[500] '> Filters</h5>
                 <button onClick={filterDrawer} className="">
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5 text-gray-500">
@@ -474,84 +446,38 @@ function Users() {
                 </button>
 
               </div>
-              <div className='h-[600px] overflow-auto'>
+              <div className='h-[615px] overflow-auto'>
                 <div className='text-start p-3 '>
                   {/* {filter.label} */}
                   {filterableInputsInBox?.map((filter, index) => (
                     <div key={index} className=''>
                       {filter.options && (
-                        <div>
-                          <label className='mb-4 text-sm text-[#878a99] font-medium'> {filter.label.charAt(0).toUpperCase() + filter.label.slice(1)}</label>
-                          {/* <select
-                          id={filter.inputname}
-                          name={filter.inputname}
-                          className='px-3 py-2 my-2 text-xs block w-full bg-gray-50 rounded-md text-gray-900 border border-1
-   border-[#e9ebec]  placeholder:text-gray-400 focus:outline-none focus:border-orange-400 
-   sm:text-xs sm:leading-6 '
-                          onChange={(e) => handleFilterChange(filter.inputname, e.target.value)}
-                          value={selectedFilters[filter.inputname] || ''}
-                        >
-                          <option value="" disabled selected className="text-[#ccc]">Please select</option>
-                          {filter.options && filter.options.type === "custom" && filter.options.value &&
-                            filter.options.value.map((option, index) => (
-                              <option
-                                key={index}
-                                value={option}
-                              >
-                                {option}
-                              </option>
-                            ))}
-                          {filter.options && filter.options.type === "predefined" && filter.options.value &&
-                            fieldsDropDownData[filter.options.value]?.map((option, index) => (
-                              <option
-                                key={index}
-                                value={option}
-                                style={{
-                                  backgroundColor: hoveredOption === index ? 'green' : 'black',
-                                  // backgroundColor:hoveredOption === index ? 'yellow' : "white",
-                                  cursor: 'pointer'
-                                }}
-                                onMouseEnter={() => setHoveredOption(index)}
-                                onMouseLeave={() => setHoveredOption(null)}
-                              >
-                                {option}
-                              </option>
-                            ))}
-                        </select> */}
+
+
+                        <div className="mb-4">
+                          <label className="text-sm text-gray-600 font-medium">
+                            {filter.label.charAt(0).toUpperCase() + filter.label.slice(1)}
+                          </label>
+
                           <select
                             id={filter.inputname}
                             name={filter.inputname}
-                            className='px-3 py-2 my-2 text-xs block w-full bg-gray-50 rounded-md text-gray-900 border border-1 border-[#e9ebec] placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-xs sm:leading-6'
+                            className="px-3 py-2 my-2 text-sm block w-full bg-white rounded-md text-gray-900 border border-gray-300 placeholder-gray-400 focus:outline-none "
                             onChange={(e) => handleFilterChange(filter.inputname, e.target.value)}
                             value={selectedFilters[filter.inputname] || ''}
-                          // onMouseEnter={handleMouseEnter}
-                          // onMouseLeave={handleMouseLeave}
                           >
-                            <option value="" disabled defaultValue>Please select</option>
+                            <option value="" disabled selected className="text-[#ccc]">Please select</option>
                             {filter.options && filter.options.type === "custom" && filter.options.value &&
                               filter.options.value.map((option, index) => (
                                 <option key={index} value={option}>{option}</option>
                               ))}
                             {filter.options && filter.options.type === "predefined" && filter.options.value &&
                               fieldsDropDownData[filter.options.value]?.map((option, index) => (
-                                <option
-                                  key={index}
-                                  value={option}
-                                // style={{
-                                //   backgroundColor: hoveredOption === index ? 'orange' : 'white',
-                                //   cursor: 'pointer'
-                                // }}
-                                // onMouseEnter={() => setHoveredOption(index)}
-                                // onMouseLeave={() => setHoveredOption(null)}
-
-                                >
-                                  {option}
-                                </option>
+                                <option key={index} value={option} className=''>{option}</option>
                               ))}
                           </select>
-
-
                         </div>
+
                       )}
                     </div>
                   ))}
@@ -882,6 +808,7 @@ function Users() {
           </section>
         </div>
       </div>
+
     </div >
   );
 }
