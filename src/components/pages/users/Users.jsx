@@ -400,14 +400,11 @@ function Users() {
 
 
           {/* for coloumns open */}
-          <div
-            className={`fixed inset-0 transition-all duration-500 bg-gray-800 bg-opacity-50 z-10 ${
-              columnsDrawerOpen ? '' : 'hidden'
-            }`}
-          >
-            <div className=' fixed inset-y-0 right-0 w-3/12 bg-white shadow-lg transform translate-x-0 transition-transform duration-300 ease-in-out'>
-              <div className='flex justify-between p-5 bg-gray-100'>
-                <h5 className='font-[500]'> Columns</h5>
+          <div className={`fixed inset-0 bg-gray-800 bg-opacity-50 z-10 ${columnsDrawerOpen ? '' : 'opacity-0 pointer-events-none'}`} style={{ transition: 'opacity 0.3s ease-in-out' }}>
+            <div className="fixed inset-y-0 right-0 w-11/12 md:w-4/12 lg:w-1/5 xl:w-1/5 bg-white shadow-lg transform translate-x-full transition-transform duration-300 ease-in-out" style={{ transform: `translateX(${columnsDrawerOpen ? '0%' : '100%'})`, transition: 'transform 0.3s ease-in-out' }}>
+
+              <div className='flex justify-between px-5 py-4 bg-gray-100'>
+                <h5 className='font-[500]'>Columns</h5>
                 <button
                   onClick={columnsDrawer}
                   className=''
@@ -435,13 +432,14 @@ function Users() {
                       <input
                         className={classNames(
                           tableView[columnName].value ? 'bg-gray-100 text-gray-700 hover:text-black' : 'text-gray-700 bg-gray-100 hover:text-black',
-                          'appearance-none border border-gray-300 hover:border-gray-900 checked:hover:border-white rounded-md checked:bg-orange-600 checked:border-transparent w-3 h-3 cursor-pointer hover:text-black'
+                          'appearance-none border border-gray-300 hover:border-gray-900 checked:hover:border-white rounded-md checked:bg-orange-600 checked:border-transparent w-4 h-4 cursor-pointer hover:text-black relative' // added 'relative' class
                         )}
                         type='checkbox'
                         id={columnName}
                         checked={dupTableView[columnName].value}
                         onChange={() => handleColumnsCheckboxChange(columnName)}
                       />
+
                       <label htmlFor={columnName} className='cursor-pointer text-md py-1'>
                         {dupTableView[columnName].label}
                       </label>
@@ -474,13 +472,9 @@ function Users() {
           </button>
 
           {/* for filter open */}
-          <div
-            className={`fixed inset-0 transition-all duration-500 bg-gray-800 bg-opacity-50 z-10 ${
-              filterDrawerOpen ? '' : 'hidden'
-            }`}
-          >
-            <div className=' fixed inset-y-0 right-0 w-11/12 md:w-4/12 lg:w-3/12 xl:w-3/12   bg-white shadow-lg transform translate-x-0 transition-transform duration-300 ease-in-out'>
-              <div className=' flex justify-between p-5 bg-gray-100'>
+          <div className={`fixed inset-0 bg-gray-800 bg-opacity-50 z-10 ${filterDrawerOpen ? '' : 'opacity-0 pointer-events-none'}`} style={{ transition: 'opacity 0.3s ease-in-out' }}>
+            <div className="fixed inset-y-0 right-0 w-11/12 md:w-4/12 lg:w-1/5 xl:w-w-1/5 bg-white shadow-lg transform translate-x-full transition-transform duration-300 ease-in-out" style={{ transform: `translateX(${filterDrawerOpen ? '0%' : '100%'})`, transition: 'transform 0.3s ease-in-out' }}>
+              <div className=' flex justify-between px-5 py-4 bg-gray-100'>
                 <h5 className='font-[500] '> Filters</h5>
                 <button
                   onClick={filterDrawer}
@@ -515,42 +509,7 @@ function Users() {
                             {filter.label.charAt(0).toUpperCase() +
                               filter.label.slice(1)}
                           </label>
-                          {/* <select
-                          id={filter.inputname}
-                          name={filter.inputname}
-                          className='px-3 py-2 my-2 text-xs block w-full bg-gray-50 rounded-md text-gray-900 border border-1
-   border-[#e9ebec]  placeholder:text-gray-400 focus:outline-none focus:border-orange-400 
-   sm:text-xs sm:leading-6 '
-                          onChange={(e) => handleFilterChange(filter.inputname, e.target.value)}
-                          value={selectedFilters[filter.inputname] || ''}
-                        >
-                          <option value="" disabled selected className="text-[#ccc]">Please select</option>
-                          {filter.options && filter.options.type === "custom" && filter.options.value &&
-                            filter.options.value.map((option, index) => (
-                              <option
-                                key={index}
-                                value={option}
-                              >
-                                {option}
-                              </option>
-                            ))}
-                          {filter.options && filter.options.type === "predefined" && filter.options.value &&
-                            fieldsDropDownData[filter.options.value]?.map((option, index) => (
-                              <option
-                                key={index}
-                                value={option}
-                                style={{
-                                  backgroundColor: hoveredOption === index ? 'green' : 'black',
-                                  // backgroundColor:hoveredOption === index ? 'yellow' : "white",
-                                  cursor: 'pointer'
-                                }}
-                                onMouseEnter={() => setHoveredOption(index)}
-                                onMouseLeave={() => setHoveredOption(null)}
-                              >
-                                {option}
-                              </option>
-                            ))}
-                        </select> */}
+
                           <select
                             id={filter.inputname}
                             name={filter.inputname}
@@ -562,8 +521,7 @@ function Users() {
                               )
                             }
                             value={selectedFilters[filter.inputname] || ''}
-                            // onMouseEnter={handleMouseEnter}
-                            // onMouseLeave={handleMouseLeave}
+
                           >
                             <option
                               value=''
@@ -591,12 +549,7 @@ function Users() {
                                   <option
                                     key={index}
                                     value={option}
-                                    // style={{
-                                    //   backgroundColor: hoveredOption === index ? 'orange' : 'white',
-                                    //   cursor: 'pointer'
-                                    // }}
-                                    // onMouseEnter={() => setHoveredOption(index)}
-                                    // onMouseLeave={() => setHoveredOption(null)}
+
                                   >
                                     {option}
                                   </option>
@@ -611,19 +564,20 @@ function Users() {
                 </div>
               </div>
 
-              <div className='flex justify-end mt-2 bg-gray-100 p-3 '>
-                <button
-                  onClick={handlefilters}
-                  className='mr-3 px-3 py-2 inline-flex  whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white '
-                >
-                  Apply
-                </button>
+              <div className='flex justify-between mt-2 bg-gray-100 p-3 '>
                 <button
                   onClick={handleFilterReset}
                   className='mr-3 px-3 py-2 inline-flex  whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white '
                 >
                   Clear
                 </button>
+                <button
+                  onClick={handlefilters}
+                  className='mr-3 px-3 py-2 inline-flex  whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white '
+                >
+                  Apply
+                </button>
+
               </div>
             </div>
           </div>
@@ -654,17 +608,22 @@ function Users() {
             <tbody className='divide-y divide-gray-200 dark:divide-gray-700'>
               {settings?.paginatedUsers &&
                 settings?.paginatedUsers?.map((row) => (
-                  <tr key={row.id}>
+                  <tr key={row.id}
+
+                  // className={` ${row.userstatus ? '' : 'bg-gray-100 text-gray-100'}`}
+
+                  >
                     {visibleColumns.map((key) => (
+
                       <td
                         key={key}
-                        className='px-6 py-2 text-left border border-[#e5e7eb] text-xs font-medium text-gray-800'
+                        className={`px-6 py-2 text-left border border-[#e5e7eb] text-xs font-medium  ${row.userstatus ? 'text-gray-800 ' : 'bg-gray-100 text-gray-300'}`}
                       >
                         {row[key]}
                       </td>
                     ))}
 
-                    <td className='px-6 py-2 text-left border border-[#e5e7eb] text-xs font-medium text-gray-800'>
+                    <td className={`px-6 py-2 text-left border border-[#e5e7eb] text-xs font-medium  ${row.userstatus ? 'text-gray-800 ' : 'bg-gray-100 text-gray-300'}`} >
                       <div className='flex justify-start'>
                         <button
                           type='button'
@@ -737,18 +696,16 @@ function Users() {
                                 }
                               >
                                 <div
-                                  className={`w-8 h-4 rounded-full shadow-inner ${
-                                    row.userstatus
-                                      ? ' bg-[#ea580c]'
-                                      : 'bg-[#c3c6ca]'
-                                  }`}
+                                  className={`w-8 h-4 rounded-full shadow-inner ${row.userstatus
+                                    ? ' bg-[#ea580c]'
+                                    : 'bg-[#c3c6ca]'
+                                    }`}
                                 >
                                   <div
-                                    className={`toggle__dot w-4 h-4 rounded-full shadow ${
-                                      row.userstatus
-                                        ? 'ml-4 bg-white'
-                                        : 'bg-white'
-                                    }`}
+                                    className={`toggle__dot w-4 h-4 rounded-full shadow ${row.userstatus
+                                      ? 'ml-4 bg-white'
+                                      : 'bg-white'
+                                      }`}
                                   ></div>
                                 </div>
                                 {/* <div
@@ -794,7 +751,7 @@ function Users() {
             <div className='fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity' />
           </Transition.Child>
           <div className='fixed inset-0 z-10 w-screen overflow-y-auto'>
-            <div className='flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0'>
+            <div className='flex min-h-full items-center justify-center p-4 text-center sm:p-0'>
               <Transition.Child
                 as={Fragment}
                 enter='ease-out duration-300'
@@ -804,45 +761,42 @@ function Users() {
                 leaveFrom='opacity-100 translate-y-0 sm:scale-100'
                 leaveTo='opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95'
               >
-                <Dialog.Panel className='relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 px-2 py-5 sm:max-w-lg'>
-                  <div className='flex justify-between'>
-                    <p className='text-md'>
-                      Enter Remarks :<span className='text-red-600 '> *</span>
+                <Dialog.Panel className='relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 px-4 py-6 sm:max-w-lg'>
+                  <div className='flex justify-between items-center mb-4'>
+                    <p className='text-md font-semibold'>
+                      Enter Remarks<span className='text-red-600'> *</span>
                     </p>
-                    <svg
-                      xmlns='http://www.w3.org/2000/svg'
-                      viewBox='0 0 20 20'
-                      onClick={handleClosed}
-                      fill='currentColor'
-                      className='w-5 h-5 me-2'
-                    >
-                      <path d='M6.28 5.22a.75.75 0 0 0-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 1 0 1.06 1.06L10 11.06l3.72 3.72a.75.75 0 1 0 1.06-1.06L11.06 10l3.72-3.72a.75.75 0 0 0-1.06-1.06L10 8.94 6.28 5.22Z' />
-                    </svg>
+                    <button onClick={handleClosed} className='text-gray-500 hover:text-gray-700 focus:outline-none'>
+                      <svg
+                        xmlns='http://www.w3.org/2000/svg'
+                        viewBox='0 0 20 20'
+                        fill='currentColor'
+                        className='w-6 h-6'
+                      >
+                        <path
+                          fillRule='evenodd'
+                          d='M6.28 5.22a.75.75 0 0 0-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 1 0 1.06 1.06L10 11.06l3.72 3.72a.75.75 0 1 0 1.06-1.06L11.06 10l3.72-3.72a.75.75 0 0 0-1.06-1.06L10 8.94 6.28 5.22Z'
+                        />
+                      </svg>
+                    </button>
                   </div>
                   <textarea
-                    class=' my-3 bg-gray-50 rounded-md text-xs p-2 w-full h-20 border-2 border-gray-200 focus:outline-none focus:border-orange-400'
+                    className='resize-y w-60 md:w-96 rounded-md bg-gray-50 mb-2 text-sm p-2 border-2 border-gray-200 focus:outline-none focus:border-orange-400'
                     onChange={(e) => setText(e.target.value)}
                     value={text}
+                    rows={4} // Adjust as needed
                   ></textarea>
+                  <div className='w-full flex justify-end '>
+                    <button
+                      onClick={(e) => handleUserStatus()}
+                      className='mr-3 px-3 py-2 inline-flex  whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white'
 
-                  <div className='w-full '>
-                    {/* {user_status === 0 || user_status === false ? (
-                      <button onClick={(e) => handleActivate()}>
-                        Activate
-                      </button>
-                    ) : user_status === 1 || user_status === true ? (
-                      <button onClick={(e) => handleInActivate()}>
-                        InActivate
-                      </button>
-                    ) : null} */}
-
-                    {
-                      <button onClick={(e) => handleUserStatus()}>
-                        {user_status ? 'InActivate' : 'Activate'}
-                      </button>
-                    }
+                    >
+                      {user_status ? 'Deactivate' : 'Activate'}
+                    </button>
                   </div>
                 </Dialog.Panel>
+
               </Transition.Child>
             </div>
           </div>
@@ -853,7 +807,7 @@ function Users() {
         <div className='flex justify-between'>
           <div className=''>
             {!settings?.paginatedUsers ||
-            settings?.paginatedUsers?.length === 0 ? (
+              settings?.paginatedUsers?.length === 0 ? (
               'no data to show'
             ) : settings.loading ? (
               'Loading...'
@@ -881,13 +835,12 @@ function Users() {
                 })
               }
               href='#'
-              className={`relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${
-                settings.loading
-                  ? 'cursor-wait'
-                  : settings.currentPage === 1
+              className={`relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${settings.loading
+                ? 'cursor-wait'
+                : settings.currentPage === 1
                   ? 'cursor-not-allowed'
                   : 'cursor-auto'
-              }`}
+                }`}
             >
               <span className='sr-only'>Previous</span>
               <svg
@@ -917,13 +870,12 @@ function Users() {
                   data: settings.currentPage + 1,
                 })
               }
-              className={`relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${
-                settings.loading
-                  ? 'cursor-wait'
-                  : settings.currentPage === settings.totalPages
+              className={`relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${settings.loading
+                ? 'cursor-wait'
+                : settings.currentPage === settings.totalPages
                   ? 'cursor-not-allowed'
                   : 'cursor-auto'
-              }`}
+                }`}
             >
               <span className='sr-only'>Next</span>
               <svg
