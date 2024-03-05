@@ -12,6 +12,7 @@ import EntitiesDataProvider from './contexts/entitiesDataContext/entitiesDataCon
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import PermissionsProvider from './rbac/PermissionsProvider';
 import { router } from './router';
+import ErrorBoundary from './components/pages/Errorpages/ErrorBoundary';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

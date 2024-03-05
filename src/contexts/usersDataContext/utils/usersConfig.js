@@ -11,6 +11,8 @@ export const initialState = {
         pageSize: 5,
         startUser: null,
         endUser: null,
+        filters: {
+        }
     },
     settings: {
         paginatedUsers: [],
@@ -23,5 +25,7 @@ export const initialState = {
         pageSize: 10,
         startUser: null,
         endUser: null,
+        filters: {
+        }
     }
 };

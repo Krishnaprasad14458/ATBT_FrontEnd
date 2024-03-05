@@ -38,8 +38,10 @@ function Users() {
     usersDispatch,
     deleteUser,
     setSortBy,
+    setFilters,
     toggleUser,
   } = useContext(UserDataContext);
+
   const { debouncedSetPage, debouncedSetSearch } = useDebounce(usersDispatch);
   const handlePerPageChange = (event) => {
     const selectedValue = parseInt(event.target.value, 10);
@@ -50,6 +52,15 @@ function Users() {
         data: selectedValue,
       },
     });
+  };
+  function handlefilters() {
+    usersDispatch(setFilters(selectedFilters, 'SETTINGS'));
+    setFilterDrawerOpen(!filterDrawerOpen);
+  }
+  const handleFilterReset = () => {
+    setSelectedFilters({});
+    usersDispatch(setFilters({}, 'SETTINGS'));
+    setFilterDrawerOpen(!filterDrawerOpen);
   };
   useEffect(() => {
     // usersDispatch(actions.setPerPage(10))
@@ -66,7 +77,6 @@ function Users() {
   }, []);
   const [open, setOpen] = useState(false);
   // const [opening, setOpening] = useState(false);
-
   const cancelButtonRef = useRef(null);
   const [user_status, setUser_Status] = useState(false);
   const [userremarkshistory, setuser_remarks_history] = useState([]);
@@ -126,7 +136,6 @@ function Users() {
     setFilterDrawerOpen(!filterDrawerOpen);
   };
 
-
   const [activeTab, setActiveTab] = useState(1);
 
   const handleTabClick = (tabNumber) => {
@@ -159,14 +168,10 @@ function Users() {
 
   /////////////////////////////////////////////// Irshad
   const [customForm, setCustomForm] = useState([]);
-  let [fieldsDropDownData, setFieldsDropDownData] = useState(
-
-    {
-      role: [], entityname: ["infosys", "relid"]
-    }
-
-
-  )
+  let [fieldsDropDownData, setFieldsDropDownData] = useState({
+    role: [],
+    entityname: ['infosys', 'relid'],
+  });
   useEffect(() => {
     axios
       .get(`https://atbtmain.teksacademy.com/form/list?name=userform`)
@@ -184,17 +189,15 @@ function Users() {
     axios
       .get(`https://atbtmain.teksacademy.com/rbac/getroles`)
       .then((response) => {
-        setFieldsDropDownData(prevState => ({
+        setFieldsDropDownData((prevState) => ({
           ...prevState,
-          role: response.data.roles.map(item => item.name)
+          role: response.data.roles.map((item) => item.name),
         }));
       })
       .catch((error) => {
         // Handle errors
         console.error('Error fetching data:', error);
       });
-
-
   }, []);
 
   ////////filters start
@@ -204,12 +207,16 @@ function Users() {
   useEffect(() => {
     const filterableInputsInBox = customForm
       .filter(
-        (obj) => (obj.filterable && (obj.type === 'select' || obj.type === 'date' || obj.type === 'multiselect'))
+        (obj) =>
+          obj.filterable &&
+          (obj.type === 'select' ||
+            obj.type === 'date' ||
+            obj.type === 'multiselect')
       )
       .map((obj) => ({
         inputname: obj.inputname,
         label: obj.label,
-        ...(obj.options && { options: obj.options })
+        ...(obj.options && { options: obj.options }),
       }));
     const filterableInputsInSearch = customForm
       .filter(
@@ -226,19 +233,16 @@ function Users() {
 
     setFilterableInputsInBox(filterableInputsInBox);
     setFilterableInputsInSearch(filterableInputsInSearch);
-
-
   }, [customForm]);
 
   useEffect(() => {
-    console.log("filterableInputsInBox", filterableInputsInBox)
-  })
-
+    console.log('filterableInputsInBox', filterableInputsInBox);
+  });
 
   ////////filters end
 
   const [tableView, setTableView] = useState();
-  const [dupTableView, setDupTableView] = useState()
+  const [dupTableView, setDupTableView] = useState();
   const handleColumnsCheckboxChange = (columnName) => {
     setDupTableView((prevColumns) => ({
       ...prevColumns,
@@ -247,30 +251,33 @@ function Users() {
         value: !prevColumns[columnName].value,
       },
     }));
-
   };
   const handleColumnsApply = () => {
-    setTableView(dupTableView)
-  }
+    setTableView(dupTableView);
+  };
   const handleColumnsSave = () => {
-    axios.put(`https://atbtmain.teksacademy.com/form/tableUpdate?name=userform`, dupTableView)
-      .then(response => {
-        console.log("Update successful:", response.data);
-        axios.get(`https://atbtmain.teksacademy.com/form/list?name=userform`)
-          .then(response => {
+    axios
+      .put(
+        `https://atbtmain.teksacademy.com/form/tableUpdate?name=userform`,
+        dupTableView
+      )
+      .then((response) => {
+        console.log('Update successful:', response.data);
+        axios
+          .get(`https://atbtmain.teksacademy.com/form/list?name=userform`)
+          .then((response) => {
             setCustomForm(response.data.Data);
             setTableView(response.data.Tableview);
             setDupTableView(response.data.Tableview);
           })
-          .catch(error => {
+          .catch((error) => {
             console.error('Error fetching data:', error);
           });
       })
-      .catch(error => {
-        console.error("Update failed:", error);
+      .catch((error) => {
+        console.error('Update failed:', error);
       });
-  }
-
+  };
 
   const [visibleColumns, setvisibleColumns] = useState();
   useEffect(() => {
@@ -280,17 +287,18 @@ function Users() {
     setvisibleColumns(visibleColumns);
   }, [tableView]);
   useEffect(() => {
-    console.log("tableview", tableView)
-  })
+    console.log('tableview', tableView);
+  });
   const [selectedFilters, setSelectedFilters] = useState({});
 
+  console.log(selectedFilters, 'sfltrs');
+
   const handleFilterChange = (filterName, selectedValue) => {
-    setSelectedFilters(prevState => ({
+    setSelectedFilters((prevState) => ({
       ...prevState,
-      [filterName]: selectedValue
+      [filterName]: selectedValue,
     }));
   };
-
 
   return (
     <div className='overflow-x-auto p-3'>
@@ -352,7 +360,9 @@ function Users() {
 
           <button
             onClick={columnsDrawer}
+
             className=" focus:outline-none me-3 gap-x-1.5 rounded-md bg-orange-600 px-4 py-2 text-sm font-[500] text-white shadow-md  hover:shadow-lg"
+
           >
             Columns
           </button>
@@ -372,6 +382,7 @@ function Users() {
               </div>
               <hr className='h-1 w-full' />
 
+
               <div className='px-4 py-2.5 h-[615px] overflow-auto flex-wrap'>
                 {dupTableView &&
                   Object.keys(dupTableView).map((columnName) => (
@@ -380,6 +391,7 @@ function Users() {
                         className={classNames(
                           tableView[columnName].value ? 'bg-gray-100 text-gray-700 hover:text-black' : 'text-gray-700 bg-gray-100 hover:text-black',
                           'appearance-none border border-gray-300 hover:border-gray-900 checked:hover:border-white rounded-md checked:bg-orange-600 checked:border-transparent w-3 h-3 cursor-pointer hover:text-black'
+
                         )}
                         type='checkbox'
                         id={columnName}
@@ -394,11 +406,20 @@ function Users() {
               </div>
 
               <div className='bg-gray-100 flex justify-between p-3 absolute bottom-0 w-full'>
-
-                <button className='mr-3 px-3 py-2 inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white ' onClick={handleColumnsApply}>Apply</button>
-                <button className='mr-3 px-3 py-2 inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white' onClick={handleColumnsSave}>Save</button>
-
+                <button
+                  className='mr-3 px-3 py-2 inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white '
+                  onClick={handleColumnsApply}
+                >
+                  Apply
+                </button>
+                <button
+                  className='mr-3 px-3 py-2 inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white'
+                  onClick={handleColumnsSave}
+                >
+                  Save
+                </button>
               </div>
+
 
             </div>
           </div>
@@ -407,6 +428,7 @@ function Users() {
 
           <button onClick={filterDrawer} className="transition-opacity duration-500 focus:outline-none me-3 gap-x-1.5 rounded-md bg-orange-600 px-4 py-2 text-sm font-[500] text-white shadow-md  hover:shadow-lg">
             Filters
+
           </button>
 
           {/* for filter open */}
@@ -430,10 +452,13 @@ function Users() {
                   {filterableInputsInBox?.map((filter, index) => (
                     <div key={index} className=''>
                       {filter.options && (
+
+
                         <div className="mb-4">
                           <label className="text-sm text-gray-600 font-medium">
                             {filter.label.charAt(0).toUpperCase() + filter.label.slice(1)}
                           </label>
+
                           <select
                             id={filter.inputname}
                             name={filter.inputname}
@@ -472,12 +497,11 @@ function Users() {
       <div className='max-h-[457px] overflow-y-scroll mt-8'>
         {visibleColumns && tableView && settings?.paginatedUsers && (
           <table className='w-full divide-y divide-gray-200 dark:divide-gray-700 rounded-md'>
-            <thead >
+            <thead>
               <tr>
                 {visibleColumns.map((key) => (
                   <th
                     key={key}
-
                     className='sticky top-0 bg-orange-600 text-white text-sm text-left px-5 py-2.5 border-l-2 border-gray-200'
                   >
                     {tableView[key].label}
@@ -578,16 +602,18 @@ function Users() {
                                 }
                               >
                                 <div
-                                  className={`w-8 h-4 rounded-full shadow-inner ${row.userstatus
-                                    ? ' bg-[#ea580c]'
-                                    : 'bg-[#c3c6ca]'
-                                    }`}
+                                  className={`w-8 h-4 rounded-full shadow-inner ${
+                                    row.userstatus
+                                      ? ' bg-[#ea580c]'
+                                      : 'bg-[#c3c6ca]'
+                                  }`}
                                 >
                                   <div
-                                    className={`toggle__dot w-4 h-4 rounded-full shadow ${row.userstatus
-                                      ? 'ml-4 bg-white'
-                                      : 'bg-white'
-                                      }`}
+                                    className={`toggle__dot w-4 h-4 rounded-full shadow ${
+                                      row.userstatus
+                                        ? 'ml-4 bg-white'
+                                        : 'bg-white'
+                                    }`}
                                   ></div>
                                 </div>
                                 {/* <div
@@ -692,7 +718,7 @@ function Users() {
         <div className='flex justify-between'>
           <div className=''>
             {!settings?.paginatedUsers ||
-              settings?.paginatedUsers?.length === 0 ? (
+            settings?.paginatedUsers?.length === 0 ? (
               'no data to show'
             ) : settings.loading ? (
               'Loading...'
@@ -720,12 +746,13 @@ function Users() {
                 })
               }
               href='#'
-              className={`relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${settings.loading
-                ? 'cursor-wait'
-                : settings.currentPage === 1
+              className={`relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${
+                settings.loading
+                  ? 'cursor-wait'
+                  : settings.currentPage === 1
                   ? 'cursor-not-allowed'
                   : 'cursor-auto'
-                }`}
+              }`}
             >
               <span className='sr-only'>Previous</span>
               <svg
@@ -755,12 +782,13 @@ function Users() {
                   data: settings.currentPage + 1,
                 })
               }
-              className={`relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${settings.loading
-                ? 'cursor-wait'
-                : settings.currentPage === settings.totalPages
+              className={`relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${
+                settings.loading
+                  ? 'cursor-wait'
+                  : settings.currentPage === settings.totalPages
                   ? 'cursor-not-allowed'
                   : 'cursor-auto'
-                }`}
+              }`}
             >
               <span className='sr-only'>Next</span>
               <svg
