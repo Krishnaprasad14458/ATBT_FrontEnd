@@ -187,6 +187,22 @@ const userDataReducer = (state, action) => {
                 }
             }
 
+        case actionTypes.SET_FILTERS:
+            console.log(action.payload, "filterss")
+            return action.payload.context === 'DASHBOARD' ? {
+                ...state,
+                dashboard: {
+                    ...state.dashboard,
+                    filters: { ...action.payload.data }
+                }
+            } : {
+                ...state,
+                settings: {
+                    ...state.settings,
+                    filters: { ...action.payload.data }
+                }
+            }
+
         default:
             return state;
     }

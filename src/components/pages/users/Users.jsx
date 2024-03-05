@@ -71,6 +71,7 @@ function Users() {
     usersDispatch,
     deleteUser,
     setSortBy,
+    setFilters,
     toggleUser,
   } = useContext(UserDataContext);
 
@@ -84,6 +85,15 @@ function Users() {
         data: selectedValue,
       },
     });
+  };
+  function handlefilters() {
+    usersDispatch(setFilters(selectedFilters, 'SETTINGS'));
+    setFilterDrawerOpen(!filterDrawerOpen);
+  }
+  const handleFilterReset = () => {
+    setSelectedFilters({});
+    usersDispatch(setFilters({}, 'SETTINGS'));
+    setFilterDrawerOpen(!filterDrawerOpen);
   };
   useEffect(() => {
     // usersDispatch(actions.setPerPage(10))
@@ -100,7 +110,6 @@ function Users() {
   }, []);
   const [open, setOpen] = useState(false);
   // const [opening, setOpening] = useState(false);
-
   const cancelButtonRef = useRef(null);
   const [user_status, setUser_Status] = useState(false);
   const [userremarkshistory, setuser_remarks_history] = useState([]);
@@ -314,6 +323,8 @@ function Users() {
     console.log('tableview', tableView);
   });
   const [selectedFilters, setSelectedFilters] = useState({});
+
+  console.log(selectedFilters, 'sfltrs');
 
   const handleFilterChange = (filterName, selectedValue) => {
     setSelectedFilters((prevState) => ({
