@@ -37,6 +37,7 @@
 import React, { useState, useContext, useEffect, useRef } from 'react';
 import { Link, useSubmit } from 'react-router-dom';
 import $ from 'jquery';
+import './User.css'
 import Swal from 'sweetalert2';
 import { Fragment } from 'react';
 import { Dialog, Menu, Transition } from '@headlessui/react';
@@ -392,10 +393,11 @@ function Users() {
 
           <button
             onClick={columnsDrawer}
-            className='transition-opacity duration-500 focus:outline-none me-3 gap-x-1.5 rounded-md bg-gray-50 px-1 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-200 hover:bg-gray-50'
+            className=" focus:outline-none me-3 gap-x-1.5 rounded-md bg-orange-600 px-4 py-2 text-sm font-[500] text-white shadow-md  hover:shadow-lg"
           >
             Columns
           </button>
+
 
           {/* for coloumns open */}
           <div
@@ -426,28 +428,24 @@ function Users() {
               </div>
               <hr className='h-1 w-full' />
 
-              <div className='px-4 py-2.5'>
+              <div className='px-4 py-2.5 h-[615px] overflow-auto flex-wrap'>
                 {dupTableView &&
                   Object.keys(dupTableView).map((columnName) => (
-                    <p
-                      key={columnName}
-                      className='flex text-left gap-5 '
-                    >
+                    <div key={columnName} className='flex items-center gap-2'>
                       <input
                         className={classNames(
-                          tableView[columnName].value
-                            ? 'bg-gray-100 text-gray-900'
-                            : 'text-gray-700',
-                          'block px-4 py-2 text-sm text-left'
+                          tableView[columnName].value ? 'bg-gray-100 text-gray-700 hover:text-black' : 'text-gray-700 bg-gray-100 hover:text-black',
+                          'appearance-none border border-gray-300 hover:border-gray-900 checked:hover:border-white rounded-md checked:bg-orange-600 checked:border-transparent w-3 h-3 cursor-pointer hover:text-black'
                         )}
                         type='checkbox'
+                        id={columnName}
                         checked={dupTableView[columnName].value}
                         onChange={() => handleColumnsCheckboxChange(columnName)}
                       />
-                      <label htmlFor={columnName}>
+                      <label htmlFor={columnName} className='cursor-pointer text-md py-1'>
                         {dupTableView[columnName].label}
                       </label>
-                    </p>
+                    </div>
                   ))}
               </div>
 
@@ -465,14 +463,14 @@ function Users() {
                   Save
                 </button>
               </div>
+
             </div>
           </div>
 
-          <button
-            onClick={filterDrawer}
-            className='transition-opacity duration-500 focus:outline-none me-3 gap-x-1.5 rounded-md bg-gray-50 px-1.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-200 hover:bg-gray-50'
-          >
-            filters
+
+
+          <button onClick={filterDrawer} className="transition-opacity duration-500 focus:outline-none me-3 gap-x-1.5 rounded-md bg-orange-600 px-4 py-2 text-sm font-[500] text-white shadow-md  hover:shadow-lg">
+            Filters
           </button>
 
           {/* for filter open */}
@@ -502,7 +500,7 @@ function Users() {
                   </svg>
                 </button>
               </div>
-              <div className='h-[600px] overflow-auto'>
+              <div className='h-[615px] overflow-auto'>
                 <div className='text-start p-3 '>
                   {/* {filter.label} */}
                   {filterableInputsInBox?.map((filter, index) => (
@@ -606,6 +604,7 @@ function Users() {
                               )}
                           </select>
                         </div>
+
                       )}
                     </div>
                   ))}
