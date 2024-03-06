@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { useParams } from 'react-router-dom'
 import { Fragment, useRef, useState } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import axios from 'axios';
@@ -6,7 +7,8 @@ import { toast } from 'react-toastify';
 import Swal from 'sweetalert2';
 import { Link } from 'react-router-dom';
 import $ from 'jquery';
-const SettingUserForm = () => {
+const CustomFormStructure = () => {
+    let { formName } = useParams();
   const [open, setOpen] = useState(false)
   const [editIndex, setEditIndex] = useState(null);
   const cancelButtonRef = useRef(null);
@@ -20,7 +22,7 @@ const SettingUserForm = () => {
     }
   )
   useEffect(() => {
-    axios.get(`https://atbtmain.teksacademy.com/form/list?name=userform`)
+    axios.get(`https://atbtmain.teksacademy.com/form/list?name=${formName}`)
       .then(response => {
         // Handle the successful response
         setCustomForm(response.data.Data)
@@ -274,7 +276,7 @@ const SettingUserForm = () => {
     { label: "Date", value: "date" },
     { label: "Select", value: "select" },
     { label: "Multi Select", value: "multiselect" },
-    { label: "Checkbox", value: "checkbox" },
+    { label: "Consent", value: "checkbox" },
     { label: "Range", value: "range" },
     { label: "Time", value: "time" }
   ]
@@ -282,13 +284,13 @@ const SettingUserForm = () => {
     let formData = {
       arrayOfObjects: 
   customForm
-, Name: "userform", Tableview: tableView
+, Name: formName, Tableview: tableView
     }
     await saveCustomForm(formData)
   }
   const saveCustomForm = async (formData) => {
     toast.promise(
-      axios.put(`https://atbtmain.teksacademy.com/form/userform`, formData),
+      axios.put(`https://atbtmain.teksacademy.com/form/${formName}`, formData),
       {
         pending: 'Updating Form',
         success: {
@@ -311,17 +313,9 @@ const SettingUserForm = () => {
     updatedOptions.splice(index, 1);
     updatedNewInputField.options.value = updatedOptions;
     setNewInputField(updatedNewInputField);
-    console.log("updatedNewInputField", updatedNewInputField);
+ 
 };
-  // const deleteOption = (index) => {
-  //   let updatedNewInputField = { ...newInputField };
-  //   // Use slice to create a copy of the options array and remove the specified index
-  //   let updatedOptions = [...updatedNewInputField.options];
-  //   updatedOptions.splice(index, 1);
-  //   updatedNewInputField.options = updatedOptions;
-  //   setNewInputField(updatedNewInputField);
-  //   console.log("updatedNewInputField", updatedNewInputField);
-  // };
+
   const [filedopen, setFiledOpen] = useState(false);
   const [selected, setSelected] = useState("");
   const handleFiledOpen = (select) => {
@@ -705,11 +699,13 @@ const SettingUserForm = () => {
   )
 }
 
-export default SettingUserForm;
+export default CustomFormStructure;
 
 
 
 /////////predefined fields
+
+///////////userform
 // [
 //   {
 //     "label": "Full Name",
@@ -812,3 +808,154 @@ export default SettingUserForm;
 //     "value": false
 //   }
 // }
+
+
+//////////////////////////////////   entityform
+
+
+// [
+//     {
+//       "label": "Full Name",
+//       "inputname": "name",
+//       "type": "text",
+//       "value": "",
+//       "field": "predefined",
+//       "mandatory": true,
+//       "filterable": true
+//     },
+//     {
+//       "label": "Image",
+//       "inputname": "image",
+//       "type": "file",
+//       "value": "",
+//       "field": "predefined",
+//       "mandatory": false,
+//       "filterable": false
+//     },
+//     {
+//       "label": "Description",
+//       "inputname": "description",
+//       "type": "textarea",
+//       "value": "",
+//       "field": "predefined",
+//       "mandatory": true,
+//       "filterable": false
+//     },
+//     {
+//       "label": "Add Members",
+//       "inputname": "members",
+//       "type": "multiselect",
+//       "value": [],
+//       "field": "predefined",
+//       "mandatory": true,
+//       "filterable": false
+//     },
+   
+//   ];
+  
+
+///////////////////////////////////////// board meeting 
+// [
+//   {
+//       "label": "Full Name",
+//       "inputname": "name",
+//       "type": "text",
+//       "value": "",
+//       "field": "predefined",
+//       "mandatory": true,
+//       "filterable": true
+//   },
+//   {
+//       "label": "Select a Date",
+//       "inputname": "date",
+//       "type": "date",
+//       "value": "",
+//       "field": "predefined",
+//       "mandatory": true,
+//       "filterable": true
+//   },
+//   {
+//       "label": "Select a Time",
+//       "inputname": "time",
+//       "type": "time",
+//       "value": "",
+//       "field": "predefined",
+//       "mandatory": true,
+//       "filterable": true
+//   },
+//   {
+//       "label": "Venue",
+//       "inputname": "venue",
+//       "type": "select",
+//       "value": "",
+//       "options": [
+//           "London",
+//           "California",
+//           "USA"
+//       ],
+//       "field": "predefined",
+//       "mandatory": true,
+//       "filterable": true
+//   },
+//   {
+//       "label": "Description",
+//       "inputname": "description",
+//       "type": "textarea",
+//       "value": "",
+//       "field": "predefined",
+//       "mandatory": true,
+//       "filterable": false
+//   },
+//   {
+//       "label": "Add Members",
+//       "inputname": "members",
+//       "type": "multiselect",
+//       "value": [],
+//       "field": "predefined",
+//       "mandatory": true,
+//       "filterable": false
+//   }
+// ]
+
+
+
+///////////////team form
+
+// [
+//     {
+//         "label": "Full Name",
+//         "inputname": "name",
+//         "type": "text",
+//         "value": "",
+//         "field": "predefined",
+//         "mandatory": true,
+//         "filterable": true
+//     },
+//     {
+//         "label": "Image",
+//         "inputname": "image",
+//         "type": "file",
+//         "value": "",
+//         "field": "predefined",
+//         "mandatory": false,
+//         "filterable": false
+//     },
+//     {
+//         "label": "Description",
+//         "inputname": "description",
+//         "type": "textarea",
+//         "value": "",
+//         "field": "predefined",
+//         "mandatory": true,
+//         "filterable": false
+//     },
+//     {
+//         "label": "Add Members",
+//         "inputname": "members",
+//         "type": "multiselect",
+//         "value": [],
+//         "field": "predefined",
+//         "mandatory": true,
+//         "filterable": false
+//     }
+// ]

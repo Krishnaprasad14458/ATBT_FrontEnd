@@ -12,6 +12,7 @@ const Settingentityform = () => {
     const [editIndex, setEditIndex] = useState(null);
     const cancelButtonRef = useRef(null);
     const [customForm, setCustomForm] = useState()
+    const [tableView, setTableView] = useState()
     const [newInputField, setNewInputField] = useState(
         {
             label: "", type: "", inputname: "", value: "",
@@ -23,31 +24,39 @@ const Settingentityform = () => {
             .then(response => {
                 // Handle the successful
                 setCustomForm(response.data.Data)
-                console.log(response.data);
+                setTableView(response.data.Tableview)
             })
             .catch(error => {
                 // Handle errors
                 console.error('Error fetching data:', error);
             });
     }, [])
-
+    useEffect(() => {
+        console.log("customform", customForm)
+        console.log("tableView", tableView)
+        console.log("newInputField", newInputField)
+      })
 const handleInputChange = (e) => {
 const { name, value, type, checked } = e.target;
     if (name == "type" && value === "select") {
     let newfield = { ...newInputField }
-    newfield.options = []
+    newfield.options = {
+        type: "custom", value: []
+      }
     newfield.value = ""
     setNewInputField(newfield)
     }
      if (name == "type" && value === "multiselect") {
     let newfield = { ...newInputField }
-    newfield.options = []
+    newfield.options = {
+        type: "custom", value: []
+      }
     newfield.value = []
     setNewInputField(newfield)
     }
     if (name == "label") {
     if (editIndex == null) {
-        setNewInputField((prev) => ({ ...prev, label: value, inputname: value.replace(/\s+/g, ''), }))
+        setNewInputField((prev) => ({ ...prev, label: value, inputname: value.replace(/\s+/g, '').toLowerCase()}))
     }
     if (editIndex != null) {
          setNewInputField((prev) => ({ ...prev, label: value, }))
@@ -56,15 +65,24 @@ const { name, value, type, checked } = e.target;
          setNewInputField((prev) => ({ ...prev, [name]: type === "checkbox" ? checked : value }))
         }}
 let [selectOption, setSelectOption] = useState("")
+
 const addOption = (e) => {
-    e.preventDefault()
-    if (selectOption != "" && newInputField.options) {
-        setNewInputField((prev) => ({ ...prev, options: [...prev.options, selectOption] }))
-    } else if (selectOption != "") {
-        setNewInputField((prev) => ({ ...prev, options: [selectOption] }))
+    e.preventDefault();
+    
+    if (selectOption !== "") {
+      setNewInputField(prev => ({
+        ...prev,
+        options: {
+          ...prev.options,
+          value: [...prev.options.value, selectOption]
+        }
+      }));
+    } else {
+      console.error("No option provided!");
     }
-        setSelectOption("")
-    }
+  
+    setSelectOption("");
+  };
 
 
     /////validations for popup
@@ -96,7 +114,18 @@ const addOption = (e) => {
              label: '',
             }));
           }
-       
+          if(editIndex == null){
+            for (let i = 0; i < customForm.length; i++) {
+              if (customForm[i].inputname === newInputField.inputname) {
+                setAddInputErrors((prev) => ({
+                  ...prev,
+                  label: `You can't give ${newInputField.label} as label because it is already used`,
+                }));
+                isErrorspresent = true;
+        
+              }
+            }
+          }
         if (!newInputField.type.trim()) {
             setAddInputErrors((prev) => ({
               ...prev,
@@ -111,7 +140,7 @@ const addOption = (e) => {
             }));
           }
 
-          if ((newInputField.type === 'select' || newInputField.type === 'multiselect') && newInputField.options.length === 0) {
+          if ((newInputField.type === 'select' || newInputField.type === 'multiselect') && newInputField.options.value.length === 0) {
           ;
           setAddInputErrors((prev) => ({
                 ...prev,
@@ -140,40 +169,55 @@ const addOption = (e) => {
       }, [newInputField]);
 
    
-     const  addOrUpdateInput = (e) =>{
+      const addOrUpdateInput = (e) => {
         e.preventDefault();
     
         if (!checkAddInpuValidation()) {
-
-            //////
-            if (editIndex !== null) {
-                // Edit existing field
-                 const updatedForm = [...customForm];
-                updatedForm[editIndex] = newInputField;
-                 setCustomForm(updatedForm);
-                } else {
-                 // Add new field
-                if (newInputField.type === "text" ||
-                  newInputField.type === "email" ||
-                  newInputField.type === "password" ||
-                  newInputField.type === "number" ||
-                  newInputField.type === "phonenumber" ||
-                  newInputField.type === "textarea" ||
-                  newInputField.type === "file" ||
-                  newInputField.type === "date" ||
-                  newInputField.type === "checkbox" ||
-                  newInputField.type === "range" || newInputField.type === "time") {
-                  let newField = { ...newInputField }
-                  delete newField.options
-                 setCustomForm((prev) => [...prev, newField]);
-                 }
-                else {
-                setCustomForm((prev) => [...prev, newInputField]);
-                }}
-                setOpen(false);
-        //////////////////////
-        }
-      }
+          if (editIndex !== null) {
+            // Edit existing field
+            const updatedForm = [...customForm];
+            updatedForm[editIndex] = newInputField;
+            setCustomForm(updatedForm);
+    
+            setTableView(prevState => {
+              const updatedState = { ...prevState };
+              updatedState[newInputField.inputname] = { ...updatedState[newInputField.inputname], label: newInputField.label };
+              
+              return updatedState;
+            });
+          } else {
+            // Add new field
+            if (newInputField.type === "text" ||
+              newInputField.type === "email" ||
+              newInputField.type === "password" ||
+              newInputField.type === "number" ||
+              newInputField.type === "phonenumber" ||
+              newInputField.type === "textarea" ||
+              newInputField.type === "file" ||
+              newInputField.type === "date" ||
+              newInputField.type === "checkbox" ||
+              newInputField.type === "range" || newInputField.type === "time") {
+              let newField = { ...newInputField }
+              delete newField.options
+              setCustomForm((prev) => [...prev, newField]);
+              setTableView(prevState => {
+                const updatedState = { ...prevState };
+                updatedState[newInputField.inputname] = { label: newInputField.label, value: false };
+                return updatedState;
+              });
+            }
+            else {
+              setCustomForm((prev) => [...prev, newInputField]);
+              setTableView(prevState => {
+                const updatedState = { ...prevState };
+                updatedState[newInputField.inputname] = { label: newInputField.label, value: false };
+                return updatedState;
+              });
+            }
+          }
+          setOpen(false);
+        };
+      };
   
 ///// validations
  const handleMoveDimension = (index, direction) => {

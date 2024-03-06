@@ -6,7 +6,7 @@ const Settings = () => {
     <div className='container p-4 bg-[#f8fafc]'>
       <p className='text-xl font-semibold'> Settings</p>
       <div className='grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4  gap-4 mt-4'>
-        <Link to='/organizationprofile'>
+        <Link to='organizationprofile'>
           <div className='grid1-item  text-start'>
             <div className=' py-5 px-4 text-center bg-orange-600 rounded-md'>
               <p className='text-white text-base'>Organization Profile</p>
@@ -14,35 +14,35 @@ const Settings = () => {
           </div>
         </Link>
 
-        <Link to='/forms'>
+        <Link to='forms'>
           <div className='grid1-item  text-start'>
             <div className=' py-5 px-4 text-center bg-orange-600 rounded-md'>
               <p className='text-white text-base'>Forms</p>
             </div>
           </div>
         </Link>
-        <Link to='/communication'>
+        <Link to='communication'>
           <div className='grid1-item  text-start'>
             <div className=' py-5 px-4 text-center bg-orange-600 rounded-md'>
               <p className='text-white text-base'>Communications</p>
             </div>
           </div>
         </Link>
-        <Link to='/roles'>
+        <Link to='roles'>
           <div className='grid1-item  text-start'>
             <div className=' py-5 px-4 text-center bg-orange-600 rounded-md'>
               <p className='text-white text-base'>Roles</p>
             </div>
           </div>
         </Link>
-        <Link to='/integrations'>
+        <Link to='integrations'>
           <div className='grid1-item  text-start'>
             <div className=' py-5 px-4 text-center bg-orange-600 rounded-md'>
               <p className='text-white text-base'>Integrations</p>
             </div>
           </div>
         </Link>
-        <Link to='/designations'>
+        <Link to='designations'>
           <div className='grid1-item  text-start'>
             <div className=' py-5 px-4 text-center bg-orange-600 rounded-md'>
               <p className='text-white text-base'>Designations</p>
