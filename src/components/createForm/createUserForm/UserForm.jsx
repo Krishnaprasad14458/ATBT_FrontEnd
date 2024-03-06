@@ -439,10 +439,10 @@ function UserForm() {
         response = await createUser(formData);
       }
       console.log('jsonData submitted', response);
-      // if (response.status === 201) {
-      //   console.log('data is 201');
-      //   navigate(`/users/${response.data}`);
-      // }
+      if (response.status === 201) {
+        console.log('data is 201');
+        navigate(`/users/${response.data}`);
+      }
     }
   }
 
@@ -467,64 +467,102 @@ function UserForm() {
                 <div key={index}>
                   {/* predefined fields */}
                   {item.type === 'text' &&
-                    item.inputname == 'name' &&
+                    item.inputname === 'name' &&
                     item.field === 'predefined' && (
                       <div>
                         <label
                           htmlFor={item.label}
                           className='block text-sm font-medium leading-6 mt-2 text-gray-900'
                         >
-                          {item.label.charAt(0).toUpperCase() +
-                            item.label.slice(1)}
+                          {item.label.charAt(0).toUpperCase() + item.label.slice(1)}
                         </label>
                         <input
                           type='text'
                           placeholder='Enter name'
                           name={item.inputname}
                           id={item.inputname}
-                          // value={formData[item.label] || ''}
                           value={customFormFields[index].value || ''}
-                          className='px-2 py-1 block w-full rounded-md bg-gray-50 border-2 border-gray-200 text-gray-900 appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6
-                        placeholder:text-xs'
+                          className='px-2 py-2 text-sm block w-full rounded-md bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder:text-xs'
                           onChange={(e) => handleChange(index, e.target.value)}
                         />
-                        <div className='h-2 text-[#dc2626]'>
+                        <div className='h-2 text-red-500'>
                           {errors[item.inputname] && (
-                            <span className='text-xs'>
-                              {errors[item.inputname]}
-                            </span>
+                            <span className='text-xs'>{errors[item.inputname]}</span>
                           )}
                         </div>
                       </div>
-                    )}
+                    )
+                  }
+
                   {item.type === 'file' &&
-                    item.inputname == 'image' &&
+                    item.inputname === 'image' &&
                     item.field === 'predefined' && (
                       <div>
                         <label
                           htmlFor={item.label}
                           className='block text-sm font-medium leading-6 mt-2 text-gray-900'
                         >
-                          {item.label.charAt(0).toUpperCase() +
-                            item.label.slice(1)}
+                          {item.label.charAt(0).toUpperCase() + item.label.slice(1)}
                         </label>
                         <input
                           type='file'
                           name={item.inputname}
                           id={item.inputname}
-                          className='px-2 py-1 md:py-0.5 lg:py-0.5 xl:py-0.5 text-xs  block w-full rounded-md bg-gray-50 border-2 border-gray-200    text-gray-900 appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6'
+                          className='px-2 py-1 md:py-1 lg:py-1 xl:py-1 text-sm block w-full rounded-md bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder:text-xs'
                           onChange={(event) => handleFileChange(event, index)}
                           accept='image/*'
                         />
-                        <div className='h-2 text-[#dc2626]'>
+                        <div className='h-2 text-red-500'>
                           {errors[item.inputname] && (
-                            <span className='text-xs'>
-                              {errors[item.inputname]}
-                            </span>
+                            <span className='text-xs'>{errors[item.inputname]}</span>
                           )}
                         </div>
                       </div>
-                    )}
+                    )
+                  }
+
+                  {item.type === 'select' &&
+                    item.inputname === 'entityname' &&
+                    item.field === 'predefined' && (
+                      <div>
+                        <label
+                          htmlFor={item.label}
+                          className='block text-sm font-medium leading-6 mt-2 text-gray-900'
+                        >
+                          {item.label.charAt(0).toUpperCase() + item.label.slice(1)}
+                        </label>
+                        <select
+                          id={item.inputname}
+                          name={item.inputname}
+                          className='px-2 py-2 text-sm block w-full rounded-md bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder:text-xs'
+                          onChange={(e) => handleChange(index, e.target.value)}
+                          value={customFormFields[index].value || ''}
+                        >
+                          <option
+                            value=''
+                            disabled
+                            defaultValue
+
+                          >
+                            Please select
+                          </option>
+                          {item.options.value &&
+                            fieldsDropDownData.entityname &&
+                            fieldsDropDownData.entityname.map((option, index) => (
+                              <option key={index} value={option}>
+                                {option}
+                              </option>
+                            ))}
+                        </select>
+                        <div className='h-2 text-red-500'>
+                          {errors[item.inputname] && (
+                            <span className='text-xs'>{errors[item.inputname]}</span>
+                          )}
+                        </div>
+                      </div>
+                    )
+                  }
+
                   {item.type === 'email' &&
                     item.inputname == 'email' &&
                     item.field == 'predefined' && (
@@ -542,8 +580,7 @@ function UserForm() {
                           id={item.inputname}
                           placeholder='Enter email'
                           value={customFormFields[index].value || ''}
-                          className='px-2 py-1 block w-full rounded-md bg-gray-50 border-2 border-gray-200  text-gray-900 appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6
-                        placeholder:text-xs'
+                          className='px-2 py-2 text-sm block w-full rounded-md bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder:text-xs'
                           onChange={(e) => handleChange(index, e.target.value)}
                         />
                         <div className='h-2 text-[#dc2626]'>
@@ -578,8 +615,7 @@ function UserForm() {
                             const value = e.target.value.slice(0, 10); // Limiting to maximum 10 digits
                             handleChange(index, value);
                           }}
-                          className='px-2 py-1 block w-full rounded-md bg-gray-50 border-2 border-gray-200  text-gray-900 appearance-none hover:appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6
-                        placeholder:text-xs'
+                          className='px-2 py-2 text-sm block w-full rounded-md bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder:text-xs'
                         />
                         <div className='h-2 text-[#dc2626]'>
                           {errors[item.inputname] && (
@@ -590,43 +626,7 @@ function UserForm() {
                         </div>
                       </div>
                     )}
-                  {item.type === 'select' &&
-                    item.inputname == 'entityname' &&
-                    item.field == 'predefined' && (
-                      <div>
-                        <label
-                          htmlFor={item.label}
-                          className='block text-sm font-medium leading-6 mt-2 text-gray-900'
-                        >
-                          {item.label.charAt(0).toUpperCase() +
-                            item.label.slice(1)}
-                        </label>
 
-                        <select
-                          id={item.inputname}
-                          name={item.inputname}
-                          className='px-2 py-1.5 text-xs block w-full rounded-md bg-gray-50 border-2 border-gray-200  text-gray-900  shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400  placeholder:text-xs sm:leading-6'
-                          onChange={(e) => handleChange(index, e.target.value)}
-                          value={customFormFields[index].value || ''}
-                        >
-                          <option value=''>--select--</option>
-                          {item.options.value &&
-                            fieldsDropDownData.entityname &&
-                            fieldsDropDownData.entityname.map(
-                              (option, index) => (
-                                <option value={option}>{option}</option>
-                              )
-                            )}
-                        </select>
-                        <div className='h-2 text-[#dc2626]'>
-                          {errors[item.inputname] && (
-                            <span className='text-xs'>
-                              {errors[item.inputname]}
-                            </span>
-                          )}
-                        </div>
-                      </div>
-                    )}
                   {item.type === 'select' &&
                     item.inputname == 'designation' &&
                     item.field == 'predefined' && (
@@ -641,11 +641,17 @@ function UserForm() {
                         <select
                           id={item.inputname}
                           name={item.inputname}
-                          className='px-2 py-1.5 text-xs block w-full rounded-md bg-gray-50 border-2 border-gray-200  text-gray-900  shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400  placeholder:text-xs sm:leading-6'
+                          className='px-2 py-2 text-sm block w-full rounded-md bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder:text-xs'
                           onChange={(e) => handleChange(index, e.target.value)}
                           value={customFormFields[index].value || ''}
                         >
-                          <option value=''>--select--</option>
+                          <option
+                            value=''
+                            disabled
+                            defaultValue
+                          >
+                            Please select
+                          </option>
                           {item.options &&
                             item.options.value &&
                             item.options.value.length > 0 &&
@@ -676,11 +682,17 @@ function UserForm() {
                         <select
                           id={item.inputname}
                           name={item.inputname}
-                          className='px-2 text-xs py-1.5 block w-full rounded-md bg-gray-50 border-2 border-gray-200  text-gray-900  shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400  sm:leading-6'
+                          className='px-2 py-2 text-sm block w-full rounded-md bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder:text-xs'
                           onChange={(e) => handleChange(index, e.target.value)}
                           value={customFormFields[index].value || ''}
                         >
-                          <option value=''>--select--</option>
+                          <option
+                            value=''
+                            disabled
+                            defaultValue
+                          >
+                            Please select
+                          </option>
                           {item.options.value &&
                             fieldsDropDownData.role &&
                             fieldsDropDownData.role.map((option, index) => (
@@ -712,8 +724,7 @@ function UserForm() {
                         placeholder={`Enter ${item.inputname}`}
                         id={item.inputname}
                         value={customFormFields[index].value || ''}
-                        className='px-2  py-1 block w-full rounded-md bg-gray-50 border-2 border-gray-200  text-gray-900 appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6
-                        placeholder:text-xs'
+                        className='px-2 py-2 text-sm block w-full rounded-md bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder:text-xs'
                         onChange={(e) => handleChange(index, e.target.value)}
                       />
                       <div className='h-2 text-[#dc2626]'>
@@ -740,8 +751,7 @@ function UserForm() {
                         name={item.inputname}
                         id={item.inputname}
                         value={customFormFields[index].value || ''}
-                        className='px-2 py-1 block w-full rounded-md bg-gray-50 border-2 border-gray-200  text-gray-900 appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6
-                        placeholder:text-xs'
+                        className='px-2 py-2 text-sm block w-full rounded-md bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder:text-xs'
                         onChange={(e) => handleChange(index, e.target.value)}
                       />
                       <div className='h-2 text-[#dc2626]'>
@@ -768,8 +778,7 @@ function UserForm() {
                         name={item.inputname}
                         id={item.inputname}
                         value={customFormFields[index].value || ''}
-                        className='p-2 block w-full rounded-md bg-gray-50 border-2 border-gray-200 py-1 text-gray-900 appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6
-                        placeholder:text-xs'
+                        className='px-2 py-2 text-sm block w-full rounded-md bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder:text-xs'
                         onChange={(e) => handleChange(index, e.target.value)}
                       />
                       <div className='h-2 text-[#dc2626]'>
@@ -793,11 +802,11 @@ function UserForm() {
                       <input
                         type='number'
                         name={item.inputname}
+                        placeholder={`Enter ${item.inputname}`}
                         id={item.inputname}
                         value={customFormFields[index].value || ''}
                         onChange={(e) => handleChange(index, e.target.value)}
-                        className='p-2 block w-full rounded-md bg-gray-50 border-2 border-gray-200 py-1 text-gray-900 appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6
-                        placeholder:text-xs'
+                        className='px-2 py-2 text-sm block w-full rounded-md bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder:text-xs'
                       />
                       <div className='h-2 text-[#dc2626]'>
                         {errors[item.inputname] && (
@@ -820,14 +829,14 @@ function UserForm() {
                       <input
                         type='number'
                         name={item.inputname}
+                        placeholder={`Enter ${item.inputname}`}
                         id={item.inputname}
                         value={customFormFields[index].value || ''}
                         onChange={(e) => {
                           const value = e.target.value.slice(0, 10); // Limiting to maximum 10 digits
                           handleChange(index, value);
                         }}
-                        className='p-2 block w-full rounded-md bg-gray-50 border-2 border-gray-200 py-1 text-gray-900 appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6
-                        placeholder:text-xs'
+                        className='px-2 py-2 text-sm block w-full rounded-md bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder:text-xs'
                       />
                       <div className='h-2 text-[#dc2626]'>
                         {errors[item.inputname] && (
@@ -882,8 +891,7 @@ function UserForm() {
                         type='date'
                         name={item.inputname}
                         id={item.inputname}
-                        className='p-2 block w-full rounded-md bg-gray-50 border-2 border-gray-200 py-1 text-gray-900 appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 text-xs sm:leading-6
-                        placeholder:text-xs'
+                        className='px-2 py-2 text-sm block w-full rounded-md bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder:text-xs'
                         value={customFormFields[index].value || ''}
                         onChange={(e) => handleChange(index, e.target.value)}
                       />
@@ -908,8 +916,7 @@ function UserForm() {
                       <input
                         type='time'
                         name={item.inputname}
-                        className='px-2 block w-full rounded-md bg-gray-50 border-2 border-gray-200 py-1 text-gray-900 appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none text-xs focus:border-orange-400 sm:text-sm sm:leading-6
-                        placeholder:text-xs'
+                        className='px-2 py-2 text-sm block w-full rounded-md bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder:text-xs'
                         id={item.inputname}
                         value={customFormFields[index].value || ''}
                         onChange={(e) => handleChange(index, e.target.value)}
@@ -936,7 +943,7 @@ function UserForm() {
                         type='file'
                         name={item.inputname}
                         id={item.inputname}
-                        className='px-2 block w-full rounded-md bg-gray-50 border-2 border-gray-200 py-0.5 text-gray-900 appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6'
+                        className='px-2 py-1 md:py-1 lg:py-1 xl:py-1 text-sm block w-full rounded-md bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder:text-xs'
                         onChange={(event) => handleFileChange(event, index)}
                         accept='image/*'
                       />
@@ -988,7 +995,7 @@ function UserForm() {
                         placeholder={`Enter ${item.inputname}`}
                         id={item.inputname}
                         value={customFormFields[index].value || ''}
-                        className='bg-gray-50 rounded-md text-xs p-2 w-full h-20 border-2 border-gray-200 focus:outline-none focus:border-orange-400'
+                        className='bg-gray-50 rounded-md text-xs p-2 w-full h-20 border-2 border-gray-200 focus:outline-none focus:border-orange-400 placeholder:text-xs'
                         onChange={(e) => handleChange(index, e.target.value)}
                       />
                       <div className='h-2 text-[#dc2626]'>
@@ -1012,12 +1019,17 @@ function UserForm() {
                       <select
                         id={item.inputname}
                         name={item.inputname}
-                        className='px-2 py-1.5 text-xs block w-full bg-gray-50  rounded-md  text-gray-900   border-2 border-gray-200 shadow-sm  placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-xs sm:leading-6'
+                        className='px-2 py-2 text-sm block w-full rounded-md bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder:text-xs'
                         onChange={(e) => handleChange(index, e.target.value)}
                         value={customFormFields[index].value || ''}
                       >
-                        <option value=''>--select--</option>
-
+                        <option
+                          value=''
+                          disabled
+                          defaultValue
+                        >
+                          Please select
+                        </option>
                         {item.options &&
                           item.options.value &&
                           item.options.value.map((option, index) => (
@@ -1042,7 +1054,7 @@ function UserForm() {
                         {item.label.charAt(0).toUpperCase() +
                           item.label.slice(1)}
                       </label>
-                      <div className='px-2 py-1.5 text-xs block w-full bg-gray-50   rounded-md  text-gray-900   border-2 border-gray-200 shadow-sm  placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-xs sm:leading-6'>
+                      <div className='px-2 py-2 text-sm block w-full rounded-md bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder:text-xs'>
                         <span className='flex justify-between'>
                           <p className='text-sm text-gray-400'>
                             {item.value.length > 0 ? (
@@ -1109,7 +1121,7 @@ function UserForm() {
             <div className=''>
               <button
                 type='submit'
-                className='mt-6 flex w-full justify-center rounded-md bg-orange-600 px-3 py-2.5 text-sm font-medium leading-6 text-white shadow-sm  focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600'
+                className='mt-4 flex w-full justify-center rounded-md bg-orange-600 px-3 py-2.5 text-sm font-medium leading-6 text-white shadow-sm  focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600'
               >
                 {id ? 'Edit User' : 'Create User'}
               </button>
