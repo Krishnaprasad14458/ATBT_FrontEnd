@@ -37,7 +37,7 @@
 import React, { useState, useContext, useEffect, useRef } from 'react';
 import { Link, useSubmit } from 'react-router-dom';
 import $ from 'jquery';
-import './User.css'
+import './User.css';
 import Swal from 'sweetalert2';
 import { Fragment } from 'react';
 import { Dialog, Menu, Transition } from '@headlessui/react';
@@ -65,6 +65,7 @@ function Users() {
   };
   const userData = JSON.parse(localStorage.getItem('data'));
   const token = userData?.token;
+  const role = userData?.role?.name;
   const submit = useSubmit();
   const {
     usersState: { settings },
@@ -289,27 +290,33 @@ function Users() {
     setTableView(dupTableView);
   };
   const handleColumnsSave = () => {
-    axios
-      .put(
-        `https://atbtmain.teksacademy.com/form/tableUpdate?name=userform`,
-        dupTableView
-      )
-      .then((response) => {
-        console.log('Update successful:', response.data);
+    if (role === 'admin') {
+      try {
         axios
-          .get(`https://atbtmain.teksacademy.com/form/list?name=userform`)
+          .put(
+            `https://atbtmain.teksacademy.com/form/tableUpdate?name=userform`,
+            dupTableView
+          )
           .then((response) => {
-            setCustomForm(response.data.Data);
-            setTableView(response.data.Tableview);
-            setDupTableView(response.data.Tableview);
+            console.log('Update successful:', response.data);
+            axios
+              .get(`https://atbtmain.teksacademy.com/form/list?name=userform`)
+              .then((response) => {
+                setCustomForm(response.data.Data);
+                setTableView(response.data.Tableview);
+                setDupTableView(response.data.Tableview);
+              })
+              .catch((error) => {
+                throw new Error('Error fetching data:', error);
+              });
           })
           .catch((error) => {
-            console.error('Error fetching data:', error);
+            throw new Error('Error fetching data:', error);
           });
-      })
-      .catch((error) => {
+      } catch (error) {
         console.error('Update failed:', error);
-      });
+      }
+    }
   };
 
   const [visibleColumns, setvisibleColumns] = useState();
@@ -393,16 +400,25 @@ function Users() {
 
           <button
             onClick={columnsDrawer}
-            className=" focus:outline-none me-3 gap-x-1.5 rounded-md bg-orange-600 px-4 py-2 text-sm font-[500] text-white shadow-md  hover:shadow-lg"
+            className=' focus:outline-none me-3 gap-x-1.5 rounded-md bg-orange-600 px-4 py-2 text-sm font-[500] text-white shadow-md  hover:shadow-lg'
           >
             Columns
           </button>
 
-
           {/* for coloumns open */}
-          <div className={`fixed inset-0 bg-gray-800 bg-opacity-50 z-10 ${columnsDrawerOpen ? '' : 'opacity-0 pointer-events-none'}`} style={{ transition: 'opacity 0.3s ease-in-out' }}>
-            <div className="fixed inset-y-0 right-0 w-11/12 md:w-4/12 lg:w-1/5 xl:w-1/5 bg-white shadow-lg transform translate-x-full transition-transform duration-300 ease-in-out" style={{ transform: `translateX(${columnsDrawerOpen ? '0%' : '100%'})`, transition: 'transform 0.3s ease-in-out' }}>
-
+          <div
+            className={`fixed inset-0 bg-gray-800 bg-opacity-50 z-10 ${
+              columnsDrawerOpen ? '' : 'opacity-0 pointer-events-none'
+            }`}
+            style={{ transition: 'opacity 0.3s ease-in-out' }}
+          >
+            <div
+              className='fixed inset-y-0 right-0 w-11/12 md:w-4/12 lg:w-1/5 xl:w-1/5 bg-white shadow-lg transform translate-x-full transition-transform duration-300 ease-in-out'
+              style={{
+                transform: `translateX(${columnsDrawerOpen ? '0%' : '100%'})`,
+                transition: 'transform 0.3s ease-in-out',
+              }}
+            >
               <div className='flex justify-between px-5 py-4 bg-gray-100'>
                 <h5 className='font-[500]'>Columns</h5>
                 <button
@@ -428,10 +444,15 @@ function Users() {
               <div className='px-4 py-2.5 h-[615px] overflow-auto flex-wrap'>
                 {dupTableView &&
                   Object.keys(dupTableView).map((columnName) => (
-                    <div key={columnName} className='flex items-center gap-2'>
+                    <div
+                      key={columnName}
+                      className='flex items-center gap-2'
+                    >
                       <input
                         className={classNames(
-                          tableView[columnName].value ? 'bg-gray-100 text-gray-700 hover:text-black' : 'text-gray-700 bg-gray-100 hover:text-black',
+                          tableView[columnName].value
+                            ? 'bg-gray-100 text-gray-700 hover:text-black'
+                            : 'text-gray-700 bg-gray-100 hover:text-black',
                           'appearance-none border border-gray-300 hover:border-gray-900 checked:hover:border-white rounded-md checked:bg-orange-600 checked:border-transparent w-4 h-4 cursor-pointer hover:text-black relative' // added 'relative' class
                         )}
                         type='checkbox'
@@ -440,7 +461,10 @@ function Users() {
                         onChange={() => handleColumnsCheckboxChange(columnName)}
                       />
 
-                      <label htmlFor={columnName} className='cursor-pointer text-md py-1'>
+                      <label
+                        htmlFor={columnName}
+                        className='cursor-pointer text-md py-1'
+                      >
                         {dupTableView[columnName].label}
                       </label>
                     </div>
@@ -454,26 +478,39 @@ function Users() {
                 >
                   Apply
                 </button>
-                <button
-                  className='mr-3 px-3 py-2 inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white'
-                  onClick={handleColumnsSave}
-                >
-                  Save
-                </button>
+                {role === 'admin' && (
+                  <button
+                    className='mr-3 px-3 py-2 inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white'
+                    onClick={handleColumnsSave}
+                  >
+                    Save
+                  </button>
+                )}
               </div>
-
             </div>
           </div>
 
-
-
-          <button onClick={filterDrawer} className="transition-opacity duration-500 focus:outline-none me-3 gap-x-1.5 rounded-md bg-orange-600 px-4 py-2 text-sm font-[500] text-white shadow-md  hover:shadow-lg">
+          <button
+            onClick={filterDrawer}
+            className='transition-opacity duration-500 focus:outline-none me-3 gap-x-1.5 rounded-md bg-orange-600 px-4 py-2 text-sm font-[500] text-white shadow-md  hover:shadow-lg'
+          >
             Filters
           </button>
 
           {/* for filter open */}
-          <div className={`fixed inset-0 bg-gray-800 bg-opacity-50 z-10 ${filterDrawerOpen ? '' : 'opacity-0 pointer-events-none'}`} style={{ transition: 'opacity 0.3s ease-in-out' }}>
-            <div className="fixed inset-y-0 right-0 w-11/12 md:w-4/12 lg:w-1/5 xl:w-w-1/5 bg-white shadow-lg transform translate-x-full transition-transform duration-300 ease-in-out" style={{ transform: `translateX(${filterDrawerOpen ? '0%' : '100%'})`, transition: 'transform 0.3s ease-in-out' }}>
+          <div
+            className={`fixed inset-0 bg-gray-800 bg-opacity-50 z-10 ${
+              filterDrawerOpen ? '' : 'opacity-0 pointer-events-none'
+            }`}
+            style={{ transition: 'opacity 0.3s ease-in-out' }}
+          >
+            <div
+              className='fixed inset-y-0 right-0 w-11/12 md:w-4/12 lg:w-1/5 xl:w-w-1/5 bg-white shadow-lg transform translate-x-full transition-transform duration-300 ease-in-out'
+              style={{
+                transform: `translateX(${filterDrawerOpen ? '0%' : '100%'})`,
+                transition: 'transform 0.3s ease-in-out',
+              }}
+            >
               <div className=' flex justify-between px-5 py-4 bg-gray-100'>
                 <h5 className='font-[500] '> Filters</h5>
                 <button
@@ -521,7 +558,6 @@ function Users() {
                               )
                             }
                             value={selectedFilters[filter.inputname] || ''}
-
                           >
                             <option
                               value=''
@@ -549,7 +585,6 @@ function Users() {
                                   <option
                                     key={index}
                                     value={option}
-
                                   >
                                     {option}
                                   </option>
@@ -557,7 +592,6 @@ function Users() {
                               )}
                           </select>
                         </div>
-
                       )}
                     </div>
                   ))}
@@ -577,7 +611,6 @@ function Users() {
                 >
                   Apply
                 </button>
-
               </div>
             </div>
           </div>
@@ -608,22 +641,31 @@ function Users() {
             <tbody className='divide-y divide-gray-200 dark:divide-gray-700'>
               {settings?.paginatedUsers &&
                 settings?.paginatedUsers?.map((row) => (
-                  <tr key={row.id}
+                  <tr
+                    key={row.id}
 
-                  // className={` ${row.userstatus ? '' : 'bg-gray-100 text-gray-100'}`}
-
+                    // className={` ${row.userstatus ? '' : 'bg-gray-100 text-gray-100'}`}
                   >
                     {visibleColumns.map((key) => (
-
                       <td
                         key={key}
-                        className={`px-6 py-2 text-left border border-[#e5e7eb] text-xs font-medium  ${row.userstatus ? 'text-gray-800 ' : 'bg-gray-100 text-gray-300'}`}
+                        className={`px-6 py-2 text-left border border-[#e5e7eb] text-xs font-medium  ${
+                          row.userstatus
+                            ? 'text-gray-800 '
+                            : 'bg-gray-100 text-gray-300'
+                        }`}
                       >
                         {row[key]}
                       </td>
                     ))}
 
-                    <td className={`px-6 py-2 text-left border border-[#e5e7eb] text-xs font-medium  ${row.userstatus ? 'text-gray-800 ' : 'bg-gray-100 text-gray-300'}`} >
+                    <td
+                      className={`px-6 py-2 text-left border border-[#e5e7eb] text-xs font-medium  ${
+                        row.userstatus
+                          ? 'text-gray-800 '
+                          : 'bg-gray-100 text-gray-300'
+                      }`}
+                    >
                       <div className='flex justify-start'>
                         <button
                           type='button'
@@ -696,16 +738,18 @@ function Users() {
                                 }
                               >
                                 <div
-                                  className={`w-8 h-4 rounded-full shadow-inner ${row.userstatus
-                                    ? ' bg-[#ea580c]'
-                                    : 'bg-[#c3c6ca]'
-                                    }`}
+                                  className={`w-8 h-4 rounded-full shadow-inner ${
+                                    row.userstatus
+                                      ? ' bg-[#ea580c]'
+                                      : 'bg-[#c3c6ca]'
+                                  }`}
                                 >
                                   <div
-                                    className={`toggle__dot w-4 h-4 rounded-full shadow ${row.userstatus
-                                      ? 'ml-4 bg-white'
-                                      : 'bg-white'
-                                      }`}
+                                    className={`toggle__dot w-4 h-4 rounded-full shadow ${
+                                      row.userstatus
+                                        ? 'ml-4 bg-white'
+                                        : 'bg-white'
+                                    }`}
                                   ></div>
                                 </div>
                                 {/* <div
@@ -766,7 +810,10 @@ function Users() {
                     <p className='text-md font-semibold'>
                       Enter Remarks<span className='text-red-600'> *</span>
                     </p>
-                    <button onClick={handleClosed} className='text-gray-500 hover:text-gray-700 focus:outline-none'>
+                    <button
+                      onClick={handleClosed}
+                      className='text-gray-500 hover:text-gray-700 focus:outline-none'
+                    >
                       <svg
                         xmlns='http://www.w3.org/2000/svg'
                         viewBox='0 0 20 20'
@@ -790,13 +837,11 @@ function Users() {
                     <button
                       onClick={(e) => handleUserStatus()}
                       className='mr-3 px-3 py-2 inline-flex  whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white'
-
                     >
                       {user_status ? 'Deactivate' : 'Activate'}
                     </button>
                   </div>
                 </Dialog.Panel>
-
               </Transition.Child>
             </div>
           </div>
@@ -807,7 +852,7 @@ function Users() {
         <div className='flex justify-between'>
           <div className=''>
             {!settings?.paginatedUsers ||
-              settings?.paginatedUsers?.length === 0 ? (
+            settings?.paginatedUsers?.length === 0 ? (
               'no data to show'
             ) : settings.loading ? (
               'Loading...'
@@ -835,12 +880,13 @@ function Users() {
                 })
               }
               href='#'
-              className={`relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${settings.loading
-                ? 'cursor-wait'
-                : settings.currentPage === 1
+              className={`relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${
+                settings.loading
+                  ? 'cursor-wait'
+                  : settings.currentPage === 1
                   ? 'cursor-not-allowed'
                   : 'cursor-auto'
-                }`}
+              }`}
             >
               <span className='sr-only'>Previous</span>
               <svg
@@ -870,12 +916,13 @@ function Users() {
                   data: settings.currentPage + 1,
                 })
               }
-              className={`relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${settings.loading
-                ? 'cursor-wait'
-                : settings.currentPage === settings.totalPages
+              className={`relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${
+                settings.loading
+                  ? 'cursor-wait'
+                  : settings.currentPage === settings.totalPages
                   ? 'cursor-not-allowed'
                   : 'cursor-auto'
-                }`}
+              }`}
             >
               <span className='sr-only'>Next</span>
               <svg

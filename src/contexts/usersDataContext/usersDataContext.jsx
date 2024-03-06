@@ -5,10 +5,13 @@ import userDataReducer from './userDataReducer';
 import { initialState } from './utils/usersConfig';
 import { AuthContext } from '../authContext/authContext';
 import { useNavigate, useSubmit } from 'react-router-dom';
+import { useAsyncCatch } from '../../hooks/asyncErrors/useAsyncCatch';
 
 export const UserDataContext = createContext();
 
 const UserDataProvider = ({ children }) => {
+  const throwError = useAsyncCatch();
+
   const [usersState, usersDispatch] = useReducer(userDataReducer, initialState);
 
   console.log(usersState, 'userState for filters');
@@ -41,8 +44,7 @@ const UserDataProvider = ({ children }) => {
         usersDispatch(actions.setDashboardUsers(data, 'DASHBOARD'));
       }
     } catch (error) {
-      console.error(error);
-      throw error;
+      throwError(error);
     } finally {
       usersDispatch(actions.setLoading('DASHBOARD'));
     }
@@ -67,8 +69,7 @@ const UserDataProvider = ({ children }) => {
         usersDispatch(actions.setDashboardUsers(data, 'SETTINGS'));
       }
     } catch (error) {
-      console.error(error);
-      throw error;
+      throwError(error);
     } finally {
       usersDispatch(actions.setLoading('SETTINGS'));
     }
@@ -81,9 +82,8 @@ const UserDataProvider = ({ children }) => {
       if (status === 200) {
         return data;
       }
-    } catch (e) {
-      console.error(e);
-      throw e;
+    } catch (error) {
+      throwError(error);
     }
   };
 
@@ -99,9 +99,8 @@ const UserDataProvider = ({ children }) => {
         getAllUsers();
       }
       return { data, status };
-    } catch (e) {
-      console.error(e);
-      throw e;
+    } catch (error) {
+      throwError(error);
     }
   };
 
@@ -125,9 +124,8 @@ const UserDataProvider = ({ children }) => {
         // navigate(`/`)
       }
       return { data, status };
-    } catch (e) {
-      console.error(e);
-      throw e;
+    } catch (error) {
+      throwError(error);
     }
   };
 

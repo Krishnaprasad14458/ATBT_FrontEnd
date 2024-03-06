@@ -439,10 +439,10 @@ function UserForm() {
         response = await createUser(formData);
       }
       console.log('jsonData submitted', response);
-      // if (response.status === 201) {
-      //   console.log('data is 201');
-      //   navigate(`/users/${response.data}`);
-      // }
+      if (response.status === 201) {
+        console.log('data is 201');
+        navigate(`/users/${response.data}`);
+      }
     }
   }
 

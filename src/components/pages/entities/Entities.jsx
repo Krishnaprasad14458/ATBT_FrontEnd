@@ -224,7 +224,9 @@ function Entities() {
           <tbody>
             {!entitiesList?.paginatedEntities ||
             entitiesList?.paginatedEntities?.length === 0 ? (
-              <p className='text-center m-auto'>no entity found</p>
+              <p className='text-center m-auto'>
+                no entity found{entitiesList?.paginatedEntities.sdfsdf}
+              </p>
             ) : (
               entitiesList?.paginatedEntities?.map((item, index) => (
                 <tr
