@@ -17,6 +17,7 @@ import ErrorBoundary from './components/pages/Errorpages/ErrorBoundary';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   // <React.StrictMode>
+  // <ErrorBoundary>
   <AuthProvider>
     <PermissionsProvider>
       <UserDataProvider>
@@ -37,6 +38,7 @@ root.render(
       </UserDataProvider>
     </PermissionsProvider>
   </AuthProvider>,
+  // </ErrorBoundary>
   {/* </React.StrictMode> */ }
 );
 

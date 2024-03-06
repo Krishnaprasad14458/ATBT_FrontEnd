@@ -5,11 +5,13 @@ import entitiesDataReducer from './entitiesDataReducer';
 import { useNavigate } from 'react-router-dom';
 import { initialState } from './utils/entitiesConfig';
 import { AuthContext } from '../authContext/authContext';
+import { useAsyncThrow } from '../../hooks/asyncErrors/useAsyncThrow';
+import { useAsyncCatch } from '../../hooks/asyncErrors/useAsyncCatch';
 
 export const EntitiesDataContext = createContext();
 
 const EntitiesDataProvider = ({ children }) => {
-  // const navigate = useNavigate();
+  const throwError = useAsyncCatch();
 
   const [entitiesState, entitiesDispatch] = useReducer(
     entitiesDataReducer,
@@ -27,7 +29,8 @@ const EntitiesDataProvider = ({ children }) => {
         return null;
       }
     } catch (error) {
-      console.error(`the error is ${error}`);
+      // console.error(`the error is ${error}`);
+      throwError(error);
     }
   };
 
@@ -49,7 +52,8 @@ const EntitiesDataProvider = ({ children }) => {
         return null;
       }
     } catch (error) {
-      console.error(`the error is: ${error}`);
+      // console.error(`the error is: ${error}`);
+      throwError(error);
     } finally {
       entitiesDispatch(actions.setLoading('DASHBOARD'));
     }
@@ -72,7 +76,8 @@ const EntitiesDataProvider = ({ children }) => {
         return null;
       }
     } catch (error) {
-      console.error(`the error is ${error}`);
+      // console.error(`the error is ${error}`);
+      throwError(error);
     } finally {
       entitiesDispatch(actions.setLoading('ENTITES'));
     }
@@ -89,7 +94,8 @@ const EntitiesDataProvider = ({ children }) => {
         return null;
       }
     } catch (error) {
-      console.error(`the error is ${error}`);
+      // console.error(`the error is ${error}`);
+      throwError(error);
     }
   };
 
@@ -100,7 +106,8 @@ const EntitiesDataProvider = ({ children }) => {
       getDashboardEntitiesData();
       return data;
     } catch (error) {
-      console.error(`the error is ${error}`);
+      // console.error(`the error is ${error}`);
+      throwError(error);
     }
   };
 
@@ -114,10 +121,10 @@ const EntitiesDataProvider = ({ children }) => {
         getpaginatedEntitiesData();
         getDashboardEntitiesData();
         getAllEntities();
-        // navigate(`entitylandingpage/${data.Entites.id}`)
       }
     } catch (error) {
-      console.error(`the error is ${error}`);
+      // console.error(`the error is ${error}`);
+      throwError(error);
     }
   };
 

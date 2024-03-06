@@ -183,7 +183,7 @@ const UserLandingPage = () => {
                 customFormField.map((item) => (
                   <div className=''>
                     {/* predefined fields*/}
-                    {/* <div className='bg-[#fff7ed] rounded-xl'>
+                    <div className='bg-[#fff7ed] rounded-xl'>
                       {item.type === 'file' &&
                         item.inputname == 'image' &&
                         item.field === 'predefined' && (
@@ -191,17 +191,7 @@ const UserLandingPage = () => {
                             {console.log(item.value, 'item.value')}
                             {item.value ? (
                               <img
-                                // src={item.value}
-                                src={
-                                  typeof item.value === 'string'
-                                    ? item.value
-                                    : URL.createObjectURL(item.value)
-                                }
-                                // src={
-                                //   media
-                                //     ? URL.createObjectURL(media)
-                                //     : updatedPost?.mediaURL
-                                // }
+                                src={data?.user?.image}
                                 name='EntityPhoto'
                                 alt='User Photo'
                                 className=' h-36 w-36 relative mx-auto bottom-20 rounded-full shadow-md'
@@ -215,7 +205,7 @@ const UserLandingPage = () => {
                             )}
                           </div>
                         )}
-                    </div> */}
+                    </div>
                     {item.type === 'text' &&
                       item.inputname == 'name' &&
                       item.field === 'predefined' && (
@@ -243,8 +233,7 @@ const UserLandingPage = () => {
                             </p>
                           ) : (
                             <p className=' absolute top-10 mt-8   text-sm antialiased  leading-snug tracking-normal text-blue-gray-900 '>
-                              XYZ company
-                            
+                              Infoz IT solutions
                             </p>
                           )}
                         </div>
@@ -417,23 +406,15 @@ const UserLandingPage = () => {
                       </div>
                     )}
                     {item.type === 'file' && item.field == 'custom' && (
-                      <div className=" 'my-2 ms-5 ">
-                         {item.value && item.value.length > 0 && (
-                        <p className='flex flex-wrap gap-2'>
-                          <span className='w-2/6 text-[#727a85]'>
-                            {item.label.charAt(0).toUpperCase() +
-                              item.label.slice(1)}
-                          </span>
-                          <span className=' w-1/2 text-md font-[600] flex gap-5'> :
-                            <img
-                              src={item.value}
-                              // name="EntityPhoto"
-                              alt='file'
-                              className='rounded-lg w-20 h-20 '
-                            />
-                          </span>
-                        </p>
-                      )} 
+                      <div className=" 'my-2 ms-5 flex flex-wrap gap-2">
+                        <div>
+                          <img
+                            src={item.value}
+                            name='EntityPhoto'
+                            alt=' file'
+                            className='rounded-lg w-20 h-20 '
+                          />
+                        </div>
                       </div>
                     )}
                     {item.type === 'date' && item.field == 'custom' && (
@@ -486,7 +467,17 @@ const UserLandingPage = () => {
                         )}
                       </div>
                     )}
-                    
+                    {/* {
+                    item.type === "checkbox" && item.field == "custom" &&
+                    <div className='my-2 ms-5'>
+                      {item.value && item.value.length > 0 &&
+                        <p className='flex flex-wrap gap-2'>
+                          <span className=' w-2/6 text-[#727a85]'>{item.label.charAt(0).toUpperCase() + item.label.slice(1)}</span>
+                          <span className=' w-1/2 text-md font-[600]'> : {item.value}</span>
+                        </p>
+                      }
+                    </div>
+                  } */}
                     {item.type === 'range' && item.field == 'custom' && (
                       <div className='my-2 ms-5'>
                         {item.value && item.value.length > 0 && (

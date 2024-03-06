@@ -15,22 +15,30 @@ const ErrorBoundary = () => {
 };
 
 export default ErrorBoundary;
-
 // class ErrorBoundary extends Component {
-//   state = { hasError: false };
-//   static getDerivedStateFromError() {
-//     return { hasError: true };
+//   state = { hasError: false, error: null, info: null };
+
+//   static getDerivedStateFromError(error) {
+//     // Update state so the next render will show the fallback UI.
+//     return { hasError: true, error };
 //   }
+
 //   componentDidCatch(error, info) {
+//     // You can also log the error to an error reporting service
 //     console.error('ErrorBoundary caught an error', error, info);
+//     this.setState({ info });
 //   }
+
 //   render() {
 //     if (this.state.hasError) {
+//       // You can render any custom fallback UI
 //       return (
-//         <h2>
-//           There was an error with this listing. <Link to='/'>Click here</Link>{' '}
-//           to back to the home page.
-//         </h2>
+//         <div>
+//           <h2>Something went wrong.</h2>
+//           <p>{this?.state?.error?.toString()}</p>
+//           <p>{this?.state?.error?.response?.data?.message ?? 'none'}</p>
+//           <p>{this?.state?.info?.componentStack ?? 'none'}</p>
+//         </div>
 //       );
 //     }
 
