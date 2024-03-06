@@ -336,7 +336,15 @@ const CustomFormStructure = () => {
     <div className="p-4 container bg-[#f8fafc]">
       {/* for heading and back button */}
       <div className="grid grid-cols-1 md:grid-cols-2">
-        <p className="col-span-1 text-xl sm:text-lg md:text-xl lg:text-xl xl:text-xl font-semibold">Custom User Form</p>
+        <p className="col-span-1 text-lg md:text-xl lg:text-xl xl:text-xl font-semibold">Custom&nbsp;
+         {formName==="userform" && <span className='text-lg md:text-xl lg:text-xl xl:text-xl font-semibold'>
+        User Form</span>}
+        {formName==="entityform" && <span className='text-lg md:text-xl lg:text-xl xl:text-xl font-semibold'>
+        Entity Form</span>}
+        {formName==="boardmeetingform" && <span className='text-lg md:text-xl lg:text-xl xl:text-xl font-semibold'>
+        Board Meeting Form</span>}
+        {formName==="teamform" && <span className='text-lg md:text-xl lg:text-xl xl:text-xl font-semibold'>
+        Teams Form</span>}</p>
         {/* sm:text-start md:text-end lg:text-end xl:text-end */}
         <div className="col-span-1 text-end mt-4 sm:mt-0">
           <button
@@ -358,7 +366,7 @@ const CustomFormStructure = () => {
             className="mr-3 px-3 py-2 inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white">
             + Add Field
           </button>
-          <Link to="/forms">
+          <Link to="/settings/forms">
             <button
               type="submit"
               className="create-btn px-4 py-2 inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white gap-1">
