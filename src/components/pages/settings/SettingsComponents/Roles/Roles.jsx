@@ -98,7 +98,7 @@ const Roles = () => {
               <option value='500'>500</option>
             </select></div> */}
 
-          <Link to='settings/addroles'>
+          <Link to='/settings/addroles'>
             <button className='mt-1 px-3 py-2 inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white '>
               <svg
                 xmlns='http://www.w3.org/2000/svg'
@@ -158,9 +158,16 @@ const Roles = () => {
                     </Link>
                   </td>
 
-                  <td className='px-5 py-2 whitespace-nowrap text-left text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb] overflow-hidden' style={{ maxWidth: '160px' }}>
-                    <div className="truncate text-xs" title={role.description}>{role.description}</div>
-
+                  <td
+                    className='px-5 py-2 whitespace-nowrap text-left text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb] overflow-hidden'
+                    style={{ maxWidth: '160px' }}
+                  >
+                    <div
+                      className='truncate text-xs'
+                      title={role.description}
+                    >
+                      {role.description}
+                    </div>
                   </td>
 
                   <td className='px-5 py-2 whitespace-nowrap text-left  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]'>
