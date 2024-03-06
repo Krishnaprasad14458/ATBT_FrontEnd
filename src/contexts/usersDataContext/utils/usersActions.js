@@ -25,3 +25,8 @@ export const setSortBy = (data, context) => ({
     type: actionTypes.SET_SORT_BY,
     payload: { context: context, data: data }
 });
+
+export const setFilters = (data, context) => ({
+    type: actionTypes.SET_FILTERS,
+    payload: { context: context, data: data }
+})

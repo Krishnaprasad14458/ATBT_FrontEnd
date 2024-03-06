@@ -1,6 +1,43 @@
+// import React from 'react';
+
+// const Users = () => {
+//   const handleMouseEnter = () => {
+//     console.log('Mouse entered');
+//   };
+
+//   const handleMouseLeave = () => {
+//     console.log('Mouse left');
+//   };
+
+//   const handleClick = () => {
+//     console.log('Clicked');
+//   };
+
+//   const handleDoubleClick = () => {
+//     console.log('Double clicked');
+//   };
+
+//   return (
+//     <div>
+//       <div
+//         onMouseEnter={handleMouseEnter}
+//         onMouseLeave={handleMouseLeave}
+//         onClick={handleClick}
+//         onDoubleClick={handleDoubleClick}
+//         style={{ width: 200, height: 200, backgroundColor: 'lightblue' }}
+//       >
+//         Hover over me!
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default Users;
+
 import React, { useState, useContext, useEffect, useRef } from 'react';
 import { Link, useSubmit } from 'react-router-dom';
 import $ from 'jquery';
+import './User.css'
 import Swal from 'sweetalert2';
 import { Fragment } from 'react';
 import { Dialog, Menu, Transition } from '@headlessui/react';
@@ -15,6 +52,17 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
 }
 function Users() {
+  const [hoveredOption, setHoveredOption] = useState(4);
+  useEffect(() => {
+    console.log('hoveredOption', hoveredOption);
+  });
+  const handleMouseEnter = () => {
+    setHoveredOption('hi');
+  };
+
+  const handleMouseLeave = () => {
+    setHoveredOption('heloo');
+  };
   const userData = JSON.parse(localStorage.getItem('data'));
   const token = userData?.token;
   const submit = useSubmit();
@@ -23,8 +71,10 @@ function Users() {
     usersDispatch,
     deleteUser,
     setSortBy,
+    setFilters,
     toggleUser,
   } = useContext(UserDataContext);
+
   const { debouncedSetPage, debouncedSetSearch } = useDebounce(usersDispatch);
   const handlePerPageChange = (event) => {
     const selectedValue = parseInt(event.target.value, 10);
@@ -35,6 +85,15 @@ function Users() {
         data: selectedValue,
       },
     });
+  };
+  function handlefilters() {
+    usersDispatch(setFilters(selectedFilters, 'SETTINGS'));
+    setFilterDrawerOpen(!filterDrawerOpen);
+  }
+  const handleFilterReset = () => {
+    setSelectedFilters({});
+    usersDispatch(setFilters({}, 'SETTINGS'));
+    setFilterDrawerOpen(!filterDrawerOpen);
   };
   useEffect(() => {
     // usersDispatch(actions.setPerPage(10))
@@ -51,7 +110,6 @@ function Users() {
   }, []);
   const [open, setOpen] = useState(false);
   // const [opening, setOpening] = useState(false);
-
   const cancelButtonRef = useRef(null);
   const [user_status, setUser_Status] = useState(false);
   const [userremarkshistory, setuser_remarks_history] = useState([]);
@@ -111,7 +169,6 @@ function Users() {
     setFilterDrawerOpen(!filterDrawerOpen);
   };
 
-
   const [activeTab, setActiveTab] = useState(1);
 
   const handleTabClick = (tabNumber) => {
@@ -144,14 +201,10 @@ function Users() {
 
   /////////////////////////////////////////////// Irshad
   const [customForm, setCustomForm] = useState([]);
-  let [fieldsDropDownData, setFieldsDropDownData] = useState(
-
-    {
-      role: [], entityname: ["infosys", "relid"]
-    }
-
-
-  )
+  let [fieldsDropDownData, setFieldsDropDownData] = useState({
+    role: [],
+    entityname: ['infosys', 'relid'],
+  });
   useEffect(() => {
     axios
       .get(`https://atbtmain.teksacademy.com/form/list?name=userform`)
@@ -169,17 +222,15 @@ function Users() {
     axios
       .get(`https://atbtmain.teksacademy.com/rbac/getroles`)
       .then((response) => {
-        setFieldsDropDownData(prevState => ({
+        setFieldsDropDownData((prevState) => ({
           ...prevState,
-          role: response.data.roles.map(item => item.name)
+          role: response.data.roles.map((item) => item.name),
         }));
       })
       .catch((error) => {
         // Handle errors
         console.error('Error fetching data:', error);
       });
-
-
   }, []);
 
   ////////filters start
@@ -189,12 +240,16 @@ function Users() {
   useEffect(() => {
     const filterableInputsInBox = customForm
       .filter(
-        (obj) => (obj.filterable && (obj.type === 'select' || obj.type === 'date' || obj.type === 'multiselect'))
+        (obj) =>
+          obj.filterable &&
+          (obj.type === 'select' ||
+            obj.type === 'date' ||
+            obj.type === 'multiselect')
       )
       .map((obj) => ({
         inputname: obj.inputname,
         label: obj.label,
-        ...(obj.options && { options: obj.options })
+        ...(obj.options && { options: obj.options }),
       }));
     const filterableInputsInSearch = customForm
       .filter(
@@ -211,19 +266,16 @@ function Users() {
 
     setFilterableInputsInBox(filterableInputsInBox);
     setFilterableInputsInSearch(filterableInputsInSearch);
-
-
   }, [customForm]);
 
   useEffect(() => {
-    console.log("filterableInputsInBox", filterableInputsInBox)
-  })
-
+    console.log('filterableInputsInBox', filterableInputsInBox);
+  });
 
   ////////filters end
 
   const [tableView, setTableView] = useState();
-  const [dupTableView, setDupTableView] = useState()
+  const [dupTableView, setDupTableView] = useState();
   const handleColumnsCheckboxChange = (columnName) => {
     setDupTableView((prevColumns) => ({
       ...prevColumns,
@@ -232,30 +284,33 @@ function Users() {
         value: !prevColumns[columnName].value,
       },
     }));
-
   };
   const handleColumnsApply = () => {
-    setTableView(dupTableView)
-  }
+    setTableView(dupTableView);
+  };
   const handleColumnsSave = () => {
-    axios.put(`https://atbtmain.teksacademy.com/form/tableUpdate?name=userform`, dupTableView)
-      .then(response => {
-        console.log("Update successful:", response.data);
-        axios.get(`https://atbtmain.teksacademy.com/form/list?name=userform`)
-          .then(response => {
+    axios
+      .put(
+        `https://atbtmain.teksacademy.com/form/tableUpdate?name=userform`,
+        dupTableView
+      )
+      .then((response) => {
+        console.log('Update successful:', response.data);
+        axios
+          .get(`https://atbtmain.teksacademy.com/form/list?name=userform`)
+          .then((response) => {
             setCustomForm(response.data.Data);
             setTableView(response.data.Tableview);
             setDupTableView(response.data.Tableview);
           })
-          .catch(error => {
+          .catch((error) => {
             console.error('Error fetching data:', error);
           });
       })
-      .catch(error => {
-        console.error("Update failed:", error);
+      .catch((error) => {
+        console.error('Update failed:', error);
       });
-  }
-
+  };
 
   const [visibleColumns, setvisibleColumns] = useState();
   useEffect(() => {
@@ -265,17 +320,18 @@ function Users() {
     setvisibleColumns(visibleColumns);
   }, [tableView]);
   useEffect(() => {
-    console.log("tableview", tableView)
-  })
+    console.log('tableview', tableView);
+  });
   const [selectedFilters, setSelectedFilters] = useState({});
 
+  console.log(selectedFilters, 'sfltrs');
+
   const handleFilterChange = (filterName, selectedValue) => {
-    setSelectedFilters(prevState => ({
+    setSelectedFilters((prevState) => ({
       ...prevState,
-      [filterName]: selectedValue
+      [filterName]: selectedValue,
     }));
   };
-
 
   return (
     <div className='overflow-x-auto p-3'>
@@ -335,125 +391,207 @@ function Users() {
             <option value='500'>500</option>
           </select>
 
-          <button onClick={columnsDrawer} className='transition-opacity duration-500 focus:outline-none me-3 gap-x-1.5 rounded-md bg-gray-50 px-1 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-200 hover:bg-gray-50'>
+          <button
+            onClick={columnsDrawer}
+            className=" focus:outline-none me-3 gap-x-1.5 rounded-md bg-orange-600 px-4 py-2 text-sm font-[500] text-white shadow-md  hover:shadow-lg"
+          >
             Columns
           </button>
 
-          {/* for coloumns open */}
-          <div className={`fixed inset-0 transition-all duration-500 bg-gray-800 bg-opacity-50 z-10 ${columnsDrawerOpen ? '' : 'hidden'}`}>
-            <div className=" fixed inset-y-0 right-0 w-3/12 bg-white shadow-lg transform translate-x-0 transition-transform duration-300 ease-in-out">
 
-              <div className='flex justify-between p-3 bg-gray-100'>
-                <p className='font-semibold'> Coloumns</p>
-                <button onClick={columnsDrawer} className="">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5 text-gray-500">
-                    <path fillRule="evenodd" d="M5.47 5.47a.75.75 0 0 1 1.06 0L12 10.94l5.47-5.47a.75.75 0 1 1 1.06 1.06L13.06 12l5.47 5.47a.75.75 0 1 1-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 0 1-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 0 1 0-1.06Z" clipRule="evenodd" />
+          {/* for coloumns open */}
+          <div className={`fixed inset-0 bg-gray-800 bg-opacity-50 z-10 ${columnsDrawerOpen ? '' : 'opacity-0 pointer-events-none'}`} style={{ transition: 'opacity 0.3s ease-in-out' }}>
+            <div className="fixed inset-y-0 right-0 w-11/12 md:w-4/12 lg:w-1/5 xl:w-1/5 bg-white shadow-lg transform translate-x-full transition-transform duration-300 ease-in-out" style={{ transform: `translateX(${columnsDrawerOpen ? '0%' : '100%'})`, transition: 'transform 0.3s ease-in-out' }}>
+
+              <div className='flex justify-between px-5 py-4 bg-gray-100'>
+                <h5 className='font-[500]'>Columns</h5>
+                <button
+                  onClick={columnsDrawer}
+                  className=''
+                >
+                  <svg
+                    xmlns='http://www.w3.org/2000/svg'
+                    viewBox='0 0 24 24'
+                    fill='currentColor'
+                    className='w-5 h-5 text-gray-500'
+                  >
+                    <path
+                      fillRule='evenodd'
+                      d='M5.47 5.47a.75.75 0 0 1 1.06 0L12 10.94l5.47-5.47a.75.75 0 1 1 1.06 1.06L13.06 12l5.47 5.47a.75.75 0 1 1-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 0 1-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 0 1 0-1.06Z'
+                      clipRule='evenodd'
+                    />
                   </svg>
                 </button>
               </div>
               <hr className='h-1 w-full' />
 
-
-              <div className='px-4 py-2.5'>
+              <div className='px-4 py-2.5 h-[615px] overflow-auto flex-wrap'>
                 {dupTableView &&
                   Object.keys(dupTableView).map((columnName) => (
-                    <p key={columnName} className='flex text-left gap-5 '>
-
+                    <div key={columnName} className='flex items-center gap-2'>
                       <input
                         className={classNames(
-                          tableView[columnName].value ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                          'block px-4 py-2 text-sm text-left'
+                          tableView[columnName].value ? 'bg-gray-100 text-gray-700 hover:text-black' : 'text-gray-700 bg-gray-100 hover:text-black',
+                          'appearance-none border border-gray-300 hover:border-gray-900 checked:hover:border-white rounded-md checked:bg-orange-600 checked:border-transparent w-4 h-4 cursor-pointer hover:text-black relative' // added 'relative' class
                         )}
                         type='checkbox'
+                        id={columnName}
                         checked={dupTableView[columnName].value}
                         onChange={() => handleColumnsCheckboxChange(columnName)}
                       />
-                      <label htmlFor={columnName}>
+
+                      <label htmlFor={columnName} className='cursor-pointer text-md py-1'>
                         {dupTableView[columnName].label}
                       </label>
-                    </p>
+                    </div>
                   ))}
               </div>
 
               <div className='bg-gray-100 flex justify-between p-3 absolute bottom-0 w-full'>
-
-                <button className='mr-3 px-3 py-2 inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white ' onClick={handleColumnsApply}>Apply</button>
-                <button className='mr-3 px-3 py-2 inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white' onClick={handleColumnsSave}>Save</button>
-
+                <button
+                  className='mr-3 px-3 py-2 inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white '
+                  onClick={handleColumnsApply}
+                >
+                  Apply
+                </button>
+                <button
+                  className='mr-3 px-3 py-2 inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white'
+                  onClick={handleColumnsSave}
+                >
+                  Save
+                </button>
               </div>
-
-
 
             </div>
           </div>
 
-          <button onClick={filterDrawer} className='transition-opacity duration-500 focus:outline-none me-3 gap-x-1.5 rounded-md bg-gray-50 px-1.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-200 hover:bg-gray-50'>
-            filters
+
+
+          <button onClick={filterDrawer} className="transition-opacity duration-500 focus:outline-none me-3 gap-x-1.5 rounded-md bg-orange-600 px-4 py-2 text-sm font-[500] text-white shadow-md  hover:shadow-lg">
+            Filters
           </button>
 
           {/* for filter open */}
-          <div className={`fixed inset-0 transition-all duration-500 bg-gray-800 bg-opacity-50 z-10 ${filterDrawerOpen ? '' : 'hidden'}`}>
-            <div className="p-3 fixed inset-y-0 right-0 w-3/12 bg-white shadow-lg transform translate-x-0 transition-transform duration-300 ease-in-out">
-              <div className="flex justify-start">
-                <div className='absolute top-4 right-4 flex flex-row'>
-                  <button onClick={filterDrawer} className="">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5 text-gray-500">
-                      <path fillRule="evenodd" d="M5.47 5.47a.75.75 0 0 1 1.06 0L12 10.94l5.47-5.47a.75.75 0 1 1 1.06 1.06L13.06 12l5.47 5.47a.75.75 0 1 1-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 0 1-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 0 1 0-1.06Z" clipRule="evenodd" />
-                    </svg>
-                  </button>
+          <div className={`fixed inset-0 bg-gray-800 bg-opacity-50 z-10 ${filterDrawerOpen ? '' : 'opacity-0 pointer-events-none'}`} style={{ transition: 'opacity 0.3s ease-in-out' }}>
+            <div className="fixed inset-y-0 right-0 w-11/12 md:w-4/12 lg:w-1/5 xl:w-w-1/5 bg-white shadow-lg transform translate-x-full transition-transform duration-300 ease-in-out" style={{ transform: `translateX(${filterDrawerOpen ? '0%' : '100%'})`, transition: 'transform 0.3s ease-in-out' }}>
+              <div className=' flex justify-between px-5 py-4 bg-gray-100'>
+                <h5 className='font-[500] '> Filters</h5>
+                <button
+                  onClick={filterDrawer}
+                  className=''
+                >
+                  <svg
+                    xmlns='http://www.w3.org/2000/svg'
+                    viewBox='0 0 24 24'
+                    fill='currentColor'
+                    className='w-5 h-5 text-gray-500'
+                  >
+                    <path
+                      fillRule='evenodd'
+                      d='M5.47 5.47a.75.75 0 0 1 1.06 0L12 10.94l5.47-5.47a.75.75 0 1 1 1.06 1.06L13.06 12l5.47 5.47a.75.75 0 1 1-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 0 1-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 0 1 0-1.06Z'
+                      clipRule='evenodd'
+                    />
+                  </svg>
+                </button>
+              </div>
+              <div className='h-[615px] overflow-auto'>
+                <div className='text-start p-3 '>
+                  {/* {filter.label} */}
+                  {filterableInputsInBox?.map((filter, index) => (
+                    <div
+                      key={index}
+                      className=''
+                    >
+                      {filter.options && (
+                        <div>
+                          <label className='mb-4 text-sm text-[#878a99] font-medium'>
+                            {' '}
+                            {filter.label.charAt(0).toUpperCase() +
+                              filter.label.slice(1)}
+                          </label>
+
+                          <select
+                            id={filter.inputname}
+                            name={filter.inputname}
+                            className='px-3 py-2 my-2 text-xs block w-full bg-gray-50 rounded-md text-gray-900 border border-1 border-[#e9ebec] placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-xs sm:leading-6'
+                            onChange={(e) =>
+                              handleFilterChange(
+                                filter.inputname,
+                                e.target.value
+                              )
+                            }
+                            value={selectedFilters[filter.inputname] || ''}
+
+                          >
+                            <option
+                              value=''
+                              disabled
+                              defaultValue
+                            >
+                              Please select
+                            </option>
+                            {filter.options &&
+                              filter.options.type === 'custom' &&
+                              filter.options.value &&
+                              filter.options.value.map((option, index) => (
+                                <option
+                                  key={index}
+                                  value={option}
+                                >
+                                  {option}
+                                </option>
+                              ))}
+                            {filter.options &&
+                              filter.options.type === 'predefined' &&
+                              filter.options.value &&
+                              fieldsDropDownData[filter.options.value]?.map(
+                                (option, index) => (
+                                  <option
+                                    key={index}
+                                    value={option}
+
+                                  >
+                                    {option}
+                                  </option>
+                                )
+                              )}
+                          </select>
+                        </div>
+
+                      )}
+                    </div>
+                  ))}
                 </div>
               </div>
-              <div className='text-start'>
 
-                {filterableInputsInBox?.map((filter, index) => (
-                  <div key={index}>
-                    {filter.options && (
-                      <div>
-                        <label> {filter.label}</label>
-                        <select
-                          id={filter.inputname}
-                          name={filter.inputname}
-                          className='px-2 py-1.5 text-xs block w-full bg-gray-50 rounded-md text-gray-900 border-2 border-gray-200 shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-xs sm:leading-6'
-                          onChange={(e) => handleFilterChange(filter.inputname, e.target.value)}
-                          value={selectedFilters[filter.inputname] || ''}
-                        >
-                          <option value=''>--select--</option>
-
-                          {filter.options && filter.options.type === "custom" && filter.options.value &&
-                            filter.options.value.map((option, index) => (
-                              <option key={index} value={option}>{option}</option>
-                            ))}
-                          {filter.options && filter.options.type === "predefined" && filter.options.value &&
-                            fieldsDropDownData[filter.options.value]?.map((option, index) => (
-                              <option key={index} value={option}>{option}</option>
-                            ))}
-                        </select>
-                      </div>
-                    )}
-                  </div>
-                ))}
-                <button className='border border-1 bg-orange-600 p-1 m-1'>Apply</button>
-
+              <div className='flex justify-between mt-2 bg-gray-100 p-3 '>
+                <button
+                  onClick={handleFilterReset}
+                  className='mr-3 px-3 py-2 inline-flex  whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white '
+                >
+                  Clear
+                </button>
+                <button
+                  onClick={handlefilters}
+                  className='mr-3 px-3 py-2 inline-flex  whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white '
+                >
+                  Apply
+                </button>
 
               </div>
             </div>
           </div>
-
-
-
         </div>
       </div>
       {/* table */}
-
       <div className='max-h-[457px] overflow-y-scroll mt-8'>
         {visibleColumns && tableView && settings?.paginatedUsers && (
           <table className='w-full divide-y divide-gray-200 dark:divide-gray-700 rounded-md'>
-            <thead >
+            <thead>
               <tr>
                 {visibleColumns.map((key) => (
                   <th
                     key={key}
-
                     className='sticky top-0 bg-orange-600 text-white text-sm text-left px-5 py-2.5 border-l-2 border-gray-200'
                   >
                     {tableView[key].label}
@@ -470,17 +608,22 @@ function Users() {
             <tbody className='divide-y divide-gray-200 dark:divide-gray-700'>
               {settings?.paginatedUsers &&
                 settings?.paginatedUsers?.map((row) => (
-                  <tr key={row.id}>
+                  <tr key={row.id}
+
+                  // className={` ${row.userstatus ? '' : 'bg-gray-100 text-gray-100'}`}
+
+                  >
                     {visibleColumns.map((key) => (
+
                       <td
                         key={key}
-                        className='px-6 py-2 text-left border border-[#e5e7eb] text-xs font-medium text-gray-800'
+                        className={`px-6 py-2 text-left border border-[#e5e7eb] text-xs font-medium  ${row.userstatus ? 'text-gray-800 ' : 'bg-gray-100 text-gray-300'}`}
                       >
                         {row[key]}
                       </td>
                     ))}
 
-                    <td className='px-6 py-2 text-left border border-[#e5e7eb] text-xs font-medium text-gray-800'>
+                    <td className={`px-6 py-2 text-left border border-[#e5e7eb] text-xs font-medium  ${row.userstatus ? 'text-gray-800 ' : 'bg-gray-100 text-gray-300'}`} >
                       <div className='flex justify-start'>
                         <button
                           type='button'
@@ -541,19 +684,6 @@ function Users() {
                         >
                           {row.userstatus !== undefined && (
                             <div className='flex items-center'>
-                              {/* <input
-                                  id='toggle'
-                                  type='checkbox'
-                                  className=''
-                                  checked={row.userstatus ? true : false}
-                                  onChange={(e) =>
-                                    handleClickOpen(
-                                      row.id,
-                                      row.userstatus,
-                                      row.userremarkshistory
-                                    )
-                                  }
-                                /> */}
                               <label
                                 htmlFor='toggle'
                                 className='flex items-center cursor-pointer'
@@ -621,7 +751,7 @@ function Users() {
             <div className='fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity' />
           </Transition.Child>
           <div className='fixed inset-0 z-10 w-screen overflow-y-auto'>
-            <div className='flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0'>
+            <div className='flex min-h-full items-center justify-center p-4 text-center sm:p-0'>
               <Transition.Child
                 as={Fragment}
                 enter='ease-out duration-300'
@@ -631,45 +761,42 @@ function Users() {
                 leaveFrom='opacity-100 translate-y-0 sm:scale-100'
                 leaveTo='opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95'
               >
-                <Dialog.Panel className='relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 px-2 py-5 sm:max-w-lg'>
-                  <div className='flex justify-between'>
-                    <p className='text-md'>
-                      Enter Remarks :<span className='text-red-600 '> *</span>
+                <Dialog.Panel className='relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 px-4 py-6 sm:max-w-lg'>
+                  <div className='flex justify-between items-center mb-4'>
+                    <p className='text-md font-semibold'>
+                      Enter Remarks<span className='text-red-600'> *</span>
                     </p>
-                    <svg
-                      xmlns='http://www.w3.org/2000/svg'
-                      viewBox='0 0 20 20'
-                      onClick={handleClosed}
-                      fill='currentColor'
-                      className='w-5 h-5 me-2'
-                    >
-                      <path d='M6.28 5.22a.75.75 0 0 0-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 1 0 1.06 1.06L10 11.06l3.72 3.72a.75.75 0 1 0 1.06-1.06L11.06 10l3.72-3.72a.75.75 0 0 0-1.06-1.06L10 8.94 6.28 5.22Z' />
-                    </svg>
+                    <button onClick={handleClosed} className='text-gray-500 hover:text-gray-700 focus:outline-none'>
+                      <svg
+                        xmlns='http://www.w3.org/2000/svg'
+                        viewBox='0 0 20 20'
+                        fill='currentColor'
+                        className='w-6 h-6'
+                      >
+                        <path
+                          fillRule='evenodd'
+                          d='M6.28 5.22a.75.75 0 0 0-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 1 0 1.06 1.06L10 11.06l3.72 3.72a.75.75 0 1 0 1.06-1.06L11.06 10l3.72-3.72a.75.75 0 0 0-1.06-1.06L10 8.94 6.28 5.22Z'
+                        />
+                      </svg>
+                    </button>
                   </div>
                   <textarea
-                    class=' my-3 bg-gray-50 rounded-md text-xs p-2 w-full h-20 border-2 border-gray-200 focus:outline-none focus:border-orange-400'
+                    className='resize-y w-60 md:w-96 rounded-md bg-gray-50 mb-2 text-sm p-2 border-2 border-gray-200 focus:outline-none focus:border-orange-400'
                     onChange={(e) => setText(e.target.value)}
                     value={text}
+                    rows={4} // Adjust as needed
                   ></textarea>
+                  <div className='w-full flex justify-end '>
+                    <button
+                      onClick={(e) => handleUserStatus()}
+                      className='mr-3 px-3 py-2 inline-flex  whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white'
 
-                  <div className='w-full '>
-                    {/* {user_status === 0 || user_status === false ? (
-                      <button onClick={(e) => handleActivate()}>
-                        Activate
-                      </button>
-                    ) : user_status === 1 || user_status === true ? (
-                      <button onClick={(e) => handleInActivate()}>
-                        InActivate
-                      </button>
-                    ) : null} */}
-
-                    {
-                      <button onClick={(e) => handleUserStatus()}>
-                        {user_status ? 'InActivate' : 'Activate'}
-                      </button>
-                    }
+                    >
+                      {user_status ? 'Deactivate' : 'Activate'}
+                    </button>
                   </div>
                 </Dialog.Panel>
+
               </Transition.Child>
             </div>
           </div>

@@ -57,11 +57,11 @@ function UserForm() {
   function setInitialForm() {
     let response = user?.formData ?? [];
     if (!!id && !!user?.userData) {
-      let user = user?.userData;
+      let userData = user?.userData;
       response.forEach((input) => {
-        if (user.hasOwnProperty(input.inputname)) {
-          if (user[input.inputname] !== null) {
-            input.value = user[input.inputname];
+        if (userData.hasOwnProperty(input.inputname)) {
+          if (userData[input.inputname] !== null) {
+            input.value = userData[input.inputname];
           }
         }
       });
@@ -446,9 +446,6 @@ function UserForm() {
     }
   }
 
-
-
-
   ////for number scrolling stop
   $('input[type=number]').on('mousewheel', function (e) {
     $(e.target).blur();
@@ -711,7 +708,6 @@ function UserForm() {
                       </label>
                       <input
                         type='text'
-
                         name={item.inputname}
                         placeholder={`Enter ${item.inputname}`}
                         id={item.inputname}
@@ -938,7 +934,6 @@ function UserForm() {
                       </label>
                       <input
                         type='file'
-
                         name={item.inputname}
                         id={item.inputname}
                         className='px-2 block w-full rounded-md bg-gray-50 border-2 border-gray-200 py-0.5 text-gray-900 appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6'
@@ -1047,7 +1042,7 @@ function UserForm() {
                         {item.label.charAt(0).toUpperCase() +
                           item.label.slice(1)}
                       </label>
-                      <div  className='px-2 py-1.5 text-xs block w-full bg-gray-50   rounded-md  text-gray-900   border-2 border-gray-200 shadow-sm  placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-xs sm:leading-6'>
+                      <div className='px-2 py-1.5 text-xs block w-full bg-gray-50   rounded-md  text-gray-900   border-2 border-gray-200 shadow-sm  placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-xs sm:leading-6'>
                         <span className='flex justify-between'>
                           <p className='text-sm text-gray-400'>
                             {item.value.length > 0 ? (
@@ -1370,21 +1365,23 @@ function UserForm() {
                     {item.type === 'file' && item.field == 'custom' && (
                       <div className=" 'my-2 ms-5 ">
                         {item.value && item.value.length > 0 && (
-                        <p className='flex flex-wrap gap-2'>
-                          <span className='w-2/6 text-[#727a85]'>
-                            {item.label.charAt(0).toUpperCase() +
-                              item.label.slice(1)}
-                          </span>
-                          <span className=' w-1/2 text-md font-[600] flex gap-5'> :
-                            <img
-                              src={item.value}
-                              // name="EntityPhoto"
-                              alt='file'
-                              className='rounded-lg w-20 h-20 '
-                            />
-                          </span>
-                        </p>
-                      )}  
+                          <p className='flex flex-wrap gap-2'>
+                            <span className='w-2/6 text-[#727a85]'>
+                              {item.label.charAt(0).toUpperCase() +
+                                item.label.slice(1)}
+                            </span>
+                            <span className=' w-1/2 text-md font-[600] flex gap-5'>
+                              {' '}
+                              :
+                              <img
+                                src={item.value}
+                                // name="EntityPhoto"
+                                alt='file'
+                                className='rounded-lg w-20 h-20 '
+                              />
+                            </span>
+                          </p>
+                        )}
                       </div>
                     )}
                     {item.type === 'date' && item.field == 'custom' && (

@@ -27,7 +27,11 @@ const AuthProvider = ({ children }) => {
       const { data, status } = await toast.promise(
         axios.post(`${apiUrl}/auth/login`, loginData),
         {
-          pending: 'Logging In...',
+          pending: {
+            render() {
+              return 'Logging In...';
+            },
+          },
           success: {
             render({
               data: {
@@ -39,7 +43,17 @@ const AuthProvider = ({ children }) => {
               return `Welcome ${name}`;
             },
           },
-          error: 'Wrong Credentials 🤯',
+          error: {
+            render({
+              data: {
+                response: { data },
+              },
+            }) {
+              // When the promise reject, data will contains the error
+              return `error: ${data.message}`;
+              // return <MyErrorComponent message={data.message} />;
+            },
+          },
         }
       );
       console.log(data, 'data');
@@ -152,7 +166,7 @@ const AuthProvider = ({ children }) => {
     if (localStorageData) {
       authDispatch({ type: 'SET_USER', payload: localStorageData?.user });
       authDispatch({ type: 'SET_TOKEN', payload: localStorageData?.token });
-      setupAuthenticationErrorHandler(userLogout);
+      // setupAuthenticationErrorHandler(userLogout);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
