@@ -439,10 +439,10 @@ function UserForm() {
         response = await createUser(formData);
       }
       console.log('jsonData submitted', response);
-      // if (response.status === 201) {
-      //   console.log('data is 201');
-      //   navigate(`/users/${response.data}`);
-      // }
+      if (response.status === 201) {
+        console.log('data is 201');
+        navigate(`/users/${response.data}`);
+      }
     }
   }
 
@@ -1446,17 +1446,7 @@ function UserForm() {
                         )}
                       </div>
                     )}
-                    {/* {
-                    item.type === "checkbox" && item.field == "custom" &&
-                    <div className='my-2 ms-5'>
-                      {item.value && item.value.length > 0 &&
-                        <p className='flex flex-wrap gap-2'>
-                          <span className=' w-2/6 text-[#727a85]'>{item.label.charAt(0).toUpperCase() + item.label.slice(1)}</span>
-                          <span className=' w-1/2 text-md font-[600]'> : {item.value}</span>
-                        </p>
-                      }
-                    </div>
-                  } */}
+                    
                     {item.type === 'range' && item.field == 'custom' && (
                       <div className='my-2 ms-5'>
                         {item.value && item.value.length > 0 && (

@@ -188,9 +188,10 @@ const UserLandingPage = () => {
                         item.inputname == 'image' &&
                         item.field === 'predefined' && (
                           <div>
+                            {console.log(item.value, 'item.value')}
                             {item.value ? (
                               <img
-                                src={item.value}
+                                src={data?.user?.image}
                                 name='EntityPhoto'
                                 alt='User Photo'
                                 className=' h-36 w-36 relative mx-auto bottom-20 rounded-full shadow-md'

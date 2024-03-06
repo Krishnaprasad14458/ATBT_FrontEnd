@@ -6,9 +6,13 @@ import { itegrationRoutes } from "./integration/integration.router";
 import { communicationRouter } from "./communication/commucation.router";
 
 export const settingRouter = [
-    { path: "settings", element: <Settings /> },
+    { index: true, element: <Settings /> },
+    {
+        path: 'forms', children: [
+            ...formRouter,
+        ]
+    },
     ...organizationRouter,
-    ...formRouter,
     ...communicationRouter,
     ...roleRouter,
     ...itegrationRoutes,
