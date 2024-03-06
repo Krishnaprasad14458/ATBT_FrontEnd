@@ -129,6 +129,7 @@ export const router = createBrowserRouter([
             {
                 element: <RouteBlocker permissionCheck={(permission) =>
                     permission.module === 'setting' && permission.canRead} />,
+                path: 'settings',
                 children: [
                     ...settingRouter,
                 ]
