@@ -98,7 +98,7 @@ const Roles = () => {
               <option value='500'>500</option>
             </select></div> */}
 
-          <Link to='/addroles'>
+          <Link to='settings/addroles'>
             <button className='mt-1 px-3 py-2 inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white '>
               <svg
                 xmlns='http://www.w3.org/2000/svg'
