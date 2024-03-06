@@ -165,7 +165,7 @@ function UserForm() {
             ...prev,
             [customFormFields[i].inputname]:
               'Name should contain atleast 3 characters',
-          }));
+          })); 
 
           isErrorspresent = true;
         } else {
