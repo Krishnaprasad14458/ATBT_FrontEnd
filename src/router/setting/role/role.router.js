@@ -6,7 +6,7 @@ import { redirect } from "react-router-dom"
 
 export const roleRouter = [
     {
-        path: 'roles',
+        index: true,
         loader: async () => {
             const data = await axios.get("https://atbtmain.teksacademy.com/rbac/getroles")
             return data
@@ -23,7 +23,7 @@ export const roleRouter = [
         element: <Roles />
     },
     {
-        path: 'addroles',
+        path: 'upsert',
         loader: async ({ request, params }) => {
             let url = new URL(request.url);
             let searchTerm = url.searchParams.get("id");
@@ -47,7 +47,7 @@ export const roleRouter = [
         },
         action: async ({ request }) => {
             let formData = await request.text()
-            return redirect("/roles");
+            return redirect("..");
         },
         element: <AddRoles />
     },
