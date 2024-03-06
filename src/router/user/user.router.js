@@ -15,7 +15,6 @@ export const userRouter = [
     {
         element: <RouteBlocker permissionCheck={(permission) =>
             permission.module === 'user' && permission.canCreate} />,
-        path: 'users',
         children: [
             { path: 'new', loader: userFormLoader, element: <UserForm /> },
         ]
@@ -23,7 +22,6 @@ export const userRouter = [
     {
         element: <RouteBlocker permissionCheck={(permission) =>
             permission.module === 'user' && permission.canUpdate} />,
-        path: 'users',
         children: [
             { path: ':id/edit', loader: userFormLoader, element: <UserForm /> },
         ]
