@@ -101,6 +101,9 @@ const AuthProvider = ({ children }) => {
         }
       );
       if (status === 200) {
+        localStorage.removeItem('data');
+        authDispatch({ type: 'SET_USER', payload: {} });
+        authDispatch({ type: 'SET_TOKEN', payload: '' });
         // navigate("/login");
         Swal.fire({
           title: 'Reset Password Success!',
@@ -108,7 +111,8 @@ const AuthProvider = ({ children }) => {
           icon: 'success',
         });
       }
-      return redirect('/login');
+      console.log('res', status);
+      return status;
     } catch (e) {
       console.error(e);
       throw e;

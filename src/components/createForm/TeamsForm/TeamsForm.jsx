@@ -367,8 +367,8 @@ function TeamsForm() {
     }
   }, [customFormFields]);
 
-    function handleFormSubmit(e) {
-        e.preventDefault();
+  function handleFormSubmit(e) {
+    e.preventDefault();
 
     if (!checkValidation()) {
       const jsonData = {};
@@ -385,7 +385,12 @@ function TeamsForm() {
       }
       console.log('jsonData', jsonData);
       axios
-        .post(`https://atbtmain.teksacademy.com/user/create-user`, jsonData)
+        .post(`http://localhost:3000/team/add`, jsonData, {
+          headers: {
+            Authorization:
+              'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEzMiwicm9sZUlkIjoyNSwiaWF0IjoxNzA5NjM0MDgwLCJleHAiOjIwMjQ5OTQwODB9.Mdk2PIIOnMqPX06ol5DKbSqp_CStWs3oFqLGqmFBhgo',
+          },
+        })
         .then((response) => {
           // console.log(response.data);
           // console.log("reposnseeeeeeeeee", response.data)
