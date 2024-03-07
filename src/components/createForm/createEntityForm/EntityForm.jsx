@@ -15,51 +15,53 @@ import {
   useParams,
 } from 'react-router-dom';
 // import $ from 'jquery';
+
 const userData = JSON.parse(localStorage.getItem('data'));
-
-// export async function userFormLoader({ params }) {
-//   try {
-//     const formApi = 'https://atbtmain.teksacademy.com/form/list?name=userform';
-//     // const userApi = `https://atbtmain.teksacademy.com/user/list/${params.id}`;
-//     let userData = null;
-//     if (params && params.id) {
-//       const userResponse = await axios.get(userApi, {
-//         headers: {
-//           Authorization: token,
-//         },
-//       });
-//       userData = userResponse?.data?.user;
-//     }
-//     const formResponse = await axios.get(formApi);
-//     const formData = formResponse.data.Data;
-//     return { userData, formData };
-//   } catch (error) {
-//     if (error.response) {
-//       throw new Error(`Failed to fetch data: ${error.response.status}`);
-//     } else if (error.request) {
-//       throw new Error('Request made but no response received');
-//     } else {
-//       throw new Error(`Error setting up request: ${error.message}`);
-//     }
-//   }
-// }
-function EntityForm() {
-  let { id } = useParams();
-
-  const userData = JSON.parse(localStorage.getItem('data'));
-  let createdBy = userData.user.id;
-  const token = userData?.token;
+let createdBy = userData.user.id;
+const token = userData?.token;
 
 const role = userData?.role?.name;
-  const user = useLoaderData();
+
+export async function entityFormLoader({ params }) {
+  try {
+    const formApi =
+      'https://atbtmain.teksacademy.com/form/list?name=entityform';
+    const entityApi = `https://atbtmain.teksacademy.com/entity/list/${params.id}`;
+    let entityData = null;
+    if (params && params.id) {
+      const entityResponse = await axios.get(entityApi, {
+        headers: {
+          Authorization: token,
+        },
+      });
+      console.log(entityResponse, 'loader entity data');
+      entityData = entityResponse?.data;
+    }
+    const formResponse = await axios.get(formApi);
+    const formData = formResponse.data.Data;
+    return { entityData, formData };
+  } catch (error) {
+    if (error.response) {
+      throw new Error(`Failed to fetch data: ${error.response.status}`);
+    } else if (error.request) {
+      throw new Error('Request made but no response received');
+    } else {
+      throw new Error(`Error setting up request: ${error.message}`);
+    }
+  }
+}
+function EntityForm() {
+  let { id } = useParams();
+  const entity = useLoaderData();
+  console.log(entity, 'cmp loader data');
   function setInitialForm() {
-    let response = user?.formData ?? [];
-    if (!!id && !!user?.userData) {
-      let userData = user?.userData;
+    let response = entity?.formData ?? [];
+    if (!!id && !!entity?.entityData) {
+      let entityData = entity?.entityData;
       response.forEach((input) => {
-        if (userData.hasOwnProperty(input.inputname)) {
-          if (userData[input.inputname] !== null) {
-            input.value = userData[input.inputname];
+        if (entityData.hasOwnProperty(input.inputname)) {
+          if (entityData[input.inputname] !== null) {
+            input.value = entityData[input.inputname];
           }
         }
       });
@@ -71,7 +73,7 @@ const role = userData?.role?.name;
     usersState: { users, dashboard },
     usersDispatch,
   } = useContext(UserDataContext);
-  const { createEntity ,updateEntity} = useContext(EntitiesDataContext);
+  const { createEntity, updateEntity } = useContext(EntitiesDataContext);
   const usersEmails = dashboard.paginatedUsers?.map((user) => user.email);
   const { debouncedSetPage, debouncedSetSearch } = useDebounce(usersDispatch);
   let [openOptions, setopenOptions] = useState('');
@@ -79,9 +81,11 @@ const role = userData?.role?.name;
   const [selected, setSelected] = useState([]);
   const [showUsers, setShowUsers] = useState(false);
   let [customFormFields, setCustomFormFields] = useState(() =>
-  setInitialForm()
-);
+    setInitialForm()
+  );
+
   useEffect(() => {
+    console.log(customFormFields, 'cfff');
     console.log('errors', errors);
   });
   const handleInputChange = (e) => {
@@ -122,19 +126,19 @@ const role = userData?.role?.name;
     updatedFormData[index].value = updatedMembers;
     setCustomFormFields(updatedFormData);
   };
-  useEffect(() => {
-    axios
-      .get(`https://atbtmain.teksacademy.com/form/list?name=entityform`)
-      .then((response) => {
-        // Handle the successful response
-        setCustomFormFields(response.data.Data)
+  // useEffect(() => {
+  //   axios
+  //     .get(`https://atbtmain.teksacademy.com/form/list?name=entityform`)
+  //     .then((response) => {
+  //       // Handle the successful response
+  //       setCustomFormFields(response.data.Data);
+  //     })
+  //     .catch((error) => {
+  //       // Handle errors
+  //       console.error('Error fetching data:', error);
+  //     });
+  // }, []);
 
-      })
-      .catch((error) => {
-        // Handle errors
-        console.error('Error fetching data:', error);
-      });
-  }, []);
   const handleChange = (index, newValue) => {
     const updatedFormData = [...customFormFields];
     if (updatedFormData[index].type != 'multiselect') {
@@ -453,7 +457,6 @@ const role = userData?.role?.name;
 
   async function handleFormSubmit(e) {
     e.preventDefault();
- 
 
     if (!checkValidation()) {
       console.log(customFormFields, 'submitcustomFormFields');
@@ -467,7 +470,7 @@ const role = userData?.role?.name;
           );
         }
       }
-    
+
       formData.set('customFieldsData', JSON.stringify(customFormFields));
       formData.set('createdBy', createdBy);
       const formDataObj = {};
@@ -475,13 +478,11 @@ const role = userData?.role?.name;
         formDataObj[key] = value;
       });
       // Log form data
-      
 
-      console.log(formDataObj, "foj");
+      console.log(formDataObj, 'foj');
 
-      
       let response;
-      if (!!id && !!user?.userData) {
+      if (!!id && !!entity?.entityData) {
         console.log('updating');
         response = await updateEntity(formData, id);
       } else {
@@ -489,12 +490,12 @@ const role = userData?.role?.name;
         response = await createEntity(formData);
       }
       console.log('jsonData submitted', response);
-      if (response.status === 201) {
+      if (response?.status === 201) {
         console.log('data is 201');
         // navigate(`/users/${response.data}`);
       }
-/////////////////////////////////////////////////////
-/////////////////             old code
+      /////////////////////////////////////////////////////
+      /////////////////             old code
       /////////////////////////////////////////////////////
       // const jsonData = {};
       // jsonData.customFieldsData = JSON.stringify(customFormFields);
@@ -521,11 +522,11 @@ const role = userData?.role?.name;
       //   });
     }
   }
-////for number scrolling stop
-// $('input[type=number]').on('mousewheel', function (e) {
-//   $(e.target).blur();
-// });
- 
+  ////for number scrolling stop
+  // $('input[type=number]').on('mousewheel', function (e) {
+  //   $(e.target).blur();
+  // });
+
   return (
     <div className='container p-4 bg-[#f8fafc]'>
       {/* <p className="font-lg font-semibold p-3">Entity Form</p> */}
@@ -572,60 +573,64 @@ const role = userData?.role?.name;
                         </div>
                       </div>
                     )}
-                  {item.type === 'file' && item.inputname == 'image' && item.field === 'predefined' && (
-                    <div>
-                      <label
-                        htmlFor={item.label}
-                        className='block text-sm font-medium leading-6 mt-2 text-gray-900'
-                      >
-                        {item.label.charAt(0).toUpperCase() +
-                          item.label.slice(1)}
-                      </label>
-                      <input
-                        type='file'
-                        name={item.inputname}
-                        id={item.inputname}
-                        className='px-2 py-1 md:py-1 lg:py-1 xl:py-1 text-sm block w-full rounded-md bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder:text-xs'
-                        onChange={(event) => handleFileChange(event, index)}
-                        style={{ fontSize: '0.8rem' }}
-                        accept='image/*'
-                      />
-                      <div className='h-2 text-[#dc2626]'>
-                        {errors[item.inputname] && (
-                          <span className='text-xs'>
-                            {errors[item.inputname]}
-                          </span>
-                        )}
+                  {item.type === 'file' &&
+                    item.inputname == 'image' &&
+                    item.field === 'predefined' && (
+                      <div>
+                        <label
+                          htmlFor={item.label}
+                          className='block text-sm font-medium leading-6 mt-2 text-gray-900'
+                        >
+                          {item.label.charAt(0).toUpperCase() +
+                            item.label.slice(1)}
+                        </label>
+                        <input
+                          type='file'
+                          name={item.inputname}
+                          id={item.inputname}
+                          className='px-2 py-1 md:py-1 lg:py-1 xl:py-1 text-sm block w-full rounded-md bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder:text-xs'
+                          onChange={(event) => handleFileChange(event, index)}
+                          style={{ fontSize: '0.8rem' }}
+                          accept='image/*'
+                        />
+                        <div className='h-2 text-[#dc2626]'>
+                          {errors[item.inputname] && (
+                            <span className='text-xs'>
+                              {errors[item.inputname]}
+                            </span>
+                          )}
+                        </div>
                       </div>
-                    </div>
-                  )}
-                  {item.type === 'textarea' && item.inputname == 'description' && item.field === 'predefined' && (
-                    <div>
-                      <label
-                        htmlFor={item.label}
-                        className='block text-sm font-medium leading-6 mt-2 text-gray-900'
-                      >
-                        {item.label.charAt(0).toUpperCase() +
-                          item.label.slice(1)}
-                      </label>
-                      <textarea
-                        name={item.inputname}
-                        placeholder='Type here....'
-                        id={item.inputname}
-                        value={customFormFields[index].value || ''}
-                        className='bg-gray-50 rounded-md text-xs p-2 w-full h-20 border-2 border-gray-200 focus:outline-none focus:border-orange-400 placeholder:text-xs'
-                        onChange={(e) => handleChange(index, e.target.value)}
-                        style={{ fontSize: '0.8rem' }}
-                      />
-                      <div className='h-2 text-[#dc2626]'>
-                        {errors[item.inputname] && (
-                          <span className='text-xs'>
-                            {errors[item.inputname]}
-                          </span>
-                        )}
+                    )}
+                  {item.type === 'textarea' &&
+                    item.inputname == 'description' &&
+                    item.field === 'predefined' && (
+                      <div>
+                        <label
+                          htmlFor={item.label}
+                          className='block text-sm font-medium leading-6 mt-2 text-gray-900'
+                        >
+                          {item.label.charAt(0).toUpperCase() +
+                            item.label.slice(1)}
+                        </label>
+                        <textarea
+                          name={item.inputname}
+                          placeholder='Type here....'
+                          id={item.inputname}
+                          value={customFormFields[index].value || ''}
+                          className='bg-gray-50 rounded-md text-xs p-2 w-full h-20 border-2 border-gray-200 focus:outline-none focus:border-orange-400 placeholder:text-xs'
+                          onChange={(e) => handleChange(index, e.target.value)}
+                          style={{ fontSize: '0.8rem' }}
+                        />
+                        <div className='h-2 text-[#dc2626]'>
+                          {errors[item.inputname] && (
+                            <span className='text-xs'>
+                              {errors[item.inputname]}
+                            </span>
+                          )}
+                        </div>
                       </div>
-                    </div>
-                  )}
+                    )}
                   {item.type === 'multiselect' &&
                     item.inputname == 'members' &&
                     item.field == 'predefined' && (
@@ -636,10 +641,12 @@ const role = userData?.role?.name;
                         >
                           {item.label}
                         </label>
-                        <div className=' 
+                        <div
+                          className=' 
                        flex flex-wrap gap-1 px-2 py-2
                         
-                         text-sm  w-full  bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 selected-users-container relative  rounded-md'>
+                         text-sm  w-full  bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 selected-users-container relative  rounded-md'
+                        >
                           {selected &&
                             selected.length > 0 &&
                             selected.map((result) => {
@@ -893,7 +900,6 @@ const role = userData?.role?.name;
                         value={customFormFields[index].value || ''}
                         style={{ fontSize: '0.8rem' }}
                         onChange={(e) => handleChange(index, e.target.value)}
-
                       />
                       <div className='h-2 text-[#dc2626]'>
                         {errors[item.inputname] && (
@@ -1129,7 +1135,7 @@ const role = userData?.role?.name;
                 type='submit'
                 className='mt-4 flex w-full justify-center rounded-md bg-orange-600 px-3 py-2.5 text-sm font-medium leading-6 text-white shadow-sm  focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600'
               >
-                Create Entity
+                {id ? 'Update Entity' : 'Create Entity'}
               </button>
             </div>
           </form>
@@ -1230,7 +1236,7 @@ const role = userData?.role?.name;
                             ];
                             const getRandomColor = (firstLetter) => {
                               const randomIndex =
-                                firstLetter.charCodeAt(0) % colors.length;
+                                firstLetter?.charCodeAt(0) % colors.length;
                               return colors[randomIndex];
                             };
                             return (
@@ -1250,17 +1256,17 @@ const role = userData?.role?.name;
                                     >
                                       {index < 11 && (
                                         <>
-                                          {firstLetter.toUpperCase()}
+                                          {firstLetter?.toUpperCase()}
                                           {secondLetter &&
-                                            secondLetter.toUpperCase()}
+                                            secondLetter?.toUpperCase()}
                                         </>
                                       )}
                                       {index == 11 &&
                                         item.value.length == 12 && (
                                           <>
-                                            {firstLetter.toUpperCase()}
+                                            {firstLetter?.toUpperCase()}
                                             {secondLetter &&
-                                              secondLetter.toUpperCase()}
+                                              secondLetter?.toUpperCase()}
                                           </>
                                         )}{' '}
                                       {index == 11 &&
@@ -1388,7 +1394,9 @@ const role = userData?.role?.name;
                             {item.label.charAt(0).toUpperCase() +
                               item.label.slice(1)}
                           </span>
-                          <span className=' w-4/6 text-md font-[600] flex gap-5'> :
+                          <span className=' w-4/6 text-md font-[600] flex gap-5'>
+                            {' '}
+                            :
                             <img
                               src={item.value}
                               // name="EntityPhoto"
@@ -1398,7 +1406,6 @@ const role = userData?.role?.name;
                           </span>
                         </p>
                       )}
-
                     </div>
                   )}
                   {item.type === 'date' && item.field == 'custom' && (
