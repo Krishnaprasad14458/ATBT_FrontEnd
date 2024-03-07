@@ -17,7 +17,7 @@ import {
 // import $ from 'jquery';
 
 const userData = JSON.parse(localStorage.getItem('data'));
-let createdBy = userData.user.id;
+let createdBy = userData?.user?.id;
 const token = userData?.token;
 
 const role = userData?.role?.name;
