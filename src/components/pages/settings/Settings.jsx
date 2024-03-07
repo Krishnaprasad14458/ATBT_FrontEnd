@@ -42,13 +42,13 @@ const Settings = () => {
             </div>
           </div>
         </Link>
-        <Link to='designations'>
+        {/* <Link to='designations'>
           <div className='grid1-item  text-start'>
             <div className=' py-5 px-4 text-center bg-orange-600 rounded-md'>
               <p className='text-white text-base'>Designations</p>
             </div>
           </div>
-        </Link>
+        </Link> */}
       </div>
     </div>
   );

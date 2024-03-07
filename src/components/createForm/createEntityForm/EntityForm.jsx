@@ -587,6 +587,7 @@ function EntityForm() {
                           value={customFormFields[index].value || ''}
                           className='px-2 py-2 text-sm block w-full rounded-md bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder:text-xs'
                           onChange={(e) => handleChange(index, e.target.value)}
+                          style={{ fontSize: '0.8rem' }}
                         />
                         <div className='h-2 text-[#dc2626]'>
                           {errors[item.inputname] && (
@@ -612,6 +613,7 @@ function EntityForm() {
                         id={item.inputname}
                         className='px-2 py-1 md:py-1 lg:py-1 xl:py-1 text-sm block w-full rounded-md bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder:text-xs'
                         onChange={(event) => handleFileChange(event, index)}
+                        style={{ fontSize: '0.8rem' }}
                         accept='image/*'
                       />
                       <div className='h-2 text-[#dc2626]'>
@@ -639,6 +641,7 @@ function EntityForm() {
                         value={customFormFields[index].value || ''}
                         className='bg-gray-50 rounded-md text-xs p-2 w-full h-20 border-2 border-gray-200 focus:outline-none focus:border-orange-400 placeholder:text-xs'
                         onChange={(e) => handleChange(index, e.target.value)}
+                        style={{ fontSize: '0.8rem' }}
                       />
                       <div className='h-2 text-[#dc2626]'>
                         {errors[item.inputname] && (
@@ -741,6 +744,7 @@ function EntityForm() {
                         value={customFormFields[index].value || ''}
                         className='px-2 py-2 text-sm block w-full rounded-md bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder:text-xs'
                         onChange={(e) => handleChange(index, e.target.value)}
+                        style={{ fontSize: '0.8rem' }}
                       />
                       <div className='h-2 text-[#dc2626]'>
                         {errors[item.inputname] && (
@@ -768,6 +772,7 @@ function EntityForm() {
                         value={customFormFields[index].value || ''}
                         className='px-2 py-2 text-sm block w-full rounded-md bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder:text-xs'
                         onChange={(e) => handleChange(index, e.target.value)}
+                        style={{ fontSize: '0.8rem' }}
                       />
                       <div className='h-2 text-[#dc2626]'>
                         {errors[item.inputname] && (
@@ -795,6 +800,7 @@ function EntityForm() {
                         value={customFormFields[index].value || ''}
                         className='px-2 py-2 text-sm block w-full rounded-md bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder:text-xs'
                         onChange={(e) => handleChange(index, e.target.value)}
+                        style={{ fontSize: '0.8rem' }}
                       />
                       <div className='h-2 text-[#dc2626]'>
                         {errors[item.inputname] && (
@@ -821,6 +827,7 @@ function EntityForm() {
                         id={item.inputname}
                         value={customFormFields[index].value || ''}
                         onChange={(e) => handleChange(index, e.target.value)}
+                        style={{ fontSize: '0.8rem' }}
                         className='px-2 py-2 text-sm block w-full rounded-md bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder:text-xs'
                       />
                       <div className='h-2 text-[#dc2626]'>
@@ -847,6 +854,7 @@ function EntityForm() {
                         placeholder={`Enter ${item.inputname}`}
                         id={item.inputname}
                         value={customFormFields[index].value || ''}
+                        style={{ fontSize: '0.8rem' }}
                         onChange={(e) => {
                           const value = e.target.value.slice(0, 10); // Limiting to maximum 10 digits
                           handleChange(index, value);
@@ -871,6 +879,7 @@ function EntityForm() {
                           name={item.inputname}
                           id={item.inputname}
                           className='my-1'
+                          style={{ fontSize: '0.8rem' }}
                           checked={!!customFormFields[index].value}
                           onChange={(e) =>
                             handleChange(index, e.target.checked)
@@ -908,7 +917,9 @@ function EntityForm() {
                         id={item.inputname}
                         className='px-2 py-2 text-sm block w-full rounded-md bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder:text-xs'
                         value={customFormFields[index].value || ''}
+                        style={{ fontSize: '0.8rem' }}
                         onChange={(e) => handleChange(index, e.target.value)}
+
                       />
                       <div className='h-2 text-[#dc2626]'>
                         {errors[item.inputname] && (
@@ -934,7 +945,9 @@ function EntityForm() {
                         className='px-2 py-2 text-sm block w-full rounded-md bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder:text-xs'
                         id={item.inputname}
                         value={customFormFields[index].value || ''}
+                        s
                         onChange={(e) => handleChange(index, e.target.value)}
+                        style={{ fontSize: '0.8rem' }}
                       />
                       <div className='h-2 text-[#dc2626]'>
                         {errors[item.inputname] && (
@@ -958,6 +971,7 @@ function EntityForm() {
                         type='file'
                         name={item.inputname}
                         id={item.inputname}
+                        style={{ fontSize: '0.8rem' }}
                         className='px-2 py-1 md:py-1 lg:py-1 xl:py-1 text-sm block w-full rounded-md bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder:text-xs'
                         onChange={(event) => handleFileChange(event, index)}
                         accept='image/*'
@@ -986,6 +1000,7 @@ function EntityForm() {
                         id={item.inputname}
                         value={customFormFields[index].value || ''}
                         onChange={(e) => handleChange(index, e.target.value)}
+                        style={{ fontSize: '0.8rem' }}
                       />
                       <div className='h-2 text-[#dc2626]'>
                         {errors[item.inputname] && (
@@ -1012,6 +1027,7 @@ function EntityForm() {
                         value={customFormFields[index].value || ''}
                         className='bg-gray-50 rounded-md text-xs p-2 w-full h-20 border-2 border-gray-200 focus:outline-none focus:border-orange-400 placeholder:text-xs'
                         onChange={(e) => handleChange(index, e.target.value)}
+                        style={{ fontSize: '0.8rem' }}
                       />
                       <div className='h-2 text-[#dc2626]'>
                         {errors[item.inputname] && (
@@ -1037,6 +1053,7 @@ function EntityForm() {
                         className='px-2 py-2 text-sm block w-full rounded-md bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder:text-xs'
                         onChange={(e) => handleChange(index, e.target.value)}
                         value={customFormFields[index].value || ''}
+                        style={{ fontSize: '0.8rem' }}
                       >
                         <option
                           value=''

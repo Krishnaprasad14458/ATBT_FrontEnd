@@ -482,6 +482,7 @@ function UserForm() {
                           value={customFormFields[index].value || ''}
                           className='px-2 py-2 text-sm block w-full rounded-md bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder:text-xs'
                           onChange={(e) => handleChange(index, e.target.value)}
+                          style={{ fontSize: '0.8rem' }}
                         />
                         <div className='h-2 text-red-500'>
                           {errors[item.inputname] && (
@@ -511,6 +512,7 @@ function UserForm() {
                           className='px-2 py-1 md:py-1 lg:py-1 xl:py-1 text-sm block w-full rounded-md bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder:text-xs'
                           onChange={(event) => handleFileChange(event, index)}
                           accept='image/*'
+                          style={{ fontSize: '0.8rem' }}
                         />
                         <div className='h-2 text-red-500'>
                           {errors[item.inputname] && (
@@ -539,6 +541,7 @@ function UserForm() {
                           className='px-2 py-2 text-sm block w-full rounded-md bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder:text-xs'
                           onChange={(e) => handleChange(index, e.target.value)}
                           value={customFormFields[index].value || ''}
+                          style={{ fontSize: '0.8rem' }}
                         >
                           <option
                             value=''
@@ -573,7 +576,8 @@ function UserForm() {
                   {item.type === 'email' &&
                     item.inputname == 'email' &&
                     item.field == 'predefined' && (
-                      <div>
+                      <div
+                      >
                         <label
                           htmlFor={item.label}
                           className='block text-sm font-medium leading-6 mt-2 text-gray-900'
@@ -587,9 +591,10 @@ function UserForm() {
                           id={item.inputname}
                           placeholder='Enter email'
                           value={customFormFields[index].value || ''}
-                          className='px-2 py-2 text-sm block w-full rounded-md bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder:text-xs'
+                          style={{ fontSize: '0.8rem' }}
                           onChange={(e) => handleChange(index, e.target.value)}
-                          disabled={!!id && !!user?.userData ? true : false}
+                          // disabled={!!id && !!user?.userData ? true : false}
+                          className={` ${!!id && !!user?.userData ? 'bg-gray-200 text-gray-200' : 'bg-gray-50'} px-2 py-2 text-sm block w-full rounded-md bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none  focus:border-orange-400 placeholder:text-xs `}
                         />
                         <div className='h-2 text-[#dc2626]'>
                           {errors[item.inputname] && (
@@ -616,7 +621,7 @@ function UserForm() {
                           name={item.inputname}
                           placeholder='Enter number'
                           id={item.inputname}
-                          // value={formData[item.label] || ''}
+                          style={{ fontSize: '0.8rem' }}
                           value={customFormFields[index].value || ''}
                           // onChange={(e) => handleChange(index, e.target.value)}
                           onChange={(e) => {
@@ -652,6 +657,7 @@ function UserForm() {
                           className='px-2 py-2 text-sm block w-full rounded-md bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder:text-xs'
                           onChange={(e) => handleChange(index, e.target.value)}
                           value={customFormFields[index].value || ''}
+                          style={{ fontSize: '0.8rem' }}
                         >
                           <option
                             value=''
@@ -693,11 +699,13 @@ function UserForm() {
                           className='px-2 py-2 text-sm block w-full rounded-md bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder:text-xs'
                           onChange={(e) => handleChange(index, e.target.value)}
                           value={customFormFields[index].value || ''}
+                          style={{ fontSize: '0.8rem' }}
                         >
                           <option
                             value=''
                             disabled
                             defaultValue
+
                           >
                             Please select
                           </option>
@@ -734,6 +742,7 @@ function UserForm() {
                         value={customFormFields[index].value || ''}
                         className='px-2 py-2 text-sm block w-full rounded-md bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder:text-xs'
                         onChange={(e) => handleChange(index, e.target.value)}
+                        style={{ fontSize: '0.8rem' }}
                       />
                       <div className='h-2 text-[#dc2626]'>
                         {errors[item.inputname] && (
@@ -761,6 +770,7 @@ function UserForm() {
                         value={customFormFields[index].value || ''}
                         className='px-2 py-2 text-sm block w-full rounded-md bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder:text-xs'
                         onChange={(e) => handleChange(index, e.target.value)}
+                        style={{ fontSize: '0.8rem' }}
                       />
                       <div className='h-2 text-[#dc2626]'>
                         {errors[item.inputname] && (
@@ -788,6 +798,7 @@ function UserForm() {
                         value={customFormFields[index].value || ''}
                         className='px-2 py-2 text-sm block w-full rounded-md bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder:text-xs'
                         onChange={(e) => handleChange(index, e.target.value)}
+                        style={{ fontSize: '0.8rem' }}
                       />
                       <div className='h-2 text-[#dc2626]'>
                         {errors[item.inputname] && (
@@ -814,6 +825,7 @@ function UserForm() {
                         id={item.inputname}
                         value={customFormFields[index].value || ''}
                         onChange={(e) => handleChange(index, e.target.value)}
+                        style={{ fontSize: '0.8rem' }}
                         className='px-2 py-2 text-sm block w-full rounded-md bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder:text-xs'
                       />
                       <div className='h-2 text-[#dc2626]'>
@@ -840,6 +852,7 @@ function UserForm() {
                         placeholder={`Enter ${item.inputname}`}
                         id={item.inputname}
                         value={customFormFields[index].value || ''}
+                        style={{ fontSize: '0.8rem' }}
                         onChange={(e) => {
                           const value = e.target.value.slice(0, 10); // Limiting to maximum 10 digits
                           handleChange(index, value);
@@ -864,6 +877,7 @@ function UserForm() {
                           name={item.inputname}
                           id={item.inputname}
                           className='my-1'
+                          style={{ fontSize: '0.8rem' }}
                           checked={!!customFormFields[index].value}
                           onChange={(e) =>
                             handleChange(index, e.target.checked)
@@ -901,7 +915,9 @@ function UserForm() {
                         id={item.inputname}
                         className='px-2 py-2 text-sm block w-full rounded-md bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder:text-xs'
                         value={customFormFields[index].value || ''}
+                        style={{ fontSize: '0.8rem' }}
                         onChange={(e) => handleChange(index, e.target.value)}
+                        
                       />
                       <div className='h-2 text-[#dc2626]'>
                         {errors[item.inputname] && (
@@ -927,7 +943,9 @@ function UserForm() {
                         className='px-2 py-2 text-sm block w-full rounded-md bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder:text-xs'
                         id={item.inputname}
                         value={customFormFields[index].value || ''}
+                        s
                         onChange={(e) => handleChange(index, e.target.value)}
+                        style={{ fontSize: '0.8rem' }}
                       />
                       <div className='h-2 text-[#dc2626]'>
                         {errors[item.inputname] && (
@@ -951,6 +969,7 @@ function UserForm() {
                         type='file'
                         name={item.inputname}
                         id={item.inputname}
+                        style={{ fontSize: '0.8rem' }}
                         className='px-2 py-1 md:py-1 lg:py-1 xl:py-1 text-sm block w-full rounded-md bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder:text-xs'
                         onChange={(event) => handleFileChange(event, index)}
                         accept='image/*'
@@ -979,6 +998,7 @@ function UserForm() {
                         id={item.inputname}
                         value={customFormFields[index].value || ''}
                         onChange={(e) => handleChange(index, e.target.value)}
+                        style={{ fontSize: '0.8rem' }}
                       />
                       <div className='h-2 text-[#dc2626]'>
                         {errors[item.inputname] && (
@@ -1005,6 +1025,7 @@ function UserForm() {
                         value={customFormFields[index].value || ''}
                         className='bg-gray-50 rounded-md text-xs p-2 w-full h-20 border-2 border-gray-200 focus:outline-none focus:border-orange-400 placeholder:text-xs'
                         onChange={(e) => handleChange(index, e.target.value)}
+                        style={{ fontSize: '0.8rem' }}
                       />
                       <div className='h-2 text-[#dc2626]'>
                         {errors[item.inputname] && (
@@ -1030,6 +1051,7 @@ function UserForm() {
                         className='px-2 py-2 text-sm block w-full rounded-md bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder:text-xs'
                         onChange={(e) => handleChange(index, e.target.value)}
                         value={customFormFields[index].value || ''}
+                        style={{ fontSize: '0.8rem' }}
                       >
                         <option
                           value=''
@@ -1171,11 +1193,11 @@ function UserForm() {
                                 // }
                                 name='EntityPhoto'
                                 alt='User Photo'
-                                className=' h-36 w-36 relative mx-auto bottom-20 rounded-full shadow-md'
+                                className=' h-36 w-36 relative mx-auto bottom-20 rounded-md border-2 border-gray-200 shadow-md'
                               />
                             ) : (
                               <img
-                                className=' h-36 w-36 relative mx-auto bottom-20 rounded-full shadow-md'
+                                className=' h-36 w-36 relative mx-auto bottom-20 rounded-md border-2 border-gray-200 shadow-md'
                                 src={defprop}
                                 alt='photo'
                               />
@@ -1222,11 +1244,11 @@ function UserForm() {
                           <div className='my-2 ms-5'>
                             {item.value ? (
                               <p className='flex flex-wrap gap-2'>
-                                <span className='w-2/6 text-[#727a85]'>
+                                <span className='w-2/6 text-[#727a85] '>
                                   {item.label.charAt(0).toUpperCase() +
                                     item.label.slice(1)}{' '}
                                 </span>
-                                <span className='text-md font-[600]'>
+                                <span className='text-md font-[600] break-all'>
                                   {' '}
                                   : {item.value}
                                 </span>
