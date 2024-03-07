@@ -149,9 +149,11 @@ const AuthProvider = ({ children }) => {
       );
       console.log(status, 'status');
       if (status === 200) {
-        // navigate("/login");
-        return redirect('/login');
+        localStorage.removeItem('data');
+        authDispatch({ type: 'SET_USER', payload: {} });
+        authDispatch({ type: 'SET_TOKEN', payload: '' });
       }
+      return status;
     } catch (e) {
       console.error(e);
       throw e;
