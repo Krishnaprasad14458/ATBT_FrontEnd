@@ -7,15 +7,19 @@ import { redirect } from "react-router-dom"
 export const roleRouter = [
     {
         index: true,
-        loader: async () => {
-            const data = await axios.get("https://atbtmain.teksacademy.com/rbac/getroles")
+        loader: async ({ params, request }) => {
+            let url = new URL(request.url);
+            let searchTerm = url.searchParams.get("search") || "";
+            console.log(searchTerm, "role params")
+            // const data = await axios.get("https://atbtmain.teksacademy.com/rbac/getroles")
+            const data = await axios.get(`http://localhost:3000/rbac/getroles?search=${searchTerm}`)
+            console.log(data, "roles data")
             return data
         },
         // https://atbtmain.teksacademy.com/rbac/getroles
         action: async ({ request }) => {
-            let formData = await request.formData();
 
-            // And then just parse your own format here
+            let formData = await request.formData();
             let { roleId } = JSON.parse(formData.get("serialized"));
             const data = await axios.delete(`https://atbtmain.teksacademy.com/rbac/deleteRole/${roleId}`)
             return null;
