@@ -16,8 +16,7 @@ import {
 } from 'react-router-dom';
 
 // import axios from 'axios';
-const userData = JSON.parse(localStorage.getItem('data'));
-const token = userData?.token;
+
 
 export async function userFormLoader({ params }) {
   try {
