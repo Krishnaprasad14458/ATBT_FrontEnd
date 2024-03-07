@@ -267,8 +267,97 @@ const AddRoles = () => {
     }
   };
 
+  // async function handleSubmit() {
+  //   console.log(permission);
+  //   if (!response?.response.id) {
+  //     const result = await axios.post(
+  //       'https://atbtmain.teksacademy.com/rbac/create-role',
+  //       {
+  //         ...permission,
+  //       }
+  //     );
+  //     fetcher.submit('added', { method: 'post' });
+  //     console.log(result, 'added');
+  //     // You may want to handle form submission here as well
+  //   }
+  //   if (!!response?.response?.id) {
+  //     const result = await axios.put(
+  //       `https://atbtmain.teksacademy.com/rbac/update-role/${response?.response?.id}`,
+  //       // `http://localhost:3000/rbac/update-role/${response?.id}`,
+  //       {
+  //         ...permission,
+  //       }
+  //     );
+  //     fetcher.submit('updated', { method: 'post' });
+  //     console.log(result, 'updated');
+  //   }
+  // }
+
+  const [error, seterrors] = useState({
+    role: '',
+    description: '',
+  });
+
+  useEffect(() => {
+    if (permission.role) {
+      seterrors((prev) => ({
+        ...prev,
+        role: '',
+      }));
+    } else if (permission.role.length > 3) {
+      seterrors((prev) => ({
+        ...prev,
+        role: '',
+      }));
+    }
+
+    if (permission.description) {
+      seterrors((prev) => ({
+        ...prev,
+        description: '',
+      }));
+    } else if (permission.description.length > 3) {
+      seterrors((prev) => ({
+        ...prev,
+        description: '',
+      }));
+    }
+  }, [permission.role, permission.description]);
+
   async function handleSubmit() {
     console.log(permission);
+    // here the validation
+
+    if (!permission.role) {
+      seterrors((prev) => {
+        return {
+          ...prev,
+          role: 'Role is required',
+        };
+      });
+      return false;
+    } else if (permission.role.length <= 3) {
+      seterrors((prev) => ({
+        ...prev,
+        role: 'Role must be at least 3 characters',
+      }));
+      return false;
+    }
+
+    if (!permission.description) {
+      seterrors((prev) => ({
+        ...prev,
+        description: 'Description is required',
+      }));
+      return false;
+    } else if (permission.description.length <= 3) {
+      seterrors((prev) => ({
+        ...prev,
+        description: 'Description should have atleast 3 characters',
+      }));
+      return false;
+    }
+
     if (!response?.response.id) {
       const result = await axios.post(
         'https://atbtmain.teksacademy.com/rbac/create-role',
@@ -337,6 +426,7 @@ const AddRoles = () => {
                 className='  p-2 block w-full rounded-md bg-gray-50 border-2 border-gray-200 py-1.5 text-gray-900 appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6
                 placeholder:text-xs'
               />
+              {error.role && error.role.length > 0 && <span>{error.role}</span>}
             </div>
           </div>
         </div>
@@ -365,6 +455,9 @@ const AddRoles = () => {
                 className=' p-2 block w-full rounded-md bg-gray-50 border-2 border-gray-200 py-1.5 text-gray-900 appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6
                 placeholder:text-xs '
               />
+              {error.description && error.description.length > 0 && (
+                <span>{error.description}</span>
+              )}
             </div>
           </div>
         </div>
