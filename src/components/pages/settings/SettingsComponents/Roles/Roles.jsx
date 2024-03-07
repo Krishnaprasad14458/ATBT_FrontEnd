@@ -1,10 +1,16 @@
 import axios from 'axios';
 import React, { useContext } from 'react';
-import { Link, useFetcher, useLoaderData, useSubmit } from 'react-router-dom';
+import {
+  Form,
+  Link,
+  useFetcher,
+  useLoaderData,
+  useSubmit,
+} from 'react-router-dom';
 import GateKeeper from '../../../../../rbac/GateKeeper';
 import { AuthContext } from '../../../../../contexts/authContext/authContext';
 import Swal from 'sweetalert2';
-
+import { debounce } from '../../../../../utils/utils';
 function deleteRole(id) {
   return axios.delete(`https://atbtmain.teksacademy.com/rbac/deleteRole/${id}`);
 }
@@ -15,6 +21,12 @@ const Roles = () => {
   const { data } = useLoaderData();
   console.log(data, 'data');
   const submit = useSubmit();
+  let params = useSubmit();
+  const debouncedSearchParams = debounce((search) => {
+    console.log(search);
+    params(search);
+    // Call the function to rerender the component with the latest results
+  }, 500);
   const fetcher = useFetcher();
   const onDelete = async (data) => {
     const confirmDelete = await Swal.fire({
@@ -45,6 +57,9 @@ const Roles = () => {
       }
     }
   };
+  function handleSearch(event) {
+    debouncedSearchParams(`search=${event.target.value}`);
+  }
   return (
     <div className=' p-3 bg-[#f8fafc] overflow-hidden'>
       <div className='grid grid-cols-1 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3 xl:grid-col-3 gap-2 mt-2'>
@@ -80,6 +95,11 @@ const Roles = () => {
               className='block w-full px-4 py-2 ps-10 text-sm border-2 border-gray-200  rounded-2xl bg-gray-50  focus:outline-none '
               placeholder='Search here...'
               required
+              // onChange={(event) => {
+              //   console.log(event.target.value);
+              //   params(`search=${event.target.value}`);
+              // }}
+              onChange={handleSearch}
             />
           </div>
         </div>
@@ -128,6 +148,9 @@ const Roles = () => {
                 <th className='sticky top-0 bg-orange-600 text-white text-sm text-left px-5 py-2.5 border-l-2 border-gray-200'>
                   Description
                 </th>
+                {/* <th className='sticky top-0 bg-orange-600 text-white text-sm text-left px-5 py-2.5 border-l-2 border-gray-200'>
+                  Created At
+                </th> */}
                 <th className='sticky top-0 bg-orange-600 text-white text-sm text-left px-5 py-2.5 border-l-2 border-gray-200 '>
                   Actions{' '}
                 </th>

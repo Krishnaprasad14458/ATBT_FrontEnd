@@ -1,38 +1,4 @@
-// import React from 'react';
 
-// const Users = () => {
-//   const handleMouseEnter = () => {
-//     console.log('Mouse entered');
-//   };
-
-//   const handleMouseLeave = () => {
-//     console.log('Mouse left');
-//   };
-
-//   const handleClick = () => {
-//     console.log('Clicked');
-//   };
-
-//   const handleDoubleClick = () => {
-//     console.log('Double clicked');
-//   };
-
-//   return (
-//     <div>
-//       <div
-//         onMouseEnter={handleMouseEnter}
-//         onMouseLeave={handleMouseLeave}
-//         onClick={handleClick}
-//         onDoubleClick={handleDoubleClick}
-//         style={{ width: 200, height: 200, backgroundColor: 'lightblue' }}
-//       >
-//         Hover over me!
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default Users;
 
 import React, { useState, useContext, useEffect, useRef } from 'react';
 import { Link, useSubmit } from 'react-router-dom';
@@ -75,7 +41,9 @@ function Users() {
     setFilters,
     toggleUser,
   } = useContext(UserDataContext);
-
+  useEffect(()=>{
+    console.log("settingss",settings)
+  })
   const { debouncedSetPage, debouncedSetSearch } = useDebounce(usersDispatch);
   const handlePerPageChange = (event) => {
     const selectedValue = parseInt(event.target.value, 10);
@@ -118,7 +86,6 @@ function Users() {
   const [id, setId] = useState('');
 
   const handleClickOpen = (id, userStatus, userRemarksHistory) => {
-    console.log('hio', id, userStatus, userRemarksHistory);
     setId(id);
     setUser_Status(userStatus);
     setuser_remarks_history(userRemarksHistory);
@@ -598,7 +565,7 @@ function Users() {
                 </div>
               </div>
 
-              <div className='flex justify-between mt-2 bg-gray-100 p-3 '>
+              <div className='bg-gray-100 flex justify-between p-3 absolute bottom-0 w-full'>
                 <button
                   onClick={handleFilterReset}
                   className='mr-3 px-3 py-2 inline-flex  whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white '
@@ -948,78 +915,4 @@ function Users() {
 
 export default Users;
 
-// <div>
-//             {Object.keys(tableColumns).map((columnName) => (
-//               <div key={columnName}>
-//                 <input
-//                   type="checkbox"
-//                   checked={tableColumns[columnName]}
-//                   onChange={() => handleCheckboxChange(columnName)}
-//                 />
-//                 <label htmlFor={columnName}>{columnName}</label>
-//               </div>
-//             ))}
-//           </div>
-
-// import React from 'react'
-
-// const Entities = () => {
-//   let data = [
-//   {id:1,name:"irshad",email:"irshad@gmail.com",age:20,},
-//   {id:2,name:"srikanth",email:"irshad@gmail.com",age:20},
-//   {id:3,name:"irshad",email:"irshad@gmail.com",age:20},
-//   {id:4,name:"irshad",email:"irshad@gmail.com",age:20},
-//   {id:5,name:"irshad",email:"irshad@gmail.com",age:20},
-//   {id:6,name:"irshad",email:"irshad@gmail.com",age:20},
-//   {id:7,name:"irshad",email:"irshad@gmail.com",age:23},
-//   {id:8,name:"anil",email:"irshad@gmail.com",age:23}
-// ]
-// let  keys = Object.keys(data[0])
-// const loopArray = Array.from({ length: Object.keys(data[0]).length });
-//   return (
-//     <div>
-
-// <table >
-// {keys && keys.map((th,index)=>(
-//       <th>{th}</th>
-//     ))}
-//   {data && data.map((item,index)=>(
-//      <tr>
-//        {loopArray.map((items, index) => (
-//         <td>{item[keys[index]]}</td>
-//       ))}
-//    </tr>
-//   ))}
-
-// </table>
-
-//     </div>
-//   )
-// }
-
-// export default Entities
-{
-  /* <table >
-<tr>
-{keys && keys.map((th, index) => (
-tableColumns[th] && <th key={index} style={{padding:"5px 20px 5px 20px", backgroundColor:"orange"}}>{th}
-</th>
-))}
-<th style={{padding:"5px 20px 5px 20px", backgroundColor:"orange"}}>actions</th>
-</tr>
-
-{data && data.map((item,index)=>(
-<tr>
-{loopArray.map((items, index) => (
-tableColumns[keys[index]] &&     <td style={{padding:"5px 20px 5px 20px"}}>{item[keys[index]]}</td>
-
-
-))}
-<td style={{padding:"5px 20px 5px 20px"}}>view edit delete </td>
-</tr>
-))}
-
-
-
-</table> */
-}
+// 
