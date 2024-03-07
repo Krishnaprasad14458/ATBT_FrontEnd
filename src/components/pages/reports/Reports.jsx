@@ -2,6 +2,7 @@ import React from 'react'
 import { useNavigate } from "react-router-dom";
 import UserChart from '../../charts/UserChart'
 function Reports() {
+  document.title = 'ATBT | Report';
   const navigate = useNavigate();
   document.title = "Page Not Found";
   return (

@@ -43,6 +43,7 @@ export async function userFormLoader({ params }) {
   }
 }
 function UserForm() {
+  document.title = 'ATBT | User';
   let { id } = useParams();
   const userData = JSON.parse(localStorage.getItem('data'));
   let createdBy = userData.user.id;

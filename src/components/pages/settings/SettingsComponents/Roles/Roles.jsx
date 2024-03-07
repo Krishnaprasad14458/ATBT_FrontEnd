@@ -15,6 +15,11 @@ function deleteRole(id) {
   return axios.delete(`https://atbtmain.teksacademy.com/rbac/deleteRole/${id}`);
 }
 
+const userData = JSON.parse(localStorage.getItem('data'));
+let createdBy = userData?.user?.id;
+const userRoleId = userData?.role?.id;
+const token = userData?.token;
+
 export async function action() {}
 
 const Roles = () => {
@@ -148,9 +153,6 @@ const Roles = () => {
                 <th className='sticky top-0 bg-orange-600 text-white text-sm text-left px-5 py-2.5 border-l-2 border-gray-200'>
                   Description
                 </th>
-                {/* <th className='sticky top-0 bg-orange-600 text-white text-sm text-left px-5 py-2.5 border-l-2 border-gray-200'>
-                  Created At
-                </th> */}
                 <th className='sticky top-0 bg-orange-600 text-white text-sm text-left px-5 py-2.5 border-l-2 border-gray-200 '>
                   Actions{' '}
                 </th>
@@ -169,13 +171,13 @@ const Roles = () => {
                     className='px-5 py-2 whitespace-nowrap text-left  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb] hover:text-orange-500  overflow-hidden'
                     style={{ maxWidth: '160px' }}
                   >
-                    <Link
+                    {/* <Link
                       to='/taskform'
                       className='text-xs truncate'
                       title={role.name}
-                    >
-                      {role.name}
-                    </Link>
+                    > */}
+                    {role.name}
+                    {/* </Link> */}
                   </td>
 
                   <td
@@ -193,8 +195,9 @@ const Roles = () => {
                   {/* <td className='px-5 py-2 whitespace-nowrap text-left  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]'>
                     {role.createdAt}
                   </td> */}
-                  <td className='px-5 py-2 whitespace-nowrap text-left  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]  '>
-                    {/* <button
+                  {userRoleId !== role.id && (
+                    <td className='px-5 py-2 whitespace-nowrap text-left  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]  '>
+                      {/* <button
                         type='button'
                         className='inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600'
                       >
@@ -212,47 +215,47 @@ const Roles = () => {
                           />
                         </svg>
                       </button> */}
-                    <button
-                      type='submit'
-                      className='mr-5 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600'
-                      onClick={() =>
-                        submit(
-                          { id: `${role.id}` },
-                          {
-                            method: 'get',
-                            action: 'upsert',
-                          }
-                        )
-                      }
-                    >
-                      <svg
-                        xmlns='http://www.w3.org/2000/svg'
-                        viewBox='0 0 20 20'
-                        fill='currentColor'
-                        className='w-5 h-5'
+                      <button
+                        type='submit'
+                        className='mr-5 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600'
+                        onClick={() =>
+                          submit(
+                            { id: `${role.id}` },
+                            {
+                              method: 'get',
+                              action: 'upsert',
+                            }
+                          )
+                        }
                       >
-                        <path d='m2.695 14.762-1.262 3.155a.5.5 0 0 0 .65.65l3.155-1.262a4 4 0 0 0 1.343-.886L17.5 5.501a2.121 2.121 0 0 0-3-3L3.58 13.419a4 4 0 0 0-.885 1.343Z' />
-                      </svg>
-                    </button>
-                    <button
-                      type='button'
-                      className='inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600'
-                      onClick={() => onDelete({ roleId: `${role.id}` })}
-                    >
-                      <svg
-                        xmlns='http://www.w3.org/2000/svg'
-                        viewBox='0 0 20 20'
-                        fill='currentColor'
-                        className='w-5 h-5'
+                        <svg
+                          xmlns='http://www.w3.org/2000/svg'
+                          viewBox='0 0 20 20'
+                          fill='currentColor'
+                          className='w-5 h-5'
+                        >
+                          <path d='m2.695 14.762-1.262 3.155a.5.5 0 0 0 .65.65l3.155-1.262a4 4 0 0 0 1.343-.886L17.5 5.501a2.121 2.121 0 0 0-3-3L3.58 13.419a4 4 0 0 0-.885 1.343Z' />
+                        </svg>
+                      </button>
+                      <button
+                        type='button'
+                        className='inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600'
+                        onClick={() => onDelete({ roleId: `${role.id}` })}
                       >
-                        <path
-                          fill-rule='evenodd'
-                          d='M8.75 1A2.75 2.75 0 0 0 6 3.75v.443c-.795.077-1.584.176-2.365.298a.75.75 0 1 0 .23 1.482l.149-.022.841 10.518A2.75 2.75 0 0 0 7.596 19h4.807a2.75 2.75 0 0 0 2.742-2.53l.841-10.52.149.023a.75.75 0 0 0 .23-1.482A41.03 41.03 0 0 0 14 4.193V3.75A2.75 2.75 0 0 0 11.25 1h-2.5ZM10 4c.84 0 1.673.025 2.5.075V3.75c0-.69-.56-1.25-1.25-1.25h-2.5c-.69 0-1.25.56-1.25 1.25v.325C8.327 4.025 9.16 4 10 4ZM8.58 7.72a.75.75 0 0 0-1.5.06l.3 7.5a.75.75 0 1 0 1.5-.06l-.3-7.5Zm4.34.06a.75.75 0 1 0-1.5-.06l-.3 7.5a.75.75 0 1 0 1.5.06l.3-7.5Z'
-                          clip-rule='evenodd'
-                        />
-                      </svg>
-                    </button>
-                    {/* <button
+                        <svg
+                          xmlns='http://www.w3.org/2000/svg'
+                          viewBox='0 0 20 20'
+                          fill='currentColor'
+                          className='w-5 h-5'
+                        >
+                          <path
+                            fill-rule='evenodd'
+                            d='M8.75 1A2.75 2.75 0 0 0 6 3.75v.443c-.795.077-1.584.176-2.365.298a.75.75 0 1 0 .23 1.482l.149-.022.841 10.518A2.75 2.75 0 0 0 7.596 19h4.807a2.75 2.75 0 0 0 2.742-2.53l.841-10.52.149.023a.75.75 0 0 0 .23-1.482A41.03 41.03 0 0 0 14 4.193V3.75A2.75 2.75 0 0 0 11.25 1h-2.5ZM10 4c.84 0 1.673.025 2.5.075V3.75c0-.69-.56-1.25-1.25-1.25h-2.5c-.69 0-1.25.56-1.25 1.25v.325C8.327 4.025 9.16 4 10 4ZM8.58 7.72a.75.75 0 0 0-1.5.06l.3 7.5a.75.75 0 1 0 1.5-.06l-.3-7.5Zm4.34.06a.75.75 0 1 0-1.5-.06l-.3 7.5a.75.75 0 1 0 1.5.06l.3-7.5Z'
+                            clip-rule='evenodd'
+                          />
+                        </svg>
+                      </button>
+                      {/* <button
                         type='button'
                         className='inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600'
                       >
@@ -265,7 +268,8 @@ const Roles = () => {
                           <div className="w-7 h-4 bg-orange-600 peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[1px] after:start-[1px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-3.5 after:w-3.5 after:transition-all dark:border-orange-600 checked:bg-orange-600"></div>
                         </label>
                       </button> */}
-                  </td>
+                    </td>
+                  )}
                 </tr>
               ))}
             </tbody>

@@ -23,7 +23,7 @@ const EntitiesDataProvider = ({ children }) => {
   const getAllEntities = async () => {
     try {
       const { data, status } = await api.getAllEntities(authState?.token);
-      console.log(data, status, "entities")
+      console.log(data, status, 'entities');
       if (status === 200) {
         entitiesDispatch(actions.setEntities(data));
       } else {
@@ -47,7 +47,7 @@ const EntitiesDataProvider = ({ children }) => {
         search,
         authState?.token
       );
-      console.log(data, status, "entities")
+      console.log(data, status, 'entities');
       if (status === 200) {
         entitiesDispatch(actions.setPaginatedEntities('DASHBOARD', data));
       } else {
@@ -72,7 +72,7 @@ const EntitiesDataProvider = ({ children }) => {
         search,
         authState?.token
       );
-      console.log(data, status, "entities")
+      console.log(data, status, 'entities');
       if (status === 200) {
         entitiesDispatch(actions.setPaginatedEntities('ENTITES', data));
       } else {
@@ -131,7 +131,12 @@ const EntitiesDataProvider = ({ children }) => {
     }
   };
   const updateEntity = async (entityData, id) => {
-    console.log(`${authState.token} token is present in updateEntity`);
+    console.log(
+      `${authState.token} token is present in updateEntity ${entityData}`
+    );
+    for (var pair of entityData.entries()) {
+      console.log(pair[0] + ', ' + pair[1]);
+    }
     try {
       console.log('navig');
       const { data, status } = await api.updateEntity(
@@ -181,7 +186,7 @@ const EntitiesDataProvider = ({ children }) => {
         deleteEntitybyId,
         createEntity,
         getEntitybyId,
-        updateEntity
+        updateEntity,
       }}
     >
       {children}

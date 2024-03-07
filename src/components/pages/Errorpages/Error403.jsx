@@ -1,6 +1,8 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const Error403 = () => {
+  document.title = 'ATBT | 403';
   return (
     <div>
       <div className='flex justify-center items-center min-h-screen'>
@@ -33,9 +35,11 @@ const Error403 = () => {
             Please check with the site admin if you believe this is a mistake
           </div>
           <div className='flex justify-center mt-3 sm:mt-4 md:mt-6'>
-            <button className='border border-1 border-gray-100 px-4 py-2 sm:px-6 sm:py-3 md:px-8 md:py-4 bg-orange-600 text-white rounded-md'>
-              Go Back Home
-            </button>
+            <Link to='/'>
+              <button className='border border-1 border-gray-100 px-4 py-2 sm:px-6 sm:py-3 md:px-8 md:py-4 bg-orange-600 text-white rounded-md'>
+                Go Back Home
+              </button>
+            </Link>
           </div>
         </div>
       </div>

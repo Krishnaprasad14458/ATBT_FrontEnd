@@ -51,6 +51,7 @@ export async function entityFormLoader({ params }) {
   }
 }
 function EntityForm() {
+  document.title = 'ATBT | Entity';
   let { id } = useParams();
   const entity = useLoaderData();
   console.log(entity, 'cmp loader data');

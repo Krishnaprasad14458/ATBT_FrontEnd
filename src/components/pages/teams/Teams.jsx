@@ -13,6 +13,7 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
 }
 function Teams() {
+  document.title = 'ATBT | Team';
   const [activeTab, setActiveTab] = useState(1);
 
   const handleTabClick = (tabNumber) => {
