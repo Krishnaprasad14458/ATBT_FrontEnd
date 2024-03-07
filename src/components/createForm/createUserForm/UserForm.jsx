@@ -434,13 +434,11 @@ function UserForm() {
       if (!!id && !!user?.userData) {
         console.log('updating');
         response = await updateUser(formData, id);
-        console.log(response);
-        // response?.status === 200 && navigate(`/users/${response.data}`);
       } else {
         console.log('creating');
         response = await createUser(formData);
-        response?.status === 201 && navigate(`/users/${response.data}`);
       }
+      response?.status === 201 && navigate(`/users/${response.data}`);
       console.log('jsonData submitted', response);
     }
   }
