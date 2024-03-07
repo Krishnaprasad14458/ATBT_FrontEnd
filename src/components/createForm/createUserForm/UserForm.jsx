@@ -589,6 +589,7 @@ function UserForm() {
                           value={customFormFields[index].value || ''}
                           className='px-2 py-2 text-sm block w-full rounded-md bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder:text-xs'
                           onChange={(e) => handleChange(index, e.target.value)}
+                          disabled={!!id && !!user?.userData ? true : false}
                         />
                         <div className='h-2 text-[#dc2626]'>
                           {errors[item.inputname] && (
