@@ -23,6 +23,7 @@ const EntitiesDataProvider = ({ children }) => {
   const getAllEntities = async () => {
     try {
       const { data, status } = await api.getAllEntities(authState?.token);
+      console.log(data, status, "entities")
       if (status === 200) {
         entitiesDispatch(actions.setEntities(data));
       } else {
@@ -46,6 +47,7 @@ const EntitiesDataProvider = ({ children }) => {
         search,
         authState?.token
       );
+      console.log(data, status, "entities")
       if (status === 200) {
         entitiesDispatch(actions.setPaginatedEntities('DASHBOARD', data));
       } else {
@@ -70,6 +72,7 @@ const EntitiesDataProvider = ({ children }) => {
         search,
         authState?.token
       );
+      console.log(data, status, "entities")
       if (status === 200) {
         entitiesDispatch(actions.setPaginatedEntities('ENTITES', data));
       } else {
@@ -127,7 +130,30 @@ const EntitiesDataProvider = ({ children }) => {
       throwError(error);
     }
   };
-
+  const updateEntity = async (entityData, id) => {
+    console.log(`${authState.token} token is present in updateEntity`);
+    try {
+      console.log('navig');
+      const { data, status } = await api.updateEntity(
+        entityData,
+        id,
+        authState?.token
+      );
+      console.log(data, status, 'navig');
+      getDashboardEntitiesData();
+      getpaginatedEntitiesData();
+      getAllEntities();
+      if (status === 200) {
+        getDashboardEntitiesData();
+        getpaginatedEntitiesData();
+        getAllEntities();
+        // navigate(`/`)
+      }
+      return { data, status };
+    } catch (error) {
+      throwError(error);
+    }
+  };
   useEffect(() => {
     if (authState?.token) {
       getpaginatedEntitiesData();
@@ -155,6 +181,7 @@ const EntitiesDataProvider = ({ children }) => {
         deleteEntitybyId,
         createEntity,
         getEntitybyId,
+        updateEntity
       }}
     >
       {children}

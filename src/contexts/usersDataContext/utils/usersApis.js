@@ -75,10 +75,10 @@ export const updateUser = async (userData, id, token) => {
             }
         }),
         {
-            pending: 'Updating...',
+            pending: 'Updating User...',
             success: {
                 render({ data }) {
-                    return `User updated`
+                    return `user updated`
                 }
             },
             error: 'Check user details 🤯',
