@@ -95,7 +95,7 @@ const cancelButtonRef = useRef(null);
   const handleDeleteUser = async (id) => {
     const confirmDelete = await Swal.fire({
       title: 'Are you sure?',
-      text: 'Once deleted, you will not be able to recover this user!',
+      text: 'Once deleted, you will not be able to recover this Entity!',
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#ea580c',
