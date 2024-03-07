@@ -5,22 +5,81 @@ import defprop from '../../../Images/defprof.svg';
 import useDebounce from '../../../hooks/debounce/useDebounce';
 import { UserDataContext } from '../../../contexts/usersDataContext/usersDataContext';
 import { EntitiesDataContext } from '../../../contexts/entitiesDataContext/entitiesDataContext';
-import { useNavigate } from 'react-router-dom';
+
+import {
+  Navigate,
+  redirect,
+  useSubmit,
+  useNavigate,
+  useLoaderData,
+  useParams,
+} from 'react-router-dom';
+// import $ from 'jquery';
+const userData = JSON.parse(localStorage.getItem('data'));
+const token = userData?.token;
+const role = userData?.role?.name;
+// export async function userFormLoader({ params }) {
+//   try {
+//     const formApi = 'https://atbtmain.teksacademy.com/form/list?name=userform';
+//     // const userApi = `https://atbtmain.teksacademy.com/user/list/${params.id}`;
+//     let userData = null;
+//     if (params && params.id) {
+//       const userResponse = await axios.get(userApi, {
+//         headers: {
+//           Authorization: token,
+//         },
+//       });
+//       userData = userResponse?.data?.user;
+//     }
+//     const formResponse = await axios.get(formApi);
+//     const formData = formResponse.data.Data;
+//     return { userData, formData };
+//   } catch (error) {
+//     if (error.response) {
+//       throw new Error(`Failed to fetch data: ${error.response.status}`);
+//     } else if (error.request) {
+//       throw new Error('Request made but no response received');
+//     } else {
+//       throw new Error(`Error setting up request: ${error.message}`);
+//     }
+//   }
+// }
 function EntityForm() {
+  let { id } = useParams();
+
+  const userData = JSON.parse(localStorage.getItem('data'));
+  let createdBy = userData.user.id;
+  const token = userData?.token;
+  const user = useLoaderData();
+  function setInitialForm() {
+    let response = user?.formData ?? [];
+    if (!!id && !!user?.userData) {
+      let userData = user?.userData;
+      response.forEach((input) => {
+        if (userData.hasOwnProperty(input.inputname)) {
+          if (userData[input.inputname] !== null) {
+            input.value = userData[input.inputname];
+          }
+        }
+      });
+    }
+    return response;
+  }
   const navigate = useNavigate();
   const {
     usersState: { users, dashboard },
     usersDispatch,
   } = useContext(UserDataContext);
-  const { createEntity } = useContext(EntitiesDataContext);
+  const { createEntity ,updateEntity} = useContext(EntitiesDataContext);
   const usersEmails = dashboard.paginatedUsers?.map((user) => user.email);
   const { debouncedSetPage, debouncedSetSearch } = useDebounce(usersDispatch);
-  const [errors, setErrors] = useState({});
   let [openOptions, setopenOptions] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
   const [selected, setSelected] = useState([]);
   const [showUsers, setShowUsers] = useState(false);
-  let [customFormFields, setCustomFormFields] = useState();
+  let [customFormFields, setCustomFormFields] = useState(() =>
+  setInitialForm()
+);
   useEffect(() => {
     console.log('errors', errors);
   });
@@ -97,19 +156,38 @@ function EntityForm() {
   };
   const handleFileChange = (event, index) => {
     const file = event.target.files[0];
+    const updatedFormData = [...customFormFields];
+    updatedFormData[index].value = event.target.files[0];
+    setCustomFormFields(updatedFormData);
+    // setCustomFormFields(event.target.files[0]);
     const name = event.target.name;
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        const updatedFormData = [...customFormFields];
-        updatedFormData[index].value = reader.result;
-        setCustomFormFields(updatedFormData);
-      };
-      reader.readAsDataURL(file);
-    }
+    // if (file) {
+    //   const reader = new FileReader();
+    //   reader.onloadend = () => {
+    //     const updatedFormData = [...customFormFields];
+    //     updatedFormData[index].value = reader.result;
+    //     setCustomFormFields(updatedFormData);
+    //   };
+    //   reader.readAsDataURL(file);
+    // }
   };
+  // const handleFileChange = (event, index) => {
+  //   const file = event.target.files[0];
+  //   const name = event.target.name;
+  //   if (file) {
+  //     const reader = new FileReader();
+  //     reader.onloadend = () => {
+  //       const updatedFormData = [...customFormFields];
+  //       updatedFormData[index].value = reader.result;
+  //       setCustomFormFields(updatedFormData);
+  //     };
+  //     reader.readAsDataURL(file);
+  //   }
+  // };
   console.log('customFormFields', customFormFields);
   /////
+  const [errors, setErrors] = useState({});
+
   const [isErrorspresent, setIsErrorspresent] = useState(false);
   const checkValidation = () => {
     let isErrorspresent = false;
@@ -372,190 +450,85 @@ function EntityForm() {
     }
   }, [customFormFields]);
 
-  function handleFormSubmit(e) {
+  async function handleFormSubmit(e) {
     e.preventDefault();
+ 
 
     if (!checkValidation()) {
-      const jsonData = {};
-      jsonData.customFieldsData = JSON.stringify(customFormFields);
-      jsonData.loggedInUser = parseInt(localStorage.getItem('id'));
+      console.log(customFormFields, 'submitcustomFormFields');
+
+      const formData = new FormData(e.target);
       for (let i = 0; i < customFormFields.length; i++) {
         if (Array.isArray(customFormFields[i].value)) {
-          jsonData[customFormFields[i].inputname] = JSON.stringify(
-            customFormFields[i].value
+          formData.set(
+            customFormFields[i].inputname,
+            JSON.stringify(customFormFields[i].value)
           );
-        } else {
-          jsonData[customFormFields[i].inputname] = customFormFields[i].value;
         }
       }
-      console.log('jsonData', jsonData);
-      axios
-        .post(`https://atbtmain.teksacademy.com/user/create-user`, jsonData)
-        .then((response) => {
-          // console.log(response.data);
-          // console.log("reposnseeeeeeeeee", response.data)
-          navigate(`/entitylandingpage/${parseInt(response.data)}`);
-        })
-        .catch((error) => {
-          console.error(error);
-        });
+    
+      formData.set('customFieldsData', JSON.stringify(customFormFields));
+      formData.set('createdBy', createdBy);
+      const formDataObj = {};
+      formData.forEach((value, key) => {
+        formDataObj[key] = value;
+      });
+      // Log form data
+      
+
+      console.log(formDataObj, "foj");
+
+      
+      let response;
+      if (!!id && !!user?.userData) {
+        console.log('updating');
+        response = await updateEntity(formData, id);
+      } else {
+        console.log('creating');
+        response = await createEntity(formData);
+      }
+      console.log('jsonData submitted', response);
+      if (response.status === 201) {
+        console.log('data is 201');
+        // navigate(`/users/${response.data}`);
+      }
+/////////////////////////////////////////////////////
+/////////////////             old code
+      /////////////////////////////////////////////////////
+      // const jsonData = {};
+      // jsonData.customFieldsData = JSON.stringify(customFormFields);
+      // jsonData.loggedInUser = parseInt(localStorage.getItem('id'));
+      // for (let i = 0; i < customFormFields.length; i++) {
+      //   if (Array.isArray(customFormFields[i].value)) {
+      //     jsonData[customFormFields[i].inputname] = JSON.stringify(
+      //       customFormFields[i].value
+      //     );
+      //   } else {
+      //     jsonData[customFormFields[i].inputname] = customFormFields[i].value;
+      //   }
+      // }
+      // console.log('jsonData', jsonData);
+      // axios
+      //   .post(`https://atbtmain.teksacademy.com/user/create-user`, jsonData)
+      //   .then((response) => {
+      //     // console.log(response.data);
+      //     // console.log("reposnseeeeeeeeee", response.data)
+      //     navigate(`/entitylandingpage/${parseInt(response.data)}`);
+      //   })
+      //   .catch((error) => {
+      //     console.error(error);
+      //   });
     }
   }
-
-  ////
-  // function handleFormSubmit(e) {
-  //   e.preventDefault();
-  //   for (let i = 0; i < customFormFields.length; i++) {
-  //     if (customFormFields[i].type == "text" && customFormFields[i].mandatory) {
-  //       if (customFormFields[i].value.length == 0) {
-  //         setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please enter ${customFormFields[i].label}` }))
-  //         return false
-  //       }
-  //       else if (customFormFields[i].value.length < 3) {
-  //         setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "Name should contain atleast 3 characters" }))
-  //         return false
-  //       }
-  //       else {
-  //         setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
-  //       }
-  //     }
-  //     if (customFormFields[i].type == "file" && customFormFields[i].mandatory) {
-  //       if (!customFormFields[i].value) {
-  //         setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please upload ${customFormFields[i].label}` }))
-  //         return false
-  //       }
-  //       else {
-  //         setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
-  //       }
-  //     }
-  //     if (customFormFields[i].type == "textarea" && customFormFields[i].mandatory) {
-  //       if (customFormFields[i].value.length == 0) {
-  //         setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please enter ${customFormFields[i].label}` }))
-  //         return false
-  //       }
-  //       else if (customFormFields[i].value.length < 3) {
-  //         setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "Name should contain atleast 3 characters" }))
-  //         return false
-  //       }
-  //       else {
-  //         setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
-  //       }
-  //     }
-  //     if (customFormFields[i].type == "email" && customFormFields[i].mandatory) {
-  //       if (customFormFields[i].value.length < 1) {
-  //         setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please enter ${customFormFields[i].label}` }))
-  //         return false
-  //       }
-  //       else {
-  //         setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
-  //       }
-  //     }
-  //     if (customFormFields[i].type == "number" && customFormFields[i].mandatory) {
-  //       if (customFormFields[i].value.length < 1) {
-  //         setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please enter ${customFormFields[i].label}` }))
-  //         return false
-  //       }
-  //       else {
-  //         setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
-  //       }
-  //     }
-  //     if (customFormFields[i].type == "phonenumber" && customFormFields[i].mandatory) {
-  //       if (customFormFields[i].value.length !== 10) {
-  //         setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please Enter 10 Digits ${customFormFields[i].label}` }))
-  //         return false
-  //       }
-  //       else {
-  //         setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
-  //       }
-  //     }
-  //     if (customFormFields[i].type == "select" && customFormFields[i].mandatory) {
-  //       if (customFormFields[i].value.length < 1) {
-  //         setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please enter ${customFormFields[i].label}` }))
-  //         return false
-  //       }
-  //       else {
-  //         setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
-  //       }
-  //     }
-  //     if (customFormFields[i].type == "multiselect" && customFormFields[i].mandatory) {
-  //       if (customFormFields[i].value.length < 1) {
-  //         setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please enter ${customFormFields[i].label}` }))
-  //         return false
-  //       }
-  //       else {
-  //         setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
-  //       }
-  //     }
-  //     if (customFormFields[i].type == "date" && customFormFields[i].mandatory) {
-  //       if (!customFormFields[i].value) {
-  //         setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please enter ${customFormFields[i].label}` }))
-  //         return false
-  //       }
-  //       else {
-  //         setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
-  //       }
-  //     }
-  //     if (customFormFields[i].type == "checkbox" && customFormFields[i].mandatory) {
-  //       if (!customFormFields[i].value) {
-  //         setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please enter ${customFormFields[i].label}` }))
-  //         return false
-  //       }
-  //       else {
-  //         setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
-  //       }
-  //     }
-  //     if (customFormFields[i].type == "range" && customFormFields[i].mandatory) {
-  //       if (!customFormFields[i].value) {
-  //         setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please enter ${customFormFields[i].label}` }))
-  //         return false
-  //       }
-  //       else {
-  //         setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
-  //       }
-  //     }
-  //     if (customFormFields[i].type == "time" && customFormFields[i].mandatory) {
-  //       if (!customFormFields[i].value) {
-  //         setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please enter ${customFormFields[i].label}` }))
-  //         return false
-  //       }
-  //       else {
-  //         setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
-  //       }
-  //     }
-  //     if (customFormFields[i].type == "password" && customFormFields[i].mandatory) {
-  //       if (customFormFields[i].value.length < 1) {
-  //         setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please enter ${customFormFields[i].label}` }))
-  //         return false
-  //       }
-  //       else {
-  //         setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
-  //       }
-  //     }
-  //   }
-  //   const jsonData = {};
-  //   jsonData.customFieldsData = JSON.stringify(customFormFields)
-  //   jsonData.loggedInUser = parseInt(localStorage.getItem("id"))
-  //   for (let i = 0; i < customFormFields.length; i++) {
-  //     if (Array.isArray(customFormFields[i].value)) {
-  //       jsonData[customFormFields[i].inputname] = JSON.stringify(customFormFields[i].value)
-  //     } else {
-  //       jsonData[customFormFields[i].inputname] = customFormFields[i].value
-  //     }
-  //   }
-  //   console.log("jsonData", jsonData);
-  //   axios.post(
-  //     `https://atbtmain.teksacademy.com/entity/data`, jsonData)
-  //     .then(response => {
-  //       navigate(`/entitylandingpage/${parseInt(response.data)}`)
-  //     })
-  //     .catch(error => {
-  //       console.error(error);
-  //     });
-  // }
+////for number scrolling stop
+// $('input[type=number]').on('mousewheel', function (e) {
+//   $(e.target).blur();
+// });
+ 
   return (
     <div className='container p-4 bg-[#f8fafc]'>
       {/* <p className="font-lg font-semibold p-3">Entity Form</p> */}
-      <p className='text-lg font-semibold'>New Entity</p>
+      <p className='text-lg font-semibold'>Entity Form</p>
       <div className='grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-3 xl:grid-cols-3  gap-4 mt-2 '>
         <div className='col-span-1'>
           <form
