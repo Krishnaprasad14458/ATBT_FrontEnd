@@ -82,7 +82,7 @@ function UserForm() {
   );
   let [fieldsDropDownData, setFieldsDropDownData] = useState({
     role: [],
-    entityname: ['infosys', 'relid'],
+    entityname: ['Infoz IT Solutions Private Limited limited limited', 'relid'],
   });
   useEffect(() => {
     axios
@@ -1144,7 +1144,7 @@ function UserForm() {
           }}
         >
           <div className='mt-32 pt-10 pb-20'>
-            <div className='relative  flex flex-col text-gray-700 shadow-md bg-clip-border  rounded-xl w-8/12 justify-center mx-auto  bg-[#fafaf9] border-2 border-gray-200 '>
+            <div className='relative  flex flex-col text-gray-700 shadow-md bg-clip-border  rounded-xl w-8/12 md:w-full lg:w-9/12 xl:w-9/12 justify-center mx-auto  bg-[#fafaf9] border-2 border-gray-200 '>
               {customFormFields &&
                 customFormFields.length > 0 &&
                 customFormFields.map((item) => (
