@@ -237,7 +237,7 @@ const SettingUserForm = () => {
     const updatedForm = [...customForm];
     const confirmDelete = await Swal.fire({
       title: 'Are you sure?',
-      text: 'Once deleted, you will not be able to recover this feild!',
+      text: 'Once deleted, you will not be able to recover this field!',
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#ea580c',
