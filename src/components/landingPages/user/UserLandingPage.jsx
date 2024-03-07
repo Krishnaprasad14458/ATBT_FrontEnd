@@ -255,11 +255,11 @@ const UserLandingPage = () => {
                               src={data?.user?.image}
                               name='EntityPhoto'
                               alt='User Photo'
-                              className=' h-36 w-36 relative mx-auto bottom-20 rounded-full shadow-md'
+                              className=' h-36 w-36 relative mx-auto bottom-20 rounded-md border-2 border-gray-200 shadow-md'
                             />
                           ) : (
                             <img
-                              className=' h-36 w-36 relative mx-auto bottom-20 rounded-full shadow-md'
+                              className=' h-36 w-36 relative mx-auto bottom-20 rounded-md border-2 border-gray-200 shadow-md'
                               src={defprop}
                               alt='photo'
                             />
@@ -468,7 +468,7 @@ const UserLandingPage = () => {
                           </span>
                           <span className=' break-all flex gap-2'>
 
-                            <span className='hidden sm:block'> : </span> <span className='text-md font-[600] '> {item.value}</span>
+                            <span className='hidden sm:block'> : </span> <span className='text-md font-[600] '> {item.value.join(', ')}</span>
                           </span>
                         </p>
                       )}
