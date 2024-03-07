@@ -272,7 +272,7 @@ const CustomFormStructure = () => {
     { label: "Number", value: "number" },
     { label: "Phone Number", value: "phonenumber" },
     { label: "Text Area", value: "textarea" },
-    { label: "File", value: "file" },
+    // { label: "File", value: "file" },
     { label: "Date", value: "date" },
     { label: "Select", value: "select" },
     { label: "Multi Select", value: "multiselect" },

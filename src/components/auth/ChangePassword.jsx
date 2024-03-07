@@ -2,110 +2,115 @@ import React, { useContext, useEffect, useState } from 'react';
 import login_bg from '../../Images/login_bg.jpg';
 import logo from '../../Images/logo.png';
 import { AuthContext } from '../../contexts/authContext/authContext';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { set } from 'react-hook-form';
 function ChangePassword() {
-    const { id } = useParams();
-    const { resetPassword } = useContext(AuthContext);
-    const [showPassword, setShowPassword] = useState()
-    const [showConfirmPassword, setShowConfirmPassword] = useState()
-    const [password, setPassword] = useState('')
-    const [confirmPassword, setConfirmPassword] = useState("");
-    const [passwordError, setPasswordError] = useState('');
-    const [checkvalidations, setCheckValidations] = useState({
-        specialChar: false,
-        passwordLength: false,
-        capitalLetter: false,
-        lowerLetter: false,
-        onNumber: false,
-        confirmPassword: false
-    })
+  const navigate = useNavigate();
+  const { id } = useParams();
+  const { resetPassword } = useContext(AuthContext);
+  const [showPassword, setShowPassword] = useState();
+  const [showConfirmPassword, setShowConfirmPassword] = useState();
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [passwordError, setPasswordError] = useState('');
+  const [checkvalidations, setCheckValidations] = useState({
+    specialChar: false,
+    passwordLength: false,
+    capitalLetter: false,
+    lowerLetter: false,
+    onNumber: false,
+    confirmPassword: false,
+  });
 
-    useEffect(() => {
-        if (password.length >= 6) {
-            setCheckValidations(prev => ({ ...prev, passwordLength: true }))
+  useEffect(() => {
+    if (password.length >= 6) {
+      setCheckValidations((prev) => ({ ...prev, passwordLength: true }));
+    } else {
+      setCheckValidations((prev) => ({ ...prev, passwordLength: false }));
+    }
+    if (/(?=.*[A-Z])/.test(password)) {
+      setCheckValidations((prev) => ({ ...prev, capitalLetter: true }));
+    } else {
+      setCheckValidations((prev) => ({ ...prev, capitalLetter: false }));
+    }
+    if (/(?=.*[a-z])/.test(password)) {
+      setCheckValidations((prev) => ({ ...prev, lowerLetter: true }));
+    } else {
+      setCheckValidations((prev) => ({ ...prev, lowerLetter: false }));
+    }
+    if (/(?=.*\d)/.test(password)) {
+      setCheckValidations((prev) => ({ ...prev, oneNumber: true }));
+    } else {
+      setCheckValidations((prev) => ({ ...prev, oneNumber: false }));
+    }
+    if (/[!@#$%^&*(),.?":{}|<>]/.test(password)) {
+      setCheckValidations((prev) => ({ ...prev, specialChar: true }));
+    } else {
+      setCheckValidations((prev) => ({ ...prev, specialChar: false }));
+    }
+  }, [password]);
 
-        }
-        else {
-            setCheckValidations(prev => ({ ...prev, passwordLength: false }))
-        }
-        if (/(?=.*[A-Z])/.test(password)) {
-            setCheckValidations(prev => ({ ...prev, capitalLetter: true }))
-        }
-        else {
-            setCheckValidations(prev => ({ ...prev, capitalLetter: false }))
-        }
-        if (/(?=.*[a-z])/.test(password)) {
-            setCheckValidations(prev => ({ ...prev, lowerLetter: true }))
-        }
-        else {
-            setCheckValidations(prev => ({ ...prev, lowerLetter: false }))
-        }
-        if (/(?=.*\d)/.test(password)) {
-            setCheckValidations(prev => ({ ...prev, oneNumber: true }))
-        }
-        else {
-            setCheckValidations(prev => ({ ...prev, oneNumber: false }))
-        }
-        if (/[!@#$%^&*(),.?":{}|<>]/.test(password)) {
-            setCheckValidations(prev => ({ ...prev, specialChar: true }))
-        } else {
-            setCheckValidations(prev => ({ ...prev, specialChar: false }))
-
-        }
-
-    }, [password])
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        if (password.length < 6) {
-            toast.error('Password should be at least 6 characters long');
-            return;
-        }
-        if (!/(?=.*[A-Z])/.test(password)) {
-            toast.error('Password should contain at least one capital letter');
-            return;
-        }
-        if (!/(?=.*[a-z])/.test(password)) {
-            toast.error('Password should contain at least one lowercase letter');
-            return;
-        }
-
-        if (!/(?=.*\d)/.test(password)) {
-            toast.error('Password should contain at least one number');
-            return;
-        }
-
-        if (!/[!@#$%^&*(),.?":{}|<>]/.test(password)) {
-            toast.error('Password should contain at least one special character');
-            return;
-        }
-
-        if (password !== confirmPassword) {
-            toast.error('Passwords do not match');
-            return;
-        }
-
-        if (password === confirmPassword) {
-            resetPassword({
-                id, password
-            })
-        } else {
-            toast.error("Passwords did not match!");
-        }
-
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (password.length < 6) {
+      toast.error('Password should be at least 6 characters long');
+      return;
+    }
+    if (!/(?=.*[A-Z])/.test(password)) {
+      toast.error('Password should contain at least one capital letter');
+      return;
+    }
+    if (!/(?=.*[a-z])/.test(password)) {
+      toast.error('Password should contain at least one lowercase letter');
+      return;
     }
 
-    return (
-        <main className="relative overflow-hidden">
-            <img src={login_bg} alt="background image" className="absolute w-screen h-screen" />
-            <div className="relative flex justify-center h-screen items-center">
-                <div className="w-96 rounded-lg overflow-hidden shadow-2xl p-8">
-                    <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-                        <img className="mx-auto h-10 w-auto" src={logo} alt="Company Logo" />
-                        <h2 className="mt-4 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900 ">Change Password</h2>
-                    </div>
+    if (!/(?=.*\d)/.test(password)) {
+      toast.error('Password should contain at least one number');
+      return;
+    }
+
+    if (!/[!@#$%^&*(),.?":{}|<>]/.test(password)) {
+      toast.error('Password should contain at least one special character');
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      toast.error('Passwords do not match');
+      return;
+    }
+
+    if (password === confirmPassword) {
+      const res = await resetPassword({
+        id,
+        password,
+      });
+      res === 200 && navigate('/login');
+    } else {
+      toast.error('Passwords did not match!');
+    }
+  };
+
+  return (
+    <main className='relative overflow-hidden'>
+      <img
+        src={login_bg}
+        alt='background image'
+        className='absolute w-screen h-screen'
+      />
+      <div className='relative flex justify-center h-screen items-center'>
+        <div className='w-96 rounded-lg overflow-hidden shadow-2xl p-8'>
+          <div className='sm:mx-auto sm:w-full sm:max-w-sm'>
+            <img
+              className='mx-auto h-10 w-auto'
+              src={logo}
+              alt='Company Logo'
+            />
+            <h2 className='mt-4 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900 '>
+              Change Password
+            </h2>
+          </div>
 
           <div className='mt-4 sm:mx-auto sm:w-full sm:max-w-sm'>
             <form

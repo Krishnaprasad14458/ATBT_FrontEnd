@@ -84,16 +84,12 @@ export const router = createBrowserRouter([
                 ]
             },
             {
-                element: <RouteBlocker permissionCheck={(permission) =>
-                    permission.module === 'user' && permission.canRead} />,
                 path: 'users',
                 children: [
                     ...userRouter,
                 ]
             },
             {
-                element: <RouteBlocker permissionCheck={(permission) =>
-                    permission.module === 'entity' && permission.canRead} />,
                 children: [
                     ...entityRouter,
                 ]
@@ -145,3 +141,14 @@ export const router = createBrowserRouter([
         ]
     }
 ])
+
+
+
+// ...dashboardRouter,
+// ...userRouter,
+// ...entityRouter,
+// ...meetingRouter,
+// ...taskRouter,
+// ...teamRouter,
+// ...reportRouter,
+// ...settingRouter,

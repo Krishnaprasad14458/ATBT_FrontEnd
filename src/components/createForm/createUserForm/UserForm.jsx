@@ -438,11 +438,8 @@ function UserForm() {
         console.log('creating');
         response = await createUser(formData);
       }
+      response?.status === 201 && navigate(`/users/${response.data}`);
       console.log('jsonData submitted', response);
-      if (response.status === 201) {
-        console.log('data is 201');
-        navigate(`/users/${response.data}`);
-      }
     }
   }
 
@@ -474,7 +471,8 @@ function UserForm() {
                           htmlFor={item.label}
                           className='block text-sm font-medium leading-6 mt-2 text-gray-900'
                         >
-                          {item.label.charAt(0).toUpperCase() + item.label.slice(1)}
+                          {item.label.charAt(0).toUpperCase() +
+                            item.label.slice(1)}
                         </label>
                         <input
                           type='text'
@@ -487,12 +485,13 @@ function UserForm() {
                         />
                         <div className='h-2 text-red-500'>
                           {errors[item.inputname] && (
-                            <span className='text-xs'>{errors[item.inputname]}</span>
+                            <span className='text-xs'>
+                              {errors[item.inputname]}
+                            </span>
                           )}
                         </div>
                       </div>
-                    )
-                  }
+                    )}
 
                   {item.type === 'file' &&
                     item.inputname === 'image' &&
@@ -502,7 +501,8 @@ function UserForm() {
                           htmlFor={item.label}
                           className='block text-sm font-medium leading-6 mt-2 text-gray-900'
                         >
-                          {item.label.charAt(0).toUpperCase() + item.label.slice(1)}
+                          {item.label.charAt(0).toUpperCase() +
+                            item.label.slice(1)}
                         </label>
                         <input
                           type='file'
@@ -514,12 +514,13 @@ function UserForm() {
                         />
                         <div className='h-2 text-red-500'>
                           {errors[item.inputname] && (
-                            <span className='text-xs'>{errors[item.inputname]}</span>
+                            <span className='text-xs'>
+                              {errors[item.inputname]}
+                            </span>
                           )}
                         </div>
                       </div>
-                    )
-                  }
+                    )}
 
                   {item.type === 'select' &&
                     item.inputname === 'entityname' &&
@@ -529,7 +530,8 @@ function UserForm() {
                           htmlFor={item.label}
                           className='block text-sm font-medium leading-6 mt-2 text-gray-900'
                         >
-                          {item.label.charAt(0).toUpperCase() + item.label.slice(1)}
+                          {item.label.charAt(0).toUpperCase() +
+                            item.label.slice(1)}
                         </label>
                         <select
                           id={item.inputname}
@@ -542,26 +544,31 @@ function UserForm() {
                             value=''
                             disabled
                             defaultValue
-
                           >
                             Please select
                           </option>
                           {item.options.value &&
                             fieldsDropDownData.entityname &&
-                            fieldsDropDownData.entityname.map((option, index) => (
-                              <option key={index} value={option}>
-                                {option}
-                              </option>
-                            ))}
+                            fieldsDropDownData.entityname.map(
+                              (option, index) => (
+                                <option
+                                  key={index}
+                                  value={option}
+                                >
+                                  {option}
+                                </option>
+                              )
+                            )}
                         </select>
                         <div className='h-2 text-red-500'>
                           {errors[item.inputname] && (
-                            <span className='text-xs'>{errors[item.inputname]}</span>
+                            <span className='text-xs'>
+                              {errors[item.inputname]}
+                            </span>
                           )}
                         </div>
                       </div>
-                    )
-                  }
+                    )}
 
                   {item.type === 'email' &&
                     item.inputname == 'email' &&
@@ -582,6 +589,7 @@ function UserForm() {
                           value={customFormFields[index].value || ''}
                           className='px-2 py-2 text-sm block w-full rounded-md bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder:text-xs'
                           onChange={(e) => handleChange(index, e.target.value)}
+                          disabled={!!id && !!user?.userData ? true : false}
                         />
                         <div className='h-2 text-[#dc2626]'>
                           {errors[item.inputname] && (
@@ -1446,7 +1454,7 @@ function UserForm() {
                         )}
                       </div>
                     )}
-                    
+
                     {item.type === 'range' && item.field == 'custom' && (
                       <div className='my-2 ms-5'>
                         {item.value && item.value.length > 0 && (
