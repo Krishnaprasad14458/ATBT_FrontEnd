@@ -16,8 +16,7 @@ import {
 } from 'react-router-dom';
 // import $ from 'jquery';
 const userData = JSON.parse(localStorage.getItem('data'));
-const token = userData?.token;
-const role = userData?.role?.name;
+
 // export async function userFormLoader({ params }) {
 //   try {
 //     const formApi = 'https://atbtmain.teksacademy.com/form/list?name=userform';
@@ -50,6 +49,8 @@ function EntityForm() {
   const userData = JSON.parse(localStorage.getItem('data'));
   let createdBy = userData.user.id;
   const token = userData?.token;
+
+const role = userData?.role?.name;
   const user = useLoaderData();
   function setInitialForm() {
     let response = user?.formData ?? [];
