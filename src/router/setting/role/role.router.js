@@ -6,16 +6,20 @@ import { redirect } from "react-router-dom"
 
 export const roleRouter = [
     {
-        path: 'roles',
-        loader: async () => {
-            const data = await axios.get("https://atbtmain.teksacademy.com/rbac/getroles")
+        index: true,
+        loader: async ({ params, request }) => {
+            let url = new URL(request.url);
+            let searchTerm = url.searchParams.get("search") || "";
+            console.log(searchTerm, "role params")
+            // const data = await axios.get("https://atbtmain.teksacademy.com/rbac/getroles")
+            const data = await axios.get(`http://localhost:3000/rbac/getroles?search=${searchTerm}`)
+            console.log(data, "roles data")
             return data
         },
         // https://atbtmain.teksacademy.com/rbac/getroles
         action: async ({ request }) => {
-            let formData = await request.formData();
 
-            // And then just parse your own format here
+            let formData = await request.formData();
             let { roleId } = JSON.parse(formData.get("serialized"));
             const data = await axios.delete(`https://atbtmain.teksacademy.com/rbac/deleteRole/${roleId}`)
             return null;
@@ -23,7 +27,7 @@ export const roleRouter = [
         element: <Roles />
     },
     {
-        path: 'addroles',
+        path: 'upsert',
         loader: async ({ request, params }) => {
             let url = new URL(request.url);
             let searchTerm = url.searchParams.get("id");
@@ -47,7 +51,7 @@ export const roleRouter = [
         },
         action: async ({ request }) => {
             let formData = await request.text()
-            return redirect("/roles");
+            return redirect("..");
         },
         element: <AddRoles />
     },

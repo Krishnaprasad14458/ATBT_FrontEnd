@@ -14,6 +14,10 @@ export const settingRouter = [
     },
     ...organizationRouter,
     ...communicationRouter,
-    ...roleRouter,
+    {
+        path: 'roles', children: [
+            ...roleRouter, ,
+        ]
+    },
     ...itegrationRoutes,
 ]

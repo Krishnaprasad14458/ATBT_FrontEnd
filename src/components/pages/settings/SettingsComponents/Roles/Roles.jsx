@@ -1,10 +1,16 @@
 import axios from 'axios';
 import React, { useContext } from 'react';
-import { Link, useFetcher, useLoaderData, useSubmit } from 'react-router-dom';
+import {
+  Form,
+  Link,
+  useFetcher,
+  useLoaderData,
+  useSubmit,
+} from 'react-router-dom';
 import GateKeeper from '../../../../../rbac/GateKeeper';
 import { AuthContext } from '../../../../../contexts/authContext/authContext';
 import Swal from 'sweetalert2';
-
+import { debounce } from '../../../../../utils/utils';
 function deleteRole(id) {
   return axios.delete(`https://atbtmain.teksacademy.com/rbac/deleteRole/${id}`);
 }
@@ -15,6 +21,12 @@ const Roles = () => {
   const { data } = useLoaderData();
   console.log(data, 'data');
   const submit = useSubmit();
+  let params = useSubmit();
+  const debouncedSearchParams = debounce((search) => {
+    console.log(search);
+    params(search);
+    // Call the function to rerender the component with the latest results
+  }, 500);
   const fetcher = useFetcher();
   const onDelete = async (data) => {
     const confirmDelete = await Swal.fire({
@@ -38,13 +50,16 @@ const Roles = () => {
             // You can implement any custom serialization logic here
             serialized: JSON.stringify(data),
           },
-          { method: 'delete', action: '/roles' }
+          { method: 'delete' }
         );
       } catch (error) {
         Swal.fire('Error', 'Unable to delete role 🤯', 'error');
       }
     }
   };
+  function handleSearch(event) {
+    debouncedSearchParams(`search=${event.target.value}`);
+  }
   return (
     <div className=' p-3 bg-[#f8fafc] overflow-hidden'>
       <div className='grid grid-cols-1 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3 xl:grid-col-3 gap-2 mt-2'>
@@ -80,6 +95,11 @@ const Roles = () => {
               className='block w-full px-4 py-2 ps-10 text-sm border-2 border-gray-200  rounded-2xl bg-gray-50  focus:outline-none '
               placeholder='Search here...'
               required
+              // onChange={(event) => {
+              //   console.log(event.target.value);
+              //   params(`search=${event.target.value}`);
+              // }}
+              onChange={handleSearch}
             />
           </div>
         </div>
@@ -98,7 +118,7 @@ const Roles = () => {
               <option value='500'>500</option>
             </select></div> */}
 
-          <Link to='/addroles'>
+          <Link to='upsert'>
             <button className='mt-1 px-3 py-2 inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white '>
               <svg
                 xmlns='http://www.w3.org/2000/svg'
@@ -128,22 +148,22 @@ const Roles = () => {
                 <th className='sticky top-0 bg-orange-600 text-white text-sm text-left px-5 py-2.5 border-l-2 border-gray-200'>
                   Description
                 </th>
-                <th className='sticky top-0 bg-orange-600 text-white text-sm text-left px-5 py-2.5 border-l-2 border-gray-200'>
+                {/* <th className='sticky top-0 bg-orange-600 text-white text-sm text-left px-5 py-2.5 border-l-2 border-gray-200'>
                   Created At
-                </th>
+                </th> */}
                 <th className='sticky top-0 bg-orange-600 text-white text-sm text-left px-5 py-2.5 border-l-2 border-gray-200 '>
                   Actions{' '}
                 </th>
               </tr>
             </thead>
             <tbody className='divide-y divide-gray-200 dark:divide-gray-700'>
-              {data?.roles?.map((role) => (
+              {data?.roles?.map((role, index) => (
                 <tr
                   key={role.id}
                   className='hover:bg-gray-100 dark:hover:bg-gray-700'
                 >
                   <td className='px-5 py-2 whitespace-nowrap  text-left text-xs font-[600] text-gray-800 border-collapse border border-[#e5e7eb]'>
-                    {role.id}
+                    {++index}
                   </td>
                   <td
                     className='px-5 py-2 whitespace-nowrap text-left  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb] hover:text-orange-500  overflow-hidden'
@@ -158,14 +178,21 @@ const Roles = () => {
                     </Link>
                   </td>
 
-                  <td className='px-5 py-2 whitespace-nowrap text-left text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb] overflow-hidden' style={{ maxWidth: '160px' }}>
-                    <div className="truncate text-xs" title={role.description}>{role.description}</div>
-
+                  <td
+                    className='px-5 py-2 whitespace-nowrap text-left text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb] overflow-hidden'
+                    style={{ maxWidth: '160px' }}
+                  >
+                    <div
+                      className='truncate text-xs'
+                      title={role.description}
+                    >
+                      {role.description}
+                    </div>
                   </td>
 
-                  <td className='px-5 py-2 whitespace-nowrap text-left  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]'>
+                  {/* <td className='px-5 py-2 whitespace-nowrap text-left  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]'>
                     {role.createdAt}
-                  </td>
+                  </td> */}
                   <td className='px-5 py-2 whitespace-nowrap text-left  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]  '>
                     {/* <button
                         type='button'
@@ -193,7 +220,7 @@ const Roles = () => {
                           { id: `${role.id}` },
                           {
                             method: 'get',
-                            action: '/addroles',
+                            action: 'upsert',
                           }
                         )
                       }

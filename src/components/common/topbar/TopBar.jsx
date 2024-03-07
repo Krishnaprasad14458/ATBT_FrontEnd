@@ -12,7 +12,7 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
 }
 export default function TopBar() {
-  const { userLogout } = useContext(AuthContext);
+  const { userLogout, authState } = useContext(AuthContext);
   const [addTask, setAddTask] = useState(false);
   const toggleAddTaskDrawer = () => {
     setAddTask(!addTask);
@@ -285,7 +285,7 @@ export default function TopBar() {
                   <Menu.Button className='inline-flex w-full justify-center gap-x-1.5 rounded'>
                     <img
                       className='h-8 w-8 rounded-full'
-                      src='https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80'
+                      src={authState?.user?.image}
                       alt=''
                     />
                     <ChevronDownIcon
