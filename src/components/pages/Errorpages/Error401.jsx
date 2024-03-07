@@ -1,6 +1,8 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const Error401 = () => {
+  document.title = 'ATBT | 401';
   return (
     <div className='flex justify-center items-center min-h-screen'>
       <div className='border-2 border-gray-100 px-10 py-2 sm:px-20 sm:py-5 md:px-40 md:py-10 shadow-md  rounded-md'>
@@ -32,9 +34,11 @@ const Error401 = () => {
           Your not authorized to access this page.
         </div>
         <div className='flex justify-center mt-3 sm:mt-4 md:mt-6'>
-          <button className='border border-1 border-gray-100 px-4 py-2 sm:px-6 sm:py-3 md:px-8 md:py-4 bg-orange-600 text-white rounded-md'>
-            Go Back
-          </button>
+          <Link to='/'>
+            <button className='border border-1 border-gray-100 px-4 py-2 sm:px-6 sm:py-3 md:px-8 md:py-4 bg-orange-600 text-white rounded-md'>
+              Go Back
+            </button>
+          </Link>
         </div>
       </div>
     </div>

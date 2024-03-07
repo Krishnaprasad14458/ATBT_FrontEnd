@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 const Settings = () => {
+  document.title = 'ATBT | Setting';
   return (
     <div className='container p-4 bg-[#f8fafc]'>
       <p className='text-xl font-semibold'> Settings</p>
