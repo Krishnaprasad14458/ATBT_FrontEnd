@@ -17,7 +17,9 @@ import {
 
 // import axios from 'axios';
 
-
+const userData = JSON.parse(localStorage.getItem('data'));
+let createdBy = userData.user.id;
+const token = userData?.token;
 export async function userFormLoader({ params }) {
   try {
     const formApi = 'https://atbtmain.teksacademy.com/form/list?name=userform';
