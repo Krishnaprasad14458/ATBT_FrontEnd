@@ -27,9 +27,7 @@ function Entities() {
     entitiesDispatch,
     deleteEntitybyId,
   } = useContext(EntitiesDataContext);
-  useEffect(()=>{
-    console.log("entitiesListt",entitiesList)
-  })
+  
   const { debouncedSetPage, debouncedSetSearch } =
     useDebounce(entitiesDispatch);
   // const [toggle, setToggle] = useState(false)
@@ -134,21 +132,7 @@ const cancelButtonRef = useRef(null);
         // Handle errors
         console.error('Error fetching data:', error);
       });
-      // axios
-      // .post(`https://atbtmain.teksacademy.com/entity/list?page=5&pageSize=5&sortBy=&search=`,
-      // {
-      //   headers: {
-      //     Authorization: token,
-      //   },
-      // })
-      // .then((response) => {
-      //  console.log("response",response)
-      // })
-      // .catch((error) => {
-      //   // Handle errors
-      //   console.error('Error fetching data:', error);
-      // });
-
+   
    
   }, []);
 
@@ -187,9 +171,7 @@ const cancelButtonRef = useRef(null);
     setFilterableInputsInSearch(filterableInputsInSearch);
   }, [customForm]);
 
-  useEffect(() => {
-    console.log('filterableInputsInBox', filterableInputsInBox);
-  });
+ 
 
   ////////filters end
 
@@ -244,12 +226,10 @@ const cancelButtonRef = useRef(null);
     );
     setvisibleColumns(visibleColumns);
   }, [tableView]);
-  useEffect(() => {
-    console.log('tableview', tableView);
-  });
+
   const [selectedFilters, setSelectedFilters] = useState({});
 
-  console.log(selectedFilters, 'sfltrs');
+  
 
   const handleFilterChange = (filterName, selectedValue) => {
     setSelectedFilters((prevState) => ({
