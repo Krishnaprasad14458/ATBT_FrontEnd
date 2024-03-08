@@ -58,7 +58,7 @@ function UserForm() {
   const user = useLoaderData();
   let submit = useSubmit();
   function setInitialForm() {
-    let response = user?.formData ?? [];
+    let response = user?.formData;
     if (!!id && !!user?.userData) {
       let userData = user?.userData;
       response.forEach((input) => {
@@ -81,7 +81,10 @@ function UserForm() {
   let [customFormFields, setCustomFormFields] = useState(() =>
     setInitialForm()
   );
-  let [fieldsDropDownData, setFieldsDropDownData] = useState({
+useEffect(()=>{
+  setCustomFormFields( setInitialForm())
+},[id])
+    let [fieldsDropDownData, setFieldsDropDownData] = useState({
     role: [],
     entityname: [],
   });
@@ -1248,7 +1251,7 @@ function UserForm() {
                                 <span className=' break-all flex gap-2 w-4/6'>
                                   <span> : </span>{' '}
                                   <span className='text-md font-[600] '>
-                                    abc@gmail.comfgfgdfgfdgdf
+                                    abc@gmail.com
                                   </span>
                                 </span>
                               </p>
@@ -1259,7 +1262,7 @@ function UserForm() {
                         item.inputname == 'phonenumber' &&
                         item.field == 'predefined' && (
                           <div className='my-2 ms-5 flex-wrap'>
-                            {item.value ? (
+                        
                               <p className='flex  gap-2'>
                                 <span className='w-2/6 text-[#727a85] '>
                                   {item.label.charAt(0).toUpperCase() +
@@ -1267,25 +1270,17 @@ function UserForm() {
                                 </span>
                                 <span className=' break-all flex gap-2 w-4/6'>
                                   <span> : </span>{' '}
-                                  <span className='text-md font-[600] '>
-                                    {item.value}
-                                  </span>
+                                 {item.value && <span className='text-md font-[600] '>
+                                    {item.value.slice(0,3)}&nbsp;
+                                    {item.value.slice(3,6)}&nbsp;{item.value.slice(6,10)}
+                                  </span>}
+                                  {!item.value && <span className='text-md font-[600] '>
+                                  000 000 0000{' '}
+                                  </span>}
                                 </span>
                               </p>
-                            ) : (
-                              <p className='flex  gap-2'>
-                                <span className='w-2/6 text-[#727a85]'>
-                                  {item.label.charAt(0).toUpperCase() +
-                                    item.label.slice(1)}{' '}
-                                </span>
-                                <span className=' break-all flex gap-2 w-4/6'>
-                                  <span> : </span>{' '}
-                                  <span className='text-md font-[600] '>
-                                    000 000 0000{' '}
-                                  </span>
-                                </span>
-                              </p>
-                            )}
+                         
+                        
                           </div>
                         )}
                       {item.type === 'select' &&

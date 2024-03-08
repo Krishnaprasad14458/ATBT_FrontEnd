@@ -56,13 +56,13 @@ function EntityForm() {
   const entity = useLoaderData();
   console.log(entity, 'cmp loader data');
 
-  useEffect(()=>{
-if(entity?.entityData?.members){
-  setSelected(entity.entityData.members)
-}
-  },[entity])
+  useEffect(() => {
+    if (id && entity?.entityData?.members) {
+      setSelected(entity.entityData.members)
+    }
+  }, [id,entity])
   function setInitialForm() {
-    let response = entity?.formData ?? [];
+    let response = entity?.formData;
     if (!!id && !!entity?.entityData) {
       let entityData = entity?.entityData;
       response.forEach((input) => {
@@ -90,7 +90,12 @@ if(entity?.entityData?.members){
   let [customFormFields, setCustomFormFields] = useState(() =>
     setInitialForm()
   );
-
+  useEffect(() => {
+    setCustomFormFields(setInitialForm()) 
+    if(!id){
+      setSelected([])
+    }
+  }, [id])
   useEffect(() => {
     console.log(customFormFields, 'cfff');
     console.log('errors', errors);
