@@ -31,11 +31,11 @@ const AddRoles = () => {
         permissions: [
           {
             module: 'dashboard',
-            all: false,
-            canCreate: false,
-            canRead: false,
-            canUpdate: false,
-            canDelete: false,
+            all: true,
+            canCreate: true,
+            canRead: true,
+            canUpdate: true,
+            canDelete: true,
           },
           {
             module: 'user',
