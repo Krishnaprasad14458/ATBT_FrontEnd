@@ -197,16 +197,18 @@ const CustomFormStructure = () => {
         const updatedForm = [...customForm];
         updatedForm[editIndex] = newInputField;
         setCustomForm(updatedForm);
+if(newInputField.type != 'checkbox'){
+  setTableView((prevState) => {
+    const updatedState = { ...prevState };
+    updatedState[newInputField.inputname] = {
+      ...updatedState[newInputField.inputname],
+      label: newInputField.label,
+    };
 
-        setTableView((prevState) => {
-          const updatedState = { ...prevState };
-          updatedState[newInputField.inputname] = {
-            ...updatedState[newInputField.inputname],
-            label: newInputField.label,
-          };
-
-          return updatedState;
-        });
+    return updatedState;
+  });
+}
+       
       } else {
         // Add new field
         if (
@@ -225,24 +227,30 @@ const CustomFormStructure = () => {
           let newField = { ...newInputField };
           delete newField.options;
           setCustomForm((prev) => [...prev, newField]);
-          setTableView((prevState) => {
-            const updatedState = { ...prevState };
-            updatedState[newInputField.inputname] = {
-              label: newInputField.label,
-              value: false,
-            };
-            return updatedState;
-          });
+          if(newInputField.type != 'checkbox'){
+            setTableView((prevState) => {
+              const updatedState = { ...prevState };
+              updatedState[newInputField.inputname] = {
+                label: newInputField.label,
+                value: false,
+              };
+              return updatedState;
+            });
+          }
+         
         } else {
           setCustomForm((prev) => [...prev, newInputField]);
-          setTableView((prevState) => {
-            const updatedState = { ...prevState };
-            updatedState[newInputField.inputname] = {
-              label: newInputField.label,
-              value: false,
-            };
-            return updatedState;
-          });
+          if(newInputField.type != 'checkbox'){
+            setTableView((prevState) => {
+              const updatedState = { ...prevState };
+              updatedState[newInputField.inputname] = {
+                label: newInputField.label,
+                value: false,
+              };
+              return updatedState;
+            });
+          }
+        
         }
       }
       setOpen(false);

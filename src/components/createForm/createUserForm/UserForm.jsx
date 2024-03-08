@@ -15,6 +15,7 @@ import {
   useParams,
 } from 'react-router-dom';
 const userData = JSON.parse(localStorage.getItem('data'));
+const loggedInUser =userData?.user?.id
 const token = userData?.token;
 export async function userFormLoader({ params }) {
   try {
@@ -51,6 +52,8 @@ function UserForm() {
 
   document.title = 'ATBT | User';
   let { id } = useParams();
+
+
   const userData = JSON.parse(localStorage.getItem('data'));
   let createdBy = userData.user.id;
   const token = userData?.token;
@@ -695,6 +698,9 @@ function UserForm() {
                           onChange={(e) => handleChange(index, e.target.value)}
                           value={customFormFields[index].value || ''}
                           style={{ fontSize: '0.8rem' }}
+                          disabled={id && user?.userData && parseInt(id) === loggedInUser ? true : false}
+
+                          
                         >
                           <option
                             value=''

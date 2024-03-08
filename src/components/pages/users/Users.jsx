@@ -295,6 +295,7 @@ function Users() {
         console.error('Update failed:', error);
       }
     }
+    return columnsDrawer();
   };
 
   const [visibleColumns, setvisibleColumns] = useState();
