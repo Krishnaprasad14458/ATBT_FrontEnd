@@ -4,25 +4,24 @@ import { Link } from 'react-router-dom';
 import GateKeeper from '../../../rbac/GateKeeper';
 const Sidebar = () => {
   const menus = [
-    {
-      name: 'Home',
-      link: '/',
-      icon: (
-        <svg
-          xmlns='http://www.w3.org/2000/svg'
-          viewBox='0 0 20 20'
-          fill='currentColor'
-          className='w-5 h-5'
-        >
-          <path
-            fill-rule='evenodd'
-            d='M9.293 2.293a1 1 0 0 1 1.414 0l7 7A1 1 0 0 1 17 11h-1v6a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1v-3a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v3a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-6H3a1 1 0 0 1-.707-1.707l7-7Z'
-            clip-rule='evenodd'
-          />
-        </svg>
-      ),
-      module: 'dashboard',
-    },
+    // {
+    //   name: 'Home',
+    //   link: '/',
+    //   icon: (
+    //     <svg
+    //       xmlns='http://www.w3.org/2000/svg'
+    //       viewBox='0 0 20 20'
+    //       fill='currentColor'
+    //       className='w-5 h-5'
+    //     >
+    //       <path
+    //         fill-rule='evenodd'
+    //         d='M9.293 2.293a1 1 0 0 1 1.414 0l7 7A1 1 0 0 1 17 11h-1v6a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1v-3a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v3a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-6H3a1 1 0 0 1-.707-1.707l7-7Z'
+    //         clip-rule='evenodd'
+    //       />
+    //     </svg>
+    //   ),
+    // },
     {
       name: 'Users',
       link: '/users',
@@ -199,6 +198,50 @@ const Sidebar = () => {
               open ? '' : 'mt-8'
             }`}
           >
+            <Link
+              to='/'
+              onClick={(e) => {
+                setActive('Home');
+              }}
+              className={`group flex items-center text-md gap-3.5 font-semibold p-2 leading-normal
+                                    hover:bg-orange-600 hover:text-white rounded-md
+                                    ${
+                                      'Home' === active
+                                        ? 'text-orange-600'
+                                        : 'black'
+                                    }`}
+            >
+              <div style={{ width: '1rem', height: '1rem', marginLeft: '5px' }}>
+                {
+                  <svg
+                    xmlns='http://www.w3.org/2000/svg'
+                    viewBox='0 0 20 20'
+                    fill='currentColor'
+                    className='w-5 h-5'
+                  >
+                    <path
+                      fill-rule='evenodd'
+                      d='M9.293 2.293a1 1 0 0 1 1.414 0l7 7A1 1 0 0 1 17 11h-1v6a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1v-3a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v3a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-6H3a1 1 0 0 1-.707-1.707l7-7Z'
+                      clip-rule='evenodd'
+                    />
+                  </svg>
+                }
+              </div>
+              <h3
+                className={`whitespace-pre font-sans ${
+                  !open && `opacity-0 translate-x-20 overflow-hidden`
+                }`}
+              >
+                {'Home'}
+              </h3>
+              <h3
+                className={`${
+                  open && 'hidden'
+                } absolute left-20 bg-white font-semibold whitespace-pre text-black rounded-md drop-shadow-lg px-0 py-0 w-0 overflow-hidden group-hover:px-2 group-hover:py-1 group-hover:left-14 group-hover:w-fit`}
+              >
+                {'Home'}
+              </h3>
+            </Link>
             {menus?.map((menu, i) => (
               <GateKeeper
                 permissionCheck={(permission) =>
