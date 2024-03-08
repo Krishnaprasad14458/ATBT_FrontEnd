@@ -1,11 +1,11 @@
-import React, { useContext, useEffect, useState,useRef } from 'react';
+import React, { useContext, useEffect, useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { EntitiesDataContext } from '../../../contexts/entitiesDataContext/entitiesDataContext';
 import './Entities.css';
 import { Fragment } from 'react';
 import Swal from 'sweetalert2';
 
-import {Dialog, Menu, Transition } from '@headlessui/react';
+import { Dialog, Menu, Transition } from '@headlessui/react';
 import { ChevronDownIcon } from '@heroicons/react/20/solid';
 import useDebounce from '../../../hooks/debounce/useDebounce';
 import { formatDate } from '../../../utils/utils';
@@ -21,15 +21,14 @@ const token = userData?.token;
 const role = userData?.role?.name;
 
 function Entities() {
+  document.title = 'ATBT | Entity';
   const {
     entitiesState: { entitiesList },
-    
+
     entitiesDispatch,
     deleteEntitybyId,
   } = useContext(EntitiesDataContext);
-  useEffect(()=>{
-    console.log("entitiesListt",entitiesList)
-  })
+
   const { debouncedSetPage, debouncedSetSearch } =
     useDebounce(entitiesDispatch);
   // const [toggle, setToggle] = useState(false)
@@ -52,36 +51,34 @@ function Entities() {
   useEffect(() => {
     console.log(isChecked);
   });
-///////////////////////////////////////////////////////////////
-function handlefilters() {
-  // usersDispatch(setFilters(selectedFilters, 'SETTINGS'));
-  // setFilterDrawerOpen(!filterDrawerOpen);
-}
+  ///////////////////////////////////////////////////////////////
+  function handlefilters() {
+    // usersDispatch(setFilters(selectedFilters, 'SETTINGS'));
+    // setFilterDrawerOpen(!filterDrawerOpen);
+  }
 
-const handleFilterReset = () => {
-  setSelectedFilters({});
-  // usersDispatch(setFilters({}, 'SETTINGS'));
-  // setFilterDrawerOpen(!filterDrawerOpen);
-};
-useEffect(() => {
- 
-  // return () => {
-  //   usersDispatch({
-  //     type: 'SET_SEARCH',
-  //     payload: {
-  //       data: '',
-  //       context: 'SEIINGS',
-  //     },
-  //   });
- 
-  // };
-}, []);
-const [open, setOpen] = useState(false);
-const handleClosed = () => {
-  setOpen(false);
-};
+  const handleFilterReset = () => {
+    setSelectedFilters({});
+    // usersDispatch(setFilters({}, 'SETTINGS'));
+    // setFilterDrawerOpen(!filterDrawerOpen);
+  };
+  useEffect(() => {
+    // return () => {
+    //   usersDispatch({
+    //     type: 'SET_SEARCH',
+    //     payload: {
+    //       data: '',
+    //       context: 'SEIINGS',
+    //     },
+    //   });
+    // };
+  }, []);
+  const [open, setOpen] = useState(false);
+  const handleClosed = () => {
+    setOpen(false);
+  };
 
-const cancelButtonRef = useRef(null);
+  const cancelButtonRef = useRef(null);
   const [columnsDrawerOpen, setColumnsDrawerOpen] = useState(false);
 
   const columnsDrawer = () => {
@@ -134,22 +131,6 @@ const cancelButtonRef = useRef(null);
         // Handle errors
         console.error('Error fetching data:', error);
       });
-      // axios
-      // .post(`https://atbtmain.teksacademy.com/entity/list?page=5&pageSize=5&sortBy=&search=`,
-      // {
-      //   headers: {
-      //     Authorization: token,
-      //   },
-      // })
-      // .then((response) => {
-      //  console.log("response",response)
-      // })
-      // .catch((error) => {
-      //   // Handle errors
-      //   console.error('Error fetching data:', error);
-      // });
-
-   
   }, []);
 
   ////////filters start
@@ -186,10 +167,6 @@ const cancelButtonRef = useRef(null);
     setFilterableInputsInBox(filterableInputsInBox);
     setFilterableInputsInSearch(filterableInputsInSearch);
   }, [customForm]);
-
-  useEffect(() => {
-    console.log('filterableInputsInBox', filterableInputsInBox);
-  });
 
   ////////filters end
 
@@ -244,12 +221,8 @@ const cancelButtonRef = useRef(null);
     );
     setvisibleColumns(visibleColumns);
   }, [tableView]);
-  useEffect(() => {
-    console.log('tableview', tableView);
-  });
-  const [selectedFilters, setSelectedFilters] = useState({});
 
-  console.log(selectedFilters, 'sfltrs');
+  const [selectedFilters, setSelectedFilters] = useState({});
 
   const handleFilterChange = (filterName, selectedValue) => {
     setSelectedFilters((prevState) => ({
@@ -257,9 +230,6 @@ const cancelButtonRef = useRef(null);
       [filterName]: selectedValue,
     }));
   };
-
-
-
 
   return (
     <div className='overflow-x-auto p-3'>
@@ -318,7 +288,7 @@ const cancelButtonRef = useRef(null);
             <option value='250'>250</option>
             <option value='500'>500</option>
           </select>
-         
+
           <button
             onClick={columnsDrawer}
             className=' focus:outline-none me-3 gap-x-1.5 rounded-md bg-orange-600 px-4 py-2 text-sm font-[500] text-white shadow-md  hover:shadow-lg'
@@ -563,10 +533,7 @@ const cancelButtonRef = useRef(null);
             <tbody className='divide-y divide-gray-200 dark:divide-gray-700'>
               {entitiesList?.paginatedEntities &&
                 entitiesList?.paginatedEntities?.map((row) => (
-                  <tr
-                    key={row.id}
-
-                  >
+                  <tr key={row.id}>
                     {visibleColumns.map((key) => (
                       <td
                         key={key}
@@ -580,60 +547,79 @@ const cancelButtonRef = useRef(null);
                       className={`px-6 py-2 text-left border border-[#e5e7eb] text-xs font-medium `}
                     >
                       <div className='flex justify-start'>
-                        <button
-                          type='button'
-                          className='me-5 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600'
+                        <GateKeeper
+                          permissionCheck={(permission) =>
+                            permission.module === 'entity' && permission.canRead
+                          }
                         >
-                          <Link to={`${row.id}`}>
+                          <button
+                            type='button'
+                            className='me-5 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600'
+                          >
+                            <Link to={`${row.id}`}>
+                              <svg
+                                xmlns='http://www.w3.org/2000/svg'
+                                viewBox='0 0 20 20'
+                                fill='currentColor'
+                                className='w-5 h-5'
+                              >
+                                <path d='M10 12.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z' />
+                                <path
+                                  fill-rule='evenodd'
+                                  d='M.664 10.59a1.651 1.651 0 0 1 0-1.186A10.004 10.004 0 0 1 10 3c4.257 0 7.893 2.66 9.336 6.41.147.381.146.804 0 1.186A10.004 10.004 0 0 1 10 17c-4.257 0-7.893-2.66-9.336-6.41ZM14 10a4 4 0 1 1-8 0 4 4 0 0 1 8 0Z'
+                                  clip-rule='evenodd'
+                                />
+                              </svg>
+                            </Link>
+                          </button>
+                        </GateKeeper>
+                        <GateKeeper
+                          permissionCheck={(permission) =>
+                            permission.module === 'entity' &&
+                            permission.canUpdate
+                          }
+                        >
+                          <button
+                            type='button'
+                            className='me-5 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600'
+                          >
+                            <Link to={`${row.id}/edit`}>
+                              <svg
+                                xmlns='http://www.w3.org/2000/svg'
+                                viewBox='0 0 20 20'
+                                fill='currentColor'
+                                className='w-5 h-5'
+                              >
+                                <path d='m2.695 14.762-1.262 3.155a.5.5 0 0 0 .65.65l3.155-1.262a4 4 0 0 0 1.343-.886L17.5 5.501a2.121 2.121 0 0 0-3-3L3.58 13.419a4 4 0 0 0-.885 1.343Z' />
+                              </svg>
+                            </Link>
+                          </button>
+                        </GateKeeper>
+                        <GateKeeper
+                          permissionCheck={(permission) =>
+                            permission.module === 'entity' &&
+                            permission.canDelete
+                          }
+                        >
+                          <button
+                            type='button'
+                            onClick={() => handleDeleteUser(row.id)}
+                            className='me-5 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600'
+                          >
                             <svg
                               xmlns='http://www.w3.org/2000/svg'
                               viewBox='0 0 20 20'
                               fill='currentColor'
                               className='w-5 h-5'
                             >
-                              <path d='M10 12.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z' />
                               <path
                                 fill-rule='evenodd'
-                                d='M.664 10.59a1.651 1.651 0 0 1 0-1.186A10.004 10.004 0 0 1 10 3c4.257 0 7.893 2.66 9.336 6.41.147.381.146.804 0 1.186A10.004 10.004 0 0 1 10 17c-4.257 0-7.893-2.66-9.336-6.41ZM14 10a4 4 0 1 1-8 0 4 4 0 0 1 8 0Z'
+                                d='M8.75 1A2.75 2.75 0 0 0 6 3.75v.443c-.795.077-1.584.176-2.365.298a.75.75 0 1 0 .23 1.482l.149-.022.841 10.518A2.75 2.75 0 0 0 7.596 19h4.807a2.75 2.75 0 0 0 2.742-2.53l.841-10.52.149.023a.75.75 0 0 0 .23-1.482A41.03 41.03 0 0 0 14 4.193V3.75A2.75 2.75 0 0 0 11.25 1h-2.5ZM10 4c.84 0 1.673.025 2.5.075V3.75c0-.69-.56-1.25-1.25-1.25h-2.5c-.69 0-1.25.56-1.25 1.25v.325C8.327 4.025 9.16 4 10 4ZM8.58 7.72a.75.75 0 0 0-1.5.06l.3 7.5a.75.75 0 1 0 1.5-.06l-.3-7.5Zm4.34.06a.75.75 0 1 0-1.5-.06l-.3 7.5a.75.75 0 1 0 1.5.06l.3-7.5Z'
                                 clip-rule='evenodd'
                               />
                             </svg>
-                          </Link>
-                        </button>
-                        <button
-                          type='button'
-                          className='me-5 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600'
-                        >
-                          <Link to={`${row.id}/edit`}>
-                            <svg
-                              xmlns='http://www.w3.org/2000/svg'
-                              viewBox='0 0 20 20'
-                              fill='currentColor'
-                              className='w-5 h-5'
-                            >
-                              <path d='m2.695 14.762-1.262 3.155a.5.5 0 0 0 .65.65l3.155-1.262a4 4 0 0 0 1.343-.886L17.5 5.501a2.121 2.121 0 0 0-3-3L3.58 13.419a4 4 0 0 0-.885 1.343Z' />
-                            </svg>
-                          </Link>
-                        </button>
-                        <button
-                          type='button'
-                          onClick={() => handleDeleteUser(row.id)}
-                          className='me-5 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600'
-                        >
-                          <svg
-                            xmlns='http://www.w3.org/2000/svg'
-                            viewBox='0 0 20 20'
-                            fill='currentColor'
-                            className='w-5 h-5'
-                          >
-                            <path
-                              fill-rule='evenodd'
-                              d='M8.75 1A2.75 2.75 0 0 0 6 3.75v.443c-.795.077-1.584.176-2.365.298a.75.75 0 1 0 .23 1.482l.149-.022.841 10.518A2.75 2.75 0 0 0 7.596 19h4.807a2.75 2.75 0 0 0 2.742-2.53l.841-10.52.149.023a.75.75 0 0 0 .23-1.482A41.03 41.03 0 0 0 14 4.193V3.75A2.75 2.75 0 0 0 11.25 1h-2.5ZM10 4c.84 0 1.673.025 2.5.075V3.75c0-.69-.56-1.25-1.25-1.25h-2.5c-.69 0-1.25.56-1.25 1.25v.325C8.327 4.025 9.16 4 10 4ZM8.58 7.72a.75.75 0 0 0-1.5.06l.3 7.5a.75.75 0 1 0 1.5-.06l-.3-7.5Zm4.34.06a.75.75 0 1 0-1.5-.06l-.3 7.5a.75.75 0 1 0 1.5.06l.3-7.5Z'
-                              clip-rule='evenodd'
-                            />
-                          </svg>
-                        </button>
-                       
+                          </button>
+                        </GateKeeper>
                       </div>
                     </td>
                   </tr>
@@ -643,8 +629,7 @@ const cancelButtonRef = useRef(null);
         )}
       </div>
 
-     
-  {/*
+      {/*
       <Transition.Root
         show={open}
         as={Fragment}
@@ -818,7 +803,9 @@ const cancelButtonRef = useRef(null);
 }
 
 export default Entities;
- {/* table */}
+{
+  /* table */
+}
 
 //  <div className='max-h-[410px] overflow-y-scroll mt-6'>
 //  <table className='w-full divide-y divide-gray-200 dark:divide-gray-700 rounded-md'>

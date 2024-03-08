@@ -90,6 +90,7 @@ export const router = createBrowserRouter([
                 ]
             },
             {
+                path: 'entities',
                 children: [
                     ...entityRouter,
                 ]

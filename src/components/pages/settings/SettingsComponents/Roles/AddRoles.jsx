@@ -390,7 +390,7 @@ const AddRoles = () => {
           Add Roles
         </p>
         <div className='col-span-1 text-end mt-4 sm:mt-0'>
-          <Link to='/roles'>
+          <Link to='..'>
             <button
               type='submit'
               className='create-btn px-4 py-2 inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white gap-1'
