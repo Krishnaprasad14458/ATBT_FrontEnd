@@ -29,14 +29,14 @@ const AddRoles = () => {
         role: '',
         description: '',
         permissions: [
-          // {
-          //   module: 'dashboard',
-          //   all: false,
-          //   canCreate: false,
-          //   canRead: false,
-          //   canUpdate: false,
-          //   canDelete: false,
-          // },
+          {
+            module: 'dashboard',
+            all: false,
+            canCreate: false,
+            canRead: false,
+            canUpdate: false,
+            canDelete: false,
+          },
           {
             module: 'user',
             all: false,
