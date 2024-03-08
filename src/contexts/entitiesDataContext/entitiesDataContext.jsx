@@ -125,6 +125,7 @@ const EntitiesDataProvider = ({ children }) => {
         getDashboardEntitiesData();
         getAllEntities();
       }
+      return { data, status };
     } catch (error) {
       // console.error(`the error is ${error}`);
       throwError(error);
@@ -152,7 +153,6 @@ const EntitiesDataProvider = ({ children }) => {
         getDashboardEntitiesData();
         getpaginatedEntitiesData();
         getAllEntities();
-        // navigate(`/`)
       }
       return { data, status };
     } catch (error) {
