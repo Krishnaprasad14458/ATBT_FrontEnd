@@ -109,7 +109,7 @@ function Entities() {
       try {
         const result = await deleteEntitybyId(id);
       } catch (error) {
-        Swal.fire('Error', 'Unable to delete user 🤯', 'error');
+        Swal.fire('Error', 'Unable to delete entity 🤯', 'error');
       }
     }
   };
@@ -171,6 +171,10 @@ function Entities() {
   ////////filters end
 
   const [tableView, setTableView] = useState();
+  useEffect(()=>{
+
+    console.log("tableView",tableView)
+  },[tableView])
   const [dupTableView, setDupTableView] = useState();
   const handleColumnsCheckboxChange = (columnName) => {
     setDupTableView((prevColumns) => ({
@@ -183,19 +187,20 @@ function Entities() {
   };
   const handleColumnsApply = () => {
     setTableView(dupTableView);
+    return columnsDrawer();
   };
   const handleColumnsSave = () => {
     if (role === 'admin') {
       try {
         axios
           .put(
-            `https://atbtmain.teksacademy.com/form/tableUpdate?name=userform`,
+            `https://atbtmain.teksacademy.com/form/tableUpdate?name=entityform`,
             dupTableView
           )
           .then((response) => {
             console.log('Update successful:', response.data);
             axios
-              .get(`https://atbtmain.teksacademy.com/form/list?name=userform`)
+              .get(`https://atbtmain.teksacademy.com/form/list?name=entityform`)
               .then((response) => {
                 setCustomForm(response.data.Data);
                 setTableView(response.data.Tableview);
@@ -212,6 +217,8 @@ function Entities() {
         console.error('Update failed:', error);
       }
     }
+    return columnsDrawer();
+
   };
 
   const [visibleColumns, setvisibleColumns] = useState();

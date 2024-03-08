@@ -305,13 +305,10 @@ function Users() {
     );
     setvisibleColumns(visibleColumns);
   }, [tableView]);
-  useEffect(() => {
-    console.log('tableview', tableView);
-  });
+ 
   const [selectedFilters, setSelectedFilters] = useState({});
 
-  console.log(selectedFilters, 'sfltrs');
-
+ 
   const handleFilterChange = (filterName, selectedValue) => {
     setSelectedFilters((prevState) => ({
       ...prevState,
