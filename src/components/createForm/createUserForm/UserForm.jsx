@@ -582,7 +582,7 @@ function UserForm() {
                           value={customFormFields[index].value || ''}
                           style={{ fontSize: '0.8rem' }}
                           onChange={(e) => handleChange(index, e.target.value)}
-                          className={` ${!!id && !!user?.userData ? 'text-[#d4d4d8] bg-gray-300' : 'bg-gray-500'} px-2 py-2 text-sm block w-full rounded-md bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none  focus:border-orange-400 placeholder:text-xs `} />
+                          className={` ${!!id && !!user?.userData ? 'text-[#d4d4d8] bg-gray-50' : 'bg-gray-50 text-gray-900'} px-2 py-2 text-sm block w-full rounded-md bg-gray-50 border border-gray-300  focus:outline-none  focus:border-orange-400 placeholder:text-xs `} />
                         <div className='h-2 text-[#dc2626]'>
                           {errors[item.inputname] && (
                             <span className='text-xs'>
@@ -1202,11 +1202,11 @@ function UserForm() {
                       item.field == 'predefined' && (
                         <div className='flex  justify-center   border-t-2 border-gray-300 '>
                           {item.value ? (
-                            <p className='absolute top-20 mt-8   text-sm antialiased  leading-snug tracking-normal text-blue-gray-90'>
+                            <p className='absolute top-20 mt-8 text-sm antialiased  leading-snug tracking-normal text-blue-gray-90'>
                               {item.value}
                             </p>
                           ) : (
-                            <p className='absolute top-20 mt-8   text-sm antialiased  leading-snug tracking-normal text-blue-gray-900'>
+                            <p className='absolute top-20 mt-8 text-sm antialiased  leading-snug tracking-normal text-blue-gray-900'>
                               XYZ company
                             </p>
                           )}
@@ -1381,7 +1381,7 @@ function UserForm() {
                             </span>
                             <span className=' break-all flex gap-2 w-4/6'>
                               <span> : </span>{' '}
-                              <span className='text-md font-[600] '>
+                              <span className='text-md font-[600] hyphens-auto'>
                                 {item.value}
                               </span>
                             </span>
