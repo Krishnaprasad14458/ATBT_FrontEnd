@@ -11,8 +11,7 @@ export const roleRouter = [
             let url = new URL(request.url);
             let searchTerm = url.searchParams.get("search") || "";
             console.log(searchTerm, "role params")
-            // const data = await axios.get("https://atbtmain.teksacademy.com/rbac/getroles")
-            const data = await axios.get(`http://localhost:3000/rbac/getroles?search=${searchTerm}`)
+            const data = await axios.get(`https://atbtmain.teksacademy.com/rbac/getroles?search=${searchTerm}`)
             console.log(data, "roles data")
             return data
         },
