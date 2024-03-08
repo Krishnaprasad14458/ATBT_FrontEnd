@@ -459,8 +459,14 @@ const AddRoles = () => {
                 type='text'
                 autoComplete='role'
                 required
-                className='  p-2 block w-full rounded-md bg-gray-50 border-2 border-gray-200 py-1.5 text-gray-900 appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6
-                placeholder:text-xs'
+                disabled={!!response?.response?.id ? true : false}
+                // className='  p-2 block w-full rounded-md bg-gray-50 border-2 border-gray-200 py-1.5 text-gray-900 appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6
+                // placeholder:text-xs'
+className = {` ${!!response?.response?.id ? 'text-[#d4d4d8] bg-gray-50' : 'bg-gray-50 text-gray-900'} p-2 block w-full rounded-md  border-2 border-gray-200 py-1.5  appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6
+placeholder:text-xs` }
+
+
+
               />
               {error.role && error.role.length > 0 && <span>{error.role}</span>}
             </div>
