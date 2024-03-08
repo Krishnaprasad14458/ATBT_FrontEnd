@@ -43,6 +43,12 @@ export async function userFormLoader({ params }) {
   }
 }
 function UserForm() {
+  const {
+    entitiesState: { entitiesList },
+
+
+  } = useContext(EntitiesDataContext);
+
   document.title = 'ATBT | User';
   let { id } = useParams();
   const userData = JSON.parse(localStorage.getItem('data'));
@@ -77,8 +83,14 @@ function UserForm() {
   );
   let [fieldsDropDownData, setFieldsDropDownData] = useState({
     role: [],
-    entityname: ['Infoz IT Solutions Private Limited limited limited', 'relid'],
+    entityname: [],
   });
+  useEffect(() => {
+    setFieldsDropDownData((prevState) => ({
+      ...prevState,
+      entityname: entitiesList.paginatedEntities.map((item) => item.name),
+    }));
+  }, [entitiesList])
   useEffect(() => {
     axios
       .get(`https://atbtmain.teksacademy.com/rbac/getroles`)
@@ -576,8 +588,8 @@ function UserForm() {
 
                           disabled={!!id && !!user?.userData ? true : false}
                           className={` ${!!id && !!user?.userData
-                              ? 'bg-gray-200 text-gray-200'
-                              : 'bg-gray-50'
+                            ? 'bg-gray-200 text-gray-200'
+                            : 'bg-gray-50'
                             } px-2 py-2 text-sm block w-full rounded-md bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none  focus:border-orange-400 placeholder:text-xs `}
                         />
                         <div className='h-2 text-[#dc2626]'>

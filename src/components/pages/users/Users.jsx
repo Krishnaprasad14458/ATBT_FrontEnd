@@ -11,6 +11,7 @@ import useDebounce from '../../../hooks/debounce/useDebounce';
 import * as actions from '../../../contexts/usersDataContext/utils/usersActions';
 import GateKeeper from '../../../rbac/GateKeeper';
 import axios from 'axios';
+import { EntitiesDataContext } from '../../../contexts/entitiesDataContext/entitiesDataContext';
 import { AuthContext } from '../../../contexts/authContext/authContext';
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
@@ -20,6 +21,10 @@ const token = userData?.token;
 const role = userData?.role?.name;
 const userId = userData?.user?.id;
 function Users() {
+  const {
+    entitiesState: { entitiesList },
+
+  } = useContext(EntitiesDataContext);
   document.title = 'ATBT | User';
   const [hoveredOption, setHoveredOption] = useState(4);
   useEffect(() => {
@@ -171,8 +176,14 @@ function Users() {
   const [customForm, setCustomForm] = useState([]);
   let [fieldsDropDownData, setFieldsDropDownData] = useState({
     role: [],
-    entityname: ['infosys', 'relid'],
+    entityname: [],
   });
+  useEffect(() => {
+    setFieldsDropDownData((prevState) => ({
+      ...prevState,
+      entityname: entitiesList.paginatedEntities.map((item) => item.name),
+    }));
+  }, [entitiesList])
   useEffect(() => {
     axios
       .get(`https://atbtmain.teksacademy.com/form/list?name=userform`)
