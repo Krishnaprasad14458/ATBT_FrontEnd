@@ -596,7 +596,7 @@ function Users() {
         </div>
       </div>
       {/* table */}
-      <div className='max-h-[457px] overflow-y-scroll mt-8'>
+      <div className='max-h-[510px] overflow-y-scroll mt-8'>
         {visibleColumns && tableView && settings?.paginatedUsers && (
           <table className='w-full divide-y divide-gray-200 dark:divide-gray-700 rounded-md'>
             <thead>

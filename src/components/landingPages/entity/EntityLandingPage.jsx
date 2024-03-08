@@ -28,6 +28,7 @@ const EntityLandingPage = () => {
     entitiesState: { entities },
   } = useContext(EntitiesDataContext);
   const { id } = useParams();
+  // console.log()
   const [singleProduct, setSingleProduct] = useState({});
   // todo toggle
   // const [todo, setTodo] = useState(false);
@@ -117,19 +118,33 @@ const EntityLandingPage = () => {
   const [expand, setExpand] = useState(false);
 
   let [customFormField, setCustomFormField] = useState();
-
+  const userData = JSON.parse(localStorage.getItem('data'));
+  const token = userData?.token;
+  let response
+  let [predefinedImage,setPredefinedImage] = useState("")
   useEffect(() => {
     axios
-      .get(`https://atbtmain.teksacademy.com/entity/data/${id}`)
-      .then((response) => {
+      .get(`https://atbtmain.teksacademy.com/entity/list/${id}`, {
+        headers: {
+          authorization: token
+        }
+      })
+      .then((res) => {
         // Handle the successful response
+        response=res
+        console.log("response", response.data.image)
+        setPredefinedImage(response.data.image)
         setCustomFormField(response.data.customFieldsData);
+
       })
       .catch((error) => {
         // Handle errors
         console.error('Error fetching data:', error);
       });
   }, []);
+  useEffect(() => {
+    console.log("customFormField", customFormField)
+  }, [customFormField])
   return (
     <div className='container p-4 bg-[#f8fafc]'>
       <div className='flex justify-between my-2'>
@@ -148,50 +163,44 @@ const EntityLandingPage = () => {
       <div className=''>
         <div className='flex'>
           <div
-            className={`cursor-pointer px-1 py-1 text-md font-semibold  ${
-              activeTab === 1 ? 'border-b-2 border-orange-600 text-black' : ''
-            }`}
+            className={`cursor-pointer px-1 py-1 text-md font-semibold  ${activeTab === 1 ? 'border-b-2 border-orange-600 text-black' : ''
+              }`}
             onClick={() => handleTabClick(1)}
           >
             Overview
           </div>
 
           <div
-            className={`cursor-pointer px-5 py-1 text-md font-semibold  ${
-              activeTab === 2 ? 'border-b-2 border-orange-600 text-black' : ''
-            }`}
+            className={`cursor-pointer px-5 py-1 text-md font-semibold  ${activeTab === 2 ? 'border-b-2 border-orange-600 text-black' : ''
+              }`}
             onClick={() => handleTabClick(2)}
           >
             List
           </div>
           <div
-            className={`cursor-pointer px-5 py-1 text-md font-semibold  ${
-              activeTab === 3 ? 'border-b-2 border-orange-600 text-black' : ''
-            }`}
+            className={`cursor-pointer px-5 py-1 text-md font-semibold  ${activeTab === 3 ? 'border-b-2 border-orange-600 text-black' : ''
+              }`}
             onClick={() => handleTabClick(3)}
           >
             Calendar
           </div>
           <div
-            className={`cursor-pointer px-5 py-1 text-md font-semibold ${
-              activeTab === 4 ? 'border-b-2 border-orange-600 text-black' : ''
-            }`}
+            className={`cursor-pointer px-5 py-1 text-md font-semibold ${activeTab === 4 ? 'border-b-2 border-orange-600 text-black' : ''
+              }`}
             onClick={() => handleTabClick(4)}
           >
             Dashboard
           </div>
           <div
-            className={`cursor-pointer px-5 py-1 text-md font-semibold  ${
-              activeTab === 5 ? 'border-b-2 border-orange-600 text-black' : ''
-            }`}
+            className={`cursor-pointer px-5 py-1 text-md font-semibold  ${activeTab === 5 ? 'border-b-2 border-orange-600 text-black' : ''
+              }`}
             onClick={() => handleTabClick(5)}
           >
             Messages
           </div>
           <div
-            className={`cursor-pointer px-5 py-1 text-md font-semibold  ${
-              activeTab === 6 ? 'border-b-2 border-orange-600 text-black' : ''
-            }`}
+            className={`cursor-pointer px-5 py-1 text-md font-semibold  ${activeTab === 6 ? 'border-b-2 border-orange-600 text-black' : ''
+              }`}
             onClick={() => handleTabClick(6)}
           >
             Attachments
@@ -200,200 +209,40 @@ const EntityLandingPage = () => {
         <hr />
       </div>
       {activeTab === 1 && (
-        <div className='mt-4 flex justify-center'>
-          <div className='h-[500px] w-5/6 shadow-md px-6 py-4 border-2 rounded-md bg-[#f8fafc]'>
-            {customFormField &&
-              customFormField.length > 0 &&
-              customFormField.map((item) => (
-                <div className='relative'>
-                  {/* predefined fields*/}
-                  {item.type === 'text' &&
-                    item.inputname == 'name' &&
-                    item.field == 'predefined' && (
-                      <p className='text-sm font-black text-gray-800 mt-2 absolute left-12'>
-                        {item.value}
-                      </p>
-                    )}
-                  {item.type === 'file' &&
-                    item.inputname == 'image' &&
-                    item.field == 'predefined' && (
-                      <div className='flex gap-4'>
-                        <div className='group h-10 '>
-                          {item.value ? (
-                            <img
-                              src={item.value}
-                              name='EntityPhoto'
-                              alt='Selected User Photo'
-                              className='rounded-lg w-10 h-10 mr-4'
-                            />
-                          ) : (
-                            <img
-                              className='w-10 h-10 rounded-lg '
-                              src={defprop}
-                              alt='defult image'
-                            />
-                          )}
-                        </div>
-                      </div>
-                    )}
-                  {item.type === 'textarea' &&
-                    item.inputname == 'description' &&
-                    item.field == 'predefined' && (
-                      <div className='h-28 overflow-auto border border-1 border-gray-200 rounded-md p-2 bg-[#f8fafc] text-sm w-full mt-4'>
-                        {item.value}
-                      </div>
-                    )}
-                  {item.type === 'multiselect' &&
-                    item.inputname == 'members' &&
-                    item.field == 'predefined' && (
-                      <div className=' grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-4 mt-5'>
-                        {item.value &&
-                          Array.from({ length: 12 }).map((_, index) => {
-                            let first = '';
-                            let second = '';
-                            let firstLetter;
-                            let secondLetter;
-                            let mail = '';
-                            if (index < item.value.length) {
-                              mail = item.value[index].split('@')[0];
-                              if (mail.includes('.')) {
-                                first = mail.split('.')[0];
-                                second = mail.split('.')[1];
-                                firstLetter = first[0];
-                                secondLetter = second[0];
-                              } else {
-                                firstLetter = mail[0];
-                              }
-                            }
-                            if (mail.includes('.')) {
-                              first = mail.split('.')[0];
-                              second = mail.split('.')[1];
-                              firstLetter = first[0];
-                              secondLetter = second[0];
-                            } else {
-                              firstLetter = mail[0];
-                            }
-                            //color
-                            const colors = [
-                              '#818cf8',
-                              '#fb923c',
-                              '#f87171',
-                              '#0891b2',
-                              '#db2777',
-                              '#f87171',
-                              '#854d0e',
-                              '#166534',
-                            ];
-                            const getRandomColor = (firstLetter) => {
-                              const randomIndex =
-                                firstLetter.charCodeAt(0) % colors.length;
 
-                              return colors[randomIndex];
-                            };
-
-                            return (
-                              <div
-                                className='col-span-1 flex justify-start gap-3'
-                                key={index}
-                              >
-                                {index + 1 <= item.value.length && (
-                                  <>
-                                    <h5
-                                      style={{
-                                        backgroundColor: `${getRandomColor(
-                                          firstLetter
-                                        )}`,
-                                      }}
-                                      className=' rounded-full w-10 h-10 flex justify-center text-xs items-center text-white'
-                                    >
-                                      {index < 11 && (
-                                        <>
-                                          {firstLetter.toUpperCase()}
-                                          {secondLetter &&
-                                            secondLetter.toUpperCase()}
-                                        </>
-                                      )}
-                                      {index == 11 &&
-                                        item.value.length == 12 && (
-                                          <>
-                                            {firstLetter.toUpperCase()}
-                                            {secondLetter &&
-                                              secondLetter.toUpperCase()}
-                                          </>
-                                        )}{' '}
-                                      {index == 11 &&
-                                        item.value.length > 12 && (
-                                          <span>
-                                            <svg
-                                              xmlns='http://www.w3.org/2000/svg'
-                                              fill='none'
-                                              viewBox='0 0 24 24'
-                                              stroke-width='1.5'
-                                              stroke='currentColor'
-                                              className='w-6 h-6'
-                                            >
-                                              <path
-                                                stroke-linecap='round'
-                                                stroke-linejoin='round'
-                                                d='M18 18.72a9.094 9.094 0 0 0 3.741-.479 3 3 0 0 0-4.682-2.72m.94 3.198.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0 1 12 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 0 1 6 18.719m12 0a5.971 5.971 0 0 0-.941-3.197m0 0A5.995 5.995 0 0 0 12 12.75a5.995 5.995 0 0 0-5.058 2.772m0 0a3 3 0 0 0-4.681 2.72 8.986 8.986 0 0 0 3.74.477m.94-3.197a5.971 5.971 0 0 0-.94 3.197M15 6.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm6 3a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Zm-13.5 0a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Z'
-                                              />
-                                            </svg>
-                                          </span>
-                                        )}
-                                    </h5>
-                                    <div className=' flex items-center'>
-                                      <div className=' '>
-                                        {index < 11 && mail}
-                                        {index == 11 &&
-                                          item.value.length == 12 &&
-                                          mail}{' '}
-                                        {index == 11 &&
-                                          item.value.length > 12 && (
-                                            <span>
-                                              +{item.value.length - 11} more
-                                            </span>
-                                          )}{' '}
-                                      </div>
-                                    </div>
-                                  </>
-                                )}
-                                {index + 1 > item.value.length && (
-                                  <>
-                                    <h5 className='bg-[#e5e7eb] rounded-full w-10 h-10 flex justify-center text-xs items-center text-white'></h5>
-                                    <div className=' flex items-center'>
-                                      <div className=' rounded-md  bg-[#e5e7eb] h-2 w-28'>
-                                        {' '}
-                                      </div>
-                                    </div>
-                                  </>
-                                )}
-                              </div>
-                            );
-                          })}
-                      </div>
-                    )}
-                  {/* customfields */}
-                  {item.type === 'text' && item.field == 'custom' && (
-                    <div>{item.value}</div>
+        <div className='shadow-md px-6 py-4 mt-4 border-2 rounded-md bg-[#f8fafc] '>
+          {customFormField &&
+            customFormField.length > 0 &&
+            customFormField.map((item) => (
+              <div className='relative'>
+                {/* predefined fields*/}
+                {item.type === 'text' &&
+                  item.inputname == 'name' &&
+                  item.field === 'predefined' && (
+                    <div>
+                      {item.value ? (
+                        <p className='text-sm font-black text-gray-800 mt-2 absolute left-12'>
+                          {' '}
+                          {item.value.toUpperCase()}
+                        </p>
+                      ) : (
+                        <p className='text-sm font-black text-gray-800 mt-2 absolute left-12'>
+                          {' '}
+                          ENTITY NAME
+                        </p>
+                      )}
+                    </div>
                   )}
-                  {item.type === 'email' && item.field == 'custom' && (
-                    <div>{item.value}</div>
-                  )}
-                  {item.type === 'password' && item.field == 'custom' && (
-                    <div>{item.value}</div>
-                  )}
-                  {item.type === 'number' && item.field == 'custom' && (
-                    <div>{item.value}</div>
-                  )}
-                  {item.type === 'textarea' && item.field == 'custom' && (
-                    <div>{item.value}</div>
-                  )}
-                  {item.type === 'file' && item.field == 'custom' && (
+                {item.type === 'file' &&
+                  item.inputname == 'image' &&
+                  item.field == 'predefined' && (
                     <div className='flex gap-4'>
                       <div className='group h-10 '>
                         {item.value ? (
                           <img
-                            src={item.value}
+
+                              src={predefinedImage}
+            
                             name='EntityPhoto'
                             alt='Selected User Photo'
                             className='rounded-lg w-10 h-10 mr-4'
@@ -402,36 +251,327 @@ const EntityLandingPage = () => {
                           <img
                             className='w-10 h-10 rounded-lg '
                             src={defprop}
-                            alt='Neil image'
+                            alt='defult image'
                           />
                         )}
                       </div>
-                      <hr className='my-3' />
                     </div>
                   )}
-                  {item.type === 'date' && item.field == 'custom' && (
-                    <div>{item.value}</div>
+                {item.type === 'textarea' &&
+                  item.inputname == 'description' &&
+                  item.field == 'predefined' && (
+                    <div className='h-28 overflow-auto border border-1 border-gray-200 rounded-md p-2 bg-[#f8fafc] text-sm w-full mt-4'>
+                      {item.value}
+                    </div>
                   )}
-                  {item.type === 'select' && item.field == 'custom' && (
-                    <div>{item.value}</div>
+                {item.type === 'multiselect' &&
+                  item.inputname == 'members' &&
+                  item.field == 'predefined' && (
+                    <div className=' grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-4 mt-5'>
+                      {item.value &&
+                        Array.from({ length: 12 }).map((_, index) => {
+                          let first = '';
+                          let second = '';
+                          let firstLetter;
+                          let secondLetter;
+                          let mail = '';
+                          if (index < item.value.length) {
+                            mail = item.value[index].split('@')[0];
+                            if (mail.includes('.')) {
+                              first = mail.split('.')[0];
+                              second = mail.split('.')[1];
+                              firstLetter = first[0];
+                              secondLetter = second[0];
+                            } else {
+                              firstLetter = mail[0];
+                            }
+                          }
+                          if (mail.includes('.')) {
+                            first = mail.split('.')[0];
+                            second = mail.split('.')[1];
+                            firstLetter = first[0];
+                            secondLetter = second[0];
+                          } else {
+                            firstLetter = mail[0];
+                          }
+                          const colors = [
+                            '#818cf8',
+                            '#fb923c',
+                            '#f87171',
+                            '#0891b2',
+                            '#db2777',
+                            '#f87171',
+                            '#854d0e',
+                            '#166534',
+                          ];
+                          const getRandomColor = (firstLetter) => {
+                            const randomIndex =
+                              firstLetter?.charCodeAt(0) % colors.length;
+                            return colors[randomIndex];
+                          };
+                          return (
+                            <div
+                              className='col-span-1 flex justify-start gap-3'
+                              key={index}
+                            >
+                              {index + 1 <= item.value.length && (
+                                <>
+                                  <h5
+                                    style={{
+                                      backgroundColor: `${getRandomColor(
+                                        firstLetter
+                                      )}`,
+                                    }}
+                                    className=' rounded-full w-10 h-10 flex justify-center text-xs items-center text-white'
+                                  >
+                                    {index < 11 && (
+                                      <>
+                                        {firstLetter?.toUpperCase()}
+                                        {secondLetter &&
+                                          secondLetter?.toUpperCase()}
+                                      </>
+                                    )}
+                                    {index == 11 &&
+                                      item.value.length == 12 && (
+                                        <>
+                                          {firstLetter?.toUpperCase()}
+                                          {secondLetter &&
+                                            secondLetter?.toUpperCase()}
+                                        </>
+                                      )}{' '}
+                                    {index == 11 &&
+                                      item.value.length > 12 && (
+                                        <span>
+                                          <svg
+                                            xmlns='http://www.w3.org/2000/svg'
+                                            fill='none'
+                                            viewBox='0 0 24 24'
+                                            stroke-width='1.5'
+                                            stroke='currentColor'
+                                            className='w-6 h-6'
+                                          >
+                                            <path
+                                              stroke-linecap='round'
+                                              stroke-linejoin='round'
+                                              d='M18 18.72a9.094 9.094 0 0 0 3.741-.479 3 3 0 0 0-4.682-2.72m.94 3.198.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0 1 12 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 0 1 6 18.719m12 0a5.971 5.971 0 0 0-.941-3.197m0 0A5.995 5.995 0 0 0 12 12.75a5.995 5.995 0 0 0-5.058 2.772m0 0a3 3 0 0 0-4.681 2.72 8.986 8.986 0 0 0 3.74.477m.94-3.197a5.971 5.971 0 0 0-.94 3.197M15 6.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm6 3a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Zm-13.5 0a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Z'
+                                            />
+                                          </svg>
+                                        </span>
+                                      )}
+                                  </h5>
+                                  <div className=' flex items-center'>
+                                    <div className=' '>
+                                      {index < 11 && mail}
+                                      {index == 11 &&
+                                        item.value.length == 12 &&
+                                        mail}{' '}
+                                      {index == 11 &&
+                                        item.value.length > 12 && (
+                                          <span>
+                                            +{item.value.length - 11} more
+                                          </span>
+                                        )}{' '}
+                                    </div>
+                                  </div>
+                                </>
+                              )}
+                              {index + 1 > item.value.length && (
+                                <>
+                                  <h5 className='bg-[#e5e7eb] rounded-full w-10 h-10 flex justify-center text-xs items-center text-white'></h5>
+                                  <div className=' flex items-center'>
+                                    <div className=' rounded-md  bg-[#e5e7eb] h-2 w-28'>
+                                      {' '}
+                                    </div>
+                                  </div>
+                                </>
+                              )}
+                            </div>
+                          );
+                        })}
+                    </div>
                   )}
-
-                  {item.type === 'multiselect' && item.field == 'custom' && (
-                    <div>{item.value.join(', ')}</div>
+                {/* customfields */}
+                {item.type === 'text' && item.field == 'custom' && (
+                  <div className='my-3 ms-2'>
+                    {item.value && item.value.length > 0 && (
+                      <p className='flex flex-wrap gap-5'>
+                        <span className=' w-1/6 text-[#727a85]'>
+                          {item.label.charAt(0).toUpperCase() +
+                            item.label.slice(1)}
+                        </span>
+                        <span className=' w-4/6 text-md font-[600]'>
+                          {' '}
+                          : {item.value}
+                        </span>
+                      </p>
+                    )}
+                  </div>
+                )}
+                {item.type === 'email' && item.field == 'custom' && (
+                  <div className='my-3 ms-2'>
+                    {item.value && item.value.length > 0 && (
+                      <p className='flex flex-wrap gap-5'>
+                        <span className=' w-1/6 text-[#727a85]'>
+                          {item.label.charAt(0).toUpperCase() +
+                            item.label.slice(1)}
+                        </span>
+                        <span className=' w-4/6 text-md font-[600]'>
+                          {' '}
+                          : {item.value}
+                        </span>
+                      </p>
+                    )}
+                  </div>
+                )}
+                {(item.type === 'number' || item.type === 'phonenumber') &&
+                  item.field == 'custom' && (
+                    <div className='my-3 ms-2'>
+                      {item.value && item.value.length > 0 && (
+                        <p className='flex flex-wrap gap-5'>
+                          <span className=' w-1/6 text-[#727a85]'>
+                            {item.label.charAt(0).toUpperCase() +
+                              item.label.slice(1)}
+                          </span>
+                          <span className=' w-4/6 text-md font-[600]'>
+                            {' '}
+                            : {item.value}
+                          </span>
+                        </p>
+                      )}
+                    </div>
                   )}
-                  {item.type === 'checkbox' && item.field == 'custom' && (
-                    <div>{item.value}</div>
-                  )}
-                  {item.type === 'range' && item.field == 'custom' && (
-                    <div>{item.value}</div>
-                  )}
-                  {item.type === 'time' && item.field == 'custom' && (
-                    <div>{item.value}</div>
-                  )}
-                </div>
-              ))}
-          </div>
+                {item.type === 'textarea' && item.field == 'custom' && (
+                  <div className='my-3 ms-2'>
+                    {item.value && item.value.length > 0 && (
+                      <p className='flex flex-wrap gap-5'>
+                        <span className=' w-1/6 text-[#727a85]'>
+                          {item.label.charAt(0).toUpperCase() +
+                            item.label.slice(1)}
+                        </span>
+                        <span className=' w-4/6 text-md font-[600]'>
+                          {' '}
+                          : {item.value}
+                        </span>
+                      </p>
+                    )}
+                  </div>
+                )}
+                {item.type === 'file' && item.field == 'custom' && (
+                  <div className='my-3 ms-2'>
+                    {item.value && item.value.length > 0 && (
+                      <p className='flex flex-wrap gap-3'>
+                        <span className='w-1/6 text-[#727a85]'>
+                          {item.label.charAt(0).toUpperCase() +
+                            item.label.slice(1)}
+                        </span>
+                        <span className=' w-4/6 text-md font-[600] flex gap-5'>
+                          {' '}
+                          :
+                          <img
+                            src={item.value}
+                            // name="EntityPhoto"
+                            alt='file'
+                            className='rounded-lg w-20 h-20 '
+                          />
+                        </span>
+                      </p>
+                    )}
+                  </div>
+                )}
+                {item.type === 'date' && item.field == 'custom' && (
+                  <div className='my-3 ms-2'>
+                    {item.value && item.value.length > 0 && (
+                      <p className='flex flex-wrap gap-5'>
+                        <span className=' w-1/6 text-[#727a85]'>
+                          {item.label.charAt(0).toUpperCase() +
+                            item.label.slice(1)}
+                        </span>
+                        <span className=' w-4/6 text-md font-[600]'>
+                          {' '}
+                          : {item.value}
+                        </span>
+                      </p>
+                    )}
+                  </div>
+                )}
+                {item.type === 'select' && item.field == 'custom' && (
+                  <div className='my-3 ms-2'>
+                    {item.value && item.value.length > 0 && (
+                      <p className='flex flex-wrap gap-5'>
+                        <span className=' w-1/6 text-[#727a85]'>
+                          {item.label.charAt(0).toUpperCase() +
+                            item.label.slice(1)}
+                        </span>
+                        <span className=' w-4/6 text-md font-[600]'>
+                          {' '}
+                          : {item.value}
+                        </span>
+                      </p>
+                    )}
+                  </div>
+                )}
+                {item.type === 'multiselect' && item.field == 'custom' && (
+                  <div className='my-3 ms-2'>
+                    {item.value && item.value.length > 0 && (
+                      <p className='flex flex-wrap gap-5'>
+                        <span className=' w-1/6 text-[#727a85]'>
+                          {item.label.charAt(0).toUpperCase() +
+                            item.label.slice(1)}
+                        </span>
+                        <span className=' w-4/6 text-md font-[600]'>
+                          {' '}
+                          : {item.value.join(', ')}
+                        </span>
+                      </p>
+                    )}
+                  </div>
+                )}
+                {/* {item.type === "checkbox" && item.field == "custom" &&
+                  <div className='my-2 ms-2'>
+                    {item.value && item.value.length > 0 &&
+                      <p className='flex flex-wrap gap-2'>
+                        <span className=' w-1/6 text-[#727a85]'>{item.label.charAt(0).toUpperCase() + item.label.slice(1)}</span>
+                        <span className=' w-4/6 text-md font-[600]'> : {item.value.join(",")}</span>
+                      </p>
+                    }
+                  </div>
+                } */}
+                {item.type === 'range' && item.field == 'custom' && (
+                  <div className='my-3 ms-2'>
+                    {item.value && item.value.length > 0 && (
+                      <p className='flex flex-wrap gap-5'>
+                        <span className=' w-1/6 text-[#727a85]'>
+                          {item.label.charAt(0).toUpperCase() +
+                            item.label.slice(1)}
+                        </span>
+                        <span className=' w-4/6 text-md font-[600]'>
+                          {' '}
+                          : {item.value}
+                        </span>
+                      </p>
+                    )}
+                  </div>
+                )}
+                {item.type === 'time' && item.field == 'custom' && (
+                  <div className='my-3 ms-2'>
+                    {item.value && item.value.length > 0 && (
+                      <p className='flex flex-wrap gap-5'>
+                        <span className=' w-1/6 text-[#727a85]'>
+                          {item.label.charAt(0).toUpperCase() +
+                            item.label.slice(1)}
+                        </span>
+                        <span className=' w-4/6 text-md font-[600]'>
+                          {' '}
+                          : {item.value}
+                        </span>
+                      </p>
+                    )}
+                  </div>
+                )}
+              </div>
+            ))}
         </div>
+
       )}
       {activeTab === 2 && (
         <div className=''>
@@ -724,14 +864,12 @@ const EntityLandingPage = () => {
               </tr>
               <div
                 id='content'
-                className={`fixed inset-0 transition-all duration-500 bg-gray-800 bg-opacity-50 z-50 ${
-                  isOpen ? '' : 'hidden'
-                }`}
+                className={`fixed inset-0 transition-all duration-500 bg-gray-800 bg-opacity-50 z-50 ${isOpen ? '' : 'hidden'
+                  }`}
               >
                 <div
-                  className={`p-3 fixed inset-y-0 right-0 ${
-                    expand ? 'w-5/6' : 'w-1/2'
-                  } bg-white shadow-lg transform translate-x-0 transition-transform duration-300 ease-in-out`}
+                  className={`p-3 fixed inset-y-0 right-0 ${expand ? 'w-5/6' : 'w-1/2'
+                    } bg-white shadow-lg transform translate-x-0 transition-transform duration-300 ease-in-out`}
                 >
                   <div className='flex justify-start'>
                     <div className='relative inline-block ms-2'>

@@ -1218,11 +1218,11 @@ function UserForm() {
                       item.field == 'predefined' && (
                         <div className='flex  justify-center   border-t-2 border-gray-300 '>
                           {item.value ? (
-                            <p className='absolute top-20 mt-8   text-sm antialiased  leading-snug tracking-normal text-blue-gray-90'>
+                            <p className='absolute top-20 mt-8 text-sm antialiased  leading-snug tracking-normal text-blue-gray-90'>
                               {item.value}
                             </p>
                           ) : (
-                            <p className='absolute top-20 mt-8   text-sm antialiased  leading-snug tracking-normal text-blue-gray-900'>
+                            <p className='absolute top-20 mt-8 text-sm antialiased  leading-snug tracking-normal text-blue-gray-900'>
                               XYZ company
                             </p>
                           )}
@@ -1389,7 +1389,7 @@ function UserForm() {
                             </span>
                             <span className=' break-all flex gap-2 w-4/6'>
                               <span> : </span>{' '}
-                              <span className='text-md font-[600] '>
+                              <span className='text-md font-[600] hyphens-auto'>
                                 {item.value}
                               </span>
                             </span>
