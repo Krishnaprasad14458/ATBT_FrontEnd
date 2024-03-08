@@ -101,7 +101,7 @@ function EntityDashboard() {
                   className='py-2 sm:py-2'
                   key={entity.id}
                 >
-                  <Link to={`/entitylandingpage/${entity.id}`}>
+                  <Link to={`/entities/${entity.id}`}>
                     <EntityList entity={entity} />
                   </Link>
                 </li>
