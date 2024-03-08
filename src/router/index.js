@@ -76,13 +76,7 @@ export const router = createBrowserRouter([
         // errorElement: <ErrorBoundary />,
         ErrorBoundary: ErrorBoundary,
         children: [
-            {
-                element: <RouteBlocker permissionCheck={(permission) =>
-                    permission.module === 'dashboard' && permission.canRead} />,
-                children: [
-                    ...dashboardRouter,
-                ]
-            },
+            ...dashboardRouter,
             {
                 path: 'users',
                 children: [

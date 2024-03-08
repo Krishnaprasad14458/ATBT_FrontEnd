@@ -320,7 +320,8 @@ if(newInputField.type != 'checkbox'){
     let formData = {
       arrayOfObjects: customForm,
       Name: formName,
-      Tableview: tableView,
+      Tableview: 
+      tableView
     };
     await saveCustomForm(formData);
   };
@@ -1038,6 +1039,14 @@ export default CustomFormStructure;
 //     },
 
 //   ];
+
+/////////////////////// predefined tableview
+// {
+//   "name": {
+//       "label": "Name",
+//       "value": true
+//   }
+// }
 
 ///////////////////////////////////////// board meeting
 // [
