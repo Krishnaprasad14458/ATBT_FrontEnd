@@ -746,7 +746,7 @@ function TeamsForm() {
                         className='block text-sm font-medium leading-6 my-2 text-gray-900'
                       >
                         {item.label.charAt(0).toUpperCase() +
-                          item.label.slice(1)} {customFormFields==="mandatory" ? <span>*</span> : <span>%</span>}
+                          item.label.slice(1)} {item.mandatory ? <span>*</span> : <span></span>}
                       </label>
                       <input
                         type='text'
