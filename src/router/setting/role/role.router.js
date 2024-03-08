@@ -3,6 +3,7 @@ import AddRoles from "../../../components/pages/settings/SettingsComponents/Role
 import Dupaddrole from "../../../components/pages/settings/SettingsComponents/Roles/Dupaddrole"
 import Roles from "../../../components/pages/settings/SettingsComponents/Roles/Roles"
 import { redirect } from "react-router-dom"
+import { toast } from "react-toastify"
 
 export const roleRouter = [
     {
@@ -20,8 +21,23 @@ export const roleRouter = [
 
             let formData = await request.formData();
             let { roleId } = JSON.parse(formData.get("serialized"));
-            const data = await axios.delete(`https://atbtmain.teksacademy.com/rbac/deleteRole/${roleId}`)
-            return null;
+            // const data = await axios.delete(`https://atbtmain.teksacademy.com/rbac/deleteRole/${roleId}`);
+            return await toast.promise(
+                axios.delete(`https://atbtmain.teksacademy.com/rbac/deleteRole/${roleId}`, {
+                    headers: {
+                        authorization: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEzMiwicm9sZUlkIjoyNSwiaWF0IjoxNzA5NjM0MDgwLCJleHAiOjIwMjQ5OTQwODB9.Mdk2PIIOnMqPX06ol5DKbSqp_CStWs3oFqLGqmFBhgo",
+                    }
+                }),
+                {
+                    pending: 'Deleting Role',
+                    success: {
+                        render({ data }) {
+                            return `Role Deleted`
+                        }
+                    },
+                    error: 'Unable to delete Role 🤯',
+                },
+            )
         },
         element: <Roles />
     },
