@@ -1,5 +1,3 @@
-
-
 import React, { useState, useContext, useEffect, useRef } from 'react';
 import { Link, useSubmit } from 'react-router-dom';
 import $ from 'jquery';
@@ -17,7 +15,12 @@ import { AuthContext } from '../../../contexts/authContext/authContext';
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
 }
+const userData = JSON.parse(localStorage.getItem('data'));
+const token = userData?.token;
+const role = userData?.role?.name;
+const userId = userData?.user?.id;
 function Users() {
+  document.title = 'ATBT | User';
   const [hoveredOption, setHoveredOption] = useState(4);
   useEffect(() => {
     console.log('hoveredOption', hoveredOption);
@@ -29,9 +32,6 @@ function Users() {
   const handleMouseLeave = () => {
     setHoveredOption('heloo');
   };
-  const userData = JSON.parse(localStorage.getItem('data'));
-  const token = userData?.token;
-  const role = userData?.role?.name;
   const submit = useSubmit();
   const {
     usersState: { settings },
@@ -41,9 +41,9 @@ function Users() {
     setFilters,
     toggleUser,
   } = useContext(UserDataContext);
-  useEffect(()=>{
-    console.log("settingss",settings)
-  })
+  useEffect(() => {
+    console.log('settingss', settings);
+  });
   const { debouncedSetPage, debouncedSetSearch } = useDebounce(usersDispatch);
   const handlePerPageChange = (event) => {
     const selectedValue = parseInt(event.target.value, 10);
@@ -634,92 +634,118 @@ function Users() {
                       }`}
                     >
                       <div className='flex justify-start'>
-                        <button
-                          type='button'
-                          className='me-5 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600'
+                        <GateKeeper
+                          permissionCheck={(permission) =>
+                            permission.module === 'user' && permission.canCreate
+                          }
                         >
-                          <Link to={`${row.id}`}>
-                            <svg
-                              xmlns='http://www.w3.org/2000/svg'
-                              viewBox='0 0 20 20'
-                              fill='currentColor'
-                              className='w-5 h-5'
-                            >
-                              <path d='M10 12.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z' />
-                              <path
-                                fill-rule='evenodd'
-                                d='M.664 10.59a1.651 1.651 0 0 1 0-1.186A10.004 10.004 0 0 1 10 3c4.257 0 7.893 2.66 9.336 6.41.147.381.146.804 0 1.186A10.004 10.004 0 0 1 10 17c-4.257 0-7.893-2.66-9.336-6.41ZM14 10a4 4 0 1 1-8 0 4 4 0 0 1 8 0Z'
-                                clip-rule='evenodd'
-                              />
-                            </svg>
-                          </Link>
-                        </button>
-                        <button
-                          type='button'
-                          className='me-5 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600'
-                        >
-                          <Link to={`${row.id}/edit`}>
-                            <svg
-                              xmlns='http://www.w3.org/2000/svg'
-                              viewBox='0 0 20 20'
-                              fill='currentColor'
-                              className='w-5 h-5'
-                            >
-                              <path d='m2.695 14.762-1.262 3.155a.5.5 0 0 0 .65.65l3.155-1.262a4 4 0 0 0 1.343-.886L17.5 5.501a2.121 2.121 0 0 0-3-3L3.58 13.419a4 4 0 0 0-.885 1.343Z' />
-                            </svg>
-                          </Link>
-                        </button>
-                        <button
-                          type='button'
-                          onClick={() => handleDeleteUser(row.id)}
-                          className='me-5 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600'
-                        >
-                          <svg
-                            xmlns='http://www.w3.org/2000/svg'
-                            viewBox='0 0 20 20'
-                            fill='currentColor'
-                            className='w-5 h-5'
+                          <button
+                            type='button'
+                            className='me-5 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600'
                           >
-                            <path
-                              fill-rule='evenodd'
-                              d='M8.75 1A2.75 2.75 0 0 0 6 3.75v.443c-.795.077-1.584.176-2.365.298a.75.75 0 1 0 .23 1.482l.149-.022.841 10.518A2.75 2.75 0 0 0 7.596 19h4.807a2.75 2.75 0 0 0 2.742-2.53l.841-10.52.149.023a.75.75 0 0 0 .23-1.482A41.03 41.03 0 0 0 14 4.193V3.75A2.75 2.75 0 0 0 11.25 1h-2.5ZM10 4c.84 0 1.673.025 2.5.075V3.75c0-.69-.56-1.25-1.25-1.25h-2.5c-.69 0-1.25.56-1.25 1.25v.325C8.327 4.025 9.16 4 10 4ZM8.58 7.72a.75.75 0 0 0-1.5.06l.3 7.5a.75.75 0 1 0 1.5-.06l-.3-7.5Zm4.34.06a.75.75 0 1 0-1.5-.06l-.3 7.5a.75.75 0 1 0 1.5.06l.3-7.5Z'
-                              clip-rule='evenodd'
-                            />
-                          </svg>
-                        </button>
-                        <button
-                          type='button'
-                          className='me-5 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600'
-                        >
-                          {row.userstatus !== undefined && (
-                            <div className='flex items-center'>
-                              <label
-                                htmlFor='toggle'
-                                className='flex items-center cursor-pointer'
-                                onClick={(e) =>
-                                  handleClickOpen(
-                                    row.id,
-                                    row.userstatus,
-                                    row.userremarkshistory
-                                  )
-                                }
+                            <Link to={`${row.id}`}>
+                              <svg
+                                xmlns='http://www.w3.org/2000/svg'
+                                viewBox='0 0 20 20'
+                                fill='currentColor'
+                                className='w-5 h-5'
                               >
-                                <div
-                                  className={`w-8 h-4 rounded-full shadow-inner ${
-                                    row.userstatus
-                                      ? ' bg-[#ea580c]'
-                                      : 'bg-[#c3c6ca]'
-                                  }`}
-                                >
-                                  <div
-                                    className={`toggle__dot w-4 h-4 rounded-full shadow ${
-                                      row.userstatus
-                                        ? 'ml-4 bg-white'
-                                        : 'bg-white'
-                                    }`}
-                                  ></div>
-                                </div>
-                                {/* <div
+                                <path d='M10 12.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z' />
+                                <path
+                                  fill-rule='evenodd'
+                                  d='M.664 10.59a1.651 1.651 0 0 1 0-1.186A10.004 10.004 0 0 1 10 3c4.257 0 7.893 2.66 9.336 6.41.147.381.146.804 0 1.186A10.004 10.004 0 0 1 10 17c-4.257 0-7.893-2.66-9.336-6.41ZM14 10a4 4 0 1 1-8 0 4 4 0 0 1 8 0Z'
+                                  clip-rule='evenodd'
+                                />
+                              </svg>
+                            </Link>
+                          </button>
+                        </GateKeeper>
+                        <GateKeeper
+                          permissionCheck={(permission) =>
+                            permission.module === 'user' && permission.canUpdate
+                          }
+                        >
+                          <button
+                            type='button'
+                            className='me-5 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600'
+                          >
+                            <Link to={`${row.id}/edit`}>
+                              <svg
+                                xmlns='http://www.w3.org/2000/svg'
+                                viewBox='0 0 20 20'
+                                fill='currentColor'
+                                className='w-5 h-5'
+                              >
+                                <path d='m2.695 14.762-1.262 3.155a.5.5 0 0 0 .65.65l3.155-1.262a4 4 0 0 0 1.343-.886L17.5 5.501a2.121 2.121 0 0 0-3-3L3.58 13.419a4 4 0 0 0-.885 1.343Z' />
+                              </svg>
+                            </Link>
+                          </button>
+                        </GateKeeper>
+                        <GateKeeper
+                          permissionCheck={(permission) =>
+                            permission.module === 'user' && permission.canUpdate
+                          }
+                        >
+                          {userId !== row.id && (
+                            <button
+                              type='button'
+                              onClick={() => handleDeleteUser(row.id)}
+                              className='me-5 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600'
+                            >
+                              <svg
+                                xmlns='http://www.w3.org/2000/svg'
+                                viewBox='0 0 20 20'
+                                fill='currentColor'
+                                className='w-5 h-5'
+                              >
+                                <path
+                                  fill-rule='evenodd'
+                                  d='M8.75 1A2.75 2.75 0 0 0 6 3.75v.443c-.795.077-1.584.176-2.365.298a.75.75 0 1 0 .23 1.482l.149-.022.841 10.518A2.75 2.75 0 0 0 7.596 19h4.807a2.75 2.75 0 0 0 2.742-2.53l.841-10.52.149.023a.75.75 0 0 0 .23-1.482A41.03 41.03 0 0 0 14 4.193V3.75A2.75 2.75 0 0 0 11.25 1h-2.5ZM10 4c.84 0 1.673.025 2.5.075V3.75c0-.69-.56-1.25-1.25-1.25h-2.5c-.69 0-1.25.56-1.25 1.25v.325C8.327 4.025 9.16 4 10 4ZM8.58 7.72a.75.75 0 0 0-1.5.06l.3 7.5a.75.75 0 1 0 1.5-.06l-.3-7.5Zm4.34.06a.75.75 0 1 0-1.5-.06l-.3 7.5a.75.75 0 1 0 1.5.06l.3-7.5Z'
+                                  clip-rule='evenodd'
+                                />
+                              </svg>
+                            </button>
+                          )}
+                        </GateKeeper>
+                        <GateKeeper
+                          permissionCheck={(permission) =>
+                            permission.module === 'user' && permission.canUpdate
+                          }
+                        >
+                          {userId !== row.id && (
+                            <button
+                              type='button'
+                              className='me-5 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600'
+                            >
+                              {row.userstatus !== undefined && (
+                                <div className='flex items-center'>
+                                  <label
+                                    htmlFor='toggle'
+                                    className='flex items-center cursor-pointer'
+                                    onClick={(e) =>
+                                      handleClickOpen(
+                                        row.id,
+                                        row.userstatus,
+                                        row.userremarkshistory
+                                      )
+                                    }
+                                  >
+                                    <div
+                                      className={`w-8 h-4 rounded-full shadow-inner ${
+                                        row.userstatus
+                                          ? ' bg-[#ea580c]'
+                                          : 'bg-[#c3c6ca]'
+                                      }`}
+                                    >
+                                      <div
+                                        className={`toggle__dot w-4 h-4 rounded-full shadow ${
+                                          row.userstatus
+                                            ? 'ml-4 bg-white'
+                                            : 'bg-white'
+                                        }`}
+                                      ></div>
+                                    </div>
+                                    {/* <div
                                     className={`ml-3 text-sm font-medium ${row.userstatus
                                       ? 'text-gray-400'
                                       : 'text--400'
@@ -727,10 +753,12 @@ function Users() {
                                   >
                                     {row.userstatus ? 'Enabled' : 'Disabled'}
                                   </div> */}
-                              </label>
-                            </div>
+                                  </label>
+                                </div>
+                              )}
+                            </button>
                           )}
-                        </button>
+                        </GateKeeper>
                       </div>
                     </td>
                   </tr>
@@ -915,4 +943,4 @@ function Users() {
 
 export default Users;
 
-// 
+//

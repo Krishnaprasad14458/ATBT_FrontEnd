@@ -13,6 +13,7 @@ function classNames(...classes) {
 }
 
 function BoardMeetings() {
+  document.title = 'ATBT | Meeting';
   const {
     entitiesState: { entitiesList },
     entitiesDispatch,

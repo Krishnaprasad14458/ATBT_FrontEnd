@@ -12,6 +12,7 @@ function classNames(...classes) {
 }
 
 function Dashboard() {
+  document.title = 'ATBT | Home';
   const localStorageData = JSON.parse(localStorage.getItem('data'));
   return (
     <div className='container p-2 bg-[#f8fafc] '>

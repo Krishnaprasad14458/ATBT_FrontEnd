@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
 import { Link, useRouteError } from 'react-router-dom';
 const ErrorBoundary = () => {
+  document.title = 'ATBT | ...oops';
   const error = useRouteError();
   console.error(error);
   return (
-
-    <div className='flex justify-center items-center min-h-screen' id='error-page'>
+    <div
+      className='flex justify-center items-center min-h-screen'
+      id='error-page'
+    >
       <div className='border-2 border-gray-100 px-10 py-2 sm:px-20 sm:py-5 md:px-40 md:py-10 shadow-md  rounded-md'>
         <div className='flex justify-center'>
           {/* <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-10 h-10 sm:w-12 sm:h-12 md:w-16 md:h-16 text-orange-600">
@@ -35,9 +38,11 @@ const ErrorBoundary = () => {
           {error?.statusText || error?.message || 'not found'}
         </div>
         <div className='flex justify-center mt-3 sm:mt-4 md:mt-6'>
-          <button className='border border-1 border-gray-100 px-4 py-2 sm:px-6 sm:py-3 md:px-8 md:py-4 bg-orange-600 text-white rounded-md'>
-            Go Back Home
-          </button>
+          <Link to='/'>
+            <button className='border border-1 border-gray-100 px-4 py-2 sm:px-6 sm:py-3 md:px-8 md:py-4 bg-orange-600 text-white rounded-md'>
+              Go Back Home
+            </button>
+          </Link>
         </div>
       </div>
     </div>

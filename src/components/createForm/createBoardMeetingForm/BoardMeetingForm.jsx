@@ -7,6 +7,7 @@ import { UserDataContext } from '../../../contexts/usersDataContext/usersDataCon
 import { EntitiesDataContext } from '../../../contexts/entitiesDataContext/entitiesDataContext';
 import { useNavigate } from 'react-router-dom'
 function BoardMeetingForm() {
+  document.title = 'ATBT | Meeting';
   const navigate = useNavigate()
   const { usersState: { users, dashboard }, usersDispatch } = useContext(UserDataContext);
   const { createEntity } = useContext(EntitiesDataContext);
