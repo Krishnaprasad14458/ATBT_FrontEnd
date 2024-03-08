@@ -870,7 +870,7 @@ function UserForm() {
                   )}
                   {item.type === 'checkbox' && item.field == 'custom' && (
                     <div>
-                      <div className='flex gap-2'>
+                      <div className='flex gap-2 mt-3'>
                         <input
                           type='checkbox'
                           placeholder={`Enter ${item.inputname}`}

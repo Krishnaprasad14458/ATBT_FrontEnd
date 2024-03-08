@@ -746,7 +746,7 @@ function TeamsForm() {
                         className='block text-sm font-medium leading-6 my-2 text-gray-900'
                       >
                         {item.label.charAt(0).toUpperCase() +
-                          item.label.slice(1)}
+                          item.label.slice(1)} {customFormFields==="mandatory" ? <span>*</span> : <span>%</span>}
                       </label>
                       <input
                         type='text'
@@ -884,7 +884,7 @@ function TeamsForm() {
                   )}
                   {item.type === 'checkbox' && item.field == 'custom' && (
                     <div>
-                      <div className='flex gap-2'>
+                      <div className='flex gap-2 mt-3'>
                         <input
                           type='checkbox'
                           placeholder={`Enter ${item.inputname}`}
