@@ -309,7 +309,7 @@ export default function TopBar() {
                       <Menu.Item>
                         {({ active }) => (
                           <Link
-                            to={'/profile'}
+                            to={`/users/${authState?.user?.id}`}
                             className={classNames(
                               active
                                 ? 'bg-gray-200 text-gray-900'

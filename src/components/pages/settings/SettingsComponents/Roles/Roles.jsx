@@ -15,11 +15,6 @@ function deleteRole(id) {
   return axios.delete(`https://atbtmain.teksacademy.com/rbac/deleteRole/${id}`);
 }
 
-const userData = JSON.parse(localStorage.getItem('data'));
-let createdBy = userData?.user?.id;
-const userRoleId = userData?.role?.id;
-const token = userData?.token;
-
 export async function action() {}
 
 const Roles = () => {
@@ -27,6 +22,8 @@ const Roles = () => {
   console.log(data, 'data');
   const submit = useSubmit();
   let params = useSubmit();
+  const { userLogout, authState } = useContext(AuthContext);
+  const userRoleId = authState?.user?.RoleId;
   const debouncedSearchParams = debounce((search) => {
     console.log(search);
     params(search);
