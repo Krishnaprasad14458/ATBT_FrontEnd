@@ -8,6 +8,7 @@ import {
   useFetcher,
   Link,
 } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 const AddRoles = () => {
   const submit = useSubmit();
@@ -359,24 +360,59 @@ const AddRoles = () => {
     }
 
     if (!response?.response.id) {
-      const result = await axios.post(
-        'https://atbtmain.teksacademy.com/rbac/create-role',
+      const result = await toast.promise(
+        axios.post(
+          'https://atbtmain.teksacademy.com/rbac/create-role',
+          {
+            ...permission,
+          },
+          {
+            headers: {
+              authorization:
+                'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEzMiwicm9sZUlkIjoyNSwiaWF0IjoxNzA5NjM0MDgwLCJleHAiOjIwMjQ5OTQwODB9.Mdk2PIIOnMqPX06ol5DKbSqp_CStWs3oFqLGqmFBhgo',
+            },
+          }
+        ),
         {
-          ...permission,
+          pending: 'Creating Role...',
+          success: {
+            render({ data }) {
+              return `Role created`;
+            },
+          },
+          error: 'Check Role details 🤯',
         }
       );
+
       fetcher.submit('added', { method: 'post' });
       console.log(result, 'added');
       // You may want to handle form submission here as well
     }
     if (!!response?.response?.id) {
-      const result = await axios.put(
-        `https://atbtmain.teksacademy.com/rbac/update-role/${response?.response?.id}`,
-        // `http://localhost:3000/rbac/update-role/${response?.id}`,
+      const result = await toast.promise(
+        axios.put(
+          `https://atbtmain.teksacademy.com/rbac/update-role/${response?.response?.id}`,
+          {
+            ...permission,
+          },
+          {
+            headers: {
+              authorization:
+                'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEzMiwicm9sZUlkIjoyNSwiaWF0IjoxNzA5NjM0MDgwLCJleHAiOjIwMjQ5OTQwODB9.Mdk2PIIOnMqPX06ol5DKbSqp_CStWs3oFqLGqmFBhgo',
+            },
+          }
+        ),
         {
-          ...permission,
+          pending: 'Editing Role...',
+          success: {
+            render({ data }) {
+              return `Role edited`;
+            },
+          },
+          error: 'Opps... unable to edit role 🤯',
         }
       );
+
       fetcher.submit('updated', { method: 'post' });
       console.log(result, 'updated');
     }
