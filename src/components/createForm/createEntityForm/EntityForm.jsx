@@ -55,8 +55,14 @@ function EntityForm() {
   let { id } = useParams();
   const entity = useLoaderData();
   console.log(entity, 'cmp loader data');
+
+  useEffect(() => {
+    if (id && entity?.entityData?.members) {
+      setSelected(entity.entityData.members);
+    }
+  }, [id, entity]);
   function setInitialForm() {
-    let response = entity?.formData ?? [];
+    let response = entity?.formData;
     if (!!id && !!entity?.entityData) {
       let entityData = entity?.entityData;
       response.forEach((input) => {
@@ -84,17 +90,22 @@ function EntityForm() {
   let [customFormFields, setCustomFormFields] = useState(() =>
     setInitialForm()
   );
-
+  useEffect(() => {
+    setCustomFormFields(setInitialForm());
+    if (!id) {
+      setSelected([]);
+    }
+  }, [id]);
   useEffect(() => {
     console.log(customFormFields, 'cfff');
     console.log('errors', errors);
   });
   const handleInputChange = (e) => {
     setShowUsers(true);
-    const value = e.target.value;
-    setSearchTerm(() => {
-      debouncedSetSearch(value);
-      return value;
+    setSearchTerm(e.target.value);
+    debouncedSetSearch({
+      context: 'DASHBOARD',
+      data: e.target.value,
     });
   };
   const handleOpenOptions = (name) => {
@@ -115,6 +126,9 @@ function EntityForm() {
     setSearchTerm('');
     setShowUsers(false);
   };
+  useEffect(() => {
+    console.log(searchTerm, 'clear');
+  }, [searchTerm]);
   const handleRemove = (user, index) => {
     const updatedSelected = selected.filter(
       (selectedUser) => selectedUser !== user
@@ -147,7 +161,6 @@ function EntityForm() {
       setCustomFormFields(updatedFormData);
     }
     if (updatedFormData[index].type == 'multiselect') {
-      // { item.value.includes(option) }
       let selectedoptions = updatedFormData[index].value;
       if (selectedoptions.includes(newValue)) {
         selectedoptions = selectedoptions.filter(
@@ -165,31 +178,9 @@ function EntityForm() {
     const updatedFormData = [...customFormFields];
     updatedFormData[index].value = event.target.files[0];
     setCustomFormFields(updatedFormData);
-    // setCustomFormFields(event.target.files[0]);
     const name = event.target.name;
-    // if (file) {
-    //   const reader = new FileReader();
-    //   reader.onloadend = () => {
-    //     const updatedFormData = [...customFormFields];
-    //     updatedFormData[index].value = reader.result;
-    //     setCustomFormFields(updatedFormData);
-    //   };
-    //   reader.readAsDataURL(file);
-    // }
   };
-  // const handleFileChange = (event, index) => {
-  //   const file = event.target.files[0];
-  //   const name = event.target.name;
-  //   if (file) {
-  //     const reader = new FileReader();
-  //     reader.onloadend = () => {
-  //       const updatedFormData = [...customFormFields];
-  //       updatedFormData[index].value = reader.result;
-  //       setCustomFormFields(updatedFormData);
-  //     };
-  //     reader.readAsDataURL(file);
-  //   }
-  // };
+
   console.log('customFormFields', customFormFields);
   /////
   const [errors, setErrors] = useState({});
@@ -493,34 +484,8 @@ function EntityForm() {
       console.log('jsonData submitted', response);
       if (response?.status === 201) {
         console.log('data is 201');
-        // navigate(`/users/${response.data}`);
+        navigate(`/entities/${response.data}`);
       }
-      /////////////////////////////////////////////////////
-      /////////////////             old code
-      /////////////////////////////////////////////////////
-      // const jsonData = {};
-      // jsonData.customFieldsData = JSON.stringify(customFormFields);
-      // jsonData.loggedInUser = parseInt(localStorage.getItem('id'));
-      // for (let i = 0; i < customFormFields.length; i++) {
-      //   if (Array.isArray(customFormFields[i].value)) {
-      //     jsonData[customFormFields[i].inputname] = JSON.stringify(
-      //       customFormFields[i].value
-      //     );
-      //   } else {
-      //     jsonData[customFormFields[i].inputname] = customFormFields[i].value;
-      //   }
-      // }
-      // console.log('jsonData', jsonData);
-      // axios
-      //   .post(`https://atbtmain.teksacademy.com/user/create-user`, jsonData)
-      //   .then((response) => {
-      //     // console.log(response.data);
-      //     // console.log("reposnseeeeeeeeee", response.data)
-      //     navigate(`/entitylandingpage/${parseInt(response.data)}`);
-      //   })
-      //   .catch((error) => {
-      //     console.error(error);
-      //   });
     }
   }
   ////for number scrolling stop
@@ -1173,9 +1138,13 @@ function EntityForm() {
                         <div className='group h-10 '>
                           {item.value ? (
                             <img
-                              src={item.value}
+                              src={
+                                typeof item.value === 'string'
+                                  ? item.value
+                                  : URL.createObjectURL(item.value)
+                              }
                               name='EntityPhoto'
-                              alt='Selected User Photo'
+                              alt='Entity Photo'
                               className='rounded-lg w-10 h-10 mr-4'
                             />
                           ) : (

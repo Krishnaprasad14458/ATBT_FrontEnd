@@ -11,6 +11,7 @@ import useDebounce from '../../../hooks/debounce/useDebounce';
 import * as actions from '../../../contexts/usersDataContext/utils/usersActions';
 import GateKeeper from '../../../rbac/GateKeeper';
 import axios from 'axios';
+import { EntitiesDataContext } from '../../../contexts/entitiesDataContext/entitiesDataContext';
 import { AuthContext } from '../../../contexts/authContext/authContext';
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
@@ -20,6 +21,9 @@ const token = userData?.token;
 const role = userData?.role?.name;
 const userId = userData?.user?.id;
 function Users() {
+  const {
+    entitiesState: { entitiesList },
+  } = useContext(EntitiesDataContext);
   document.title = 'ATBT | User';
   const [hoveredOption, setHoveredOption] = useState(4);
   useEffect(() => {
@@ -171,8 +175,14 @@ function Users() {
   const [customForm, setCustomForm] = useState([]);
   let [fieldsDropDownData, setFieldsDropDownData] = useState({
     role: [],
-    entityname: ['infosys', 'relid'],
+    entityname: [],
   });
+  useEffect(() => {
+    setFieldsDropDownData((prevState) => ({
+      ...prevState,
+      entityname: entitiesList.paginatedEntities.map((item) => item.name),
+    }));
+  }, [entitiesList]);
   useEffect(() => {
     axios
       .get(`https://atbtmain.teksacademy.com/form/list?name=userform`)
@@ -255,6 +265,7 @@ function Users() {
   };
   const handleColumnsApply = () => {
     setTableView(dupTableView);
+    return columnsDrawer();
   };
   const handleColumnsSave = () => {
     if (role === 'admin') {
@@ -284,6 +295,7 @@ function Users() {
         console.error('Update failed:', error);
       }
     }
+    return columnsDrawer();
   };
 
   const [visibleColumns, setvisibleColumns] = useState();
@@ -374,8 +386,9 @@ function Users() {
 
           {/* for coloumns open */}
           <div
-            className={`fixed inset-0 bg-gray-800 bg-opacity-50 z-10 ${columnsDrawerOpen ? '' : 'opacity-0 pointer-events-none'
-              }`}
+            className={`fixed inset-0 bg-gray-800 bg-opacity-50 z-10 ${
+              columnsDrawerOpen ? '' : 'opacity-0 pointer-events-none'
+            }`}
             style={{ transition: 'opacity 0.3s ease-in-out' }}
           >
             <div
@@ -465,8 +478,9 @@ function Users() {
 
           {/* for filter open */}
           <div
-            className={`fixed inset-0 bg-gray-800 bg-opacity-50 z-10 ${filterDrawerOpen ? '' : 'opacity-0 pointer-events-none'
-              }`}
+            className={`fixed inset-0 bg-gray-800 bg-opacity-50 z-10 ${
+              filterDrawerOpen ? '' : 'opacity-0 pointer-events-none'
+            }`}
             style={{ transition: 'opacity 0.3s ease-in-out' }}
           >
             <div
@@ -609,25 +623,27 @@ function Users() {
                   <tr
                     key={row.id}
 
-                  // className={` ${row.userstatus ? '' : 'bg-gray-100 text-gray-100'}`}
+                    // className={` ${row.userstatus ? '' : 'bg-gray-100 text-gray-100'}`}
                   >
                     {visibleColumns.map((key) => (
                       <td
                         key={key}
-                        className={`px-6 py-2 text-left border border-[#e5e7eb] text-xs font-medium  ${row.userstatus
-                          ? 'text-gray-800 '
-                          : 'bg-gray-100 text-gray-300'
-                          }`}
+                        className={`px-6 py-2 text-left border border-[#e5e7eb] text-xs font-medium  ${
+                          row.userstatus
+                            ? 'text-gray-800 '
+                            : 'bg-gray-100 text-gray-300'
+                        }`}
                       >
                         {row[key]}
                       </td>
                     ))}
 
                     <td
-                      className={`px-6 py-2 text-left border border-[#e5e7eb] text-xs font-medium  ${row.userstatus
-                        ? 'text-gray-800 '
-                        : 'bg-gray-100 text-gray-300'
-                        }`}
+                      className={`px-6 py-2 text-left border border-[#e5e7eb] text-xs font-medium  ${
+                        row.userstatus
+                          ? 'text-gray-800 '
+                          : 'bg-gray-100 text-gray-300'
+                      }`}
                     >
                       <div className='flex justify-start'>
                         <GateKeeper
@@ -843,7 +859,7 @@ function Users() {
         <div className='flex justify-between'>
           <div className=''>
             {!settings?.paginatedUsers ||
-              settings?.paginatedUsers?.length === 0 ? (
+            settings?.paginatedUsers?.length === 0 ? (
               'no data to show'
             ) : settings.loading ? (
               'Loading...'
@@ -871,12 +887,13 @@ function Users() {
                 })
               }
               href='#'
-              className={`relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${settings.loading
-                ? 'cursor-wait'
-                : settings.currentPage === 1
+              className={`relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${
+                settings.loading
+                  ? 'cursor-wait'
+                  : settings.currentPage === 1
                   ? 'cursor-not-allowed'
                   : 'cursor-auto'
-                }`}
+              }`}
             >
               <span className='sr-only'>Previous</span>
               <svg
@@ -906,12 +923,13 @@ function Users() {
                   data: settings.currentPage + 1,
                 })
               }
-              className={`relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${settings.loading
-                ? 'cursor-wait'
-                : settings.currentPage === settings.totalPages
+              className={`relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${
+                settings.loading
+                  ? 'cursor-wait'
+                  : settings.currentPage === settings.totalPages
                   ? 'cursor-not-allowed'
                   : 'cursor-auto'
-                }`}
+              }`}
             >
               <span className='sr-only'>Next</span>
               <svg
