@@ -126,17 +126,8 @@ function UserForm() {
     const updatedFormData = [...customFormFields];
     updatedFormData[index].value = event.target.files[0];
     setCustomFormFields(updatedFormData);
-    // setCustomFormFields(event.target.files[0]);
     const name = event.target.name;
-    // if (file) {
-    //   const reader = new FileReader();
-    //   reader.onloadend = () => {
-    //     const updatedFormData = [...customFormFields];
-    //     updatedFormData[index].value = reader.result;
-    //     setCustomFormFields(updatedFormData);
-    //   };
-    //   reader.readAsDataURL(file);
-    // }
+
   };
   /////
   const [errors, setErrors] = useState({});
@@ -582,11 +573,12 @@ function UserForm() {
                           value={customFormFields[index].value || ''}
                           style={{ fontSize: '0.8rem' }}
                           onChange={(e) => handleChange(index, e.target.value)}
-                          className={` ${
-                            !!id && !!user?.userData
+
+                          disabled={!!id && !!user?.userData ? true : false}
+                          className={` ${!!id && !!user?.userData
                               ? 'bg-gray-200 text-gray-200'
                               : 'bg-gray-50'
-                          } px-2 py-2 text-sm block w-full rounded-md bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none  focus:border-orange-400 placeholder:text-xs `}
+                            } px-2 py-2 text-sm block w-full rounded-md bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none  focus:border-orange-400 placeholder:text-xs `}
                         />
                         <div className='h-2 text-[#dc2626]'>
                           {errors[item.inputname] && (
@@ -1173,7 +1165,7 @@ function UserForm() {
                                     ? item.value
                                     : URL.createObjectURL(item.value)
                                 }
-                                name='EntityPhoto'
+                                name='UserPhoto'
                                 alt='User Photo'
                                 className=' h-36 w-36 relative mx-auto bottom-20 rounded-md border-2 border-gray-200 shadow-md'
                               />
