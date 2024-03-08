@@ -41,8 +41,8 @@ function Users() {
     setFilters,
     toggleUser,
   } = useContext(UserDataContext);
-  useEffect(()=>{
-    console.log("settingss",settings)
+  useEffect(() => {
+    console.log("settingss", settings)
   })
   const { debouncedSetPage, debouncedSetSearch } = useDebounce(usersDispatch);
   const handlePerPageChange = (event) => {
@@ -374,9 +374,8 @@ function Users() {
 
           {/* for coloumns open */}
           <div
-            className={`fixed inset-0 bg-gray-800 bg-opacity-50 z-10 ${
-              columnsDrawerOpen ? '' : 'opacity-0 pointer-events-none'
-            }`}
+            className={`fixed inset-0 bg-gray-800 bg-opacity-50 z-10 ${columnsDrawerOpen ? '' : 'opacity-0 pointer-events-none'
+              }`}
             style={{ transition: 'opacity 0.3s ease-in-out' }}
           >
             <div
@@ -459,20 +458,19 @@ function Users() {
 
           <button
             onClick={filterDrawer}
-            className='transition-opacity duration-500 focus:outline-none me-3 gap-x-1.5 rounded-md bg-orange-600 px-4 py-2 text-sm font-[500] text-white shadow-md  hover:shadow-lg'
+            className='transition-opacity duration-500 focus:outline-none me-3 gap-x-1.5 mt-1 md:mt-0 rounded-md bg-orange-600 px-4 py-2 text-sm font-[500] text-white shadow-md  hover:shadow-lg'
           >
             Filters
           </button>
 
           {/* for filter open */}
           <div
-            className={`fixed inset-0 bg-gray-800 bg-opacity-50 z-10 ${
-              filterDrawerOpen ? '' : 'opacity-0 pointer-events-none'
-            }`}
+            className={`fixed inset-0 bg-gray-800 bg-opacity-50 z-10 ${filterDrawerOpen ? '' : 'opacity-0 pointer-events-none'
+              }`}
             style={{ transition: 'opacity 0.3s ease-in-out' }}
           >
             <div
-              className='fixed inset-y-0 right-0 w-11/12 md:w-4/12 lg:w-1/5 xl:w-w-1/5 bg-white shadow-lg transform translate-x-full transition-transform duration-300 ease-in-out'
+              className='fixed inset-y-0 right-0 w-11/12 md:w-4/12 lg:w-1/5 xl:w-w-1/5   bg-white shadow-lg transform translate-x-full transition-transform duration-300 ease-in-out'
               style={{
                 transform: `translateX(${filterDrawerOpen ? '0%' : '100%'})`,
                 transition: 'transform 0.3s ease-in-out',
@@ -611,27 +609,25 @@ function Users() {
                   <tr
                     key={row.id}
 
-                    // className={` ${row.userstatus ? '' : 'bg-gray-100 text-gray-100'}`}
+                  // className={` ${row.userstatus ? '' : 'bg-gray-100 text-gray-100'}`}
                   >
                     {visibleColumns.map((key) => (
                       <td
                         key={key}
-                        className={`px-6 py-2 text-left border border-[#e5e7eb] text-xs font-medium  ${
-                          row.userstatus
-                            ? 'text-gray-800 '
-                            : 'bg-gray-100 text-gray-300'
-                        }`}
+                        className={`px-6 py-2 text-left border border-[#e5e7eb] text-xs font-medium  ${row.userstatus
+                          ? 'text-gray-800 '
+                          : 'bg-gray-100 text-gray-300'
+                          }`}
                       >
                         {row[key]}
                       </td>
                     ))}
 
                     <td
-                      className={`px-6 py-2 text-left border border-[#e5e7eb] text-xs font-medium  ${
-                        row.userstatus
-                          ? 'text-gray-800 '
-                          : 'bg-gray-100 text-gray-300'
-                      }`}
+                      className={`px-6 py-2 text-left border border-[#e5e7eb] text-xs font-medium  ${row.userstatus
+                        ? 'text-gray-800 '
+                        : 'bg-gray-100 text-gray-300'
+                        }`}
                     >
                       <div className='flex justify-start'>
                         <button
@@ -705,18 +701,16 @@ function Users() {
                                 }
                               >
                                 <div
-                                  className={`w-8 h-4 rounded-full shadow-inner ${
-                                    row.userstatus
-                                      ? ' bg-[#ea580c]'
-                                      : 'bg-[#c3c6ca]'
-                                  }`}
+                                  className={`w-8 h-4 rounded-full shadow-inner ${row.userstatus
+                                    ? ' bg-[#ea580c]'
+                                    : 'bg-[#c3c6ca]'
+                                    }`}
                                 >
                                   <div
-                                    className={`toggle__dot w-4 h-4 rounded-full shadow ${
-                                      row.userstatus
-                                        ? 'ml-4 bg-white'
-                                        : 'bg-white'
-                                    }`}
+                                    className={`toggle__dot w-4 h-4 rounded-full shadow ${row.userstatus
+                                      ? 'ml-4 bg-white'
+                                      : 'bg-white'
+                                      }`}
                                   ></div>
                                 </div>
                                 {/* <div
@@ -819,7 +813,7 @@ function Users() {
         <div className='flex justify-between'>
           <div className=''>
             {!settings?.paginatedUsers ||
-            settings?.paginatedUsers?.length === 0 ? (
+              settings?.paginatedUsers?.length === 0 ? (
               'no data to show'
             ) : settings.loading ? (
               'Loading...'
@@ -847,13 +841,12 @@ function Users() {
                 })
               }
               href='#'
-              className={`relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${
-                settings.loading
-                  ? 'cursor-wait'
-                  : settings.currentPage === 1
+              className={`relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${settings.loading
+                ? 'cursor-wait'
+                : settings.currentPage === 1
                   ? 'cursor-not-allowed'
                   : 'cursor-auto'
-              }`}
+                }`}
             >
               <span className='sr-only'>Previous</span>
               <svg
@@ -883,13 +876,12 @@ function Users() {
                   data: settings.currentPage + 1,
                 })
               }
-              className={`relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${
-                settings.loading
-                  ? 'cursor-wait'
-                  : settings.currentPage === settings.totalPages
+              className={`relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${settings.loading
+                ? 'cursor-wait'
+                : settings.currentPage === settings.totalPages
                   ? 'cursor-not-allowed'
                   : 'cursor-auto'
-              }`}
+                }`}
             >
               <span className='sr-only'>Next</span>
               <svg
