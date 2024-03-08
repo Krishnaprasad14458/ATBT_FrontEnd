@@ -140,6 +140,10 @@ function UserForm() {
   };
   const handleFileChange = (event, index) => {
     const file = event.target.files[0];
+    if (file?.size > 1000000) {
+      alert('file size too large');
+      return null;
+    }
     const updatedFormData = [...customFormFields];
     updatedFormData[index].value = event.target.files[0];
     setCustomFormFields(updatedFormData);
