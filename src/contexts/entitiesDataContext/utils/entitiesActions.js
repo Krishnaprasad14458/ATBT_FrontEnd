@@ -14,3 +14,7 @@ export const setEntities = (data) => ({
     type: actionTypes.SET_ENTITIES,
     payload: data
 });
+// export const setFilters = (data, context) => ({
+//     type: actionTypes.SET_FILTERS,
+//     payload: { context: context, data: data }
+// })

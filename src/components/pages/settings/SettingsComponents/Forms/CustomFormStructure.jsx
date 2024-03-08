@@ -320,13 +320,8 @@ if(newInputField.type != 'checkbox'){
     let formData = {
       arrayOfObjects: customForm,
       Name: formName,
-      Tableview: tableView
-//       {
-//   "name": {
-//       "label": "Name",
-//       "value": true
-//   }
-// },
+      Tableview: 
+      tableView
     };
     await saveCustomForm(formData);
   };
