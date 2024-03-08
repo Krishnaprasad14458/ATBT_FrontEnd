@@ -58,9 +58,9 @@ function EntityForm() {
 
   useEffect(() => {
     if (id && entity?.entityData?.members) {
-      setSelected(entity.entityData.members)
+      setSelected(entity.entityData.members);
     }
-  }, [id,entity])
+  }, [id, entity]);
   function setInitialForm() {
     let response = entity?.formData;
     if (!!id && !!entity?.entityData) {
@@ -91,21 +91,21 @@ function EntityForm() {
     setInitialForm()
   );
   useEffect(() => {
-    setCustomFormFields(setInitialForm()) 
-    if(!id){
-      setSelected([])
+    setCustomFormFields(setInitialForm());
+    if (!id) {
+      setSelected([]);
     }
-  }, [id])
+  }, [id]);
   useEffect(() => {
     console.log(customFormFields, 'cfff');
     console.log('errors', errors);
   });
   const handleInputChange = (e) => {
     setShowUsers(true);
-    const value = e.target.value;
-    setSearchTerm(() => {
-      debouncedSetSearch(value);
-      return value;
+    setSearchTerm(e.target.value);
+    debouncedSetSearch({
+      context: 'DASHBOARD',
+      data: e.target.value,
     });
   };
   const handleOpenOptions = (name) => {
@@ -126,6 +126,9 @@ function EntityForm() {
     setSearchTerm('');
     setShowUsers(false);
   };
+  useEffect(() => {
+    console.log(searchTerm, 'clear');
+  }, [searchTerm]);
   const handleRemove = (user, index) => {
     const updatedSelected = selected.filter(
       (selectedUser) => selectedUser !== user
@@ -158,7 +161,6 @@ function EntityForm() {
       setCustomFormFields(updatedFormData);
     }
     if (updatedFormData[index].type == 'multiselect') {
-      // { item.value.includes(option) }
       let selectedoptions = updatedFormData[index].value;
       if (selectedoptions.includes(newValue)) {
         selectedoptions = selectedoptions.filter(
@@ -176,9 +178,7 @@ function EntityForm() {
     const updatedFormData = [...customFormFields];
     updatedFormData[index].value = event.target.files[0];
     setCustomFormFields(updatedFormData);
-
     const name = event.target.name;
-
   };
 
   console.log('customFormFields', customFormFields);
