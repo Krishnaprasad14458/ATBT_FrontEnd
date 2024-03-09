@@ -16,6 +16,7 @@ import {
 } from 'react-router-dom';
 const userData = JSON.parse(localStorage.getItem('data'));
 const loggedInUser = userData?.user?.id;
+
 const token = userData?.token;
 export async function userFormLoader({ params }) {
   try {
@@ -478,7 +479,7 @@ function UserForm() {
                           className='block text-sm font-medium leading-6 mt-2 text-gray-900'
                         >
                           {item.label.charAt(0).toUpperCase() +
-                            item.label.slice(1)}
+                            item.label.slice(1)} {item.mandatory ? <span className='text-red-600'>*</span> : <span> </span>}
                         </label>
                         <input
                           type='text'
@@ -508,7 +509,7 @@ function UserForm() {
                           className='block text-sm font-medium leading-6 mt-2 text-gray-900'
                         >
                           {item.label.charAt(0).toUpperCase() +
-                            item.label.slice(1)}
+                            item.label.slice(1)}{item.mandatory ? <span className='text-red-600'>*</span> : <span> </span>}
                         </label>
                         <input
                           type='file'
@@ -537,7 +538,7 @@ function UserForm() {
                           className='block text-sm font-medium leading-6 mt-2 text-gray-900'
                         >
                           {item.label.charAt(0).toUpperCase() +
-                            item.label.slice(1)}
+                            item.label.slice(1)}{item.mandatory ? <span className='text-red-600'>*</span> : <span> </span>}
                         </label>
                         <select
                           id={item.inputname}
@@ -585,7 +586,7 @@ function UserForm() {
                           className='block text-sm font-medium leading-6 mt-2 text-gray-900'
                         >
                           {item.label.charAt(0).toUpperCase() +
-                            item.label.slice(1)}
+                            item.label.slice(1)}{item.mandatory ? <span className='text-red-600'>*</span> : <span> </span>}
                         </label>
                         <input
                           type='email'
@@ -596,11 +597,8 @@ function UserForm() {
                           style={{ fontSize: '0.8rem' }}
                           onChange={(e) => handleChange(index, e.target.value)}
                           disabled={!!id && !!user?.userData ? true : false}
-                          className={` ${
-                            !!id && !!user?.userData
-                              ? 'text-[#d4d4d8] bg-gray-50'
-                              : 'bg-gray-50 text-gray-900'
-                          } px-2 py-2 text-sm block w-full rounded-md bg-gray-50 border border-gray-300  focus:outline-none  focus:border-orange-400 placeholder:text-xs `}
+                        
+                          className={` ${!!id && !!user?.userData ? 'text-[#d4d4d8] bg-gray-50' : 'bg-gray-50 text-gray-900'} px-2 py-2 text-sm block w-full rounded-md bg-gray-50 border border-gray-300  focus:outline-none  focus:border-orange-400 placeholder:text-xs `}
                         />
                         <div className='h-2 text-[#dc2626]'>
                           {errors[item.inputname] && (
@@ -620,7 +618,7 @@ function UserForm() {
                           className='block text-sm font-medium leading-6 mt-2 text-gray-900'
                         >
                           {item.label.charAt(0).toUpperCase() +
-                            item.label.slice(1)}
+                            item.label.slice(1)}{item.mandatory ? <span className='text-red-600'>*</span> : <span> </span>}
                         </label>
                         <input
                           type='number'
@@ -653,7 +651,7 @@ function UserForm() {
                           className='block text-sm font-medium leading-6 mt-2 text-gray-900'
                         >
                           {item.label.charAt(0).toUpperCase() +
-                            item.label.slice(1)}
+                            item.label.slice(1)}{item.mandatory ? <span className='text-red-600'>*</span> : <span> </span>}
                         </label>
                         <select
                           id={item.inputname}
@@ -695,7 +693,7 @@ function UserForm() {
                           className='block text-sm font-medium leading-6 mt-2 text-gray-900'
                         >
                           {item.label.charAt(0).toUpperCase() +
-                            item.label.slice(1)}
+                            item.label.slice(1)}{item.mandatory ? <span className='text-red-600'>*</span> : <span> </span>}
                         </label>
                         <select
                           id={item.inputname}
@@ -704,13 +702,9 @@ function UserForm() {
                           onChange={(e) => handleChange(index, e.target.value)}
                           value={customFormFields[index].value || ''}
                           style={{ fontSize: '0.8rem' }}
-                          disabled={
-                            id &&
-                            user?.userData &&
-                            parseInt(id) === loggedInUser
-                              ? true
-                              : false
-                          }
+                          disabled={id && user?.userData && parseInt(id) === loggedInUser ? true : false}
+
+                          
                         >
                           <option
                             value=''
@@ -742,7 +736,7 @@ function UserForm() {
                         className='block text-sm font-medium leading-6 my-2 text-gray-900'
                       >
                         {item.label.charAt(0).toUpperCase() +
-                          item.label.slice(1)}
+                          item.label.slice(1)}{item.mandatory ? <span className='text-red-600'>*</span> : <span> </span>}
                       </label>
                       <input
                         type='text'
@@ -770,7 +764,7 @@ function UserForm() {
                         className='block text-sm font-medium leading-6 my-2 text-gray-900'
                       >
                         {item.label.charAt(0).toUpperCase() +
-                          item.label.slice(1)}
+                          item.label.slice(1)}{item.mandatory ? <span className='text-red-600'>*</span> : <span> </span>}
                       </label>
                       <input
                         type='email'
@@ -798,7 +792,7 @@ function UserForm() {
                         className='block text-sm font-medium leading-6 my-2 text-gray-900'
                       >
                         {item.label.charAt(0).toUpperCase() +
-                          item.label.slice(1)}
+                          item.label.slice(1)}{item.mandatory ? <span className='text-red-600'>*</span> : <span> </span>}
                       </label>
                       <input
                         type='password'
@@ -826,7 +820,7 @@ function UserForm() {
                         className='block text-sm font-medium leading-6 my-2 text-gray-900'
                       >
                         {item.label.charAt(0).toUpperCase() +
-                          item.label.slice(1)}
+                          item.label.slice(1)}{item.mandatory ? <span className='text-red-600'>*</span> : <span> </span>}
                       </label>
                       <input
                         type='number'
@@ -854,7 +848,7 @@ function UserForm() {
                         className='block text-sm font-medium leading-6 my-2 text-gray-900'
                       >
                         {item.label.charAt(0).toUpperCase() +
-                          item.label.slice(1)}
+                          item.label.slice(1)}{item.mandatory ? <span className='text-red-600'>*</span> : <span> </span>}
                       </label>
                       <input
                         type='number'
@@ -898,7 +892,7 @@ function UserForm() {
                           className='block text-sm font-medium leading-6 my-1 text-gray-900'
                         >
                           {item.label.charAt(0).toUpperCase() +
-                            item.label.slice(1)}
+                            item.label.slice(1)}{item.mandatory ? <span className='text-red-600'>*</span> : <span> </span>}
                         </label>
                       </div>
                       <div className='h-2 text-[#dc2626]'>
@@ -917,7 +911,7 @@ function UserForm() {
                         className='block text-sm font-medium leading-6 my-2 text-gray-900'
                       >
                         {item.label.charAt(0).toUpperCase() +
-                          item.label.slice(1)}
+                          item.label.slice(1)}{item.mandatory ? <span className='text-red-600'>*</span> : <span> </span>}
                       </label>
                       <input
                         type='date'
@@ -944,7 +938,7 @@ function UserForm() {
                         className='block text-sm font-medium leading-6 my-2 text-gray-900'
                       >
                         {item.label.charAt(0).toUpperCase() +
-                          item.label.slice(1)}
+                          item.label.slice(1)}{item.mandatory ? <span className='text-red-600'>*</span> : <span> </span>}
                       </label>
                       <input
                         type='time'
@@ -972,7 +966,7 @@ function UserForm() {
                         className='block text-sm font-medium leading-6 my-2 text-gray-900'
                       >
                         {item.label.charAt(0).toUpperCase() +
-                          item.label.slice(1)}
+                          item.label.slice(1)}{item.mandatory ? <span className='text-red-600'>*</span> : <span> </span>}
                       </label>
                       <input
                         type='file'
@@ -999,7 +993,7 @@ function UserForm() {
                         className='block text-sm font-medium leading-6 my-2 text-gray-900'
                       >
                         {item.label.charAt(0).toUpperCase() +
-                          item.label.slice(1)}
+                          item.label.slice(1)}{item.mandatory ? <span className='text-red-600'>*</span> : <span> </span>}
                       </label>
                       <input
                         type='range'
@@ -1025,7 +1019,7 @@ function UserForm() {
                         className='block text-sm font-medium leading-6 my-2 text-gray-900'
                       >
                         {item.label.charAt(0).toUpperCase() +
-                          item.label.slice(1)}
+                          item.label.slice(1)}{item.mandatory ? <span className='text-red-600'>*</span> : <span> </span>}
                       </label>
                       <textarea
                         name={item.inputname}
@@ -1052,7 +1046,7 @@ function UserForm() {
                         className='block text-sm font-medium leading-6 my-2 text-gray-900'
                       >
                         {item.label.charAt(0).toUpperCase() +
-                          item.label.slice(1)}
+                          item.label.slice(1)}{item.mandatory ? <span className='text-red-600'>*</span> : <span> </span>}
                       </label>
                       <select
                         id={item.inputname}
@@ -1091,7 +1085,7 @@ function UserForm() {
                         className='block text-sm font-medium leading-6 my-2 text-gray-900'
                       >
                         {item.label.charAt(0).toUpperCase() +
-                          item.label.slice(1)}
+                          item.label.slice(1)}{item.mandatory ? <span className='text-red-600'>*</span> : <span> </span>}
                       </label>
                       <div className='px-2 py-2 text-sm block w-full rounded-md bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder:text-xs'>
                         <span className='flex justify-between'>
