@@ -10,9 +10,13 @@ export const getAllEntities = async (token) => {
     });
 };
 
-export const getEntities = async (page, pageSize, sortBy, search, token) => {
+export const getEntities = async (page, pageSize, sortBy, search, token, filters) => {
     const url = `${apiUrl}/entity/list?page=${page ?? null}&pageSize=${pageSize ?? null}&sortBy=${sortBy ?? null}&search=${search ?? null}`;
-    return axios.post(url, {}, {
+    return axios.post(url, {
+        filters: {
+            ...filters
+        }
+    }, {
         headers: { authorization: token || localToken || "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEzMiwicm9sZUlkIjoyNSwiaWF0IjoxNzA5NjM0MDgwLCJleHAiOjIwMjQ5OTQwODB9.Mdk2PIIOnMqPX06ol5DKbSqp_CStWs3oFqLGqmFBhgo" },
     });
 };

@@ -23,7 +23,8 @@ const dashboardLoader = async () => {
         // Handle any errors
         console.error("Error loading dashboard:", error);
         // Redirect to a generic error page
-        throw redirect(`/${error.status}`);
+        throw redirect(`/${error?.response?.status ?? '500'}`);
+
     }
 };
 

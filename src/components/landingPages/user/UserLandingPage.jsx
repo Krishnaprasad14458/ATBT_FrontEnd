@@ -31,7 +31,7 @@ export const userLandingLoader = async ({ params }) => {
     return data;
   } catch (error) {
     console.error('Error loading dashboard:', error);
-    throw redirect(`/${error.status}`);
+    throw redirect(`/${error?.response?.status ?? '500'}`);
   }
 };
 
@@ -211,39 +211,39 @@ const UserLandingPage = () => {
         //                   {item.value}
         //                 </p>
 
-
-
         //               )}
-
-
 
         //             {/* {item.type === 'select' && item.inputname == 'entityname' && item.field == 'predefined' && (
         //                 <p className=''>{item.value}</p>)} */}
 
-
-
-
         //           </div>
         //         ))}
-
-
-
-
 
         //     </div>
         //   </div>
 
         // </div>
-        <div
-          className='mt-28 flex justify-center  '
-
-        >
+        <div className='mt-28 flex justify-center  '>
           <div className='w-full md:w-5/6  lg:w-4/6 xl:5/6 shadow-md border-2 rounded-md bg-[#f8fafc] '>
+            <div className='flex justify-end bg-[#fff7ed]'>
+              <Link
+                to={`../${id}/edit`}
+                relative='path'
+                className=' px-4 py-2 text-sm font-medium transition-colors  focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50  text-gray-900 '
+              >
+                <svg
+                  xmlns='http://www.w3.org/2000/svg'
+                  viewBox='0 0 20 20'
+                  fill='currentColor'
+                  className='w-5 h-5 text-gray-900'
+                >
+                  <path d='m2.695 14.762-1.262 3.155a.5.5 0 0 0 .65.65l3.155-1.262a4 4 0 0 0 1.343-.886L17.5 5.501a2.121 2.121 0 0 0-3-3L3.58 13.419a4 4 0 0 0-.885 1.343Z' />
+                </svg>
+              </Link></div>
             {customFormField &&
               customFormField.length > 0 &&
               customFormField.map((item) => (
                 <div className=''>
-
                   <div className='bg-[#fff7ed] rounded-xl'>
                     {item.type === 'file' &&
                       item.inputname == 'image' &&
@@ -271,60 +271,57 @@ const UserLandingPage = () => {
                     item.inputname === 'name' &&
                     item.field === 'predefined' && (
                       <div className='flex justify-center relative text-center'>
-
                         <p className='absolute top-16 md:top-20 text-sm md:text-md antialiased font-semibold leading-snug tracking-normal text-blue-gray-900 mb-3'>
                           {item.value.toUpperCase()}
                         </p>
-
                       </div>
                     )}
                   {item.type === 'select' &&
                     item.inputname === 'entityname' &&
                     item.field === 'predefined' && (
                       <div className='flex justify-center border-t-2 border-gray-300 relative text-center'>
-
                         <p className='absolute  bottom-3 text-sm antialiased leading-snug tracking-normal text-blue-gray-900 break-all'>
                           {item.value}
                         </p>
-
                       </div>
                     )}
-
 
                   {item.type === 'email' &&
                     item.inputname == 'email' &&
                     item.field == 'predefined' && (
                       <div className='my-3 ms-5'>
-
                         <p className='flex  gap-2 '>
                           <span className='w-full md:w-3/12  text-[#727a85] hidden sm:block  flex-wrap  '>
                             {item.label.charAt(0).toUpperCase() +
                               item.label.slice(1)}{' '}
                           </span>
                           <span className=' break-all flex gap-2'>
-
-                            <span className='hidden sm:block'> : </span> <span className='text-md font-[600] '> {item.value}</span>
+                            <span className='hidden sm:block'> : </span>{' '}
+                            <span className='text-md font-[600] '>
+                              {' '}
+                              {item.value}
+                            </span>
                           </span>
                         </p>
-
                       </div>
                     )}
                   {item.type === 'phonenumber' &&
                     item.inputname == 'phonenumber' &&
                     item.field == 'predefined' && (
                       <div className='my-3 ms-5'>
-
                         <p className='flex    gap-2 '>
                           <span className='w-full md:w-3/12  text-[#727a85] hidden sm:block  flex-wrap '>
                             {item.label.charAt(0).toUpperCase() +
                               item.label.slice(1)}{' '}
                           </span>
                           <span className=' flex gap-2'>
-
-                            <span className='hidden sm:block'> : </span> <span className='text-md font-[600] '> {item.value}</span>
+                            <span className='hidden sm:block'> : </span>{' '}
+                            <span className='text-md font-[600] '>
+                              {' '}
+                              {item.value}
+                            </span>
                           </span>
                         </p>
-
                       </div>
                     )}
                   {item.type === 'select' &&
@@ -337,14 +334,15 @@ const UserLandingPage = () => {
                               item.label.slice(1)}
                           </span>
                           <span className=' break-all flex gap-2'>
-
-                            <span className='hidden sm:block'> : </span> <span className='text-md font-[600] '> {item.value}</span>
+                            <span className='hidden sm:block'> : </span>{' '}
+                            <span className='text-md font-[600] '>
+                              {' '}
+                              {item.value}
+                            </span>
                           </span>
                         </p>
-
                       </div>
                     )}
-
 
                   {item.type === 'text' && item.field == 'custom' && (
                     <div className='my-3 ms-5'>
@@ -355,8 +353,11 @@ const UserLandingPage = () => {
                               item.label.slice(1)}
                           </span>
                           <span className=' break-all flex gap-2'>
-
-                            <span className='hidden sm:block'> : </span> <span className='text-md font-[600] '> {item.value}</span>
+                            <span className='hidden sm:block'> : </span>{' '}
+                            <span className='text-md font-[600] '>
+                              {' '}
+                              {item.value}
+                            </span>
                           </span>
                         </p>
                       )}
@@ -371,8 +372,11 @@ const UserLandingPage = () => {
                               item.label.slice(1)}
                           </span>
                           <span className=' break-all flex gap-2'>
-
-                            <span className='hidden sm:block'> : </span> <span className='text-md font-[600] '> {item.value}</span>
+                            <span className='hidden sm:block'> : </span>{' '}
+                            <span className='text-md font-[600] '>
+                              {' '}
+                              {item.value}
+                            </span>
                           </span>
                         </p>
                       )}
@@ -389,15 +393,17 @@ const UserLandingPage = () => {
                                 item.label.slice(1)}
                             </span>
                             <span className=' break-all flex gap-2'>
-
-                              <span className='hidden sm:block'> : </span> <span className='text-md font-[600] '> {item.value}</span>
+                              <span className='hidden sm:block'> : </span>{' '}
+                              <span className='text-md font-[600] '>
+                                {' '}
+                                {item.value}
+                              </span>
                             </span>
                           </p>
                         )}
                       </div>
                     )}
                   {item.type === 'textarea' && item.field == 'custom' && (
-
                     <div className='my-3 ms-5'>
                       {item.value && item.value.length > 0 && (
                         <p className='flex flex-wrap gap-2'>
@@ -406,8 +412,11 @@ const UserLandingPage = () => {
                               item.label.slice(1)}
                           </span>
                           <span className=' break-all flex gap-2'>
-
-                            <span className='hidden sm:block'> : </span> <span className='text-md font-[600] '> {item.value}</span>
+                            <span className='hidden sm:block'> : </span>{' '}
+                            <span className='text-md font-[600] '>
+                              {' '}
+                              {item.value}
+                            </span>
                           </span>
                         </p>
                       )}
@@ -434,8 +443,11 @@ const UserLandingPage = () => {
                               item.label.slice(1)}
                           </span>
                           <span className=' break-all flex gap-2'>
-
-                            <span className='hidden sm:block'> : </span> <span className='text-md font-[600] '> {item.value}</span>
+                            <span className='hidden sm:block'> : </span>{' '}
+                            <span className='text-md font-[600] '>
+                              {' '}
+                              {item.value}
+                            </span>
                           </span>
                         </p>
                       )}
@@ -450,8 +462,11 @@ const UserLandingPage = () => {
                               item.label.slice(1)}
                           </span>
                           <span className=' break-all flex gap-2'>
-
-                            <span className='hidden sm:block'> : </span> <span className='text-md font-[600] '> {item.value}</span>
+                            <span className='hidden sm:block'> : </span>{' '}
+                            <span className='text-md font-[600] '>
+                              {' '}
+                              {item.value}
+                            </span>
                           </span>
                         </p>
                       )}
@@ -467,8 +482,11 @@ const UserLandingPage = () => {
                               item.label.slice(1)}
                           </span>
                           <span className=' break-all flex gap-2'>
-
-                            <span className='hidden sm:block'> : </span> <span className='text-md font-[600] '> {item.value.join(', ')}</span>
+                            <span className='hidden sm:block'> : </span>{' '}
+                            <span className='text-md font-[600] '>
+                              {' '}
+                              {item.value.join(', ')}
+                            </span>
                           </span>
                         </p>
                       )}
@@ -484,8 +502,11 @@ const UserLandingPage = () => {
                               item.label.slice(1)}
                           </span>
                           <span className=' break-all flex gap-2'>
-
-                            <span className='hidden sm:block'> : </span> <span className='text-md font-[600] '> {item.value}</span>
+                            <span className='hidden sm:block'> : </span>{' '}
+                            <span className='text-md font-[600] '>
+                              {' '}
+                              {item.value}
+                            </span>
                           </span>
                         </p>
                       )}
@@ -500,8 +521,11 @@ const UserLandingPage = () => {
                               item.label.slice(1)}
                           </span>
                           <span className=' break-all flex gap-2'>
-
-                            <span className='hidden sm:block'> : </span> <span className='text-md font-[600] '> {item.value}</span>
+                            <span className='hidden sm:block'> : </span>{' '}
+                            <span className='text-md font-[600] '>
+                              {' '}
+                              {item.value}
+                            </span>
                           </span>
                         </p>
                       )}
@@ -511,7 +535,6 @@ const UserLandingPage = () => {
               ))}
           </div>
         </div>
-
       )}
 
       {activeTab === 2 && (

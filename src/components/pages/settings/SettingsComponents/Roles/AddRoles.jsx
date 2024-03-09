@@ -146,32 +146,6 @@ const AddRoles = () => {
     console.log('permissions', permission);
   });
 
-  //    for toggle active and inactive
-  // const handletoggle = (module, index, subindex) => {
-  //   if (subindex == undefined) {
-  //     let updatePermission = {
-  //       ...permission,
-  //       permissions: [...permission.permissions],
-  //     };
-  //     // [...permission];
-  //     let previosvalue = updatePermission.permissions[index][module];
-  //     updatePermission.permissions[index][module] = !previosvalue;
-  //     setPermission(updatePermission);
-  //   }
-  //   if (subindex != undefined) {
-  //     let updatePermission = {
-  //       ...permission,
-  //       permissions: [...permission.permissions],
-  //     };
-  //     // [...permission];
-  //     let previosvalue =
-  //       updatePermission.permissions[index].submenus[subindex][module];
-  //     updatePermission.permissions[index].submenus[subindex][module] =
-  //       !previosvalue;
-  //     setPermission(updatePermission);
-  //   }
-  // };
-
   const handletoggle = (module, index, subindex) => {
     let updatePermission = {
       ...permission,
@@ -213,6 +187,23 @@ const AddRoles = () => {
             updatePermission.permissions[index][permissionType]
         );
         updatePermission.permissions[index].all = allSelected;
+
+        // If create, update, or delete is true, set read to true and prevent toggling to false
+        if (
+          updatePermission.permissions[index].canCreate ||
+          updatePermission.permissions[index].canUpdate ||
+          updatePermission.permissions[index].canDelete
+        ) {
+          updatePermission.permissions[index].canRead = true;
+        }
+        if (
+          updatePermission.permissions[index].canCreate === true &&
+          updatePermission.permissions[index].canUpdate === true &&
+          updatePermission.permissions[index].canDelete === true &&
+          updatePermission.permissions[index].canRead === true
+        ) {
+          updatePermission.permissions[index].all = true;
+        }
       }
     } else {
       // Toggle the selected permission for submenus
@@ -243,11 +234,110 @@ const AddRoles = () => {
         );
         updatePermission.permissions[index].submenus[subindex].all =
           allSelected;
+
+        // If create, update, or delete is true, set read to true and prevent toggling to false
+        if (
+          updatePermission.permissions[index].submenus[subindex].canCreate ||
+          updatePermission.permissions[index].submenus[subindex].canUpdate ||
+          updatePermission.permissions[index].submenus[subindex].canDelete
+        ) {
+          updatePermission.permissions[index].submenus[subindex].canRead = true;
+        }
+
+        if (
+          updatePermission.permissions[index].submenus[subindex].canCreate ===
+            true &&
+          updatePermission.permissions[index].submenus[subindex].canUpdate ===
+            true &&
+          updatePermission.permissions[index].submenus[subindex].canDelete ===
+            true &&
+          updatePermission.permissions[index].submenus[subindex].canRead ===
+            true
+        ) {
+          updatePermission.permissions[index].submenus[subindex].all = true;
+        }
       }
     }
 
     setPermission(updatePermission);
   };
+
+  // const handletoggle = (module, index, subindex) => {
+  //   let updatePermission = {
+  //     ...permission,
+  //     permissions: [...permission.permissions],
+  //   };
+
+  //   if (subindex === undefined) {
+  //     // Toggle the selected permission
+  //     let previosvalue = updatePermission.permissions[index][module];
+  //     updatePermission.permissions[index][module] = !previosvalue;
+
+  //     // If "All" is toggled, toggle other permissions accordingly
+  //     if (module === 'all') {
+  //       updatePermission.permissions[index].canCreate =
+  //         updatePermission.permissions[index].canRead =
+  //         updatePermission.permissions[index].canUpdate =
+  //         updatePermission.permissions[index].canDelete =
+  //           updatePermission.permissions[index].all;
+
+  //       // If there are submenus, canUpdate their permissions as well
+  //       if (updatePermission.permissions[index].submenus) {
+  //         updatePermission.permissions[index].submenus.forEach((submenu) => {
+  //           submenu.canCreate =
+  //             submenu.canRead =
+  //             submenu.canUpdate =
+  //             submenu.canDelete =
+  //               updatePermission.permissions[index].all;
+  //         });
+  //       }
+  //     } else {
+  //       // If any other permission is toggled, check if all permissions are selected, then set "All" to true
+  //       const allSelected = [
+  //         'canCreate',
+  //         'canRead',
+  //         'canUpdate',
+  //         'canDelete',
+  //       ].every(
+  //         (permissionType) =>
+  //           updatePermission.permissions[index][permissionType]
+  //       );
+  //       updatePermission.permissions[index].all = allSelected;
+  //     }
+  //   } else {
+  //     // Toggle the selected permission for submenus
+  //     let previosvalue =
+  //       updatePermission.permissions[index].submenus[subindex][module];
+  //     updatePermission.permissions[index].submenus[subindex][module] =
+  //       !previosvalue;
+
+  //     // If "All" for submenus is toggled, toggle other permissions accordingly
+  //     if (module === 'all') {
+  //       updatePermission.permissions[index].submenus[subindex].canCreate =
+  //         updatePermission.permissions[index].submenus[subindex].canRead =
+  //         updatePermission.permissions[index].submenus[subindex].canUpdate =
+  //         updatePermission.permissions[index].submenus[subindex].canDelete =
+  //           updatePermission.permissions[index].submenus[subindex].all;
+  //     } else {
+  //       // If any other permission for submenus is toggled, check if all permissions are selected, then set "All" to true
+  //       const allSelected = [
+  //         'canCreate',
+  //         'canRead',
+  //         'canUpdate',
+  //         'canDelete',
+  //       ].every(
+  //         (permissionType) =>
+  //           updatePermission.permissions[index].submenus[subindex][
+  //             permissionType
+  //           ]
+  //       );
+  //       updatePermission.permissions[index].submenus[subindex].all =
+  //         allSelected;
+  //     }
+  //   }
+
+  //   setPermission(updatePermission);
+  // };
 
   // for submenu opens
   const [selected, setSelected] = useState();
@@ -355,6 +445,7 @@ const AddRoles = () => {
       const result = await toast.promise(
         axios.post(
           'https://atbtmain.teksacademy.com/rbac/create-role',
+          // 'http://localhost:3000/rbac/create-role',
           {
             ...permission,
           },

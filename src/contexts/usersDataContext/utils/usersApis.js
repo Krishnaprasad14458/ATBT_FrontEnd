@@ -59,7 +59,19 @@ export const createUser = async (userData, token) => {
                     return `user created`
                 }
             },
-            error: 'Check user details 🤯',
+            // error: 'Check user details 🤯',
+            error: {
+                render({
+                    data: {
+                        response: { data },
+                    },
+                }) {
+                    console.log(data, "creating user user")
+                    // When the promise reject, data will contains the error
+                    return `error: ${data}`;
+                    // return <MyErrorComponent message={data.message} />;
+                },
+            },
         },
     )
 }
@@ -78,10 +90,23 @@ export const updateUser = async (userData, id, token) => {
             pending: 'Updating User...',
             success: {
                 render({ data }) {
+                    console.log(data, "updatin user")
                     return `user updated`
                 }
             },
-            error: 'Check user details 🤯',
+            // error: 'Check user details 🤯',
+            error: {
+                render({
+                    data: {
+                        response: { data },
+                    },
+                }) {
+                    console.log(data, "updatin user")
+                    // When the promise reject, data will contains the error
+                    return `error: ${data}`;
+                    // return <MyErrorComponent message={data.message} />;
+                },
+            },
         },
     )
 }

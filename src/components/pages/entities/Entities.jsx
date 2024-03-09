@@ -24,9 +24,9 @@ function Entities() {
   document.title = 'ATBT | Entity';
   const {
     entitiesState: { entitiesList },
-
     entitiesDispatch,
     deleteEntitybyId,
+    setFilters,
   } = useContext(EntitiesDataContext);
 
   const { debouncedSetPage, debouncedSetSearch } =
@@ -53,25 +53,25 @@ function Entities() {
   });
   ///////////////////////////////////////////////////////////////
   function handlefilters() {
-    // usersDispatch(setFilters(selectedFilters, 'SETTINGS'));
-    // setFilterDrawerOpen(!filterDrawerOpen);
+    entitiesDispatch(setFilters(selectedFilters, 'SETTINGS'));
+    setFilterDrawerOpen(!filterDrawerOpen);
   }
 
   const handleFilterReset = () => {
     setSelectedFilters({});
-    // usersDispatch(setFilters({}, 'SETTINGS'));
-    // setFilterDrawerOpen(!filterDrawerOpen);
+    entitiesDispatch(setFilters({}, 'SETTINGS'));
+    setFilterDrawerOpen(!filterDrawerOpen);
   };
   useEffect(() => {
-    // return () => {
-    //   usersDispatch({
-    //     type: 'SET_SEARCH',
-    //     payload: {
-    //       data: '',
-    //       context: 'SEIINGS',
-    //     },
-    //   });
-    // };
+    return () => {
+      entitiesDispatch({
+        type: 'SET_SEARCH',
+        payload: {
+          data: '',
+          context: 'SEIINGS',
+        },
+      });
+    };
   }, []);
   const [open, setOpen] = useState(false);
   const handleClosed = () => {
@@ -171,10 +171,9 @@ function Entities() {
   ////////filters end
 
   const [tableView, setTableView] = useState();
-  useEffect(()=>{
-
-    console.log("tableView",tableView)
-  },[tableView])
+  useEffect(() => {
+    console.log('tableView', tableView);
+  }, [tableView]);
   const [dupTableView, setDupTableView] = useState();
   const handleColumnsCheckboxChange = (columnName) => {
     setDupTableView((prevColumns) => ({
@@ -218,7 +217,6 @@ function Entities() {
       }
     }
     return columnsDrawer();
-
   };
 
   const [visibleColumns, setvisibleColumns] = useState();
@@ -529,6 +527,30 @@ function Entities() {
                     {tableView[key].label}
                   </th>
                 ))}
+                  <th
+                  scope='col'
+                  className='sticky top-0 bg-orange-600 text-white text-sm text-left px-5 py-2.5 border-l-2 border-gray-200'
+                >
+                Total Tasks
+                </th>
+                <th
+                  scope='col'
+                  className='sticky top-0 bg-orange-600 text-white text-sm text-left px-5 py-2.5 border-l-2 border-gray-200'
+                >
+                Completed Tasks
+                </th>
+                <th
+                  scope='col'
+                  className='sticky top-0 bg-orange-600 text-white text-sm text-left px-5 py-2.5 border-l-2 border-gray-200'
+                >
+                Upcoming Tasks
+                </th>
+                <th
+                  scope='col'
+                  className='sticky top-0 bg-orange-600 text-white text-sm text-left px-5 py-2.5 border-l-2 border-gray-200'
+                >
+                Overdue Tasks
+                </th>
                 <th
                   scope='col'
                   className='sticky top-0 bg-orange-600 text-white text-sm text-left px-5 py-2.5 border-l-2 border-gray-200'
@@ -549,7 +571,29 @@ function Entities() {
                         {row[key]}
                       </td>
                     ))}
-
+  <td
+                      className={`px-6 py-2 text-left border border-[#e5e7eb] text-xs font-medium `}
+                    >
+                      5000
+                    </td>
+                    <td
+                      className={`px-6 py-2 text-left border border-[#e5e7eb] text-xs font-medium `}
+                    >
+                      2000
+                    </td>
+                    <td
+                      className={`px-6 py-2 text-left border border-[#e5e7eb] text-xs font-medium `}
+                    >
+                      2000
+                 
+                    </td>
+                    <td
+                      className={`px-6 py-2 text-left border border-[#e5e7eb] text-xs font-medium `}
+                    >
+                   
+                      1000
+                  
+                    </td>
                     <td
                       className={`px-6 py-2 text-left border border-[#e5e7eb] text-xs font-medium `}
                     >
