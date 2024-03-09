@@ -40,6 +40,8 @@ const AuthProvider = ({ children }) => {
                 },
               },
             }) {
+
+
               return `Welcome ${name}`;
             },
           },
@@ -58,6 +60,7 @@ const AuthProvider = ({ children }) => {
       );
       console.log(data, 'data');
       if (status === 200) {
+        window.location.reload();
         localStorage.setItem(
           'data',
           JSON.stringify({
