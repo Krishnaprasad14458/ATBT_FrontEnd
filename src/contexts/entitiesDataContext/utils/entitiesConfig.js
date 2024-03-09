@@ -11,6 +11,8 @@ export const initialState = {
         sortBy: "createdAt",
         startEntity: null,
         endEntity: null,
+        filters: {
+        }
     },
     entitiesList: {
         paginatedEntities: [],
@@ -23,5 +25,7 @@ export const initialState = {
         sortBy: "createdAt",
         startEntity: null,
         endEntity: null,
+        filters: {
+        }
     }
 };

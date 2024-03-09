@@ -36,7 +36,7 @@ const EntitiesDataProvider = ({ children }) => {
   };
 
   const getDashboardEntitiesData = async () => {
-    const { currentPage, perPage, sortBy, search } =
+    const { currentPage, perPage, sortBy, search, filters } =
       entitiesState.dashboardEntities;
     entitiesDispatch(actions.setLoading('DASHBOARD'));
     try {
@@ -45,7 +45,8 @@ const EntitiesDataProvider = ({ children }) => {
         perPage,
         sortBy,
         search,
-        authState?.token
+        authState?.token,
+        filters
       );
       console.log(data, status, 'entities');
       if (status === 200) {
@@ -62,7 +63,8 @@ const EntitiesDataProvider = ({ children }) => {
   };
 
   const getpaginatedEntitiesData = async () => {
-    const { currentPage, perPage, sortBy, search } = entitiesState.entitiesList;
+    const { currentPage, perPage, sortBy, search, filters } =
+      entitiesState.entitiesList;
     entitiesDispatch(actions.setLoading('ENTITES'));
     try {
       const { data, status } = await api.getEntities(
@@ -70,7 +72,8 @@ const EntitiesDataProvider = ({ children }) => {
         perPage,
         sortBy,
         search,
-        authState?.token
+        authState?.token,
+        filters
       );
       console.log(data, status, 'entities');
       if (status === 200) {
@@ -171,9 +174,11 @@ const EntitiesDataProvider = ({ children }) => {
     entitiesState?.entitiesList?.currentPage,
     entitiesState?.entitiesList?.search,
     entitiesState?.entitiesList?.perPage,
+    entitiesState?.entitiesList?.filters,
     entitiesState?.dashboardEntities?.currentPage,
     entitiesState?.dashboardEntities?.search,
     entitiesState?.dashboardEntities?.perPage,
+    entitiesState?.dashboardEntities?.filters,
     authState?.token,
   ]);
 
@@ -187,6 +192,7 @@ const EntitiesDataProvider = ({ children }) => {
         createEntity,
         getEntitybyId,
         updateEntity,
+        setFilters: actions.setFilters,
       }}
     >
       {children}
