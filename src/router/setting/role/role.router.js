@@ -52,7 +52,6 @@ export const roleRouter = [
             try {
                 // const { data, status } = await axios.get(`http://localhost:3000/rbac/getrolebyid/${searchTerm}`);
                 const { data, status } = await axios.get(`https://atbtmain.teksacademy.com/rbac/getrolebyid/${searchTerm}`);
-
                 // Check if the response is successful and return the data
                 if (status === 200) {
                     return { response: data?.role };
