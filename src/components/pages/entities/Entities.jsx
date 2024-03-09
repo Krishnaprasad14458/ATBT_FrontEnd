@@ -529,6 +529,30 @@ function Entities() {
                     {tableView[key].label}
                   </th>
                 ))}
+                  <th
+                  scope='col'
+                  className='sticky top-0 bg-orange-600 text-white text-sm text-left px-5 py-2.5 border-l-2 border-gray-200'
+                >
+                Total Tasks
+                </th>
+                <th
+                  scope='col'
+                  className='sticky top-0 bg-orange-600 text-white text-sm text-left px-5 py-2.5 border-l-2 border-gray-200'
+                >
+                Completed Tasks
+                </th>
+                <th
+                  scope='col'
+                  className='sticky top-0 bg-orange-600 text-white text-sm text-left px-5 py-2.5 border-l-2 border-gray-200'
+                >
+                Upcoming Tasks
+                </th>
+                <th
+                  scope='col'
+                  className='sticky top-0 bg-orange-600 text-white text-sm text-left px-5 py-2.5 border-l-2 border-gray-200'
+                >
+                Overdue Tasks
+                </th>
                 <th
                   scope='col'
                   className='sticky top-0 bg-orange-600 text-white text-sm text-left px-5 py-2.5 border-l-2 border-gray-200'
@@ -549,7 +573,29 @@ function Entities() {
                         {row[key]}
                       </td>
                     ))}
-
+  <td
+                      className={`px-6 py-2 text-left border border-[#e5e7eb] text-xs font-medium `}
+                    >
+                      5000
+                    </td>
+                    <td
+                      className={`px-6 py-2 text-left border border-[#e5e7eb] text-xs font-medium `}
+                    >
+                      2000
+                    </td>
+                    <td
+                      className={`px-6 py-2 text-left border border-[#e5e7eb] text-xs font-medium `}
+                    >
+                      2000
+                 
+                    </td>
+                    <td
+                      className={`px-6 py-2 text-left border border-[#e5e7eb] text-xs font-medium `}
+                    >
+                   
+                      1000
+                  
+                    </td>
                     <td
                       className={`px-6 py-2 text-left border border-[#e5e7eb] text-xs font-medium `}
                     >
