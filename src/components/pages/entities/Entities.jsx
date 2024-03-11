@@ -303,9 +303,8 @@ function Entities() {
 
           {/* for coloumns open */}
           <div
-            className={`fixed inset-0 bg-gray-800 bg-opacity-50 z-10 ${
-              columnsDrawerOpen ? '' : 'opacity-0 pointer-events-none'
-            }`}
+            className={`fixed inset-0 bg-gray-800 bg-opacity-50 z-10 ${columnsDrawerOpen ? '' : 'opacity-0 pointer-events-none'
+              }`}
             style={{ transition: 'opacity 0.3s ease-in-out' }}
           >
             <div
@@ -395,9 +394,8 @@ function Entities() {
 
           {/* for filter open */}
           <div
-            className={`fixed inset-0 bg-gray-800 bg-opacity-50 z-10 ${
-              filterDrawerOpen ? '' : 'opacity-0 pointer-events-none'
-            }`}
+            className={`fixed inset-0 bg-gray-800 bg-opacity-50 z-10 ${filterDrawerOpen ? '' : 'opacity-0 pointer-events-none'
+              }`}
             style={{ transition: 'opacity 0.3s ease-in-out' }}
           >
             <div
@@ -522,38 +520,38 @@ function Entities() {
                 {visibleColumns.map((key) => (
                   <th
                     key={key}
-                    className='sticky top-0 bg-orange-600 text-white text-sm text-left px-5 py-2.5 border-l-2 border-gray-200'
+                    className='sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200'
                   >
                     {tableView[key].label}
                   </th>
                 ))}
-                  <th
+                <th
                   scope='col'
-                  className='sticky top-0 bg-orange-600 text-white text-sm text-left px-5 py-2.5 border-l-2 border-gray-200'
+                  className='sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200'
                 >
-                Total Tasks
+                  Total Tasks
                 </th>
                 <th
                   scope='col'
-                  className='sticky top-0 bg-orange-600 text-white text-sm text-left px-5 py-2.5 border-l-2 border-gray-200'
+                  className='sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200'
                 >
-                Completed Tasks
+                  Completed Tasks
                 </th>
                 <th
                   scope='col'
-                  className='sticky top-0 bg-orange-600 text-white text-sm text-left px-5 py-2.5 border-l-2 border-gray-200'
+                  className='sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200'
                 >
-                Upcoming Tasks
+                  Upcoming Tasks
                 </th>
                 <th
                   scope='col'
-                  className='sticky top-0 bg-orange-600 text-white text-sm text-left px-5 py-2.5 border-l-2 border-gray-200'
+                  className='sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200'
                 >
-                Overdue Tasks
+                  Overdue Tasks
                 </th>
                 <th
                   scope='col'
-                  className='sticky top-0 bg-orange-600 text-white text-sm text-left px-5 py-2.5 border-l-2 border-gray-200'
+                  className='sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200'
                 >
                   Actions
                 </th>
@@ -566,38 +564,38 @@ function Entities() {
                     {visibleColumns.map((key) => (
                       <td
                         key={key}
-                        className={`px-6 py-2 text-left border border-[#e5e7eb] text-xs font-medium `}
+                        className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium `}
                       >
                         {row[key]}
                       </td>
                     ))}
-  <td
-                      className={`px-6 py-2 text-left border border-[#e5e7eb] text-xs font-medium `}
+                    <td
+                      className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium `}
                     >
                       5000
                     </td>
                     <td
-                      className={`px-6 py-2 text-left border border-[#e5e7eb] text-xs font-medium `}
+                      className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium `}
                     >
                       2000
                     </td>
                     <td
-                      className={`px-6 py-2 text-left border border-[#e5e7eb] text-xs font-medium `}
+                      className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium `}
                     >
                       2000
-                 
+
                     </td>
                     <td
-                      className={`px-6 py-2 text-left border border-[#e5e7eb] text-xs font-medium `}
+                      className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium `}
                     >
-                   
+
                       1000
-                  
+
                     </td>
                     <td
-                      className={`px-6 py-2 text-left border border-[#e5e7eb] text-xs font-medium `}
+                      className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium `}
                     >
-                      <div className='flex justify-start'>
+                      <div className='flex justify-start gap-3'>
                         <GateKeeper
                           permissionCheck={(permission) =>
                             permission.module === 'entity' && permission.canRead
@@ -605,14 +603,14 @@ function Entities() {
                         >
                           <button
                             type='button'
-                            className='me-5 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600'
+                            className=' inline-flex items-center gap-x-1 text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600'
                           >
                             <Link to={`${row.id}`}>
                               <svg
                                 xmlns='http://www.w3.org/2000/svg'
                                 viewBox='0 0 20 20'
                                 fill='currentColor'
-                                className='w-5 h-5'
+                                className='w-4 h-4'
                               >
                                 <path d='M10 12.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z' />
                                 <path
@@ -632,14 +630,14 @@ function Entities() {
                         >
                           <button
                             type='button'
-                            className='me-5 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600'
+                            className='inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600'
                           >
                             <Link to={`${row.id}/edit`}>
                               <svg
                                 xmlns='http://www.w3.org/2000/svg'
                                 viewBox='0 0 20 20'
                                 fill='currentColor'
-                                className='w-5 h-5'
+                                className='w-4 h-4'
                               >
                                 <path d='m2.695 14.762-1.262 3.155a.5.5 0 0 0 .65.65l3.155-1.262a4 4 0 0 0 1.343-.886L17.5 5.501a2.121 2.121 0 0 0-3-3L3.58 13.419a4 4 0 0 0-.885 1.343Z' />
                               </svg>
@@ -655,13 +653,13 @@ function Entities() {
                           <button
                             type='button'
                             onClick={() => handleDeleteUser(row.id)}
-                            className='me-5 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600'
+                            className=' inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none  dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600'
                           >
                             <svg
                               xmlns='http://www.w3.org/2000/svg'
                               viewBox='0 0 20 20'
                               fill='currentColor'
-                              className='w-5 h-5'
+                              className='w-4 h-4'
                             >
                               <path
                                 fill-rule='evenodd'
@@ -761,7 +759,7 @@ function Entities() {
         <div className='flex justify-between'>
           <div className=''>
             {!entitiesList?.paginatedEntities ||
-            entitiesList?.paginatedEntities?.length === 0 ? (
+              entitiesList?.paginatedEntities?.length === 0 ? (
               'no data to show'
             ) : entitiesList.loading ? (
               'Loading...'
@@ -789,13 +787,12 @@ function Entities() {
                 })
               }
               href='#'
-              className={`relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${
-                entitiesList.loading
-                  ? 'cursor-wait'
-                  : entitiesList.currentPage === 1
+              className={`relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${entitiesList.loading
+                ? 'cursor-wait'
+                : entitiesList.currentPage === 1
                   ? 'cursor-not-allowed'
                   : 'cursor-auto'
-              }`}
+                }`}
             >
               <span className='sr-only'>Previous</span>
               <svg
@@ -823,13 +820,12 @@ function Entities() {
                   data: entitiesList.currentPage + 1,
                 })
               }
-              className={`relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${
-                entitiesList.loading
-                  ? 'cursor-wait'
-                  : entitiesList.currentPage === entitiesList.totalPages
+              className={`relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${entitiesList.loading
+                ? 'cursor-wait'
+                : entitiesList.currentPage === entitiesList.totalPages
                   ? 'cursor-not-allowed'
                   : 'cursor-auto'
-              }`}
+                }`}
             >
               <span className='sr-only'>Next</span>
               <svg

@@ -16,6 +16,7 @@ import { AuthContext } from '../../../contexts/authContext/authContext';
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
 }
+
 const userData = JSON.parse(localStorage.getItem('data'));
 const token = userData?.token;
 const role = userData?.role?.name;
@@ -599,46 +600,48 @@ function Users() {
                 {visibleColumns.map((key) => (
                   <th
                     key={key}
-                    className='sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200'
+                    className='sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200 '
                   >
                     {tableView[key].label}
                   </th>
                 ))}
                 <th
-                  scope='col'
+
                   className='sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200'
                 >
                   Actions
                 </th>
               </tr>
             </thead>
-            <tbody className='divide-y divide-gray-200 dark:divide-gray-700'>
+            <tbody className=' divide-gray-200 dark:divide-gray-700'>
               {settings?.paginatedUsers &&
                 settings?.paginatedUsers?.map((row) => (
                   <tr
                     key={row.id}
-
-                  // className={` ${row.userstatus ? '' : 'bg-gray-100 text-gray-100'}`}
                   >
                     {visibleColumns.map((key) => (
                       <td
                         key={key}
-                        className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium w-52 ${row.userstatus
-                            ? 'text-gray-800 '
-                            : 'bg-gray-100 text-gray-300'
+                        className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium overflow-hidden  ${row.userstatus
+                          ? 'text-gray-800 '
+                          : 'bg-gray-100 text-gray-300'
                           }`}
+                        style={{ maxWidth: '160px' }}
+
                       >
-                        {row[key]}
+                        <p className='truncate text-xs'> {row[key]}</p>
+
                       </td>
                     ))}
 
                     <td
-                      className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium ${row.userstatus
-                          ? 'text-gray-800 '
-                          : 'bg-gray-100 text-gray-300'
+                      className={`px-2 py-2  border border-[#e5e7eb] text-xs font-medium  ${row.userstatus
+                        ? 'text-gray-800 '
+                        : 'bg-gray-100 text-gray-300'
                         }`}
+                        style={{maxWidth:"100px"}}
                     >
-                      <div className='flex justify-start'>
+                      <div className='flex justify-start gap-3'>
                         <GateKeeper
                           permissionCheck={(permission) =>
                             permission.module === 'user' && permission.canCreate
@@ -646,14 +649,14 @@ function Users() {
                         >
                           <button
                             type='button'
-                            className='me-5 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600'
+                            className=' inline-flex items-center gap-x-1 text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600'
                           >
                             <Link to={`${row.id}`}>
                               <svg
                                 xmlns='http://www.w3.org/2000/svg'
                                 viewBox='0 0 20 20'
                                 fill='currentColor'
-                                className='w-5 h-5'
+                                className='w-4 h-4'
                               >
                                 <path d='M10 12.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z' />
                                 <path
@@ -672,14 +675,14 @@ function Users() {
                         >
                           <button
                             type='button'
-                            className='me-5 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600'
+                            className=' inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600'
                           >
                             <Link to={`${row.id}/edit`}>
                               <svg
                                 xmlns='http://www.w3.org/2000/svg'
                                 viewBox='0 0 20 20'
                                 fill='currentColor'
-                                className='w-5 h-5'
+                                className='w-4 h-4'
                               >
                                 <path d='m2.695 14.762-1.262 3.155a.5.5 0 0 0 .65.65l3.155-1.262a4 4 0 0 0 1.343-.886L17.5 5.501a2.121 2.121 0 0 0-3-3L3.58 13.419a4 4 0 0 0-.885 1.343Z' />
                               </svg>
@@ -695,13 +698,13 @@ function Users() {
                             <button
                               type='button'
                               onClick={() => handleDeleteUser(row.id)}
-                              className='me-5 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600'
+                              className=' inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none  dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600'
                             >
                               <svg
                                 xmlns='http://www.w3.org/2000/svg'
                                 viewBox='0 0 20 20'
                                 fill='currentColor'
-                                className='w-5 h-5'
+                                className='w-4 h-4'
                               >
                                 <path
                                   fill-rule='evenodd'
@@ -719,50 +722,44 @@ function Users() {
                         >
                           {userId !== row.id && (
                             <button
-                              type='button'
-                              className='me-5 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600'
+
+                              className='items-center  text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600'
                             >
                               {row.userstatus !== undefined && (
-                                <div className='flex items-center'>
-                                  <label
-                                    htmlFor='toggle'
-                                    className='flex items-center cursor-pointer'
-                                    onClick={(e) =>
-                                      handleClickOpen(
-                                        row.id,
-                                        row.userstatus,
-                                        row.userremarkshistory
-                                      )
-                                    }
-                                  >
-                                    <div
-                                      className={`w-8 h-4 rounded-full shadow-inner ${row.userstatus
-                                          ? ' bg-[#ea580c]'
-                                          : 'bg-[#c3c6ca]'
-                                        }`}
-                                    >
-                                      <div
-                                        className={`toggle__dot w-4 h-4 rounded-full shadow ${row.userstatus
-                                            ? 'ml-4 bg-white'
-                                            : 'bg-white'
-                                          }`}
-                                      ></div>
-                                    </div>
-                                    {/* <div
-                                    className={`ml-3 text-sm font-medium ${row.userstatus
-                                      ? 'text-gray-400'
-                                      : 'text--400'
+
+                                <label
+                                  htmlFor='toggle'
+                                  className='flex items-center cursor-pointer'
+                                  onClick={(e) =>
+                                    handleClickOpen(
+                                      row.id,
+                                      row.userstatus,
+                                      row.userremarkshistory
+                                    )
+                                  }
+                                >
+                                  <div
+                                    className={`w-6 h-3 rounded-full shadow-inner ${row.userstatus
+                                      ? ' bg-[#ea580c]'
+                                      : 'bg-[#c3c6ca]'
                                       }`}
                                   >
-                                    {row.userstatus ? 'Enabled' : 'Disabled'}
-                                  </div> */}
-                                  </label>
-                                </div>
+                                    <div
+                                      className={`toggle__dot w-3 h-3 rounded-full shadow ${row.userstatus
+                                        ? 'ml-4 bg-white'
+                                        : 'bg-white'
+                                        }`}
+                                    ></div>
+                                  </div>
+
+                                </label>
+
                               )}
                             </button>
                           )}
                         </GateKeeper>
                       </div>
+
                     </td>
                   </tr>
                 ))}
@@ -879,10 +876,10 @@ function Users() {
               }
               href='#'
               className={`relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${settings.loading
-                  ? 'cursor-wait'
-                  : settings.currentPage === 1
-                    ? 'cursor-not-allowed'
-                    : 'cursor-auto'
+                ? 'cursor-wait'
+                : settings.currentPage === 1
+                  ? 'cursor-not-allowed'
+                  : 'cursor-auto'
                 }`}
             >
               <span className='sr-only'>Previous</span>
@@ -914,10 +911,10 @@ function Users() {
                 })
               }
               className={`relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${settings.loading
-                  ? 'cursor-wait'
-                  : settings.currentPage === settings.totalPages
-                    ? 'cursor-not-allowed'
-                    : 'cursor-auto'
+                ? 'cursor-wait'
+                : settings.currentPage === settings.totalPages
+                  ? 'cursor-not-allowed'
+                  : 'cursor-auto'
                 }`}
             >
               <span className='sr-only'>Next</span>
@@ -938,6 +935,12 @@ function Users() {
           </section>
         </div>
       </div>
+
+
+
+
+
+
     </div>
   );
 }
