@@ -574,12 +574,12 @@ function Tasks() {
                     isOpen ? '' : 'hidden'
                   }`}
                 >
-                  <div className='p-3 fixed inset-y-0 right-0 w-1/2 bg-white shadow-lg transform translate-x-0 transition-transform duration-300 ease-in-out'>
+                  <div className='p-3 fixed inset-y-0 right-0 w-4/12 bg-white shadow-lg transform translate-x-0 transition-transform duration-300 ease-in-out'>
                     <div className='flex justify-start'>
                       <div className='relative inline-block ms-2'>
                         <select className='block appearance-none w-full bg-white text-sm border border-gray-300 hover:border-gray-300 px-1 py-1.5 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500'>
                           <option value='option1'>Select Status</option>
-                          <option value='option2'>Complete</option>
+                          <option value='option2'>Completed</option>
                           <option value='option3'>Inprogress</option>
                           <option value='option4'>To Do</option>
                         </select>

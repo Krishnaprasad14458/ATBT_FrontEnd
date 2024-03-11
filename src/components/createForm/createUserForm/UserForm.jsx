@@ -649,6 +649,9 @@ function UserForm() {
                         </div>
                       </div>
                     )}
+
+
+                    
                   {item.type === 'select' &&
                     item.inputname == 'designation' &&
                     item.field == 'predefined' && (
@@ -663,7 +666,7 @@ function UserForm() {
                         <select
                           id={item.inputname}
                           name={item.inputname}
-                          className='px-2 py-2 text-sm block w-full rounded-md bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder:text-xs'
+                          className='p-2 text-sm block w-full rounded-md bg-gray-50 border custom-select border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder:text-xs'
                           onChange={(e) => handleChange(index, e.target.value)}
                           value={customFormFields[index].value || ''}
                           style={{ fontSize: '0.8rem' }}
@@ -1423,9 +1426,7 @@ function UserForm() {
                               <span className='  flex gap-2 w-4/6'>
                                 <span> : </span>{' '}
                                 <span className='text-md font-[600] '>
-                                  {item.value.slice(0, 3)}&nbsp;
-                                  {item.value.slice(3, 6)}&nbsp;
-                                  {item.value.slice(6, 10)}
+                                  
                                 </span>
                               </span>
                             </p>
