@@ -16,7 +16,7 @@ const TeamsDashboard = () => {
             </h5>
             <GateKeeper
               permissionCheck={(permission) =>
-                permission.module === 'team' && permission.create
+                permission.module === 'team' && permission.canCreate
               }
             >
               <Link

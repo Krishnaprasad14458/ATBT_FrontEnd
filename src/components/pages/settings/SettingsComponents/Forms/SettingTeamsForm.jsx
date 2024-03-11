@@ -24,7 +24,7 @@ const SettingTeamsForm = () => {
         axios.get(`https://atbtmain.teksacademy.com/form/list?name=teamform`)
             .then(response => {
                 // Handle the successful response
-                setCustomForm(response.data.array)
+                setCustomForm(response.data.Data)
                 console.log(response.data);
             })
             .catch(error => {
@@ -108,42 +108,117 @@ const SettingTeamsForm = () => {
     }
     useEffect(() => {
         console.log("newInputField", newInputField)
-    })
+    });
+    // validation for popup
+
+    const [addInputerrors, setAddInputErrors] = useState({});
+
+    const [isAddInputFormErrorspresent, setIsAddInputFormErrorspresent] = useState(false);
+
+    const checkAddInpuValidation = () => {
+        let isErrorspresent = false;
+
+        if (!newInputField.label.trim()) {
+            setAddInputErrors((prev) => ({
+                ...prev,
+                label: 'Label is required',
+            }));
+
+            isErrorspresent = true;
+        }
+        else if (newInputField.label.trim().length < 2) {
+            setAddInputErrors((prev) => ({
+                ...prev,
+                label: 'Enter atleast 2 characters',
+            }));
+
+            isErrorspresent = true;
+        } else {
+            setAddInputErrors((prev) => ({
+                ...prev,
+                label: '',
+            }));
+        }
+
+        if (!newInputField.type.trim()) {
+            setAddInputErrors((prev) => ({
+                ...prev,
+                type: 'Type is required',
+            }));
+
+            isErrorspresent = true;
+        } else {
+            setAddInputErrors((prev) => ({
+                ...prev,
+                type: '',
+            }));
+        }
+
+        if ((newInputField.type === 'select' || newInputField.type === 'multiselect') && newInputField.options.length === 0) {
+            ;
+            setAddInputErrors((prev) => ({
+                ...prev,
+                options: 'At least one option is required',
+            }));
+
+            isErrorspresent = true;
+        } else {
+            setAddInputErrors((prev) => ({
+                ...prev,
+                options: '',
+            }));
+        }
+        if (isErrorspresent) {
+            setIsAddInputFormErrorspresent(true);
+        }
+        if (!isErrorspresent) {
+            setIsAddInputFormErrorspresent(false);
+        }
+        return isErrorspresent;
+    };
+    useEffect(() => {
+        if (isAddInputFormErrorspresent && newInputField) {
+            checkAddInpuValidation();
+        }
+    }, [newInputField]);
 
     const addOrUpdateInput = (e) => {
         e.preventDefault();
-        if (editIndex !== null) {
-            // Edit existing field
-            const updatedForm = [...customForm];
-            updatedForm[editIndex] = newInputField;
-            setCustomForm(updatedForm);
-            // setEditIndex(null);
-        } else {
-            // Add new field
-            if (newInputField.type === "text" ||
-                newInputField.type === "email" ||
-                newInputField.type === "password" ||
-                newInputField.type === "number" ||
-                newInputField.type === "phonenumber" ||
-                newInputField.type === "textarea" ||
-                newInputField.type === "file" ||
-                newInputField.type === "date" ||
-                newInputField.type === "checkbox" ||
-                newInputField.type === "range" || newInputField.type === "time") {
-                let newField = { ...newInputField }
-                delete newField.options
-                setCustomForm((prev) => [...prev, newField]);
+        if (!checkAddInpuValidation()) {
+            if (editIndex !== null) {
+                // Edit existing field
+                const updatedForm = [...customForm];
+                updatedForm[editIndex] = newInputField;
+                setCustomForm(updatedForm);
+                // setEditIndex(null);
+            } else {
+                // Add new field
+                if (newInputField.type === "text" ||
+                    newInputField.type === "email" ||
+                    newInputField.type === "password" ||
+                    newInputField.type === "number" ||
+                    newInputField.type === "phonenumber" ||
+                    newInputField.type === "textarea" ||
+                    newInputField.type === "file" ||
+                    newInputField.type === "date" ||
+                    newInputField.type === "checkbox" ||
+                    newInputField.type === "range" || newInputField.type === "time") {
+                    let newField = { ...newInputField }
+                    delete newField.options
+                    setCustomForm((prev) => [...prev, newField]);
+
+                }
+                else {
+                    setCustomForm((prev) => [...prev, newInputField]);
+                }
 
             }
-            else {
-                setCustomForm((prev) => [...prev, newInputField]);
-            }
 
-        }
-
-        // setNewInputField({ label: '', type: '', inputname: "", value: "", filterable: false, mandatory: false });
-        setOpen(false);
-    };
+            // setNewInputField({ label: '', type: '', inputname: "", value: "", filterable: false, mandatory: false });
+            setOpen(false);
+        };
+    }
+    //  validation end
     const handleMoveDimension = (index, direction) => {
         const updatedForm = [...customForm];
         if (direction === 'up' && index > 0) {
@@ -157,7 +232,7 @@ const SettingTeamsForm = () => {
         const updatedForm = [...customForm];
         const confirmDelete = await Swal.fire({
             title: 'Are you sure?',
-            text: 'Once deleted, you will not be able to recover this feild!',
+            text: 'Once deleted, you will not be able to recover this field!',
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#ea580c',
@@ -182,13 +257,25 @@ const SettingTeamsForm = () => {
     };
 
 
-    const inputType = [{ label: "", value: "" }, { label: "Text", value: "text" }, { label: "Email", value: "email" }, { label: "Password", value: "password" },
-    { label: "Number", value: "number" }, { label: "Phone Number", value: "phonenumber" }, { label: "Text Area", value: "textarea" }, { label: "File", value: "file" }, { label: "Date", value: "date" }, { label: "Select", value: "select" }, { label: "Multi Select", value: "multiselect" }, { label: "Checkbox", value: "checkbox" }, { label: "Range", value: "range" }, { label: "Time", value: "time" }
+    const inputType = [
+        { label: "Text", value: "text" },
+        { label: "Email", value: "email" },
+        { label: "Password", value: "password" },
+        { label: "Number", value: "number" },
+        { label: "Phone Number", value: "phonenumber" },
+        { label: "Text Area", value: "textarea" },
+        { label: "File", value: "file" },
+        { label: "Date", value: "date" },
+        { label: "Select", value: "select" },
+        { label: "Multi Select", value: "multiselect" },
+        { label: "Checkbox", value: "checkbox" },
+        { label: "Range", value: "range" },
+        { label: "Time", value: "time" }
     ]
 
     const handleSubmitCustomForm = async () => {
         let formData = {
-            arrayOfObjects:customForm, Name: "teamform", Tableview: { name: true }
+            arrayOfObjects: customForm, Name: "teamform", Tableview: { name: true }
         }
 
         await saveCustomForm(formData)
@@ -237,9 +324,9 @@ const SettingTeamsForm = () => {
     // let updatedOptions = updatedNewInputField.options.filter((option) => option != deleteoption)
     return (
         <div className="p-4 container bg-[#f8fafc]">
-            <div className="flex justify-between">
-                <p className="text-xl font-semibold">Custom Teams Form</p>
-                <div className='flex justify-end gap-3'>
+            <div className=" grid grid-cols-1 md:grid-cols-2 ">
+                <p className="col-span-1 text-xl sm:text-lg md:text-xl lg:text-xl xl:text-xl font-semibold">Custom Teams Form</p>
+                <div className="col-span-1 text-end mt-4 sm:mt-0">
                     <button type="submit" onClick={(e) => {
                         setEditIndex(null)
                         setNewInputField(
@@ -251,11 +338,10 @@ const SettingTeamsForm = () => {
                                 filterable: false,
                                 mandatory: false,
                                 field: "custom"
-                            }
-                        )
+                            })
                         setOpen(true)
                     }}
-                        className="create-btn px-3 py-2 inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white gap-1">+ Add Field</button>
+                        className=" mr-3  px-3 py-2 inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white ">+ Add Field</button>
                     <Link to="/forms">
                         <button type="submit"
                             className="create-btn px-4 py-2 inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white gap-1">Back</button>
@@ -275,12 +361,12 @@ const SettingTeamsForm = () => {
                                             <div class="">{input.label.charAt(0).toUpperCase() + input.label.slice(1)}</div></div>
                                         <div class="flex gap-3 md:gap-10">
                                             {/*up and down moving icons */}
-                                            <svg onClick={() => handleMoveDimension(index, 'up')} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+                                            {/* <svg onClick={() => handleMoveDimension(index, 'up')} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
                                                 <path fill-rule="evenodd" d="M10 17a.75.75 0 0 1-.75-.75V5.612L5.29 9.77a.75.75 0 0 1-1.08-1.04l5.25-5.5a.75.75 0 0 1 1.08 0l5.25 5.5a.75.75 0 1 1-1.08 1.04l-3.96-4.158V16.25A.75.75 0 0 1 10 17Z" clip-rule="evenodd" />
                                             </svg>
                                             <svg onClick={() => handleMoveDimension(index, 'down')} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
                                                 <path fill-rule="evenodd" d="M10 3a.75.75 0 0 1 .75.75v10.638l3.96-4.158a.75.75 0 1 1 1.08 1.04l-5.25 5.5a.75.75 0 0 1-1.08 0l-5.25-5.5a.75.75 0 1 1 1.08-1.04l3.96 4.158V3.75A.75.75 0 0 1 10 3Z" clip-rule="evenodd" />
-                                            </svg>
+                                            </svg> */}
                                             {/* Open and Close Arrow*/}
 
                                             <svg onClick={() => handleFiledOpen(input.inputname)} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
@@ -299,16 +385,16 @@ const SettingTeamsForm = () => {
                                         <div class=" sm:w-full md:w-1/2 lg:w-1/2 xl:1/2 ">
                                             <div class="w-full relative m-0 ">
                                                 <div class="w-full">
-                                                    <div class="input-mol  p-[0.5rem]   w-full text-darkSlate01 text-sm rounded focus:outline-none bg-[#f8fafc] focus:shadow-none border border-slate04 focus:border-slate01!rounded-none py-3 !text-body px-4  undefined cursor-default"   > {input.label.charAt(0).toUpperCase() + input.label.slice(1)}</div>
+                                                    <div class="input-mol  p-[0.5rem]  w-full text-darkSlate01 text-sm rounded focus:outline-none bg-[#f8fafc] focus:shadow-none border border-slate04 focus:border-slate01!rounded-none py-3 !text-body px-4 undefined cursor-default"> {input.label.charAt(0).toUpperCase() + input.label.slice(1)}</div>
                                                 </div></div></div></div>
                                     <div class="border-b border-slateStroke flex flex-wrap py-4 gap-2">
                                         <div class="sm:w-full sm-py-1 md:w-1/5 lg:w-1/5 xl:w-1/5 text-body text-darkSlate01 text-md text-body pt-2">Field Type</div>
                                         <div class="sm:w-full md:w-1/2 lg:w-1/2 xl:1/2  ">
                                             <div class="relative w-full m-0 ">
                                                 <div class="w-full">
-                                                    <div class="input-mol  p-[0.5rem]   w-full text-darkSlate01 text-sm rounded focus:outline-none bg-[#f8fafc] focus:shadow-none border border-slate04 focus:border-slate01!rounded-none py-3 !text-body px-4  undefined cursor-default">{input.type.charAt(0).toUpperCase() + input.type.slice(1)}</div>
+                                                    <div class="input-mol  p-[0.5rem]   w-full text-darkSlate01 text-sm rounded focus:outline-none bg-[#f8fafc] focus:shadow-none border border-slate04 focus:border-slate01!rounded-none py-3 !text-body px-4  undefined ">{input.type.charAt(0).toUpperCase() + input.type.slice(1)}</div>
                                                 </div></div></div></div>
-                                    <div className="flex flex-wrap mb-5 gap-10">
+                                    <div className="flex flex-wrap mb-4  sm:gap-0 md:gap-10 ">
                                         {/* {input.type.charAt(0).toUpperCase() + input.type.slice(1)} */}
                                         <div className="w-1/5 hidden sm:block"></div>
                                         <div class=" flex flex-wrap pt-5  gap-1 ">
@@ -320,7 +406,7 @@ const SettingTeamsForm = () => {
                                                     <path stroke-linecap="round" stroke-linejoin="round" d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                                                 )}
                                             </svg>
-                                            <div class=" text-body text-darkSlate01"> Required</div>
+                                            <div class=" text-body text-darkSlate01"> Mandatory</div>
                                         </div>
                                         <div class="  flex flex-wrap pt-5  gap-1 ">
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 mt-1">
@@ -335,8 +421,8 @@ const SettingTeamsForm = () => {
                                     </div>
                                     <div class="flex justify-end w-full  pb-2">
                                         <div class="mr-4">
-                                            <button class=" flex  justify-center rounded-md  border-2 border-orange-600 px-3 py-2 text-sm font-medium leading-6 text-orange-600 shadow-sm  focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600                       
-                       " onClick={() => {
+                                            <button class=" flex  justify-center rounded-md  border-2 border-orange-600 px-3 py-2 text-sm font-medium leading-6 text-orange-600 shadow-sm  focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600"
+                                                onClick={() => {
                                                     setNewInputField(input);
                                                     setEditIndex(index);
                                                     setOpen(true);
@@ -344,11 +430,12 @@ const SettingTeamsForm = () => {
                                         </div>
                                         <div class="mr-4">
                                             <button class={`flex w-full justify-center rounded-md bg-[#dc2626] px-3 py-2.5 text-sm font-medium leading-6 text-white shadow-sm  focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600 ${input.field === "custom" ? "" : "pointer-events-none opacity-30  cursor-not-allowed"}`}
-
                                                 onClick={() => {
                                                     deleteInput(index);
                                                 }}>Delete</button>
                                         </div>
+
+
                                     </div>
                                 </div>
                             }
@@ -365,12 +452,11 @@ const SettingTeamsForm = () => {
                         enterTo="opacity-100"
                         leave="ease-in duration-200"
                         leaveFrom="opacity-100"
-                        leaveTo="opacity-0"
-                    >
+                        leaveTo="opacity-0">
                         <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
                     </Transition.Child>
                     <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
-                        <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+                        <div className="flex min-h-full items-center justify-center p-4 text-center sm:items-center sm:p-0">
                             <Transition.Child
                                 as={Fragment}
                                 enter="ease-out duration-300"
@@ -378,94 +464,98 @@ const SettingTeamsForm = () => {
                                 enterTo="opacity-100 translate-y-0 sm:scale-100"
                                 leave="ease-in duration-200"
                                 leaveFrom="opacity-100 translate-y-0 sm:scale-100"
-                                leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-                            >
-                                <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 px-2 py-5 sm:max-w-lg">
-                                    <span className="flex justify-end gap-9 mb-2">
-                                        {editIndex == null ? <p className="text-md me-10 font-semibold">Add New Input Field</p > : <p className="text-md  me-14 font-semibold">Edit Input Field</p>}
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" onClick={() => {
-                                            setOpen(false)
-                                        }} fill="currentColor" className="w-5 h-5 me-2">
-                                            <path d="M6.28 5.22a.75.75 0 0 0-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 1 0 1.06 1.06L10 11.06l3.72 3.72a.75.75 0 1 0 1.06-1.06L11.06 10l3.72-3.72a.75.75 0 0 0-1.06-1.06L10 8.94 6.28 5.22Z" />
-                                        </svg></span>
+                                leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95">
+                                <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white shadow-xl transition-all sm:my-8 px-2 py-5 ">
+                                    <span className="flex justify-between mb-2">
+                                        <span>
+                                            {editIndex == null ? <p className="text-md ms-16 md:ms-28 font-semibold">Add New Input Field</p > : <p className="text-md   ms-20 md:ms-28 font-semibold">Edit Input Field</p>}
+                                        </span>
+                                        <span className="text-end">
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" onClick={() => {
+                                                setOpen(false)
+                                            }} fill="currentColor" className="w-5 h-5 me-2 text-end">
+                                                <path d="M6.28 5.22a.75.75 0 0 0-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 1 0 1.06 1.06L10 11.06l3.72 3.72a.75.75 0 1 0 1.06-1.06L11.06 10l3.72-3.72a.75.75 0 0 0-1.06-1.06L10 8.94 6.28 5.22Z" />
+                                            </svg></span></span>
                                     <form>
                                         <div className="flex">
-                                            <label htmlFor="name" className="block text-sm font-medium leading-6 mt-3 mb-2 mx-2 text-gray-900">
-                                                Label <span className='text-[#dc2626]'> * </span>
+                                            <label htmlFor="name" className="inline-flex text-sm font-medium leading-6 mt-3 mb-2 mx-2 text-gray-900">
+                                                Label<span className='text-[#dc2626]'> * </span>
                                             </label>
-                                            <div className="">
-                                                <span className="mt-3 ms-3">:</span>
-                                                <input
-                                                    id="name"
-                                                    name="label"
-                                                    type="text"
-                                                    autoComplete="name"
-                                                    required
-                                                    value={newInputField.label}
-                                                    onChange={handleInputChange}
-                                                    className="p-2 m-2 text-xs w-72 bg-gray-50 rounded-md border-2 border-gray-200 py-1 text-gray-900 appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-xs sm:leading-6"
-                                                />
-                                            </div>
+                                            <span className="mt-3 ms-2">:</span>
+                                            <input
+                                                id="name"
+                                                name="label"
+                                                type="text"
+                                                autoComplete="name"
+                                                required
+                                                value={newInputField.label}
+                                                onChange={handleInputChange}
+                                                className="p-2 m-2 text-xs w-full md:w-72 lg:w-72 xl:w-72 bg-gray-50 rounded-md border-2 border-gray-200  text-gray-900 appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400" />
                                         </div>
+                                        <span className=' text-[#dc2626]'>
+                                            {addInputerrors.label && (
+                                                <span className='text-xs flex justify-center ms-14 md:ms-0'>
+                                                    {addInputerrors.label}
+                                                </span>
+                                            )}
+                                        </span>
                                         {
                                             <div >
-                                                <div className="flex  gap-2">
-                                                    <label htmlFor="venue" className="block text-sm font-medium leading-6 mt-3 mb-2  mx-2 text-gray-900 ">Type <span className='text-[#dc2626]'> * </span> </label>
-                                                    <div className="relative inline-block text-left ">
-                                                        <span className="mt-3 ms-1">:</span>
-                                                        <select name="type" className={`p-2 m-2  ms-3 text-xs w-72
-                                                         bg-gray-50 rounded-md border-2 border-gray-200 py-1 text-gray-900
-                                                          appearance-none shadow-sm placeholder:text-gray-400 
-                                                        focus:outline-none focus:border-orange-400 sm:text-xs 
-                                                        sm:leading-6 ${editIndex == null ? "" : "pointer-events-none opacity-30"}`}
-                                                            value={newInputField.type} onChange={handleInputChange}>
-                                                            {inputType && inputType.map((type, index) => (
-
-
-                                                                <option value={type.value}>
-                                                                    {type.label}</option>
-
-
-
-                                                            ))}
-                                                        </select>
-                                                        <div className="pointer-events-none absolute inset-y-0 right-2 flex items-center px-2 text-gray-700">
-                                                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                                                            </svg>
-                                                        </div>
-                                                    </div>
+                                                <div className="flex">
+                                                    <label htmlFor="venue" className="inline-flex text-sm font-medium leading-6 mt-3 mb-2  mx-2 text-gray-900 ">Type  <span className='text-[#dc2626]'> * </span>
+                                                    </label>
+                                                    <span className="mt-3 ms-3">:</span>
+                                                    <select name="type" className={`p-2 mx-2  py-1.5 my-2 text-xs w-full md:w-72 lg:w-72 xl:w-72 bg-gray-50 rounded-md border-2  border-gray-200  text-gray-900 shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-xs  custom-scroll " ${editIndex == null ? "" : "pointer-events-none opacity-30"}`}
+                                                        value={newInputField.type} onChange={handleInputChange} >
+                                                        <option value=''>
+                                                            --select type--</option>
+                                                        {inputType && inputType.map((type, index) => (
+                                                            <option value={type.value}>
+                                                                {type.label}</option>
+                                                        ))}
+                                                    </select>
+                                                </div>
+                                                <div className=' text-[#dc2626]'>
+                                                    {addInputerrors.type && (
+                                                        <span className='text-xs flex justify-center ms-14 md:ms-0'>
+                                                            {addInputerrors.type}
+                                                        </span>
+                                                    )}
                                                 </div>
                                                 {
                                                     (newInputField.type === "select" || newInputField.type === "multiselect") && (
                                                         <div>
-                                                            <p className="text-xs  flex justify-center"> Add options for  &nbsp;<span className="font-semibold text-xs">  select </span></p>
+                                                            <p className="text-xs   ms-16 md:ms-0 md:justify-center "> Add options for  &nbsp;<span className="font-semibold text-xs">  multi select </span></p>
                                                             <div className="flex ">
-                                                                <label htmlFor="venue" className="block text-sm font-medium leading-6 mt-3 mb-2  ms-2 text-gray-900 ">Option<span className='text-[#dc2626]'> * </span> </label><div><span className="mt-3 ms-2">:</span>
-                                                                    <input
-                                                                        id=""
-                                                                        name=""
-                                                                        type="text"
-                                                                        required
-                                                                        value={selectOption}
-                                                                        onChange={(e) => setSelectOption(e.target.value)}
-                                                                        className="p-2 gap-2 m-2 text-xs w-56 bg-gray-50 rounded-md border-2 border-gray-200 py-1 text-gray-900 appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-xs sm:leading-6"
-                                                                    />
-                                                                </div>
+                                                                <label htmlFor="venue" className="inline-flex text-sm font-medium leading-6 mt-3 text-gray-900 ">Option <span className='text-[#dc2626]'> * </span>  </label><span className="mt-3 ms-4 ">:</span>
+                                                                <input
+                                                                    id=""
+                                                                    name=""
+                                                                    type="text"
+                                                                    required
+                                                                    value={selectOption}
+                                                                    onChange={(e) => setSelectOption(e.target.value)}
+                                                                    className="p-2 m-2 text-xs w-full py-1.5  md:w-56 lg:w-56 xl:w-56 bg-gray-50 rounded-md border-2 border-gray-200  text-gray-900 appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 " />
                                                                 <button
                                                                     type="button"
-                                                                    className="inline-flex justify-center rounded-md bg-orange-600 px-3 py-2 m-2 text-sm font-semibold text-white shadow-sm  "
-                                                                    onClick={addOption}
-                                                                >
+                                                                    className="inline-flex justify-center rounded-md bg-orange-600 px-3 py-2 m-2 text-sm font-semibold text-white shadow-sm sm:text-end"
+                                                                    onClick={addOption}>
                                                                     Add
                                                                 </button>
                                                             </div>
+                                                            <div className=' text-[#dc2626]'>
+                                                                {addInputerrors.options && (
+                                                                    <span className='text-xs flex justify-center ms-16 md:ms-0'>
+                                                                        {addInputerrors.options}
+                                                                    </span>
+                                                                )}
+                                                            </div>
                                                             <div className="ps-2 py-2"> {newInputField.options && newInputField.options.length > 0 && (
-                                                                <div class=" border border-1 w-[360px] border-gray-200 mb-3  ps-1 py-1 rounded-md gap-2 flex flex-wrap overflow-y-auto" style={{ maxHeight: '100px' }}>
+                                                                <div className="  border border-1 md:w-[360px] border-gray-200 mb-3  ps-1 py-1 rounded-md gap-2 flex flex-wrap overflow-y-auto" style={{ maxHeight: '100px' }}>
                                                                     {newInputField.options.map((option, index) => (
                                                                         <span key={index} className="text-xs border border-1 border-gray-200 rounded-md p-1  flex">
                                                                             {option}
-                                                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-4 h-4" onClick={() => deleteOption(index)}>
+                                                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="w-4 h-4" onClick={() => deleteOption(index)}>
                                                                                 <path d="M5.28 4.22a.75.75 0 0 0-1.06 1.06L6.94 8l-2.72 2.72a.75.75 0 1 0 1.06 1.06L8 9.06l2.72 2.72a.75.75 0 1 0 1.06-1.06L9.06 8l2.72-2.72a.75.75 0 0 0-1.06-1.06L8 6.94 5.28 4.22Z" />
                                                                             </svg>
                                                                         </span>
@@ -483,8 +573,7 @@ const SettingTeamsForm = () => {
                                                             id="mandatory"
                                                             name="mandatory"
                                                             checked={newInputField.mandatory} // Make sure to set the checked attribute
-                                                            onChange={handleInputChange}
-                                                        />
+                                                            onChange={handleInputChange} />
                                                         <span className="text-xs">Mandatory</span>
                                                     </div>
                                                     {<div
@@ -497,26 +586,23 @@ const SettingTeamsForm = () => {
                                                                 newInputField.type === "date" ||
                                                                 newInputField.type === "select" ||
                                                                 newInputField.type === "multiselect" ||
-                                                                newInputField.type === "time" ? "" : "pointer-events-none opacity-30"}`}
-                                                    >
+                                                                newInputField.type === "time" ? "" : "pointer-events-none opacity-30"}`}>
                                                         <input
                                                             type="checkbox"
                                                             id="filterable"
                                                             name="filterable"
                                                             checked={newInputField.filterable} // Make sure to set the checked attribute
-                                                            onChange={handleInputChange}
-                                                        />
+                                                            onChange={handleInputChange} />
                                                         <span className="text-xs">Filterable</span>
                                                     </div>}
                                                 </div>
                                             </div>}
                                     </form>
-                                    <div className="w-full ">
+                                    <div className="w-full flex justify-end  ">
                                         <button
                                             type="button"
-                                            className="rounded-md w-[360px] bg-orange-600 px-3 py-2 text-sm  text-white shadow-sm sm:ml-3 "
-                                            onClick={addOrUpdateInput}
-                                        >
+                                            className="rounded-md  bg-orange-600 me-2 px-3 py-2 text-sm  text-white shadow-sm sm:ml-3 "
+                                            onClick={addOrUpdateInput}>
                                             Submit
                                         </button>
                                     </div>
@@ -538,3 +624,45 @@ const SettingTeamsForm = () => {
     )
 }
 export default SettingTeamsForm
+
+
+////////// predefined fields
+
+// [
+//     {
+//         "label": "Full Name",
+//         "inputname": "name",
+//         "type": "text",
+//         "value": "",
+//         "field": "predefined",
+//         "mandatory": true,
+//         "filterable": true
+//     },
+//     {
+//         "label": "Image",
+//         "inputname": "image",
+//         "type": "file",
+//         "value": "",
+//         "field": "predefined",
+//         "mandatory": false,
+//         "filterable": false
+//     },
+//     {
+//         "label": "Description",
+//         "inputname": "description",
+//         "type": "textarea",
+//         "value": "",
+//         "field": "predefined",
+//         "mandatory": true,
+//         "filterable": false
+//     },
+//     {
+//         "label": "Add Members",
+//         "inputname": "members",
+//         "type": "multiselect",
+//         "value": [],
+//         "field": "predefined",
+//         "mandatory": true,
+//         "filterable": false
+//     }
+// ]

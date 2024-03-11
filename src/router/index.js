@@ -51,7 +51,6 @@ import MyCalendar from "../components/pages/task/MyCalendar";
 import Login from "../components/auth/Login";
 import ResetPassword from "../components/auth/ResetPassword";
 import ChangePassword from "../components/auth/ChangePassword";
-import PageNotFound from "../components/pages/pageNotFound/PageNotFound";
 import { createBrowserRouter, redirect } from "react-router-dom";
 import axios from "axios";
 import { authRoutes } from "./auth/auth.router";
@@ -64,21 +63,68 @@ import { meetingRouter } from "./meeting/meeting.router";
 import { userRouter } from "./user/user.router";
 import { entityRouter } from "./entity/entity.router";
 import { taskRouter } from "./task/task.router";
+import RouteBlocker from "../rbac/RouteBlocker";
+import ErrorBoundary from "../components/pages/Errorpages/ErrorBoundary";
+import '../App.css';
+
 
 
 export const router = createBrowserRouter([
     {
         path: '/',
         element: <RequireAuth />,
+        // errorElement: <ErrorBoundary />,
+        ErrorBoundary: ErrorBoundary,
         children: [
             ...dashboardRouter,
-            ...userRouter,
-            ...entityRouter,
-            ...meetingRouter,
-            ...taskRouter,
-            ...teamRouter,
-            ...reportRouter,
-            ...settingRouter,
+            {
+                path: 'users',
+                children: [
+                    ...userRouter,
+                ]
+            },
+            {
+                path: 'entities',
+                children: [
+                    ...entityRouter,
+                ]
+            },
+            {
+                element: <RouteBlocker permissionCheck={(permission) =>
+                    permission.module === 'meeting' && permission.canRead} />,
+                children: [
+                    ...meetingRouter,
+                ]
+            },
+            {
+                element: <RouteBlocker permissionCheck={(permission) =>
+                    permission.module === 'task' && permission.canRead} />,
+                children: [
+                    ...taskRouter,
+                ]
+            },
+            {
+                element: <RouteBlocker permissionCheck={(permission) =>
+                    permission.module === 'team' && permission.canRead} />,
+                children: [
+                    ...teamRouter,
+                ]
+            },
+            {
+                element: <RouteBlocker permissionCheck={(permission) =>
+                    permission.module === 'report' && permission.canRead} />,
+                children: [
+                    ...reportRouter,
+                ]
+            },
+            {
+                element: <RouteBlocker permissionCheck={(permission) =>
+                    permission.module === 'setting' && permission.canRead} />,
+                path: 'settings',
+                children: [
+                    ...settingRouter,
+                ]
+            },
             { path: 'mycalendar', element: <MyCalendar /> },
         ]
     },
@@ -90,3 +136,14 @@ export const router = createBrowserRouter([
         ]
     }
 ])
+
+
+
+// ...dashboardRouter,
+// ...userRouter,
+// ...entityRouter,
+// ...meetingRouter,
+// ...taskRouter,
+// ...teamRouter,
+// ...reportRouter,
+// ...settingRouter,

@@ -1,9 +1,9 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
 
-* {
+/* * {
   scrollbar-width: thin;
   scrollbar-color: var(--secondary) var(--primary);
-}
+} */
 
 * {
   margin: 0;
@@ -13,6 +13,8 @@
   line-height: 1.5rem;
   font-weight: 300;
   font-size: 1rem;
+  scrollbar-width: thin;
+  scrollbar-color: var(--secondary) var(--primary);
 }
 
 /* toggle start */
@@ -143,4 +145,34 @@ swal2-default-outline:focus {
   .filter_pagination {
     text-align: start;
   }
+}
+
+/*  for removing phone number arrows */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+
+/* for decrease the choosefile name defult in the browser */
+input[type="file"]::-webkit-file-upload-button {
+  font-size: smaller;
+  height: 27px;
+  padding: 0;
+  /* Adjust font size */
+}
+
+input[type="file"]::-moz-file-upload-button {
+  font-size: smaller;
+  height: 27px;
+  padding: 0;
+  /* Adjust font size */
+}
+
+input[type="file"]::-ms-browse {
+  font-size: smaller;
+  height: 27px;
+  padding: 0;
+  /* Adjust font size */
 }

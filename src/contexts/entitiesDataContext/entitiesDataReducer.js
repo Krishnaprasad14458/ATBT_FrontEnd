@@ -95,6 +95,23 @@ const entitiesDataReducer = (state, action) => {
                 }
             }
 
+        case actionTypes.SET_FILTERS:
+            console.log(action.payload, "filterss")
+            return action.payload.context === 'DASHBOARD' ? {
+                ...state,
+                dashboardEntities: {
+                    ...state.dashboardEntities,
+                    filters: { ...action.payload.data }
+                }
+            } : {
+                ...state,
+                entitiesList: {
+                    ...state.entitiesList,
+                    filters: { ...action.payload.data }
+                }
+            }
+
+
 
         default:
             return state;

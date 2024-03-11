@@ -34,7 +34,7 @@ function EntityDashboard() {
             </h5>
             <GateKeeper
               permissionCheck={(permission) =>
-                permission.module === 'entity' && permission.create
+                permission.module === 'entity' && permission.canCreate
               }
             >
               <Link
@@ -101,7 +101,7 @@ function EntityDashboard() {
                   className='py-2 sm:py-2'
                   key={entity.id}
                 >
-                  <Link to={`/entitylandingpage/${entity.id}`}>
+                  <Link to={`/entities/${entity.id}`}>
                     <EntityList entity={entity} />
                   </Link>
                 </li>

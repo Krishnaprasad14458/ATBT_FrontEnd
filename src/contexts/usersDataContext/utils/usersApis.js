@@ -3,32 +3,53 @@ import { apiUrl } from "../../../utils/constants";
 import { toast } from 'react-toastify';
 import Swal from 'sweetalert2';
 
-export const getAllUsers = async () => {
+const userData = JSON.parse(localStorage.getItem("data"))
+const localToken = userData?.token
+console.log(userData?.token, "bla")
+export const getAllUsers = async (token) => {
+    console.log(`${token} token is present in getAllUsers api`);
     const url = `${apiUrl}/user/list`;
-    return axios.get(url);
+    return axios.post(url, {}, {
+        headers: { authorization: token || localToken || "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEzMiwicm9sZUlkIjoyNSwiaWF0IjoxNzA5NjM0MDgwLCJleHAiOjIwMjQ5OTQwODB9.Mdk2PIIOnMqPX06ol5DKbSqp_CStWs3oFqLGqmFBhgo" },
+    });
 };
 
-export const getDashboardUsers = async (page, pageSize, sortBy, search) => {
+export const getDashboardUsers = async (page, pageSize, sortBy, search, token) => {
+    console.log(`${token} token is present in getDashboardUsers api`);
     const url = `${apiUrl}/user/list?page=${page}&pageSize=${pageSize}&sortBy=${sortBy}&search=${search}`;
-    return axios.get(url);
+    return axios.post(url, {}, {
+        headers: { authorization: token || localToken || "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEzMiwicm9sZUlkIjoyNSwiaWF0IjoxNzA5NjM0MDgwLCJleHAiOjIwMjQ5OTQwODB9.Mdk2PIIOnMqPX06ol5DKbSqp_CStWs3oFqLGqmFBhgo" },
+    });
 };
 
-export const getSettingsUsers = async (page, pageSize, sortBy, search) => {
+export const getSettingsUsers = async (page, pageSize, sortBy, search, filters, token) => {
+    console.log(`${token} token is present in getSettingsUsers api`);
     const url = `${apiUrl}/user/list?page=${page}&pageSize=${pageSize}&sortBy=${sortBy}&search=${search}`;
-    return axios.get(url);
+    return axios.post(url, {
+        filters: {
+            ...filters
+        }
+    }, {
+        headers: { authorization: token || localToken || "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEzMiwicm9sZUlkIjoyNSwiaWF0IjoxNzA5NjM0MDgwLCJleHAiOjIwMjQ5OTQwODB9.Mdk2PIIOnMqPX06ol5DKbSqp_CStWs3oFqLGqmFBhgo" },
+    });
 };
 
-export const getUserById = async (id) => {
+export const getUserById = async (id, token) => {
+    console.log(`${token} token is present in getUserById api`);
     const url = `${apiUrl}/user/list/${id}`;
-    return axios.get(url);
+    return axios.get(url, {
+        headers: { authorization: token || localToken || "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEzMiwicm9sZUlkIjoyNSwiaWF0IjoxNzA5NjM0MDgwLCJleHAiOjIwMjQ5OTQwODB9.Mdk2PIIOnMqPX06ol5DKbSqp_CStWs3oFqLGqmFBhgo" },
+    });
 };
 
 export const createUser = async (userData, token) => {
-    const url = `${apiUrl}/admin/create-user`;
+    console.log(`${token} token is present in createUser api`);
+    const url = `${apiUrl}/user/create-user`;
     return await toast.promise(
-        axios.post(url, { ...userData }, {
+        axios.post(url, userData, {
             headers: {
-                authorization: token,
+                authorization: token || localToken || "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEzMiwicm9sZUlkIjoyNSwiaWF0IjoxNzA5NjM0MDgwLCJleHAiOjIwMjQ5OTQwODB9.Mdk2PIIOnMqPX06ol5DKbSqp_CStWs3oFqLGqmFBhgo",
+                'Content-Type': 'multipart/form-data'
             }
         }),
         {
@@ -38,17 +59,65 @@ export const createUser = async (userData, token) => {
                     return `user created`
                 }
             },
-            error: 'Check user details 🤯',
+            // error: 'Check user details 🤯',
+            error: {
+                render({
+                    data: {
+                        response: { data },
+                    },
+                }) {
+                    console.log(data, "creating user user")
+                    // When the promise reject, data will contains the error
+                    return `error: ${data}`;
+                    // return <MyErrorComponent message={data.message} />;
+                },
+            },
+        },
+    )
+}
+
+export const updateUser = async (userData, id, token) => {
+    console.log(`${token} token is present in updateUser api`);
+    const url = `${apiUrl}/user/update/${id}`;
+    return await toast.promise(
+        axios.put(url, userData, {
+            headers: {
+                authorization: token || localToken || "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEzMiwicm9sZUlkIjoyNSwiaWF0IjoxNzA5NjM0MDgwLCJleHAiOjIwMjQ5OTQwODB9.Mdk2PIIOnMqPX06ol5DKbSqp_CStWs3oFqLGqmFBhgo",
+                'Content-Type': 'multipart/form-data'
+            }
+        }),
+        {
+            pending: 'Updating User...',
+            success: {
+                render({ data }) {
+                    console.log(data, "updatin user")
+                    return `user updated`
+                }
+            },
+            // error: 'Check user details 🤯',
+            error: {
+                render({
+                    data: {
+                        response: { data },
+                    },
+                }) {
+                    console.log(data, "updatin user")
+                    // When the promise reject, data will contains the error
+                    return `error: ${data}`;
+                    // return <MyErrorComponent message={data.message} />;
+                },
+            },
         },
     )
 }
 
 export const deleteUser = async (id, token) => {
-    const url = `${apiUrl}/admin/delete-user/${id}`;
+    console.log(`${token} token is present in deleteUser api`);
+    const url = `${apiUrl}/user/delete-user/${id}`;
     return await toast.promise(
         axios.delete(url, {
             headers: {
-                authorization: token,
+                authorization: token || localToken || "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEzMiwicm9sZUlkIjoyNSwiaWF0IjoxNzA5NjM0MDgwLCJleHAiOjIwMjQ5OTQwODB9.Mdk2PIIOnMqPX06ol5DKbSqp_CStWs3oFqLGqmFBhgo",
             }
         }),
         {
@@ -63,8 +132,9 @@ export const deleteUser = async (id, token) => {
     )
 }
 
-export const toggleUser = async (id) => {
-    const url = `${apiUrl}/toggle${!!id ? `?id=${id}` : null}`
+export const toggleUser = async (id, data, token) => {
+    console.log(`${token} token is present in deleteUser api`);
+    const url = `${apiUrl}/toggle/${id}`
     // const confirmed = await Swal.fire({
     //     title: 'Are you sure?',
     //     text: 'Do you want to toggle your online status?',
@@ -75,5 +145,7 @@ export const toggleUser = async (id) => {
     //     confirmButtonText: 'Yes, toggle it!',
     //     confirmButtonTextColor: "pink"
     // });
-    console.log(url, "toggle url")
+    return axios.put(url, { ...data }, {
+        headers: { authorization: token || localToken || "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEzMiwicm9sZUlkIjoyNSwiaWF0IjoxNzA5NjM0MDgwLCJleHAiOjIwMjQ5OTQwODB9.Mdk2PIIOnMqPX06ol5DKbSqp_CStWs3oFqLGqmFBhgo" },
+    });
 }

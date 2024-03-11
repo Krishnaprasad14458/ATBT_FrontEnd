@@ -4,9 +4,7 @@ import { PermissionsContext } from './PermissionsProvider';
 const usePermissionCheck = (permissionCheck) => {
     const { permissions, loading } = useContext(PermissionsContext);
 
-    console.log(permissions, 'chk perms')
-
-    const allowed = !loading && permissions.some(permissionCheck);
+    const allowed = !loading && permissions?.some(permissionCheck);
 
     return { allowed, loading };
 };

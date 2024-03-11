@@ -12,6 +12,7 @@ function classNames(...classes) {
 }
 
 function Dashboard() {
+  document.title = 'ATBT | Home';
   const localStorageData = JSON.parse(localStorage.getItem('data'));
   return (
     <div className='container p-2 bg-[#f8fafc] '>
@@ -21,7 +22,7 @@ function Dashboard() {
       <div className='text-center'>
         <h6 className='text-sm date_time'>{getDate()}</h6>
         <h4 className=' text-2xl font-normal dark:text-white welcome_user'>
-          Welcome {localStorageData?.user?.userName ?? 'user'}
+          Welcome {localStorageData?.user?.name ?? 'user'}
         </h4>
         <div className='flex flex-wrap mt-2 justify-center'>
           <div className='tota_tasks border-r-2 border-black-100 bg-gray-100 p-2 rounded-s-full'>
@@ -54,14 +55,14 @@ function Dashboard() {
         <div className=' grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-col-2 gap-10 px-7 dashboard-main'>
           <GateKeeper
             permissionCheck={(permission) =>
-              permission.module === 'entity' && permission.read
+              permission.module === 'entity' && permission.canRead
             }
           >
             <EntityDashboard />
           </GateKeeper>
           <GateKeeper
             permissionCheck={(permission) =>
-              permission.module === 'user' && permission.read
+              permission.module === 'user' && permission.canRead
             }
           >
             <UserDashboard />
@@ -70,14 +71,14 @@ function Dashboard() {
         <div className='mb-12 pb-5 grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-col-2 gap-10 px-7 dashboard-main mt-4'>
           <GateKeeper
             permissionCheck={(permission) =>
-              permission.module === 'meeting' && permission.read
+              permission.module === 'meeting' && permission.canRead
             }
           >
             <BoardMeetingDashboard />
           </GateKeeper>
           <GateKeeper
             permissionCheck={(permission) =>
-              permission.module === 'team' && permission.read
+              permission.module === 'team' && permission.canRead
             }
           >
             <TeamsDashboard />

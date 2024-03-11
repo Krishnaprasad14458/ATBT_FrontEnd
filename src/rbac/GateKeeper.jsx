@@ -1,20 +1,21 @@
 import React from 'react';
 import usePermissionCheck from './usePermissionCheck';
 
-const GateKeeper = ({ permissionCheck, fallback, loadingFallback, children }) => {
-
-  console.log(permissionCheck, "chk pc")
+const GateKeeper = ({
+  permissionCheck,
+  fallback,
+  loadingFallback,
+  children,
+}) => {
   const { allowed, loading } = usePermissionCheck(permissionCheck);
 
   if (loading) {
     return loadingFallback || <div>Loading...</div>;
   }
-  console.log(allowed, 'chk')
   return allowed ? children : null;
 };
 
 export default GateKeeper;
-
 
 // GateKeeper.js
 // import React from 'react';
@@ -36,10 +37,6 @@ export default GateKeeper;
 // };
 
 // export default GateKeeper;
-
-
-
-
 
 // import React from 'react';
 // import usePermissionCheck from "./usePermissionCheck";

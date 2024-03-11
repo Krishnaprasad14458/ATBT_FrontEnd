@@ -41,9 +41,6 @@ const BoardMeetingLandingPage = () => {
     },
 
   ]);
-  useEffect(() => {
-    console.log("events", events)
-  }, [events])
   const [newtask, setNewTask] = useState("")
   const [newtaskStartDate, setnewtaskStartDate] = useState("")
 
@@ -84,8 +81,6 @@ const BoardMeetingLandingPage = () => {
     axios.get(`https://atbtmain.teksacademy.com/boardmeet/data/${id}`)
       .then(response => {
         // Handle the successful response
-        console.log("response", response.data
-        )
         setCustomFormField(response.data.customFieldsData
         )
       })
@@ -94,9 +89,6 @@ const BoardMeetingLandingPage = () => {
         console.error('Error fetching data:', error);
       });
   }, [])
-  useEffect(() => {
-    console.log("customFormFieldddddddddddd", customFormField)
-  })
   return (
     <div className='container p-4 bg-[#f8fafc]'>
 
