@@ -120,7 +120,7 @@ function Entities() {
   });
   useEffect(() => {
     axios
-      .get(`https://atbtmain.teksacademy.com/form/list?name=entityform`)
+      .get(`https://atbtmain.infozit.com/form/list?name=entityform`)
       .then((response) => {
         // Handle the successful response
         setCustomForm(response.data.Data);
@@ -193,13 +193,13 @@ function Entities() {
       try {
         axios
           .put(
-            `https://atbtmain.teksacademy.com/form/tableUpdate?name=entityform`,
+            `https://atbtmain.infozit.com/form/tableUpdate?name=entityform`,
             dupTableView
           )
           .then((response) => {
             console.log('Update successful:', response.data);
             axios
-              .get(`https://atbtmain.teksacademy.com/form/list?name=entityform`)
+              .get(`https://atbtmain.infozit.com/form/list?name=entityform`)
               .then((response) => {
                 setCustomForm(response.data.Data);
                 setTableView(response.data.Tableview);
@@ -303,8 +303,9 @@ function Entities() {
 
           {/* for coloumns open */}
           <div
-            className={`fixed inset-0 bg-gray-800 bg-opacity-50 z-10 ${columnsDrawerOpen ? '' : 'opacity-0 pointer-events-none'
-              }`}
+            className={`fixed inset-0 bg-gray-800 bg-opacity-50 z-10 ${
+              columnsDrawerOpen ? '' : 'opacity-0 pointer-events-none'
+            }`}
             style={{ transition: 'opacity 0.3s ease-in-out' }}
           >
             <div
@@ -394,8 +395,9 @@ function Entities() {
 
           {/* for filter open */}
           <div
-            className={`fixed inset-0 bg-gray-800 bg-opacity-50 z-10 ${filterDrawerOpen ? '' : 'opacity-0 pointer-events-none'
-              }`}
+            className={`fixed inset-0 bg-gray-800 bg-opacity-50 z-10 ${
+              filterDrawerOpen ? '' : 'opacity-0 pointer-events-none'
+            }`}
             style={{ transition: 'opacity 0.3s ease-in-out' }}
           >
             <div
@@ -583,14 +585,11 @@ function Entities() {
                       className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium `}
                     >
                       2000
-
                     </td>
                     <td
                       className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium `}
                     >
-
                       1000
-
                     </td>
                     <td
                       className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium `}
@@ -759,7 +758,7 @@ function Entities() {
         <div className='flex justify-between'>
           <div className=''>
             {!entitiesList?.paginatedEntities ||
-              entitiesList?.paginatedEntities?.length === 0 ? (
+            entitiesList?.paginatedEntities?.length === 0 ? (
               'no data to show'
             ) : entitiesList.loading ? (
               'Loading...'
@@ -787,12 +786,13 @@ function Entities() {
                 })
               }
               href='#'
-              className={`relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${entitiesList.loading
-                ? 'cursor-wait'
-                : entitiesList.currentPage === 1
+              className={`relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${
+                entitiesList.loading
+                  ? 'cursor-wait'
+                  : entitiesList.currentPage === 1
                   ? 'cursor-not-allowed'
                   : 'cursor-auto'
-                }`}
+              }`}
             >
               <span className='sr-only'>Previous</span>
               <svg
@@ -820,12 +820,13 @@ function Entities() {
                   data: entitiesList.currentPage + 1,
                 })
               }
-              className={`relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${entitiesList.loading
-                ? 'cursor-wait'
-                : entitiesList.currentPage === entitiesList.totalPages
+              className={`relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${
+                entitiesList.loading
+                  ? 'cursor-wait'
+                  : entitiesList.currentPage === entitiesList.totalPages
                   ? 'cursor-not-allowed'
                   : 'cursor-auto'
-                }`}
+              }`}
             >
               <span className='sr-only'>Next</span>
               <svg

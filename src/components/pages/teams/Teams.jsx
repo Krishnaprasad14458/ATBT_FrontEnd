@@ -83,7 +83,7 @@ function Teams() {
     formData.append('image', file);
     // console.log(formData, 'fd');
     const data = await axios.post(
-      'https://atbtmain.teksacademy.com/upload',
+      'https://atbtmain.infozit.com/upload',
       formData
     );
     // console.log(data);
