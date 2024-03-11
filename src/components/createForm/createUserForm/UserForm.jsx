@@ -454,6 +454,12 @@ function UserForm() {
   $('input[type=number]').on('mousewheel', function (e) {
     $(e.target).blur();
   });
+  const handleKeyDown = (event) => {
+    if (event.keyCode === 38 || event.keyCode === 40) {
+      event.preventDefault();
+    }
+  };
+  // end
   return (
     <div className='container p-4 bg-[#f8fafc]'>
       {/* <p className="font-lg font-semibold p-3">Entity Form</p> */}
@@ -623,6 +629,7 @@ function UserForm() {
                         <input
                           type='number'
                           name={item.inputname}
+                          onKeyDown={handleKeyDown}
                           placeholder='Enter number'
                           id={item.inputname}
                           style={{ fontSize: '0.8rem' }}

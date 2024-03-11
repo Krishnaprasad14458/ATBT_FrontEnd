@@ -166,7 +166,7 @@ const UserLandingPage = () => {
       {activeTab === 1 && (
 
         <div className='mt-28 flex justify-center  '>
-          <div className='w-full md:w-5/6  lg:w-4/6 xl:5/6 shadow-md border-2 rounded-md bg-[#f8fafc] '>
+          <div className='w-full md:w-11/12  lg:w-4/6 xl:11/12 shadow-md border-2 rounded-md bg-[#f8fafc] '>
             <div className='flex justify-end bg-[#fff7ed]'>
               <Link
                 to={`../${id}/edit`}
