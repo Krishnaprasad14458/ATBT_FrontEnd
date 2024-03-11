@@ -120,22 +120,21 @@ const EntityLandingPage = () => {
   let [customFormField, setCustomFormField] = useState();
   const userData = JSON.parse(localStorage.getItem('data'));
   const token = userData?.token;
-  let response
-  let [predefinedImage, setPredefinedImage] = useState("")
+  let response;
+  let [predefinedImage, setPredefinedImage] = useState('');
   useEffect(() => {
     axios
-      .get(`https://atbtmain.teksacademy.com/entity/list/${id}`, {
+      .get(`https://atbtmain.infozit.com/entity/list/${id}`, {
         headers: {
-          authorization: token
-        }
+          authorization: token,
+        },
       })
       .then((res) => {
         // Handle the successful response
-        response = res
-        console.log("response", response.data.image)
-        setPredefinedImage(response.data.image)
+        response = res;
+        console.log('response', response.data.image);
+        setPredefinedImage(response.data.image);
         setCustomFormField(response.data.customFieldsData);
-
       })
       .catch((error) => {
         // Handle errors
@@ -143,8 +142,8 @@ const EntityLandingPage = () => {
       });
   }, []);
   useEffect(() => {
-    console.log("customFormField", customFormField)
-  }, [customFormField])
+    console.log('customFormField', customFormField);
+  }, [customFormField]);
   return (
     <div className='container p-4 bg-[#f8fafc]'>
       <div className='flex justify-between my-2'>
@@ -163,44 +162,50 @@ const EntityLandingPage = () => {
       <div className=''>
         <div className='flex'>
           <div
-            className={`cursor-pointer px-1 py-1 text-md font-semibold  ${activeTab === 1 ? 'border-b-2 border-orange-600 text-black' : ''
-              }`}
+            className={`cursor-pointer px-1 py-1 text-md font-semibold  ${
+              activeTab === 1 ? 'border-b-2 border-orange-600 text-black' : ''
+            }`}
             onClick={() => handleTabClick(1)}
           >
             Overview
           </div>
 
           <div
-            className={`cursor-pointer px-5 py-1 text-md font-semibold  ${activeTab === 2 ? 'border-b-2 border-orange-600 text-black' : ''
-              }`}
+            className={`cursor-pointer px-5 py-1 text-md font-semibold  ${
+              activeTab === 2 ? 'border-b-2 border-orange-600 text-black' : ''
+            }`}
             onClick={() => handleTabClick(2)}
           >
             List
           </div>
           <div
-            className={`cursor-pointer px-5 py-1 text-md font-semibold  ${activeTab === 3 ? 'border-b-2 border-orange-600 text-black' : ''
-              }`}
+            className={`cursor-pointer px-5 py-1 text-md font-semibold  ${
+              activeTab === 3 ? 'border-b-2 border-orange-600 text-black' : ''
+            }`}
             onClick={() => handleTabClick(3)}
           >
             Calendar
           </div>
           <div
-            className={`cursor-pointer px-5 py-1 text-md font-semibold ${activeTab === 4 ? 'border-b-2 border-orange-600 text-black' : ''
-              }`}
+            className={`cursor-pointer px-5 py-1 text-md font-semibold ${
+              activeTab === 4 ? 'border-b-2 border-orange-600 text-black' : ''
+            }`}
             onClick={() => handleTabClick(4)}
           >
             Dashboard
           </div>
           <div
-            className={`cursor-pointer px-5 py-1 text-md font-semibold  ${activeTab === 5 ? 'border-b-2 border-orange-600 text-black' : ''
-              }`}
+            className={`cursor-pointer px-5 py-1 text-md font-semibold  ${
+              activeTab === 5 ? 'border-b-2 border-orange-600 text-black' : ''
+            }`}
             onClick={() => handleTabClick(5)}
           >
             Messages
           </div>
           <div
-            className={`cursor-pointer px-5 py-1 text-md font-semibold  ${activeTab === 6 ? 'border-b-2 border-orange-600 text-black' : ''
-              }`}
+            className={`cursor-pointer px-5 py-1 text-md font-semibold  ${
+              activeTab === 6 ? 'border-b-2 border-orange-600 text-black' : ''
+            }`}
             onClick={() => handleTabClick(6)}
           >
             Attachments
@@ -240,9 +245,7 @@ const EntityLandingPage = () => {
                         <div className='group h-10 '>
                           {item.value ? (
                             <img
-
                               src={predefinedImage}
-
                               name='EntityPhoto'
                               alt='Selected User Photo'
                               className='rounded-lg w-10 h-10 mr-4'
@@ -864,12 +867,14 @@ const EntityLandingPage = () => {
               </tr>
               <div
                 id='content'
-                className={`fixed inset-0 transition-all duration-500 bg-gray-800 bg-opacity-50 z-50 ${isOpen ? '' : 'hidden'
-                  }`}
+                className={`fixed inset-0 transition-all duration-500 bg-gray-800 bg-opacity-50 z-50 ${
+                  isOpen ? '' : 'hidden'
+                }`}
               >
                 <div
-                  className={`p-3 fixed inset-y-0 right-0 ${expand ? 'w-5/6' : 'w-1/2'
-                    } bg-white shadow-lg transform translate-x-0 transition-transform duration-300 ease-in-out`}
+                  className={`p-3 fixed inset-y-0 right-0 ${
+                    expand ? 'w-5/6' : 'w-1/2'
+                  } bg-white shadow-lg transform translate-x-0 transition-transform duration-300 ease-in-out`}
                 >
                   <div className='flex justify-start'>
                     <div className='relative inline-block ms-2'>

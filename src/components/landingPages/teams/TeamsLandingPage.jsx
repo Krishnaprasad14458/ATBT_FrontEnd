@@ -120,7 +120,7 @@ const TeamsLandingPage = () => {
 
   useEffect(() => {
     axios
-      .get(`https://atbtmain.teksacademy.com/team/data/${id}`)
+      .get(`https://atbtmain.infozit.com/team/data/${id}`)
       .then((response) => {
         // Handle the successful response
         setCustomFormField(response.data.customFieldsData);

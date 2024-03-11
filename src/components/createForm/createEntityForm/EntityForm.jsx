@@ -24,9 +24,8 @@ const role = userData?.role?.name;
 
 export async function entityFormLoader({ params }) {
   try {
-    const formApi =
-      'https://atbtmain.teksacademy.com/form/list?name=entityform';
-    const entityApi = `https://atbtmain.teksacademy.com/entity/list/${params.id}`;
+    const formApi = 'https://atbtmain.infozit.com/form/list?name=entityform';
+    const entityApi = `https://atbtmain.infozit.com/entity/list/${params.id}`;
     let entityData = null;
     if (params && params.id) {
       const entityResponse = await axios.get(entityApi, {
@@ -143,7 +142,7 @@ function EntityForm() {
   };
   // useEffect(() => {
   //   axios
-  //     .get(`https://atbtmain.teksacademy.com/form/list?name=entityform`)
+  //     .get(`https://atbtmain.infozit.com/form/list?name=entityform`)
   //     .then((response) => {
   //       // Handle the successful response
   //       setCustomFormFields(response.data.Data);
@@ -519,7 +518,11 @@ function EntityForm() {
                         >
                           {item.label.charAt(0).toUpperCase() +
                             item.label.slice(1)}
-                            {item.mandatory ? <span className='text-red-600'>*</span> : <span> </span>}
+                          {item.mandatory ? (
+                            <span className='text-red-600'>*</span>
+                          ) : (
+                            <span> </span>
+                          )}
                         </label>
                         <input
                           type='text'
@@ -549,7 +552,12 @@ function EntityForm() {
                           className='block text-sm font-medium leading-6 mt-2 text-gray-900'
                         >
                           {item.label.charAt(0).toUpperCase() +
-                            item.label.slice(1)} {item.mandatory ? <span className='text-red-600'>*</span> : <span> </span>}
+                            item.label.slice(1)}{' '}
+                          {item.mandatory ? (
+                            <span className='text-red-600'>*</span>
+                          ) : (
+                            <span> </span>
+                          )}
                         </label>
                         <input
                           type='file'
@@ -578,7 +586,12 @@ function EntityForm() {
                           className='block text-sm font-medium leading-6 mt-2 text-gray-900'
                         >
                           {item.label.charAt(0).toUpperCase() +
-                            item.label.slice(1)} {item.mandatory ? <span className='text-red-600'>*</span> : <span> </span>}
+                            item.label.slice(1)}{' '}
+                          {item.mandatory ? (
+                            <span className='text-red-600'>*</span>
+                          ) : (
+                            <span> </span>
+                          )}
                         </label>
                         <textarea
                           name={item.inputname}
@@ -606,7 +619,12 @@ function EntityForm() {
                           htmlFor='email'
                           className='block text-sm  font-medium leading-6 my-2 text-gray-900'
                         >
-                          {item.label} {item.mandatory ? <span className='text-red-600'>*</span> : <span> </span>}
+                          {item.label}{' '}
+                          {item.mandatory ? (
+                            <span className='text-red-600'>*</span>
+                          ) : (
+                            <span> </span>
+                          )}
                         </label>
                         <div
                           className=' 
@@ -682,7 +700,12 @@ function EntityForm() {
                         className='block text-sm font-medium leading-6 my-2 text-gray-900'
                       >
                         {item.label.charAt(0).toUpperCase() +
-                          item.label.slice(1)} {item.mandatory ? <span className='text-red-600'>*</span> : <span> </span>}
+                          item.label.slice(1)}{' '}
+                        {item.mandatory ? (
+                          <span className='text-red-600'>*</span>
+                        ) : (
+                          <span> </span>
+                        )}
                       </label>
                       <input
                         type='text'
@@ -710,7 +733,12 @@ function EntityForm() {
                         className='block text-sm font-medium leading-6 my-2 text-gray-900'
                       >
                         {item.label.charAt(0).toUpperCase() +
-                          item.label.slice(1)} {item.mandatory ? <span className='text-red-600'>*</span> : <span> </span>}
+                          item.label.slice(1)}{' '}
+                        {item.mandatory ? (
+                          <span className='text-red-600'>*</span>
+                        ) : (
+                          <span> </span>
+                        )}
                       </label>
                       <input
                         type='email'
@@ -738,7 +766,12 @@ function EntityForm() {
                         className='block text-sm font-medium leading-6 my-2 text-gray-900'
                       >
                         {item.label.charAt(0).toUpperCase() +
-                          item.label.slice(1)} {item.mandatory ? <span className='text-red-600'>*</span> : <span> </span>}
+                          item.label.slice(1)}{' '}
+                        {item.mandatory ? (
+                          <span className='text-red-600'>*</span>
+                        ) : (
+                          <span> </span>
+                        )}
                       </label>
                       <input
                         type='password'
@@ -766,7 +799,12 @@ function EntityForm() {
                         className='block text-sm font-medium leading-6 my-2 text-gray-900'
                       >
                         {item.label.charAt(0).toUpperCase() +
-                          item.label.slice(1)} {item.mandatory ? <span className='text-red-600'>*</span> : <span> </span>}
+                          item.label.slice(1)}{' '}
+                        {item.mandatory ? (
+                          <span className='text-red-600'>*</span>
+                        ) : (
+                          <span> </span>
+                        )}
                       </label>
                       <input
                         type='number'
@@ -794,7 +832,12 @@ function EntityForm() {
                         className='block text-sm font-medium leading-6 my-2 text-gray-900'
                       >
                         {item.label.charAt(0).toUpperCase() +
-                          item.label.slice(1)} {item.mandatory ? <span className='text-red-600'>*</span> : <span> </span>}
+                          item.label.slice(1)}{' '}
+                        {item.mandatory ? (
+                          <span className='text-red-600'>*</span>
+                        ) : (
+                          <span> </span>
+                        )}
                       </label>
                       <input
                         type='number'
@@ -838,7 +881,12 @@ function EntityForm() {
                           className='block text-sm font-medium leading-6 my-1 text-gray-900'
                         >
                           {item.label.charAt(0).toUpperCase() +
-                            item.label.slice(1)} {item.mandatory ? <span className='text-red-600'>*</span> : <span> </span>}
+                            item.label.slice(1)}{' '}
+                          {item.mandatory ? (
+                            <span className='text-red-600'>*</span>
+                          ) : (
+                            <span> </span>
+                          )}
                         </label>
                       </div>
                       <div className='h-2 text-[#dc2626]'>
@@ -857,7 +905,12 @@ function EntityForm() {
                         className='block text-sm font-medium leading-6 my-2 text-gray-900'
                       >
                         {item.label.charAt(0).toUpperCase() +
-                          item.label.slice(1)} {item.mandatory ? <span className='text-red-600'>*</span> : <span> </span>}
+                          item.label.slice(1)}{' '}
+                        {item.mandatory ? (
+                          <span className='text-red-600'>*</span>
+                        ) : (
+                          <span> </span>
+                        )}
                       </label>
                       <input
                         type='date'
@@ -884,7 +937,12 @@ function EntityForm() {
                         className='block text-sm font-medium leading-6 my-2 text-gray-900'
                       >
                         {item.label.charAt(0).toUpperCase() +
-                          item.label.slice(1)} {item.mandatory ? <span className='text-red-600'>*</span> : <span> </span>}
+                          item.label.slice(1)}{' '}
+                        {item.mandatory ? (
+                          <span className='text-red-600'>*</span>
+                        ) : (
+                          <span> </span>
+                        )}
                       </label>
                       <input
                         type='time'
@@ -912,7 +970,12 @@ function EntityForm() {
                         className='block text-sm font-medium leading-6 my-2 text-gray-900'
                       >
                         {item.label.charAt(0).toUpperCase() +
-                          item.label.slice(1)} {item.mandatory ? <span className='text-red-600'>*</span> : <span> </span>}
+                          item.label.slice(1)}{' '}
+                        {item.mandatory ? (
+                          <span className='text-red-600'>*</span>
+                        ) : (
+                          <span> </span>
+                        )}
                       </label>
                       <input
                         type='file'
@@ -939,7 +1002,12 @@ function EntityForm() {
                         className='block text-sm font-medium leading-6 my-2 text-gray-900'
                       >
                         {item.label.charAt(0).toUpperCase() +
-                          item.label.slice(1)} {item.mandatory ? <span className='text-red-600'>*</span> : <span> </span>}
+                          item.label.slice(1)}{' '}
+                        {item.mandatory ? (
+                          <span className='text-red-600'>*</span>
+                        ) : (
+                          <span> </span>
+                        )}
                       </label>
                       <input
                         type='range'
@@ -965,7 +1033,12 @@ function EntityForm() {
                         className='block text-sm font-medium leading-6 my-2 text-gray-900'
                       >
                         {item.label.charAt(0).toUpperCase() +
-                          item.label.slice(1)} {item.mandatory ? <span className='text-red-600'>*</span> : <span> </span>}
+                          item.label.slice(1)}{' '}
+                        {item.mandatory ? (
+                          <span className='text-red-600'>*</span>
+                        ) : (
+                          <span> </span>
+                        )}
                       </label>
                       <textarea
                         name={item.inputname}
@@ -992,7 +1065,12 @@ function EntityForm() {
                         className='block text-sm font-medium leading-6 my-2 text-gray-900'
                       >
                         {item.label.charAt(0).toUpperCase() +
-                          item.label.slice(1)} {item.mandatory ? <span className='text-red-600'>*</span> : <span> </span>}
+                          item.label.slice(1)}{' '}
+                        {item.mandatory ? (
+                          <span className='text-red-600'>*</span>
+                        ) : (
+                          <span> </span>
+                        )}
                       </label>
                       <select
                         id={item.inputname}
@@ -1031,7 +1109,12 @@ function EntityForm() {
                         className='block text-sm font-medium leading-6 my-2 text-gray-900'
                       >
                         {item.label.charAt(0).toUpperCase() +
-                          item.label.slice(1)} {item.mandatory ? <span className='text-red-600'>*</span> : <span> </span>}
+                          item.label.slice(1)}{' '}
+                        {item.mandatory ? (
+                          <span className='text-red-600'>*</span>
+                        ) : (
+                          <span> </span>
+                        )}
                       </label>
                       <div className='px-2 py-2 text-sm block w-full rounded-md bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder:text-xs'>
                         <span className='flex justify-between'>

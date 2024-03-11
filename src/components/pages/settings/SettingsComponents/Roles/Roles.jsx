@@ -12,7 +12,7 @@ import { AuthContext } from '../../../../../contexts/authContext/authContext';
 import Swal from 'sweetalert2';
 import { debounce } from '../../../../../utils/utils';
 function deleteRole(id) {
-  return axios.delete(`https://atbtmain.teksacademy.com/rbac/deleteRole/${id}`);
+  return axios.delete(`https://atbtmain.infozit.com/rbac/deleteRole/${id}`);
 }
 
 export async function action() {}
@@ -197,7 +197,6 @@ const Roles = () => {
                   </td> */}
                     {userRoleId !== role.id && (
                       <td className='px-3 py-2 whitespace-nowrap text-left  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]  '>
-                       
                         <button
                           type='submit'
                           className='mr-5 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600'
@@ -238,7 +237,6 @@ const Roles = () => {
                             />
                           </svg>
                         </button>
-                       
                       </td>
                     )}
                   </tr>
@@ -248,7 +246,6 @@ const Roles = () => {
           </table>
         </div>
       </div>
-     
     </div>
   );
 };

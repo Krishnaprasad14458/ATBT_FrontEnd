@@ -61,7 +61,7 @@ function TeamsForm() {
   };
   useEffect(() => {
     axios
-      .get(`https://atbtmain.teksacademy.com/form/list?name=teamform`)
+      .get(`https://atbtmain.infozit.com/form/list?name=teamform`)
       .then((response) => {
         // Handle the successful response
         setCustomFormFields(response.data.Data);
@@ -551,7 +551,7 @@ function TeamsForm() {
   //     }
   //     console.log("jsonData", jsonData);
   //     axios.post(
-  //         `https://atbtmain.teksacademy.com/team/data`, jsonData)
+  //         `https://atbtmain.infozit.com/team/data`, jsonData)
   //         .then(response => {
   //             // console.log(response.data);
   //             // console.log("reposnseeeeeeeeee", response.data)
