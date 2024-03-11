@@ -185,41 +185,41 @@ function BoardMeetings() {
                 <tr>
                   <th
                     scope='col'
-                    className='sticky top-0 bg-orange-600 text-white text-sm text-left px-6 py-2.5 border-l-2 border-gray-200'
+                    className='sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200'
                   >
                     {' '}
                     ID
                   </th>
                   <th
                     scope='col'
-                    className='sticky top-0 bg-orange-600 text-white text-sm text-left px-6 py-2.5 border-l-2 border-gray-200'
+                    className='sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200'
                   >
                     Entity{' '}
                   </th>
                   <th
                     scope='col'
-                    className='sticky top-0 bg-orange-600 text-white text-sm text-left px-6 py-2.5 border-l-2 border-gray-200'
+                    className='sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200'
                   >
                     {' '}
                     Date
                   </th>
                   <th
                     scope='col'
-                    className='sticky top-0 bg-orange-600 text-white text-sm text-left px-6 py-2.5 border-l-2 border-gray-200'
+                    className='sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200'
                   >
                     {' '}
                     Time
                   </th>
                   <th
                     scope='col'
-                    className='sticky top-0 bg-orange-600 text-white text-sm text-left px-6 py-2.5 border-l-2 border-gray-200'
+                    className='sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200'
                   >
                     {' '}
                     Venue
                   </th>
                   <th
                     scope='col'
-                    className='sticky top-0 bg-orange-600 text-white text-sm text-left px-6 py-2.5 border-l-2 border-gray-200'
+                    className='sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200'
                   >
                     {' '}
                     Actions{' '}
@@ -232,23 +232,23 @@ function BoardMeetings() {
                     key={item.id}
                     className='hover:bg-gray-100 dark:hover:bg-gray-700'
                   >
-                    <td className='px-6 py-2.5 text-left border border-[#e5e7eb] text-xs font-medium text-gray-800'>
+                    <td className='px-3 py-2.5 text-left border border-[#e5e7eb] text-xs font-medium text-gray-800'>
                       {item.id}
                     </td>
-                    <td className='px-6 py-2.5 text-left border border-[#e5e7eb] text-xs font-medium text-gray-800'>
+                    <td className='px-3 py-2.5 text-left border border-[#e5e7eb] text-xs font-medium text-gray-800'>
                       {item.Entite_Name}
                     </td>
-                    <td className='px-6 py-2.5 text-left border border-[#e5e7eb] text-xs font-medium text-gray-800'>
+                    <td className='px-3 py-2.5 text-left border border-[#e5e7eb] text-xs font-medium text-gray-800'>
                       {formatDate(item.createdAt)}
                     </td>
-                    <td className='px-6 py-2.5 text-left border border-[#e5e7eb] text-xs font-medium text-gray-800'>
+                    <td className='px-3 py-2.5 text-left border border-[#e5e7eb] text-xs font-medium text-gray-800'>
                       10:30 PM
                     </td>
-                    <td className='px-6 py-2.5 text-left border border-[#e5e7eb] text-xs font-medium text-gray-800'>
+                    <td className='px-3 py-2.5 text-left border border-[#e5e7eb] text-xs font-medium text-gray-800'>
                       Kapil Towers
                     </td>
-                    <td className='px-6 py-2 text-left border border-[#e5e7eb] text-xs font-medium text-gray-800'>
-                      <div className='flex justify-start'>
+                    <td className='px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium text-gray-800'>
+                      <div className='flex justify-start gap-3'>
                         <GateKeeper
                           permissionCheck={(permission) =>
                             permission.module === 'meeting' &&
@@ -257,7 +257,7 @@ function BoardMeetings() {
                         >
                           <button
                             type='button'
-                            className='me-5 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600'
+                            className=' inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600'
                           >
                             <Link to={`/entitylandingpage/${item.id}`}>
                               {' '}
@@ -265,7 +265,7 @@ function BoardMeetings() {
                                 xmlns='http://www.w3.org/2000/svg'
                                 viewBox='0 0 20 20'
                                 fill='currentColor'
-                                className='w-5 h-5'
+                                className='w-4 h-4'
                               >
                                 <path d='M10 12.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z' />
                                 <path
@@ -285,13 +285,13 @@ function BoardMeetings() {
                         >
                           <button
                             type='button'
-                            className='me-5 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600'
+                            className='inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none  dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600'
                           >
                             <svg
                               xmlns='http://www.w3.org/2000/svg'
                               viewBox='0 0 20 20'
                               fill='currentColor'
-                              className='w-5 h-5'
+                              className='w-4 h-4'
                             >
                               <path d='m2.695 14.762-1.262 3.155a.5.5 0 0 0 .65.65l3.155-1.262a4 4 0 0 0 1.343-.886L17.5 5.501a2.121 2.121 0 0 0-3-3L3.58 13.419a4 4 0 0 0-.885 1.343Z' />
                             </svg>
@@ -306,13 +306,13 @@ function BoardMeetings() {
                           <button
                             type='button'
                             onClick={() => deleteEntitybyId(item.id)}
-                            className='me-5 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600'
+                            className='inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none  dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600'
                           >
                             <svg
                               xmlns='http://www.w3.org/2000/svg'
                               viewBox='0 0 20 20'
                               fill='currentColor'
-                              className='w-5 h-5'
+                              className='w-4 h-4'
                             >
                               <path
                                 fill-rule='evenodd'
@@ -330,7 +330,7 @@ function BoardMeetings() {
                         >
                           <button
                             type='button'
-                            className='me-5 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600'
+                            className='inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600'
                           >
                             <div className='flex items-center'>
                               <input
@@ -345,12 +345,12 @@ function BoardMeetings() {
                                 className='flex items-center cursor-pointer'
                               >
                                 <div
-                                  className={`w-8 h-4 rounded-full shadow-inner ${
+                                  className={`w-6 h-3 rounded-full shadow-inner ${
                                     isChecked ? ' bg-[#ea580c]' : 'bg-[#c3c6ca]'
                                   }`}
                                 >
                                   <div
-                                    className={`toggle__dot w-4 h-4 rounded-full shadow ${
+                                    className={`toggle__dot w-3 h-3 rounded-full shadow ${
                                       isChecked ? 'ml-4 bg-white' : 'bg-white'
                                     }`}
                                   ></div>
