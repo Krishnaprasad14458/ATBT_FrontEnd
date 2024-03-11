@@ -20,7 +20,7 @@ const SettingUserForm = () => {
     }
   )
   useEffect(() => {
-    axios.get(`https://atbtmain.teksacademy.com/form/list?name=userform`)
+    axios.get(`https://atbtmain.infozit.com/form/list?name=userform`)
       .then(response => {
         // Handle the successful response
         setCustomForm(response.data.Data)
@@ -288,7 +288,7 @@ const SettingUserForm = () => {
   }
   const saveCustomForm = async (formData) => {
     toast.promise(
-      axios.put(`https://atbtmain.teksacademy.com/form/userform`, formData),
+      axios.put(`https://atbtmain.infozit.com/form/userform`, formData),
       {
         pending: 'Updating Form',
         success: {

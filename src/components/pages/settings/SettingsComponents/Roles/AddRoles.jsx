@@ -354,7 +354,7 @@ const AddRoles = () => {
   //   console.log(permission);
   //   if (!response?.response.id) {
   //     const result = await axios.post(
-  //       'https://atbtmain.teksacademy.com/rbac/create-role',
+  //       'https://atbtmain.infozit.com/rbac/create-role',
   //       {
   //         ...permission,
   //       }
@@ -365,7 +365,7 @@ const AddRoles = () => {
   //   }
   //   if (!!response?.response?.id) {
   //     const result = await axios.put(
-  //       `https://atbtmain.teksacademy.com/rbac/update-role/${response?.response?.id}`,
+  //       `https://atbtmain.infozit.com/rbac/update-role/${response?.response?.id}`,
   //       // `http://localhost:3000/rbac/update-role/${response?.id}`,
   //       {
   //         ...permission,
@@ -444,7 +444,7 @@ const AddRoles = () => {
     if (!response?.response.id) {
       const result = await toast.promise(
         axios.post(
-          'https://atbtmain.teksacademy.com/rbac/create-role',
+          'https://atbtmain.infozit.com/rbac/create-role',
           // 'http://localhost:3000/rbac/create-role',
           {
             ...permission,
@@ -474,7 +474,7 @@ const AddRoles = () => {
     if (!!response?.response?.id) {
       const result = await toast.promise(
         axios.put(
-          `https://atbtmain.teksacademy.com/rbac/update-role/${response?.response?.id}`,
+          `https://atbtmain.infozit.com/rbac/update-role/${response?.response?.id}`,
           {
             ...permission,
           },

@@ -25,7 +25,7 @@ const CustomFormStructure = () => {
   });
   useEffect(() => {
     axios
-      .get(`https://atbtmain.teksacademy.com/form/list?name=${formName}`)
+      .get(`https://atbtmain.infozit.com/form/list?name=${formName}`)
       .then((response) => {
         // Handle the successful response
         setCustomForm(response.data.Data);
@@ -197,18 +197,17 @@ const CustomFormStructure = () => {
         const updatedForm = [...customForm];
         updatedForm[editIndex] = newInputField;
         setCustomForm(updatedForm);
-if(newInputField.type != 'checkbox'){
-  setTableView((prevState) => {
-    const updatedState = { ...prevState };
-    updatedState[newInputField.inputname] = {
-      ...updatedState[newInputField.inputname],
-      label: newInputField.label,
-    };
+        if (newInputField.type != 'checkbox') {
+          setTableView((prevState) => {
+            const updatedState = { ...prevState };
+            updatedState[newInputField.inputname] = {
+              ...updatedState[newInputField.inputname],
+              label: newInputField.label,
+            };
 
-    return updatedState;
-  });
-}
-       
+            return updatedState;
+          });
+        }
       } else {
         // Add new field
         if (
@@ -227,7 +226,7 @@ if(newInputField.type != 'checkbox'){
           let newField = { ...newInputField };
           delete newField.options;
           setCustomForm((prev) => [...prev, newField]);
-          if(newInputField.type != 'checkbox'){
+          if (newInputField.type != 'checkbox') {
             setTableView((prevState) => {
               const updatedState = { ...prevState };
               updatedState[newInputField.inputname] = {
@@ -237,10 +236,9 @@ if(newInputField.type != 'checkbox'){
               return updatedState;
             });
           }
-         
         } else {
           setCustomForm((prev) => [...prev, newInputField]);
-          if(newInputField.type != 'checkbox'){
+          if (newInputField.type != 'checkbox') {
             setTableView((prevState) => {
               const updatedState = { ...prevState };
               updatedState[newInputField.inputname] = {
@@ -250,7 +248,6 @@ if(newInputField.type != 'checkbox'){
               return updatedState;
             });
           }
-        
         }
       }
       setOpen(false);
@@ -320,14 +317,13 @@ if(newInputField.type != 'checkbox'){
     let formData = {
       arrayOfObjects: customForm,
       Name: formName,
-      Tableview: 
-      tableView
+      Tableview: tableView,
     };
     await saveCustomForm(formData);
   };
   const saveCustomForm = async (formData) => {
     toast.promise(
-      axios.put(`https://atbtmain.teksacademy.com/form/${formName}`, formData),
+      axios.put(`https://atbtmain.infozit.com/form/${formName}`, formData),
       {
         pending: 'Updating Form',
         success: {
