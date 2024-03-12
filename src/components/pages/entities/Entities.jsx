@@ -303,9 +303,8 @@ function Entities() {
 
           {/* for coloumns open */}
           <div
-            className={`fixed inset-0 bg-gray-800 bg-opacity-50 z-10 ${
-              columnsDrawerOpen ? '' : 'opacity-0 pointer-events-none'
-            }`}
+            className={`fixed inset-0 bg-gray-800 bg-opacity-50 z-10 ${columnsDrawerOpen ? '' : 'opacity-0 pointer-events-none'
+              }`}
             style={{ transition: 'opacity 0.3s ease-in-out' }}
           >
             <div
@@ -395,9 +394,8 @@ function Entities() {
 
           {/* for filter open */}
           <div
-            className={`fixed inset-0 bg-gray-800 bg-opacity-50 z-10 ${
-              filterDrawerOpen ? '' : 'opacity-0 pointer-events-none'
-            }`}
+            className={`fixed inset-0 bg-gray-800 bg-opacity-50 z-10 ${filterDrawerOpen ? '' : 'opacity-0 pointer-events-none'
+              }`}
             style={{ transition: 'opacity 0.3s ease-in-out' }}
           >
             <div
@@ -566,33 +564,45 @@ function Entities() {
                     {visibleColumns.map((key) => (
                       <td
                         key={key}
-                        className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium `}
+                        className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden`}
+                        style={{ maxWidth: '160px' }}
+                        title={row[key]}
                       >
-                        {row[key]}
+                        <p className='truncate text-xs'> {row[key]}</p>
                       </td>
                     ))}
                     <td
-                      className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium `}
+                      className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden`}
+                      style={{ maxWidth: '160px' }}
+                      title=""
                     >
-                      5000
+                      <p className='truncate text-xs'> 5000</p>
                     </td>
                     <td
-                      className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium `}
+                      className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden`}
+                      style={{ maxWidth: '160px' }}
+                      title=""
                     >
-                      2000
+                      <p className='truncate text-xs'> 2000</p>
                     </td>
                     <td
-                      className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium `}
+                      className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden`}
+                      style={{ maxWidth: '160px' }}
+                      title=""
                     >
-                      2000
+                      <p className='truncate text-xs'> 1000</p>
                     </td>
                     <td
-                      className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium `}
+                      className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden`}
+                      style={{ maxWidth: '160px' }}
+                      title=""
                     >
-                      1000
+                      <p className='truncate text-xs'> 500</p>
                     </td>
                     <td
-                      className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium `}
+                      className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden`}
+                      style={{ maxWidth: '160px' }}
+                      title=""
                     >
                       <div className='flex justify-start gap-3'>
                         <GateKeeper
@@ -683,7 +693,7 @@ function Entities() {
         <div className='flex justify-between'>
           <div className=''>
             {!entitiesList?.paginatedEntities ||
-            entitiesList?.paginatedEntities?.length === 0 ? (
+              entitiesList?.paginatedEntities?.length === 0 ? (
               'no data to show'
             ) : entitiesList.loading ? (
               'Loading...'
@@ -711,13 +721,12 @@ function Entities() {
                 })
               }
               href='#'
-              className={`relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${
-                entitiesList.loading
-                  ? 'cursor-wait'
-                  : entitiesList.currentPage === 1
+              className={`relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${entitiesList.loading
+                ? 'cursor-wait'
+                : entitiesList.currentPage === 1
                   ? 'cursor-not-allowed'
                   : 'cursor-auto'
-              }`}
+                }`}
             >
               <span className='sr-only'>Previous</span>
               <svg
@@ -745,13 +754,12 @@ function Entities() {
                   data: entitiesList.currentPage + 1,
                 })
               }
-              className={`relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${
-                entitiesList.loading
-                  ? 'cursor-wait'
-                  : entitiesList.currentPage === entitiesList.totalPages
+              className={`relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${entitiesList.loading
+                ? 'cursor-wait'
+                : entitiesList.currentPage === entitiesList.totalPages
                   ? 'cursor-not-allowed'
                   : 'cursor-auto'
-              }`}
+                }`}
             >
               <span className='sr-only'>Next</span>
               <svg

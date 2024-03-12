@@ -460,6 +460,35 @@ function UserForm() {
     }
   };
   // end
+
+
+  // to set the time in 12hours
+  function formatTime(timeString) {
+    // Splitting the timeString to extract hours and minutes
+    const [hourStr, minuteStr] = timeString.split(':');
+
+    // Parsing hours and minutes as integers
+    const hours = parseInt(hourStr, 10);
+    const minutes = parseInt(minuteStr, 10);
+
+    // Checking if hours and minutes are valid numbers
+    if (isNaN(hours) || isNaN(minutes)) {
+      return "Invalid time";
+    }
+
+    // Converting hours to 12-hour format and determining AM/PM
+    const ampm = hours >= 12 ? 'PM' : 'AM';
+    const formattedHours = hours % 12 || 12; // Handles midnight
+    const formattedMinutes = minutes < 10 ? '0' + minutes : minutes; // Ensures minutes are two digits
+
+    // Constructing the formatted time string
+    const formattedTime = `${formattedHours}:${formattedMinutes} ${ampm}`;
+    return formattedTime;
+  }
+
+
+  // end the time function
+
   return (
     <div className='container p-4 bg-[#f8fafc]'>
       {/* <p className="font-lg font-semibold p-3">Entity Form</p> */}
@@ -1002,11 +1031,12 @@ function UserForm() {
                       <input
                         type='date'
                         name={item.inputname}
-                        id={item.inputname}
                         className='px-2 py-2 text-sm block w-full rounded-md bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder:text-xs'
+                        id={item.inputname}
                         value={customFormFields[index].value || ''}
-                        style={{ fontSize: '0.8rem' }}
+                        s
                         onChange={(e) => handleChange(index, e.target.value)}
+                        style={{ fontSize: '0.8rem' }}
                       />
                       <div className='h-2 text-[#dc2626]'>
                         {errors[item.inputname] && (
@@ -1288,200 +1318,225 @@ function UserForm() {
             <div className='relative  flex flex-col text-gray-700 shadow-md bg-clip-border  rounded-xl w-8/12 md:w-full lg:w-9/12 xl:w-9/12 justify-center mx-auto  bg-[#fafaf9] border-2 border-gray-200 '>
               {customFormFields &&
                 customFormFields.length > 0 &&
-                customFormFields.map((item) => (
-                  <div className=''>
-                    {/* predefined fields*/}
-                    <div className='bg-[#fff7ed] rounded-xl'>
-                      {item.type === 'file' &&
-                        item.inputname == 'image' &&
+                customFormFields.map((item) => {
+                  let date = new Date(item.value);
+                  const day = date.getUTCDate();
+                  const monthIndex = date.getUTCMonth();
+                  const year = date.getUTCFullYear();
+
+                  const monthAbbreviations = [
+                    "Jan",
+                    "Feb",
+                    "Mar",
+                    "Apr",
+                    "May",
+                    "Jun",
+                    "Jul",
+                    "Aug",
+                    "Sep",
+                    "Oct",
+                    "Nov",
+                    "Dec",
+                  ];
+
+                  // Formatting the date
+                  date = `${day < 10 ? "0" : ""}${day}-${monthAbbreviations[monthIndex]
+                    }-${year}`;
+                  return (
+                    // Updating the state with the formatted date
+                    <div className=''>
+                      {/* predefined fields*/}
+                      <div className='bg-[#fff7ed] rounded-xl'>
+                        {item.type === 'file' &&
+                          item.inputname == 'image' &&
+                          item.field === 'predefined' && (
+                            <div>
+                              {console.log(item.value, 'item.value')}
+                              {item.value ? (
+                                <img
+                                  src={
+                                    typeof item.value === 'string'
+                                      ? item.value
+                                      : URL.createObjectURL(item.value)
+                                  }
+                                  name='UserPhoto'
+                                  alt='User Photo'
+                                  className=' h-36 w-36 relative mx-auto bottom-20 rounded-md border-2 border-gray-200 shadow-md'
+                                />
+                              ) : (
+                                <img
+                                  className=' h-36 w-36 relative mx-auto bottom-20 rounded-md border-2 border-gray-200 shadow-md'
+                                  src={defprop}
+                                  alt='photo'
+                                />
+                              )}
+                            </div>
+                          )}
+                      </div>
+                      {item.type === 'text' &&
+                        item.inputname == 'name' &&
                         item.field === 'predefined' && (
-                          <div>
-                            {console.log(item.value, 'item.value')}
+                          <div className=' flex justify-center'>
                             {item.value ? (
-                              <img
-                                src={
-                                  typeof item.value === 'string'
-                                    ? item.value
-                                    : URL.createObjectURL(item.value)
-                                }
-                                name='UserPhoto'
-                                alt='User Photo'
-                                className=' h-36 w-36 relative mx-auto bottom-20 rounded-md border-2 border-gray-200 shadow-md'
-                              />
+                              <p className='absolute top-16 my-3 text-md antialiased font-semibold leading-snug tracking-normal text-blue-gray-900'>
+                                {item.value.toUpperCase()}
+                              </p>
                             ) : (
-                              <img
-                                className=' h-36 w-36 relative mx-auto bottom-20 rounded-md border-2 border-gray-200 shadow-md'
-                                src={defprop}
-                                alt='photo'
-                              />
+                              <p className=' absolute top-16 my-3 text-md antialiased font-semibold leading-snug tracking-normal text-blue-gray-900'>
+                                USER NAME
+                              </p>
                             )}
                           </div>
                         )}
-                    </div>
-                    {item.type === 'text' &&
-                      item.inputname == 'name' &&
-                      item.field === 'predefined' && (
-                        <div className=' flex justify-center'>
-                          {item.value ? (
-                            <p className='absolute top-16 my-3 text-md antialiased font-semibold leading-snug tracking-normal text-blue-gray-900'>
-                              {item.value.toUpperCase()}
-                            </p>
-                          ) : (
-                            <p className=' absolute top-16 my-3 text-md antialiased font-semibold leading-snug tracking-normal text-blue-gray-900'>
-                              USER NAME
-                            </p>
-                          )}
-                        </div>
-                      )}
-                    {item.type === 'select' &&
-                      item.inputname == 'entityname' &&
-                      item.field == 'predefined' && (
-                        <div className='flex  justify-center   border-t-2 border-gray-300 '>
-                          {item.value ? (
-                            <p className='absolute top-20 mt-8 text-sm antialiased  leading-snug tracking-normal text-blue-gray-90'>
-                              {item.value}
-                            </p>
-                          ) : (
-                            <p className='absolute top-20 mt-8 text-sm antialiased  leading-snug tracking-normal text-blue-gray-900'>
-                              XYZ company
-                            </p>
-                          )}
-                        </div>
-                      )}
-                    <div className=' '>
-                      {item.type === 'email' &&
-                        item.inputname == 'email' &&
+                      {item.type === 'select' &&
+                        item.inputname == 'entityname' &&
                         item.field == 'predefined' && (
-                          <div className='my-2 mx-5 flex-wrap'>
+                          <div className='flex  justify-center   border-t-2 border-gray-300 '>
                             {item.value ? (
-                              <p className='flex   gap-2'>
+                              <p className='absolute top-20 mt-8 text-sm antialiased  leading-snug tracking-normal text-blue-gray-90'>
+                                {item.value}
+                              </p>
+                            ) : (
+                              <p className='absolute top-20 mt-8 text-sm antialiased  leading-snug tracking-normal text-blue-gray-900'>
+                                XYZ company
+                              </p>
+                            )}
+                          </div>
+                        )}
+                      <div className=' '>
+                        {item.type === 'email' &&
+                          item.inputname == 'email' &&
+                          item.field == 'predefined' && (
+                            <div className='my-2 mx-5 flex-wrap'>
+                              {item.value ? (
+                                <p className='flex   gap-2'>
+                                  <span className='w-2/6 text-[#727a85] '>
+                                    {item.label.charAt(0).toUpperCase() +
+                                      item.label.slice(1)}
+                                  </span>
+                                  <span className='  flex gap-2 w-4/6'>
+                                    <span> : </span>{' '}
+                                    <span className='text-md font-[600] break-all'>
+                                      {item.value}
+                                    </span>
+                                  </span>
+                                </p>
+                              ) : (
+                                <p className='flex  gap-2'>
+                                  <span className='w-2/6 text-[#727a85]'>
+                                    {item.label.charAt(0).toUpperCase() +
+                                      item.label.slice(1)}{' '}
+                                  </span>
+                                  <span className='  flex gap-2 w-4/6'>
+                                    <span> : </span>{' '}
+                                    <span className='text-md font-[600] '>
+                                      abc@gmail.com
+                                    </span>
+                                  </span>
+                                </p>
+                              )}
+                            </div>
+                          )}
+                        {item.type === 'phonenumber' &&
+                          item.inputname == 'phonenumber' &&
+                          item.field == 'predefined' && (
+                            <div className='my-2 mx-5 flex-wrap'>
+                              <p className='flex  gap-2'>
                                 <span className='w-2/6 text-[#727a85] '>
                                   {item.label.charAt(0).toUpperCase() +
                                     item.label.slice(1)}
                                 </span>
                                 <span className='  flex gap-2 w-4/6'>
                                   <span> : </span>{' '}
-                                  <span className='text-md font-[600] break-all'>
-                                    {item.value}
-                                  </span>
+                                  {item.value && (
+                                    <span className='text-md font-[600] '>
+                                      {item.value.slice(0, 3)}&nbsp;
+                                      {item.value.slice(3, 6)}&nbsp;
+                                      {item.value.slice(6, 10)}
+                                    </span>
+                                  )}
+                                  {!item.value && (
+                                    <span className='text-md font-[600] '>
+                                      000 000 0000{' '}
+                                    </span>
+                                  )}
                                 </span>
                               </p>
-                            ) : (
-                              <p className='flex  gap-2'>
-                                <span className='w-2/6 text-[#727a85]'>
-                                  {item.label.charAt(0).toUpperCase() +
-                                    item.label.slice(1)}{' '}
-                                </span>
-                                <span className='  flex gap-2 w-4/6'>
-                                  <span> : </span>{' '}
-                                  <span className='text-md font-[600] '>
-                                    abc@gmail.com
+                            </div>
+                          )}
+                        {item.type === 'select' &&
+                          item.inputname == 'designation' &&
+                          item.field == 'predefined' && (
+                            <div className='my-2 mx-5 flex-wrap'>
+                              {item.value ? (
+                                <p className='flex  gap-2'>
+                                  <span className='w-2/6 text-[#727a85] '>
+                                    {item.label.charAt(0).toUpperCase() +
+                                      item.label.slice(1)}
                                   </span>
-                                </span>
-                              </p>
-                            )}
-                          </div>
-                        )}
-                      {item.type === 'phonenumber' &&
-                        item.inputname == 'phonenumber' &&
-                        item.field == 'predefined' && (
-                          <div className='my-2 mx-5 flex-wrap'>
+                                  <span className='  flex gap-2 w-4/6'>
+                                    <span> : </span>{' '}
+                                    <span className='text-md font-[600] '>
+                                      {item.value}
+                                    </span>
+                                  </span>
+                                </p>
+                              ) : (
+                                <p className='flex  gap-2'>
+                                  <span className='w-2/6 text-[#727a85]'>
+                                    {item.label.charAt(0).toUpperCase() +
+                                      item.label.slice(1)}{' '}
+                                  </span>
+                                  <span className='  flex gap-2 w-4/6'>
+                                    <span> : </span>{' '}
+                                    <span className='text-md font-[600] '>
+                                      Designation
+                                    </span>
+                                  </span>
+                                </p>
+                              )}
+                            </div>
+                          )}
+                      </div>
+                      {/* custom fields */}
+                      {item.type === 'text' && item.field == 'custom' && (
+                        <div className='my-2 mx-5 flex-wrap'>
+                          {item.value && item.value.length > 0 && (
                             <p className='flex  gap-2'>
                               <span className='w-2/6 text-[#727a85] '>
                                 {item.label.charAt(0).toUpperCase() +
                                   item.label.slice(1)}
                               </span>
-                              <span className='  flex gap-2 w-4/6'>
+                              <span className=' flex gap-2 w-4/6'>
                                 <span> : </span>{' '}
-                                {item.value && (
-                                  <span className='text-md font-[600] '>
-                                    {item.value.slice(0, 3)}&nbsp;
-                                    {item.value.slice(3, 6)}&nbsp;
-                                    {item.value.slice(6, 10)}
-                                  </span>
-                                )}
-                                {!item.value && (
-                                  <span className='text-md font-[600] '>
-                                    000 000 0000{' '}
-                                  </span>
-                                )}
+                                <span className='text-md font-[600] '>
+                                  {item.value}
+                                </span>
                               </span>
                             </p>
-                          </div>
-                        )}
-                      {item.type === 'select' &&
-                        item.inputname == 'designation' &&
-                        item.field == 'predefined' && (
-                          <div className='my-2 mx-5 flex-wrap'>
-                            {item.value ? (
-                              <p className='flex  gap-2'>
-                                <span className='w-2/6 text-[#727a85] '>
-                                  {item.label.charAt(0).toUpperCase() +
-                                    item.label.slice(1)}
-                                </span>
-                                <span className='  flex gap-2 w-4/6'>
-                                  <span> : </span>{' '}
-                                  <span className='text-md font-[600] '>
-                                    {item.value}
-                                  </span>
-                                </span>
-                              </p>
-                            ) : (
-                              <p className='flex  gap-2'>
-                                <span className='w-2/6 text-[#727a85]'>
-                                  {item.label.charAt(0).toUpperCase() +
-                                    item.label.slice(1)}{' '}
-                                </span>
-                                <span className='  flex gap-2 w-4/6'>
-                                  <span> : </span>{' '}
-                                  <span className='text-md font-[600] '>
-                                    Designation
-                                  </span>
-                                </span>
-                              </p>
-                            )}
-                          </div>
-                        )}
-                    </div>
-                    {/* custom fields */}
-                    {item.type === 'text' && item.field == 'custom' && (
-                      <div className='my-2 mx-5 flex-wrap'>
-                        {item.value && item.value.length > 0 && (
-                          <p className='flex  gap-2'>
-                            <span className='w-2/6 text-[#727a85] '>
-                              {item.label.charAt(0).toUpperCase() +
-                                item.label.slice(1)}
-                            </span>
-                            <span className=' flex gap-2 w-4/6'>
-                              <span> : </span>{' '}
-                              <span className='text-md font-[600] '>
-                                {item.value}
+                          )}
+                        </div>
+                      )}
+                      {item.type === 'email' && item.field == 'custom' && (
+                        <div className='my-2 mx-5 flex-wrap'>
+                          {item.value && item.value.length > 0 && (
+                            <p className='flex  gap-2'>
+                              <span className='w-2/6 text-[#727a85] '>
+                                {item.label.charAt(0).toUpperCase() +
+                                  item.label.slice(1)}
                               </span>
-                            </span>
-                          </p>
-                        )}
-                      </div>
-                    )}
-                    {item.type === 'email' && item.field == 'custom' && (
-                      <div className='my-2 mx-5 flex-wrap'>
-                        {item.value && item.value.length > 0 && (
-                          <p className='flex  gap-2'>
-                            <span className='w-2/6 text-[#727a85] '>
-                              {item.label.charAt(0).toUpperCase() +
-                                item.label.slice(1)}
-                            </span>
-                            <span className='  flex gap-2 w-4/6 '>
-                              <span> : </span>{' '}
-                              <span className='text-md font-[600] break-all'>
-                                {item.value}
+                              <span className='  flex gap-2 w-4/6 '>
+                                <span> : </span>{' '}
+                                <span className='text-md font-[600] break-all'>
+                                  {item.value}
+                                </span>
                               </span>
-                            </span>
-                          </p>
-                        )}
-                      </div>
-                    )}
+                            </p>
+                          )}
+                        </div>
+                      )}
 
-                    {/* <span className='w-2/6 text-[#727a85] '>
+                      {/* <span className='w-2/6 text-[#727a85] '>
                                 {item.label.charAt(0).toUpperCase() +
                                   item.label.slice(1)}
                               </span>
@@ -1494,66 +1549,66 @@ function UserForm() {
                                     {item.value.slice(6, 10)}
                                   </span> */}
 
-                    {item.type === 'phonenumber' && item.field == 'custom' && (
-                      <div className='my-2 mx-5 flex-wrap'>
-                        {item.value && item.value.length > 0 && (
-                          <p className='flex  gap-2'>
-                            <span className='w-2/6 text-[#727a85] '>
-                              {item.label.charAt(0).toUpperCase() +
-                                item.label.slice(1)}
-                            </span>
-                            <span className='  flex gap-2 w-4/6'>
-                              <span> : </span>{' '}
-                              <span className='text-md font-[600] '>
-                                {item.value.slice(0, 3)}&nbsp;
-                                {item.value.slice(3, 6)}&nbsp;
-                                {item.value.slice(6, 10)}
+                      {item.type === 'phonenumber' && item.field == 'custom' && (
+                        <div className='my-2 mx-5 flex-wrap'>
+                          {item.value && item.value.length > 0 && (
+                            <p className='flex  gap-2'>
+                              <span className='w-2/6 text-[#727a85] '>
+                                {item.label.charAt(0).toUpperCase() +
+                                  item.label.slice(1)}
                               </span>
-                            </span>
-                          </p>
-                        )}
-                      </div>
-                    )}
-                    {item.type === 'number' && item.field == 'custom' && (
-                      <div className='my-2 mx-5 flex-wrap'>
-                        {item.value && item.value.length > 0 && (
-                          <p className='flex  gap-2'>
-                            <span className='w-2/6 text-[#727a85] '>
-                              {item.label.charAt(0).toUpperCase() +
-                                item.label.slice(1)}
-                            </span>
-                            <span className='  flex gap-2 w-4/6'>
-                              <span> : </span>{' '}
-                              <span className='text-md font-[600] '>
-                                {item.value}
+                              <span className='  flex gap-2 w-4/6'>
+                                <span> : </span>{' '}
+                                <span className='text-md font-[600] '>
+                                  {item.value.slice(0, 3)}&nbsp;
+                                  {item.value.slice(3, 6)}&nbsp;
+                                  {item.value.slice(6, 10)}
+                                </span>
+                              </span>
+                            </p>
+                          )}
+                        </div>
+                      )}
+                      {item.type === 'number' && item.field == 'custom' && (
+                        <div className='my-2 mx-5 flex-wrap'>
+                          {item.value && item.value.length > 0 && (
+                            <p className='flex  gap-2'>
+                              <span className='w-2/6 text-[#727a85] '>
+                                {item.label.charAt(0).toUpperCase() +
+                                  item.label.slice(1)}
+                              </span>
+                              <span className='  flex gap-2 w-4/6'>
+                                <span> : </span>{' '}
+                                <span className='text-md font-[600] '>
+                                  {item.value}
 
 
+                                </span>
                               </span>
-                            </span>
-                          </p>
-                        )}
-                      </div>
-                    )}
-                    {item.type === 'textarea' && item.field == 'custom' && (
-                      // mb-1 ps-6 flex flex-wrap
-                      <div className='my-2 mx-5 flex-wrap'>
-                        {item.value && item.value.length > 0 && (
-                          <p className='flex  gap-2'>
-                            <span className='w-2/6 text-[#727a85] '>
-                              {item.label.charAt(0).toUpperCase() +
-                                item.label.slice(1)}
-                            </span>
-                            <span className=' flex gap-2 w-4/6'>
-                              <span> : </span>{' '}
-                              <span className='text-md font-[600] hyphens-auto'>
-                                {item.value}
+                            </p>
+                          )}
+                        </div>
+                      )}
+                      {item.type === 'textarea' && item.field == 'custom' && (
+                        // mb-1 ps-6 flex flex-wrap
+                        <div className='my-2 mx-5 flex-wrap'>
+                          {item.value && item.value.length > 0 && (
+                            <p className='flex  gap-2'>
+                              <span className='w-2/6 text-[#727a85] '>
+                                {item.label.charAt(0).toUpperCase() +
+                                  item.label.slice(1)}
                               </span>
-                            </span>
-                          </p>
-                        )}
-                      </div>
-                    )}
-                    {/* {item.type === 'file' && item.field == 'custom' && (
+                              <span className=' flex gap-2 w-4/6'>
+                                <span> : </span>{' '}
+                                <span className='text-md font-[600] hyphens-auto'>
+                                  {item.value}
+                                </span>
+                              </span>
+                            </p>
+                          )}
+                        </div>
+                      )}
+                      {/* {item.type === 'file' && item.field == 'custom' && (
                       <div className=" 'my-2 ms-5 ">
                         {item.value && item.value.length > 0 && (
                           <p className='flex flex-wrap gap-2'>
@@ -1575,100 +1630,102 @@ function UserForm() {
                         )}
                       </div>
                     )} */}
-                    {item.type === 'date' && item.field == 'custom' && (
-                      <div className='my-2 mx-5 flex-wrap'>
-                        {item.value && item.value.length > 0 && (
-                          <p className='flex  gap-2'>
-                            <span className='w-2/6 text-[#727a85] '>
-                              {item.label.charAt(0).toUpperCase() +
-                                item.label.slice(1)}
-                            </span>
-                            <span className='  flex gap-2 w-4/6'>
-                              <span> : </span>{' '}
-                              <span className='text-md font-[600] '>
-                                {item.value}
+                      {item.type === 'date' && item.field == 'custom' && (
+                        <div className='my-2 mx-5 flex-wrap'>
+                          {item.value && item.value.length > 0 && (
+                            <p className='flex  gap-2'>
+                              <span className='w-2/6 text-[#727a85] '>
+                                {item.label.charAt(0).toUpperCase() +
+                                  item.label.slice(1)}
                               </span>
-                            </span>
-                          </p>
-                        )}
-                      </div>
-                    )}
-                    {item.type === 'select' && item.field == 'custom' && (
-                      <div className='my-2 mx-5 flex-wrap'>
-                        {item.value && item.value.length > 0 && (
-                          <p className='flex  gap-2'>
-                            <span className='w-2/6 text-[#727a85] '>
-                              {item.label.charAt(0).toUpperCase() +
-                                item.label.slice(1)}
-                            </span>
-                            <span className='  flex gap-2 w-4/6'>
-                              <span> : </span>{' '}
-                              <span className='text-md font-[600] '>
-                                {item.value}
+                              <span className='  flex gap-2 w-4/6'>
+                                <span> : </span>{' '}
+                                <span className='text-md font-[600] '>
+                                  {date ? date : "No Date"}
+                                </span>
                               </span>
-                            </span>
-                          </p>
-                        )}
-                      </div>
-                    )}
+                            </p>
+                          )}
+                        </div>
+                      )}
+                      {item.type === 'select' && item.field == 'custom' && (
+                        <div className='my-2 mx-5 flex-wrap'>
+                          {item.value && item.value.length > 0 && (
+                            <p className='flex  gap-2'>
+                              <span className='w-2/6 text-[#727a85] '>
+                                {item.label.charAt(0).toUpperCase() +
+                                  item.label.slice(1)}
+                              </span>
+                              <span className='  flex gap-2 w-4/6'>
+                                <span> : </span>{' '}
+                                <span className='text-md font-[600] '>
+                                  {item.value}
+                                </span>
+                              </span>
+                            </p>
+                          )}
+                        </div>
+                      )}
 
-                    {item.type === 'multiselect' && item.field == 'custom' && (
-                      <div className='my-2 mx-5 flex-wrap'>
-                        {item.value && item.value.length > 0 && (
-                          <p className='flex  gap-2'>
-                            <span className='w-2/6 text-[#727a85] '>
-                              {item.label.charAt(0).toUpperCase() +
-                                item.label.slice(1)}
-                            </span>
-                            <span className='  flex gap-2 w-4/6'>
-                              <span> : </span>{' '}
-                              <span className='text-md font-[600] '>
-                                {item.value.join(', ')}
+                      {item.type === 'multiselect' && item.field == 'custom' && (
+                        <div className='my-2 mx-5 flex-wrap'>
+                          {item.value && item.value.length > 0 && (
+                            <p className='flex  gap-2'>
+                              <span className='w-2/6 text-[#727a85] '>
+                                {item.label.charAt(0).toUpperCase() +
+                                  item.label.slice(1)}
                               </span>
-                            </span>
-                          </p>
-                        )}
-                      </div>
-                    )}
+                              <span className='  flex gap-2 w-4/6'>
+                                <span> : </span>{' '}
+                                <span className='text-md font-[600] '>
+                                  {item.value.join(', ')}
+                                </span>
+                              </span>
+                            </p>
+                          )}
+                        </div>
+                      )}
 
-                    {item.type === 'range' && item.field == 'custom' && (
-                      <div className='my-2 mx-5 flex-wrap'>
-                        {item.value && item.value.length > 0 && (
-                          <p className='flex  gap-2'>
-                            <span className='w-2/6 text-[#727a85] '>
-                              {item.label.charAt(0).toUpperCase() +
-                                item.label.slice(1)}
-                            </span>
-                            <span className='  flex gap-2 w-4/6'>
-                              <span> : </span>{' '}
-                              <span className='text-md font-[600] '>
-                                {item.value}
+                      {item.type === 'range' && item.field == 'custom' && (
+                        <div className='my-2 mx-5 flex-wrap'>
+                          {item.value && item.value.length > 0 && (
+                            <p className='flex  gap-2'>
+                              <span className='w-2/6 text-[#727a85] '>
+                                {item.label.charAt(0).toUpperCase() +
+                                  item.label.slice(1)}
                               </span>
-                            </span>
-                          </p>
-                        )}
-                      </div>
-                    )}
-                    {item.type === 'time' && item.field == 'custom' && (
-                      <div className='my-2 mx-5 flex-wrap'>
-                        {item.value && item.value.length > 0 && (
-                          <p className='flex  gap-2'>
-                            <span className='w-2/6 text-[#727a85] '>
-                              {item.label.charAt(0).toUpperCase() +
-                                item.label.slice(1)}
-                            </span>
-                            <span className='  flex gap-2 w-4/6'>
-                              <span> : </span>{' '}
-                              <span className='text-md font-[600] '>
-                                {item.value}
+                              <span className='  flex gap-2 w-4/6'>
+                                <span> : </span>{' '}
+                                <span className='text-md font-[600] '>
+                                  {item.value}
+                                </span>
                               </span>
-                            </span>
-                          </p>
-                        )}
-                      </div>
-                    )}
-                  </div>
-                ))}
+                            </p>
+                          )}
+                        </div>
+                      )}
+                      {item.type === 'time' && item.field == 'custom' && (
+                        <div className='my-2 mx-5 flex-wrap'>
+                          {item.value && item.value.length > 0 && (
+                            <p className='flex gap-2'>
+                              <span className='w-2/6 text-[#727a85] '>
+                                {item.label.charAt(0).toUpperCase() +
+                                  item.label.slice(1)}
+                              </span>
+                              <span className='  flex gap-2 w-4/6'>
+                                <span> : </span>{' '}
+                                <span className='text-md font-[600] '>
+                                  {formatTime(item.value)}
+                                </span>
+                              </span>
+                            </p>
+                          )}
+                        </div>
+                      )}
+
+                    </div>
+                  )
+                })}
             </div>
           </div>
         </div>

@@ -123,6 +123,16 @@ function Teams() {
       },
     });
   };
+  const [columnsDrawerOpen, setColumnsDrawerOpen] = useState(false);
+
+  const columnsDrawer = () => {
+    setColumnsDrawerOpen(!columnsDrawerOpen);
+  };
+  const [filterDrawerOpen, setFilterDrawerOpen] = useState(false);
+
+  const filterDrawer = () => {
+    setFilterDrawerOpen(!filterDrawerOpen);
+  };
 
   return (
     <div className=' p-3 bg-[#f8fafc] overflow-hidden'>
@@ -171,7 +181,221 @@ function Teams() {
             <option value='250'>250</option>
             <option value='500'>500</option>
           </select>
-          <Menu
+          <button
+            onClick={columnsDrawer}
+            className=' focus:outline-none me-3 gap-x-1.5 rounded-md bg-orange-600 px-4 py-2 text-sm font-[500] text-white shadow-md  hover:shadow-lg'
+          >
+            Columns
+          </button>
+
+          {/* for coloumns open */}
+          <div
+            className={`fixed inset-0 bg-gray-800 bg-opacity-50 z-10 ${columnsDrawerOpen ? '' : 'opacity-0 pointer-events-none'
+              }`}
+            style={{ transition: 'opacity 0.3s ease-in-out' }}
+          >
+            <div
+              className='fixed inset-y-0 right-0 w-11/12 md:w-4/12 lg:w-1/5 xl:w-1/5 bg-white shadow-lg transform translate-x-full transition-transform duration-300 ease-in-out'
+              style={{
+                transform: `translateX(${columnsDrawerOpen ? '0%' : '100%'})`,
+                transition: 'transform 0.3s ease-in-out',
+              }}
+            >
+              <div className='flex justify-between px-5 py-4 bg-gray-100'>
+                <h5 className='font-[500]'>Columns</h5>
+                <button
+                  onClick={columnsDrawer}
+                  className=''
+                >
+                  <svg
+                    xmlns='http://www.w3.org/2000/svg'
+                    viewBox='0 0 24 24'
+                    fill='currentColor'
+                    className='w-5 h-5 text-gray-500'
+                  >
+                    <path
+                      fillRule='evenodd'
+                      d='M5.47 5.47a.75.75 0 0 1 1.06 0L12 10.94l5.47-5.47a.75.75 0 1 1 1.06 1.06L13.06 12l5.47 5.47a.75.75 0 1 1-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 0 1-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 0 1 0-1.06Z'
+                      clipRule='evenodd'
+                    />
+                  </svg>
+                </button>
+              </div>
+              <hr className='h-1 w-full' />
+
+              {/* <div className='px-4 py-2.5 h-[615px] overflow-auto flex-wrap'>
+                {dupTableView &&
+                  Object.keys(dupTableView).map((columnName) => (
+                    <div
+                      key={columnName}
+                      className='flex items-center gap-2'
+                    >
+                      <input
+                        className={classNames(
+                          tableView[columnName].value
+                            ? 'bg-gray-100 text-gray-700 hover:text-black'
+                            : 'text-gray-700 bg-gray-100 hover:text-black',
+                          'appearance-none border border-gray-300 hover:border-gray-900 checked:hover:border-white rounded-md checked:bg-orange-600 checked:border-transparent w-4 h-4 cursor-pointer hover:text-black relative' // added 'relative' class
+                        )}
+                        type='checkbox'
+                        id={columnName}
+                        checked={dupTableView[columnName].value}
+                        onChange={() => handleColumnsCheckboxChange(columnName)}
+                      />
+
+                      <label
+                        htmlFor={columnName}
+                        className='cursor-pointer text-md py-1'
+                      >
+                        {dupTableView[columnName].label}
+                      </label>
+                    </div>
+                  ))}
+              </div> */}
+
+              <div className='bg-gray-100 flex justify-between p-3 absolute bottom-0 w-full'>
+                <button
+                  className='mr-3 px-3 py-2 inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white '
+                  // onClick={handleColumnsApply}
+                >
+                  Apply
+                </button>
+                {/* {role === 'admin' && ( */}
+                  <button
+                    className='mr-3 px-3 py-2 inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white'
+                    // onClick={handleColumnsSave}
+                  >
+                    Save
+                  </button>
+                 {/* )} */}
+              </div>
+            </div>
+          </div>
+
+          <button
+            onClick={filterDrawer}
+            className='transition-opacity duration-500 focus:outline-none me-3 gap-x-1.5 rounded-md bg-orange-600 px-4 py-2 text-sm font-[500] text-white shadow-md  hover:shadow-lg'
+          >
+            Filters
+          </button>
+
+          {/* for filter open */}
+          <div
+            className={`fixed inset-0 bg-gray-800 bg-opacity-50 z-10 ${filterDrawerOpen ? '' : 'opacity-0 pointer-events-none'
+              }`}
+            style={{ transition: 'opacity 0.3s ease-in-out' }}
+          >
+            <div
+              className='fixed inset-y-0 right-0 w-11/12 md:w-4/12 lg:w-1/5 xl:w-w-1/5 bg-white shadow-lg transform translate-x-full transition-transform duration-300 ease-in-out'
+              style={{
+                transform: `translateX(${filterDrawerOpen ? '0%' : '100%'})`,
+                transition: 'transform 0.3s ease-in-out',
+              }}
+            >
+              <div className=' flex justify-between px-5 py-4 bg-gray-100'>
+                <h5 className='font-[500] '> Filters</h5>
+                <button
+                  onClick={filterDrawer}
+                  className=''
+                >
+                  <svg
+                    xmlns='http://www.w3.org/2000/svg'
+                    viewBox='0 0 24 24'
+                    fill='currentColor'
+                    className='w-5 h-5 text-gray-500'
+                  >
+                    <path
+                      fillRule='evenodd'
+                      d='M5.47 5.47a.75.75 0 0 1 1.06 0L12 10.94l5.47-5.47a.75.75 0 1 1 1.06 1.06L13.06 12l5.47 5.47a.75.75 0 1 1-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 0 1-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 0 1 0-1.06Z'
+                      clipRule='evenodd'
+                    />
+                  </svg>
+                </button>
+              </div>
+              {/* <div className='h-[615px] overflow-auto'>
+                <div className='text-start p-3 '>
+                 
+                  {filterableInputsInBox?.map((filter, index) => (
+                    <div
+                      key={index}
+                      className=''
+                    >
+                      {filter.options && (
+                        <div>
+                          <label className='mb-4 text-sm text-[#878a99] font-medium'>
+                            {' '}
+                            {filter.label.charAt(0).toUpperCase() +
+                              filter.label.slice(1)}
+                          </label>
+
+                          <select
+                            id={filter.inputname}
+                            name={filter.inputname}
+                            className='px-3 py-2 my-2 text-xs block w-full bg-gray-50 rounded-md text-gray-900 border border-1 border-[#e9ebec] placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-xs sm:leading-6'
+                            onChange={(e) =>
+                              handleFilterChange(
+                                filter.inputname,
+                                e.target.value
+                              )
+                            }
+                            value={selectedFilters[filter.inputname] || ''}
+                          >
+                            <option
+                              value=''
+                              disabled
+                              defaultValue
+                            >
+                              Please select
+                            </option>
+                            {filter.options &&
+                              filter.options.type === 'custom' &&
+                              filter.options.value &&
+                              filter.options.value.map((option, index) => (
+                                <option
+                                  key={index}
+                                  value={option}
+                                >
+                                  {option}
+                                </option>
+                              ))}
+                            {filter.options &&
+                              filter.options.type === 'predefined' &&
+                              filter.options.value &&
+                              fieldsDropDownData[filter.options.value]?.map(
+                                (option, index) => (
+                                  <option
+                                    key={index}
+                                    value={option}
+                                  >
+                                    {option}
+                                  </option>
+                                )
+                              )}
+                          </select>
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </div> */}
+
+              <div className='bg-gray-100 flex justify-between p-3 absolute bottom-0 w-full'>
+                <button
+                  // onClick={handleFilterReset}
+                  className='mr-3 px-3 py-2 inline-flex  whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white '
+                >
+                  Clear
+                </button>
+                <button
+                  // onClick={handlefilters}
+                  className='mr-3 px-3 py-2 inline-flex  whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white '
+                >
+                  Apply
+                </button>
+              </div>
+            </div>
+          </div>
+          {/* <Menu
             as='div'
             className='relative inline-block me-2 '
           >
@@ -244,7 +468,7 @@ function Teams() {
                 </div>
               </Menu.Items>
             </Transition>
-          </Menu>
+          </Menu> */}
         </div>
       </div>
 
@@ -254,40 +478,40 @@ function Teams() {
             <tr>
               <th
                 scope='col'
-                className='sticky top-0 bg-orange-600 text-white text-sm text-left px-6 py-2.5 border-l-2 border-gray-200'
+                className='sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200'
               >
-                {' '}
-                Team{' '}
+              
+                Team
               </th>
               <th
                 scope='col'
-                className='sticky top-0 bg-orange-600 text-white text-sm text-left px-6 py-2.5 border-l-2 border-gray-200'
+                className='sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200'
               >
                 Total Tasks
               </th>
               <th
                 scope='col'
-                className='sticky top-0 bg-orange-600 text-white text-sm text-left px-6 py-2.5 border-l-2 border-gray-200'
+                className='sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200'
               >
-                {' '}
+                
                 Completed Tasks
               </th>
               <th
                 scope='col'
-                className='sticky top-0 bg-orange-600 text-white text-sm text-left px-6 py-2.5 border-l-2 border-gray-200'
+                className='sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200'
               >
                 Upcoming Tasks
               </th>
               <th
                 scope='col'
-                className='sticky top-0 bg-orange-600 text-white text-sm text-left px-6 py-2.5 border-l-2 border-gray-200'
+                className='sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200'
               >
                 {' '}
                 Overdue Tasks
               </th>
               <th
                 scope='col'
-                className='sticky top-0 bg-orange-600 text-white text-sm text-left px-6 py-2.5 border-l-2 border-gray-200'
+                className='sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200'
               >
                 {' '}
                 Actions{' '}
@@ -296,7 +520,7 @@ function Teams() {
           </thead>
           <tbody>
             {!entitiesList?.paginatedEntities ||
-            entitiesList?.paginatedEntities?.length === 0 ? (
+              entitiesList?.paginatedEntities?.length === 0 ? (
               <p className='text-center m-auto'>no entity found</p>
             ) : (
               entitiesList?.paginatedEntities?.map((item, index) => (
@@ -304,23 +528,32 @@ function Teams() {
                   key={item.id}
                   className='hover:bg-gray-100 dark:hover:bg-gray-700'
                 >
-                  <td className='px-6 py-2 text-left border border-[#e5e7eb] text-xs font-medium text-gray-800'>
-                    Team
+                  <td className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden`}
+                      style={{ maxWidth: '160px' }}>
+                   <p className='truncate text-xs'> Team</p>
                   </td>
                   <td className='px-6 py-2 text-left border border-[#e5e7eb] text-xs font-medium text-gray-800'>
-                    4000
+                  <p className='truncate text-xs'> 700</p>
                   </td>
-                  <td className='px-6 py-2 text-left border border-[#e5e7eb] text-xs font-medium text-gray-800'>
-                    1000
+                  <td className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden`}
+                      style={{ maxWidth: '160px' }}
+                      title="">
+                  <p className='truncate text-xs'> 89797</p>
                   </td>
-                  <td className='px-6 py-2 text-left border border-[#e5e7eb] text-xs font-medium text-gray-800'>
-                    2000
+                  <td className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden`}
+                      style={{ maxWidth: '160px' }}
+                      title="">
+                  <p className='truncate text-xs'> 4646</p>
                   </td>
-                  <td className='px-6 py-2 text-left border border-[#e5e7eb] text-xs font-medium text-gray-800'>
-                    1000
+                  <td className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden`}
+                      style={{ maxWidth: '160px' }}
+                      title="">
+                  <p className='truncate text-xs'> 4543</p>
                   </td>
-                  <td className='px-6 py-2 text-left border border-[#e5e7eb] text-xs font-medium text-gray-800'>
-                    <div className='flex justify-start'>
+                  <td className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  `}
+                     
+                  style={{ maxWidth: '160px' }}>
+                    <div className='flex justify-start gap-3'>
                       <GateKeeper
                         permissionCheck={(permission) =>
                           permission.module === 'team' && permission.canRead
@@ -328,7 +561,7 @@ function Teams() {
                       >
                         <button
                           type='button'
-                          className='me-5 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600'
+                          className=' inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600'
                         >
                           <Link to={`/teamslandingpage/${item.id}`}>
                             {' '}
@@ -336,7 +569,7 @@ function Teams() {
                               xmlns='http://www.w3.org/2000/svg'
                               viewBox='0 0 20 20'
                               fill='currentColor'
-                              className='w-5 h-5'
+                              className='w-4 h-4'
                             >
                               <path d='M10 12.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z' />
                               <path
@@ -355,13 +588,13 @@ function Teams() {
                       >
                         <button
                           type='button'
-                          className='me-5 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600'
+                          className=' inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600'
                         >
                           <svg
                             xmlns='http://www.w3.org/2000/svg'
                             viewBox='0 0 20 20'
                             fill='currentColor'
-                            className='w-5 h-5'
+                            className='w-4 h-4'
                           >
                             <path d='m2.695 14.762-1.262 3.155a.5.5 0 0 0 .65.65l3.155-1.262a4 4 0 0 0 1.343-.886L17.5 5.501a2.121 2.121 0 0 0-3-3L3.58 13.419a4 4 0 0 0-.885 1.343Z' />
                           </svg>
@@ -375,13 +608,13 @@ function Teams() {
                         <button
                           type='button'
                           onClick={() => deleteEntitybyId(item.id)}
-                          className='me-5 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600'
+                          className=' inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600'
                         >
                           <svg
                             xmlns='http://www.w3.org/2000/svg'
                             viewBox='0 0 20 20'
                             fill='currentColor'
-                            className='w-5 h-5'
+                            className='w-4 h-4'
                           >
                             <path
                               fill-rule='evenodd'
@@ -398,7 +631,7 @@ function Teams() {
                       >
                         <button
                           type='button'
-                          className='me-5 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600'
+                          className=' inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600'
                         >
                           <div className='flex items-center'>
                             <input
@@ -413,14 +646,12 @@ function Teams() {
                               className='flex items-center cursor-pointer'
                             >
                               <div
-                                className={`w-8 h-4 rounded-full shadow-inner ${
-                                  isChecked ? ' bg-[#ea580c]' : 'bg-[#c3c6ca]'
-                                }`}
+                                className={`w-6 h-3 rounded-full shadow-inner ${isChecked ? ' bg-[#ea580c]' : 'bg-[#c3c6ca]'
+                                  }`}
                               >
                                 <div
-                                  className={`toggle__dot w-4 h-4 rounded-full shadow ${
-                                    isChecked ? 'ml-4 bg-white' : 'bg-white'
-                                  }`}
+                                  className={`toggle__dot w-3 h-3 rounded-full shadow ${isChecked ? 'ml-4 bg-white' : 'bg-white'
+                                    }`}
                                 ></div>
                               </div>
                               {/* <div className={`ml-3 text-sm font-medium ${isChecked ? 'text-gray-400' : 'text--400'}`}>
@@ -443,7 +674,7 @@ function Teams() {
         <div className='flex justify-between'>
           <div className=''>
             {!entitiesList?.paginatedEntities ||
-            entitiesList?.paginatedEntities?.length === 0 ? (
+              entitiesList?.paginatedEntities?.length === 0 ? (
               'no data to show'
             ) : entitiesList.loading ? (
               'Loading...'
