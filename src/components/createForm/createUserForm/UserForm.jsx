@@ -623,11 +623,10 @@ function UserForm() {
                           style={{ fontSize: '0.8rem' }}
                           onChange={(e) => handleChange(index, e.target.value)}
                           disabled={!!id && !!user?.userData ? true : false}
-                          className={` ${
-                            !!id && !!user?.userData
-                              ? 'text-[#d4d4d8] bg-gray-50'
-                              : 'bg-gray-50 text-gray-900'
-                          } px-2 py-2 text-sm block w-full rounded-md bg-gray-50 border border-gray-300  focus:outline-none  focus:border-orange-400 placeholder:text-xs `}
+                          className={` ${!!id && !!user?.userData
+                            ? 'text-[#d4d4d8] bg-gray-50'
+                            : 'bg-gray-50 text-gray-900'
+                            } px-2 py-2 text-sm block w-full rounded-md bg-gray-50 border border-gray-300  focus:outline-none  focus:border-orange-400 placeholder:text-xs `}
                         />
                         <div className='h-2 text-[#dc2626]'>
                           {errors[item.inputname] && (
@@ -679,7 +678,7 @@ function UserForm() {
                     )}
 
 
-                    
+
                   {item.type === 'select' &&
                     item.inputname == 'designation' &&
                     item.field == 'predefined' && (
@@ -752,8 +751,8 @@ function UserForm() {
                           style={{ fontSize: '0.8rem' }}
                           disabled={
                             id &&
-                            user?.userData &&
-                            parseInt(id) === loggedInUser
+                              user?.userData &&
+                              parseInt(id) === loggedInUser
                               ? true
                               : false
                           }
@@ -1204,7 +1203,7 @@ function UserForm() {
                           <span> </span>
                         )}
                       </label>
-                      <div className='px-2 py-2 text-sm block w-full rounded-md bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder:text-xs'>
+                      <div className='ps-2 py-2 text-sm block w-full rounded-md bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder:text-xs'>
                         <span className='flex justify-between'>
                           <p className='text-sm text-gray-400'>
                             {item.value.length > 0 ? (
@@ -1526,9 +1525,9 @@ function UserForm() {
                             <span className='  flex gap-2 w-4/6'>
                               <span> : </span>{' '}
                               <span className='text-md font-[600] '>
-                                {item.value.slice(0, 3)}&nbsp;
-                                {item.value.slice(3, 6)}&nbsp;
-                                {item.value.slice(6, 10)}
+                                {item.value}
+
+
                               </span>
                             </span>
                           </p>

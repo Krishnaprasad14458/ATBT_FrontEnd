@@ -215,7 +215,7 @@ const EntityLandingPage = () => {
       </div>
       {activeTab === 1 && (
         <div className=' flex justify-center '>
-          <div className=' w-full md:w-5/6  lg:w-4/6 xl:5/6 shadow-md px-6 py-4 mt-4 border-2 rounded-md bg-[#f8fafc] '>
+          <div className=' w-full md:w-5/6  lg:w-10/12 xl:10/12 shadow-md px-6 py-4 mt-4 border-2 rounded-md bg-[#f8fafc] '>
             {customFormField &&
               customFormField.length > 0 &&
               customFormField.map((item) => (
