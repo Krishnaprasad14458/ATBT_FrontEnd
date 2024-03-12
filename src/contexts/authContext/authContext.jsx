@@ -52,7 +52,7 @@ const AuthProvider = ({ children }) => {
               },
             }) {
               // When the promise reject, data will contains the error
-              return `error: ${data.message}`;
+              return `error: ${data?.message}`;
               // return <MyErrorComponent message={data.message} />;
             },
           },
