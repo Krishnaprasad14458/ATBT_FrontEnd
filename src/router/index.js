@@ -58,10 +58,13 @@ import { httpInterceptors } from "./httpInts/httpInts.router";
 import { dashboardRouter } from "./dashboard/dashboard.router";
 import { reportRouter } from "./report/report.router";
 import { settingRouter } from "./setting/setting.router";
-import { teamRouter } from "./team/team.router";
+// import { teamRouter } from "./team/team.router";
 import { meetingRouter } from "./meeting/meeting.router";
 import { userRouter } from "./user/user.router";
 import { entityRouter } from "./entity/entity.router";
+import { teamRouter } from "./team/team.router";
+
+
 import { taskRouter } from "./task/task.router";
 import RouteBlocker from "../rbac/RouteBlocker";
 import ErrorBoundary from "../components/pages/Errorpages/ErrorBoundary";
@@ -87,6 +90,12 @@ export const router = createBrowserRouter([
                 path: 'entities',
                 children: [
                     ...entityRouter,
+                ]
+            },
+            {
+                path: 'teams',
+                children: [
+                    ...teamRouter,
                 ]
             },
             {
