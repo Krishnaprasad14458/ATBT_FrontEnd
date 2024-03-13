@@ -653,7 +653,7 @@ function UserForm() {
                           onChange={(e) => handleChange(index, e.target.value)}
                           disabled={!!id && !!user?.userData ? true : false}
                           className={` ${!!id && !!user?.userData
-                            ? 'text-[#d4d4d8] bg-gray-50'
+                            ? 'text-[#d4d4d8] bg-gray-50 cursor-not-allowed'
                             : 'bg-gray-50 text-gray-900'
                             } px-2 py-2 text-sm block w-full rounded-md bg-gray-50 border border-gray-300  focus:outline-none  focus:border-orange-400 placeholder:text-xs `}
                         />
@@ -774,7 +774,10 @@ function UserForm() {
                         <select
                           id={item.inputname}
                           name={item.inputname}
-                          className='px-2 py-2 text-sm block w-full rounded-md bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder:text-xs'
+                          className={` ${!!id && !!user?.userData
+                            ? 'text-[##d4d4d8] bg-gray-50 cursor-not-allowed'
+                            : 'bg-gray-50 text-gray-900'
+                            } px-2 py-2 text-sm block w-full rounded-md bg-gray-50 border border-gray-300  focus:outline-none  focus:border-orange-400 placeholder:text-xs `}
                           onChange={(e) => handleChange(index, e.target.value)}
                           value={customFormFields[index].value || ''}
                           style={{ fontSize: '0.8rem' }}
