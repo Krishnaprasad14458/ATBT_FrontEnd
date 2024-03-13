@@ -9,6 +9,7 @@ import { ToastContainer } from "react-toastify";
 import AuthProvider from './contexts/authContext/authContext';
 import UserDataProvider from './contexts/usersDataContext/usersDataContext';
 import EntitiesDataProvider from './contexts/entitiesDataContext/entitiesDataContext';
+import TeamsDataProvider from './contexts/teamsDataContext/teamsDataContext';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import PermissionsProvider from './rbac/PermissionsProvider';
 import { router } from './router';
@@ -22,18 +23,20 @@ root.render(
     <PermissionsProvider>
       <UserDataProvider>
         <EntitiesDataProvider>
-          <RouterProvider router={router} />
-          <ToastContainer
-            position="top-right"
-            autoClose={1000}
-            hideProgressBar={false}
-            newestOnTop={false}
-            closeOnClick
-            rtl={false}
-            pauseOnFocusLoss
-            draggable
-            pauseOnHover
-          />
+          <TeamsDataProvider>
+            <RouterProvider router={router} />
+            <ToastContainer
+              position="top-right"
+              autoClose={1000}
+              hideProgressBar={false}
+              newestOnTop={false}
+              closeOnClick
+              rtl={false}
+              pauseOnFocusLoss
+              draggable
+              pauseOnHover
+            />
+          </TeamsDataProvider>
         </EntitiesDataProvider>
       </UserDataProvider>
     </PermissionsProvider>
