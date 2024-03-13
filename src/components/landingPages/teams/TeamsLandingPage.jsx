@@ -15,7 +15,7 @@ import { Link, Outlet, useParams } from 'react-router-dom';
 import { ChevronDownIcon } from '@heroicons/react/20/solid';
 import useInitializePerPage from '../../../hooks/initializePerPage/useInitializePerPage';
 import useDebounce from '../../../hooks/debounce/useDebounce';
-import {TeamsDataContext} from '../../../contexts/teamsDataContext/teamsDataContext'
+import { TeamsDataContext } from '../../../contexts/teamsDataContext/teamsDataContext'
 import axios from 'axios';
 
 function classNames(...classes) {
@@ -29,19 +29,7 @@ const TeamsLandingPage = () => {
   } = useContext(TeamsDataContext);
   const { id } = useParams();
   const [singleProduct, setSingleProduct] = useState({});
-  // todo toggle
-  // const [todo, setTodo] = useState(false);
-  // const [doing, setdoing] = useState(false);
-  // const [done, setdone] = useState(false);
-  // const handletodo = (e) => {
-  //     setTodo(!todo);
-  // }
-  // const handledoing = (e) => {
-  //     setdoing(!doing);
-  // }
-  // const handledone = (e) => {
-  //     setdone(!done);
-  // }
+ 
 
   // For tabs active
   const getSingleProduct = async () => {
@@ -143,7 +131,7 @@ const TeamsLandingPage = () => {
   useEffect(() => {
     console.log('customFormField', customFormField);
   }, [customFormField]);
-  
+
 
   return (
     <div className='container p-4 bg-[#f8fafc]'>
@@ -163,50 +151,44 @@ const TeamsLandingPage = () => {
       <div className=''>
         <div className='flex'>
           <div
-            className={`cursor-pointer px-1 py-1 text-md font-semibold  ${
-              activeTab === 1 ? 'border-b-2 border-orange-600 text-black' : ''
-            }`}
+            className={`cursor-pointer px-1 py-1 text-md font-semibold  ${activeTab === 1 ? 'border-b-2 border-orange-600 text-black' : ''
+              }`}
             onClick={() => handleTabClick(1)}
           >
             Overview
           </div>
 
           <div
-            className={`cursor-pointer px-5 py-1 text-md font-semibold  ${
-              activeTab === 2 ? 'border-b-2 border-orange-600 text-black' : ''
-            }`}
+            className={`cursor-pointer px-5 py-1 text-md font-semibold  ${activeTab === 2 ? 'border-b-2 border-orange-600 text-black' : ''
+              }`}
             onClick={() => handleTabClick(2)}
           >
             List
           </div>
           <div
-            className={`cursor-pointer px-5 py-1 text-md font-semibold  ${
-              activeTab === 3 ? 'border-b-2 border-orange-600 text-black' : ''
-            }`}
+            className={`cursor-pointer px-5 py-1 text-md font-semibold  ${activeTab === 3 ? 'border-b-2 border-orange-600 text-black' : ''
+              }`}
             onClick={() => handleTabClick(3)}
           >
             Calendar
           </div>
           <div
-            className={`cursor-pointer px-5 py-1 text-md font-semibold ${
-              activeTab === 4 ? 'border-b-2 border-orange-600 text-black' : ''
-            }`}
+            className={`cursor-pointer px-5 py-1 text-md font-semibold ${activeTab === 4 ? 'border-b-2 border-orange-600 text-black' : ''
+              }`}
             onClick={() => handleTabClick(4)}
           >
             Dashboard
           </div>
           <div
-            className={`cursor-pointer px-5 py-1 text-md font-semibold  ${
-              activeTab === 5 ? 'border-b-2 border-orange-600 text-black' : ''
-            }`}
+            className={`cursor-pointer px-5 py-1 text-md font-semibold  ${activeTab === 5 ? 'border-b-2 border-orange-600 text-black' : ''
+              }`}
             onClick={() => handleTabClick(5)}
           >
             Messages
           </div>
           <div
-            className={`cursor-pointer px-5 py-1 text-md font-semibold  ${
-              activeTab === 6 ? 'border-b-2 border-orange-600 text-black' : ''
-            }`}
+            className={`cursor-pointer px-5 py-1 text-md font-semibold  ${activeTab === 6 ? 'border-b-2 border-orange-600 text-black' : ''
+              }`}
             onClick={() => handleTabClick(6)}
           >
             Attachments
@@ -215,8 +197,8 @@ const TeamsLandingPage = () => {
         <hr />
       </div>
       {activeTab === 1 && (
-        <div className='mt-4 flex justify-center'>
-          <div className='h-[500px] w-5/6 shadow-md px-6 py-4 border-2 rounded-md bg-[#f8fafc]'>
+        <div className=' flex justify-center'>
+          <div className='w-full md:w-5/6  lg:w-10/12 xl:10/12 shadow-md px-6 py-4 mt-4 border-2 rounded-md bg-[#f8fafc]'>
             {customFormField &&
               customFormField.length > 0 &&
               customFormField.map((item) => (
@@ -224,10 +206,20 @@ const TeamsLandingPage = () => {
                   {/* predefined fields*/}
                   {item.type === 'text' &&
                     item.inputname == 'name' &&
-                    item.field == 'predefined' && (
-                      <p className='text-sm font-black text-gray-800 mt-2 absolute left-12'>
-                        {item.value}
-                      </p>
+                    item.field === 'predefined' && (
+                      <div>
+                        {item.value ? (
+                          <p className='text-sm font-black text-gray-800 mt-2 absolute left-12'>
+                            {' '}
+                            {item.value.toUpperCase()}
+                          </p>
+                        ) : (
+                          <p className='text-sm font-black text-gray-800 mt-2 absolute left-12'>
+                            {' '}
+                            TEAM NAME
+                          </p>
+                        )}
+                      </div>
                     )}
                   {item.type === 'file' &&
                     item.inputname == 'image' &&
@@ -236,8 +228,12 @@ const TeamsLandingPage = () => {
                         <div className='group h-10 '>
                           {item.value ? (
                             <img
-                              src={item.value}
-                              name='EntityPhoto'
+                              src={
+                                typeof item.value === 'string'
+                                  ? item.value
+                                  : URL.createObjectURL(item.value)
+                              }
+                              name='TeamsPhoto'
                               alt='Selected User Photo'
                               className='rounded-lg w-10 h-10 mr-4'
                             />
@@ -245,7 +241,7 @@ const TeamsLandingPage = () => {
                             <img
                               className='w-10 h-10 rounded-lg '
                               src={defprop}
-                              alt='defult image'
+                              alt='default image'
                             />
                           )}
                         </div>
@@ -261,7 +257,7 @@ const TeamsLandingPage = () => {
                   {item.type === 'multiselect' &&
                     item.inputname == 'members' &&
                     item.field == 'predefined' && (
-                      <div className=' grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-4 mt-5'>
+                      <div className=' grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-2 mt-5'>
                         {item.value &&
                           Array.from({ length: 12 }).map((_, index) => {
                             let first = '';
@@ -288,7 +284,6 @@ const TeamsLandingPage = () => {
                             } else {
                               firstLetter = mail[0];
                             }
-                            //color
                             const colors = [
                               '#818cf8',
                               '#fb923c',
@@ -302,13 +297,11 @@ const TeamsLandingPage = () => {
                             const getRandomColor = (firstLetter) => {
                               const randomIndex =
                                 firstLetter.charCodeAt(0) % colors.length;
-
                               return colors[randomIndex];
                             };
-
                             return (
                               <div
-                                className='col-span-1 flex justify-start gap-3'
+                                className='col-span-1 flex justify-start gap-1'
                                 key={index}
                               >
                                 {index + 1 <= item.value.length && (
@@ -319,21 +312,21 @@ const TeamsLandingPage = () => {
                                           firstLetter
                                         )}`,
                                       }}
-                                      className=' rounded-full w-10 h-10 flex justify-center text-xs items-center text-white'
+                                      className=' rounded-full w-10 h-10  md:h-8 xl:h-10 flex justify-center  text-xs items-center text-white'
                                     >
                                       {index < 11 && (
                                         <>
-                                          {firstLetter.toUpperCase()}
+                                          {firstLetter?.toUpperCase()}
                                           {secondLetter &&
-                                            secondLetter.toUpperCase()}
+                                            secondLetter?.toUpperCase()}
                                         </>
                                       )}
                                       {index == 11 &&
                                         item.value.length == 12 && (
                                           <>
-                                            {firstLetter.toUpperCase()}
+                                            {firstLetter?.toUpperCase()}
                                             {secondLetter &&
-                                              secondLetter.toUpperCase()}
+                                              secondLetter?.toUpperCase()}
                                           </>
                                         )}{' '}
                                       {index == 11 &&
@@ -356,15 +349,15 @@ const TeamsLandingPage = () => {
                                           </span>
                                         )}
                                     </h5>
-                                    <div className=' flex items-center'>
-                                      <div className=' '>
+                                    <div className=' flex items-center md:items-start xl:items-center  overflow-hidden' style={{ width: "150px" }}>
+                                      <div className=' md:w-28 lg:w-48  truncate' title={mail} >
                                         {index < 11 && mail}
                                         {index == 11 &&
                                           item.value.length == 12 &&
-                                          mail}{' '}
+                                          mail}
                                         {index == 11 &&
                                           item.value.length > 12 && (
-                                            <span>
+                                            <span >
                                               +{item.value.length - 11} more
                                             </span>
                                           )}{' '}
@@ -374,7 +367,7 @@ const TeamsLandingPage = () => {
                                 )}
                                 {index + 1 > item.value.length && (
                                   <>
-                                    <h5 className='bg-[#e5e7eb] rounded-full w-10 h-10 flex justify-center text-xs items-center text-white'></h5>
+                                    <h5 className='bg-[#e5e7eb] rounded-full w-10 h-10  md:h-8 xl:h-10 flex justify-center text-xs items-center text-white'></h5>
                                     <div className=' flex items-center'>
                                       <div className=' rounded-md  bg-[#e5e7eb] h-2 w-28'>
                                         {' '}
@@ -389,59 +382,178 @@ const TeamsLandingPage = () => {
                     )}
                   {/* customfields */}
                   {item.type === 'text' && item.field == 'custom' && (
-                    <div>{item.value}</div>
-                  )}
-                  {item.type === 'email' && item.field == 'custom' && (
-                    <div>{item.value}</div>
-                  )}
-                  {item.type === 'password' && item.field == 'custom' && (
-                    <div>{item.value}</div>
-                  )}
-                  {item.type === 'number' && item.field == 'custom' && (
-                    <div>{item.value}</div>
-                  )}
-                  {item.type === 'textarea' && item.field == 'custom' && (
-                    <div>{item.value}</div>
-                  )}
-                  {item.type === 'file' && item.field == 'custom' && (
-                    <div className='flex gap-4'>
-                      <div className='group h-10 '>
-                        {item.value ? (
-                          <img
-                            src={item.value}
-                            name='EntityPhoto'
-                            alt='Selected User Photo'
-                            className='rounded-lg w-10 h-10 mr-4'
-                          />
-                        ) : (
-                          <img
-                            className='w-10 h-10 rounded-lg '
-                            src={defprop}
-                            alt='Neil image'
-                          />
+                    <div>
+                      <div className='my-3 ms-2'>
+                        {item.value && item.value.length > 0 && (
+                          <p className='flex flex-wrap gap-5'>
+                            <span className=' w-1/6 text-[#727a85]'>
+                              {item.label.charAt(0).toUpperCase() +
+                                item.label.slice(1)}
+                            </span>
+                            <span className=' w-4/6 text-md font-[600]'>
+                              {' '}
+                              : {item.value}
+                            </span>
+                          </p>
                         )}
                       </div>
-                      <hr className='my-3' />
+                    </div>
+                  )}
+                  {item.type === 'email' && item.field == 'custom' && (
+                    <div>
+                      <div className='my-3 ms-2'>
+                        {item.value && item.value.length > 0 && (
+                          <p className='flex flex-wrap gap-5'>
+                            <span className=' w-1/6 text-[#727a85]'>
+                              {item.label.charAt(0).toUpperCase() +
+                                item.label.slice(1)}
+                            </span>
+                            <span className=' w-4/6 text-md font-[600]'>
+                              {' '}
+                              : {item.value}
+                            </span>
+                          </p>
+                        )}
+                      </div>
+                    </div>
+                  )}
+                  {(item.type === 'number' || item.type === 'phonenumber') &&
+                    item.field == 'custom' && (
+                      <div className='my-3 ms-2'>
+                        {item.value && item.value.length > 0 && (
+                          <p className='flex flex-wrap gap-5'>
+                            <span className=' w-1/6 text-[#727a85]'>
+                              {item.label.charAt(0).toUpperCase() +
+                                item.label.slice(1)}
+                            </span>
+                            <span className=' w-4/6 text-md font-[600]'>
+                              {' '}
+                              : {item.value}
+                            </span>
+                          </p>
+                        )}
+                      </div>
+                    )}
+                  {item.type === 'textarea' && item.field == 'custom' && (
+                    <div className='my-3 ms-2'>
+                      {item.value && item.value.length > 0 && (
+                        <p className='flex flex-wrap gap-5'>
+                          <span className=' w-1/6 text-[#727a85]'>
+                            {item.label.charAt(0).toUpperCase() +
+                              item.label.slice(1)}
+                          </span>
+                          <span className=' w-4/6 text-md font-[600]'>
+                            {' '}
+                            : {item.value}
+                          </span>
+                        </p>
+                      )}
+                    </div>
+                  )}
+                  {item.type === 'file' && item.field == 'custom' && (
+                    <div className='my-3 ms-2'>
+                      {item.value && item.value.length > 0 && (
+                        <p className='flex flex-wrap gap-3'>
+                          <span className='w-1/6 text-[#727a85]'>
+                            {item.label.charAt(0).toUpperCase() +
+                              item.label.slice(1)}
+                          </span>
+                          <span className=' w-4/6 text-md font-[600] flex gap-5'>
+                            {' '}
+                            :
+                            <img
+                              src={item.value}
+                              // name="EntityPhoto"
+                              alt='file'
+                              className='rounded-lg w-20 h-20 '
+                            />
+                          </span>
+                        </p>
+                      )}
                     </div>
                   )}
                   {item.type === 'date' && item.field == 'custom' && (
-                    <div>{item.value}</div>
+                    <div className='my-3 ms-2'>
+                      {item.value && item.value.length > 0 && (
+                        <p className='flex flex-wrap gap-5'>
+                          <span className=' w-1/6 text-[#727a85]'>
+                            {item.label.charAt(0).toUpperCase() +
+                              item.label.slice(1)}
+                          </span>
+                          <span className=' w-4/6 text-md font-[600]'>
+                            {' '}
+                            : {item.value}
+                          </span>
+                        </p>
+                      )}
+                    </div>
                   )}
                   {item.type === 'select' && item.field == 'custom' && (
-                    <div>{item.value}</div>
+                    <div className='my-3 ms-2'>
+                      {item.value && item.value.length > 0 && (
+                        <p className='flex flex-wrap gap-5'>
+                          <span className=' w-1/6 text-[#727a85]'>
+                            {item.label.charAt(0).toUpperCase() +
+                              item.label.slice(1)}
+                          </span>
+                          <span className=' w-4/6 text-md font-[600]'>
+                            {' '}
+                            : {item.value}
+                          </span>
+                        </p>
+                      )}
+                    </div>
                   )}
 
+
                   {item.type === 'multiselect' && item.field == 'custom' && (
-                    <div>{item.value.join(', ')}</div>
+                    <div className='my-3 ms-2'>
+                      {item.value && item.value.length > 0 && (
+                        <p className='flex flex-wrap gap-5'>
+                          <span className=' w-1/6 text-[#727a85]'>
+                            {item.label.charAt(0).toUpperCase() +
+                              item.label.slice(1)}
+                          </span>
+                          <span className=' w-4/6 text-md font-[600]'>
+                            {' '}
+                            : {item.value.join(', ')}
+                          </span>
+                        </p>
+                      )}
+                    </div>
                   )}
-                  {item.type === 'checkbox' && item.field == 'custom' && (
-                    <div>{item.value}</div>
-                  )}
+
                   {item.type === 'range' && item.field == 'custom' && (
-                    <div>{item.value}</div>
+                    <div className='my-3 ms-2'>
+                      {item.value && item.value.length > 0 && (
+                        <p className='flex flex-wrap gap-5'>
+                          <span className=' w-1/6 text-[#727a85]'>
+                            {item.label.charAt(0).toUpperCase() +
+                              item.label.slice(1)}
+                          </span>
+                          <span className=' w-4/6 text-md font-[600]'>
+                            {' '}
+                            : {item.value}
+                          </span>
+                        </p>
+                      )}
+                    </div>
                   )}
                   {item.type === 'time' && item.field == 'custom' && (
-                    <div>{item.value}</div>
+                    <div className='my-3 ms-2'>
+                      {item.value && item.value.length > 0 && (
+                        <p className='flex flex-wrap gap-5'>
+                          <span className=' w-1/6 text-[#727a85]'>
+                            {item.label.charAt(0).toUpperCase() +
+                              item.label.slice(1)}
+                          </span>
+                          <span className=' w-4/6 text-md font-[600]'>
+                            {' '}
+                            : {item.value}
+                          </span>
+                        </p>
+                      )}
+                    </div>
                   )}
                 </div>
               ))}
@@ -739,14 +851,12 @@ const TeamsLandingPage = () => {
               </tr>
               <div
                 id='content'
-                className={`fixed inset-0 transition-all duration-500 bg-gray-800 bg-opacity-50 z-50 ${
-                  isOpen ? '' : 'hidden'
-                }`}
+                className={`fixed inset-0 transition-all duration-500 bg-gray-800 bg-opacity-50 z-50 ${isOpen ? '' : 'hidden'
+                  }`}
               >
                 <div
-                  className={`p-3 fixed inset-y-0 right-0 ${
-                    expand ? 'w-5/6' : 'w-1/2'
-                  } bg-white shadow-lg transform translate-x-0 transition-transform duration-300 ease-in-out`}
+                  className={`p-3 fixed inset-y-0 right-0 ${expand ? 'w-5/6' : 'w-1/2'
+                    } bg-white shadow-lg transform translate-x-0 transition-transform duration-300 ease-in-out`}
                 >
                   <div className='flex justify-start'>
                     <div className='relative inline-block ms-2'>

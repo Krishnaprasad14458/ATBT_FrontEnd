@@ -616,7 +616,7 @@ function EntityForm() {
                           htmlFor='email'
                           className='block text-sm  font-medium leading-6 my-2 text-gray-900'
                         >
-                          {item.label}{' '}
+                          {item.label}
                           {item.mandatory ? (
                             <span className='text-red-600'>*</span>
                           ) : (
@@ -625,9 +625,7 @@ function EntityForm() {
                         </label>
                         <div
                           className=' 
-                       flex flex-wrap gap-1 px-2 py-2
-                        
-                         text-sm  w-full  bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 selected-users-container relative  rounded-md'
+                       flex flex-wrap gap-1 px-2 py-2 text-sm  w-full  bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 selected-users-container relative  rounded-md'
                         >
                           {selected &&
                             selected.length > 0 &&
