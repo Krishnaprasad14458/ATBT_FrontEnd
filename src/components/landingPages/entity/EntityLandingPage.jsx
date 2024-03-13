@@ -31,19 +31,7 @@ const EntityLandingPage = () => {
   const { id } = useParams();
   // console.log()
   const [singleProduct, setSingleProduct] = useState({});
-  // todo toggle
-  // const [todo, setTodo] = useState(false);
-  // const [doing, setdoing] = useState(false);
-  // const [done, setdone] = useState(false);
-  // const handletodo = (e) => {
-  //     setTodo(!todo);
-  // }
-  // const handledoing = (e) => {
-  //     setdoing(!doing);
-  // }
-  // const handledone = (e) => {
-  //     setdone(!done);
-  // }
+
 
   // For tabs active
   const getSingleProduct = async () => {

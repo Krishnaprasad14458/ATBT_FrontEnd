@@ -33,7 +33,7 @@ export async function teamFormLoader({ params }) {
     }
     const formResponse = await axios.get(formApi);
     const formData = formResponse.data.Data;
-    console.log("formData",formData,"teamData",teamData)
+    console.log("formData", formData, "teamData", teamData)
     return { teamData, formData };
   } catch (error) {
     if (error.response) {
@@ -608,6 +608,11 @@ function TeamsForm() {
                           className='block text-sm  font-medium leading-6 my-2 text-gray-900'
                         >
                           {item.label}
+                          {item.mandatory ? (
+                            <span className='text-red-600'>*</span>
+                          ) : (
+                            <span> </span>
+                          )}
                         </label>
                         <div
                           className='flex flex-wrap gap-1 px-2 py-2
@@ -682,7 +687,11 @@ function TeamsForm() {
                       >
                         {item.label.charAt(0).toUpperCase() +
                           item.label.slice(1)}
-                        {item.mandatory ? <span>*</span> : <span></span>}
+                        {item.mandatory ? (
+                          <span className='text-red-600'>*</span>
+                        ) : (
+                          <span> </span>
+                        )}
                       </label>
                       <input
                         type='text'
@@ -1228,7 +1237,7 @@ function TeamsForm() {
                   {item.type === 'multiselect' &&
                     item.inputname == 'members' &&
                     item.field == 'predefined' && (
-                      <div className=' grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-4 mt-5'>
+                      <div className=' grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-2 mt-5'>
                         {item.value &&
                           Array.from({ length: 12 }).map((_, index) => {
                             let first = '';
@@ -1272,7 +1281,7 @@ function TeamsForm() {
                             };
                             return (
                               <div
-                                className='col-span-1 flex justify-start gap-3'
+                                className='col-span-1 flex justify-start gap-1'
                                 key={index}
                               >
                                 {index + 1 <= item.value.length && (
@@ -1283,7 +1292,7 @@ function TeamsForm() {
                                           firstLetter
                                         )}`,
                                       }}
-                                      className=' rounded-full w-10 h-10 flex justify-center text-xs items-center text-white'
+                                      className=' rounded-full w-10 h-10  md:h-8 xl:h-10 flex justify-center  text-xs items-center text-white'
                                     >
                                       {index < 11 && (
                                         <>
@@ -1338,7 +1347,7 @@ function TeamsForm() {
                                 )}
                                 {index + 1 > item.value.length && (
                                   <>
-                                    <h5 className='bg-[#e5e7eb] rounded-full w-10 h-10 flex justify-center text-xs items-center text-white'></h5>
+                                    <h5 className='bg-[#e5e7eb] rounded-full w-10 h-10  md:h-8 xl:h-10 flex justify-center text-xs items-center text-white'></h5>
                                     <div className=' flex items-center'>
                                       <div className=' rounded-md  bg-[#e5e7eb] h-2 w-28'>
                                         {' '}
@@ -1354,9 +1363,9 @@ function TeamsForm() {
                   {/* customfields */}
                   {item.type === 'text' && item.field == 'custom' && (
                     <div>
-                      <div className='my-2 ms-2'>
+                      <div className='my-3 ms-2'>
                         {item.value && item.value.length > 0 && (
-                          <p className='flex flex-wrap gap-2'>
+                          <p className='flex flex-wrap gap-5'>
                             <span className=' w-1/6 text-[#727a85]'>
                               {item.label.charAt(0).toUpperCase() +
                                 item.label.slice(1)}
@@ -1372,9 +1381,9 @@ function TeamsForm() {
                   )}
                   {item.type === 'email' && item.field == 'custom' && (
                     <div>
-                      <div className='my-2 ms-2'>
+                      <div className='my-3 ms-2'>
                         {item.value && item.value.length > 0 && (
-                          <p className='flex flex-wrap gap-2'>
+                          <p className='flex flex-wrap gap-5'>
                             <span className=' w-1/6 text-[#727a85]'>
                               {item.label.charAt(0).toUpperCase() +
                                 item.label.slice(1)}
@@ -1390,9 +1399,9 @@ function TeamsForm() {
                   )}
                   {(item.type === 'number' || item.type === 'phonenumber') &&
                     item.field == 'custom' && (
-                      <div className='my-2 ms-2'>
+                      <div className='my-3 ms-2'>
                         {item.value && item.value.length > 0 && (
-                          <p className='flex flex-wrap gap-2'>
+                          <p className='flex flex-wrap gap-5'>
                             <span className=' w-1/6 text-[#727a85]'>
                               {item.label.charAt(0).toUpperCase() +
                                 item.label.slice(1)}
@@ -1444,9 +1453,9 @@ function TeamsForm() {
                     </div>
                   )}
                   {item.type === 'date' && item.field == 'custom' && (
-                    <div className='my-2 ms-2'>
+                    <div className='my-3 ms-2'>
                       {item.value && item.value.length > 0 && (
-                        <p className='flex flex-wrap gap-2'>
+                        <p className='flex flex-wrap gap-5'>
                           <span className=' w-1/6 text-[#727a85]'>
                             {item.label.charAt(0).toUpperCase() +
                               item.label.slice(1)}
@@ -1460,9 +1469,9 @@ function TeamsForm() {
                     </div>
                   )}
                   {item.type === 'select' && item.field == 'custom' && (
-                    <div className='my-2 ms-2'>
+                    <div className='my-3 ms-2'>
                       {item.value && item.value.length > 0 && (
-                        <p className='flex flex-wrap gap-2'>
+                        <p className='flex flex-wrap gap-5'>
                           <span className=' w-1/6 text-[#727a85]'>
                             {item.label.charAt(0).toUpperCase() +
                               item.label.slice(1)}
@@ -1495,9 +1504,9 @@ function TeamsForm() {
                   )}
 
                   {item.type === 'range' && item.field == 'custom' && (
-                    <div className='my-2 ms-2'>
+                    <div className='my-3 ms-2'>
                       {item.value && item.value.length > 0 && (
-                        <p className='flex flex-wrap gap-2'>
+                        <p className='flex flex-wrap gap-5'>
                           <span className=' w-1/6 text-[#727a85]'>
                             {item.label.charAt(0).toUpperCase() +
                               item.label.slice(1)}
@@ -1511,9 +1520,9 @@ function TeamsForm() {
                     </div>
                   )}
                   {item.type === 'time' && item.field == 'custom' && (
-                    <div className='my-2 ms-2'>
+                    <div className='my-3 ms-2'>
                       {item.value && item.value.length > 0 && (
-                        <p className='flex flex-wrap gap-2'>
+                        <p className='flex flex-wrap gap-5'>
                           <span className=' w-1/6 text-[#727a85]'>
                             {item.label.charAt(0).toUpperCase() +
                               item.label.slice(1)}
