@@ -15,7 +15,7 @@ import { Link, Outlet, useParams } from 'react-router-dom';
 import { ChevronDownIcon } from '@heroicons/react/20/solid';
 import useInitializePerPage from '../../../hooks/initializePerPage/useInitializePerPage';
 import useDebounce from '../../../hooks/debounce/useDebounce';
-import { EntitiesDataContext } from '../../../contexts/entitiesDataContext/entitiesDataContext';
+import {TeamsDataContext} from '../../../contexts/teamsDataContext/teamsDataContext'
 import axios from 'axios';
 
 function classNames(...classes) {
@@ -24,9 +24,9 @@ function classNames(...classes) {
 
 const TeamsLandingPage = () => {
   const {
-    getEntitybyId,
-    entitiesState: { entities },
-  } = useContext(EntitiesDataContext);
+    getTeambyId,
+    teamsState: { teams },
+  } = useContext(TeamsDataContext);
   const { id } = useParams();
   const [singleProduct, setSingleProduct] = useState({});
   // todo toggle
@@ -46,14 +46,14 @@ const TeamsLandingPage = () => {
   // For tabs active
   const getSingleProduct = async () => {
     try {
-      const entityById = entities?.Entites?.find(
+      const teamById = teams?.Teams?.find(
         (element) => element.id === +id
       );
-      if (!entityById) {
-        const product = await getEntitybyId(id);
-        setSingleProduct(product?.data?.Entites);
+      if (!teamById) {
+        const product = await getTeambyId(id);
+        setSingleProduct(product?.data?.Teams);
       } else {
-        setSingleProduct(entityById);
+        setSingleProduct(teamById);
       }
     } catch (e) {
       console.error(e);
@@ -117,12 +117,22 @@ const TeamsLandingPage = () => {
   const [expand, setExpand] = useState(false);
 
   let [customFormField, setCustomFormField] = useState();
-
+  const userData = JSON.parse(localStorage.getItem('data'));
+  const token = userData?.token;
+  let response;
+  let [predefinedImage, setPredefinedImage] = useState('');
   useEffect(() => {
     axios
-      .get(`https://atbtmain.infozit.com/team/data/${id}`)
-      .then((response) => {
+      .get(`https://atbtmain.infozit.com/team/list/${id}`, {
+        headers: {
+          authorization: token,
+        },
+      })
+      .then((res) => {
         // Handle the successful response
+        response = res;
+        console.log('response', response.data.image);
+        setPredefinedImage(response.data.image);
         setCustomFormField(response.data.customFieldsData);
       })
       .catch((error) => {
@@ -130,6 +140,10 @@ const TeamsLandingPage = () => {
         console.error('Error fetching data:', error);
       });
   }, []);
+  useEffect(() => {
+    console.log('customFormField', customFormField);
+  }, [customFormField]);
+  
 
   return (
     <div className='container p-4 bg-[#f8fafc]'>
