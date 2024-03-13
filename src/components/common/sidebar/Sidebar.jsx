@@ -242,8 +242,7 @@ const Sidebar = () => {
               <GateKeeper
                 permissionCheck={(permission) =>
                   permission.module === menu.module && permission.canRead
-                }
-              >
+                }>
                 <Link
                   to={menu?.link}
                   key={i}
