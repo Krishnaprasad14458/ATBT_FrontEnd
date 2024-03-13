@@ -1,11 +1,9 @@
 import React, { useState, useContext, useEffect } from 'react';
 import axios from 'axios';
-
 import defprop from '../../../Images/defprof.svg';
 import useDebounce from '../../../hooks/debounce/useDebounce';
 import { UserDataContext } from '../../../contexts/usersDataContext/usersDataContext';
 import { EntitiesDataContext } from '../../../contexts/entitiesDataContext/entitiesDataContext';
-
 import {
   Navigate,
   redirect,
@@ -54,7 +52,6 @@ function EntityForm() {
   let { id } = useParams();
   const entity = useLoaderData();
   console.log(entity, 'cmp loader data');
-
   useEffect(() => {
     if (id && entity?.entityData?.members) {
       setSelected(entity.entityData.members);
@@ -494,7 +491,7 @@ function EntityForm() {
 
   return (
     <div className='container p-4 bg-[#f8fafc]'>
-      {/* <p className="font-lg font-semibold p-3">Entity Form</p> */}
+   
       <p className='text-lg font-semibold'>Entity Form</p>
       <div className='grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-3 xl:grid-cols-3  gap-4 mt-2 '>
         <div className='col-span-1'>
@@ -1235,7 +1232,7 @@ function EntityForm() {
                             <img
                               className='w-10 h-10 rounded-lg '
                               src={defprop}
-                              alt='defult image'
+                              alt='default image'
                             />
                           )}
                         </div>
@@ -1510,16 +1507,6 @@ function EntityForm() {
                       )}
                     </div>
                   )}
-                  {/* {item.type === "checkbox" && item.field == "custom" &&
-                  <div className='my-2 ms-2'>
-                    {item.value && item.value.length > 0 &&
-                      <p className='flex flex-wrap gap-2'>
-                        <span className=' w-1/6 text-[#727a85]'>{item.label.charAt(0).toUpperCase() + item.label.slice(1)}</span>
-                        <span className=' w-4/6 text-md font-[600]'> : {item.value.join(",")}</span>
-                      </p>
-                    }
-                  </div>
-                } */}
                   {item.type === 'range' && item.field == 'custom' && (
                     <div className='my-3 ms-2'>
                       {item.value && item.value.length > 0 && (
