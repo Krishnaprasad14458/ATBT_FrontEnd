@@ -3,30 +3,102 @@ import axios from 'axios';
 import defprop from '../../../Images/defprof.svg';
 import useDebounce from '../../../hooks/debounce/useDebounce';
 import { UserDataContext } from '../../../contexts/usersDataContext/usersDataContext';
-import { EntitiesDataContext } from '../../../contexts/entitiesDataContext/entitiesDataContext';
-import { useNavigate } from 'react-router-dom';
+import { TeamsDataContext } from '../../../contexts/teamsDataContext/teamsDataContext';
+import {
+  Navigate,
+  redirect,
+  useSubmit,
+  useNavigate,
+  useLoaderData,
+  useParams,
+} from 'react-router-dom';
+const userData = JSON.parse(localStorage.getItem('data'));
+let createdBy = userData?.user?.id;
+const token = userData?.token;
+const role = userData?.role?.name;
+export async function teamFormLoader({ params }) {
+  try {
+    const formApi = 'https://atbtmain.infozit.com/form/list?name=teamform';
+    const teamApi = `https://atbtmain.infozit.com/team/list/${params.id}`;
+    let teamData = null;
+    if (params && params.id) {
+      const teamResponse = await axios.get(teamApi, {
+        headers: {
+          Authorization: token,
+        },
+      });
+      console.log(teamResponse, 'loader team data');
+      teamData = teamResponse?.data;
+    }
+    const formResponse = await axios.get(formApi);
+    const formData = formResponse.data.Data;
+    return { teamData, formData };
+  } catch (error) {
+    if (error.response) {
+      throw new Error(`Failed to fetch data: ${error.response.status}`);
+    } else if (error.request) {
+      throw new Error('Request made but no response received');
+    } else {
+      throw new Error(`Error setting up request: ${error.message}`);
+    }
+  }
+}
 function TeamsForm() {
   document.title = 'ATBT | Team';
+  let { id } = useParams();
+  const team = useLoaderData();
+  console.log(team, 'cmp loader data');
+  useEffect(() => {
+    if (id && team?.teamData?.members) {
+      setSelected(team.teamData.members);
+    }
+  }, [id, team]);
+  function setInitialForm() {
+    let response = team?.formData;
+    if (!!id && !!team?.teamData) {
+      let teamData = team?.teamData;
+      response.forEach((input) => {
+        if (teamData.hasOwnProperty(input.inputname)) {
+          if (teamData[input.inputname] !== null) {
+            input.value = teamData[input.inputname];
+          }
+        }
+      });
+    }
+    return response;
+  }
+
   const navigate = useNavigate();
   const {
     usersState: { users, dashboard },
     usersDispatch,
   } = useContext(UserDataContext);
-  const { createEntity } = useContext(EntitiesDataContext);
+  const { createTeam, updateTeam } = useContext(TeamsDataContext);
   const usersEmails = dashboard.paginatedUsers?.map((user) => user.email);
   const { debouncedSetPage, debouncedSetSearch } = useDebounce(usersDispatch);
-  const [errors, setErrors] = useState({});
+
   let [openOptions, setopenOptions] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
   const [selected, setSelected] = useState([]);
   const [showUsers, setShowUsers] = useState(false);
-  let [customFormFields, setCustomFormFields] = useState();
+  let [customFormFields, setCustomFormFields] = useState(() => setInitialForm());
+
+  useEffect(() => {
+    setCustomFormFields(setInitialForm());
+    if (!id) {
+      setSelected([]);
+    }
+  }, [id]);
+  useEffect(() => {
+    console.log(customFormFields, 'cfff');
+    console.log('errors', errors);
+  });
   const handleInputChange = (e) => {
     setShowUsers(true);
-    const value = e.target.value;
-    setSearchTerm(() => {
-      debouncedSetSearch(value);
-      return value;
+    setSearchTerm(e.target.value);
+    debouncedSetSearch({
+      context: 'DASHBOARD',
+      data: e.target.value,
     });
   };
   const handleOpenOptions = (name) => {
@@ -47,6 +119,10 @@ function TeamsForm() {
     setSearchTerm('');
     setShowUsers(false);
   };
+
+  useEffect(() => {
+    console.log(searchTerm, 'clear');
+  }, [searchTerm]);
   const handleRemove = (user, index) => {
     const updatedSelected = selected.filter(
       (selectedUser) => selectedUser !== user
@@ -59,18 +135,18 @@ function TeamsForm() {
     updatedFormData[index].value = updatedMembers;
     setCustomFormFields(updatedFormData);
   };
-  useEffect(() => {
-    axios
-      .get(`https://atbtmain.infozit.com/form/list?name=teamform`)
-      .then((response) => {
-        // Handle the successful response
-        setCustomFormFields(response.data.Data);
-      })
-      .catch((error) => {
-        // Handle errors
-        console.error('Error fetching data:', error);
-      });
-  }, []);
+  // useEffect(() => {
+  //   axios
+  //     .get(`https://atbtmain.infozit.com/form/list?name=teamform`)
+  //     .then((response) => {
+  //       // Handle the successful response
+  //       setCustomFormFields(response.data.Data);
+  //     })
+  //     .catch((error) => {
+  //       // Handle errors
+  //       console.error('Error fetching data:', error);
+  //     });
+  // }, []);
   const handleChange = (index, newValue) => {
     const updatedFormData = [...customFormFields];
     if (updatedFormData[index].type != 'multiselect') {
@@ -93,20 +169,16 @@ function TeamsForm() {
   };
   const handleFileChange = (event, index) => {
     const file = event.target.files[0];
+    const updatedFormData = [...customFormFields];
+    updatedFormData[index].value = event.target.files[0];
+    setCustomFormFields(updatedFormData);
     const name = event.target.name;
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        const updatedFormData = [...customFormFields];
-        updatedFormData[index].value = reader.result;
-        setCustomFormFields(updatedFormData);
-      };
-      reader.readAsDataURL(file);
-    }
   };
   console.log('customFormFields', customFormFields);
 
   /////
+  const [errors, setErrors] = useState({});
+
   const [isErrorspresent, setIsErrorspresent] = useState(false);
   const checkValidation = () => {
     let isErrorspresent = false;
@@ -367,203 +439,50 @@ function TeamsForm() {
       checkValidation();
     }
   }, [customFormFields]);
-
-  function handleFormSubmit(e) {
+  async function handleFormSubmit(e) {
     e.preventDefault();
 
     if (!checkValidation()) {
-      const jsonData = {};
-      jsonData.customFieldsData = JSON.stringify(customFormFields);
-      jsonData.loggedInUser = parseInt(localStorage.getItem('id'));
+      console.log(customFormFields, 'submitcustomFormFields');
+
+      const formData = new FormData(e.target);
       for (let i = 0; i < customFormFields.length; i++) {
         if (Array.isArray(customFormFields[i].value)) {
-          jsonData[customFormFields[i].inputname] = JSON.stringify(
-            customFormFields[i].value
+          formData.set(
+            customFormFields[i].inputname,
+            JSON.stringify(customFormFields[i].value)
           );
-        } else {
-          jsonData[customFormFields[i].inputname] = customFormFields[i].value;
         }
       }
-      console.log('jsonData', jsonData);
-      axios
-        .post(`http://localhost:3000/team/add`, jsonData, {
-          headers: {
-            Authorization:
-              'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEzMiwicm9sZUlkIjoyNSwiaWF0IjoxNzA5NjM0MDgwLCJleHAiOjIwMjQ5OTQwODB9.Mdk2PIIOnMqPX06ol5DKbSqp_CStWs3oFqLGqmFBhgo',
-          },
-        })
-        .then((response) => {
-          // console.log(response.data);
-          // console.log("reposnseeeeeeeeee", response.data)
-          navigate(`/teamslandingpage/${parseInt(response.data)}`);
-        })
-        .catch((error) => {
-          console.error(error);
-          throw error;
-        });
+
+      formData.set('customFieldsData', JSON.stringify(customFormFields));
+      formData.set('createdBy', createdBy);
+      const formDataObj = {};
+      formData.forEach((value, key) => {
+        formDataObj[key] = value;
+      });
+      // Log form data
+
+      console.log(formDataObj, 'foj');
+
+      let response;
+      if (!!id && !!team?.teamData) {
+        console.log('updating');
+        response = await updateTeam(formData, id);
+      } else {
+        console.log('creating');
+        response = await createTeam(formData);
+      }
+      console.log('jsonData submitted', response);
+      if (response?.status === 201) {
+        console.log('data is 201');
+        navigate(`/teams/${response.data}`);
+      }
     }
   }
-
-  ////
-  // function handleFormSubmit(e) {
-  //     e.preventDefault();
-  //     for (let i = 0; i < customFormFields.length > 0; i++) {
-  //         if (customFormFields[i].type == "text" && customFormFields[i].mandatory) {
-  //             if (customFormFields[i].value.length == 0) {
-  //                 setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please Enter ${customFormFields[i].label}` }))
-  //                 return false
-  //             }
-  //             else if (customFormFields[i].value.length < 3) {
-  //                 setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "Name should contain atleast 3 characters" }))
-  //                 return false
-  //             }
-  //             else {
-  //                 setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
-  //             }
-  //         }
-  //         if (customFormFields[i].type == "file" && customFormFields[i].mandatory) {
-  //             if (!customFormFields[i].value) {
-  //                 setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please Upload ${customFormFields[i].label}` }))
-  //                 return false
-  //             }
-  //             else {
-  //                 setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
-  //             }
-  //         }
-  //         if (customFormFields[i].type == "textarea" && customFormFields[i].mandatory) {
-  //             if (customFormFields[i].value.length == 0) {
-  //                 setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please Enter ${customFormFields[i].label}` }))
-  //                 return false
-  //             }
-  //             else if (customFormFields[i].value.length < 3) {
-  //                 setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "Name should contain atleast 3 characters" }))
-  //                 return false
-  //             }
-  //             else {
-  //                 setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
-  //             }
-  //         }
-  //         if (customFormFields[i].type == "email" && customFormFields[i].mandatory) {
-  //             if (customFormFields[i].value.length < 1) {
-  //                 setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please Enter ${customFormFields[i].label}` }))
-  //                 return false
-  //             }
-
-  //             else {
-  //                 setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
-  //             }
-  //         }
-  //         if (customFormFields[i].type == "number" && customFormFields[i].mandatory) {
-  //             if (customFormFields[i].value.length < 1) {
-  //                 setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please Enter ${customFormFields[i].label}` }))
-  //                 return false
-  //             }
-  //             else if (customFormFields[i].value.length != 10) {
-  //                 setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please Enter Correct ${customFormFields[i].label}` }))
-  //             }
-  //             else {
-  //                 setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
-  //             }
-  //         }
-  //         if (customFormFields[i].type == "phonenumber" && customFormFields[i].mandatory) {
-  //             if (customFormFields[i].value.length !== 10) {
-  //                 setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please Enter 10 Digits ${customFormFields[i].label}` }))
-  //                 return false
-  //             }
-  //             else {
-  //                 setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
-  //             }
-  //         }
-  //         if (customFormFields[i].type == "select" && customFormFields[i].mandatory) {
-  //             if (customFormFields[i].value.length < 1) {
-  //                 setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please Enter ${customFormFields[i].label}` }))
-  //                 return false
-  //             }
-  //             else {
-  //                 setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
-  //             }
-  //         }
-  //         if (customFormFields[i].type == "multiselect" && customFormFields[i].mandatory) {
-  //             if (customFormFields[i].value.length < 1) {
-  //                 setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please Enter ${customFormFields[i].label}` }))
-  //                 return false
-  //             }
-  //             else {
-  //                 setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
-  //             }
-  //         }
-  //         if (customFormFields[i].type == "date" && customFormFields[i].mandatory) {
-  //             if (!customFormFields[i].value) {
-  //                 setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please Enter ${customFormFields[i].label}` }))
-  //                 return false
-  //             }
-  //             else {
-  //                 setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
-  //             }
-  //         }
-  //         if (customFormFields[i].type == "checkbox" && customFormFields[i].mandatory) {
-  //             if (!customFormFields[i].value) {
-  //                 setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please Enter ${customFormFields[i].label}` }))
-  //                 return false
-  //             }
-  //             else {
-  //                 setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
-  //             }
-  //         }
-  //         if (customFormFields[i].type == "range" && customFormFields[i].mandatory) {
-  //             if (!customFormFields[i].value) {
-  //                 setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please Enter ${customFormFields[i].label}` }))
-  //                 return false
-  //             }
-  //             else {
-  //                 setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
-  //             }
-  //         }
-  //         if (customFormFields[i].type == "time" && customFormFields[i].mandatory) {
-  //             if (!customFormFields[i].value) {
-  //                 setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please Enter ${customFormFields[i].label}` }))
-  //                 return false
-  //             }
-  //             else {
-  //                 setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
-  //             }
-  //         }
-  //         if (customFormFields[i].type == "password" && customFormFields[i].mandatory) {
-  //             if (customFormFields[i].value.length < 1) {
-  //                 setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please Enter ${customFormFields[i].label}` }))
-  //                 return false
-  //             }
-  //             else {
-  //                 setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
-  //             }
-  //         }
-  //     }
-  //     const jsonData = {};
-  //     jsonData.customFieldsData = JSON.stringify(customFormFields)
-  //     jsonData.loggedInUser = parseInt(localStorage.getItem("id"))
-  //     for (let i = 0; i < customFormFields.length; i++) {
-  //         if (Array.isArray(customFormFields[i].value)) {
-  //             jsonData[customFormFields[i].inputname] = JSON.stringify(customFormFields[i].value)
-
-  //         } else {
-  //             jsonData[customFormFields[i].inputname] = customFormFields[i].value
-  //         }
-  //     }
-  //     console.log("jsonData", jsonData);
-  //     axios.post(
-  //         `https://atbtmain.infozit.com/team/data`, jsonData)
-  //         .then(response => {
-  //             // console.log(response.data);
-  //             // console.log("reposnseeeeeeeeee", response.data)
-  //             navigate(`/teamslandingpage/${parseInt(response.data)}`)
-  //         })
-  //         .catch(error => {
-  //             console.error(error);  throw error;
-  //         });
-  // }
   return (
     <div className='container p-4 bg-[#f8fafc]'>
-      <p className='text-lg font-semibold'>New Team</p>
+      <p className='text-lg font-semibold'>Team Form</p>
       <div className='grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-3 xl:grid-cols-3  gap-4 mt-2 '>
         <div className='col-span-1 '>
           <form
@@ -586,12 +505,17 @@ function TeamsForm() {
                         >
                           {item.label.charAt(0).toUpperCase() +
                             item.label.slice(1)}
+                          {item.mandatory ? (
+                            <span className='text-red-600'>*</span>
+                          ) : (
+                            <span> </span>
+                          )}
                         </label>
                         <input
                           type='text'
                           name={item.inputname}
                           id={item.inputname}
-                          placeholder='Enter your name'
+                          placeholder='Enter team name'
                           value={customFormFields[index].value || ''}
                           className='px-2 py-2 text-sm block w-full rounded-md bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder:text-xs'
                           onChange={(e) => handleChange(index, e.target.value)}
@@ -616,6 +540,11 @@ function TeamsForm() {
                         >
                           {item.label.charAt(0).toUpperCase() +
                             item.label.slice(1)}
+                          {item.mandatory ? (
+                            <span className='text-red-600'>*</span>
+                          ) : (
+                            <span> </span>
+                          )}
                         </label>
                         <input
                           type='file'
@@ -645,6 +574,11 @@ function TeamsForm() {
                         >
                           {item.label.charAt(0).toUpperCase() +
                             item.label.slice(1)}
+                          {item.mandatory ? (
+                            <span className='text-red-600'>*</span>
+                          ) : (
+                            <span> </span>
+                          )}
                         </label>
                         <textarea
                           name={item.inputname}
@@ -776,6 +710,11 @@ function TeamsForm() {
                       >
                         {item.label.charAt(0).toUpperCase() +
                           item.label.slice(1)}
+                        {item.mandatory ? (
+                          <span className='text-red-600'>*</span>
+                        ) : (
+                          <span> </span>
+                        )}
                       </label>
                       <input
                         type='email'
@@ -804,6 +743,11 @@ function TeamsForm() {
                       >
                         {item.label.charAt(0).toUpperCase() +
                           item.label.slice(1)}
+                        {item.mandatory ? (
+                          <span className='text-red-600'>*</span>
+                        ) : (
+                          <span> </span>
+                        )}
                       </label>
                       <input
                         type='password'
@@ -832,6 +776,11 @@ function TeamsForm() {
                       >
                         {item.label.charAt(0).toUpperCase() +
                           item.label.slice(1)}
+                        {item.mandatory ? (
+                          <span className='text-red-600'>*</span>
+                        ) : (
+                          <span> </span>
+                        )}
                       </label>
                       <input
                         type='number'
@@ -860,6 +809,11 @@ function TeamsForm() {
                       >
                         {item.label.charAt(0).toUpperCase() +
                           item.label.slice(1)}
+                        {item.mandatory ? (
+                          <span className='text-red-600'>*</span>
+                        ) : (
+                          <span> </span>
+                        )}
                       </label>
                       <input
                         type='number'
@@ -904,6 +858,11 @@ function TeamsForm() {
                         >
                           {item.label.charAt(0).toUpperCase() +
                             item.label.slice(1)}
+                          {item.mandatory ? (
+                            <span className='text-red-600'>*</span>
+                          ) : (
+                            <span> </span>
+                          )}
                         </label>
                       </div>
                       <div className='h-2 text-[#dc2626]'>
@@ -923,6 +882,11 @@ function TeamsForm() {
                       >
                         {item.label.charAt(0).toUpperCase() +
                           item.label.slice(1)}
+                        {item.mandatory ? (
+                          <span className='text-red-600'>*</span>
+                        ) : (
+                          <span> </span>
+                        )}
                       </label>
                       <input
                         type='date'
@@ -950,6 +914,11 @@ function TeamsForm() {
                       >
                         {item.label.charAt(0).toUpperCase() +
                           item.label.slice(1)}
+                        {item.mandatory ? (
+                          <span className='text-red-600'>*</span>
+                        ) : (
+                          <span> </span>
+                        )}
                       </label>
                       <input
                         type='time'
@@ -978,6 +947,11 @@ function TeamsForm() {
                       >
                         {item.label.charAt(0).toUpperCase() +
                           item.label.slice(1)}
+                        {item.mandatory ? (
+                          <span className='text-red-600'>*</span>
+                        ) : (
+                          <span> </span>
+                        )}
                       </label>
                       <input
                         type='file'
@@ -1005,6 +979,11 @@ function TeamsForm() {
                       >
                         {item.label.charAt(0).toUpperCase() +
                           item.label.slice(1)}
+                        {item.mandatory ? (
+                          <span className='text-red-600'>*</span>
+                        ) : (
+                          <span> </span>
+                        )}
                       </label>
                       <input
                         type='range'
@@ -1031,6 +1010,11 @@ function TeamsForm() {
                       >
                         {item.label.charAt(0).toUpperCase() +
                           item.label.slice(1)}
+                        {item.mandatory ? (
+                          <span className='text-red-600'>*</span>
+                        ) : (
+                          <span> </span>
+                        )}
                       </label>
                       <textarea
                         name={item.inputname}
@@ -1058,6 +1042,11 @@ function TeamsForm() {
                       >
                         {item.label.charAt(0).toUpperCase() +
                           item.label.slice(1)}
+                        {item.mandatory ? (
+                          <span className='text-red-600'>*</span>
+                        ) : (
+                          <span> </span>
+                        )}
                       </label>
                       <select
                         id={item.inputname}
@@ -1097,6 +1086,11 @@ function TeamsForm() {
                       >
                         {item.label.charAt(0).toUpperCase() +
                           item.label.slice(1)}
+                        {item.mandatory ? (
+                          <span className='text-red-600'>*</span>
+                        ) : (
+                          <span> </span>
+                        )}
                       </label>
                       <div className='px-2 py-2 text-sm block w-full rounded-md bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder:text-xs'>
                         <span className='flex justify-between'>
@@ -1167,7 +1161,7 @@ function TeamsForm() {
                 type='submit'
                 className='mt-4 flex w-full justify-center rounded-md bg-orange-600 px-3 py-2.5 text-sm font-medium leading-6 text-white shadow-sm  focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600'
               >
-                Create Team
+                {id ? "Update Team" : "Create Team"}
               </button>
             </div>
           </form>
@@ -1204,7 +1198,11 @@ function TeamsForm() {
                         <div className='group h-10 '>
                           {item.value ? (
                             <img
-                              src={item.value}
+                              src={
+                                typeof item.value === 'string'
+                                  ? item.value
+                                  : URL.createObjectURL(item.value)
+                              }
                               name='TeamsPhoto'
                               alt='Selected User Photo'
                               className='rounded-lg w-10 h-10 mr-4'
@@ -1213,7 +1211,7 @@ function TeamsForm() {
                             <img
                               className='w-10 h-10 rounded-lg '
                               src={defprop}
-                              alt='defult image'
+                              alt='default image'
                             />
                           )}
                         </div>
@@ -1288,17 +1286,17 @@ function TeamsForm() {
                                     >
                                       {index < 11 && (
                                         <>
-                                          {firstLetter.toUpperCase()}
+                                          {firstLetter?.toUpperCase()}
                                           {secondLetter &&
-                                            secondLetter.toUpperCase()}
+                                            secondLetter?.toUpperCase()}
                                         </>
                                       )}
                                       {index == 11 &&
                                         item.value.length == 12 && (
                                           <>
-                                            {firstLetter.toUpperCase()}
+                                            {firstLetter?.toUpperCase()}
                                             {secondLetter &&
-                                              secondLetter.toUpperCase()}
+                                              secondLetter?.toUpperCase()}
                                           </>
                                         )}{' '}
                                       {index == 11 &&
@@ -1321,15 +1319,15 @@ function TeamsForm() {
                                           </span>
                                         )}
                                     </h5>
-                                    <div className=' flex items-center'>
-                                      <div className=' '>
+                                    <div className=' flex items-center md:items-start xl:items-center  overflow-hidden' style={{ width: "150px" }}>
+                                      <div className=' md:w-28 lg:w-48  truncate' title={mail} >
                                         {index < 11 && mail}
                                         {index == 11 &&
                                           item.value.length == 12 &&
-                                          mail}{' '}
+                                          mail}
                                         {index == 11 &&
                                           item.value.length > 12 && (
-                                            <span>
+                                            <span >
                                               +{item.value.length - 11} more
                                             </span>
                                           )}{' '}
@@ -1406,26 +1404,42 @@ function TeamsForm() {
                         )}
                       </div>
                     )}
-                  {/* {item.type === "textarea" && item.field == "custom" && <div>
-                                <div className='my-2 ms-2'>
-                                    {item.value && item.value.length > 0 &&
-                                        <p className='flex flex-wrap gap-2'>
-                                            <span className=' w-1/6 text-[#727a85]'>{item.label.charAt(0).toUpperCase() + item.label.slice(1)}</span>
-                                            <span className=' w-4/6 text-md font-[600]'> : {item.value}</span>
-                                        </p>
-                                    }
-                                </div>
-                            </div>} */}
+                  {item.type === 'textarea' && item.field == 'custom' && (
+                    <div className='my-3 ms-2'>
+                      {item.value && item.value.length > 0 && (
+                        <p className='flex flex-wrap gap-5'>
+                          <span className=' w-1/6 text-[#727a85]'>
+                            {item.label.charAt(0).toUpperCase() +
+                              item.label.slice(1)}
+                          </span>
+                          <span className=' w-4/6 text-md font-[600]'>
+                            {' '}
+                            : {item.value}
+                          </span>
+                        </p>
+                      )}
+                    </div>
+                  )}
                   {item.type === 'file' && item.field == 'custom' && (
-                    <div className='my-2 ms-5 flex flex-wrap gap-2'>
-                      <div className=''>
-                        <img
-                          src={item.value}
-                          // name="EntityPhoto"
-                          alt='file'
-                          className='rounded-lg w-20 h-20 '
-                        />
-                      </div>
+                    <div className='my-3 ms-2'>
+                      {item.value && item.value.length > 0 && (
+                        <p className='flex flex-wrap gap-3'>
+                          <span className='w-1/6 text-[#727a85]'>
+                            {item.label.charAt(0).toUpperCase() +
+                              item.label.slice(1)}
+                          </span>
+                          <span className=' w-4/6 text-md font-[600] flex gap-5'>
+                            {' '}
+                            :
+                            <img
+                              src={item.value}
+                              // name="EntityPhoto"
+                              alt='file'
+                              className='rounded-lg w-20 h-20 '
+                            />
+                          </span>
+                        </p>
+                      )}
                     </div>
                   )}
                   {item.type === 'date' && item.field == 'custom' && (
@@ -1461,26 +1475,24 @@ function TeamsForm() {
                     </div>
                   )}
 
-                  {/* multiselect incomplte */}
+
                   {item.type === 'multiselect' && item.field == 'custom' && (
-                    <div>{item.value.join(', ')}</div>
-                  )}
-                  {item.type === 'checkbox' && item.field == 'custom' && (
-                    <div className='my-2 ms-2'>
+                    <div className='my-3 ms-2'>
                       {item.value && item.value.length > 0 && (
-                        <p className='flex flex-wrap gap-2'>
+                        <p className='flex flex-wrap gap-5'>
                           <span className=' w-1/6 text-[#727a85]'>
                             {item.label.charAt(0).toUpperCase() +
                               item.label.slice(1)}
                           </span>
                           <span className=' w-4/6 text-md font-[600]'>
                             {' '}
-                            : {item.value.join(',')}
+                            : {item.value.join(', ')}
                           </span>
                         </p>
                       )}
                     </div>
                   )}
+
                   {item.type === 'range' && item.field == 'custom' && (
                     <div className='my-2 ms-2'>
                       {item.value && item.value.length > 0 && (
