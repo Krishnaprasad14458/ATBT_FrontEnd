@@ -42,7 +42,7 @@ function UserDashboard() {
                 to='/users/new'
                 className='text-sm font-medium text-white-600 hover:underline dark:text-white-500'
               >
-                <button className='inline-flex items-center px-3 py-2 justify-center whitespace-nowrap rounded-full text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50  text-primary-foreground shadow hover:bg-primary/90 shrink-0 bg-orange-600 text-white gap-1'>
+                <button className='inline-flex px-3 py-2 items-center justify-center whitespace-nowrap rounded-full text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 text-primary-foreground shadow hover:bg-primary/90 shrink-0 bg-orange-600 text-white gap-1'>
                   <svg
                     xmlns='http://www.w3.org/2000/svg'
                     viewBox='0 0 20 20'
@@ -95,7 +95,7 @@ function UserDashboard() {
             className='divide-y divide-gray-200 dark:divide-gray-700'
           >
             {!dashboard?.paginatedUsers ||
-            dashboard?.paginatedUsers?.length === 0 ? (
+              dashboard?.paginatedUsers?.length === 0 ? (
               <li className='py-2 sm:py-2'>
                 <p>No user found</p>
               </li>
@@ -137,7 +137,7 @@ function UserDashboard() {
           {/* dashboard data */}
           <div>
             {!dashboard?.paginatedUsers ||
-            dashboard?.paginatedUsers?.length === 0 ? (
+              dashboard?.paginatedUsers?.length === 0 ? (
               'no data to show'
             ) : dashboard.loading ? (
               'Loading...'
@@ -172,13 +172,12 @@ function UserDashboard() {
                   })
                 }
                 href='#'
-                className={`relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${
-                  dashboard.loading
+                className={`relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${dashboard.loading
                     ? 'cursor-wait'
                     : dashboard.currentPage === 1
-                    ? 'cursor-not-allowed'
-                    : 'cursor-auto'
-                }`}
+                      ? 'cursor-not-allowed'
+                      : 'cursor-auto'
+                  }`}
               >
                 <span className='sr-only'>Previous</span>
                 <svg
@@ -208,13 +207,12 @@ function UserDashboard() {
                     data: dashboard.currentPage + 1,
                   })
                 }
-                className={`relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${
-                  dashboard.loading
+                className={`relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${dashboard.loading
                     ? 'cursor-wait'
                     : dashboard.currentPage === dashboard.totalPages
-                    ? 'cursor-not-allowed'
-                    : 'cursor-auto'
-                }`}
+                      ? 'cursor-not-allowed'
+                      : 'cursor-auto'
+                  }`}
               >
                 <span className='sr-only'>Next</span>
                 <svg

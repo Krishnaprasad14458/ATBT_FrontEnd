@@ -25,7 +25,7 @@ function EntityDashboard() {
     };
   }, []);
   return (
-    <div className='w-full text-center h-[450px] relative bg-slate-50 border border-gray-200 rounded-md shadow sm:pt-4 dark:bg-gray-800 dark:border-gray-700'>
+    <div className='w-full h-[450px] relative text-center bg-slate-50 border border-gray-200 rounded-md shadow sm:pt-4 dark:bg-gray-800 dark:border-gray-700'>
       <div className='grid1-item overflow-hidden sm:w-full'>
         <div className='p-4 sm:px-6 sm:pt-2'>
           <div className='flex items-center justify-between mb-2'>
