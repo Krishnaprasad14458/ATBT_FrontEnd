@@ -17,9 +17,7 @@ import {
 const userData = JSON.parse(localStorage.getItem('data'));
 let createdBy = userData?.user?.id;
 const token = userData?.token;
-
 const role = userData?.role?.name;
-
 export async function entityFormLoader({ params }) {
   try {
     const formApi = 'https://atbtmain.infozit.com/form/list?name=entityform';
@@ -36,6 +34,8 @@ export async function entityFormLoader({ params }) {
     }
     const formResponse = await axios.get(formApi);
     const formData = formResponse.data.Data;
+    console.log("formData", formData, "entityData", entityData)
+
     return { entityData, formData };
   } catch (error) {
     if (error.response) {
@@ -491,7 +491,7 @@ function EntityForm() {
 
   return (
     <div className='container p-4 bg-[#f8fafc]'>
-   
+
       <p className='text-lg font-semibold'>Entity Form</p>
       <div className='grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-3 xl:grid-cols-3  gap-4 mt-2 '>
         <div className='col-span-1'>
