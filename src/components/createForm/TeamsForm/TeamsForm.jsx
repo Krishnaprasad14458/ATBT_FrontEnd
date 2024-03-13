@@ -17,6 +17,7 @@ let createdBy = userData?.user?.id;
 const token = userData?.token;
 const role = userData?.role?.name;
 export async function teamFormLoader({ params }) {
+  console.log("hi hello")
   try {
     const formApi = 'https://atbtmain.infozit.com/form/list?name=teamform';
     const teamApi = `https://atbtmain.infozit.com/team/list/${params.id}`;
@@ -32,6 +33,7 @@ export async function teamFormLoader({ params }) {
     }
     const formResponse = await axios.get(formApi);
     const formData = formResponse.data.Data;
+    console.log("formData",formData,"teamData",teamData)
     return { teamData, formData };
   } catch (error) {
     if (error.response) {
@@ -90,7 +92,7 @@ function TeamsForm() {
     }
   }, [id]);
   useEffect(() => {
-    console.log(customFormFields, 'cfff');
+    console.log(customFormFields, 'customFormFields');
     console.log('errors', errors);
   });
   const handleInputChange = (e) => {
@@ -174,7 +176,6 @@ function TeamsForm() {
     setCustomFormFields(updatedFormData);
     const name = event.target.name;
   };
-  console.log('customFormFields', customFormFields);
 
   /////
   const [errors, setErrors] = useState({});
