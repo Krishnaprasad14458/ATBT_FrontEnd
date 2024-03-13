@@ -1,4 +1,4 @@
-// For Entities Context
+// For Teams Context
 export const DASHBOARD_CONTEXT = 'DASHBOARD';
 export const SET_TEAMS = 'SET_TEAMS';
 export const SET_PAGINATED_TEAMS = 'SET_PAGINATED_TEAMS';

@@ -1,7 +1,7 @@
 import * as actionTypes from './utils/teamsActionTypes'
 const teamsDataReducer = (state, action) => {
     switch (action.type) {
-        case actionTypes.SET_ENTITIES:
+        case actionTypes.SET_TEAMS:
             return {
                 ...state,
                 teams: { ...action?.payload }
@@ -43,7 +43,7 @@ const teamsDataReducer = (state, action) => {
                 },
             } : {
                 ...state,
-                entitiesList: {
+                teamsList: {
                     ...state.teamsList,
                     search: action.payload.data,
                     currentPage: 1,
