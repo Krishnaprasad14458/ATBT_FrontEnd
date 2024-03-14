@@ -39,29 +39,29 @@
 
 import BoardMeetingForm, { boardmeetingFormLoader } from "../../components/createForm/createBoardMeetingForm/BoardMeetingForm";
 import BoardMeetingLandingPage from "../../components/landingPages/boardMeeting/BoardMeetingLandingPage";
-import BoardMeeting from "../../components/pages/boardMeetings/BoardMeetings";
+import BoardMeetings from "../../components/pages/boardMeetings/BoardMeetings";
 import RouteBlocker from "../../rbac/RouteBlocker";
 
 
 export const meetingRouter = [
     {
         element: <RouteBlocker permissionCheck={(permission) =>
-            permission.module === 'boardmeting' && permission.canRead} />,
+            permission.module === 'meeting' && permission.canRead} />,
         children: [
-            { index: true, element: <BoardMeeting />, },
+            { index: true, element: <BoardMeetings />, },
             { path: ':id', element: <BoardMeetingLandingPage /> },
         ]
     },
     {
         element: <RouteBlocker permissionCheck={(permission) =>
-            permission.module === 'boardmeeting' && permission.canCreate} />,
+            permission.module === 'meeting' && permission.canCreate} />,
         children: [
             { path: 'new', loader: boardmeetingFormLoader, element: <BoardMeetingForm /> },
         ]
     },
     {
         element: <RouteBlocker permissionCheck={(permission) =>
-            permission.module === 'boardmeeting' && permission.canUpdate} />,
+            permission.module === 'meeting' && permission.canUpdate} />,
         children: [
             { path: ':id/edit', loader: boardmeetingFormLoader, element: <BoardMeetingForm /> },
         ]

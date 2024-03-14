@@ -28,14 +28,14 @@ const BoardMeetingLandingPage = () => {
   // For tabs active
   const getSingleProduct = async () => {
     try {
-      const entityById = entities?.Entites?.find(
+      const boardmeetingById = boardmeetings?.BoardMeetings?.find(
         (element) => element.id === +id
       );
-      if (!entityById) {
-        const product = await getEntitybyId(id);
-        setSingleProduct(product?.data?.Entites);
+      if (!boardmeetingById) {
+        const product = await getBoardMeetingbyId(id);
+        setSingleProduct(product?.data?.BoardMeetings);
       } else {
-        setSingleProduct(entityById);
+        setSingleProduct(boardmeetingById);
       }
     } catch (e) {
       console.error(e);

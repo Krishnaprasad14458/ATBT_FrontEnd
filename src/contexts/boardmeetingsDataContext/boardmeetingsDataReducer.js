@@ -1,5 +1,6 @@
 import * as actionTypes from './utils/boardmeetingsActionTypes'
 const BoardMeetingsDataReducer = (state, action) => {
+    console.log("statestate",state)
     switch (action.type) {
         case actionTypes.SET_BOARDMEETINGS:
             return {
@@ -80,20 +81,20 @@ const BoardMeetingsDataReducer = (state, action) => {
                 }
             }
 
-        case actionTypes.SET_LOADING:
-            return action.payload.context === 'DASHBOARD' ? {
-                ...state,
-                dashboardBoardMeetings: {
-                    ...state.dashboardBoardMeetings,
-                    loading: !state.dashboardBoardmeetings.loading
-                }
-            } : {
-                ...state,
-                boardmeetingsList: {
-                    ...state.boardmeetingsList,
-                    loading: !state.boardmeetingsList.loading
-                }
-            }
+        // case actionTypes.SET_LOADING:
+        //     return action.payload.context === 'DASHBOARD' ? {
+        //         ...state,
+        //         dashboardBoardMeetings: {
+        //             ...state.dashboardBoardMeetings,
+        //             loading: !state.dashboardBoardmeetings.loading
+        //         }
+        //     } : {
+        //         ...state,
+        //         boardmeetingsList: {
+        //             ...state.boardmeetingsList,
+        //             loading: !state.boardmeetingsList.loading
+        //         }
+        //     }
 
         case actionTypes.SET_FILTERS:
             console.log(action.payload, "filterss")
