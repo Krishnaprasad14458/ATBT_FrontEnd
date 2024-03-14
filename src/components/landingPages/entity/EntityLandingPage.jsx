@@ -132,6 +132,32 @@ const EntityLandingPage = () => {
   useEffect(() => {
     console.log('customFormField', customFormField);
   }, [customFormField]);
+
+  // to set the time in 12hours
+  function formatTime(timeString) {
+    // Splitting the timeString to extract hours and minutes
+    const [hourStr, minuteStr] = timeString.split(':');
+
+    // Parsing hours and minutes as integers
+    const hours = parseInt(hourStr, 10);
+    const minutes = parseInt(minuteStr, 10);
+
+    // Checking if hours and minutes are valid numbers
+    if (isNaN(hours) || isNaN(minutes)) {
+      return "Invalid time";
+    }
+
+    // Converting hours to 12-hour format and determining AM/PM
+    const ampm = hours >= 12 ? 'PM' : 'AM';
+    const formattedHours = hours % 12 || 12; // Handles midnight
+    const formattedMinutes = minutes < 10 ? '0' + minutes : minutes; // Ensures minutes are two digits
+
+    // Constructing the formatted time string
+    const formattedTime = `${formattedHours}:${formattedMinutes} ${ampm}`;
+    return formattedTime;
+  }
+
+
   return (
     <div className='container p-4 bg-[#f8fafc]'>
       <div className='flex justify-between my-2'>
@@ -150,50 +176,44 @@ const EntityLandingPage = () => {
       <div className=''>
         <div className='flex'>
           <div
-            className={`cursor-pointer px-1 py-1 text-md font-semibold  ${
-              activeTab === 1 ? 'border-b-2 border-orange-600 text-black' : ''
-            }`}
+            className={`cursor-pointer px-1 py-1 text-md font-semibold  ${activeTab === 1 ? 'border-b-2 border-orange-600 text-black' : ''
+              }`}
             onClick={() => handleTabClick(1)}
           >
             Overview
           </div>
 
           <div
-            className={`cursor-pointer px-5 py-1 text-md font-semibold  ${
-              activeTab === 2 ? 'border-b-2 border-orange-600 text-black' : ''
-            }`}
+            className={`cursor-pointer px-5 py-1 text-md font-semibold  ${activeTab === 2 ? 'border-b-2 border-orange-600 text-black' : ''
+              }`}
             onClick={() => handleTabClick(2)}
           >
             List
           </div>
           <div
-            className={`cursor-pointer px-5 py-1 text-md font-semibold  ${
-              activeTab === 3 ? 'border-b-2 border-orange-600 text-black' : ''
-            }`}
+            className={`cursor-pointer px-5 py-1 text-md font-semibold  ${activeTab === 3 ? 'border-b-2 border-orange-600 text-black' : ''
+              }`}
             onClick={() => handleTabClick(3)}
           >
             Calendar
           </div>
           <div
-            className={`cursor-pointer px-5 py-1 text-md font-semibold ${
-              activeTab === 4 ? 'border-b-2 border-orange-600 text-black' : ''
-            }`}
+            className={`cursor-pointer px-5 py-1 text-md font-semibold ${activeTab === 4 ? 'border-b-2 border-orange-600 text-black' : ''
+              }`}
             onClick={() => handleTabClick(4)}
           >
             Dashboard
           </div>
           <div
-            className={`cursor-pointer px-5 py-1 text-md font-semibold  ${
-              activeTab === 5 ? 'border-b-2 border-orange-600 text-black' : ''
-            }`}
+            className={`cursor-pointer px-5 py-1 text-md font-semibold  ${activeTab === 5 ? 'border-b-2 border-orange-600 text-black' : ''
+              }`}
             onClick={() => handleTabClick(5)}
           >
             Messages
           </div>
           <div
-            className={`cursor-pointer px-5 py-1 text-md font-semibold  ${
-              activeTab === 6 ? 'border-b-2 border-orange-600 text-black' : ''
-            }`}
+            className={`cursor-pointer px-5 py-1 text-md font-semibold  ${activeTab === 6 ? 'border-b-2 border-orange-600 text-black' : ''
+              }`}
             onClick={() => handleTabClick(6)}
           >
             Attachments
@@ -202,26 +222,60 @@ const EntityLandingPage = () => {
         <hr />
       </div>
       {activeTab === 1 && (
-        <div className=' flex justify-center '>
-          <div className=' w-full md:w-5/6  lg:w-10/12 xl:10/12 shadow-md px-6 py-4 mt-4 border-2 rounded-md bg-[#f8fafc] '>
-            {customFormField &&
-              customFormField.length > 0 &&
-              customFormField.map((item) => (
+        <div className=' flex justify-center mt-2 '>
+          <div className=' w-full md:w-full  lg:w-11/12 xl:11/12 shadow-md border-2 rounded-md bg-[#f8fafc] px-4 pb-4'>
+            <div className='flex justify-end '>
+              <Link
+                to={`../${id}/edit`}
+                relative='path'
+                className='text-sm font-medium transition-colors  focus-visible:ring-1 focus-visible:ring-ring  text-gray-900 pt-2 '
+              >
+                <svg
+                  xmlns='http://www.w3.org/2000/svg'
+                  viewBox='0 0 20 20'
+                  fill='currentColor'
+                  className='w-5 h-5 text-gray-900'
+                >
+                  <path d='m2.695 14.762-1.262 3.155a.5.5 0 0 0 .65.65l3.155-1.262a4 4 0 0 0 1.343-.886L17.5 5.501a2.121 2.121 0 0 0-3-3L3.58 13.419a4 4 0 0 0-.885 1.343Z' />
+                </svg>
+              </Link></div>
+            {customFormField && customFormField.length > 0 && customFormField.map((item) => {
+              let date = new Date(item.value);
+              const day = date.getUTCDate();
+              const monthIndex = date.getUTCMonth();
+              const year = date.getUTCFullYear();
+
+              const monthAbbreviations = [
+                "Jan",
+                "Feb",
+                "Mar",
+                "Apr",
+                "May",
+                "Jun",
+                "Jul",
+                "Aug",
+                "Sep",
+                "Oct",
+                "Nov",
+                "Dec",
+              ];
+
+              // Formatting the date
+              date = `${day < 10 ? "0" : ""}${day}-${monthAbbreviations[monthIndex]
+                }-${year}`;
+              return (
                 <div className='relative'>
                   {/* predefined fields*/}
-                  {item.type === 'text' &&
-                    item.inputname == 'name' &&
-                    item.field === 
-                    
-                    'predefined' && (
+                  {item.type === 'text' && item.inputname == 'name' && item.field ===
+                        'predefined' && (
                       <div>
                         {item.value ? (
-                          <p className='text-sm font-black text-gray-800 mt-2 absolute left-12'>
+                          <p className='text-sm font-black text-gray-800 mt-2 ml-4 absolute left-12'>
                             {' '}
                             {item.value.toUpperCase()}
                           </p>
                         ) : (
-                          <p className='text-sm font-black text-gray-800 mt-2 absolute left-12'>
+                          <p className='text-sm font-black text-gray-800 mt-2 ml-4 absolute left-12'>
                             {' '}
                             ENTITY NAME
                           </p>
@@ -242,7 +296,7 @@ const EntityLandingPage = () => {
                             />
                           ) : (
                             <img
-                              className='w-10 h-10 rounded-lg '
+                              className='w-10 h-10 rounded-lg mr-4'
                               src={defprop}
                               alt='defult image'
                             />
@@ -260,7 +314,7 @@ const EntityLandingPage = () => {
                   {item.type === 'multiselect' &&
                     item.inputname == 'members' &&
                     item.field == 'predefined' && (
-                      <div className=' grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-4 mt-5'>
+                      <div className=' grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-2 mt-5'>
                         {item.value &&
                           Array.from({ length: 12 }).map((_, index) => {
                             let first = '';
@@ -304,7 +358,7 @@ const EntityLandingPage = () => {
                             };
                             return (
                               <div
-                                className='col-span-1 flex justify-start gap-3'
+                                className='col-span-1 flex justify-start gap-1'
                                 key={index}
                               >
                                 {index + 1 <= item.value.length && (
@@ -315,22 +369,22 @@ const EntityLandingPage = () => {
                                           firstLetter
                                         )}`,
                                       }}
-                                      className=' rounded-full w-10 h-10 flex justify-center text-xs items-center text-white'
+                                      className=' rounded-full w-10 h-10  md:h-8 xl:h-10 flex justify-center  text-xs items-center text-white'
                                     >
                                       {index < 11 && (
-                                        <>
+                                        <span >
                                           {firstLetter?.toUpperCase()}
                                           {secondLetter &&
                                             secondLetter?.toUpperCase()}
-                                        </>
+                                        </span>
                                       )}
                                       {index == 11 &&
                                         item.value.length == 12 && (
-                                          <>
+                                          <span>
                                             {firstLetter?.toUpperCase()}
                                             {secondLetter &&
                                               secondLetter?.toUpperCase()}
-                                          </>
+                                          </span>
                                         )}{' '}
                                       {index == 11 &&
                                         item.value.length > 12 && (
@@ -352,15 +406,15 @@ const EntityLandingPage = () => {
                                           </span>
                                         )}
                                     </h5>
-                                    <div className=' flex items-center'>
-                                      <div className=' '>
+                                    <div className=' flex items-center md:items-start xl:items-center  overflow-hidden' style={{ width: "150px" }}>
+                                      <div className=' md:w-28 lg:w-48  truncate' title={mail} >
                                         {index < 11 && mail}
                                         {index == 11 &&
                                           item.value.length == 12 &&
-                                          mail}{' '}
+                                          mail}
                                         {index == 11 &&
                                           item.value.length > 12 && (
-                                            <span>
+                                            <span >
                                               +{item.value.length - 11} more
                                             </span>
                                           )}{' '}
@@ -370,10 +424,10 @@ const EntityLandingPage = () => {
                                 )}
                                 {index + 1 > item.value.length && (
                                   <>
-                                    <h5 className='bg-[#e5e7eb] rounded-full w-10 h-10 flex justify-center text-xs items-center text-white'></h5>
+                                    <h5 className='bg-[#e5e7eb] rounded-full w-10 h-10  md:h-8 xl:h-10 flex justify-center text-xs items-center text-white'></h5>
                                     <div className=' flex items-center'>
                                       <div className=' rounded-md  bg-[#e5e7eb] h-2 w-28'>
-                                        {' '}
+
                                       </div>
                                     </div>
                                   </>
@@ -384,185 +438,201 @@ const EntityLandingPage = () => {
                       </div>
                     )}
                   {/* customfields */}
-                  {item.type === 'text' && item.field == 'custom' && (
-                    <div className='my-3 ms-2'>
-                      {item.value && item.value.length > 0 && (
-                        <p className='flex flex-wrap gap-5'>
-                          <span className=' w-1/6 text-[#727a85]'>
-                            {item.label.charAt(0).toUpperCase() +
-                              item.label.slice(1)}
-                          </span>
-                          <span className=' w-4/6 text-md font-[600]'>
-                            {' '}
-                            : {item.value}
-                          </span>
-                        </p>
-                      )}
-                    </div>
-                  )}
-                  {item.type === 'email' && item.field == 'custom' && (
-                    <div className='my-3 ms-2'>
-                      {item.value && item.value.length > 0 && (
-                        <p className='flex flex-wrap gap-5'>
-                          <span className=' w-1/6 text-[#727a85]'>
-                            {item.label.charAt(0).toUpperCase() +
-                              item.label.slice(1)}
-                          </span>
-                          <span className=' w-4/6 text-md font-[600]'>
-                            {' '}
-                            : {item.value}
-                          </span>
-                        </p>
-                      )}
-                    </div>
-                  )}
-                  {(item.type === 'number' || item.type === 'phonenumber') &&
-                    item.field == 'custom' && (
-                      <div className='my-3 ms-2'>
+                  <div className='mt-2'>
+                    {item.type === 'text' && item.field == 'custom' && (
+                      <div className='my-3 mx-5'>
                         {item.value && item.value.length > 0 && (
-                          <p className='flex flex-wrap gap-5'>
-                            <span className=' w-1/6 text-[#727a85]'>
+                          <p className='flex  gap-2'>
+                            <span className='w-full md:w-3/12 break-words  text-[#727a85] hidden sm:block '>
                               {item.label.charAt(0).toUpperCase() +
                                 item.label.slice(1)}
                             </span>
-                            <span className=' w-4/6 text-md font-[600]'>
-                              {' '}
-                              : {item.value}
+                            <span className='  flex gap-2 md:w-9/12'>
+                              <span className='hidden sm:block'> : </span>
+                              <span className='text-md font-[600]  '>
+
+                                {item.value}
+                              </span>
                             </span>
                           </p>
                         )}
                       </div>
                     )}
-                  {item.type === 'textarea' && item.field == 'custom' && (
-                    <div className='my-3 ms-2'>
-                      {item.value && item.value.length > 0 && (
-                        <p className='flex flex-wrap gap-5'>
-                          <span className=' w-1/6 text-[#727a85]'>
-                            {item.label.charAt(0).toUpperCase() +
-                              item.label.slice(1)}
-                          </span>
-                          <span className=' w-4/6 text-md font-[600]'>
-                            {' '}
-                            : {item.value}
-                          </span>
-                        </p>
-                      )}
-                    </div>
-                  )}
-                  {item.type === 'file' && item.field == 'custom' && (
-                    <div className='my-3 ms-2'>
-                      {item.value && item.value.length > 0 && (
-                        <p className='flex flex-wrap gap-3'>
-                          <span className='w-1/6 text-[#727a85]'>
-                            {item.label.charAt(0).toUpperCase() +
-                              item.label.slice(1)}
-                          </span>
-                          <span className=' w-4/6 text-md font-[600] flex gap-5'>
-                            {' '}
-                            :
-                            <img
-                              src={item.value}
-                              // name="EntityPhoto"
-                              alt='file'
-                              className='rounded-lg w-20 h-20 '
-                            />
-                          </span>
-                        </p>
-                      )}
-                    </div>
-                  )}
-                  {item.type === 'date' && item.field == 'custom' && (
-                    <div className='my-3 ms-2'>
-                      {item.value && item.value.length > 0 && (
-                        <p className='flex flex-wrap gap-5'>
-                          <span className=' w-1/6 text-[#727a85]'>
-                            {item.label.charAt(0).toUpperCase() +
-                              item.label.slice(1)}
-                          </span>
-                          <span className=' w-4/6 text-md font-[600]'>
-                            {' '}
-                            : {item.value}
-                          </span>
-                        </p>
-                      )}
-                    </div>
-                  )}
-                  {item.type === 'select' && item.field == 'custom' && (
-                    <div className='my-3 ms-2'>
-                      {item.value && item.value.length > 0 && (
-                        <p className='flex flex-wrap gap-5'>
-                          <span className=' w-1/6 text-[#727a85]'>
-                            {item.label.charAt(0).toUpperCase() +
-                              item.label.slice(1)}
-                          </span>
-                          <span className=' w-4/6 text-md font-[600]'>
-                            {' '}
-                            : {item.value}
-                          </span>
-                        </p>
-                      )}
-                    </div>
-                  )}
-                  {item.type === 'multiselect' && item.field == 'custom' && (
-                    <div className='my-3 ms-2'>
-                      {item.value && item.value.length > 0 && (
-                        <p className='flex flex-wrap gap-5'>
-                          <span className=' w-1/6 text-[#727a85]'>
-                            {item.label.charAt(0).toUpperCase() +
-                              item.label.slice(1)}
-                          </span>
-                          <span className=' w-4/6 text-md font-[600]'>
-                            {' '}
-                            : {item.value.join(', ')}
-                          </span>
-                        </p>
-                      )}
-                    </div>
-                  )}
-                  {/* {item.type === "checkbox" && item.field == "custom" &&
-                  <div className='my-2 ms-2'>
-                    {item.value && item.value.length > 0 &&
-                      <p className='flex flex-wrap gap-2'>
-                        <span className=' w-1/6 text-[#727a85]'>{item.label.charAt(0).toUpperCase() + item.label.slice(1)}</span>
-                        <span className=' w-4/6 text-md font-[600]'> : {item.value.join(",")}</span>
-                      </p>
-                    }
+                    {item.type === 'email' && item.field == 'custom' && (
+                      <div className='my-3 mx-5'>
+                        {item.value && item.value.length > 0 && (
+                          <p className='flex  gap-2'>
+                            <span className='w-full md:w-3/12 break-words  text-[#727a85] hidden sm:block '>
+                              {item.label.charAt(0).toUpperCase() +
+                                item.label.slice(1)}
+                            </span>
+                            <span className='  flex gap-2 md:w-9/12 '>
+                              <span className='hidden sm:block'> : </span>
+                              <span className='text-md font-[600] break-all'>
+
+                                {item.value}
+                              </span>
+                            </span>
+                          </p>
+                        )}
+                      </div>
+                    )}
+                    {item.type === 'phonenumber' && item.field == 'custom' && (
+                      <div className='my-3 mx-5 flex-wrap'>
+                        {item.value && item.value.length > 0 && (
+                          <p className='flex  gap-2'>
+                            <span className='w-full md:w-3/12 break-words text-[#727a85] hidden sm:block '>
+                              {item.label.charAt(0).toUpperCase() +
+                                item.label.slice(1)}
+                            </span>
+                            <span className=' flex gap-2 md:w-9/12'>
+                              <span className='hidden sm:block'> : </span>{' '}
+                              <span className='text-md font-[600]  '>
+                                {item.value.slice(0, 3)}&nbsp;
+                                {item.value.slice(3, 6)}&nbsp;
+                                {item.value.slice(6, 10)}
+                              </span>
+                            </span>
+                          </p>
+                        )}
+                      </div>
+                    )}
+                    {item.type === 'number' && item.field == 'custom' && (
+                      <div className='my-2 mx-5 flex-wrap'>
+                        {item.value && item.value.length > 0 && (
+                          <p className='flex  gap-2'>
+                            <span className='w-full md:w-3/12 break-words  text-[#727a85] hidden sm:block '>
+                              {item.label.charAt(0).toUpperCase() +
+                                item.label.slice(1)}
+                            </span>
+                            <span className='  flex gap-2 md:w-9/12'>
+                              <span className='hidden sm:block'> : </span>{' '}
+                              <span className='text-md font-[600] break-all'>
+                                {item.value}
+
+
+                              </span>
+                            </span>
+                          </p>
+                        )}
+                      </div>
+                    )}
+                    {item.type === 'textarea' && item.field == 'custom' && (
+                      <div className='my-3 mx-5'>
+                        {item.value && item.value.length > 0 && (
+                          <p className='flex gap-2'>
+                            <span className='w-full md:w-3/12  break-words text-[#727a85] hidden sm:block '>
+                              {item.label.charAt(0).toUpperCase() +
+                                item.label.slice(1)}
+                            </span>
+                            <span className='  flex gap-2 md:w-9/12'>
+                              <span className='hidden sm:block'> : </span>
+                              <span className='text-md font-[600] '>
+
+                                {item.value}
+                              </span>
+                            </span>
+                          </p>
+                        )}
+                      </div>
+                    )}
+                    {item.type === 'date' && item.field == 'custom' && (
+                      <div className='my-3 mx-5'>
+                        {item.value && item.value.length > 0 && (
+                          <p className='flex  gap-2'>
+                            <span className='w-full md:w-3/12 break-words  text-[#727a85] hidden sm:block '>
+                              {item.label.charAt(0).toUpperCase() +
+                                item.label.slice(1)}
+                            </span>
+                            <span className='  flex gap-2 md:w-9/12'>
+                              <span className='hidden sm:block'> : </span>
+                              <span className='text-md font-[600] '>
+                                {date ? date : "No Date"}
+                              </span>
+                            </span>
+                          </p>
+                        )}
+                      </div>
+                    )}
+                    {item.type === 'select' && item.field == 'custom' && (
+                      <div className='my-3 mx-5'>
+                        {item.value && item.value.length > 0 && (
+                          <p className='flex  gap-2'>
+                            <span className='w-full md:w-3/12  break-words text-[#727a85] hidden sm:block '>
+                              {item.label.charAt(0).toUpperCase() +
+                                item.label.slice(1)}
+                            </span>
+                            <span className='  flex gap-2 md:w-9/12'>
+                              <span className='hidden sm:block'> : </span>
+                              <span className='text-md font-[600] '>
+
+                                {item.value}
+                              </span>
+                            </span>
+                          </p>
+                        )}
+                      </div>
+                    )}
+                    {item.type === 'multiselect' && item.field == 'custom' && (
+                      <div className='my-3 mx-5'>
+                        {item.value && item.value.length > 0 && (
+                          <p className='flex  gap-2'>
+                            <span className='w-full md:w-3/12 break-words  text-[#727a85] hidden sm:block '>
+                              {item.label.charAt(0).toUpperCase() +
+                                item.label.slice(1)}
+                            </span>
+                            <span className='  flex gap-2 md:w-9/12'>
+                              <span className='hidden sm:block'> : </span>
+                              <span className='text-md font-[600] '>
+
+                                {item.value.join(', ')}
+                              </span>
+                            </span>
+                          </p>
+                        )}
+                      </div>
+                    )}
+                    {item.type === 'range' && item.field == 'custom' && (
+                      <div className='my-3 mx-5'>
+                        {item.value && item.value.length > 0 && (
+                          <p className='flex  gap-2'>
+                            <span className='w-full md:w-3/12 break-words  text-[#727a85] hidden sm:block '>
+                              {item.label.charAt(0).toUpperCase() +
+                                item.label.slice(1)}
+                            </span>
+                            <span className='  flex gap-2 md:w-9/12'>
+                              <span className='hidden sm:block'> : </span>
+                              <span className='text-md font-[600] '>
+
+                                {item.value}
+                              </span>
+                            </span>
+                          </p>
+                        )}
+                      </div>
+                    )}
+                    {item.type === 'time' && item.field == 'custom' && (
+                      <div className='my-3 mx-5'>
+                        {item.value && item.value.length > 0 && (
+                          <p className='flex  gap-2'>
+                            <span className='w-full md:w-3/12 break-words  text-[#727a85] hidden sm:block '>
+                              {item.label.charAt(0).toUpperCase() +
+                                item.label.slice(1)}
+                            </span>
+                            <span className='  flex gap-2 md:w-9/12'>
+                              <span className='hidden sm:block'> : </span>
+                              <span className='text-md font-[600] '>
+                                {formatTime(item.value)}
+                              </span>
+                            </span>
+                          </p>
+                        )}
+                      </div>
+                    )}
                   </div>
-                } */}
-                  {item.type === 'range' && item.field == 'custom' && (
-                    <div className='my-3 ms-2'>
-                      {item.value && item.value.length > 0 && (
-                        <p className='flex flex-wrap gap-5'>
-                          <span className=' w-1/6 text-[#727a85]'>
-                            {item.label.charAt(0).toUpperCase() +
-                              item.label.slice(1)}
-                          </span>
-                          <span className=' w-4/6 text-md font-[600]'>
-                            {' '}
-                            : {item.value}
-                          </span>
-                        </p>
-                      )}
-                    </div>
-                  )}
-                  {item.type === 'time' && item.field == 'custom' && (
-                    <div className='my-3 ms-2'>
-                      {item.value && item.value.length > 0 && (
-                        <p className='flex flex-wrap gap-5'>
-                          <span className=' w-1/6 text-[#727a85]'>
-                            {item.label.charAt(0).toUpperCase() +
-                              item.label.slice(1)}
-                          </span>
-                          <span className=' w-4/6 text-md font-[600]'>
-                            {' '}
-                            : {item.value}
-                          </span>
-                        </p>
-                      )}
-                    </div>
-                  )}
                 </div>
-              ))}
+              )
+            })}
           </div>
         </div>
       )}
@@ -857,14 +927,12 @@ const EntityLandingPage = () => {
               </tr>
               <div
                 id='content'
-                className={`fixed inset-0 transition-all duration-500 bg-gray-800 bg-opacity-50 z-50 ${
-                  isOpen ? '' : 'hidden'
-                }`}
+                className={`fixed inset-0 transition-all duration-500 bg-gray-800 bg-opacity-50 z-50 ${isOpen ? '' : 'hidden'
+                  }`}
               >
                 <div
-                  className={`p-3 fixed inset-y-0 right-0 ${
-                    expand ? 'w-5/6' : 'w-1/2'
-                  } bg-white shadow-lg transform translate-x-0 transition-transform duration-300 ease-in-out`}
+                  className={`p-3 fixed inset-y-0 right-0 ${expand ? 'w-5/6' : 'w-1/2'
+                    } bg-white shadow-lg transform translate-x-0 transition-transform duration-300 ease-in-out`}
                 >
                   <div className='flex justify-start'>
                     <div className='relative inline-block ms-2'>

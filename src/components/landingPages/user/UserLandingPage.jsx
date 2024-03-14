@@ -376,7 +376,6 @@ const UserLandingPage = () => {
                         )}
                       </div>
                     )}
-
                     {item.type === 'phonenumber' && item.field == 'custom' && (
                       <div className='my-3 mx-5 flex-wrap'>
                         {item.value && item.value.length > 0 && (
@@ -436,7 +435,6 @@ const UserLandingPage = () => {
                         )}
                       </div>
                     )}
-
                     {item.type === 'date' && item.field == 'custom' && (
                       <div className='my-3 mx-5'>
                         {item.value && item.value.length > 0 && (
@@ -474,7 +472,6 @@ const UserLandingPage = () => {
                         )}
                       </div>
                     )}
-
                     {item.type === 'multiselect' && item.field == 'custom' && (
                       <div className='my-3 mx-5'>
                         {item.value && item.value.length > 0 && (
@@ -494,7 +491,6 @@ const UserLandingPage = () => {
                         )}
                       </div>
                     )}
-
                     {item.type === 'range' && item.field == 'custom' && (
                       <div className='my-3 mx-5'>
                         {item.value && item.value.length > 0 && (
@@ -532,7 +528,8 @@ const UserLandingPage = () => {
                         )}
                       </div>
                     )}
-                  </div>
+                    </div>
+                 
                 )
 
               })}
