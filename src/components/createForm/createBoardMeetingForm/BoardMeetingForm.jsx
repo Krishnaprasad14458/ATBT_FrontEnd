@@ -4,30 +4,110 @@ import defprop from '../../../Images/defprof.svg';
 import useDebounce from '../../../hooks/debounce/useDebounce';
 import './BoardMeetingForm.css';
 import { UserDataContext } from '../../../contexts/usersDataContext/usersDataContext';
-import { EntitiesDataContext } from '../../../contexts/entitiesDataContext/entitiesDataContext';
-import { useNavigate } from 'react-router-dom';
+import { BoardMeetingsDataContext } from '../../../contexts/boardmeetingsDataContext/boardmeetingsDataContext';
+import $ from 'jquery';
+import {
+  Navigate,
+  redirect,
+  useSubmit,
+  useNavigate,
+  useLoaderData,
+  useParams,
+} from 'react-router-dom';
+
+const userData = JSON.parse(localStorage.getItem('data'));
+let createdBy = userData?.user?.id;
+const token = userData?.token;
+const role = userData?.role?.name;
+export async function boardmeetingFormLoader({ params }) {
+  try {
+    const formApi = 'https://atbtmain.infozit.com/form/list?name=boardmeetingform';
+    const boardmeetingApi = `https://atbtmain.infozit.com/boardmeeting/list/${params.id}`;
+    let boardmeetingData = null;
+    if (params && params.id) {
+      const boardmeetingResponse = await axios.get(boardmeetingApi, {
+        headers: {
+          Authorization: token,
+        },
+      });
+      console.log(boardmeetingResponse, 'loader boardmeeting data');
+      boardmeetingData = boardmeetingResponse?.data;
+    }
+    const formResponse = await axios.get(formApi);
+    const formData = formResponse.data.Data;
+    console.log("formData", formData, "boardmeetingData", boardmeetingData)
+
+    return { boardmeetingData, formData };
+  } catch (error) {
+    if (error.response) {
+      throw new Error(`Failed to fetch data: ${error.response.status}`);
+    } else if (error.request) {
+      throw new Error('Request made but no response received');
+    } else {
+      throw new Error(`Error setting up request: ${error.message}`);
+    }
+  }
+}
 function BoardMeetingForm() {
   document.title = 'ATBT | Meeting';
+  let { id } = useParams();
+  const boardmeeting = useLoaderData();
+  console.log(boardmeeting, 'cmp loader data');
+  useEffect(() => {
+    if (id && boardmeeting?.boardmeetingData?.members) {
+      setSelected(boardmeeting.boardmeetingData.members);
+    }
+  }, [id, boardmeeting]);
+  function setInitialForm() {
+    console.log("teammmm",entity)
+
+    let response = entity?.formData;
+    if (!!id && !!entity?.entityData) {
+      let entityData = entity?.entityData;
+      response.forEach((input) => {
+        if (entityData.hasOwnProperty(input.inputname)) {
+          if (entityData[input.inputname] !== null) {
+            input.value = entityData[input.inputname];
+          }
+        }
+      });
+    }
+    return response;
+  }
   const navigate = useNavigate();
   const {
     usersState: { users, dashboard },
     usersDispatch,
   } = useContext(UserDataContext);
-  const { createEntity } = useContext(EntitiesDataContext);
+  const { createBoardMeeting, updateBoardMeeting } = useContext(BoardMeetingsDataContext);
+
   const usersEmails = dashboard.paginatedUsers?.map((user) => user.email);
   const { debouncedSetPage, debouncedSetSearch } = useDebounce(usersDispatch);
-  const [errors, setErrors] = useState({});
+
   let [openOptions, setopenOptions] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
   const [selected, setSelected] = useState([]);
   const [showUsers, setShowUsers] = useState(false);
-  let [customFormFields, setCustomFormFields] = useState();
+  let [customFormFields, setCustomFormFields] = useState(
+    () =>
+    setInitialForm()
+  );
+  useEffect(() => {
+    setCustomFormFields(setInitialForm());
+    if (!id) {
+      setSelected([]);
+    }
+  }, [id]);
+  useEffect(() => {
+    console.log(customFormFields, 'cfff');
+    console.log('errors', errors);
+  });
   const handleInputChange = (e) => {
     setShowUsers(true);
-    const value = e.target.value;
-    setSearchTerm(() => {
-      debouncedSetSearch(value);
-      return value;
+    setSearchTerm(e.target.value);
+    debouncedSetSearch({
+      context: 'DASHBOARD',
+      data: e.target.value,
     });
   };
   const handleOpenOptions = (name) => {
@@ -48,6 +128,9 @@ function BoardMeetingForm() {
     setSearchTerm('');
     setShowUsers(false);
   };
+  useEffect(() => {
+    console.log(searchTerm, 'clear');
+  }, [searchTerm]);
   const handleRemove = (user, index) => {
     const updatedSelected = selected.filter(
       (selectedUser) => selectedUser !== user
@@ -60,19 +143,7 @@ function BoardMeetingForm() {
     updatedFormData[index].value = updatedMembers;
     setCustomFormFields(updatedFormData);
   };
-  useEffect(() => {
-    axios
-      .get(`https://atbtmain.infozit.com/form/list?name=boardmeetingform`)
-      .then((response) => {
-        // Handle the successful response
-        setCustomFormFields(response.data.Data);
-        // console.log('customFormFields', response.data.array);
-      })
-      .catch((error) => {
-        // Handle errors
-        console.error('Error fetching data:', error);
-      });
-  }, []);
+ 
   const handleChange = (index, newValue) => {
     const updatedFormData = [...customFormFields];
     if (updatedFormData[index].type != 'multiselect') {
@@ -95,17 +166,16 @@ function BoardMeetingForm() {
   };
   const handleFileChange = (event, index) => {
     const file = event.target.files[0];
+    const updatedFormData = [...customFormFields];
+    updatedFormData[index].value = event.target.files[0];
+    setCustomFormFields(updatedFormData);
     const name = event.target.name;
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        const updatedFormData = [...customFormFields];
-        updatedFormData[index].value = reader.result;
-        setCustomFormFields(updatedFormData);
-      };
-      reader.readAsDataURL(file);
-    }
   };
+
+
+  console.log('customFormFields', customFormFields);
+  /////
+  const [errors, setErrors] = useState({});
 
   /////
   const [isErrorspresent, setIsErrorspresent] = useState(false);
@@ -360,190 +430,58 @@ function BoardMeetingForm() {
       checkValidation();
     }
   }, [customFormFields]);
-  function handleFormSubmit(e) {
+
+  
+  async function handleFormSubmit(e) {
     e.preventDefault();
+
     if (!checkValidation()) {
-      const jsonData = {};
-      jsonData.customFieldsData = JSON.stringify(customFormFields);
-      jsonData.loggedInUser = parseInt(localStorage.getItem('id'));
+      console.log(customFormFields, 'submitcustomFormFields');
+
+      const formData = new FormData(e.target);
       for (let i = 0; i < customFormFields.length; i++) {
         if (Array.isArray(customFormFields[i].value)) {
-          jsonData[customFormFields[i].inputname] = JSON.stringify(
-            customFormFields[i].value
+          formData.set(
+            customFormFields[i].inputname,
+            JSON.stringify(customFormFields[i].value)
           );
-        } else {
-          jsonData[customFormFields[i].inputname] = customFormFields[i].value;
         }
       }
-      console.log('jsonData', jsonData);
-      axios
-        .post(`https://atbtmain.infozit.com/user/create-user`, jsonData)
-        .then((response) => {
-          // console.log(response.data);
-          // console.log("reposnseeeeeeeeee", response.data)
-          navigate(`/boardmeetinglandingpage/${parseInt(response.data)}`);
-        })
-        .catch((error) => {
-          console.error(error);
-        });
+
+      formData.set('customFieldsData', JSON.stringify(customFormFields));
+      formData.set('createdBy', createdBy);
+      const formDataObj = {};
+      formData.forEach((value, key) => {
+        formDataObj[key] = value;
+      });
+      // Log form data
+
+      console.log(formDataObj, 'foj');
+
+      let response;
+      if (!!id && !!entity?.entityData) {
+        console.log('updating');
+        response = await updateEntity(formData, id);
+      } else {
+        console.log('creating');
+        response = await createEntity(formData);
+      }
+      console.log('jsonData submitted', response);
+      if (response?.status === 201) {
+        console.log('data is 201');
+        navigate(`/entities/${response.data}`);
+      }
     }
   }
-  ////
-  // function handleFormSubmit(e) {
-  //   e.preventDefault();
-  //   for (let i = 0; i < customFormFields.length > 0; i++) {
-  //     if (customFormFields[i].type == "text" && customFormFields[i].mandatory) {
-  //       if (customFormFields[i].value.length == 0) {
-  //         setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please Enter ${customFormFields[i].label}` }))
-  //         return false
-  //       }
-  //       else if (customFormFields[i].value.length < 3) {
-  //         setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "Name should contain atleast 3 characters" }))
-  //         return false
-  //       }
-  //       else {
-  //         setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
-  //       }
-  //     }
-  //     if (customFormFields[i].type == "file" && customFormFields[i].mandatory) {
-  //       if (!customFormFields[i].value) {
-  //         setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please Upload ${customFormFields[i].label}` }))
-  //         return false
-  //       }
-  //       else {
-  //         setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
-  //       }
-  //     }
-  //     if (customFormFields[i].type == "textarea" && customFormFields[i].mandatory) {
-  //       if (customFormFields[i].value.length == 0) {
-  //         setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please Enter ${customFormFields[i].label}` }))
-  //         return false
-  //       }
-  //       else if (customFormFields[i].value.length < 3) {
-  //         setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "Name should contain atleast 3 characters" }))
-  //         return false
-  //       }
-  //       else {
-  //         setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
-  //       }
-  //     }
-  //     if (customFormFields[i].type == "email" && customFormFields[i].mandatory) {
-  //       if (customFormFields[i].value.length < 1) {
-  //         setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please Enter ${customFormFields[i].label}` }))
-  //         return false
-  //       }
-  //       else {
-  //         setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
-  //       }
-  //     }
-  //     if (customFormFields[i].type == "number" && customFormFields[i].mandatory) {
-  //       if (customFormFields[i].value.length < 1) {
-  //         setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please Enter ${customFormFields[i].label}` }))
-  //         return false
-  //       }
-  //       else {
-  //         setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
-  //       }
-  //     }
-  //     if (customFormFields[i].type == "phonenumber" && customFormFields[i].mandatory) {
-  //       if (customFormFields[i].value.length !== 10) {
-  //         setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please Enter 10 Digits ${customFormFields[i].label}` }))
-  //         return false
-  //       }
-  //       else {
-  //         setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
-  //       }
-  //     }
-  //     if (customFormFields[i].type == "select" && customFormFields[i].mandatory) {
-  //       if (customFormFields[i].value.length < 1) {
-  //         setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please Enter ${customFormFields[i].label}` }))
-  //         return false
-  //       }
-  //       else {
-  //         setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
-  //       }
-  //     }
-  //     if (customFormFields[i].type == "multiselect" && customFormFields[i].mandatory) {
-  //       if (customFormFields[i].value.length < 1) {
-  //         setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please Enter ${customFormFields[i].label}` }))
-  //         return false
-  //       }
-  //       else {
-  //         setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
-  //       }
-  //     }
-  //     if (customFormFields[i].type == "date" && customFormFields[i].mandatory) {
-  //       if (!customFormFields[i].value) {
-  //         setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please Enter ${customFormFields[i].label}` }))
-  //         return false
-  //       }
-  //       else {
-  //         setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
-  //       }
-  //     }
-  //     if (customFormFields[i].type == "checkbox" && customFormFields[i].mandatory) {
-  //       if (!customFormFields[i].value) {
-  //         setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please Enter ${customFormFields[i].label}` }))
-  //         return false
-  //       }
-  //       else {
-  //         setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
-  //       }
-  //     }
-  //     if (customFormFields[i].type == "range" && customFormFields[i].mandatory) {
-  //       if (!customFormFields[i].value) {
-  //         setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please Enter ${customFormFields[i].label}` }))
-  //         return false
-  //       }
-  //       else {
-  //         setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
-  //       }
-  //     }
-  //     if (customFormFields[i].type == "time" && customFormFields[i].mandatory) {
-  //       if (!customFormFields[i].value) {
-  //         setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please Enter ${customFormFields[i].label}` }))
-  //         return false
-  //       }
-  //       else {
-  //         setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
-  //       }
-  //     }
-  //     if (customFormFields[i].type == "password" && customFormFields[i].mandatory) {
-  //       if (customFormFields[i].value.length < 1) {
-  //         setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: `Please Enter ${customFormFields[i].label}` }))
-  //         return false
-  //       }
-  //       else {
-  //         setErrors((prev) => ({ ...prev, [customFormFields[i].inputname]: "" }))
-  //       }
-  //     }
-  //   }
-  //   const jsonData = {};
-  //   jsonData.customFieldsData = JSON.stringify(customFormFields)
-  //   jsonData.loggedInUser = parseInt(localStorage.getItem("id"))
-  //   for (let i = 0; i < customFormFields.length; i++) {
-  //     if (Array.isArray(customFormFields[i].value)) {
-  //       jsonData[customFormFields[i].inputname] = JSON.stringify(customFormFields[i].value)
-  //     } else {
-  //       jsonData[customFormFields[i].inputname] = customFormFields[i].value
-  //     }
-  //   }
-  //   console.log("jsonData", jsonData);
-  //   axios.post(
-  //     `https://atbtmain.infozit.com/boardmeet/data`, jsonData)
-  //     .then(response => {
-  //       // console.log(response.data);
-  //       // console.log("reposnseeeeeeeeee", response.data)
-  //       navigate(`/boardmeetinglandingpage/${parseInt(response.data)}`)
-  //     })
-  //     .catch(error => {
-  //       console.error(error);
-  //     });
-  // }
+  //for number scrolling stop
+  $('input[type=number]').on('mousewheel', function (e) {
+    $(e.target).blur();
+  });
+
   return (
     <div className='container p-4 bg-[#f8fafc]'>
       {/* <p className="font-lg font-semibold p-3">Entity Form</p> */}
-      <p className='text-lg font-semibold'>Board Meeting</p>
+      <p className='text-lg font-semibold'>Board Form</p>
       <div className='grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-3 xl:grid-cols-3  gap-4 mt-2  '>
         <div className='col-span-1'>
           <form
@@ -565,12 +503,17 @@ function BoardMeetingForm() {
                         >
                           {item.label.charAt(0).toUpperCase() +
                             item.label.slice(1)}
+                            {item.mandatory ? (
+                            <span className='text-red-600'>*</span>
+                          ) : (
+                            <span> </span>
+                          )}
                         </label>
                         <input
                           type='text'
                           name={item.inputname}
                           id={item.inputname}
-                          placeholder='Enter your name'
+                          placeholder='Enter boardmeeting name'
                           value={customFormFields[index].value || ''}
                           style={{ fontSize: '0.8rem' }}
                           className='px-2 py-2 text-sm block w-full rounded-md bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder:text-xs'
@@ -595,6 +538,11 @@ function BoardMeetingForm() {
                         >
                           {item.label.charAt(0).toUpperCase() +
                             item.label.slice(1)}
+                             {item.mandatory ? (
+                            <span className='text-red-600'>*</span>
+                          ) : (
+                            <span> </span>
+                          )}
                         </label>
                         <input
                           type='date'
@@ -626,6 +574,11 @@ function BoardMeetingForm() {
                         >
                           {item.label.charAt(0).toUpperCase() +
                             item.label.slice(1)}
+                             {item.mandatory ? (
+                            <span className='text-red-600'>*</span>
+                          ) : (
+                            <span> </span>
+                          )}
                         </label>
                         <input
                           type='time'
@@ -656,6 +609,11 @@ function BoardMeetingForm() {
                         >
                           {item.label.charAt(0).toUpperCase() +
                             item.label.slice(1)}
+                             {item.mandatory ? (
+                            <span className='text-red-600'>*</span>
+                          ) : (
+                            <span> </span>
+                          )}
                         </label>
                         <select
                           id={item.inputname}
@@ -696,6 +654,11 @@ function BoardMeetingForm() {
                         >
                           {item.label.charAt(0).toUpperCase() +
                             item.label.slice(1)}
+                             {item.mandatory ? (
+                            <span className='text-red-600'>*</span>
+                          ) : (
+                            <span> </span>
+                          )}
                         </label>
                         <textarea
                           name={item.inputname}
@@ -724,6 +687,11 @@ function BoardMeetingForm() {
                           className='block text-sm  font-medium leading-6 my-2 text-gray-900'
                         >
                           {item.label}
+                          {item.mandatory ? (
+                            <span className='text-red-600'>*</span>
+                          ) : (
+                            <span> </span>
+                          )}
                         </label>
                         <div
                           className=' 
@@ -800,6 +768,11 @@ function BoardMeetingForm() {
                       >
                         {item.label.charAt(0).toUpperCase() +
                           item.label.slice(1)}
+                           {item.mandatory ? (
+                            <span className='text-red-600'>*</span>
+                          ) : (
+                            <span> </span>
+                          )}
                       </label>
                       <input
                         type='text'
@@ -828,6 +801,11 @@ function BoardMeetingForm() {
                       >
                         {item.label.charAt(0).toUpperCase() +
                           item.label.slice(1)}
+                           {item.mandatory ? (
+                            <span className='text-red-600'>*</span>
+                          ) : (
+                            <span> </span>
+                          )}
                       </label>
                       <input
                         type='email'
@@ -856,6 +834,11 @@ function BoardMeetingForm() {
                       >
                         {item.label.charAt(0).toUpperCase() +
                           item.label.slice(1)}
+                           {item.mandatory ? (
+                            <span className='text-red-600'>*</span>
+                          ) : (
+                            <span> </span>
+                          )}
                       </label>
                       <input
                         type='password'
@@ -884,6 +867,11 @@ function BoardMeetingForm() {
                       >
                         {item.label.charAt(0).toUpperCase() +
                           item.label.slice(1)}
+                           {item.mandatory ? (
+                            <span className='text-red-600'>*</span>
+                          ) : (
+                            <span> </span>
+                          )}
                       </label>
                       <input
                         type='number'
@@ -912,6 +900,11 @@ function BoardMeetingForm() {
                       >
                         {item.label.charAt(0).toUpperCase() +
                           item.label.slice(1)}
+                           {item.mandatory ? (
+                            <span className='text-red-600'>*</span>
+                          ) : (
+                            <span> </span>
+                          )}
                       </label>
                       <input
                         type='number'
@@ -956,6 +949,11 @@ function BoardMeetingForm() {
                         >
                           {item.label.charAt(0).toUpperCase() +
                             item.label.slice(1)}
+                             {item.mandatory ? (
+                            <span className='text-red-600'>*</span>
+                          ) : (
+                            <span> </span>
+                          )}
                         </label>
                       </div>
                       <div className='h-2 text-[#dc2626]'>
@@ -975,6 +973,11 @@ function BoardMeetingForm() {
                       >
                         {item.label.charAt(0).toUpperCase() +
                           item.label.slice(1)}
+                           {item.mandatory ? (
+                            <span className='text-red-600'>*</span>
+                          ) : (
+                            <span> </span>
+                          )}
                       </label>
                       <input
                         type='date'
@@ -1002,6 +1005,11 @@ function BoardMeetingForm() {
                       >
                         {item.label.charAt(0).toUpperCase() +
                           item.label.slice(1)}
+                           {item.mandatory ? (
+                            <span className='text-red-600'>*</span>
+                          ) : (
+                            <span> </span>
+                          )}
                       </label>
                       <input
                         type='time'
@@ -1030,6 +1038,11 @@ function BoardMeetingForm() {
                       >
                         {item.label.charAt(0).toUpperCase() +
                           item.label.slice(1)}
+                           {item.mandatory ? (
+                            <span className='text-red-600'>*</span>
+                          ) : (
+                            <span> </span>
+                          )}
                       </label>
                       <input
                         type='file'
@@ -1057,6 +1070,11 @@ function BoardMeetingForm() {
                       >
                         {item.label.charAt(0).toUpperCase() +
                           item.label.slice(1)}
+                           {item.mandatory ? (
+                            <span className='text-red-600'>*</span>
+                          ) : (
+                            <span> </span>
+                          )}
                       </label>
                       <input
                         type='range'
@@ -1083,6 +1101,11 @@ function BoardMeetingForm() {
                       >
                         {item.label.charAt(0).toUpperCase() +
                           item.label.slice(1)}
+                           {item.mandatory ? (
+                            <span className='text-red-600'>*</span>
+                          ) : (
+                            <span> </span>
+                          )}
                       </label>
                       <textarea
                         name={item.inputname}
@@ -1110,6 +1133,11 @@ function BoardMeetingForm() {
                       >
                         {item.label.charAt(0).toUpperCase() +
                           item.label.slice(1)}
+                           {item.mandatory ? (
+                            <span className='text-red-600'>*</span>
+                          ) : (
+                            <span> </span>
+                          )}
                       </label>
                       <select
                         id={item.inputname}
@@ -1149,6 +1177,11 @@ function BoardMeetingForm() {
                       >
                         {item.label.charAt(0).toUpperCase() +
                           item.label.slice(1)}
+                           {item.mandatory ? (
+                            <span className='text-red-600'>*</span>
+                          ) : (
+                            <span> </span>
+                          )}
                       </label>
                       <div className='px-2 py-2 text-sm block w-full rounded-md bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder:text-xs'>
                         <span className='flex justify-between'>
