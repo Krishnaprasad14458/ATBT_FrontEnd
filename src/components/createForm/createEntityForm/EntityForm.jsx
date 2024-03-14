@@ -60,9 +60,7 @@ function EntityForm() {
     }
   }, [id, entity]);
   function setInitialForm() {
-
     console.log("entity",entity)
-
 
     let response = entity?.formData;
     if (!!id && !!entity?.entityData) {
