@@ -1,7 +1,8 @@
 import React, { createContext, useContext, useEffect, useReducer } from 'react';
 import * as actions from './utils/boardmeetingsActions';
 import * as api from './utils/boardmeetingsApis';
-import BoardMeetingsDataReducer from './boardmeetingsDataReducer';
+import BoardMeetingsDataReducer from "./boardmeetingsDataReducer"
+
 import { useNavigate } from 'react-router-dom';
 import { initialState } from './utils/boardmeetingsConfig';
 import { AuthContext } from '../authContext/authContext';
@@ -65,7 +66,7 @@ const BoardMeetingsDataProvider = ({ children }) => {
   const getpaginatedBoardMeetingsData = async () => {
     const { currentPage, perPage, sortBy, search, filters } =
       boardmeetingsState.boardmeetingsList;
-    boardmeetingsDispatch(actions.setLoading('BOARDMEETING'));
+    boardmeetingsDispatch(actions.setLoading('BOARDMEETINGS'));
     try {
       const { data, status } = await api.getBoardMeetings(
         currentPage,
@@ -75,9 +76,9 @@ const BoardMeetingsDataProvider = ({ children }) => {
         authState?.token,
         filters
       );
-      console.log(data, status, 'boardmeeting');
+      console.log(data, status, 'boardmeetingess');
       if (status === 200) {
-        boardmeetingsDispatch(actions.setPaginatedBoardMeetings('BOARDMEETING', data));
+        boardmeetingsDispatch(actions.setPaginatedBoardMeetings('BOARDMEETINGS', data));
       } else {
         return null;
       }
@@ -85,7 +86,7 @@ const BoardMeetingsDataProvider = ({ children }) => {
       // console.error(`the error is ${error}`);
       throwError(error);
     } finally {
-      boardmeetingsDispatch(actions.setLoading('BOARDMEETING'));
+      boardmeetingsDispatch(actions.setLoading('BOARDMEETINGS'));
     }
   };
 

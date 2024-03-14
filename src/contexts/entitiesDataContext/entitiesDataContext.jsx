@@ -75,7 +75,7 @@ const EntitiesDataProvider = ({ children }) => {
         authState?.token,
         filters
       );
-      console.log(data, status, 'entities');
+      console.log(data, status, 'entitiess');
       if (status === 200) {
         entitiesDispatch(actions.setPaginatedEntities('ENTITES', data));
       } else {

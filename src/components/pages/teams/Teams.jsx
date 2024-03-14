@@ -28,7 +28,10 @@ function Teams() {
     deleteTeambyId,
     setFilters,
   } = useContext(TeamsDataContext);
-
+  useEffect(()=>{
+    console.log("teamess",teamsList)
+    
+      })
   const { debouncedSetPage, debouncedSetSearch } =
     useDebounce(teamsDispatch);
   // const [toggle, setToggle] = useState(false)
