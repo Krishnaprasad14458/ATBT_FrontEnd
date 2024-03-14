@@ -197,7 +197,7 @@ const CustomFormStructure = () => {
         const updatedForm = [...customForm];
         updatedForm[editIndex] = newInputField;
         setCustomForm(updatedForm);
-        if (newInputField.type != 'checkbox') {
+        if (newInputField.type != 'checkbox' || newInputField.type != 'password' || newInputField.type != 'textarea') {
           setTableView((prevState) => {
             const updatedState = { ...prevState };
             updatedState[newInputField.inputname] = {
@@ -226,7 +226,7 @@ const CustomFormStructure = () => {
           let newField = { ...newInputField };
           delete newField.options;
           setCustomForm((prev) => [...prev, newField]);
-          if (newInputField.type != 'checkbox') {
+          if (newInputField.type != 'checkbox' || newInputField.type != 'password' || newInputField.type != 'textarea'){
             setTableView((prevState) => {
               const updatedState = { ...prevState };
               updatedState[newInputField.inputname] = {
@@ -238,7 +238,7 @@ const CustomFormStructure = () => {
           }
         } else {
           setCustomForm((prev) => [...prev, newInputField]);
-          if (newInputField.type != 'checkbox') {
+          if (newInputField.type != 'checkbox' || newInputField.type != 'password' || newInputField.type != 'textarea'){
             setTableView((prevState) => {
               const updatedState = { ...prevState };
               updatedState[newInputField.inputname] = {
@@ -315,12 +315,16 @@ const CustomFormStructure = () => {
   ];
   const handleSubmitCustomForm = async () => {
     let formData = {
-      arrayOfObjects: customForm,
+      arrayOfObjects:
+
+
+        customForm,
       Name: formName,
-      Tableview: tableView,
+      Tableview:
+        tableView
     };
     await saveCustomForm(formData);
-    console.log("formName",formData)
+    console.log("formName", formData)
   };
   const saveCustomForm = async (formData) => {
     toast.promise(
@@ -584,11 +588,10 @@ const CustomFormStructure = () => {
                       </div>
                       <div className='mr-4'>
                         <button
-                          className={`flex w-full justify-center rounded-md bg-[#dc2626] px-3 py-2.5 text-sm font-medium leading-6 text-white shadow-sm  focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600 ${
-                            input.field === 'custom'
-                              ? ''
-                              : 'pointer-events-none opacity-30  cursor-not-allowed'
-                          }`}
+                          className={`flex w-full justify-center rounded-md bg-[#dc2626] px-3 py-2.5 text-sm font-medium leading-6 text-white shadow-sm  focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600 ${input.field === 'custom'
+                            ? ''
+                            : 'pointer-events-none opacity-30  cursor-not-allowed'
+                            }`}
                           onClick={() => {
                             deleteInput(index);
                           }}
@@ -701,11 +704,10 @@ const CustomFormStructure = () => {
                           <span className='mt-3 ms-3'>:</span>
                           <select
                             name='type'
-                            className={`p-2 mx-2  py-1.5 my-2 text-xs w-full md:w-72 lg:w-72 xl:w-72 bg-gray-50 rounded-md border-2  border-gray-200  text-gray-900 shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-xs  custom-scroll " ${
-                              editIndex == null
-                                ? ''
-                                : 'pointer-events-none opacity-30'
-                            }`}
+                            className={`p-2 mx-2  py-1.5 my-2 text-xs w-full md:w-72 lg:w-72 xl:w-72 bg-gray-50 rounded-md border-2  border-gray-200  text-gray-900 shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-xs  custom-scroll " ${editIndex == null
+                              ? ''
+                              : 'pointer-events-none opacity-30'
+                              }`}
                             value={newInputField.type}
                             onChange={handleInputChange}
                           >
@@ -820,28 +822,27 @@ const CustomFormStructure = () => {
                           {
                             <div
                               className={`mb-6 flex items-end gap-1
-                                                         ${
-                                                           newInputField.type ===
-                                                             'text' ||
-                                                           newInputField.type ===
-                                                             'email' ||
-                                                           newInputField.type ===
-                                                             'number' ||
-                                                           newInputField.type ===
-                                                             'phonenumber' ||
-                                                           newInputField.type ===
-                                                             'textarea' ||
-                                                           newInputField.type ===
-                                                             'date' ||
-                                                           newInputField.type ===
-                                                             'select' ||
-                                                           newInputField.type ===
-                                                             'multiselect' ||
-                                                           newInputField.type ===
-                                                             'time'
-                                                             ? ''
-                                                             : 'pointer-events-none opacity-30'
-                                                         }`}
+                                                         ${newInputField.type ===
+                                  'text' ||
+                                  newInputField.type ===
+                                  'email' ||
+                                  newInputField.type ===
+                                  'number' ||
+                                  newInputField.type ===
+                                  'phonenumber' ||
+                                  newInputField.type ===
+                                  'textarea' ||
+                                  newInputField.type ===
+                                  'date' ||
+                                  newInputField.type ===
+                                  'select' ||
+                                  newInputField.type ===
+                                  'multiselect' ||
+                                  newInputField.type ===
+                                  'time'
+                                  ? ''
+                                  : 'pointer-events-none opacity-30'
+                                }`}
                             >
                               <input
                                 type='checkbox'
@@ -998,44 +999,47 @@ export default CustomFormStructure;
 //////////////////////////////////   entityform
 
 // [
-//     {
-//       "label": "Full Name",
-//       "inputname": "name",
-//       "type": "text",
-//       "value": "",
-//       "field": "predefined",
-//       "mandatory": true,
-//       "filterable": true
-//     },
-//     {
-//       "label": "Image",
-//       "inputname": "image",
-//       "type": "file",
-//       "value": "",
-//       "field": "predefined",
-//       "mandatory": false,
-//       "filterable": false
-//     },
-//     {
-//       "label": "Description",
-//       "inputname": "description",
-//       "type": "textarea",
-//       "value": "",
-//       "field": "predefined",
-//       "mandatory": true,
-//       "filterable": false
-//     },
-//     {
-//       "label": "Add Members",
-//       "inputname": "members",
-//       "type": "multiselect",
-//       "value": [],
-//       "field": "predefined",
-//       "mandatory": true,
-//       "filterable": false
-//     },
+//   {
+//     "label": "Full Name",
+//     "inputname": "name",
+//     "type": "text",
+//     "value": "",
+//     "field": "predefined",
+//     "mandatory": true,
+//     "filterable": true
+//   },
+//   {
+//     "label": "Image",
+//     "inputname": "image",
+//     "type": "file",
+//     "value": "",
+//     "field": "predefined",
+//     "mandatory": false,
+//     "filterable": false
+//   },
+//   {
+//     "label": "Description",
+//     "inputname": "description",
+//     "type": "textarea",
+//     "value": "",
+//     "field": "predefined",
+//     "mandatory": true,
+//     "filterable": false
+//   },
+//   {
+//     "label": "Add Members",
+//     "inputname": "members",
+//     "type": "multiselect",
+//     "value": [],
+//     "field": "predefined",
+//     "mandatory": true,
+//     "filterable": false,
+//     "options": {
+//             "type":"predefined","value":"users"
+//           }
+//   },
 
-//   ];
+// ]
 
 /////////////////////// predefined tableview
 // {
@@ -1079,11 +1083,13 @@ export default CustomFormStructure;
 //       "inputname": "venue",
 //       "type": "select",
 //       "value": "",
-//       "options": [
-//           "London",
-//           "California",
-//           "USA"
-//       ],
+//       "options": {
+//                     "type":"custom","value":[
+//                       "London",
+//                       "California",
+//                       "USA"
+//                   ]
+//                   },
 //       "field": "predefined",
 //       "mandatory": true,
 //       "filterable": true
@@ -1104,47 +1110,82 @@ export default CustomFormStructure;
 //       "value": [],
 //       "field": "predefined",
 //       "mandatory": true,
-//       "filterable": false
+//       "filterable": false,
+//       "options": {
+//                     "type":"predefined","value":"users"
+//                   }
 //   }
 // ]
 
+
+
+/////////////////////// predefined tableview
+// {
+//   "name": {
+//       "label": "Full Name",
+//       "value": true
+//   },
+//   "date": {
+//       "label": "Select a Date",
+//       "value": true
+//   },
+//   "time": {
+//       "label": " Select a Time",
+//       "value": true
+//   },
+//   "venue": {
+//       "label": " Venue",
+//       "value": true
+//   }
+// }
 ///////////////team form
 
-// [
-//     {
-//         "label": "Full Name",
-//         "inputname": "name",
-//         "type": "text",
-//         "value": "",
-//         "field": "predefined",
-//         "mandatory": true,
-//         "filterable": true
-//     },
-//     {
-//         "label": "Image",
-//         "inputname": "image",
-//         "type": "file",
-//         "value": "",
-//         "field": "predefined",
-//         "mandatory": false,
-//         "filterable": false
-//     },
-//     {
-//         "label": "Description",
-//         "inputname": "description",
-//         "type": "textarea",
-//         "value": "",
-//         "field": "predefined",
-//         "mandatory": true,
-//         "filterable": false
-//     },
-//     {
-//         "label": "Add Members",
-//         "inputname": "members",
-//         "type": "multiselect",
-//         "value": [],
-//         "field": "predefined",
-//         "mandatory": true,
-//         "filterable": false
-//     }
+//[
+//   {
+//       "label": "Full Name",
+//       "inputname": "name",
+//       "type": "text",
+//       "value": "",
+//       "field": "predefined",
+//       "mandatory": true,
+//       "filterable": true
+//   },
+//   {
+//       "label": "Image",
+//       "inputname": "image",
+//       "type": "file",
+//       "value": "",
+//       "field": "predefined",
+//       "mandatory": false,
+//       "filterable": false
+//   },
+//   {
+//       "label": "Description",
+//       "inputname": "description",
+//       "type": "textarea",
+//       "value": "",
+//       "field": "predefined",
+//       "mandatory": true,
+//       "filterable": false
+//   },
+//   {
+//       "label": "Add Members",
+//       "inputname": "members",
+//       "type": "multiselect",
+//       "value": [],
+//       "field": "predefined",
+//       "mandatory": true,
+//       "filterable": false,
+//       "options": {
+//                     "type":"predefined","value":"users"
+//                   }
+//   }
 // ]
+
+//////////////////
+// {
+//   "name": {
+//       "label": "Full Name",
+//       "value": true
+//   }
+// }
