@@ -1,6 +1,6 @@
 import * as actionTypes from './utils/boardmeetingsActionTypes'
 const BoardMeetingsDataReducer = (state, action) => {
-    console.log("statestate",state)
+    console.log("boardmeetingstate",state)
     switch (action.type) {
         case actionTypes.SET_BOARDMEETINGS:
             return {
