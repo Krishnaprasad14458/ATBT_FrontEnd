@@ -86,7 +86,8 @@ function EntityForm() {
   const [searchTerm, setSearchTerm] = useState('');
   const [selected, setSelected] = useState([]);
   const [showUsers, setShowUsers] = useState(false);
-  let [customFormFields, setCustomFormFields] = useState(() =>
+  let [customFormFields, setCustomFormFields] = useState(
+    () =>
     setInitialForm()
   );
   useEffect(() => {
@@ -140,18 +141,7 @@ function EntityForm() {
     updatedFormData[index].value = updatedMembers;
     setCustomFormFields(updatedFormData);
   };
-  // useEffect(() => {
-  //   axios
-  //     .get(`https://atbtmain.infozit.com/form/list?name=entityform`)
-  //     .then((response) => {
-  //       // Handle the successful response
-  //       setCustomFormFields(response.data.Data);
-  //     })
-  //     .catch((error) => {
-  //       // Handle errors
-  //       console.error('Error fetching data:', error);
-  //     });
-  // }, []);
+ 
 
   const handleChange = (index, newValue) => {
     const updatedFormData = [...customFormFields];

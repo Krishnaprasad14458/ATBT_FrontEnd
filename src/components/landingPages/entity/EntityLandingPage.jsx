@@ -16,7 +16,6 @@ import { ChevronDownIcon } from '@heroicons/react/20/solid';
 import useInitializePerPage from '../../../hooks/initializePerPage/useInitializePerPage';
 import useDebounce from '../../../hooks/debounce/useDebounce';
 import { EntitiesDataContext } from '../../../contexts/entitiesDataContext/entitiesDataContext';
-
 import axios from 'axios';
 
 function classNames(...classes) {

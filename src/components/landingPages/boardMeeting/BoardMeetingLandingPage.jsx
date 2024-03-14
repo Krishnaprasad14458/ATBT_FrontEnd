@@ -1,4 +1,4 @@
-import React, { useState, Fragment, useRef, useEffect } from 'react';
+import React, { useState, Fragment, useRef, useEffect,useContext } from 'react';
 import '../LandingPageCommon.css';
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
@@ -6,11 +6,10 @@ import moment from 'moment';
 import { Dialog, Transition, Menu } from '@headlessui/react';
 import defprop from '../../../Images/defprof.svg';
 import { Link, Outlet, useParams } from 'react-router-dom';
-
 import { ChevronDownIcon } from '@heroicons/react/20/solid';
 import useInitializePerPage from '../../../hooks/initializePerPage/useInitializePerPage';
 import useDebounce from '../../../hooks/debounce/useDebounce';
-
+import { BoardMeetingsDataContext } from '../../../contexts/boardmeetingsDataContext/boardmeetingsDataContext';
 import axios from 'axios';
 
 function classNames(...classes) {
@@ -18,8 +17,35 @@ function classNames(...classes) {
 }
 
 const BoardMeetingLandingPage = () => {
+  const {
+    getBoardMeetingbyId,
+    boardmeetingsState: { boardmeetings },
+  } = useContext(BoardMeetingsDataContext);
   const { id } = useParams();
+  const [singleProduct, setSingleProduct] = useState({});
 
+
+  // For tabs active
+  const getSingleProduct = async () => {
+    try {
+      const entityById = entities?.Entites?.find(
+        (element) => element.id === +id
+      );
+      if (!entityById) {
+        const product = await getEntitybyId(id);
+        setSingleProduct(product?.data?.Entites);
+      } else {
+        setSingleProduct(entityById);
+      }
+    } catch (e) {
+      console.error(e);
+      throw e;
+    }
+  };
+  useEffect(() => {
+    getSingleProduct();
+  }, [id]);
+ 
   const [activeTab, setActiveTab] = useState(1);
 
   const handleTabClick = (tabNumber) => {
@@ -74,11 +100,23 @@ const BoardMeetingLandingPage = () => {
   const [expand, setExpand] = useState(false);
   let [customFormField, setCustomFormField] = useState();
 
+  
+  const userData = JSON.parse(localStorage.getItem('data'));
+  const token = userData?.token;
+  let response;
+  let [predefinedImage, setPredefinedImage] = useState('');
   useEffect(() => {
     axios
-      .get(`https://atbtmain.infozit.com/boardmeet/data/${id}`)
-      .then((response) => {
+      .get(`https://atbtmain.infozit.com/entity/list/${id}`, {
+        headers: {
+          authorization: token,
+        },
+      })
+      .then((res) => {
         // Handle the successful response
+        response = res;
+        console.log('response', response.data.image);
+        setPredefinedImage(response.data.image);
         setCustomFormField(response.data.customFieldsData);
       })
       .catch((error) => {
@@ -86,6 +124,9 @@ const BoardMeetingLandingPage = () => {
         console.error('Error fetching data:', error);
       });
   }, []);
+  useEffect(() => {
+    console.log('customFormField', customFormField);
+  }, [customFormField]);
   return (
     <div className='container p-4 bg-[#f8fafc]'>
       <div className='flex justify-between my-2'>
@@ -178,15 +219,7 @@ const BoardMeetingLandingPage = () => {
                             )}
                           </div>
                         )}
-                      {/* {item.type === 'select' && item.inputname === 'venue' && item.field === 'predefined' && (
-        <div className='absolute  w-3/4'>
-          {item.value ? (
-            <p className='text-sm'><span className='text-sm'>Venue : </span>{item.value}</p>
-          ) : (
-            <span className='text-xs text-gray-400 bottom-3'>Venue :a house pista house pista house pista house v pista house  ouse v pista house ouse v pista house</span>
-          )}
-        </div>
-      )} */}
+                 
                     </span>
                     <span>
                       {item.type === 'date' &&
@@ -204,15 +237,7 @@ const BoardMeetingLandingPage = () => {
                             )}
                           </div>
                         )}
-                      {/* {item.type === 'time' && item.inputname === 'time' && item.field === 'predefined' && (
-        <div className=''>
-          {item.value ? (
-            <p className='text-sm'>Time : {item.value}</p>
-          ) : (
-            <p className='text-sm text-gray-400 '>Time : 00:00 AM</p>
-          )}
-        </div>
-      )} */}
+                  
                     </span>
                   </div>
                   <div className='flex justify-between'>
