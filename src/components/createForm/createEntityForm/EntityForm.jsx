@@ -59,6 +59,8 @@ function EntityForm() {
     }
   }, [id, entity]);
   function setInitialForm() {
+    console.log("teammmm",entity)
+
     let response = entity?.formData;
     if (!!id && !!entity?.entityData) {
       let entityData = entity?.entityData;

@@ -56,6 +56,7 @@ function TeamsForm() {
     }
   }, [id, team]);
   function setInitialForm() {
+    console.log("teammmm",team)
     let response = team?.formData;
     if (!!id && !!team?.teamData) {
       let teamData = team?.teamData;
@@ -1276,7 +1277,7 @@ function TeamsForm() {
                             ];
                             const getRandomColor = (firstLetter) => {
                               const randomIndex =
-                                firstLetter.charCodeAt(0) % colors.length;
+                                firstLetter?.charCodeAt(0) % colors.length;
                               return colors[randomIndex];
                             };
                             return (
