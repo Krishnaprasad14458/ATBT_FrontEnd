@@ -76,7 +76,7 @@ const BoardMeetingsDataProvider = ({ children }) => {
         authState?.token,
         filters
       );
-      console.log(data, status, 'boardmeetingess');
+      console.log(data, status, 'boardmeetingesss');
       if (status === 200) {
         boardmeetingsDispatch(actions.setPaginatedBoardMeetings('BOARDMEETINGS', data));
       } else {

@@ -28,7 +28,10 @@ function Entities() {
     deleteEntitybyId,
     setFilters,
   } = useContext(EntitiesDataContext);
-
+  useEffect(()=>{
+    console.log("boardmeetingess",entitiesList)
+    
+      })
   const { debouncedSetPage, debouncedSetSearch } =
     useDebounce(entitiesDispatch);
   // const [toggle, setToggle] = useState(false)
