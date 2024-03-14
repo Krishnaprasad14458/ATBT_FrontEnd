@@ -631,7 +631,9 @@ function BoardMeetingForm() {
                             Please select
                           </option>
                           {item.options &&
-                            item.options.map((option, index) => (
+                            item.options.value &&
+                            item.options.value.length > 0 &&
+                            item.options.value.map((option, index) => (
                               <option value={option}>{option}</option>
                             ))}
                         </select>
