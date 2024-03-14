@@ -29,7 +29,10 @@ function BoardMeetings() {
     deleteBoardMeetingbyId,
     setFilters,
   } = useContext(BoardMeetingsDataContext);
+  useEffect(()=>{
+console.log("boardmeetingsState",boardmeetingsList)
 
+  })
   const { debouncedSetPage, debouncedSetSearch } =
     useDebounce(boardmeetingsDispatch);
   // const [toggle, setToggle] = useState(false)
