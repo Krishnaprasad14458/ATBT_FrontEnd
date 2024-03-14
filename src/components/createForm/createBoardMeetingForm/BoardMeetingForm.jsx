@@ -59,15 +59,15 @@ function BoardMeetingForm() {
     }
   }, [id, boardmeeting]);
   function setInitialForm() {
-    console.log("teammmm",entity)
+    console.log("boardmeeting",boardmeeting)
 
-    let response = entity?.formData;
-    if (!!id && !!entity?.entityData) {
-      let entityData = entity?.entityData;
+    let response = boardmeeting?.formData;
+    if (!!id && !!boardmeeting?.boardmeetingData) {
+      let boardmeetingData = boardmeeting?.boardmeetingData;
       response.forEach((input) => {
-        if (entityData.hasOwnProperty(input.inputname)) {
-          if (entityData[input.inputname] !== null) {
-            input.value = entityData[input.inputname];
+        if (boardmeetingData.hasOwnProperty(input.inputname)) {
+          if (boardmeetingData[input.inputname] !== null) {
+            input.value = boardmeetingData[input.inputname];
           }
         }
       });
@@ -459,17 +459,17 @@ function BoardMeetingForm() {
       console.log(formDataObj, 'foj');
 
       let response;
-      if (!!id && !!entity?.entityData) {
+      if (!!id && !!boardmeeting?.boardmeetingData) {
         console.log('updating');
-        response = await updateEntity(formData, id);
+        response = await updateBoardMeeting(formData, id);
       } else {
         console.log('creating');
-        response = await createEntity(formData);
+        response = await createBoardMeeting(formData);
       }
       console.log('jsonData submitted', response);
       if (response?.status === 201) {
         console.log('data is 201');
-        navigate(`/entities/${response.data}`);
+        navigate(`/boardmeetings/${response.data}`);
       }
     }
   }

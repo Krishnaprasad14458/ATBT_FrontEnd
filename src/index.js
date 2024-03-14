@@ -14,7 +14,7 @@ import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import PermissionsProvider from './rbac/PermissionsProvider';
 import { router } from './router';
 import ErrorBoundary from './components/pages/Errorpages/ErrorBoundary';
-
+import BoardMeetingsDataProvider from "./contexts/boardmeetingsDataContext/boardmeetingsDataContext"
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   // <React.StrictMode>
@@ -24,6 +24,7 @@ root.render(
       <UserDataProvider>
         <EntitiesDataProvider>
           <TeamsDataProvider>
+            <BoardMeetingsDataProvider>
             <RouterProvider router={router} />
             <ToastContainer
               position="top-right"
@@ -36,6 +37,7 @@ root.render(
               draggable
               pauseOnHover
             />
+            </BoardMeetingsDataProvider>
           </TeamsDataProvider>
         </EntitiesDataProvider>
       </UserDataProvider>

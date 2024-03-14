@@ -99,6 +99,12 @@ export const router = createBrowserRouter([
                 ]
             },
             {
+                path: 'boardmeetings',
+                children: [
+                    ...meetingRouter,
+                ]
+            },
+            {
                 element: <RouteBlocker permissionCheck={(permission) =>
                     permission.module === 'meeting' && permission.canRead} />,
                 children: [
