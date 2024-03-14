@@ -197,7 +197,7 @@ const CustomFormStructure = () => {
         const updatedForm = [...customForm];
         updatedForm[editIndex] = newInputField;
         setCustomForm(updatedForm);
-        if (newInputField.type != 'checkbox' || newInputField.type != 'password' || newInputField.type != 'textarea') {
+        if (newInputField.type != 'checkbox' && newInputField.type != 'password' && newInputField.type != 'textarea') {
           setTableView((prevState) => {
             const updatedState = { ...prevState };
             updatedState[newInputField.inputname] = {
@@ -226,7 +226,7 @@ const CustomFormStructure = () => {
           let newField = { ...newInputField };
           delete newField.options;
           setCustomForm((prev) => [...prev, newField]);
-          if (newInputField.type != 'checkbox' || newInputField.type != 'password' || newInputField.type != 'textarea'){
+          if (newInputField.type != 'checkbox' && newInputField.type != 'password' && newInputField.type != 'textarea'){
             setTableView((prevState) => {
               const updatedState = { ...prevState };
               updatedState[newInputField.inputname] = {
@@ -238,7 +238,7 @@ const CustomFormStructure = () => {
           }
         } else {
           setCustomForm((prev) => [...prev, newInputField]);
-          if (newInputField.type != 'checkbox' || newInputField.type != 'password' || newInputField.type != 'textarea'){
+          if (newInputField.type != 'checkbox' && newInputField.type != 'password' && newInputField.type != 'textarea'){
             setTableView((prevState) => {
               const updatedState = { ...prevState };
               updatedState[newInputField.inputname] = {
