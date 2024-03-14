@@ -320,6 +320,7 @@ const CustomFormStructure = () => {
       Tableview: tableView,
     };
     await saveCustomForm(formData);
+    console.log("formName",formData)
   };
   const saveCustomForm = async (formData) => {
     toast.promise(
@@ -731,7 +732,7 @@ const CustomFormStructure = () => {
                                 Add options for &nbsp;
                                 <span className='font-semibold text-xs'>
                                   {' '}
-                                  multi select{' '}
+                                  multi select
                                 </span>
                               </p>
                               <div className='flex '>
