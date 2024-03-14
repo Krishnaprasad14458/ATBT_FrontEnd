@@ -1,6 +1,6 @@
 import * as actionTypes from './utils/boardmeetingsActionTypes'
 const BoardMeetingsDataReducer = (state, action) => {
-    console.log("boardmeetingstate",state)
+    console.log("boardmeetingstatee", state)
     switch (action.type) {
         case actionTypes.SET_BOARDMEETINGS:
             return {
@@ -13,22 +13,22 @@ const BoardMeetingsDataReducer = (state, action) => {
                 ...state,
                 dashboardBoardMeetings: {
                     ...state.dashboardBoardMeetings,
-                    paginatedBoardMeetings: reducerData.BoardMeetings,
+                    paginatedBoardMeetings: reducerData.Meetings,
                     totalPages: reducerData.totalPages,
-                    totalBoardMeetings: reducerData.totalBoardMeetings,
-                    startBoardMeeting: reducerData.startBoardMeeting,
-                    endBoardMeeting: reducerData.endBoardMeeting,
+                    totalBoardMeetings: reducerData.totalmeetings,
+                    startBoardMeeting: reducerData.startmeeting,
+                    endBoardMeeting: reducerData.endmeeting,
                     currentPage: reducerData.currentPage
                 },
             } : {
                 ...state,
                 boardmeetingsList: {
                     ...state.boardmeetingsList,
-                    paginatedBoardMeetings: reducerData.BoardMeetings,
+                    paginatedBoardMeetings: reducerData.Meetings,
                     totalPages: reducerData.totalPages,
-                    totalBoardMeetings: reducerData.totalBoardMeetings,
-                    startBoardMeeting: reducerData.startBoardMeeting,
-                    endBoardMeeting: reducerData.endBoardMeeting,
+                    totalBoardMeetings: reducerData.totalmeetings,
+                    startBoardMeeting: reducerData.startmeeting,
+                    endBoardMeeting: reducerData.endmeeting,
                     currentPage: reducerData.currentPage
 
                 },
@@ -81,20 +81,20 @@ const BoardMeetingsDataReducer = (state, action) => {
                 }
             }
 
-        // case actionTypes.SET_LOADING:
-        //     return action.payload.context === 'DASHBOARD' ? {
-        //         ...state,
-        //         dashboardBoardMeetings: {
-        //             ...state.dashboardBoardMeetings,
-        //             loading: !state.dashboardBoardmeetings.loading
-        //         }
-        //     } : {
-        //         ...state,
-        //         boardmeetingsList: {
-        //             ...state.boardmeetingsList,
-        //             loading: !state.boardmeetingsList.loading
-        //         }
-        //     }
+        case actionTypes.SET_LOADING:
+            return action.payload.context === 'DASHBOARD' ? {
+                ...state,
+                dashboardBoardMeetings: {
+                    ...state.dashboardBoardMeetings,
+                    loading: !state.dashboardBoardMeetings.loading
+                }
+            } : {
+                ...state,
+                boardmeetingsList: {
+                    ...state.boardmeetingsList,
+                    loading: !state.boardmeetingsList.loading
+                }
+            }
 
         case actionTypes.SET_FILTERS:
             console.log(action.payload, "filterss")
