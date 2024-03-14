@@ -46,6 +46,7 @@ export async function teamFormLoader({ params }) {
   }
 }
 function TeamsForm() {
+  const [showPassword, setShowPassword] = useState(false);
   document.title = 'ATBT | Team';
   let { id } = useParams();
   const team = useLoaderData();
@@ -56,7 +57,7 @@ function TeamsForm() {
     }
   }, [id, team]);
   function setInitialForm() {
-    console.log("teammmm",team)
+    console.log("teammmm", team)
     let response = team?.formData;
     if (!!id && !!team?.teamData) {
       let teamData = team?.teamData;
@@ -481,7 +482,35 @@ function TeamsForm() {
         navigate(`/teams/${response.data}`);
       }
     }
+
   }
+
+  // to set the time in 12hours
+  function formatTime(timeString) {
+    // Splitting the timeString to extract hours and minutes
+    const [hourStr, minuteStr] = timeString.split(':');
+
+    // Parsing hours and minutes as integers
+    const hours = parseInt(hourStr, 10);
+    const minutes = parseInt(minuteStr, 10);
+
+    // Checking if hours and minutes are valid numbers
+    if (isNaN(hours) || isNaN(minutes)) {
+      return "Invalid time";
+    }
+
+    // Converting hours to 12-hour format and determining AM/PM
+    const ampm = hours >= 12 ? 'PM' : 'AM';
+    const formattedHours = hours % 12 || 12; // Handles midnight
+    const formattedMinutes = minutes < 10 ? '0' + minutes : minutes; // Ensures minutes are two digits
+
+    // Constructing the formatted time string
+    const formattedTime = `${formattedHours}:${formattedMinutes} ${ampm}`;
+    return formattedTime;
+  }
+
+
+  // end the time function
   return (
     <div className='container p-4 bg-[#f8fafc]'>
       <p className='text-lg font-semibold'>Team Form</p>
@@ -746,8 +775,8 @@ function TeamsForm() {
                       </div>
                     </div>
                   )}
-                  {item.type === 'password' && item.field == 'custom' && (
-                    <div>
+                  {item.type === 'password' && item.field === 'custom' && (
+                    <div className="relative">
                       <label
                         htmlFor={item.label}
                         className='block text-sm font-medium leading-6 my-2 text-gray-900'
@@ -761,7 +790,7 @@ function TeamsForm() {
                         )}
                       </label>
                       <input
-                        type='password'
+                        type={showPassword ? 'text' : 'password'}
                         placeholder={`Enter ${item.inputname}`}
                         name={item.inputname}
                         id={item.inputname}
@@ -770,6 +799,28 @@ function TeamsForm() {
                         onChange={(e) => handleChange(index, e.target.value)}
                         style={{ fontSize: '0.8rem' }}
                       />
+                      <div className='absolute inset-y-0 right-0 top-[28px] flex items-center pr-3'>
+                        <button
+                          type="button"
+                          onClick={() => setShowPassword(!showPassword)}
+                          className="text-gray-600 focus:outline-none"
+                        >
+                          {showPassword ? (
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4 text-gray-400">
+                              <path d="M10 12.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z" />
+                              <path fill-rule="evenodd" d="M.664 10.59a1.651 1.651 0 0 1 0-1.186A10.004 10.004 0 0 1 10 3c4.257 0 7.893 2.66 9.336 6.41.147.381.146.804 0 1.186A10.004 10.004 0 0 1 10 17c-4.257 0-7.893-2.66-9.336-6.41ZM14 10a4 4 0 1 1-8 0 4 4 0 0 1 8 0Z" clip-rule="evenodd" />
+                            </svg>
+
+
+                          ) : (
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4 text-gray-400">
+                              <path fill-rule="evenodd" d="M3.28 2.22a.75.75 0 0 0-1.06 1.06l14.5 14.5a.75.75 0 1 0 1.06-1.06l-1.745-1.745a10.029 10.029 0 0 0 3.3-4.38 1.651 1.651 0 0 0 0-1.185A10.004 10.004 0 0 0 9.999 3a9.956 9.956 0 0 0-4.744 1.194L3.28 2.22ZM7.752 6.69l1.092 1.092a2.5 2.5 0 0 1 3.374 3.373l1.091 1.092a4 4 0 0 0-5.557-5.557Z" clip-rule="evenodd" />
+                              <path d="m10.748 13.93 2.523 2.523a9.987 9.987 0 0 1-3.27.547c-4.258 0-7.894-2.66-9.337-6.41a1.651 1.651 0 0 1 0-1.186A10.007 10.007 0 0 1 2.839 6.02L6.07 9.252a4 4 0 0 0 4.678 4.678Z" />
+                            </svg>
+
+                          )}
+                        </button>
+                      </div>
                       <div className='h-2 text-[#dc2626]'>
                         {errors[item.inputname] && (
                           <span className='text-xs'>
@@ -902,11 +953,12 @@ function TeamsForm() {
                       <input
                         type='date'
                         name={item.inputname}
-                        id={item.inputname}
                         className='px-2 py-2 text-sm block w-full rounded-md bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder:text-xs'
+                        id={item.inputname}
                         value={customFormFields[index].value || ''}
-                        style={{ fontSize: '0.8rem' }}
+                        s
                         onChange={(e) => handleChange(index, e.target.value)}
+                        style={{ fontSize: '0.8rem' }}
                       />
                       <div className='h-2 text-[#dc2626]'>
                         {errors[item.inputname] && (
@@ -1103,7 +1155,7 @@ function TeamsForm() {
                           <span> </span>
                         )}
                       </label>
-                      <div className='px-2 py-2 text-sm block w-full rounded-md bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder:text-xs'>
+                      <div className='ps-2 py-2 text-sm block w-full rounded-md bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder:text-xs'>
                         <span className='flex justify-between'>
                           <p className='text-sm text-gray-400'>
                             {item.value.length > 0 ? (
@@ -1144,7 +1196,7 @@ function TeamsForm() {
                                 id={option}
                                 checked={item.value.includes(option)}
                                 onChange={(e) => handleChange(index, option)}
-                                className='mr-1 '
+                                className='mr-1'
                               />
                               <label
                                 htmlFor={option}
@@ -1182,72 +1234,105 @@ function TeamsForm() {
           <div className='shadow-md px-6 py-4 mt-4 border-2 rounded-md bg-[#f8fafc] '>
             {customFormFields &&
               customFormFields.length > 0 &&
-              customFormFields.map((item) => (
-                <div className='relative'>
-                  {/* predefined fields*/}
-                  {item.type === 'text' &&
-                    item.inputname == 'name' &&
-                    item.field === 'predefined' && (
-                      <div>
-                        {item.value ? (
-                          <p className='text-sm font-black text-gray-800 mt-2 absolute left-12'>
-                            {' '}
-                            {item.value.toUpperCase()}
-                          </p>
-                        ) : (
-                          <p className='text-sm font-black text-gray-800 mt-2 absolute left-12'>
-                            {' '}
-                            TEAM NAME
-                          </p>
-                        )}
-                      </div>
-                    )}
-                  {item.type === 'file' &&
-                    item.inputname == 'image' &&
-                    item.field == 'predefined' && (
-                      <div className='flex gap-4'>
-                        <div className='group h-10 '>
+              customFormFields.map((item) => {
+                let date = new Date(item.value);
+                const day = date.getUTCDate();
+                const monthIndex = date.getUTCMonth();
+                const year = date.getUTCFullYear();
+
+                const monthAbbreviations = [
+                  "Jan",
+                  "Feb",
+                  "Mar",
+                  "Apr",
+                  "May",
+                  "Jun",
+                  "Jul",
+                  "Aug",
+                  "Sep",
+                  "Oct",
+                  "Nov",
+                  "Dec",
+                ];
+
+                // Formatting the date
+                date = `${day < 10 ? "0" : ""}${day}-${monthAbbreviations[monthIndex]
+                  }-${year}`;
+                return (
+                  <div className='relative'>
+                    {/* predefined fields*/}
+                    {item.type === 'text' &&
+                      item.inputname == 'name' &&
+                      item.field === 'predefined' && (
+                        <div>
                           {item.value ? (
-                            <img
-                              src={
-                                typeof item.value === 'string'
-                                  ? item.value
-                                  : URL.createObjectURL(item.value)
-                              }
-                              name='TeamsPhoto'
-                              alt='Selected User Photo'
-                              className='rounded-lg w-10 h-10 mr-4'
-                            />
+                            <p className='text-sm font-black text-gray-800 mt-2 absolute left-12'>
+                              {' '}
+                              {item.value.toUpperCase()}
+                            </p>
                           ) : (
-                            <img
-                              className='w-10 h-10 rounded-lg '
-                              src={defprop}
-                              alt='default image'
-                            />
+                            <p className='text-sm font-black text-gray-800 mt-2 absolute left-12'>
+                              {' '}
+                              TEAM NAME
+                            </p>
                           )}
                         </div>
-                      </div>
-                    )}
-                  {item.type === 'textarea' &&
-                    item.inputname == 'description' &&
-                    item.field == 'predefined' && (
-                      <div className='h-28 overflow-auto border border-1 border-gray-200 rounded-md p-2 bg-[#f8fafc] text-sm w-full mt-4'>
-                        {item.value}
-                      </div>
-                    )}
-                  {item.type === 'multiselect' &&
-                    item.inputname == 'members' &&
-                    item.field == 'predefined' && (
-                      <div className=' grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-2 mt-5'>
-                        {item.value &&
-                          Array.from({ length: 12 }).map((_, index) => {
-                            let first = '';
-                            let second = '';
-                            let firstLetter;
-                            let secondLetter;
-                            let mail = '';
-                            if (index < item.value.length) {
-                              mail = item.value[index].split('@')[0];
+                      )}
+                    {item.type === 'file' &&
+                      item.inputname == 'image' &&
+                      item.field == 'predefined' && (
+                        <div className='flex gap-4'>
+                          <div className='group h-10 '>
+                            {item.value ? (
+                              <img
+                                src={
+                                  typeof item.value === 'string'
+                                    ? item.value
+                                    : URL.createObjectURL(item.value)
+                                }
+                                name='TeamsPhoto'
+                                alt='Selected User Photo'
+                                className='rounded-lg w-10 h-10 mr-4'
+                              />
+                            ) : (
+                              <img
+                                className='w-10 h-10 rounded-lg '
+                                src={defprop}
+                                alt='default image'
+                              />
+                            )}
+                          </div>
+                        </div>
+                      )}
+                    {item.type === 'textarea' &&
+                      item.inputname == 'description' &&
+                      item.field == 'predefined' && (
+                        <div className='h-28 overflow-auto border border-1 border-gray-200 rounded-md p-2 bg-[#f8fafc] text-sm w-full mt-4'>
+                          {item.value}
+                        </div>
+                      )}
+                    {item.type === 'multiselect' &&
+                      item.inputname == 'members' &&
+                      item.field == 'predefined' && (
+                        <div className=' grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-2 mt-5'>
+                          {item.value &&
+                            Array.from({ length: 12 }).map((_, index) => {
+                              let first = '';
+                              let second = '';
+                              let firstLetter;
+                              let secondLetter;
+                              let mail = '';
+                              if (index < item.value.length) {
+                                mail = item.value[index].split('@')[0];
+                                if (mail.includes('.')) {
+                                  first = mail.split('.')[0];
+                                  second = mail.split('.')[1];
+                                  firstLetter = first[0];
+                                  secondLetter = second[0];
+                                } else {
+                                  firstLetter = mail[0];
+                                }
+                              }
                               if (mail.includes('.')) {
                                 first = mail.split('.')[0];
                                 second = mail.split('.')[1];
@@ -1256,288 +1341,292 @@ function TeamsForm() {
                               } else {
                                 firstLetter = mail[0];
                               }
-                            }
-                            if (mail.includes('.')) {
-                              first = mail.split('.')[0];
-                              second = mail.split('.')[1];
-                              firstLetter = first[0];
-                              secondLetter = second[0];
-                            } else {
-                              firstLetter = mail[0];
-                            }
-                            const colors = [
-                              '#818cf8',
-                              '#fb923c',
-                              '#f87171',
-                              '#0891b2',
-                              '#db2777',
-                              '#f87171',
-                              '#854d0e',
-                              '#166534',
-                            ];
-                            const getRandomColor = (firstLetter) => {
-                              const randomIndex =
-                                firstLetter?.charCodeAt(0) % colors.length;
-                              return colors[randomIndex];
-                            };
-                            return (
-                              <div
-                                className='col-span-1 flex justify-start gap-1'
-                                key={index}
-                              >
-                                {index + 1 <= item.value.length && (
-                                  <>
-                                    <h5
-                                      style={{
-                                        backgroundColor: `${getRandomColor(
-                                          firstLetter
-                                        )}`,
-                                      }}
-                                      className=' rounded-full w-10 h-10  md:h-8 xl:h-10 flex justify-center  text-xs items-center text-white'
-                                    >
-                                      {index < 11 && (
-                                        <>
-                                          {firstLetter?.toUpperCase()}
-                                          {secondLetter &&
-                                            secondLetter?.toUpperCase()}
-                                        </>
-                                      )}
-                                      {index == 11 &&
-                                        item.value.length == 12 && (
+                              const colors = [
+                                '#818cf8',
+                                '#fb923c',
+                                '#f87171',
+                                '#0891b2',
+                                '#db2777',
+                                '#f87171',
+                                '#854d0e',
+                                '#166534',
+                              ];
+                              const getRandomColor = (firstLetter) => {
+                                const randomIndex =
+                                  firstLetter?.charCodeAt(0) % colors.length;
+                                return colors[randomIndex];
+                              };
+                              return (
+                                <div
+                                  className='col-span-1 flex justify-start gap-1'
+                                  key={index}
+                                >
+                                  {index + 1 <= item.value.length && (
+                                    <>
+                                      <h5
+                                        style={{
+                                          backgroundColor: `${getRandomColor(
+                                            firstLetter
+                                          )}`,
+                                        }}
+                                        className=' rounded-full w-10 h-10  md:h-8 xl:h-10 flex justify-center  text-xs items-center text-white'
+                                      >
+                                        {index < 11 && (
                                           <>
                                             {firstLetter?.toUpperCase()}
                                             {secondLetter &&
                                               secondLetter?.toUpperCase()}
                                           </>
-                                        )}{' '}
-                                      {index == 11 &&
-                                        item.value.length > 12 && (
-                                          <span>
-                                            <svg
-                                              xmlns='http://www.w3.org/2000/svg'
-                                              fill='none'
-                                              viewBox='0 0 24 24'
-                                              stroke-width='1.5'
-                                              stroke='currentColor'
-                                              className='w-6 h-6'
-                                            >
-                                              <path
-                                                stroke-linecap='round'
-                                                stroke-linejoin='round'
-                                                d='M18 18.72a9.094 9.094 0 0 0 3.741-.479 3 3 0 0 0-4.682-2.72m.94 3.198.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0 1 12 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 0 1 6 18.719m12 0a5.971 5.971 0 0 0-.941-3.197m0 0A5.995 5.995 0 0 0 12 12.75a5.995 5.995 0 0 0-5.058 2.772m0 0a3 3 0 0 0-4.681 2.72 8.986 8.986 0 0 0 3.74.477m.94-3.197a5.971 5.971 0 0 0-.94 3.197M15 6.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm6 3a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Zm-13.5 0a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Z'
-                                              />
-                                            </svg>
-                                          </span>
                                         )}
-                                    </h5>
-                                    <div className=' flex items-center md:items-start xl:items-center  overflow-hidden' style={{ width: "150px" }}>
-                                      <div className=' md:w-28 lg:w-48  truncate' title={mail} >
-                                        {index < 11 && mail}
                                         {index == 11 &&
-                                          item.value.length == 12 &&
-                                          mail}
+                                          item.value.length == 12 && (
+                                            <>
+                                              {firstLetter?.toUpperCase()}
+                                              {secondLetter &&
+                                                secondLetter?.toUpperCase()}
+                                            </>
+                                          )}{' '}
                                         {index == 11 &&
                                           item.value.length > 12 && (
-                                            <span >
-                                              +{item.value.length - 11} more
+                                            <span>
+                                              <svg
+                                                xmlns='http://www.w3.org/2000/svg'
+                                                fill='none'
+                                                viewBox='0 0 24 24'
+                                                stroke-width='1.5'
+                                                stroke='currentColor'
+                                                className='w-6 h-6'
+                                              >
+                                                <path
+                                                  stroke-linecap='round'
+                                                  stroke-linejoin='round'
+                                                  d='M18 18.72a9.094 9.094 0 0 0 3.741-.479 3 3 0 0 0-4.682-2.72m.94 3.198.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0 1 12 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 0 1 6 18.719m12 0a5.971 5.971 0 0 0-.941-3.197m0 0A5.995 5.995 0 0 0 12 12.75a5.995 5.995 0 0 0-5.058 2.772m0 0a3 3 0 0 0-4.681 2.72 8.986 8.986 0 0 0 3.74.477m.94-3.197a5.971 5.971 0 0 0-.94 3.197M15 6.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm6 3a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Zm-13.5 0a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Z'
+                                                />
+                                              </svg>
                                             </span>
-                                          )}{' '}
+                                          )}
+                                      </h5>
+                                      <div className=' flex items-center md:items-start xl:items-center  overflow-hidden' style={{ width: "150px" }}>
+                                        <div className=' md:w-28 lg:w-48  truncate' title={mail} >
+                                          {index < 11 && mail}
+                                          {index == 11 &&
+                                            item.value.length == 12 &&
+                                            mail}
+                                          {index == 11 &&
+                                            item.value.length > 12 && (
+                                              <span >
+                                                +{item.value.length - 11} more
+                                              </span>
+                                            )}{' '}
+                                        </div>
                                       </div>
-                                    </div>
-                                  </>
-                                )}
-                                {index + 1 > item.value.length && (
-                                  <>
-                                    <h5 className='bg-[#e5e7eb] rounded-full w-10 h-10  md:h-8 xl:h-10 flex justify-center text-xs items-center text-white'></h5>
-                                    <div className=' flex items-center'>
-                                      <div className=' rounded-md  bg-[#e5e7eb] h-2 w-28'>
-                                        {' '}
+                                    </>
+                                  )}
+                                  {index + 1 > item.value.length && (
+                                    <>
+                                      <h5 className='bg-[#e5e7eb] rounded-full w-10 h-10  md:h-8 xl:h-10 flex justify-center text-xs items-center text-white'></h5>
+                                      <div className=' flex items-center'>
+                                        <div className=' rounded-md  bg-[#e5e7eb] h-2 w-28'>
+                                          {' '}
+                                        </div>
                                       </div>
-                                    </div>
-                                  </>
-                                )}
-                              </div>
-                            );
-                          })}
-                      </div>
-                    )}
-                  {/* customfields */}
-                  {item.type === 'text' && item.field == 'custom' && (
-                    <div>
-                      <div className='my-3 ms-2'>
+                                    </>
+                                  )}
+                                </div>
+                              );
+                            })}
+                        </div>
+                      )}
+                    {/* customfields */}
+                    {item.type === 'text' && item.field == 'custom' && (
+                      <div className='my-2 mx-5 '>
                         {item.value && item.value.length > 0 && (
-                          <p className='flex flex-wrap gap-5'>
-                            <span className=' w-1/6 text-[#727a85]'>
+                          <p className='flex  gap-2'>
+                            <span className='w-2/6 break-words text-[#727a85] '>
                               {item.label.charAt(0).toUpperCase() +
                                 item.label.slice(1)}
                             </span>
-                            <span className=' w-4/6 text-md font-[600]'>
-                              {' '}
-                              : {item.value}
-                            </span>
-                          </p>
-                        )}
-                      </div>
-                    </div>
-                  )}
-                  {item.type === 'email' && item.field == 'custom' && (
-                    <div>
-                      <div className='my-3 ms-2'>
-                        {item.value && item.value.length > 0 && (
-                          <p className='flex flex-wrap gap-5'>
-                            <span className=' w-1/6 text-[#727a85]'>
-                              {item.label.charAt(0).toUpperCase() +
-                                item.label.slice(1)}
-                            </span>
-                            <span className=' w-4/6 text-md font-[600]'>
-                              {' '}
-                              : {item.value}
-                            </span>
-                          </p>
-                        )}
-                      </div>
-                    </div>
-                  )}
-                  {(item.type === 'number' || item.type === 'phonenumber') &&
-                    item.field == 'custom' && (
-                      <div className='my-3 ms-2'>
-                        {item.value && item.value.length > 0 && (
-                          <p className='flex flex-wrap gap-5'>
-                            <span className=' w-1/6 text-[#727a85]'>
-                              {item.label.charAt(0).toUpperCase() +
-                                item.label.slice(1)}
-                            </span>
-                            <span className=' w-4/6 text-md font-[600]'>
-                              {' '}
-                              : {item.value}
+                            <span className=' flex gap-2 w-4/6'>
+                              <span> : </span>{' '}
+                              <span className='text-md font-[600]  '>
+                                {item.value}
+                              </span>
                             </span>
                           </p>
                         )}
                       </div>
                     )}
-                  {item.type === 'textarea' && item.field == 'custom' && (
-                    <div className='my-3 ms-2'>
-                      {item.value && item.value.length > 0 && (
-                        <p className='flex flex-wrap gap-5'>
-                          <span className=' w-1/6 text-[#727a85]'>
-                            {item.label.charAt(0).toUpperCase() +
-                              item.label.slice(1)}
-                          </span>
-                          <span className=' w-4/6 text-md font-[600]'>
-                            {' '}
-                            : {item.value}
-                          </span>
-                        </p>
-                      )}
-                    </div>
-                  )}
-                  {item.type === 'file' && item.field == 'custom' && (
-                    <div className='my-3 ms-2'>
-                      {item.value && item.value.length > 0 && (
-                        <p className='flex flex-wrap gap-3'>
-                          <span className='w-1/6 text-[#727a85]'>
-                            {item.label.charAt(0).toUpperCase() +
-                              item.label.slice(1)}
-                          </span>
-                          <span className=' w-4/6 text-md font-[600] flex gap-5'>
-                            {' '}
-                            :
-                            <img
-                              src={item.value}
-                              // name="EntityPhoto"
-                              alt='file'
-                              className='rounded-lg w-20 h-20 '
-                            />
-                          </span>
-                        </p>
-                      )}
-                    </div>
-                  )}
-                  {item.type === 'date' && item.field == 'custom' && (
-                    <div className='my-3 ms-2'>
-                      {item.value && item.value.length > 0 && (
-                        <p className='flex flex-wrap gap-5'>
-                          <span className=' w-1/6 text-[#727a85]'>
-                            {item.label.charAt(0).toUpperCase() +
-                              item.label.slice(1)}
-                          </span>
-                          <span className=' w-4/6 text-md font-[600]'>
-                            {' '}
-                            : {item.value}
-                          </span>
-                        </p>
-                      )}
-                    </div>
-                  )}
-                  {item.type === 'select' && item.field == 'custom' && (
-                    <div className='my-3 ms-2'>
-                      {item.value && item.value.length > 0 && (
-                        <p className='flex flex-wrap gap-5'>
-                          <span className=' w-1/6 text-[#727a85]'>
-                            {item.label.charAt(0).toUpperCase() +
-                              item.label.slice(1)}
-                          </span>
-                          <span className=' w-4/6 text-md font-[600]'>
-                            {' '}
-                            : {item.value}
-                          </span>
-                        </p>
-                      )}
-                    </div>
-                  )}
+                    {item.type === 'email' && item.field == 'custom' && (
+                      <div className='my-2 mx-5 '>
+                        {item.value && item.value.length > 0 && (
+                          <p className='flex  gap-2'>
+                            <span className='w-2/6 break-words text-[#727a85] '>
+                              {item.label.charAt(0).toUpperCase() +
+                                item.label.slice(1)}
+                            </span>
+                            <span className='  flex gap-2 w-4/6 '>
+                              <span> : </span>{' '}
+                              <span className='text-md font-[600] break-all'>
+                                {item.value}
+                              </span>
+                            </span>
+                          </p>
+                        )}
+                      </div>
+                    )}
+                    {item.type === 'phonenumber' && item.field == 'custom' && (
+                      <div className='my-2 mx-5 flex-wrap'>
+                        {item.value && item.value.length > 0 && (
+                          <p className='flex  gap-2'>
+                            <span className='w-2/6 break-words text-[#727a85] '>
+                              {item.label.charAt(0).toUpperCase() +
+                                item.label.slice(1)}
+                            </span>
+                            <span className='  flex gap-2 w-4/6'>
+                              <span> : </span>{' '}
+                              <span className='text-md font-[600] '>
+                                {item.value.slice(0, 3)}&nbsp;
+                                {item.value.slice(3, 6)}&nbsp;
+                                {item.value.slice(6, 10)}
+                              </span>
+                            </span>
+                          </p>
+                        )}
+                      </div>
+                    )}
+                    {item.type === 'number' && item.field == 'custom' && (
+                      <div className='my-2 mx-5 flex-wrap'>
+                        {item.value && item.value.length > 0 && (
+                          <p className='flex  gap-2'>
+                            <span className='w-2/6 break-words text-[#727a85] '>
+                              {item.label.charAt(0).toUpperCase() +
+                                item.label.slice(1)}
+                            </span>
+                            <span className='  flex gap-2 w-4/6'>
+                              <span> : </span>{' '}
+                              <span className='text-md font-[600]  break-all'>
+                                {item.value}
 
 
-                  {item.type === 'multiselect' && item.field == 'custom' && (
-                    <div className='my-3 ms-2'>
-                      {item.value && item.value.length > 0 && (
-                        <p className='flex flex-wrap gap-5'>
-                          <span className=' w-1/6 text-[#727a85]'>
-                            {item.label.charAt(0).toUpperCase() +
-                              item.label.slice(1)}
-                          </span>
-                          <span className=' w-4/6 text-md font-[600]'>
-                            {' '}
-                            : {item.value.join(', ')}
-                          </span>
-                        </p>
-                      )}
-                    </div>
-                  )}
+                              </span>
+                            </span>
+                          </p>
+                        )}
+                      </div>
+                    )}
+                    {item.type === 'textarea' && item.field == 'custom' && (
+                      // mb-1 ps-6 flex flex-wrap
+                      <div className='my-2 mx-5 '>
+                        {item.value && item.value.length > 0 && (
+                          <p className='flex  gap-2'>
+                            <span className='w-2/6 text-[#727a85] break-words '>
+                              {item.label.charAt(0).toUpperCase() +
+                                item.label.slice(1)}
+                            </span>
+                            <span className=' flex gap-2 w-4/6'>
+                              <span> : </span>{' '}
+                              <span className='text-md font-[600]  '>
+                                {item.value}
+                              </span>
+                            </span>
+                          </p>
+                        )}
+                      </div>
+                    )}
+                    {item.type === 'date' && item.field == 'custom' && (
+                      <div className='my-2 mx-5 '>
+                        {item.value && item.value.length > 0 && (
+                          <p className='flex  gap-2'>
+                            <span className='w-2/6 text-[#727a85] break-words  '>
+                              {item.label.charAt(0).toUpperCase() +
+                                item.label.slice(1)}
+                            </span>
+                            <span className='  flex gap-2 w-4/6'>
+                              <span> : </span>{' '}
+                              <span className='text-md font-[600] '>
+                                {date ? date : "No Date"}
+                              </span>
+                            </span>
+                          </p>
+                        )}
+                      </div>
+                    )}
+                    {item.type === 'select' && item.field == 'custom' && (
+                      <div className='my-2 mx-5 '>
+                        {item.value && item.value.length > 0 && (
+                          <p className='flex  gap-2'>
+                            <span className='w-2/6 text-[#727a85] break-words  '>
+                              {item.label.charAt(0).toUpperCase() +
+                                item.label.slice(1)}
+                            </span>
+                            <span className='  flex gap-2 w-4/6'>
+                              <span> : </span>{' '}
+                              <span className='text-md font-[600] '>
+                                {item.value}
+                              </span>
+                            </span>
+                          </p>
+                        )}
+                      </div>
+                    )}
+                    {item.type === 'multiselect' && item.field == 'custom' && (
+                      <div className='my-2 mx-5 '>
+                        {item.value && item.value.length > 0 && (
+                          <p className='flex  gap-2'>
+                            <span className='w-2/6 text-[#727a85]  break-words '>
+                              {item.label.charAt(0).toUpperCase() +
+                                item.label.slice(1)}
+                            </span>
+                            <span className='  flex gap-2 w-4/6'>
+                              <span> : </span>{' '}
+                              <span className='text-md font-[600] '>
+                                {item.value.join(', ')}
+                              </span>
+                            </span>
+                          </p>
+                        )}
+                      </div>
+                    )}
+                    {item.type === 'range' && item.field == 'custom' && (
+                      <div className='my-2 mx-5 '>
+                        {item.value && item.value.length > 0 && (
+                          <p className='flex  gap-2'>
+                            <span className='w-2/6 text-[#727a85] break-words '>
+                              {item.label.charAt(0).toUpperCase() +
+                                item.label.slice(1)}
+                            </span>
+                            <span className='  flex gap-2 w-4/6'>
+                              <span> : </span>{' '}
+                              <span className='text-md font-[600] '>
+                                {item.value}
+                              </span>
+                            </span>
+                          </p>
+                        )}
+                      </div>
+                    )}
+                    {item.type === 'time' && item.field == 'custom' && (
+                      <div className='my-2 mx-5 '>
+                        {item.value && item.value.length > 0 && (
+                          <p className='flex gap-2'>
+                            <span className='w-2/6 text-[#727a85] break-words  '>
+                              {item.label.charAt(0).toUpperCase() +
+                                item.label.slice(1)}
+                            </span>
+                            <span className='  flex gap-2 w-4/6'>
+                              <span> : </span>{' '}
+                              <span className='text-md font-[600] '>
+                                {formatTime(item.value)}
+                              </span>
+                            </span>
+                          </p>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                )
 
-                  {item.type === 'range' && item.field == 'custom' && (
-                    <div className='my-3 ms-2'>
-                      {item.value && item.value.length > 0 && (
-                        <p className='flex flex-wrap gap-5'>
-                          <span className=' w-1/6 text-[#727a85]'>
-                            {item.label.charAt(0).toUpperCase() +
-                              item.label.slice(1)}
-                          </span>
-                          <span className=' w-4/6 text-md font-[600]'>
-                            {' '}
-                            : {item.value}
-                          </span>
-                        </p>
-                      )}
-                    </div>
-                  )}
-                  {item.type === 'time' && item.field == 'custom' && (
-                    <div className='my-3 ms-2'>
-                      {item.value && item.value.length > 0 && (
-                        <p className='flex flex-wrap gap-5'>
-                          <span className=' w-1/6 text-[#727a85]'>
-                            {item.label.charAt(0).toUpperCase() +
-                              item.label.slice(1)}
-                          </span>
-                          <span className=' w-4/6 text-md font-[600]'>
-                            {' '}
-                            : {item.value}
-                          </span>
-                        </p>
-                      )}
-                    </div>
-                  )}
-                </div>
-              ))}
+              })}
           </div>
         </div>
       </div>
