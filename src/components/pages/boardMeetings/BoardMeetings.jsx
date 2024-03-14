@@ -30,7 +30,7 @@ function BoardMeetings() {
     setFilters,
   } = useContext(BoardMeetingsDataContext);
   useEffect(()=>{
-console.log("boardmeetingsState",boardmeetingsList)
+console.log("boardmeetingess",boardmeetingsList)
 
   })
   const { debouncedSetPage, debouncedSetSearch } =

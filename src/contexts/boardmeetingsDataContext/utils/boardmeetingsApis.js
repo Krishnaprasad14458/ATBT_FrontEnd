@@ -11,6 +11,7 @@ export const getAllBoardMeetings = async (token) => {
 };
 
 export const getBoardMeetings = async (page, pageSize, sortBy, search, token, filters) => {
+   
     const url = `${apiUrl}/boardmeeting/list?page=${page ?? null}&pageSize=${pageSize ?? null}&sortBy=${sortBy ?? null}&search=${search ?? null}`;
     return axios.post(url, {
         filters: {

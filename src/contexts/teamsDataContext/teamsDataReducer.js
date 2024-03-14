@@ -1,5 +1,6 @@
 import * as actionTypes from './utils/teamsActionTypes'
 const teamsDataReducer = (state, action) => {
+    console.log("teamsstate",state)
     switch (action.type) {
         case actionTypes.SET_TEAMS:
             return {
