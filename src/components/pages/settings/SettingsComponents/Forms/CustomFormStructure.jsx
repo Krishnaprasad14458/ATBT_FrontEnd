@@ -304,7 +304,7 @@ const CustomFormStructure = () => {
   const inputType = [
     { label: 'Text', value: 'text' },
     { label: 'Email', value: 'email' },
-    { label: 'Password', value: 'password' },
+    // { label: 'Password', value: 'password' },
     { label: 'Number', value: 'number' },
     { label: 'Phone Number', value: 'phonenumber' },
     { label: 'Text Area', value: 'textarea' },
