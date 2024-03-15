@@ -238,6 +238,19 @@ function Entities() {
       [filterName]: selectedValue,
     }));
   };
+  function formatTime(timeString) {
+    const [hourStr, minuteStr] = timeString.split(':');
+    const hours = parseInt(hourStr, 10);
+    const minutes = parseInt(minuteStr, 10);
+    if (isNaN(hours) || isNaN(minutes)) {
+      return "Invalid time";
+    }
+    const ampm = hours >= 12 ? 'PM' : 'AM';
+    const formattedHours = hours % 12 || 12; // Handles midnight
+    const formattedMinutes = minutes < 10 ? '0' + minutes : minutes; // Ensures minutes are two digits
+    const formattedTime = `${formattedHours}:${formattedMinutes} ${ampm}`;
+    return formattedTime;
+  }
 
   return (
     <div className='overflow-x-auto p-3'>
@@ -564,16 +577,49 @@ function Entities() {
               {entitiesList?.paginatedEntities &&
                 entitiesList?.paginatedEntities?.map((row) => (
                   <tr key={row.id}>
-                    {visibleColumns.map((key) => (
-                      <td
+                    {visibleColumns.map((key) => {
+                       let value = row[key]
+
+                       if (tableView[key].type === "time" && row[key])  {
+                         value = formatTime(row[key])
+                       }
+                       if (tableView[key].type === "date" && row[key]) {
+                          value = new Date(row[key]);
+                         const day = value.getUTCDate();
+                         const monthIndex = value.getUTCMonth();
+                         const year = value.getUTCFullYear();
+ 
+                         const monthAbbreviations = [
+                           "Jan",
+                           "Feb",
+                           "Mar",
+                           "Apr",
+                           "May",
+                           "Jun",
+                           "Jul",
+                           "Aug",
+                           "Sep",
+                           "Oct",
+                           "Nov",
+                           "Dec",
+                         ];
+ 
+                         // Formatting the date
+                         value = `${day < 10 ? "0" : ""}${day}-${monthAbbreviations[monthIndex]}-${year}`;
+                        
+                       }
+                      return (
+                        <td
                         key={key}
                         className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden`}
                         style={{ maxWidth: '160px' }}
                         title={row[key]}
                       >
-                        <p className='truncate text-xs'> {row[key]}</p>
+                        <p className='truncate text-xs'> {value}</p>
                       </td>
-                    ))}
+                      )
+                     
+})}
                     <td
                       className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden`}
                       style={{ maxWidth: '160px' }}
