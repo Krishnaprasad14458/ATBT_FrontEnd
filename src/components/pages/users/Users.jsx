@@ -315,6 +315,9 @@ function Users() {
       [filterName]: selectedValue,
     }));
   };
+  // useEffect(()=>{
+  //   console.log
+  // })
 
   return (
     <div className='overflow-x-auto p-3'>

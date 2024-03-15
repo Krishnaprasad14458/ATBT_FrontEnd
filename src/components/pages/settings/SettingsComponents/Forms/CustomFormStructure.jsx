@@ -232,6 +232,7 @@ const CustomFormStructure = () => {
               updatedState[newInputField.inputname] = {
                 label: newInputField.label,
                 value: false,
+                type:newInputField.type
               };
               return updatedState;
             });
@@ -244,6 +245,8 @@ const CustomFormStructure = () => {
               updatedState[newInputField.inputname] = {
                 label: newInputField.label,
                 value: false,
+                type:newInputField.type
+
               };
               return updatedState;
             });
@@ -972,27 +975,37 @@ export default CustomFormStructure;
 // {
 //   "name": {
 //     "label": "Name",
-//     "value": true
+//     "value": true,
+//     "type":"text"
 //   },
 //   "entityname": {
 //     "label": "Entity Name",
-//     "value": true
+//     "value": true,
+//     "type":"select"
 //   },
 //   "email": {
 //     "label": "Email Id",
-//     "value": true
+//     "value": true,
+//     "type":"email"
+
 //   },
 //   "phonenumber": {
 //     "label": "Phone Number",
-//     "value": true
+//     "value": true,
+//     "type":"phonenumber"
+
 //   },
 //   "designation": {
 //     "label": "Designation",
-//     "value": true
+//     "value": true,
+//     "type":"select"
+
 //   },
 //   "role": {
 //     "label": "Role",
-//     "value": false
+//     "value": false,
+//     "type":"select"
+
 //   }
 // }
 
