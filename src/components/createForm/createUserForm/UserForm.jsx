@@ -31,6 +31,7 @@ export async function userFormLoader({ params }) {
         },
       });
       userData = userResponse?.data?.user;
+      console.log("bahvvuu",userData)
     }
     const formResponse = await axios.get(formApi);
     const formData = formResponse.data.Data;
@@ -489,7 +490,9 @@ function UserForm() {
 
 
   // end the time function
-
+useEffect(()=>{
+  console.log("cus",customFormFields)
+})
   return (
     <div className='container p-4 bg-[#f8fafc]'>
       {/* <p className="font-lg font-semibold p-3">Entity Form</p> */}
@@ -775,9 +778,14 @@ function UserForm() {
                         <select
                           id={item.inputname}
                           name={item.inputname}
-                          className={` ${!!id && !!user?.userData
+                          // className={` ${!!id && !!user?.userData
+                          //   ? 'text-[##d4d4d8] bg-gray-50 '
+                          //   : 'bg-gray-50 text-gray-900 '
+                          //   } px-2 py-2 text-sm block w-full rounded-md bg-gray-50 border border-gray-300  focus:outline-none  focus:border-orange-400 placeholder:text-xs `}
+                          className={` ${!!id && !!user?.userData &&
+                            parseInt(id) === loggedInUser
                             ? 'text-[##d4d4d8] bg-gray-50 cursor-not-allowed'
-                            : 'bg-gray-50 text-gray-900'
+                            : 'bg-gray-50 text-gray-900 '
                             } px-2 py-2 text-sm block w-full rounded-md bg-gray-50 border border-gray-300  focus:outline-none  focus:border-orange-400 placeholder:text-xs `}
                           onChange={(e) => handleChange(index, e.target.value)}
                           value={customFormFields[index].value || ''}
@@ -1357,7 +1365,7 @@ function UserForm() {
                             item.inputname == 'image' &&
                             item.field === 'predefined' && (
                               <div>
-                                {console.log(item.value, 'item.value')}
+                              
                                 {item.value ? (
                                   <img
                                     src={
@@ -1543,9 +1551,9 @@ function UserForm() {
                         </div>
                       )}
                       {item.type === 'phonenumber' && item.field == 'custom' && (
-                        <div className=''>
+                        <div className='flex-wrap'>
                           {item.value && item.value.length > 0 && (
-                            <p className='flex  gap-2 my-2 mx-5 flex-wrap' >
+                            <p className='flex  gap-2 my-2 mx-5 ' >
                               <span className='w-2/6  truncate text-[#727a85] '
                                 title={item.label.charAt(0).toUpperCase() +
                                   item.label.slice(1)}>
@@ -1565,9 +1573,9 @@ function UserForm() {
                         </div>
                       )}
                       {item.type === 'number' && item.field == 'custom' && (
-                        <div className=''>
+                        <div className='flex-wrap'>
                           {item.value && item.value.length > 0 && (
-                            <p className='flex  gap-2 my-2 mx-5 flex-wrap'>
+                            <p className='flex  gap-2 my-2 mx-5 '>
                               <span className='w-2/6  truncate text-[#727a85] '
                                 title={item.label.charAt(0).toUpperCase() +
                                   item.label.slice(1)}>
