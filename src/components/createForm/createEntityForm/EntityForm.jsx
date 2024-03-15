@@ -631,8 +631,7 @@ function EntityForm() {
                         </div>
                       </div>
                     )}
-                  {item.type === 'multiselect' &&
-                    item.inputname == 'members' &&
+                  {item.type === 'multiselect' && item.inputname == 'members' &&
                     item.field == 'predefined' && (
                       <div className='relative'>
                         <label
@@ -832,7 +831,6 @@ function EntityForm() {
                       </div>
                     </div>
                   )}
-
                   {item.type === 'number' && item.field == 'custom' && (
                     <div>
                       <label
