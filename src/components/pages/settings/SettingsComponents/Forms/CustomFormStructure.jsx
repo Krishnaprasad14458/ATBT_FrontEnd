@@ -319,12 +319,10 @@ const CustomFormStructure = () => {
   const handleSubmitCustomForm = async () => {
     let formData = {
       arrayOfObjects:
-
-
         customForm,
       Name: formName,
       Tableview:
-        tableView
+   tableView
     };
     await saveCustomForm(formData);
     console.log("formName", formData)
@@ -1058,7 +1056,8 @@ export default CustomFormStructure;
 // {
 //   "name": {
 //       "label": "Name",
-//       "value": true
+//       "value": true,
+// "type":"text"
 //   }
 // }
 
@@ -1136,19 +1135,26 @@ export default CustomFormStructure;
 // {
 //   "name": {
 //       "label": "Full Name",
-//       "value": true
+//       "value": true,
+//       "type":"text"
 //   },
 //   "date": {
 //       "label": "Select a Date",
-//       "value": true
+//       "value": true,
+//       "type":"date"
+
 //   },
 //   "time": {
 //       "label": " Select a Time",
-//       "value": true
+//       "value": true,
+//       "type":"time"
+
 //   },
 //   "venue": {
 //       "label": " Venue",
-//       "value": true
+//       "value": true,
+//       "type":"select"
+
 //   }
 // }
 ///////////////team form
@@ -1199,6 +1205,7 @@ export default CustomFormStructure;
 // {
 //   "name": {
 //       "label": "Full Name",
-//       "value": true
+//       "value": true,
+//       "type":"text"
 //   }
 // }
