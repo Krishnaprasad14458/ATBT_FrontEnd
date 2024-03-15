@@ -315,9 +315,9 @@ function Users() {
       [filterName]: selectedValue,
     }));
   };
-  // useEffect(()=>{
-  //   console.log
-  // })
+  useEffect(()=>{
+    console.log("irshad",tableView,visibleColumns)
+  })
 
   return (
     <div className='overflow-x-auto p-3'>
@@ -616,19 +616,30 @@ function Users() {
               {settings?.paginatedUsers &&
                 settings?.paginatedUsers?.map((row) => (
                   <tr key={row.id}>
-                    {visibleColumns.map((key) => (
+                    {visibleColumns.map((key) => {
+                    let value = row[key]
+
+                      if(tableView[key].type === "time"){
+                        value = "time"
+                      }
+                      if(tableView[key].type === "date"){
+                        value = "time"
+                      }
+                     return(
                       <td
-                        key={key}
-                        className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium overflow-hidden  ${row.userstatus
-                          ? 'text-gray-800 '
-                          : 'bg-gray-100 text-gray-300'
-                          }`}
-                        style={{ maxWidth: '160px' }}
-                        title={row[key]}
-                      >
-                        <p className='truncate text-xs'> {row[key]}</p>
-                      </td>
-                    ))}
+                      key={key}
+                      className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium overflow-hidden  ${row.userstatus
+                        ? 'text-gray-800 '
+                        : 'bg-gray-100 text-gray-300'
+                        }`}
+                      style={{ maxWidth: '160px' }}
+                      title={row[key]}
+                    >
+                      <p className='truncate text-xs'> {value}</p>
+                    </td>
+                     )
+                     
+})}
 
                     <td
                       className={`px-2 py-2  border border-[#e5e7eb] text-xs font-medium  ${row.userstatus
