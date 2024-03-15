@@ -315,10 +315,37 @@ function Users() {
       [filterName]: selectedValue,
     }));
   };
-  useEffect(()=>{
-    console.log("irshad",tableView,visibleColumns)
+  useEffect(() => {
+    console.log("irshad", tableView, visibleColumns)
   })
 
+
+  // to set the time in 12hours
+  function formatTime(timeString) {
+    // Splitting the timeString to extract hours and minutes
+    const [hourStr, minuteStr] = timeString.split(':');
+
+    // Parsing hours and minutes as integers
+    const hours = parseInt(hourStr, 10);
+    const minutes = parseInt(minuteStr, 10);
+
+    // Checking if hours and minutes are valid numbers
+    if (isNaN(hours) || isNaN(minutes)) {
+      return "Invalid time";
+    }
+
+    // Converting hours to 12-hour format and determining AM/PM
+    const ampm = hours >= 12 ? 'PM' : 'AM';
+    const formattedHours = hours % 12 || 12; // Handles midnight
+    const formattedMinutes = minutes < 10 ? '0' + minutes : minutes; // Ensures minutes are two digits
+
+    // Constructing the formatted time string
+    const formattedTime = `${formattedHours}:${formattedMinutes} ${ampm}`;
+    return formattedTime;
+  }
+
+
+  // end the time function
   return (
     <div className='overflow-x-auto p-3'>
       <div className='grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-3 xl:grid-col-3 gap-2 mt-2'>
@@ -615,31 +642,54 @@ function Users() {
             <tbody className=' divide-gray-200 dark:divide-gray-700'>
               {settings?.paginatedUsers &&
                 settings?.paginatedUsers?.map((row) => (
+
                   <tr key={row.id}>
                     {visibleColumns.map((key) => {
-                    let value = row[key]
+                      let value = row[key]
 
-                      if(tableView[key].type === "time"){
-                        value = "time"
+                      if (tableView[key].type === "time" && row[key])  {
+                        value = formatTime(row[key])
                       }
-                      if(tableView[key].type === "date"){
-                        value = "time"
+                      if (tableView[key].type === "date" && row[key]) {
+                         value = new Date(row[key]);
+                        const day = value.getUTCDate();
+                        const monthIndex = value.getUTCMonth();
+                        const year = value.getUTCFullYear();
+
+                        const monthAbbreviations = [
+                          "Jan",
+                          "Feb",
+                          "Mar",
+                          "Apr",
+                          "May",
+                          "Jun",
+                          "Jul",
+                          "Aug",
+                          "Sep",
+                          "Oct",
+                          "Nov",
+                          "Dec",
+                        ];
+
+                        // Formatting the date
+                        value = `${day < 10 ? "0" : ""}${day}-${monthAbbreviations[monthIndex]}-${year}`;
+                       
                       }
-                     return(
-                      <td
-                      key={key}
-                      className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium overflow-hidden  ${row.userstatus
-                        ? 'text-gray-800 '
-                        : 'bg-gray-100 text-gray-300'
-                        }`}
-                      style={{ maxWidth: '160px' }}
-                      title={row[key]}
-                    >
-                      <p className='truncate text-xs'> {value}</p>
-                    </td>
-                     )
-                     
-})}
+                      return (
+                        <td
+                          key={key}
+                          className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium overflow-hidden  ${row.userstatus
+                            ? 'text-gray-800 '
+                            : 'bg-gray-100 text-gray-300'
+                            }`}
+                          style={{ maxWidth: '160px' }}
+                          title={row[key]}
+                        >
+                          <p className='truncate text-xs'> {value}</p>
+                        </td>
+                      )
+
+                    })}
 
                     <td
                       className={`px-2 py-2  border border-[#e5e7eb] text-xs font-medium  ${row.userstatus
@@ -731,16 +781,16 @@ function Users() {
                             permission.module === 'user' && permission.canUpdate
                           }
                         >
-                           {/* className='items-center  text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600' */}
-                          { (
-                            <button 
-                           
-                            disabled={userId == row.id ? true : false}
-                            className={` ${userId == row.id
-                              ? 'text-gray-500 bg-gray-50 cursor-not-allowed'
-                              : 'bg-gray-50 text-[#475569] hover:text-orange-500'
-                              } items-center  text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50  dark:text-blue-500 dark:hover:text-blue-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600 `}
-                            
+                          {/* className='items-center  text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600' */}
+                          {(
+                            <button
+
+                              disabled={userId == row.id ? true : false}
+                              className={` ${userId == row.id
+                                ? 'text-gray-500 bg-gray-50 cursor-not-allowed'
+                                : 'bg-gray-50 text-[#475569] hover:text-orange-500'
+                                } items-center  text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50  dark:text-blue-500 dark:hover:text-blue-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600 `}
+
                             >
                               {row.userstatus !== undefined && (
                                 <label
@@ -758,7 +808,7 @@ function Users() {
                                       row.userremarkshistory
                                     )
                                   }
-                                  
+
                                 >
                                   <div
                                     className={`w-6 h-3 rounded-full shadow-inner ${row.userstatus
