@@ -418,13 +418,13 @@ function Users() {
             style={{ transition: 'opacity 0.3s ease-in-out' }}
           >
             <div
-              className='fixed inset-y-0 right-0 w-11/12 md:w-4/12 lg:w-1/5 xl:w-1/5 bg-white shadow-lg transform translate-x-full transition-transform duration-300 ease-in-out'
+              className='fixed inset-y-0 right-0 w-11/12 md:w-4/12 lg:w-1/5 xl:w-1/5 bg-white shadow-lg transform translate-x-full transition-transform duration-300 ease-in-out h-screen overflow-scroll'
               style={{
                 transform: `translateX(${columnsDrawerOpen ? '0%' : '100%'})`,
                 transition: 'transform 0.3s ease-in-out',
               }}
             >
-              <div className='flex justify-between px-5 py-4 bg-gray-100'>
+              <div className='flex justify-between px-5 py-4 bg-gray-100 '>
                 <h5 className='font-[500]'>Columns</h5>
                 <button
                   onClick={columnsDrawer}
@@ -468,7 +468,7 @@ function Users() {
 
                       <label
                         htmlFor={columnName}
-                        className='cursor-pointer text-md py-1'
+                        className='cursor-pointer text-md py-1 text-left'
                       >
                         {dupTableView[columnName].label}
                       </label>
@@ -476,7 +476,7 @@ function Users() {
                   ))}
               </div>
 
-              <div className='bg-gray-100 flex justify-between p-3 absolute bottom-0 w-full'>
+              <div className='bg-gray-100 flex justify-between px-3 pt-3 pb-2 w-full'>
                 <button
                   className='mr-3 px-3 py-2 inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white '
                   onClick={handleColumnsApply}
@@ -509,7 +509,7 @@ function Users() {
             style={{ transition: 'opacity 0.3s ease-in-out' }}
           >
             <div
-              className='fixed inset-y-0 right-0 w-11/12 md:w-4/12 lg:w-1/5 xl:w-w-1/5   bg-white shadow-lg transform translate-x-full transition-transform duration-300 ease-in-out'
+              className='fixed inset-y-0 right-0 w-11/12 md:w-4/12 lg:w-1/5 xl:w-w-1/5   bg-white shadow-lg transform translate-x-full transition-transform duration-300 ease-in-out h-screen overflow-scroll'
               style={{
                 transform: `translateX(${filterDrawerOpen ? '0%' : '100%'})`,
                 transition: 'transform 0.3s ease-in-out',
@@ -602,7 +602,7 @@ function Users() {
                 </div>
               </div>
 
-              <div className='bg-gray-100 flex justify-between p-3 absolute bottom-0 w-full'>
+              <div className='bg-gray-100 flex justify-between px-3 pt-3 pb-2 w-full'>
                 <button
                   onClick={handleFilterReset}
                   className='mr-3 px-3 py-2 inline-flex  whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white '
@@ -647,11 +647,11 @@ function Users() {
                     {visibleColumns.map((key) => {
                       let value = row[key]
 
-                      if (tableView[key].type === "time" && row[key])  {
+                      if (tableView[key].type === "time" && row[key]) {
                         value = formatTime(row[key])
                       }
                       if (tableView[key].type === "date" && row[key]) {
-                         value = new Date(row[key]);
+                        value = new Date(row[key]);
                         const day = value.getUTCDate();
                         const monthIndex = value.getUTCMonth();
                         const year = value.getUTCFullYear();
@@ -673,7 +673,7 @@ function Users() {
 
                         // Formatting the date
                         value = `${day < 10 ? "0" : ""}${day}-${monthAbbreviations[monthIndex]}-${year}`;
-                       
+
                       }
                       return (
                         <td
@@ -685,7 +685,7 @@ function Users() {
                           style={{ maxWidth: '160px' }}
                           title={row[key]}
                         >
-                          <p className='truncate text-xs'> {value}</p>
+                          <p className='truncate text-xs '> {value}</p>
                         </td>
                       )
 

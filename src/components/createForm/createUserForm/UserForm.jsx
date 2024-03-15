@@ -1447,7 +1447,9 @@ function UserForm() {
                           item.field == 'predefined' && (
                             <div className='my-2 mx-5 '>
                               <p className='flex  gap-2'>
-                                <span className='w-2/6 text-[#727a85]  truncate'>
+                                <span className='w-2/6 text-[#727a85]  truncate'
+                                  title={item.label.charAt(0).toUpperCase() +
+                                    item.label.slice(1)}>
                                   {item.label.charAt(0).toUpperCase() +
                                     item.label.slice(1)}
                                 </span>
@@ -1475,7 +1477,9 @@ function UserForm() {
                             <div className='my-2 mx-5 '>
                               {item.value ? (
                                 <p className='flex  gap-2'>
-                                  <span className='w-2/6  truncate text-[#727a85] '>
+                                  <span className='w-2/6  truncate text-[#727a85] '
+                                    title={item.label.charAt(0).toUpperCase() +
+                                      item.label.slice(1)}>
                                     {item.label.charAt(0).toUpperCase() +
                                       item.label.slice(1)}
                                   </span>
@@ -1508,7 +1512,9 @@ function UserForm() {
                         <div className='my-2 mx-5 '>
                           {item.value && item.value.length > 0 && (
                             <p className='flex  gap-2'>
-                              <span className='w-2/6  truncate text-[#727a85] '>
+                              <span className='w-2/6  truncate text-[#727a85] '
+                                title={item.label.charAt(0).toUpperCase() +
+                                  item.label.slice(1)}>
                                 {item.label.charAt(0).toUpperCase() +
                                   item.label.slice(1)}
                               </span>
@@ -1526,7 +1532,9 @@ function UserForm() {
                         <div className='my-2 mx-5 '>
                           {item.value && item.value.length > 0 && (
                             <p className='flex  gap-2'>
-                              <span className='w-2/6  truncate text-[#727a85] '>
+                              <span className='w-2/6  truncate text-[#727a85] '
+                                title={item.label.charAt(0).toUpperCase() +
+                                  item.label.slice(1)}>
                                 {item.label.charAt(0).toUpperCase() +
                                   item.label.slice(1)}
                               </span>
@@ -1544,7 +1552,9 @@ function UserForm() {
                         <div className='my-2 mx-5 flex-wrap'>
                           {item.value && item.value.length > 0 && (
                             <p className='flex  gap-2'>
-                              <span className='w-2/6  truncate text-[#727a85] '>
+                              <span className='w-2/6  truncate text-[#727a85] '
+                                title={item.label.charAt(0).toUpperCase() +
+                                  item.label.slice(1)}>
                                 {item.label.charAt(0).toUpperCase() +
                                   item.label.slice(1)}
                               </span>
@@ -1564,7 +1574,9 @@ function UserForm() {
                         <div className='my-2 mx-5 flex-wrap'>
                           {item.value && item.value.length > 0 && (
                             <p className='flex  gap-2'>
-                              <span className='w-2/6  truncate text-[#727a85] '>
+                              <span className='w-2/6  truncate text-[#727a85] '
+                                title={item.label.charAt(0).toUpperCase() +
+                                  item.label.slice(1)}>
                                 {item.label.charAt(0).toUpperCase() +
                                   item.label.slice(1)}
                               </span>
@@ -1585,7 +1597,9 @@ function UserForm() {
                         <div className='my-2 mx-5 '>
                           {item.value && item.value.length > 0 && (
                             <p className='flex  gap-2'>
-                              <span className='w-2/6 text-[#727a85]  truncate '>
+                              <span className='w-2/6 text-[#727a85]  truncate '
+                                title={item.label.charAt(0).toUpperCase() +
+                                  item.label.slice(1)}>
                                 {item.label.charAt(0).toUpperCase() +
                                   item.label.slice(1)}
                               </span>
@@ -1647,7 +1661,9 @@ function UserForm() {
                         <div className='my-2 mx-5 '>
                           {item.value && item.value.length > 0 && (
                             <p className='flex  gap-2'>
-                              <span className='w-2/6 text-[#727a85]  truncate  '>
+                              <span className='w-2/6 text-[#727a85]  truncate  '
+                                title={item.label.charAt(0).toUpperCase() +
+                                  item.label.slice(1)}>
                                 {item.label.charAt(0).toUpperCase() +
                                   item.label.slice(1)}
                               </span>
@@ -1665,7 +1681,9 @@ function UserForm() {
                         <div className='my-2 mx-5 '>
                           {item.value && item.value.length > 0 && (
                             <p className='flex  gap-2'>
-                              <span className='w-2/6 text-[#727a85]   truncate '>
+                              <span className='w-2/6 text-[#727a85]   truncate '
+                                title={item.label.charAt(0).toUpperCase() +
+                                  item.label.slice(1)}>
                                 {item.label.charAt(0).toUpperCase() +
                                   item.label.slice(1)}
                               </span>
@@ -1683,7 +1701,9 @@ function UserForm() {
                         <div className='my-2 mx-5 '>
                           {item.value && item.value.length > 0 && (
                             <p className='flex  gap-2'>
-                              <span className='w-2/6 text-[#727a85]  truncate '>
+                              <span className='w-2/6 text-[#727a85]  truncate '
+                                title={item.label.charAt(0).toUpperCase() +
+                                  item.label.slice(1)}>
                                 {item.label.charAt(0).toUpperCase() +
                                   item.label.slice(1)}
                               </span>
@@ -1701,7 +1721,9 @@ function UserForm() {
                         <div className='my-2 mx-5 '>
                           {item.value && item.value.length > 0 && (
                             <p className='flex gap-2'>
-                              <span className='w-2/6 text-[#727a85]  truncate  '>
+                              <span className='w-2/6 text-[#727a85]  truncate  '
+                                title={item.label.charAt(0).toUpperCase() +
+                                  item.label.slice(1)}>
                                 {item.label.charAt(0).toUpperCase() +
                                   item.label.slice(1)}
                               </span>
