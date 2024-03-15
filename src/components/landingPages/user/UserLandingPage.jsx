@@ -284,7 +284,9 @@ const UserLandingPage = () => {
                       item.field == 'predefined' && (
                         <div className='my-3 mx-5'>
                           <p className='flex  gap-2 '>
-                            <span className='w-full md:w-3/12  break-words text-[#727a85] hidden sm:block  flex-wrap  '>
+                            <span className='w-full md:w-3/12  truncate text-[#727a85] hidden sm:block  flex-wrap'
+                              title={item.label.charAt(0).toUpperCase() +
+                                item.label.slice(1)}>
                               {item.label.charAt(0).toUpperCase() +
                                 item.label.slice(1)}
                             </span>
@@ -303,7 +305,9 @@ const UserLandingPage = () => {
                       item.field == 'predefined' && (
                         <div className='my-3 mx-5'>
                           <p className='flex    gap-2 '>
-                            <span className='w-full md:w-3/12 break-words  text-[#727a85] hidden sm:block  flex-wrap '>
+                            <span className='w-full md:w-3/12 truncate  text-[#727a85] hidden sm:block flex-wrap'
+                              title={item.label.charAt(0).toUpperCase() +
+                                item.label.slice(1)}>
                               {item.label.charAt(0).toUpperCase() +
                                 item.label.slice(1)}
                             </span>
@@ -322,7 +326,9 @@ const UserLandingPage = () => {
                       item.field == 'predefined' && (
                         <div className='my-3 mx-5 '>
                           <p className='flex  gap-2'>
-                            <span className='w-full md:w-3/12  break-words text-[#727a85] hidden sm:block '>
+                            <span className='w-full md:w-3/12  truncate text-[#727a85] hidden sm:block'
+                              title={item.label.charAt(0).toUpperCase() +
+                                item.label.slice(1)}>
                               {item.label.charAt(0).toUpperCase() +
                                 item.label.slice(1)}
                             </span>
@@ -342,14 +348,15 @@ const UserLandingPage = () => {
                       <div className='my-3 mx-5'>
                         {item.value && item.value.length > 0 && (
                           <p className='flex  gap-2'>
-                            <span className='w-full md:w-3/12 break-words  text-[#727a85] hidden sm:block '>
+                            <span className='w-full md:w-3/12 truncate  text-[#727a85] hidden sm:block'
+                              title={item.label.charAt(0).toUpperCase() +
+                                item.label.slice(1)}>
                               {item.label.charAt(0).toUpperCase() +
                                 item.label.slice(1)}
                             </span>
                             <span className='  flex gap-2 md:w-9/12'>
                               <span className='hidden sm:block'> : </span>
-                              <span className='text-md font-[600]  '>
-
+                              <span className='text-md font-[600] '>
                                 {item.value}
                               </span>
                             </span>
@@ -361,7 +368,7 @@ const UserLandingPage = () => {
                       <div className='my-3 mx-5'>
                         {item.value && item.value.length > 0 && (
                           <p className='flex  gap-2'>
-                            <span className='w-full md:w-3/12 break-words  text-[#727a85] hidden sm:block '>
+                            <span className='w-full md:w-3/12 truncate  text-[#727a85] hidden sm:block'>
                               {item.label.charAt(0).toUpperCase() +
                                 item.label.slice(1)}
                             </span>
@@ -380,7 +387,9 @@ const UserLandingPage = () => {
                       <div className='my-3 mx-5 flex-wrap'>
                         {item.value && item.value.length > 0 && (
                           <p className='flex  gap-2'>
-                            <span className='w-full md:w-3/12 break-words text-[#727a85] hidden sm:block '>
+                            <span className='w-full md:w-3/12  truncate text-[#727a85] hidden sm:block'
+                              title={item.label.charAt(0).toUpperCase() +
+                                item.label.slice(1)}>
                               {item.label.charAt(0).toUpperCase() +
                                 item.label.slice(1)}
                             </span>
@@ -400,7 +409,9 @@ const UserLandingPage = () => {
                       <div className='my-2 mx-5 flex-wrap'>
                         {item.value && item.value.length > 0 && (
                           <p className='flex  gap-2'>
-                            <span className='w-full md:w-3/12 break-words  text-[#727a85] hidden sm:block '>
+                            <span className='w-full md:w-3/12 truncate  text-[#727a85] hidden sm:block'
+                              title={item.label.charAt(0).toUpperCase() +
+                                item.label.slice(1)}>
                               {item.label.charAt(0).toUpperCase() +
                                 item.label.slice(1)}
                             </span>
@@ -420,7 +431,9 @@ const UserLandingPage = () => {
                       <div className='my-3 mx-5'>
                         {item.value && item.value.length > 0 && (
                           <p className='flex gap-2'>
-                            <span className='w-full md:w-3/12  break-words text-[#727a85] hidden sm:block '>
+                            <span className='w-full md:w-3/12  truncate text-[#727a85] hidden sm:block'
+                              title={item.label.charAt(0).toUpperCase() +
+                                item.label.slice(1)}>
                               {item.label.charAt(0).toUpperCase() +
                                 item.label.slice(1)}
                             </span>
@@ -439,7 +452,9 @@ const UserLandingPage = () => {
                       <div className='my-3 mx-5'>
                         {item.value && item.value.length > 0 && (
                           <p className='flex  gap-2'>
-                            <span className='w-full md:w-3/12 break-words  text-[#727a85] hidden sm:block '>
+                            <span className='w-full md:w-3/12 truncate  text-[#727a85] hidden sm:block'
+                              title={item.label.charAt(0).toUpperCase() +
+                                item.label.slice(1)}>
                               {item.label.charAt(0).toUpperCase() +
                                 item.label.slice(1)}
                             </span>
@@ -457,7 +472,9 @@ const UserLandingPage = () => {
                       <div className='my-3 mx-5'>
                         {item.value && item.value.length > 0 && (
                           <p className='flex  gap-2'>
-                            <span className='w-full md:w-3/12  break-words text-[#727a85] hidden sm:block '>
+                            <span className='w-full md:w-3/12  truncate text-[#727a85] hidden sm:block'
+                              title={item.label.charAt(0).toUpperCase() +
+                                item.label.slice(1)}>
                               {item.label.charAt(0).toUpperCase() +
                                 item.label.slice(1)}
                             </span>
@@ -476,7 +493,9 @@ const UserLandingPage = () => {
                       <div className='my-3 mx-5'>
                         {item.value && item.value.length > 0 && (
                           <p className='flex  gap-2'>
-                            <span className='w-full md:w-3/12 break-words  text-[#727a85] hidden sm:block '>
+                            <span className='w-full md:w-3/12 truncate  text-[#727a85] hidden sm:block'
+                              title={item.label.charAt(0).toUpperCase() +
+                                item.label.slice(1)}>
                               {item.label.charAt(0).toUpperCase() +
                                 item.label.slice(1)}
                             </span>
@@ -495,7 +514,9 @@ const UserLandingPage = () => {
                       <div className='my-3 mx-5'>
                         {item.value && item.value.length > 0 && (
                           <p className='flex  gap-2'>
-                            <span className='w-full md:w-3/12 break-words  text-[#727a85] hidden sm:block '>
+                            <span className='w-full md:w-3/12 truncate  text-[#727a85] hidden sm:block'
+                              title={item.label.charAt(0).toUpperCase() +
+                                item.label.slice(1)}>
                               {item.label.charAt(0).toUpperCase() +
                                 item.label.slice(1)}
                             </span>
@@ -514,7 +535,9 @@ const UserLandingPage = () => {
                       <div className='my-3 mx-5'>
                         {item.value && item.value.length > 0 && (
                           <p className='flex  gap-2'>
-                            <span className='w-full md:w-3/12 break-words  text-[#727a85] hidden sm:block '>
+                            <span className='w-full md:w-3/12 truncate  text-[#727a85] hidden sm:block'
+                              title={item.label.charAt(0).toUpperCase() +
+                                item.label.slice(1)}>
                               {item.label.charAt(0).toUpperCase() +
                                 item.label.slice(1)}
                             </span>
@@ -528,8 +551,8 @@ const UserLandingPage = () => {
                         )}
                       </div>
                     )}
-                    </div>
-                 
+                  </div>
+
                 )
 
               })}
