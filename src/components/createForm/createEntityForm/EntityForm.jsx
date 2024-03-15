@@ -60,7 +60,7 @@ function EntityForm() {
     }
   }, [id, entity]);
   function setInitialForm() {
-    console.log("entity", entity)
+   
 
     let response = entity?.formData;
     if (!!id && !!entity?.entityData) {
@@ -99,10 +99,7 @@ function EntityForm() {
       setSelected([]);
     }
   }, [id]);
-  useEffect(() => {
-    console.log(customFormFields, 'cfff');
-    console.log('errors', errors);
-  });
+  
   const handleInputChange = (e) => {
     setShowUsers(true);
     setSearchTerm(e.target.value);
@@ -132,26 +129,13 @@ function EntityForm() {
   useEffect(() => {
     console.log(selected, 'selected');
   },);
-  // const handleRemove = (selectedIndex, index) => {
-  //   const updatedSelected = selected.splice(selectedIndex, 1);
-  //   setSelected(updatedSelected);
-  //   const updatedMembers = customFormFields[index].value.splice(selectedIndex, 1);
-  //   const updatedFormData = [...customFormFields];
-  //   updatedFormData[index].value = updatedMembers;
-  //   setCustomFormFields(updatedFormData);
-  // };
+  
   const handleRemove = (selectedIndex, index) => {
-
     const updatedSelected = [...selected.slice(0, selectedIndex), ...selected.slice(selectedIndex + 1)];
     setSelected(updatedSelected);
-
-
     const updatedMembers = [...customFormFields[index].value.slice(0, selectedIndex), ...customFormFields[index].value.slice(selectedIndex + 1)];
-
     const updatedFormData = [...customFormFields];
     updatedFormData[index].value = updatedMembers;
-
-
     setCustomFormFields(updatedFormData);
   };
 
@@ -719,8 +703,7 @@ function EntityForm() {
 
                         {showUsers && searchTerm.length > 0 && (
                           <ul className='user-list z-10 absolute top-full left-0 bg-gray-50 border border-1 border-gray-200 w-full'>
-                            {usersEmails
-                              .filter(mainObj =>
+                            {dashboard.paginatedUsers?.filter(mainObj =>
                                 !selected.some(selectedObj => selectedObj.id === mainObj.id)
                               )
                               .map((user, ind) => (
