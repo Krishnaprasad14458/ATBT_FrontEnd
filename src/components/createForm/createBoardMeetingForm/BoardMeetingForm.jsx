@@ -83,7 +83,7 @@ function BoardMeetingForm() {
   } = useContext(UserDataContext);
   const { createBoardMeeting, updateBoardMeeting } = useContext(BoardMeetingsDataContext);
 
-  const usersEmails = dashboard.paginatedUsers?.map((user) => user.email);
+  // const usersEmails = dashboard.paginatedUsers?.map((user) => user.email);
   const { debouncedSetPage, debouncedSetSearch } = useDebounce(usersDispatch);
 
   let [openOptions, setopenOptions] = useState('');
@@ -133,14 +133,10 @@ function BoardMeetingForm() {
   useEffect(() => {
     console.log(searchTerm, 'clear');
   }, [searchTerm]);
-  const handleRemove = (user, index) => {
-    const updatedSelected = selected.filter(
-      (selectedUser) => selectedUser !== user
-    );
+  const handleRemove = (selectedIndex, index) => {
+    const updatedSelected = [...selected.slice(0, selectedIndex), ...selected.slice(selectedIndex + 1)];
     setSelected(updatedSelected);
-    const updatedMembers = customFormFields[index].value.filter(
-      (selectedUser) => selectedUser !== user
-    );
+    const updatedMembers = [...customFormFields[index].value.slice(0, selectedIndex), ...customFormFields[index].value.slice(selectedIndex + 1)];
     const updatedFormData = [...customFormFields];
     updatedFormData[index].value = updatedMembers;
     setCustomFormFields(updatedFormData);
@@ -729,16 +725,29 @@ function BoardMeetingForm() {
                         >
                           {selected &&
                             selected.length > 0 &&
-                            selected.map((result) => {
-                              let mail = result.split('@')[0];
+                            selected.map((result,selectedIndex) => {
+                              let mail = result.email.split('@')[0];
                               return (
                                 <span className='flex gap-1 text-xs mt-1 border-2 border-gray-200 rounded-md  focus:border-orange-600'>
-                                  <img
-                                    className='w-4 h-4 rounded-lg'
-                                    src={defprop}
-                                    alt='image'
-                                  />{' '}
-                                  {mail}{' '}
+                                  {result.image ? (
+                                    <img
+                                      src={
+                                        typeof result.image === 'string'
+                                          ? result.image
+                                          : URL.createObjectURL(result.image)
+                                      }
+                                      name='EntityPhoto'
+                                      alt='Entity Photo'
+                                      className='rounded-lg w-10 h-10 mr-4'
+                                    />
+                                  ) : (
+                                    <img
+                                      className='w-10 h-10 rounded-lg '
+                                      src={defprop}
+                                      alt='default image'
+                                    />
+                                  )}
+                                  {mail}
                                   <svg
                                     xmlns='http://www.w3.org/2000/svg'
                                     viewBox='0 0 16 16'
@@ -765,15 +774,16 @@ function BoardMeetingForm() {
                         </div>
                         {showUsers && searchTerm.length > 0 && (
                           <ul className='user-list z-10 absolute top-full left-0  bg-gray-50 border border-1 border-gray-200 w-full'>
-                            {usersEmails
-                              ?.filter((user) => !selected.includes(user))
+                            {dashboard.paginatedUsers?.filter(mainObj =>
+                                !selected.some(selectedObj => selectedObj.id === mainObj.id)
+                              )
                               .map((user, ind) => (
                                 <li
                                   key={ind}
                                   className='px-3 py-1 text-sm hover:bg-gray-200'
                                   onClick={() => handleClick(user, index)}
                                 >
-                                  {user}
+                                  {user.email}
                                 </li>
                               ))}
                           </ul>
@@ -1425,10 +1435,10 @@ function BoardMeetingForm() {
 
                         </div>
                       )}
-                    {item.type === 'multiselect' &&
+ {item.type === 'multiselect' &&
                       item.inputname == 'members' &&
                       item.field == 'predefined' && (
-                        <div className=' grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-4 mt-5'>
+                        <div className=' grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-2 mt-5'>
                           {item.value &&
                             Array.from({ length: 12 }).map((_, index) => {
                               let first = '';
@@ -1437,7 +1447,7 @@ function BoardMeetingForm() {
                               let secondLetter;
                               let mail = '';
                               if (index < item.value.length) {
-                                mail = item.value[index].split('@')[0];
+                                mail = item.value[index].email.split('@')[0];
                                 if (mail.includes('.')) {
                                   first = mail.split('.')[0];
                                   second = mail.split('.')[1];
@@ -1455,7 +1465,6 @@ function BoardMeetingForm() {
                               } else {
                                 firstLetter = mail[0];
                               }
-                              //color
                               const colors = [
                                 '#818cf8',
                                 '#fb923c',
@@ -1468,41 +1477,40 @@ function BoardMeetingForm() {
                               ];
                               const getRandomColor = (firstLetter) => {
                                 const randomIndex =
-                                  firstLetter.charCodeAt(0) % colors.length;
-
+                                  firstLetter?.charCodeAt(0) % colors.length;
                                 return colors[randomIndex];
                               };
-
                               return (
                                 <div
-                                  className='col-span-1 flex justify-start gap-3'
+                                  className='col-span-1 flex justify-start gap-1'
                                   key={index}
                                 >
                                   {index + 1 <= item.value.length && (
                                     <>
                                       <h5
+                                       
                                         style={{
-                                          backgroundColor: `${getRandomColor(
-                                            firstLetter
-                                          )}`,
+                                          backgroundColor: item.value[index].image ?  'transparent' :getRandomColor(firstLetter) 
                                         }}
-                                        className=' rounded-full w-10 h-10 flex justify-center text-xs items-center text-white'
+                                        className=' rounded-full w-10 h-10  md:h-8 xl:h-10 flex justify-center  text-xs items-center text-white'
                                       >
-                                        {index < 11 && (
-                                          <>
-                                            {firstLetter.toUpperCase()}
-                                            {secondLetter &&
-                                              secondLetter.toUpperCase()}
-                                          </>
-                                        )}
-                                        {index == 11 &&
-                                          item.value.length == 12 && (
-                                            <>
-                                              {firstLetter.toUpperCase()}
-                                              {secondLetter &&
-                                                secondLetter.toUpperCase()}
-                                            </>
-                                          )}{' '}
+
+{
+  (item.value[index].image && index < 11) || (index === 11 && item.value.length === 12) ? (
+    <img
+      src={typeof item.value[index].image === 'string' ? item.value[index].image : URL.createObjectURL(item.value[index].image)}
+      name='EntityPhoto'
+      alt='Entity Photo'
+      className='rounded-lg w-10 h-10 mr-4'
+    />
+  ) : (
+    <span>
+      {firstLetter?.toUpperCase()}
+      {secondLetter && secondLetter?.toUpperCase()}
+    </span>
+  )
+}
+
                                         {index == 11 &&
                                           item.value.length > 12 && (
                                             <span>
@@ -1523,15 +1531,15 @@ function BoardMeetingForm() {
                                             </span>
                                           )}
                                       </h5>
-                                      <div className=' flex items-center'>
-                                        <div className=' '>
+                                      <div className=' flex items-center md:items-start xl:items-center  overflow-hidden' style={{ width: "150px" }}>
+                                        <div className=' md:w-28 lg:w-48  truncate' title={mail} >
                                           {index < 11 && mail}
                                           {index == 11 &&
                                             item.value.length == 12 &&
-                                            mail}{' '}
+                                            mail}
                                           {index == 11 &&
                                             item.value.length > 12 && (
-                                              <span>
+                                              <span >
                                                 +{item.value.length - 11} more
                                               </span>
                                             )}{' '}
@@ -1541,10 +1549,10 @@ function BoardMeetingForm() {
                                   )}
                                   {index + 1 > item.value.length && (
                                     <>
-                                      <h5 className='bg-[#e5e7eb] rounded-full w-10 h-10 flex justify-center text-xs items-center text-white'></h5>
+                                      <h5 className='bg-[#e5e7eb] rounded-full w-10 h-10  md:h-8 xl:h-10 flex justify-center text-xs items-center text-white'></h5>
                                       <div className=' flex items-center'>
                                         <div className=' rounded-md  bg-[#e5e7eb] h-2 w-28'>
-                                         
+
                                         </div>
                                       </div>
                                     </>
@@ -1553,8 +1561,7 @@ function BoardMeetingForm() {
                               );
                             })}
                         </div>
-                      )}
-                    {/* customfields */}
+                      )}                     {/* customfields */}
                     {item.type === 'text' && item.field == 'custom' && (
                       <div className='my-2 mx-5 '>
                         {item.value && item.value.length > 0 && (

@@ -78,9 +78,8 @@ function TeamsForm() {
     usersDispatch,
   } = useContext(UserDataContext);
   const { createTeam, updateTeam } = useContext(TeamsDataContext);
-  const usersEmails = dashboard.paginatedUsers?.map((user) => user.email);
+  // const usersEmails = dashboard.paginatedUsers?.map((user) => user.email);
   const { debouncedSetPage, debouncedSetSearch } = useDebounce(usersDispatch);
-
   let [openOptions, setopenOptions] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
   const [selected, setSelected] = useState([]);
@@ -127,30 +126,15 @@ function TeamsForm() {
   useEffect(() => {
     console.log(searchTerm, 'clear');
   }, [searchTerm]);
-  const handleRemove = (user, index) => {
-    const updatedSelected = selected.filter(
-      (selectedUser) => selectedUser !== user
-    );
+  const handleRemove = (selectedIndex, index) => {
+    const updatedSelected = [...selected.slice(0, selectedIndex), ...selected.slice(selectedIndex + 1)];
     setSelected(updatedSelected);
-    const updatedMembers = customFormFields[index].value.filter(
-      (selectedUser) => selectedUser !== user
-    );
+    const updatedMembers = [...customFormFields[index].value.slice(0, selectedIndex), ...customFormFields[index].value.slice(selectedIndex + 1)];
     const updatedFormData = [...customFormFields];
     updatedFormData[index].value = updatedMembers;
     setCustomFormFields(updatedFormData);
   };
-  // useEffect(() => {
-  //   axios
-  //     .get(`https://atbtmain.infozit.com/form/list?name=teamform`)
-  //     .then((response) => {
-  //       // Handle the successful response
-  //       setCustomFormFields(response.data.Data);
-  //     })
-  //     .catch((error) => {
-  //       // Handle errors
-  //       console.error('Error fetching data:', error);
-  //     });
-  // }, []);
+ 
   const handleChange = (index, newValue) => {
     const updatedFormData = [...customFormFields];
     if (updatedFormData[index].type != 'multiselect') {
@@ -650,22 +634,35 @@ function TeamsForm() {
                         >
                           {selected &&
                             selected.length > 0 &&
-                            selected.map((result) => {
-                              let mail = result.split('@')[0];
+                            selected.map((result,selectedIndex) => {
+                              let mail = result.email.split('@')[0];
                               return (
                                 <span className='flex gap-1 text-xs mt-2 border-2 border-gray-200 rounded-md  focus:border-orange-600'>
-                                  <img
-                                    className='w-4 h-4 rounded-lg'
-                                    src={defprop}
-                                    alt='Neil image'
-                                  />{' '}
-                                  {mail}{' '}
+                                  {result.image ? (
+                                    <img
+                                      src={
+                                        typeof result.image === 'string'
+                                          ? result.image
+                                          : URL.createObjectURL(result.image)
+                                      }
+                                      name='EntityPhoto'
+                                      alt='Entity Photo'
+                                      className='rounded-lg w-10 h-10 mr-4'
+                                    />
+                                  ) : (
+                                    <img
+                                      className='w-10 h-10 rounded-lg '
+                                      src={defprop}
+                                      alt='default image'
+                                    />
+                                  )}
+                                  {mail}
                                   <svg
                                     xmlns='http://www.w3.org/2000/svg'
                                     viewBox='0 0 16 16'
                                     fill='currentColor'
                                     className='w-4 h-4 '
-                                    onClick={() => handleRemove(result, index)}
+                                    onClick={() => handleRemove(selectedIndex, index)}
                                   >
                                     <path d='M5.28 4.22a.75.75 0 0 0-1.06 1.06L6.94 8l-2.72 2.72a.75.75 0 1 0 1.06 1.06L8 9.06l2.72 2.72a.75.75 0 1 0 1.06-1.06L9.06 8l2.72-2.72a.75.75 0 0 0-1.06-1.06L8 6.94 5.28 4.22Z' />
                                   </svg>
@@ -686,15 +683,16 @@ function TeamsForm() {
                         </div>
                         {showUsers && searchTerm.length > 0 && (
                           <ul className='user-list z-50 absolute top-full left-0  bg-gray-50 border border-1 border-gray-200 w-full'>
-                            {usersEmails
-                              ?.filter((user) => !selected.includes(user))
+                            {dashboard.paginatedUsers?.filter(mainObj =>
+                                !selected.some(selectedObj => selectedObj.id === mainObj.id)
+                              )
                               .map((user, ind) => (
                                 <li
                                   key={ind}
                                   className='px-3 py-1 text-sm hover:bg-gray-200'
                                   onClick={() => handleClick(user, index)}
                                 >
-                                  {user}
+                                  {user.email}
                                 </li>
                               ))}
                           </ul>
@@ -1323,7 +1321,7 @@ function TeamsForm() {
                               let secondLetter;
                               let mail = '';
                               if (index < item.value.length) {
-                                mail = item.value[index].split('@')[0];
+                                mail = item.value[index].email.split('@')[0];
                                 if (mail.includes('.')) {
                                   first = mail.split('.')[0];
                                   second = mail.split('.')[1];
@@ -1364,28 +1362,29 @@ function TeamsForm() {
                                   {index + 1 <= item.value.length && (
                                     <>
                                       <h5
+                                       
                                         style={{
-                                          backgroundColor: `${getRandomColor(
-                                            firstLetter
-                                          )}`,
+                                          backgroundColor: item.value[index].image ?  'transparent' :getRandomColor(firstLetter) 
                                         }}
                                         className=' rounded-full w-10 h-10  md:h-8 xl:h-10 flex justify-center  text-xs items-center text-white'
                                       >
-                                        {index < 11 && (
-                                          <>
-                                            {firstLetter?.toUpperCase()}
-                                            {secondLetter &&
-                                              secondLetter?.toUpperCase()}
-                                          </>
-                                        )}
-                                        {index == 11 &&
-                                          item.value.length == 12 && (
-                                            <>
-                                              {firstLetter?.toUpperCase()}
-                                              {secondLetter &&
-                                                secondLetter?.toUpperCase()}
-                                            </>
-                                          )}{' '}
+
+{
+  (item.value[index].image && index < 11) || (index === 11 && item.value.length === 12) ? (
+    <img
+      src={typeof item.value[index].image === 'string' ? item.value[index].image : URL.createObjectURL(item.value[index].image)}
+      name='EntityPhoto'
+      alt='Entity Photo'
+      className='rounded-lg w-10 h-10 mr-4'
+    />
+  ) : (
+    <span>
+      {firstLetter?.toUpperCase()}
+      {secondLetter && secondLetter?.toUpperCase()}
+    </span>
+  )
+}
+
                                         {index == 11 &&
                                           item.value.length > 12 && (
                                             <span>
@@ -1427,7 +1426,7 @@ function TeamsForm() {
                                       <h5 className='bg-[#e5e7eb] rounded-full w-10 h-10  md:h-8 xl:h-10 flex justify-center text-xs items-center text-white'></h5>
                                       <div className=' flex items-center'>
                                         <div className=' rounded-md  bg-[#e5e7eb] h-2 w-28'>
-                                          {' '}
+
                                         </div>
                                       </div>
                                     </>
@@ -1436,7 +1435,7 @@ function TeamsForm() {
                               );
                             })}
                         </div>
-                      )}
+                      )} 
                     {/* customfields */}
                     {item.type === 'text' && item.field == 'custom' && (
                       <div className='my-2 mx-5 '>
