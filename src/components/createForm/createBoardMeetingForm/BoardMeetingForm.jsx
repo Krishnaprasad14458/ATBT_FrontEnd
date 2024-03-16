@@ -1141,7 +1141,7 @@ function BoardMeetingForm() {
                         type='range'
                         name={item.inputname}
                         id={item.inputname}
-                        value={customFormFields[index].value || ''}
+                        value={customFormFields[index].value || 0}
                         onChange={(e) => handleChange(index, e.target.value)}
                         style={{ fontSize: '0.8rem' }}
                       />

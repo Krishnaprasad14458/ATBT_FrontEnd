@@ -580,7 +580,10 @@ console.log("boardmeetingess",boardmeetingsList)
                   <tr key={row.id}>
                     {visibleColumns.map((key) => {
                         let value = row[key]
-
+                        if (tableView[key].type === "multiselect" && row[key]) {
+                          value =
+                            row[key].join(', ')
+                        }
                         if (tableView[key].type === "time" && row[key])  {
                           value = formatTime(row[key])
                         }
