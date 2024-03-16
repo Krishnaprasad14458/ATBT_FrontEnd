@@ -60,7 +60,7 @@ function EntityForm() {
     }
   }, [id, entity]);
   function setInitialForm() {
-   
+
 
     let response = entity?.formData;
     if (!!id && !!entity?.entityData) {
@@ -89,14 +89,14 @@ function EntityForm() {
   const [searchTerm, setSearchTerm] = useState('');
   const [selected, setSelected] = useState([]);
   const [showUsers, setShowUsers] = useState(false);
-  let [customFormFields, setCustomFormFields] = useState(() =>setInitialForm());
+  let [customFormFields, setCustomFormFields] = useState(() => setInitialForm());
   useEffect(() => {
     setCustomFormFields(setInitialForm());
     if (!id) {
       setSelected([]);
     }
   }, [id]);
-  
+
   const handleInputChange = (e) => {
     setShowUsers(true);
     setSearchTerm(e.target.value);
@@ -126,7 +126,7 @@ function EntityForm() {
   useEffect(() => {
     console.log(selected, 'selected');
   },);
-  
+
   const handleRemove = (selectedIndex, index) => {
     const updatedSelected = [...selected.slice(0, selectedIndex), ...selected.slice(selectedIndex + 1)];
     setSelected(updatedSelected);
@@ -659,11 +659,11 @@ function EntityForm() {
                                       }
                                       name='EntityPhoto'
                                       alt='Entity Photo'
-                                      className='rounded-lg w-10 h-10 mr-4'
+                                      className='rounded-lg w-4 h-4 '
                                     />
                                   ) : (
                                     <img
-                                      className='w-10 h-10 rounded-lg '
+                                      className='w-4 h-4 rounded-lg '
                                       src={defprop}
                                       alt='default image'
                                     />
@@ -696,7 +696,8 @@ function EntityForm() {
 
                         {showUsers && searchTerm.length > 0 && (
                           <ul className='user-list z-10 absolute top-full left-0 bg-gray-50 border border-1 border-gray-200 w-full'>
-                            {dashboard.paginatedUsers?.filter(mainObj =>
+                            {usersEmails
+                              .filter(mainObj =>
                                 !selected.some(selectedObj => selectedObj.id === mainObj.id)
                               )
                               .map((user, ind) => (
@@ -1064,7 +1065,7 @@ function EntityForm() {
                         type='range'
                         name={item.inputname}
                         id={item.inputname}
-                        value={customFormFields[index].value || ''}
+                        value={customFormFields[index].value || 0}
                         onChange={(e) => handleChange(index, e.target.value)}
                         style={{ fontSize: '0.8rem' }}
                       />
@@ -1323,7 +1324,7 @@ function EntityForm() {
                           {item.value}
                         </div>
                       )}
-                  {item.type === 'multiselect' &&
+                    {item.type === 'multiselect' &&
                       item.inputname == 'members' &&
                       item.field == 'predefined' && (
                         <div className=' grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-2 mt-5'>
@@ -1370,34 +1371,34 @@ function EntityForm() {
                               };
                               return (
                                 <div
-                                  className='col-span-1 flex justify-start gap-1'
+                                  className='col-span-1 flex justify-start gap-3'
                                   key={index}
                                 >
                                   {index + 1 <= item.value.length && (
                                     <>
                                       <h5
-                                       
+
                                         style={{
-                                          backgroundColor: item.value[index].image ?  'transparent' :getRandomColor(firstLetter) 
+                                          backgroundColor: item.value[index].image ? 'transparent' : getRandomColor(firstLetter)
                                         }}
                                         className=' rounded-full w-10 h-10  md:h-8 xl:h-10 flex justify-center  text-xs items-center text-white'
                                       >
 
-{
-  (item.value[index].image && index < 11) || (index === 11 && item.value.length === 12) ? (
-    <img
-      src={typeof item.value[index].image === 'string' ? item.value[index].image : URL.createObjectURL(item.value[index].image)}
-      name='EntityPhoto'
-      alt='Entity Photo'
-      className='rounded-lg w-10 h-10 mr-4'
-    />
-  ) : (
-    <span>
-      {firstLetter?.toUpperCase()}
-      {secondLetter && secondLetter?.toUpperCase()}
-    </span>
-  )
-}
+                                        {
+                                          (item.value[index].image && index < 11) || (index === 11 && item.value.length === 12) ? (
+                                            <img
+                                              src={typeof item.value[index].image === 'string' ? item.value[index].image : URL.createObjectURL(item.value[index].image)}
+                                              name='EntityPhoto'
+                                              alt='Entity Photo'
+                                              className=' rounded-full w-10 h-10  md:h-8 xl:h-10 flex justify-center  text-xs items-center text-white'
+                                            />
+                                          ) : (
+                                            <span>
+                                              {firstLetter?.toUpperCase()}
+                                              {secondLetter && secondLetter?.toUpperCase()}
+                                            </span>
+                                          )
+                                        }
 
                                         {index == 11 &&
                                           item.value.length > 12 && (
@@ -1430,7 +1431,7 @@ function EntityForm() {
                                               <span >
                                                 +{item.value.length - 11} more
                                               </span>
-                                            )}{' '}
+                                            )}
                                         </div>
                                       </div>
                                     </>
@@ -1449,10 +1450,10 @@ function EntityForm() {
                               );
                             })}
                         </div>
-                      )} 
+                      )}
                     {/* custom fields*/}
                     {item.type === 'text' && item.field == 'custom' && (
-                      <div className='my-2 mx-5 '>
+                      <div className='my-2 mx-2 '>
                         {item.value && item.value.length > 0 && (
                           <p className='flex  gap-2'>
                             <span className='w-2/6 break-words text-[#727a85] '>
@@ -1470,7 +1471,7 @@ function EntityForm() {
                       </div>
                     )}
                     {item.type === 'email' && item.field == 'custom' && (
-                      <div className='my-2 mx-5 '>
+                      <div className='my-2 mx-2 '>
                         {item.value && item.value.length > 0 && (
                           <p className='flex  gap-2'>
                             <span className='w-2/6 break-words text-[#727a85] '>
@@ -1488,7 +1489,7 @@ function EntityForm() {
                       </div>
                     )}
                     {item.type === 'phonenumber' && item.field == 'custom' && (
-                      <div className='my-2 mx-5 flex-wrap'>
+                      <div className='my-2 mx-2  flex-wrap'>
                         {item.value && item.value.length > 0 && (
                           <p className='flex  gap-2'>
                             <span className='w-2/6 break-words text-[#727a85] '>
@@ -1508,7 +1509,7 @@ function EntityForm() {
                       </div>
                     )}
                     {item.type === 'number' && item.field == 'custom' && (
-                      <div className='my-2 mx-5 flex-wrap'>
+                      <div className='my-2 mx-2  flex-wrap'>
                         {item.value && item.value.length > 0 && (
                           <p className='flex  gap-2'>
                             <span className='w-2/6 break-words text-[#727a85] '>
@@ -1529,7 +1530,7 @@ function EntityForm() {
                     )}
                     {item.type === 'textarea' && item.field == 'custom' && (
                       // mb-1 ps-6 flex flex-wrap
-                      <div className='my-2 mx-5 '>
+                      <div className='my-2 mx-2  '>
                         {item.value && item.value.length > 0 && (
                           <p className='flex  gap-2'>
                             <span className='w-2/6 text-[#727a85] break-words '>
@@ -1547,7 +1548,7 @@ function EntityForm() {
                       </div>
                     )}
                     {item.type === 'date' && item.field == 'custom' && (
-                      <div className='my-2 mx-5 '>
+                      <div className='my-2 mx-2 '>
                         {item.value && item.value.length > 0 && (
                           <p className='flex  gap-2'>
                             <span className='w-2/6 text-[#727a85] break-words  '>
@@ -1565,7 +1566,7 @@ function EntityForm() {
                       </div>
                     )}
                     {item.type === 'select' && item.field == 'custom' && (
-                      <div className='my-2 mx-5 '>
+                      <div className='my-2 mx-2 '>
                         {item.value && item.value.length > 0 && (
                           <p className='flex  gap-2'>
                             <span className='w-2/6 text-[#727a85] break-words  '>
@@ -1583,7 +1584,7 @@ function EntityForm() {
                       </div>
                     )}
                     {item.type === 'multiselect' && item.field == 'custom' && (
-                      <div className='my-2 mx-5 '>
+                      <div className='my-2 mx-2 '>
                         {item.value && item.value.length > 0 && (
                           <p className='flex  gap-2'>
                             <span className='w-2/6 text-[#727a85]  break-words '>
@@ -1601,7 +1602,7 @@ function EntityForm() {
                       </div>
                     )}
                     {item.type === 'range' && item.field == 'custom' && (
-                      <div className='my-2 mx-5 '>
+                      <div className='my-2 mx-2 '>
                         {item.value && item.value.length > 0 && (
                           <p className='flex  gap-2'>
                             <span className='w-2/6 text-[#727a85] break-words '>
@@ -1619,7 +1620,7 @@ function EntityForm() {
                       </div>
                     )}
                     {item.type === 'time' && item.field == 'custom' && (
-                      <div className='my-2 mx-5 '>
+                      <div className='my-2 mx-2 '>
                         {item.value && item.value.length > 0 && (
                           <p className='flex gap-2'>
                             <span className='w-2/6 text-[#727a85] break-words  '>
