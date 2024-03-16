@@ -282,30 +282,26 @@ const TeamsLandingPage = () => {
                         </div>
                       )}
                     {item.type === 'file' && item.inputname == 'image' &&
-                      item.field == 'predefined' && (
-                        <div className='flex gap-4'>
-                          <div className='group h-10 '>
-                            {item.value ? (
-                              <img
-                                src={
-                                  typeof item.value === 'string'
-                                    ? item.value
-                                    : URL.createObjectURL(item.value)
-                                }
-                                name='TeamsPhoto'
-                                alt='Selected User Photo'
-                                className='rounded-lg w-10 h-10 mr-4'
-                              />
-                            ) : (
-                              <img
-                                className='w-10 h-10 rounded-lg mr-4'
-                                src={defprop}
-                                alt='default image'
-                              />
-                            )}
-                          </div>
+                    item.field == 'predefined' && (
+                      <div className='flex gap-4'>
+                        <div className='group h-10 '>
+                          {item.value ? (
+                            <img
+                              src={predefinedImage}
+                              name='EntityPhoto'
+                              alt='Selected User Photo'
+                              className='rounded-lg w-10 h-10 mr-4'
+                            />
+                          ) : (
+                            <img
+                              className='w-10 h-10 rounded-lg mr-4'
+                              src={defprop}
+                              alt='defult image'
+                            />
+                          )}
                         </div>
-                      )}
+                      </div>
+                    )}
                     {item.type === 'textarea' && item.inputname == 'description' && item.field == 'predefined' && (
                       <div className='h-28 overflow-auto border border-1 border-gray-200 rounded-md p-2 bg-[#f8fafc] text-sm w-full mt-4'>
                         {item.value}

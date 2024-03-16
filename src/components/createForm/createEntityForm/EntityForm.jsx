@@ -60,7 +60,7 @@ function EntityForm() {
     }
   }, [id, entity]);
   function setInitialForm() {
-
+   
 
     let response = entity?.formData;
     if (!!id && !!entity?.entityData) {
@@ -96,7 +96,7 @@ function EntityForm() {
       setSelected([]);
     }
   }, [id]);
-
+  
   const handleInputChange = (e) => {
     setShowUsers(true);
     setSearchTerm(e.target.value);
@@ -126,7 +126,7 @@ function EntityForm() {
   useEffect(() => {
     console.log(selected, 'selected');
   },);
-
+  
   const handleRemove = (selectedIndex, index) => {
     const updatedSelected = [...selected.slice(0, selectedIndex), ...selected.slice(selectedIndex + 1)];
     setSelected(updatedSelected);
@@ -565,7 +565,7 @@ function EntityForm() {
                           className='block text-sm font-medium leading-6 mt-2 text-gray-900'
                         >
                           {item.label.charAt(0).toUpperCase() +
-                            item.label.slice(1)}
+                            item.label.slice(1)}{' '}
                           {item.mandatory ? (
                             <span className='text-red-600'>*</span>
                           ) : (
@@ -599,7 +599,7 @@ function EntityForm() {
                           className='block text-sm font-medium leading-6 mt-2 text-gray-900'
                         >
                           {item.label.charAt(0).toUpperCase() +
-                            item.label.slice(1)}
+                            item.label.slice(1)}{' '}
                           {item.mandatory ? (
                             <span className='text-red-600'>*</span>
                           ) : (
@@ -659,11 +659,11 @@ function EntityForm() {
                                       }
                                       name='EntityPhoto'
                                       alt='Entity Photo'
-                                      className='rounded-lg w-4 h-4 '
+                                      className='rounded-lg w-10 h-10 mr-4'
                                     />
                                   ) : (
                                     <img
-                                      className='w-4 h-4 rounded-lg '
+                                      className='w-10 h-10 rounded-lg '
                                       src={defprop}
                                       alt='default image'
                                     />
@@ -697,8 +697,8 @@ function EntityForm() {
                         {showUsers && searchTerm.length > 0 && (
                           <ul className='user-list z-10 absolute top-full left-0 bg-gray-50 border border-1 border-gray-200 w-full'>
                             {dashboard.paginatedUsers?.filter(mainObj =>
-                              !selected.some(selectedObj => selectedObj.id === mainObj.id)
-                            )
+                                !selected.some(selectedObj => selectedObj.id === mainObj.id)
+                              )
                               .map((user, ind) => (
                                 <li
                                   key={ind}
@@ -1064,7 +1064,7 @@ function EntityForm() {
                         type='range'
                         name={item.inputname}
                         id={item.inputname}
-                        value={customFormFields[index].value || 0}
+                        value={customFormFields[index].value || ''}
                         onChange={(e) => handleChange(index, e.target.value)}
                         style={{ fontSize: '0.8rem' }}
                       />
@@ -1247,6 +1247,29 @@ function EntityForm() {
             {customFormFields &&
               customFormFields.length > 0 &&
               customFormFields.map((item) => {
+                let date = new Date(item.value);
+                const day = date.getUTCDate();
+                const monthIndex = date.getUTCMonth();
+                const year = date.getUTCFullYear();
+
+                const monthAbbreviations = [
+                  "Jan",
+                  "Feb",
+                  "Mar",
+                  "Apr",
+                  "May",
+                  "Jun",
+                  "Jul",
+                  "Aug",
+                  "Sep",
+                  "Oct",
+                  "Nov",
+                  "Dec",
+                ];
+
+                // Formatting the date
+                date = `${day < 10 ? "0" : ""}${day}-${monthAbbreviations[monthIndex]
+                  }-${year}`;
                 return (
                   <div className='relative'>
                     {/* predefined fields*/}
@@ -1256,12 +1279,12 @@ function EntityForm() {
                         <div>
                           {item.value ? (
                             <p className='text-sm font-black text-gray-800 mt-2 absolute left-12'>
-
+                              {' '}
                               {item.value.toUpperCase()}
                             </p>
                           ) : (
                             <p className='text-sm font-black text-gray-800 mt-2 absolute left-12'>
-
+                              {' '}
                               ENTITY NAME
                             </p>
                           )}
@@ -1300,7 +1323,7 @@ function EntityForm() {
                           {item.value}
                         </div>
                       )}
-                    {item.type === 'multiselect' &&
+                  {item.type === 'multiselect' &&
                       item.inputname == 'members' &&
                       item.field == 'predefined' && (
                         <div className=' grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-2 mt-5'>
@@ -1347,34 +1370,34 @@ function EntityForm() {
                               };
                               return (
                                 <div
-                                  className='col-span-1 flex justify-start gap-3'
+                                  className='col-span-1 flex justify-start gap-1'
                                   key={index}
                                 >
                                   {index + 1 <= item.value.length && (
                                     <>
                                       <h5
-
+                                       
                                         style={{
-                                          backgroundColor: item.value[index].image ? 'transparent' : getRandomColor(firstLetter)
+                                          backgroundColor: item.value[index].image ?  'transparent' :getRandomColor(firstLetter) 
                                         }}
                                         className=' rounded-full w-10 h-10  md:h-8 xl:h-10 flex justify-center  text-xs items-center text-white'
                                       >
 
-                                        {
-                                          (item.value[index].image && index < 11) || (index === 11 && item.value.length === 12) ? (
-                                            <img
-                                              src={typeof item.value[index].image === 'string' ? item.value[index].image : URL.createObjectURL(item.value[index].image)}
-                                              name='EntityPhoto'
-                                              alt='Entity Photo'
-                                              className=' rounded-full w-10 h-10  md:h-8 xl:h-10 flex justify-center  text-xs items-center text-white'
-                                            />
-                                          ) : (
-                                            <span>
-                                              {firstLetter?.toUpperCase()}
-                                              {secondLetter && secondLetter?.toUpperCase()}
-                                            </span>
-                                          )
-                                        }
+{
+  (item.value[index].image && index < 11) || (index === 11 && item.value.length === 12) ? (
+    <img
+      src={typeof item.value[index].image === 'string' ? item.value[index].image : URL.createObjectURL(item.value[index].image)}
+      name='EntityPhoto'
+      alt='Entity Photo'
+      className='rounded-lg w-10 h-10 mr-4'
+    />
+  ) : (
+    <span>
+      {firstLetter?.toUpperCase()}
+      {secondLetter && secondLetter?.toUpperCase()}
+    </span>
+  )
+}
 
                                         {index == 11 &&
                                           item.value.length > 12 && (
@@ -1407,7 +1430,7 @@ function EntityForm() {
                                               <span >
                                                 +{item.value.length - 11} more
                                               </span>
-                                            )}
+                                            )}{' '}
                                         </div>
                                       </div>
                                     </>
@@ -1426,19 +1449,18 @@ function EntityForm() {
                               );
                             })}
                         </div>
-                      )}
+                      )} 
                     {/* custom fields*/}
                     {item.type === 'text' && item.field == 'custom' && (
-                      <div className='my-2 mx-2 '>
+                      <div className='my-2 mx-5 '>
                         {item.value && item.value.length > 0 && (
                           <p className='flex  gap-2'>
-                            <span className='w-2/6 truncate text-[#727a85] ' title={item.label.charAt(0).toUpperCase() +
-                              item.label.slice(1)}>
+                            <span className='w-2/6 break-words text-[#727a85] '>
                               {item.label.charAt(0).toUpperCase() +
                                 item.label.slice(1)}
                             </span>
                             <span className=' flex gap-2 w-4/6'>
-                              <span> : </span>
+                              <span> : </span>{' '}
                               <span className='text-md font-[600]  '>
                                 {item.value}
                               </span>
@@ -1451,13 +1473,12 @@ function EntityForm() {
                       <div className='my-2 mx-5 '>
                         {item.value && item.value.length > 0 && (
                           <p className='flex  gap-2'>
-                            <span className='w-2/6 truncate text-[#727a85] ' title={item.label.charAt(0).toUpperCase() +
-                              item.label.slice(1)}>
+                            <span className='w-2/6 break-words text-[#727a85] '>
                               {item.label.charAt(0).toUpperCase() +
                                 item.label.slice(1)}
                             </span>
                             <span className='  flex gap-2 w-4/6 '>
-                              <span> : </span>
+                              <span> : </span>{' '}
                               <span className='text-md font-[600] break-all'>
                                 {item.value}
                               </span>
@@ -1470,13 +1491,12 @@ function EntityForm() {
                       <div className='my-2 mx-5 flex-wrap'>
                         {item.value && item.value.length > 0 && (
                           <p className='flex  gap-2'>
-                            <span className='w-2/6 truncate text-[#727a85] ' title={item.label.charAt(0).toUpperCase() +
-                              item.label.slice(1)}>
+                            <span className='w-2/6 break-words text-[#727a85] '>
                               {item.label.charAt(0).toUpperCase() +
                                 item.label.slice(1)}
                             </span>
                             <span className='  flex gap-2 w-4/6'>
-                              <span> : </span>
+                              <span> : </span>{' '}
                               <span className='text-md font-[600] '>
                                 {item.value.slice(0, 3)}&nbsp;
                                 {item.value.slice(3, 6)}&nbsp;
@@ -1491,13 +1511,12 @@ function EntityForm() {
                       <div className='my-2 mx-5 flex-wrap'>
                         {item.value && item.value.length > 0 && (
                           <p className='flex  gap-2'>
-                            <span className='w-2/6 truncate text-[#727a85] ' title={item.label.charAt(0).toUpperCase() +
-                              item.label.slice(1)}>
+                            <span className='w-2/6 break-words text-[#727a85] '>
                               {item.label.charAt(0).toUpperCase() +
                                 item.label.slice(1)}
                             </span>
                             <span className='  flex gap-2 w-4/6'>
-                              <span> : </span>
+                              <span> : </span>{' '}
                               <span className='text-md font-[600]  break-all'>
                                 {item.value}
 
@@ -1513,13 +1532,12 @@ function EntityForm() {
                       <div className='my-2 mx-5 '>
                         {item.value && item.value.length > 0 && (
                           <p className='flex  gap-2'>
-                            <span className='w-2/6 text-[#727a85] truncate ' title={item.label.charAt(0).toUpperCase() +
-                              item.label.slice(1)}>
+                            <span className='w-2/6 text-[#727a85] break-words '>
                               {item.label.charAt(0).toUpperCase() +
                                 item.label.slice(1)}
                             </span>
                             <span className=' flex gap-2 w-4/6'>
-                              <span> : </span>
+                              <span> : </span>{' '}
                               <span className='text-md font-[600]  '>
                                 {item.value}
                               </span>
@@ -1528,63 +1546,34 @@ function EntityForm() {
                         )}
                       </div>
                     )}
-                    {item.type === 'date' && item.field === 'custom' && (
-                      (() => {
-                        let date = new Date(item.value);
-                        const day = date.getUTCDate();
-                        const monthIndex = date.getUTCMonth();
-                        const year = date.getUTCFullYear();
-
-                        const monthAbbreviations = [
-                          "Jan",
-                          "Feb",
-                          "Mar",
-                          "Apr",
-                          "May",
-                          "Jun",
-                          "Jul",
-                          "Aug",
-                          "Sep",
-                          "Oct",
-                          "Nov",
-                          "Dec",
-                        ];
-
-                        // Formatting the date
-                        date = `${day < 10 ? "0" : ""}${day}-${monthAbbreviations[monthIndex]}-${year}`;
-
-                        return (
-                          <div className='my-2 mx-5 '>
-                            {item.value && item.value.length > 0 && (
-                              <p className='flex  gap-2'>
-                                <span className='w-2/6 text-[#727a85] truncate  ' title={item.label.charAt(0).toUpperCase() +
-                                  item.label.slice(1)}>
-                                  {item.label.charAt(0).toUpperCase() +
-                                    item.label.slice(1)}
-                                </span>
-                                <span className='  flex gap-2 w-4/6'>
-                                  <span> : </span>
-                                  <span className='text-md font-[600] '>
-                                    {date ? date : "No Date"}
-                                  </span>
-                                </span>
-                              </p>
-                            )}
-                          </div>
-                        );
-                      })
+                    {item.type === 'date' && item.field == 'custom' && (
+                      <div className='my-2 mx-5 '>
+                        {item.value && item.value.length > 0 && (
+                          <p className='flex  gap-2'>
+                            <span className='w-2/6 text-[#727a85] break-words  '>
+                              {item.label.charAt(0).toUpperCase() +
+                                item.label.slice(1)}
+                            </span>
+                            <span className='  flex gap-2 w-4/6'>
+                              <span> : </span>{' '}
+                              <span className='text-md font-[600] '>
+                                {date ? date : "No Date"}
+                              </span>
+                            </span>
+                          </p>
+                        )}
+                      </div>
                     )}
                     {item.type === 'select' && item.field == 'custom' && (
                       <div className='my-2 mx-5 '>
                         {item.value && item.value.length > 0 && (
                           <p className='flex  gap-2'>
-                            <span className='w-2/6 text-[#727a85] truncate  ' title={item.label.charAt(0).toUpperCase() +
-                              item.label.slice(1)}>
+                            <span className='w-2/6 text-[#727a85] break-words  '>
                               {item.label.charAt(0).toUpperCase() +
                                 item.label.slice(1)}
                             </span>
                             <span className='  flex gap-2 w-4/6'>
-                              <span> : </span>
+                              <span> : </span>{' '}
                               <span className='text-md font-[600] '>
                                 {item.value}
                               </span>
@@ -1597,13 +1586,12 @@ function EntityForm() {
                       <div className='my-2 mx-5 '>
                         {item.value && item.value.length > 0 && (
                           <p className='flex  gap-2'>
-                            <span className='w-2/6 text-[#727a85]  truncate ' title={item.label.charAt(0).toUpperCase() +
-                              item.label.slice(1)}>
+                            <span className='w-2/6 text-[#727a85]  break-words '>
                               {item.label.charAt(0).toUpperCase() +
                                 item.label.slice(1)}
                             </span>
                             <span className='  flex gap-2 w-4/6'>
-                              <span> : </span>
+                              <span> : </span>{' '}
                               <span className='text-md font-[600] '>
                                 {item.value.join(', ')}
                               </span>
@@ -1616,13 +1604,12 @@ function EntityForm() {
                       <div className='my-2 mx-5 '>
                         {item.value && item.value.length > 0 && (
                           <p className='flex  gap-2'>
-                            <span className='w-2/6 text-[#727a85] truncate ' title={item.label.charAt(0).toUpperCase() +
-                              item.label.slice(1)}>
+                            <span className='w-2/6 text-[#727a85] break-words '>
                               {item.label.charAt(0).toUpperCase() +
                                 item.label.slice(1)}
                             </span>
                             <span className='  flex gap-2 w-4/6'>
-                              <span> : </span>
+                              <span> : </span>{' '}
                               <span className='text-md font-[600] '>
                                 {item.value}
                               </span>
@@ -1635,13 +1622,12 @@ function EntityForm() {
                       <div className='my-2 mx-5 '>
                         {item.value && item.value.length > 0 && (
                           <p className='flex gap-2'>
-                            <span className='w-2/6 text-[#727a85] truncate  ' title={item.label.charAt(0).toUpperCase() +
-                              item.label.slice(1)}>
+                            <span className='w-2/6 text-[#727a85] break-words  '>
                               {item.label.charAt(0).toUpperCase() +
                                 item.label.slice(1)}
                             </span>
                             <span className='  flex gap-2 w-4/6'>
-                              <span> : </span>
+                              <span> : </span>{' '}
                               <span className='text-md font-[600] '>
                                 {formatTime(item.value)}
                               </span>
