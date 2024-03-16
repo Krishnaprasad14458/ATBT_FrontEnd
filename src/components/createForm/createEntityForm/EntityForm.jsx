@@ -89,10 +89,7 @@ function EntityForm() {
   const [searchTerm, setSearchTerm] = useState('');
   const [selected, setSelected] = useState([]);
   const [showUsers, setShowUsers] = useState(false);
-  let [customFormFields, setCustomFormFields] = useState(
-    () =>
-      setInitialForm()
-  );
+  let [customFormFields, setCustomFormFields] = useState(() =>setInitialForm());
   useEffect(() => {
     setCustomFormFields(setInitialForm());
     if (!id) {
@@ -671,11 +668,7 @@ function EntityForm() {
                                       alt='default image'
                                     />
                                   )}
-
-
-
-
-                                  {mail}{' '}
+                                  {mail}
                                   <svg
                                     xmlns='http://www.w3.org/2000/svg'
                                     viewBox='0 0 16 16'

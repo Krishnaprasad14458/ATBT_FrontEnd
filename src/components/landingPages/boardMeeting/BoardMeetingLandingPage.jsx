@@ -349,10 +349,10 @@ const BoardMeetingLandingPage = () => {
 
                         </div>
                       )}
-                    {item.type === 'multiselect' &&
+                  {item.type === 'multiselect' &&
                       item.inputname == 'members' &&
                       item.field == 'predefined' && (
-                        <div className=' grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-4 mt-5'>
+                        <div className=' grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-2 mt-5'>
                           {item.value &&
                             Array.from({ length: 12 }).map((_, index) => {
                               let first = '';
@@ -361,7 +361,7 @@ const BoardMeetingLandingPage = () => {
                               let secondLetter;
                               let mail = '';
                               if (index < item.value.length) {
-                                mail = item.value[index].split('@')[0];
+                                mail = item.value[index].email.split('@')[0];
                                 if (mail.includes('.')) {
                                   first = mail.split('.')[0];
                                   second = mail.split('.')[1];
@@ -379,7 +379,6 @@ const BoardMeetingLandingPage = () => {
                               } else {
                                 firstLetter = mail[0];
                               }
-                              //color
                               const colors = [
                                 '#818cf8',
                                 '#fb923c',
@@ -392,41 +391,40 @@ const BoardMeetingLandingPage = () => {
                               ];
                               const getRandomColor = (firstLetter) => {
                                 const randomIndex =
-                                  firstLetter.charCodeAt(0) % colors.length;
-
+                                  firstLetter?.charCodeAt(0) % colors.length;
                                 return colors[randomIndex];
                               };
-
                               return (
                                 <div
-                                  className='col-span-1 flex justify-start gap-3'
+                                  className='col-span-1 flex justify-start gap-1'
                                   key={index}
                                 >
                                   {index + 1 <= item.value.length && (
                                     <>
                                       <h5
+                                       
                                         style={{
-                                          backgroundColor: `${getRandomColor(
-                                            firstLetter
-                                          )}`,
+                                          backgroundColor: item.value[index].image ?  'transparent' :getRandomColor(firstLetter) 
                                         }}
-                                        className=' rounded-full w-10 h-10 flex justify-center text-xs items-center text-white'
+                                        className=' rounded-full w-10 h-10  md:h-8 xl:h-10 flex justify-center  text-xs items-center text-white'
                                       >
-                                        {index < 11 && (
-                                          <>
-                                            {firstLetter.toUpperCase()}
-                                            {secondLetter &&
-                                              secondLetter.toUpperCase()}
-                                          </>
-                                        )}
-                                        {index == 11 &&
-                                          item.value.length == 12 && (
-                                            <>
-                                              {firstLetter.toUpperCase()}
-                                              {secondLetter &&
-                                                secondLetter.toUpperCase()}
-                                            </>
-                                          )}{' '}
+
+{
+  (item.value[index].image && index < 11) || (index === 11 && item.value.length === 12) ? (
+    <img
+      src={typeof item.value[index].image === 'string' ? item.value[index].image : URL.createObjectURL(item.value[index].image)}
+      name='EntityPhoto'
+      alt='Entity Photo'
+      className='rounded-lg w-10 h-10 mr-4'
+    />
+  ) : (
+    <span>
+      {firstLetter?.toUpperCase()}
+      {secondLetter && secondLetter?.toUpperCase()}
+    </span>
+  )
+}
+
                                         {index == 11 &&
                                           item.value.length > 12 && (
                                             <span>
@@ -447,15 +445,15 @@ const BoardMeetingLandingPage = () => {
                                             </span>
                                           )}
                                       </h5>
-                                      <div className=' flex items-center'>
-                                        <div className=' '>
+                                      <div className=' flex items-center md:items-start xl:items-center  overflow-hidden' style={{ width: "150px" }}>
+                                        <div className=' md:w-28 lg:w-48  truncate' title={mail} >
                                           {index < 11 && mail}
                                           {index == 11 &&
                                             item.value.length == 12 &&
-                                            mail}{' '}
+                                            mail}
                                           {index == 11 &&
                                             item.value.length > 12 && (
-                                              <span>
+                                              <span >
                                                 +{item.value.length - 11} more
                                               </span>
                                             )}{' '}
@@ -465,7 +463,7 @@ const BoardMeetingLandingPage = () => {
                                   )}
                                   {index + 1 > item.value.length && (
                                     <>
-                                      <h5 className='bg-[#e5e7eb] rounded-full w-10 h-10 flex justify-center text-xs items-center text-white'></h5>
+                                      <h5 className='bg-[#e5e7eb] rounded-full w-10 h-10  md:h-8 xl:h-10 flex justify-center text-xs items-center text-white'></h5>
                                       <div className=' flex items-center'>
                                         <div className=' rounded-md  bg-[#e5e7eb] h-2 w-28'>
 
@@ -477,7 +475,7 @@ const BoardMeetingLandingPage = () => {
                               );
                             })}
                         </div>
-                      )}
+                      )} 
                     {/* customfields */}
                     {item.type === 'text' && item.field == 'custom' && (
                       <div className='my-2 mx-5 '>
