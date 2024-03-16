@@ -31,7 +31,7 @@ export async function userFormLoader({ params }) {
         },
       });
       userData = userResponse?.data?.user;
-      console.log("bahvvuu",userData)
+      console.log("bahvvuu", userData)
     }
     const formResponse = await axios.get(formApi);
     const formData = formResponse.data.Data;
@@ -490,9 +490,9 @@ function UserForm() {
 
 
   // end the time function
-useEffect(()=>{
-  console.log("cus",customFormFields)
-})
+  useEffect(() => {
+    console.log("cus", customFormFields)
+  })
   return (
     <div className='container p-4 bg-[#f8fafc]'>
       {/* <p className="font-lg font-semibold p-3">Entity Form</p> */}
@@ -825,7 +825,7 @@ useEffect(()=>{
                     <div>
                       <label
                         htmlFor={item.label}
-                        className='block text-sm font-medium leading-6 my-2 text-gray-900'
+                        className='block text-sm font-medium leading-6 mt-2 text-gray-900'
                       >
                         {item.label.charAt(0).toUpperCase() +
                           item.label.slice(1)}
@@ -858,7 +858,7 @@ useEffect(()=>{
                     <div>
                       <label
                         htmlFor={item.label}
-                        className='block text-sm font-medium leading-6 my-2 text-gray-900'
+                        className='block text-sm font-medium leading-6 mt-2 text-gray-900'
                       >
                         {item.label.charAt(0).toUpperCase() +
                           item.label.slice(1)}
@@ -891,7 +891,7 @@ useEffect(()=>{
                     <div className="relative">
                       <label
                         htmlFor={item.label}
-                        className='block text-sm font-medium leading-6 my-2 text-gray-900'
+                        className='block text-sm font-medium leading-6 mt-2 text-gray-900'
                       >
                         {item.label.charAt(0).toUpperCase() +
                           item.label.slice(1)}
@@ -947,7 +947,7 @@ useEffect(()=>{
                     <div>
                       <label
                         htmlFor={item.label}
-                        className='block text-sm font-medium leading-6 my-2 text-gray-900'
+                        className='block text-sm font-medium leading-6 mt-2 text-gray-900'
                       >
                         {item.label.charAt(0).toUpperCase() +
                           item.label.slice(1)}
@@ -980,7 +980,7 @@ useEffect(()=>{
                     <div>
                       <label
                         htmlFor={item.label}
-                        className='block text-sm font-medium leading-6 my-2 text-gray-900'
+                        className='block text-sm font-medium leading-6 mt-2 text-gray-900'
                       >
                         {item.label.charAt(0).toUpperCase() +
                           item.label.slice(1)}
@@ -1053,7 +1053,7 @@ useEffect(()=>{
                     <div>
                       <label
                         htmlFor={item.label}
-                        className='block text-sm font-medium leading-6 my-2 text-gray-900'
+                        className='block text-sm font-medium leading-6 mt-2 text-gray-900'
                       >
                         {item.label.charAt(0).toUpperCase() +
                           item.label.slice(1)}
@@ -1086,7 +1086,7 @@ useEffect(()=>{
                     <div>
                       <label
                         htmlFor={item.label}
-                        className='block text-sm font-medium leading-6 my-2 text-gray-900'
+                        className='block text-sm font-medium leading-6 mt-2 text-gray-900'
                       >
                         {item.label.charAt(0).toUpperCase() +
                           item.label.slice(1)}
@@ -1119,7 +1119,7 @@ useEffect(()=>{
                     <div>
                       <label
                         htmlFor={item.label}
-                        className='block text-sm font-medium leading-6 my-2 text-gray-900'
+                        className='block text-sm font-medium leading-6 mt-2 text-gray-900'
                       >
                         {item.label.charAt(0).toUpperCase() +
                           item.label.slice(1)}
@@ -1151,7 +1151,7 @@ useEffect(()=>{
                     <div>
                       <label
                         htmlFor={item.label}
-                        className='block text-sm font-medium leading-6 my-2 text-gray-900'
+                        className='block text-sm font-medium leading-6 mt-2 text-gray-900'
                       >
                         {item.label.charAt(0).toUpperCase() +
                           item.label.slice(1)}
@@ -1182,7 +1182,7 @@ useEffect(()=>{
                     <div>
                       <label
                         htmlFor={item.label}
-                        className='block text-sm font-medium leading-6 my-2 text-gray-900'
+                        className='block text-sm font-medium leading-6 mt-2 text-gray-900'
                       >
                         {item.label.charAt(0).toUpperCase() +
                           item.label.slice(1)}
@@ -1214,7 +1214,7 @@ useEffect(()=>{
                     <div>
                       <label
                         htmlFor={item.label}
-                        className='block text-sm font-medium leading-6 my-2 text-gray-900'
+                        className='block text-sm font-medium leading-6 mt-2 text-gray-900'
                       >
                         {item.label.charAt(0).toUpperCase() +
                           item.label.slice(1)}
@@ -1258,7 +1258,7 @@ useEffect(()=>{
                     <div className='relative'>
                       <label
                         htmlFor={item.label}
-                        className='block text-sm font-medium leading-6 my-2 text-gray-900'
+                        className='block text-sm font-medium leading-6 mt-2 text-gray-900'
                       >
                         {item.label.charAt(0).toUpperCase() +
                           item.label.slice(1)}
@@ -1365,7 +1365,7 @@ useEffect(()=>{
                             item.inputname == 'image' &&
                             item.field === 'predefined' && (
                               <div>
-                              
+
                                 {item.value ? (
                                   <img
                                     src={
