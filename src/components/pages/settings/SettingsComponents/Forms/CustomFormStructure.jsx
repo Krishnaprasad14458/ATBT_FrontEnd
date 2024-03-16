@@ -226,26 +226,26 @@ const CustomFormStructure = () => {
           let newField = { ...newInputField };
           delete newField.options;
           setCustomForm((prev) => [...prev, newField]);
-          if (newInputField.type != 'checkbox' && newInputField.type != 'password' && newInputField.type != 'textarea'){
+          if (newInputField.type != 'checkbox' && newInputField.type != 'password' && newInputField.type != 'textarea') {
             setTableView((prevState) => {
               const updatedState = { ...prevState };
               updatedState[newInputField.inputname] = {
                 label: newInputField.label,
                 value: false,
-                type:newInputField.type
+                type: newInputField.type
               };
               return updatedState;
             });
           }
         } else {
           setCustomForm((prev) => [...prev, newInputField]);
-          if (newInputField.type != 'checkbox' && newInputField.type != 'password' && newInputField.type != 'textarea'){
+          if (newInputField.type != 'checkbox' && newInputField.type != 'password' && newInputField.type != 'textarea') {
             setTableView((prevState) => {
               const updatedState = { ...prevState };
               updatedState[newInputField.inputname] = {
                 label: newInputField.label,
                 value: false,
-                type:newInputField.type
+                type: newInputField.type
 
               };
               return updatedState;
@@ -322,7 +322,7 @@ const CustomFormStructure = () => {
         customForm,
       Name: formName,
       Tableview:
-   tableView
+        tableView
     };
     await saveCustomForm(formData);
     console.log("formName", formData)
@@ -712,7 +712,9 @@ const CustomFormStructure = () => {
                             value={newInputField.type}
                             onChange={handleInputChange}
                           >
-                            <option value=''>--select type--</option>
+                            <option value=''
+                              disabled
+                              defaultValue>--select type--</option>
                             {inputType &&
                               inputType.map((type, index) => (
                                 <option value={type.value}>{type.label}</option>

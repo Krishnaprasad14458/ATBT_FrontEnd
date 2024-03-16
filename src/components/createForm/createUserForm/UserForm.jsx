@@ -1595,7 +1595,6 @@ useEffect(()=>{
                         </div>
                       )}
                       {item.type === 'textarea' && item.field == 'custom' && (
-                        // mb-1 ps-6 flex flex-wrap
                         <div className=' '>
                           {item.value && item.value.length > 0 && (
                             <p className='flex  gap-2 my-2 mx-5'>
@@ -1657,7 +1656,7 @@ useEffect(()=>{
                               )}
                             </div>
                           );
-                        })()
+                        })
                       )}
                       {item.type === 'select' && item.field == 'custom' && (
                         <div className=' '>
