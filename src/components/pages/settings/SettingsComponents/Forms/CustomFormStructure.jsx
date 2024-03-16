@@ -312,7 +312,7 @@ const CustomFormStructure = () => {
     { label: 'Date', value: 'date' },
     { label: 'Select', value: 'select' },
     { label: 'Multi Select', value: 'multiselect' },
-    { label: 'Consent', value: 'checkbox' },
+    // { label: 'Consent', value: 'checkbox' },
     { label: 'Range', value: 'range' },
     { label: 'Time', value: 'time' },
   ];
