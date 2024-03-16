@@ -28,10 +28,10 @@ function Entities() {
     deleteEntitybyId,
     setFilters,
   } = useContext(EntitiesDataContext);
-  useEffect(()=>{
-    console.log("boardmeetingess",entitiesList)
-    
-      })
+  useEffect(() => {
+    console.log("boardmeetingess", entitiesList)
+
+  })
   const { debouncedSetPage, debouncedSetSearch } =
     useDebounce(entitiesDispatch);
   // const [toggle, setToggle] = useState(false)
@@ -578,48 +578,52 @@ function Entities() {
                 entitiesList?.paginatedEntities?.map((row) => (
                   <tr key={row.id}>
                     {visibleColumns.map((key) => {
-                       let value = row[key]
+                      let value = row[key]
+                      if (tableView[key].type === "multiselect" && row[key]) {
+                        value =
+                          row[key].join(', ')
+                      }
+                      if (tableView[key].type === "time" && row[key]) {
+                        value = formatTime(row[key])
+                      }
+                      if (tableView[key].type === "date" && row[key]) {
+                        value = new Date(row[key]);
+                        const day = value.getUTCDate();
+                        const monthIndex = value.getUTCMonth();
+                        const year = value.getUTCFullYear();
 
-                       if (tableView[key].type === "time" && row[key])  {
-                         value = formatTime(row[key])
-                       }
-                       if (tableView[key].type === "date" && row[key]) {
-                          value = new Date(row[key]);
-                         const day = value.getUTCDate();
-                         const monthIndex = value.getUTCMonth();
-                         const year = value.getUTCFullYear();
- 
-                         const monthAbbreviations = [
-                           "Jan",
-                           "Feb",
-                           "Mar",
-                           "Apr",
-                           "May",
-                           "Jun",
-                           "Jul",
-                           "Aug",
-                           "Sep",
-                           "Oct",
-                           "Nov",
-                           "Dec",
-                         ];
- 
-                         // Formatting the date
-                         value = `${day < 10 ? "0" : ""}${day}-${monthAbbreviations[monthIndex]}-${year}`;
-                        
-                       }
+                        const monthAbbreviations = [
+                            
+                          "Jan",
+                          "Feb",
+                          "Mar",
+                          "Apr",
+                          "May",
+                          "Jun",
+                          "Jul",
+                          "Aug",
+                          "Sep",
+                          "Oct",
+                          "Nov",
+                          "Dec",
+                        ];
+
+                        // Formatting the date
+                        value = `${day < 10 ? "0" : ""}${day}-${monthAbbreviations[monthIndex]}-${year}`;
+
+                      }
                       return (
                         <td
-                        key={key}
-                        className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden`}
-                        style={{ maxWidth: '160px' }}
-                        title={row[key]}
-                      >
-                        <p className='truncate text-xs'> {value}</p>
-                      </td>
+                          key={key}
+                          className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden`}
+                          style={{ maxWidth: '160px' }}
+                          title={row[key]}
+                        >
+                          <p className='truncate text-xs'> {value}</p>
+                        </td>
                       )
-                     
-})}
+
+                    })}
                     <td
                       className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden`}
                       style={{ maxWidth: '160px' }}

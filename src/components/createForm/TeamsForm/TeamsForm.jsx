@@ -134,7 +134,7 @@ function TeamsForm() {
     updatedFormData[index].value = updatedMembers;
     setCustomFormFields(updatedFormData);
   };
- 
+
   const handleChange = (index, newValue) => {
     const updatedFormData = [...customFormFields];
     if (updatedFormData[index].type != 'multiselect') {
@@ -634,7 +634,7 @@ function TeamsForm() {
                         >
                           {selected &&
                             selected.length > 0 &&
-                            selected.map((result,selectedIndex) => {
+                            selected.map((result, selectedIndex) => {
                               let mail = result.email.split('@')[0];
                               return (
                                 <span className='flex gap-1 text-xs mt-2 border-2 border-gray-200 rounded-md  focus:border-orange-600'>
@@ -684,8 +684,8 @@ function TeamsForm() {
                         {showUsers && searchTerm.length > 0 && (
                           <ul className='user-list z-50 absolute top-full left-0  bg-gray-50 border border-1 border-gray-200 w-full'>
                             {dashboard.paginatedUsers?.filter(mainObj =>
-                                !selected.some(selectedObj => selectedObj.id === mainObj.id)
-                              )
+                              !selected.some(selectedObj => selectedObj.id === mainObj.id)
+                            )
                               .map((user, ind) => (
                                 <li
                                   key={ind}
@@ -1050,7 +1050,7 @@ function TeamsForm() {
                         type='range'
                         name={item.inputname}
                         id={item.inputname}
-                        value={customFormFields[index].value || ''}
+                        value={customFormFields[index].value || 0}
                         onChange={(e) => handleChange(index, e.target.value)}
                         style={{ fontSize: '0.8rem' }}
                       />
@@ -1362,28 +1362,28 @@ function TeamsForm() {
                                   {index + 1 <= item.value.length && (
                                     <>
                                       <h5
-                                       
+
                                         style={{
-                                          backgroundColor: item.value[index].image ?  'transparent' :getRandomColor(firstLetter) 
+                                          backgroundColor: item.value[index].image ? 'transparent' : getRandomColor(firstLetter)
                                         }}
                                         className=' rounded-full w-10 h-10  md:h-8 xl:h-10 flex justify-center  text-xs items-center text-white'
                                       >
 
-{
-  (item.value[index].image && index < 11) || (index === 11 && item.value.length === 12) ? (
-    <img
-      src={typeof item.value[index].image === 'string' ? item.value[index].image : URL.createObjectURL(item.value[index].image)}
-      name='EntityPhoto'
-      alt='Entity Photo'
-      className='rounded-lg w-10 h-10 mr-4'
-    />
-  ) : (
-    <span>
-      {firstLetter?.toUpperCase()}
-      {secondLetter && secondLetter?.toUpperCase()}
-    </span>
-  )
-}
+                                        {
+                                          (item.value[index].image && index < 11) || (index === 11 && item.value.length === 12) ? (
+                                            <img
+                                              src={typeof item.value[index].image === 'string' ? item.value[index].image : URL.createObjectURL(item.value[index].image)}
+                                              name='EntityPhoto'
+                                              alt='Entity Photo'
+                                              className='rounded-lg w-10 h-10 mr-4'
+                                            />
+                                          ) : (
+                                            <span>
+                                              {firstLetter?.toUpperCase()}
+                                              {secondLetter && secondLetter?.toUpperCase()}
+                                            </span>
+                                          )
+                                        }
 
                                         {index == 11 &&
                                           item.value.length > 12 && (
@@ -1435,7 +1435,7 @@ function TeamsForm() {
                               );
                             })}
                         </div>
-                      )} 
+                      )}
                     {/* customfields */}
                     {item.type === 'text' && item.field == 'custom' && (
                       <div className='my-2 mx-5 '>
