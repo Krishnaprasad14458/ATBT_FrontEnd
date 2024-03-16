@@ -387,7 +387,7 @@ const AddRoles = () => {
         ...prev,
         role: '',
       }));
-    } else if (permission.role.length > 3) {
+    } else if (permission.role.length >= 3) {
       seterrors((prev) => ({
         ...prev,
         role: '',
@@ -399,7 +399,7 @@ const AddRoles = () => {
         ...prev,
         description: '',
       }));
-    } else if (permission.description.length > 3) {
+    } else if (permission.description.length >= 3) {
       seterrors((prev) => ({
         ...prev,
         description: '',
@@ -419,7 +419,7 @@ const AddRoles = () => {
         };
       });
       return false;
-    } else if (permission.role.length <= 3) {
+    } else if (permission.role.length < 3) {
       seterrors((prev) => ({
         ...prev,
         role: 'Role must be at least 3 characters',
@@ -433,7 +433,7 @@ const AddRoles = () => {
         description: 'Description is required',
       }));
       return false;
-    } else if (permission.description.length <= 3) {
+    } else if (permission.description.length < 3) {
       seterrors((prev) => ({
         ...prev,
         description: 'Description should have atleast 3 characters',
