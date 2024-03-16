@@ -31,7 +31,7 @@ export async function userFormLoader({ params }) {
         },
       });
       userData = userResponse?.data?.user;
-      console.log("bahvvuu",userData)
+      console.log("bahvvuu", userData)
     }
     const formResponse = await axios.get(formApi);
     const formData = formResponse.data.Data;
@@ -490,9 +490,9 @@ function UserForm() {
 
 
   // end the time function
-useEffect(()=>{
-  console.log("cus",customFormFields)
-})
+  useEffect(() => {
+    console.log("cus", customFormFields)
+  })
   return (
     <div className='container p-4 bg-[#f8fafc]'>
       {/* <p className="font-lg font-semibold p-3">Entity Form</p> */}
@@ -1163,12 +1163,14 @@ useEffect(()=>{
                       </label>
                       <input
                         type='range'
+                        
                         name={item.inputname}
                         id={item.inputname}
-                        value={customFormFields[index].value || ''}
+                        value={customFormFields[index].value || 0}
                         onChange={(e) => handleChange(index, e.target.value)}
                         style={{ fontSize: '0.8rem' }}
                       />
+
                       <div className='h-2 text-[#dc2626]'>
                         {errors[item.inputname] && (
                           <span className='text-xs'>
@@ -1365,7 +1367,7 @@ useEffect(()=>{
                             item.inputname == 'image' &&
                             item.field === 'predefined' && (
                               <div>
-                              
+
                                 {item.value ? (
                                   <img
                                     src={
