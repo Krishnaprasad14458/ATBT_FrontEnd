@@ -436,7 +436,7 @@ function Users() {
               </div>
               <hr className='h-1 w-full' />
 
-              <div className='px-4 py-2.5 h-[615px] overflow-auto flex-wrap'>
+              <div className='px-4 py-2 h-[615px] overflow-y-scroll flex-wrap'>
                 {dupTableView &&
                   Object.keys(dupTableView).map((columnName) => (
                     <div
@@ -466,7 +466,7 @@ function Users() {
                   ))}
               </div>
 
-              <div className='bg-gray-100 flex justify-between px-3 pt-3 pb-2 w-full'>
+              <div className='bg-gray-100 flex justify-between px-3 pt-2 pb-1  w-full'>
                 <button
                   className='mr-3 px-3 py-2 inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white '
                   onClick={handleColumnsApply}
@@ -592,7 +592,7 @@ function Users() {
                 </div>
               </div>
 
-              <div className='bg-gray-100 flex justify-between px-3 pt-3 pb-2 w-full'>
+              <div className='bg-gray-100 flex justify-between px-3 pt-2 pb-1 w-full'>
                 <button
                   onClick={handleFilterReset}
                   className='mr-3 px-3 py-2 inline-flex  whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white '

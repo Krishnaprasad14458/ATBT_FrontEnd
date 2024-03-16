@@ -629,7 +629,7 @@ function EntityForm() {
                       <div className='relative'>
                         <label
                           htmlFor='email'
-                          className='block text-sm  font-medium leading-6 my-2 text-gray-900'
+                          className='block text-sm  font-medium leading-6 mt-2 text-gray-900'
                         >
                           {item.label}
                           {item.mandatory ? (
@@ -726,7 +726,7 @@ function EntityForm() {
                     <div>
                       <label
                         htmlFor={item.label}
-                        className='block text-sm font-medium leading-6 my-2 text-gray-900'
+                        className='block text-sm font-medium leading-6 mt-2 text-gray-900'
                       >
                         {item.label.charAt(0).toUpperCase() +
                           item.label.slice(1)}
@@ -759,7 +759,7 @@ function EntityForm() {
                     <div>
                       <label
                         htmlFor={item.label}
-                        className='block text-sm font-medium leading-6 my-2 text-gray-900'
+                        className='block text-sm font-medium leading-6 mt-2 text-gray-900'
                       >
                         {item.label.charAt(0).toUpperCase() +
                           item.label.slice(1)}
@@ -792,7 +792,7 @@ function EntityForm() {
                     <div className="relative">
                       <label
                         htmlFor={item.label}
-                        className='block text-sm font-medium leading-6 my-2 text-gray-900'
+                        className='block text-sm font-medium leading-6 mt-2 text-gray-900'
                       >
                         {item.label.charAt(0).toUpperCase() +
                           item.label.slice(1)}
@@ -847,7 +847,7 @@ function EntityForm() {
                     <div>
                       <label
                         htmlFor={item.label}
-                        className='block text-sm font-medium leading-6 my-2 text-gray-900'
+                        className='block text-sm font-medium leading-6 mt-2 text-gray-900'
                       >
                         {item.label.charAt(0).toUpperCase() +
                           item.label.slice(1)}
@@ -880,7 +880,7 @@ function EntityForm() {
                     <div>
                       <label
                         htmlFor={item.label}
-                        className='block text-sm font-medium leading-6 my-2 text-gray-900'
+                        className='block text-sm font-medium leading-6 mt-2 text-gray-900'
                       >
                         {item.label.charAt(0).toUpperCase() +
                           item.label.slice(1)}
@@ -953,7 +953,7 @@ function EntityForm() {
                     <div>
                       <label
                         htmlFor={item.label}
-                        className='block text-sm font-medium leading-6 my-2 text-gray-900'
+                        className='block text-sm font-medium leading-6 mt-2 text-gray-900'
                       >
                         {item.label.charAt(0).toUpperCase() +
                           item.label.slice(1)}
@@ -986,7 +986,7 @@ function EntityForm() {
                     <div>
                       <label
                         htmlFor={item.label}
-                        className='block text-sm font-medium leading-6 my-2 text-gray-900'
+                        className='block text-sm font-medium leading-6 mt-2 text-gray-900'
                       >
                         {item.label.charAt(0).toUpperCase() +
                           item.label.slice(1)}
@@ -1019,7 +1019,7 @@ function EntityForm() {
                     <div>
                       <label
                         htmlFor={item.label}
-                        className='block text-sm font-medium leading-6 my-2 text-gray-900'
+                        className='block text-sm font-medium leading-6 mt-2 text-gray-900'
                       >
                         {item.label.charAt(0).toUpperCase() +
                           item.label.slice(1)}
@@ -1051,7 +1051,7 @@ function EntityForm() {
                     <div>
                       <label
                         htmlFor={item.label}
-                        className='block text-sm font-medium leading-6 my-2 text-gray-900'
+                        className='block text-sm font-medium leading-6 mt-2 text-gray-900'
                       >
                         {item.label.charAt(0).toUpperCase() +
                           item.label.slice(1)}
@@ -1082,7 +1082,7 @@ function EntityForm() {
                     <div>
                       <label
                         htmlFor={item.label}
-                        className='block text-sm font-medium leading-6 my-2 text-gray-900'
+                        className='block text-sm font-medium leading-6 mt-2 text-gray-900'
                       >
                         {item.label.charAt(0).toUpperCase() +
                           item.label.slice(1)}
@@ -1114,7 +1114,7 @@ function EntityForm() {
                     <div>
                       <label
                         htmlFor={item.label}
-                        className='block text-sm font-medium leading-6 my-2 text-gray-900'
+                        className='block text-sm font-medium leading-6 mt-2 text-gray-900'
                       >
                         {item.label.charAt(0).toUpperCase() +
                           item.label.slice(1)}
@@ -1158,7 +1158,7 @@ function EntityForm() {
                     <div className='relative'>
                       <label
                         htmlFor={item.label}
-                        className='block text-sm font-medium leading-6 my-2 text-gray-900'
+                        className='block text-sm font-medium leading-6 mt-2 text-gray-900'
                       >
                         {item.label.charAt(0).toUpperCase() +
                           item.label.slice(1)}
