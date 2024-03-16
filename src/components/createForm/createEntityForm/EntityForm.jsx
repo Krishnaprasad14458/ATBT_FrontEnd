@@ -1390,7 +1390,7 @@ function EntityForm() {
                                               src={typeof item.value[index].image === 'string' ? item.value[index].image : URL.createObjectURL(item.value[index].image)}
                                               name='EntityPhoto'
                                               alt='Entity Photo'
-                                              className=' rounded-full w-10 h-10  md:h-8 xl:h-10 flex justify-center  text-xs items-center text-white'
+                                              className=' rounded-full w-10 h-10   flex justify-center  text-xs items-center text-white'
                                             />
                                           ) : (
                                             <span>
@@ -1438,7 +1438,7 @@ function EntityForm() {
                                   )}
                                   {index + 1 > item.value.length && (
                                     <>
-                                      <h5 className='bg-[#e5e7eb] rounded-full w-10 h-10  md:h-8 xl:h-10 flex justify-center text-xs items-center text-white'></h5>
+                                      <h5 className='bg-[#e5e7eb] rounded-full w-10 h-10  flex justify-center text-xs items-center text-white'></h5>
                                       <div className=' flex items-center'>
                                         <div className=' rounded-md  bg-[#e5e7eb] h-2 w-28'>
 
@@ -1456,7 +1456,7 @@ function EntityForm() {
                       <div className='my-2 mx-2 '>
                         {item.value && item.value.length > 0 && (
                           <p className='flex  gap-2'>
-                            <span className='w-2/6 break-words text-[#727a85] '>
+                            <span className='w-2/6 truncate text-[#727a85] '>
                               {item.label.charAt(0).toUpperCase() +
                                 item.label.slice(1)}
                             </span>
@@ -1474,7 +1474,7 @@ function EntityForm() {
                       <div className='my-2 mx-2 '>
                         {item.value && item.value.length > 0 && (
                           <p className='flex  gap-2'>
-                            <span className='w-2/6 break-words text-[#727a85] '>
+                            <span className='w-2/6 truncate text-[#727a85] '>
                               {item.label.charAt(0).toUpperCase() +
                                 item.label.slice(1)}
                             </span>
@@ -1492,7 +1492,7 @@ function EntityForm() {
                       <div className='my-2 mx-2  flex-wrap'>
                         {item.value && item.value.length > 0 && (
                           <p className='flex  gap-2'>
-                            <span className='w-2/6 break-words text-[#727a85] '>
+                            <span className='w-2/6 truncate text-[#727a85] '>
                               {item.label.charAt(0).toUpperCase() +
                                 item.label.slice(1)}
                             </span>
@@ -1512,7 +1512,7 @@ function EntityForm() {
                       <div className='my-2 mx-2  flex-wrap'>
                         {item.value && item.value.length > 0 && (
                           <p className='flex  gap-2'>
-                            <span className='w-2/6 break-words text-[#727a85] '>
+                            <span className='w-2/6 truncate text-[#727a85] '>
                               {item.label.charAt(0).toUpperCase() +
                                 item.label.slice(1)}
                             </span>
@@ -1533,7 +1533,7 @@ function EntityForm() {
                       <div className='my-2 mx-2  '>
                         {item.value && item.value.length > 0 && (
                           <p className='flex  gap-2'>
-                            <span className='w-2/6 text-[#727a85] break-words '>
+                            <span className='w-2/6 text-[#727a85] truncate '>
                               {item.label.charAt(0).toUpperCase() +
                                 item.label.slice(1)}
                             </span>
@@ -1551,7 +1551,7 @@ function EntityForm() {
                       <div className='my-2 mx-2 '>
                         {item.value && item.value.length > 0 && (
                           <p className='flex  gap-2'>
-                            <span className='w-2/6 text-[#727a85] break-words  '>
+                            <span className='w-2/6 text-[#727a85] truncate  '>
                               {item.label.charAt(0).toUpperCase() +
                                 item.label.slice(1)}
                             </span>
@@ -1569,7 +1569,7 @@ function EntityForm() {
                       <div className='my-2 mx-2 '>
                         {item.value && item.value.length > 0 && (
                           <p className='flex  gap-2'>
-                            <span className='w-2/6 text-[#727a85] break-words  '>
+                            <span className='w-2/6 text-[#727a85] truncate  '>
                               {item.label.charAt(0).toUpperCase() +
                                 item.label.slice(1)}
                             </span>
@@ -1587,7 +1587,7 @@ function EntityForm() {
                       <div className='my-2 mx-2 '>
                         {item.value && item.value.length > 0 && (
                           <p className='flex  gap-2'>
-                            <span className='w-2/6 text-[#727a85]  break-words '>
+                            <span className='w-2/6 text-[#727a85]  truncate '>
                               {item.label.charAt(0).toUpperCase() +
                                 item.label.slice(1)}
                             </span>
@@ -1605,7 +1605,7 @@ function EntityForm() {
                       <div className='my-2 mx-2 '>
                         {item.value && item.value.length > 0 && (
                           <p className='flex  gap-2'>
-                            <span className='w-2/6 text-[#727a85] break-words '>
+                            <span className='w-2/6 text-[#727a85] truncate '>
                               {item.label.charAt(0).toUpperCase() +
                                 item.label.slice(1)}
                             </span>
@@ -1623,7 +1623,7 @@ function EntityForm() {
                       <div className='my-2 mx-2 '>
                         {item.value && item.value.length > 0 && (
                           <p className='flex gap-2'>
-                            <span className='w-2/6 text-[#727a85] break-words  '>
+                            <span className='w-2/6 text-[#727a85] truncate  '>
                               {item.label.charAt(0).toUpperCase() +
                                 item.label.slice(1)}
                             </span>

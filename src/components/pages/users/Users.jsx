@@ -637,49 +637,53 @@ function Users() {
                     {visibleColumns.map((key) => {
                       let value = row[key]
 
-                      if (tableView[key].type === "time" && row[key]) {
-                        value = formatTime(row[key])
+                      if (tableView[key].type === "multiselect" && row[key]) {
+                        value = 
+                          row[key].join(', ')
                       }
-                      if (tableView[key].type === "date" && row[key]) {
-                        value = new Date(row[key]);
-                        const day = value.getUTCDate();
-                        const monthIndex = value.getUTCMonth();
-                        const year = value.getUTCFullYear();
+                        if (tableView[key].type === "time" && row[key]) {
+                          value = formatTime(row[key])
+                        }
+                        if (tableView[key].type === "date" && row[key]) {
+                          value = new Date(row[key]);
+                          const day = value.getUTCDate();
+                          const monthIndex = value.getUTCMonth();
+                          const year = value.getUTCFullYear();
 
-                        const monthAbbreviations = [
-                          "Jan",
-                          "Feb",
-                          "Mar",
-                          "Apr",
-                          "May",
-                          "Jun",
-                          "Jul",
-                          "Aug",
-                          "Sep",
-                          "Oct",
-                          "Nov",
-                          "Dec",
-                        ];
+                          const monthAbbreviations = [
+                            "Jan",
+                            "Feb",
+                            "Mar",
+                            "Apr",
+                            "May",
+                            "Jun",
+                            "Jul",
+                            "Aug",
+                            "Sep",
+                            "Oct",
+                            "Nov",
+                            "Dec",
+                          ];
 
-                        // Formatting the date
-                        value = `${day < 10 ? "0" : ""}${day}-${monthAbbreviations[monthIndex]}-${year}`;
+                          // Formatting the date
+                          value = `${day < 10 ? "0" : ""}${day}-${monthAbbreviations[monthIndex]}-${year}`;
 
-                      }
-                      return (
-                        <td
-                          key={key}
-                          className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium overflow-hidden  ${row.userstatus
-                            ? 'text-gray-800 '
-                            : 'bg-gray-100 text-gray-300'
-                            }`}
-                          style={{ maxWidth: '160px' }}
-                          title={row[key]}
-                        >
-                          <p className='truncate text-xs '> {value}</p>
-                        </td>
-                      )
+                        }
+                        return (
+                          <td
+                            key={key}
+                            className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium overflow-hidden  ${row.userstatus
+                              ? 'text-gray-800 '
+                              : 'bg-gray-100 text-gray-300'
+                              }`}
+                            style={{ maxWidth: '160px' }}
+                            title={row[key]}
+                          >
+                            <p className='truncate text-xs '> {value}</p>
+                          </td>
+                        )
 
-                    })}
+                      })}
 
                     <td
                       className={`px-2 py-2  border border-[#e5e7eb] text-xs font-medium  ${row.userstatus
