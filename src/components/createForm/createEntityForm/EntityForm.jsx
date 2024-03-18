@@ -1278,12 +1278,12 @@ function EntityForm() {
                         <div>
                           {item.value ? (
                             <p className='text-sm font-black text-gray-800 mt-2 absolute left-12'>
-                              {' '}
+                              
                               {item.value.toUpperCase()}
                             </p>
                           ) : (
                             <p className='text-sm font-black text-gray-800 mt-2 absolute left-12'>
-                              {' '}
+                              
                               ENTITY NAME
                             </p>
                           )}
@@ -1473,7 +1473,7 @@ function EntityForm() {
                                 item.label.slice(1)}
                             </span>
                             <span className=' flex gap-2 w-4/6'>
-                              <span> : </span>{' '}
+                              <span> : </span>
                               <span className='text-md font-[600]  '>
                                 {item.value}
                               </span>
@@ -1492,7 +1492,7 @@ function EntityForm() {
                                 item.label.slice(1)}
                             </span>
                             <span className='  flex gap-2 w-4/6 '>
-                              <span> : </span>{' '}
+                              <span> : </span>
                               <span className='text-md font-[600] break-all'>
                                 {item.value}
                               </span>
@@ -1512,7 +1512,7 @@ function EntityForm() {
                                 item.label.slice(1)}
                             </span>
                             <span className='  flex gap-2 w-4/6'>
-                              <span> : </span>{' '}
+                              <span> : </span>
                               <span className='text-md font-[600] '>
                                 {item.value.slice(0, 3)}&nbsp;
                                 {item.value.slice(3, 6)}&nbsp;
@@ -1533,7 +1533,7 @@ function EntityForm() {
                                 item.label.slice(1)}
                             </span>
                             <span className='  flex gap-2 w-4/6'>
-                              <span> : </span>{' '}
+                              <span> : </span>
                               <span className='text-md font-[600]  break-all'>
                                 {item.value}
                               </span>
@@ -1552,7 +1552,7 @@ function EntityForm() {
                                 item.label.slice(1)}
                             </span>
                             <span className=' flex gap-2 w-4/6'>
-                              <span> : </span>{' '}
+                              <span> : </span>
                               <span className='text-md font-[600]  '>
                                 {item.value}
                               </span>
@@ -1599,7 +1599,7 @@ function EntityForm() {
                                     item.label.slice(1)}
                                 </span>
                                 <span className='flex gap-2 w-4/6'>
-                                  <span> : </span>{' '}
+                                  <span> : </span>
                                   <span className='text-md font-[600]'>
                                     {date ? date : 'No Date'}
                                   </span>
@@ -1620,7 +1620,7 @@ function EntityForm() {
                                 item.label.slice(1)}
                             </span>
                             <span className='  flex gap-2 w-4/6'>
-                              <span> : </span>{' '}
+                              <span> : </span>
                               <span className='text-md font-[600] '>
                                 {item.value}
                               </span>
@@ -1639,7 +1639,7 @@ function EntityForm() {
                                 item.label.slice(1)}
                             </span>
                             <span className='  flex gap-2 w-4/6'>
-                              <span> : </span>{' '}
+                              <span> : </span>
                               <span className='text-md font-[600] '>
                                 {item.value.join(', ')}
                               </span>
@@ -1658,7 +1658,7 @@ function EntityForm() {
                                 item.label.slice(1)}
                             </span>
                             <span className='  flex gap-2 w-4/6'>
-                              <span> : </span>{' '}
+                              <span> : </span>
                               <span className='text-md font-[600] '>
                                 {item.value}
                               </span>
@@ -1677,7 +1677,7 @@ function EntityForm() {
                                 item.label.slice(1)}
                             </span>
                             <span className='  flex gap-2 w-4/6'>
-                              <span> : </span>{' '}
+                              <span> : </span>
                               <span className='text-md font-[600] '>
                                 {formatTime(item.value)}
                               </span>

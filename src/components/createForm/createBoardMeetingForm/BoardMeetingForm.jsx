@@ -715,7 +715,7 @@ function BoardMeetingForm() {
                       <div className='relative'>
                         <label
                           htmlFor='email'
-                          className='block text-sm  font-medium leading-6 mt-2 text-gray-900'
+                          className='block text-sm  font-medium leading-6 my-2 text-gray-900'
                         >
                           {item.label}
                           {item.mandatory ? (
@@ -743,11 +743,11 @@ function BoardMeetingForm() {
                                       }
                                       name='EntityPhoto'
                                       alt='Entity Photo'
-                                      className='rounded-lg w-4 h-4 '
+                                      className='rounded-lg w-10 h-10 mr-4'
                                     />
                                   ) : (
                                     <img
-                                      className='w-4 h-4 rounded-lg '
+                                      className='w-10 h-10 rounded-lg '
                                       src={defprop}
                                       alt='default image'
                                     />
@@ -779,7 +779,6 @@ function BoardMeetingForm() {
                             onChange={handleInputChange}
                           />
                         </div>
-
                         {showUsers && searchTerm.length > 0 && (
                           <ul className='user-list z-10 absolute top-full left-0 bg-gray-50 border border-1 border-gray-200 w-full'>
                             {usersEmails
@@ -801,7 +800,6 @@ function BoardMeetingForm() {
                               ))}
                           </ul>
                         )}
-
                         <div className='h-2 text-[#dc2626]'>
                           {errors[item.inputname] && (
                             <span className='text-xs'>
@@ -1428,6 +1426,9 @@ function BoardMeetingForm() {
                           )}
                       </span>
                     </div>
+
+
+
                     {item.type === 'textarea' &&
                       item.inputname == 'description' &&
                       item.field == 'predefined' && (
@@ -1482,7 +1483,7 @@ function BoardMeetingForm() {
                               };
                               return (
                                 <div
-                                  className='col-span-1 flex justify-start gap-3'
+                                  className='col-span-1 flex justify-start gap-1'
                                   key={index}
                                 >
                                   {index + 1 <= item.value.length && (
@@ -1558,14 +1559,14 @@ function BoardMeetingForm() {
                                               <span>
                                                 +{item.value.length - 11} more
                                               </span>
-                                            )}
+                                            )}{' '}
                                         </div>
                                       </div>
                                     </>
                                   )}
                                   {index + 1 > item.value.length && (
                                     <>
-                                      <h5 className='bg-[#e5e7eb] rounded-full w-10 h-10  flex justify-center text-xs items-center text-white'></h5>
+                                      <h5 className='bg-[#e5e7eb] rounded-full w-10 h-10  md:h-8 xl:h-10 flex justify-center text-xs items-center text-white'></h5>
                                       <div className=' flex items-center'>
                                         <div className=' rounded-md  bg-[#e5e7eb] h-2 w-28'></div>
                                       </div>
@@ -1575,8 +1576,7 @@ function BoardMeetingForm() {
                               );
                             })}
                         </div>
-                      )}
-                    {/* customfields */}
+                      )}                     {/* customfields */}
                     {item.type === 'text' && item.field == 'custom' && (
                       <div className='my-2 mx-2 '>
                         {item.value && item.value.length > 0 && (
@@ -1615,7 +1615,6 @@ function BoardMeetingForm() {
                         {item.value && <hr className='mt-2' />}
                       </div>
                     )}
-
                     {item.type === 'phonenumber' && item.field == 'custom' && (
                       <div className='my-2 mx-2  flex-wrap'>
                         {item.value && item.value.length > 0 && (
