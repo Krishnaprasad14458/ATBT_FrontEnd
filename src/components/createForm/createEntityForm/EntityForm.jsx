@@ -521,9 +521,7 @@ function EntityForm() {
               customFormFields.map((item, index) => (
                 <div key={index}>
                   {/* predefined fields */}
-                  {item.type === 'text' &&
-                    item.inputname == 'name' &&
-                    item.field === 'predefined' && (
+                  {item.type === 'text' && item.inputname == 'name' &&  item.field === 'predefined' && (
                       <div>
                         <label
                           htmlFor={item.label}
@@ -556,9 +554,7 @@ function EntityForm() {
                         </div>
                       </div>
                     )}
-                  {item.type === 'file' &&
-                    item.inputname == 'image' &&
-                    item.field === 'predefined' && (
+                  {item.type === 'file' && item.inputname == 'image' && item.field === 'predefined' && (
                       <div>
                         <label
                           htmlFor={item.label}
@@ -590,9 +586,7 @@ function EntityForm() {
                         </div>
                       </div>
                     )}
-                  {item.type === 'textarea' &&
-                    item.inputname == 'description' &&
-                    item.field === 'predefined' && (
+                  {item.type === 'textarea' && item.inputname == 'description' && item.field === 'predefined' && (
                       <div>
                         <label
                           htmlFor={item.label}

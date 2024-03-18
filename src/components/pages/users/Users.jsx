@@ -181,7 +181,7 @@ function Users() {
   useEffect(() => {
     setFieldsDropDownData((prevState) => ({
       ...prevState,
-      entityname: entitiesList.paginatedEntities.map((item) => item.name),
+      entityname: entitiesList?.paginatedEntities?.map((item) => item.name),
     }));
   }, [entitiesList]);
   useEffect(() => {
@@ -203,7 +203,7 @@ function Users() {
       .then((response) => {
         setFieldsDropDownData((prevState) => ({
           ...prevState,
-          role: response.data.roles.map((item) => item.name),
+          role: response?.data?.roles.map((item) => item.name),
         }));
       })
       .catch((error) => {
