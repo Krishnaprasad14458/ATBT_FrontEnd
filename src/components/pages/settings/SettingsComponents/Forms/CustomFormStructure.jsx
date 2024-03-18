@@ -437,48 +437,82 @@ const CustomFormStructure = () => {
                   role='button'
                   className='block w-full  '
                 >
-                  <div className='flex justify-between items-center mb-3  '>
-                    <div className='flex justify-between items-center bg-[#f2f2f2] p-4 w-full '>
+                  <div className='flex justify-between items-center mb-3'>
+                    <div className='flex justify-between items-center bg-[#f2f2f2] p-4 w-full cursor-default'>
                       <div className='flex text-black font-semibold'>
                         <div
-                          className=''
+                          className='cursor-pointer'
                           onClick={() => handleFiledOpen(input.inputname)}
                         >
-                          {input.label.charAt(0).toUpperCase() +
-                            input.label.slice(1)}
+                          {input.label.charAt(0).toUpperCase() + input.label.slice(1)}
                         </div>
                       </div>
                       <div className='flex gap-3 md:gap-10'>
-                        {/*up and down moving icons */}
+                        {/* up and down moving icons */}
 
                         <svg
-                          disabled={input.field === "predefined" || (input.field === "custom" && customForm[index - 1]?.field === "predefined")}
-                          className={`${input.field === "predefined" || (input.field === "custom" && customForm[index - 1]?.field === "predefined") ? "text-gray-400 cursor-not-allowed" : ""} w-5 h-5`}
+                          disabled={
+                            input.field === "predefined" ||
+                            (input.field === "custom" &&
+                              customForm[index - 1]?.field === "predefined")
+                          }
+                          className={`${input.field === "predefined" ||
+                              (input.field === "custom" &&
+                                customForm[index - 1]?.field === "predefined")
+                              ? "text-gray-400 cursor-not-allowed"
+                              : " cursor-pointer"
+                            } w-5 h-5`}
                           onClick={() => {
-                            if (!(input.field === "predefined" || (input.field === "custom" && customForm[index - 1]?.field === "predefined"))) {
-                              handleMoveDimension(index, 'up');
+                            if (
+                              !(
+                                input.field === "predefined" ||
+                                (input.field === "custom" &&
+                                  customForm[index - 1]?.field === "predefined")
+                              )
+                            ) {
+                              handleMoveDimension(index, "up");
                             }
                           }}
-                          xmlns="http://www.w3.org/2000/svg"
-                          viewBox="0 0 20 20"
-                          fill="currentColor"
+                          xmlns='http://www.w3.org/2000/svg'
+                          viewBox='0 0 20 20'
+                          fill='currentColor'
                         >
-                          <path fillRule="evenodd" d="M10 17a.75.75 0 0 1-.75-.75V5.612L5.29 9.77a.75.75 0 0 1-1.08-1.04l5.25-5.5a.75.75 0 0 1 1.08 0l5.25 5.5a.75.75 0 1 1-1.08 1.04l-3.96-4.158V16.25A.75.75 0 0 1 10 17Z" clipRule="evenodd" />
+                          <path
+                            fillRule='evenodd'
+                            d='M10 17a.75.75 0 0 1-.75-.75V5.612L5.29 9.77a.75.75 0 0 1-1.08-1.04l5.25-5.5a.75.75 0 0 1 1.08 0l5.25 5.5a.75.75 0 1 1-1.08 1.04l-3.96-4.158V16.25A.75.75 0 0 1 10 17Z'
+                            clipRule='evenodd'
+                          />
                         </svg>
 
-
                         <svg
-                          disabled={input.field === "predefined" || (input.field === "custom" && customForm?.length === index + 1)}
-
-                          className={`${input.field === "predefined" || (input.field === "custom" && customForm?.length === index + 1) ? "text-gray-400 cursor-not-allowed" : ""} w-5 h-5 `}
+                          disabled={
+                            input.field === "predefined" ||
+                            (input.field === "custom" && customForm?.length === index + 1)
+                          }
+                          className={`${input.field === "predefined" ||
+                              (input.field === "custom" && customForm?.length === index + 1)
+                              ? "text-gray-400 cursor-not-allowed"
+                              : " cursor-pointer"
+                            } w-5 h-5 `}
                           onClick={() => {
-                            if (!(input.field === "predefined" || (input.field === "custom" && customForm?.length === index + 1))) {
-                              handleMoveDimension(index, 'down');
+                            if (
+                              !(
+                                input.field === "predefined" ||
+                                (input.field === "custom" && customForm?.length === index + 1)
+                              )
+                            ) {
+                              handleMoveDimension(index, "down");
                             }
                           }}
-
-                          xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" >
-                          <path fill-rule="evenodd" d="M10 3a.75.75 0 0 1 .75.75v10.638l3.96-4.158a.75.75 0 1 1 1.08 1.04l-5.25 5.5a.75.75 0 0 1-1.08 0l-5.25-5.5a.75.75 0 1 1 1.08-1.04l3.96 4.158V3.75A.75.75 0 0 1 10 3Z" clip-rule="evenodd" />
+                          xmlns='http://www.w3.org/2000/svg'
+                          viewBox='0 0 20 20'
+                          fill='currentColor'
+                        >
+                          <path
+                            fillRule='evenodd'
+                            d='M10 3a.75.75 0 0 1 .75.75v10.638l3.96-4.158a.75.75 0 1 1 1.08 1.04l-5.25 5.5a.75.75 0 0 1-1.08 0l-5.25-5.5a.75.75 0 1 1 1.08-1.04l3.96 4.158V3.75A.75.75 0 0 1 10 3Z'
+                            clipRule='evenodd'
+                          />
                         </svg>
 
                         {/* Open and Close Arrow*/}
@@ -487,25 +521,26 @@ const CustomFormStructure = () => {
                           xmlns='http://www.w3.org/2000/svg'
                           viewBox='0 0 24 24'
                           fill='currentColor'
-                          className='w-6 h-6'
+                          className='w-6 h-6 cursor-pointer'
                         >
                           {input.inputname == selected ? (
                             <path
-                              fill-rule='evenodd'
+                              fillRule='evenodd'
                               d='M11.47 7.72a.75.75 0 0 1 1.06 0l7.5 7.5a.75.75 0 1 1-1.06 1.06L12 9.31l-6.97 6.97a.75.75 0 0 1-1.06-1.06l7.5-7.5Z'
-                              clip-rule='evenodd'
+                              clipRule='evenodd'
                             />
                           ) : (
                             <path
-                              fill-rule='evenodd'
+                              fillRule='evenodd'
                               d='M12.53 16.28a.75.75 0 0 1-1.06 0l-7.5-7.5a.75.75 0 0 1 1.06-1.06L12 14.69l6.97-6.97a.75.75 0 1 1 1.06 1.06l-7.5 7.5Z'
-                              clip-rule='evenodd'
+                              clipRule='evenodd'
                             />
                           )}
                         </svg>
                       </div>
                     </div>
                   </div>
+
                 </div>
                 {input.inputname == selected && (
                   <div className='px-6'>

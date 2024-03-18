@@ -82,7 +82,7 @@ function BoardMeetingForm() {
     usersDispatch,
   } = useContext(UserDataContext);
   const { createBoardMeeting, updateBoardMeeting } = useContext(BoardMeetingsDataContext);
-  const usersEmails = dashboard.paginatedUsers
+
   // const usersEmails = dashboard.paginatedUsers?.map((user) => user.email);
   const { debouncedSetPage, debouncedSetSearch } = useDebounce(usersDispatch);
 
@@ -710,7 +710,7 @@ function BoardMeetingForm() {
                       <div className='relative'>
                         <label
                           htmlFor='email'
-                          className='block text-sm  font-medium leading-6 mt-2 text-gray-900'
+                          className='block text-sm  font-medium leading-6 my-2 text-gray-900'
                         >
                           {item.label}
                           {item.mandatory ? (
@@ -729,8 +729,6 @@ function BoardMeetingForm() {
                               let mail = result.email.split('@')[0];
                               return (
                                 <span className='flex gap-1 text-xs mt-1 border-2 border-gray-200 rounded-md  focus:border-orange-600'>
-
-
                                   {result.image ? (
                                     <img
                                       src={
@@ -740,11 +738,11 @@ function BoardMeetingForm() {
                                       }
                                       name='EntityPhoto'
                                       alt='Entity Photo'
-                                      className='rounded-lg w-4 h-4 '
+                                      className='rounded-lg w-10 h-10 mr-4'
                                     />
                                   ) : (
                                     <img
-                                      className='w-4 h-4 rounded-lg '
+                                      className='w-10 h-10 rounded-lg '
                                       src={defprop}
                                       alt='default image'
                                     />
@@ -755,7 +753,7 @@ function BoardMeetingForm() {
                                     viewBox='0 0 16 16'
                                     fill='currentColor'
                                     className='w-4 h-4 '
-                                    onClick={() => handleRemove(selectedIndex, index)}
+                                    onClick={() => handleRemove(result, index)}
                                   >
                                     <path d='M5.28 4.22a.75.75 0 0 0-1.06 1.06L6.94 8l-2.72 2.72a.75.75 0 1 0 1.06 1.06L8 9.06l2.72 2.72a.75.75 0 1 0 1.06-1.06L9.06 8l2.72-2.72a.75.75 0 0 0-1.06-1.06L8 6.94 5.28 4.22Z' />
                                   </svg>
@@ -774,13 +772,11 @@ function BoardMeetingForm() {
                             onChange={handleInputChange}
                           />
                         </div>
-
                         {showUsers && searchTerm.length > 0 && (
-                          <ul className='user-list z-10 absolute top-full left-0 bg-gray-50 border border-1 border-gray-200 w-full'>
-                            {usersEmails
-                              .filter(mainObj =>
-                                !selected.some(selectedObj => selectedObj.id === mainObj.id)
-                              )
+                          <ul className='user-list z-10 absolute top-full left-0  bg-gray-50 border border-1 border-gray-200 w-full'>
+                            {dashboard.paginatedUsers?.filter(mainObj =>
+                              !selected.some(selectedObj => selectedObj.id === mainObj.id)
+                            )
                               .map((user, ind) => (
                                 <li
                                   key={ind}
@@ -792,7 +788,6 @@ function BoardMeetingForm() {
                               ))}
                           </ul>
                         )}
-
                         <div className='h-2 text-[#dc2626]'>
                           {errors[item.inputname] && (
                             <span className='text-xs'>
@@ -1329,7 +1324,29 @@ function BoardMeetingForm() {
             {customFormFields &&
               customFormFields.length > 0 &&
               customFormFields.map((item) => {
+                let date = new Date(item.value);
+                const day = date.getUTCDate();
+                const monthIndex = date.getUTCMonth();
+                const year = date.getUTCFullYear();
 
+                const monthAbbreviations = [
+                  "Jan",
+                  "Feb",
+                  "Mar",
+                  "Apr",
+                  "May",
+                  "Jun",
+                  "Jul",
+                  "Aug",
+                  "Sep",
+                  "Oct",
+                  "Nov",
+                  "Dec",
+                ];
+
+                // Formatting the date
+                date = `${day < 10 ? "0" : ""}${day}-${monthAbbreviations[monthIndex]
+                  }-${year}`;
 
                 return (
                   <div className='relative'>
@@ -1406,6 +1423,9 @@ function BoardMeetingForm() {
                           )}
                       </span>
                     </div>
+
+
+
                     {item.type === 'textarea' &&
                       item.inputname == 'description' &&
                       item.field == 'predefined' && (
@@ -1462,7 +1482,7 @@ function BoardMeetingForm() {
                               };
                               return (
                                 <div
-                                  className='col-span-1 flex justify-start gap-3'
+                                  className='col-span-1 flex justify-start gap-1'
                                   key={index}
                                 >
                                   {index + 1 <= item.value.length && (
@@ -1481,7 +1501,7 @@ function BoardMeetingForm() {
                                               src={typeof item.value[index].image === 'string' ? item.value[index].image : URL.createObjectURL(item.value[index].image)}
                                               name='EntityPhoto'
                                               alt='Entity Photo'
-                                              className=' rounded-full w-10 h-10   flex justify-center  text-xs items-center text-white'
+                                              className='rounded-lg w-10 h-10 mr-4'
                                             />
                                           ) : (
                                             <span>
@@ -1522,14 +1542,14 @@ function BoardMeetingForm() {
                                               <span >
                                                 +{item.value.length - 11} more
                                               </span>
-                                            )}
+                                            )}{' '}
                                         </div>
                                       </div>
                                     </>
                                   )}
                                   {index + 1 > item.value.length && (
                                     <>
-                                      <h5 className='bg-[#e5e7eb] rounded-full w-10 h-10  flex justify-center text-xs items-center text-white'></h5>
+                                      <h5 className='bg-[#e5e7eb] rounded-full w-10 h-10  md:h-8 xl:h-10 flex justify-center text-xs items-center text-white'></h5>
                                       <div className=' flex items-center'>
                                         <div className=' rounded-md  bg-[#e5e7eb] h-2 w-28'>
 
@@ -1541,8 +1561,7 @@ function BoardMeetingForm() {
                               );
                             })}
                         </div>
-                      )}
-                    {/* customfields */}
+                      )}                     {/* customfields */}
                     {item.type === 'text' && item.field == 'custom' && (
                       <div className='my-2 mx-2 '>
                         {item.value && item.value.length > 0 && (
@@ -1559,7 +1578,7 @@ function BoardMeetingForm() {
                             </span>
                           </p>
                         )}
-                        {item.value && <hr className='mt-2' />} </div>
+                      </div>
                     )}
                     {item.type === 'email' && item.field == 'custom' && (
                       <div className='my-2 mx-2 '>
@@ -1577,9 +1596,8 @@ function BoardMeetingForm() {
                             </span>
                           </p>
                         )}
-                        {item.value && <hr className='mt-2' />}</div>
+                      </div>
                     )}
-
                     {item.type === 'phonenumber' && item.field == 'custom' && (
                       <div className='my-2 mx-2  flex-wrap'>
                         {item.value && item.value.length > 0 && (
@@ -1598,7 +1616,7 @@ function BoardMeetingForm() {
                             </span>
                           </p>
                         )}
-                        {item.value && <hr className='mt-2' />} </div>
+                      </div>
                     )}
                     {item.type === 'number' && item.field == 'custom' && (
                       <div className='my-2 mx-2  flex-wrap'>
@@ -1618,10 +1636,10 @@ function BoardMeetingForm() {
                             </span>
                           </p>
                         )}
-                        {item.value && <hr className='mt-2' />} </div>
+                      </div>
                     )}
                     {item.type === 'textarea' && item.field == 'custom' && (
-
+                      // mb-1 ps-6 flex flex-wrap
                       <div className='my-2 mx-2  '>
                         {item.value && item.value.length > 0 && (
                           <p className='flex  gap-2'>
@@ -1637,54 +1655,26 @@ function BoardMeetingForm() {
                             </span>
                           </p>
                         )}
-                        {item.value && <hr className='mt-2' />} </div>
+                      </div>
                     )}
-                    {item.type === 'date' && item.field === 'custom' && (
-                      (() => {
-                        let date = new Date(item.value);
-                        const day = date.getUTCDate();
-                        const monthIndex = date.getUTCMonth();
-                        const year = date.getUTCFullYear();
-
-                        const monthAbbreviations = [
-                          "Jan",
-                          "Feb",
-                          "Mar",
-                          "Apr",
-                          "May",
-                          "Jun",
-                          "Jul",
-                          "Aug",
-                          "Sep",
-                          "Oct",
-                          "Nov",
-                          "Dec",
-                        ];
-
-                        // Formatting the date
-                        date = `${day < 10 ? "0" : ""}${day}-${monthAbbreviations[monthIndex]}-${year}`;
-
-                        return (
-                          <div className='my-2 mx-2'>
-                            {item.value && item.value.length > 0 && (
-                              <p className='flex gap-2'>
-                                <span className='w-2/6 text-[#727a85] truncate'>
-                                  {item.label.charAt(0).toUpperCase() + item.label.slice(1)}
-                                </span>
-                                <span className='flex gap-2 w-4/6'>
-                                  <span> : </span>{' '}
-                                  <span className='text-md font-[600]'>
-                                    {date ? date : "No Date"}
-                                  </span>
-                                </span>
-                              </p>
-                            )}
-                            {date && <hr className='mt-2' />}
-                          </div>
-                        );
-                      })()
+                    {item.type === 'date' && item.field == 'custom' && (
+                      <div className='my-2 mx-2 '>
+                        {item.value && item.value.length > 0 && (
+                          <p className='flex  gap-2'>
+                            <span className='w-2/6 text-[#727a85] truncate  '>
+                              {item.label.charAt(0).toUpperCase() +
+                                item.label.slice(1)}
+                            </span>
+                            <span className='  flex gap-2 w-4/6'>
+                              <span> : </span>{' '}
+                              <span className='text-md font-[600] '>
+                                {date ? date : "No Date"}
+                              </span>
+                            </span>
+                          </p>
+                        )}
+                      </div>
                     )}
-
                     {item.type === 'select' && item.field == 'custom' && (
                       <div className='my-2 mx-2 '>
                         {item.value && item.value.length > 0 && (
@@ -1701,7 +1691,7 @@ function BoardMeetingForm() {
                             </span>
                           </p>
                         )}
-                        {item.value && <hr className='mt-2' />}  </div>
+                      </div>
                     )}
                     {item.type === 'multiselect' && item.field == 'custom' && (
                       <div className='my-2 mx-2 '>
@@ -1719,7 +1709,7 @@ function BoardMeetingForm() {
                             </span>
                           </p>
                         )}
-                        {item.value.join(', ') && <hr className='mt-2' />} </div>
+                      </div>
                     )}
                     {item.type === 'range' && item.field == 'custom' && (
                       <div className='my-2 mx-2 '>
@@ -1737,7 +1727,7 @@ function BoardMeetingForm() {
                             </span>
                           </p>
                         )}
-                        {item.value && <hr className='mt-2' />} </div>
+                      </div>
                     )}
                     {item.type === 'time' && item.field == 'custom' && (
                       <div className='my-2 mx-2 '>
@@ -1755,7 +1745,7 @@ function BoardMeetingForm() {
                             </span>
                           </p>
                         )}
-                        {item.value && <hr className='mt-2' />}  </div>
+                      </div>
                     )}
                   </div>
                 )
