@@ -715,7 +715,7 @@ function BoardMeetingForm() {
                       <div className='relative'>
                         <label
                           htmlFor='email'
-                          className='block text-sm  font-medium leading-6 my-2 text-gray-900'
+                          className='block text-sm  font-medium leading-6 mt-2 text-gray-900'
                         >
                           {item.label}
                           {item.mandatory ? (
@@ -743,11 +743,11 @@ function BoardMeetingForm() {
                                       }
                                       name='EntityPhoto'
                                       alt='Entity Photo'
-                                      className='rounded-lg w-10 h-10 mr-4'
+                                      className='rounded-lg w-4 h-4 '
                                     />
                                   ) : (
                                     <img
-                                      className='w-10 h-10 rounded-lg '
+                                      className='w-4 h-4 rounded-lg '
                                       src={defprop}
                                       alt='default image'
                                     />
@@ -779,6 +779,7 @@ function BoardMeetingForm() {
                             onChange={handleInputChange}
                           />
                         </div>
+
                         {showUsers && searchTerm.length > 0 && (
                           <ul className='user-list z-10 absolute top-full left-0 bg-gray-50 border border-1 border-gray-200 w-full'>
                             {usersEmails
@@ -800,6 +801,7 @@ function BoardMeetingForm() {
                               ))}
                           </ul>
                         )}
+
                         <div className='h-2 text-[#dc2626]'>
                           {errors[item.inputname] && (
                             <span className='text-xs'>
@@ -1499,16 +1501,16 @@ function BoardMeetingForm() {
                                       >
                                         {(item.value[index].image &&
                                           index < 11) ||
-                                        (index === 11 &&
-                                          item.value.length === 12) ? (
+                                          (index === 11 &&
+                                            item.value.length === 12) ? (
                                           <img
                                             src={
                                               typeof item.value[index].image ===
-                                              'string'
+                                                'string'
                                                 ? item.value[index].image
                                                 : URL.createObjectURL(
-                                                    item.value[index].image
-                                                  )
+                                                  item.value[index].image
+                                                )
                                             }
                                             name='EntityPhoto'
                                             alt='Entity Photo'
@@ -1698,9 +1700,8 @@ function BoardMeetingForm() {
                         ];
 
                         // Formatting the date
-                        date = `${day < 10 ? '0' : ''}${day}-${
-                          monthAbbreviations[monthIndex]
-                        }-${year}`;
+                        date = `${day < 10 ? '0' : ''}${day}-${monthAbbreviations[monthIndex]
+                          }-${year}`;
 
                         return (
                           <div className='my-2 mx-2'>
