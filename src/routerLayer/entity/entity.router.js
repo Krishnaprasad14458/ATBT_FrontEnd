@@ -1,6 +1,6 @@
 import EntityForm, { entityFormLoader } from "../../components/createForm/createEntityForm/EntityForm";
 import EntityLandingPage from "../../components/landingPages/entity/EntityLandingPage";
-import Entities from "../../components/pages/entities/Entities";
+import Entities, { loader as entityLoader } from "../../components/pages/entities/Entities";
 import RouteBlocker from "../../rbac/RouteBlocker";
 
 
@@ -9,7 +9,7 @@ export const entityRouter = [
         element: <RouteBlocker permissionCheck={(permission) =>
             permission.module === 'entity' && permission.canRead} />,
         children: [
-            { index: true, element: <Entities />, },
+            { index: true, loader: entityLoader, element: <Entities />, },
             { path: ':id', element: <EntityLandingPage /> },
         ]
     },

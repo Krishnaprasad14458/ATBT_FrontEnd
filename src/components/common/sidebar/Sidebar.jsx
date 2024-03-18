@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import logo from '../../../Images/logo.png';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import GateKeeper from '../../../rbac/GateKeeper';
 
 const Sidebar = () => {
+  const location = useLocation();
+  console.log(location, 'location');
   const menus = [
     // {
     //   name: 'Home',
@@ -168,8 +170,9 @@ const Sidebar = () => {
     <div className='sidebar'>
       <main className='bg-white'>
         <div
-          className={`bg-white min-h-screen ${open ? 'w-60' : 'w-16'
-            } duration-500 text-gray-100 px-2 relative`}
+          className={`bg-white min-h-screen ${
+            open ? 'w-60' : 'w-16'
+          } duration-500 text-gray-100 px-2 relative`}
         >
           <div className='pt-3 flex justify-between'>
             <img
@@ -194,8 +197,9 @@ const Sidebar = () => {
             </svg>
           </div>
           <div
-            className={`mt-6 flex-col gap-4 text-black relative ${open ? '' : 'mt-8'
-              }`}
+            className={`mt-6 flex-col gap-4 text-black relative ${
+              open ? '' : 'mt-8'
+            }`}
           >
             <Link
               to='/'
@@ -204,10 +208,11 @@ const Sidebar = () => {
               }}
               className={`group flex items-center text-md gap-3.5 font-semibold p-2 leading-normal
                                     hover:bg-orange-600 hover:text-white rounded-md
-                                    ${'Home' === active
-                  ? 'text-orange-600'
-                  : 'black'
-                }`}
+                                    ${
+                                      'Home' === active
+                                        ? 'text-orange-600'
+                                        : 'black'
+                                    }`}
             >
               <div style={{ width: '1rem', height: '1rem', marginLeft: '5px' }}>
                 {
@@ -226,14 +231,16 @@ const Sidebar = () => {
                 }
               </div>
               <h3
-                className={`whitespace-pre font-sans ${!open && `opacity-0 translate-x-20 overflow-hidden`
-                  }`}
+                className={`whitespace-pre font-sans ${
+                  !open && `opacity-0 translate-x-20 overflow-hidden`
+                }`}
               >
                 {'Home'}
               </h3>
               <h3
-                className={`${open && 'hidden'
-                  } absolute left-20 bg-white font-semibold whitespace-pre text-black rounded-md drop-shadow-lg px-0 py-0 w-0 overflow-hidden group-hover:px-2 group-hover:py-1 group-hover:left-14 group-hover:w-fit text-sm`}
+                className={`${
+                  open && 'hidden'
+                } absolute left-20 bg-white font-semibold whitespace-pre text-black rounded-md drop-shadow-lg px-0 py-0 w-0 overflow-hidden group-hover:px-2 group-hover:py-1 group-hover:left-14 group-hover:w-fit text-sm`}
               >
                 {'Home'}
               </h3>
@@ -242,19 +249,29 @@ const Sidebar = () => {
               <GateKeeper
                 permissionCheck={(permission) =>
                   permission.module === menu.module && permission.canRead
-                }>
+                }
+              >
                 <Link
-                  to={menu?.link}
+                  // to={menu?.link}
+                  to={{
+                    pathname: menu?.link,
+                    search:
+                      location?.state?.from === menu?.link
+                        ? location.search
+                        : `?search=&page=1&pageSize=10`,
+                  }}
+                  state={{ from: location.pathname }}
                   key={i}
                   onClick={(e) => {
                     setActive(menu.name);
                   }}
                   className={`group flex items-center text-md gap-3.5 font-semibold p-2 leading-normal
                                     hover:bg-orange-600 hover:text-white rounded-md
-                                    ${menu?.name === active
-                      ? 'text-orange-600'
-                      : 'black'
-                    }`}
+                                    ${
+                                      menu?.name === active
+                                        ? 'text-orange-600'
+                                        : 'black'
+                                    }`}
                 >
                   <div
                     style={{ width: '1rem', height: '1rem', marginLeft: '5px' }}
@@ -262,14 +279,16 @@ const Sidebar = () => {
                     {menu?.icon}
                   </div>
                   <h3
-                    className={`whitespace-pre font-sans  ${!open && `opacity-0 translate-x-20 overflow-hidden `
-                      }`}
+                    className={`whitespace-pre font-sans  ${
+                      !open && `opacity-0 translate-x-20 overflow-hidden `
+                    }`}
                   >
                     {menu?.name}
                   </h3>
                   <h4
-                    className={`${open && 'hidden'
-                      } absolute left-20 bg-white font-semibold whitespace-pre text-black rounded-md drop-shadow-lg px-0 py-0 w-0 overflow-hidden group-hover:px-2 group-hover:py-1 group-hover:left-14 group-hover:w-fit text-sm`}
+                    className={`${
+                      open && 'hidden'
+                    } absolute left-20 bg-white font-semibold whitespace-pre text-black rounded-md drop-shadow-lg px-0 py-0 w-0 overflow-hidden group-hover:px-2 group-hover:py-1 group-hover:left-14 group-hover:w-fit text-sm`}
                   >
                     {menu?.name}
                   </h4>
@@ -278,12 +297,14 @@ const Sidebar = () => {
             ))}
           </div>
           <div
-            className={`absolute inset-x-0 bottom-0 h-12 bg-white ${open ? '' : 'hidden'
-              }`}
+            className={`absolute inset-x-0 bottom-0 h-12 bg-white ${
+              open ? '' : 'hidden'
+            }`}
           >
             <p
-              className={`text-center text-gray-500 text-sm ${open ? 'right-0' : ''
-                }`}
+              className={`text-center text-gray-500 text-sm ${
+                open ? 'right-0' : ''
+              }`}
             >
               Developed by @Infoz IT V0.1
             </p>

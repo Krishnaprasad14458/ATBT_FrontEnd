@@ -22,7 +22,7 @@ const SettingTeamsForm = () => {
   });
   useEffect(() => {
     axios
-      .get(`https://atbtmain.infozit.com/form/list?name=teamform`)
+      .get(`https://atbtbeta.infozit.com/form/list?name=teamform`)
       .then((response) => {
         // Handle the successful response
         setCustomForm(response.data.Data);
@@ -301,7 +301,7 @@ const SettingTeamsForm = () => {
   };
   const saveCustomForm = async (formData) => {
     toast.promise(
-      axios.put(`https://atbtmain.infozit.com/form/teamform`, formData),
+      axios.put(`https://atbtbeta.infozit.com/form/teamform`, formData),
       {
         pending: 'Updating Form',
         success: {

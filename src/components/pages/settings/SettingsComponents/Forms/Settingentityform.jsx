@@ -23,7 +23,7 @@ const Settingentityform = () => {
   });
   useEffect(() => {
     axios
-      .get(`https://atbtmain.infozit.com/form/list?name=entityform`)
+      .get(`https://atbtbeta.infozit.com/form/list?name=entityform`)
       .then((response) => {
         // Handle the successful
         setCustomForm(response.data.Data);
@@ -309,7 +309,7 @@ const Settingentityform = () => {
   };
   const saveCustomForm = async (formData) => {
     toast.promise(
-      axios.put(`https://atbtmain.infozit.com/form/entityform`, formData),
+      axios.put(`https://atbtbeta.infozit.com/form/entityform`, formData),
       {
         pending: 'Updating Form',
         success: {

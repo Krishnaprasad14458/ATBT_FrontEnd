@@ -25,7 +25,7 @@ const CustomFormStructure = () => {
   });
   useEffect(() => {
     axios
-      .get(`https://atbtmain.infozit.com/form/list?name=${formName}`)
+      .get(`https://atbtbeta.infozit.com/form/list?name=${formName}`)
       .then((response) => {
         // Handle the successful response
         setCustomForm(response.data.Data);
@@ -197,7 +197,11 @@ const CustomFormStructure = () => {
         const updatedForm = [...customForm];
         updatedForm[editIndex] = newInputField;
         setCustomForm(updatedForm);
-        if (newInputField.type != 'checkbox' && newInputField.type != 'password' && newInputField.type != 'textarea') {
+        if (
+          newInputField.type != 'checkbox' &&
+          newInputField.type != 'password' &&
+          newInputField.type != 'textarea'
+        ) {
           setTableView((prevState) => {
             const updatedState = { ...prevState };
             updatedState[newInputField.inputname] = {
@@ -226,27 +230,34 @@ const CustomFormStructure = () => {
           let newField = { ...newInputField };
           delete newField.options;
           setCustomForm((prev) => [...prev, newField]);
-          if (newInputField.type != 'checkbox' && newInputField.type != 'password' && newInputField.type != 'textarea') {
+          if (
+            newInputField.type != 'checkbox' &&
+            newInputField.type != 'password' &&
+            newInputField.type != 'textarea'
+          ) {
             setTableView((prevState) => {
               const updatedState = { ...prevState };
               updatedState[newInputField.inputname] = {
                 label: newInputField.label,
                 value: false,
-                type: newInputField.type
+                type: newInputField.type,
               };
               return updatedState;
             });
           }
         } else {
           setCustomForm((prev) => [...prev, newInputField]);
-          if (newInputField.type != 'checkbox' && newInputField.type != 'password' && newInputField.type != 'textarea') {
+          if (
+            newInputField.type != 'checkbox' &&
+            newInputField.type != 'password' &&
+            newInputField.type != 'textarea'
+          ) {
             setTableView((prevState) => {
               const updatedState = { ...prevState };
               updatedState[newInputField.inputname] = {
                 label: newInputField.label,
                 value: false,
-                type: newInputField.type
-
+                type: newInputField.type,
               };
               return updatedState;
             });
@@ -318,18 +329,16 @@ const CustomFormStructure = () => {
   ];
   const handleSubmitCustomForm = async () => {
     let formData = {
-      arrayOfObjects:
-        customForm,
+      arrayOfObjects: customForm,
       Name: formName,
-      Tableview:
-        tableView
+      Tableview: tableView,
     };
     await saveCustomForm(formData);
-    console.log("formName", formData)
+    console.log('formName', formData);
   };
   const saveCustomForm = async (formData) => {
     toast.promise(
-      axios.put(`https://atbtmain.infozit.com/form/${formName}`, formData),
+      axios.put(`https://atbtbeta.infozit.com/form/${formName}`, formData),
       {
         pending: 'Updating Form',
         success: {
@@ -452,33 +461,73 @@ const CustomFormStructure = () => {
                         {/*up and down moving icons */}
 
                         <svg
-                          disabled={input.field === "predefined" || (input.field === "custom" && customForm[index - 1]?.field === "predefined")}
-                          className={`${input.field === "predefined" || (input.field === "custom" && customForm[index - 1]?.field === "predefined") ? "text-gray-400 cursor-not-allowed" : ""} w-5 h-5`}
+                          disabled={
+                            input.field === 'predefined' ||
+                            (input.field === 'custom' &&
+                              customForm[index - 1]?.field === 'predefined')
+                          }
+                          className={`${
+                            input.field === 'predefined' ||
+                            (input.field === 'custom' &&
+                              customForm[index - 1]?.field === 'predefined')
+                              ? 'text-gray-400 cursor-not-allowed'
+                              : ''
+                          } w-5 h-5`}
                           onClick={() => {
-                            if (!(input.field === "predefined" || (input.field === "custom" && customForm[index - 1]?.field === "predefined"))) {
+                            if (
+                              !(
+                                input.field === 'predefined' ||
+                                (input.field === 'custom' &&
+                                  customForm[index - 1]?.field === 'predefined')
+                              )
+                            ) {
                               handleMoveDimension(index, 'up');
                             }
                           }}
-                          xmlns="http://www.w3.org/2000/svg"
-                          viewBox="0 0 20 20"
-                          fill="currentColor"
+                          xmlns='http://www.w3.org/2000/svg'
+                          viewBox='0 0 20 20'
+                          fill='currentColor'
                         >
-                          <path fillRule="evenodd" d="M10 17a.75.75 0 0 1-.75-.75V5.612L5.29 9.77a.75.75 0 0 1-1.08-1.04l5.25-5.5a.75.75 0 0 1 1.08 0l5.25 5.5a.75.75 0 1 1-1.08 1.04l-3.96-4.158V16.25A.75.75 0 0 1 10 17Z" clipRule="evenodd" />
+                          <path
+                            fillRule='evenodd'
+                            d='M10 17a.75.75 0 0 1-.75-.75V5.612L5.29 9.77a.75.75 0 0 1-1.08-1.04l5.25-5.5a.75.75 0 0 1 1.08 0l5.25 5.5a.75.75 0 1 1-1.08 1.04l-3.96-4.158V16.25A.75.75 0 0 1 10 17Z'
+                            clipRule='evenodd'
+                          />
                         </svg>
 
-
                         <svg
-                          disabled={input.field === "predefined" || (input.field === "custom" && customForm?.length === index + 1)}
-
-                          className={`${input.field === "predefined" || (input.field === "custom" && customForm?.length === index + 1) ? "text-gray-400 cursor-not-allowed" : ""} w-5 h-5 `}
+                          disabled={
+                            input.field === 'predefined' ||
+                            (input.field === 'custom' &&
+                              customForm?.length === index + 1)
+                          }
+                          className={`${
+                            input.field === 'predefined' ||
+                            (input.field === 'custom' &&
+                              customForm?.length === index + 1)
+                              ? 'text-gray-400 cursor-not-allowed'
+                              : ''
+                          } w-5 h-5 `}
                           onClick={() => {
-                            if (!(input.field === "predefined" || (input.field === "custom" && customForm?.length === index + 1))) {
+                            if (
+                              !(
+                                input.field === 'predefined' ||
+                                (input.field === 'custom' &&
+                                  customForm?.length === index + 1)
+                              )
+                            ) {
                               handleMoveDimension(index, 'down');
                             }
                           }}
-
-                          xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" >
-                          <path fill-rule="evenodd" d="M10 3a.75.75 0 0 1 .75.75v10.638l3.96-4.158a.75.75 0 1 1 1.08 1.04l-5.25 5.5a.75.75 0 0 1-1.08 0l-5.25-5.5a.75.75 0 1 1 1.08-1.04l3.96 4.158V3.75A.75.75 0 0 1 10 3Z" clip-rule="evenodd" />
+                          xmlns='http://www.w3.org/2000/svg'
+                          viewBox='0 0 20 20'
+                          fill='currentColor'
+                        >
+                          <path
+                            fill-rule='evenodd'
+                            d='M10 3a.75.75 0 0 1 .75.75v10.638l3.96-4.158a.75.75 0 1 1 1.08 1.04l-5.25 5.5a.75.75 0 0 1-1.08 0l-5.25-5.5a.75.75 0 1 1 1.08-1.04l3.96 4.158V3.75A.75.75 0 0 1 10 3Z'
+                            clip-rule='evenodd'
+                          />
                         </svg>
 
                         {/* Open and Close Arrow*/}
@@ -614,10 +663,11 @@ const CustomFormStructure = () => {
                       </div>
                       <div className='mr-4'>
                         <button
-                          className={`flex w-full justify-center rounded-md bg-[#dc2626] px-3 py-2.5 text-sm font-medium leading-6 text-white shadow-sm  focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600 ${input.field === 'custom'
-                            ? ''
-                            : 'pointer-events-none opacity-30  cursor-not-allowed'
-                            }`}
+                          className={`flex w-full justify-center rounded-md bg-[#dc2626] px-3 py-2.5 text-sm font-medium leading-6 text-white shadow-sm  focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600 ${
+                            input.field === 'custom'
+                              ? ''
+                              : 'pointer-events-none opacity-30  cursor-not-allowed'
+                          }`}
                           onClick={() => {
                             deleteInput(index);
                           }}
@@ -730,10 +780,11 @@ const CustomFormStructure = () => {
                           <span className='mt-3 ms-3'>:</span>
                           <select
                             name='type'
-                            className={`p-2 mx-2  py-1.5 my-2 text-xs w-full md:w-72 lg:w-72 xl:w-72 bg-gray-50 rounded-md border-2  border-gray-200  text-gray-900 shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-xs  custom-scroll " ${editIndex == null
-                              ? ''
-                              : 'pointer-events-none opacity-30'
-                              }`}
+                            className={`p-2 mx-2  py-1.5 my-2 text-xs w-full md:w-72 lg:w-72 xl:w-72 bg-gray-50 rounded-md border-2  border-gray-200  text-gray-900 shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-xs  custom-scroll " ${
+                              editIndex == null
+                                ? ''
+                                : 'pointer-events-none opacity-30'
+                            }`}
                             value={newInputField.type}
                             onChange={handleInputChange}
                           >
@@ -848,27 +899,28 @@ const CustomFormStructure = () => {
                           {
                             <div
                               className={`mb-6 flex items-end gap-1
-                                                         ${newInputField.type ===
-                                  'text' ||
-                                  newInputField.type ===
-                                  'email' ||
-                                  newInputField.type ===
-                                  'number' ||
-                                  newInputField.type ===
-                                  'phonenumber' ||
-                                  newInputField.type ===
-                                  'textarea' ||
-                                  newInputField.type ===
-                                  'date' ||
-                                  newInputField.type ===
-                                  'select' ||
-                                  newInputField.type ===
-                                  'multiselect' ||
-                                  newInputField.type ===
-                                  'time'
-                                  ? ''
-                                  : 'pointer-events-none opacity-30'
-                                }`}
+                                                         ${
+                                                           newInputField.type ===
+                                                             'text' ||
+                                                           newInputField.type ===
+                                                             'email' ||
+                                                           newInputField.type ===
+                                                             'number' ||
+                                                           newInputField.type ===
+                                                             'phonenumber' ||
+                                                           newInputField.type ===
+                                                             'textarea' ||
+                                                           newInputField.type ===
+                                                             'date' ||
+                                                           newInputField.type ===
+                                                             'select' ||
+                                                           newInputField.type ===
+                                                             'multiselect' ||
+                                                           newInputField.type ===
+                                                             'time'
+                                                             ? ''
+                                                             : 'pointer-events-none opacity-30'
+                                                         }`}
                             >
                               <input
                                 type='checkbox'
@@ -1153,8 +1205,6 @@ export default CustomFormStructure;
 //                   }
 //   }
 // ]
-
-
 
 /////////////////////// predefined tableview
 // {

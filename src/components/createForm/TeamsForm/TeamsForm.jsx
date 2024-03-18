@@ -17,10 +17,10 @@ let createdBy = userData?.user?.id;
 const token = userData?.token;
 const role = userData?.role?.name;
 export async function teamFormLoader({ params }) {
-  console.log("hi hello")
+  console.log('hi hello');
   try {
-    const formApi = 'https://atbtmain.infozit.com/form/list?name=teamform';
-    const teamApi = `https://atbtmain.infozit.com/team/list/${params.id}`;
+    const formApi = 'https://atbtbeta.infozit.com/form/list?name=teamform';
+    const teamApi = `https://atbtbeta.infozit.com/team/list/${params.id}`;
     let teamData = null;
     if (params && params.id) {
       const teamResponse = await axios.get(teamApi, {
@@ -33,7 +33,7 @@ export async function teamFormLoader({ params }) {
     }
     const formResponse = await axios.get(formApi);
     const formData = formResponse.data.Data;
-    console.log("formData", formData, "teamData", teamData)
+    console.log('formData', formData, 'teamData', teamData);
     return { teamData, formData };
   } catch (error) {
     if (error.response) {
@@ -57,7 +57,7 @@ function TeamsForm() {
     }
   }, [id, team]);
   function setInitialForm() {
-    console.log("teammmm", team)
+    console.log('teammmm', team);
     let response = team?.formData;
     if (!!id && !!team?.teamData) {
       let teamData = team?.teamData;
@@ -84,7 +84,9 @@ function TeamsForm() {
   const [searchTerm, setSearchTerm] = useState('');
   const [selected, setSelected] = useState([]);
   const [showUsers, setShowUsers] = useState(false);
-  let [customFormFields, setCustomFormFields] = useState(() => setInitialForm());
+  let [customFormFields, setCustomFormFields] = useState(() =>
+    setInitialForm()
+  );
 
   useEffect(() => {
     setCustomFormFields(setInitialForm());
@@ -127,9 +129,15 @@ function TeamsForm() {
     console.log(searchTerm, 'clear');
   }, [searchTerm]);
   const handleRemove = (selectedIndex, index) => {
-    const updatedSelected = [...selected.slice(0, selectedIndex), ...selected.slice(selectedIndex + 1)];
+    const updatedSelected = [
+      ...selected.slice(0, selectedIndex),
+      ...selected.slice(selectedIndex + 1),
+    ];
     setSelected(updatedSelected);
-    const updatedMembers = [...customFormFields[index].value.slice(0, selectedIndex), ...customFormFields[index].value.slice(selectedIndex + 1)];
+    const updatedMembers = [
+      ...customFormFields[index].value.slice(0, selectedIndex),
+      ...customFormFields[index].value.slice(selectedIndex + 1),
+    ];
     const updatedFormData = [...customFormFields];
     updatedFormData[index].value = updatedMembers;
     setCustomFormFields(updatedFormData);
@@ -466,7 +474,6 @@ function TeamsForm() {
         navigate(`/teams/${response.data}`);
       }
     }
-
   }
 
   // to set the time in 12hours
@@ -480,7 +487,7 @@ function TeamsForm() {
 
     // Checking if hours and minutes are valid numbers
     if (isNaN(hours) || isNaN(minutes)) {
-      return "Invalid time";
+      return 'Invalid time';
     }
 
     // Converting hours to 12-hour format and determining AM/PM
@@ -492,7 +499,6 @@ function TeamsForm() {
     const formattedTime = `${formattedHours}:${formattedMinutes} ${ampm}`;
     return formattedTime;
   }
-
 
   // end the time function
   return (
@@ -662,7 +668,9 @@ function TeamsForm() {
                                     viewBox='0 0 16 16'
                                     fill='currentColor'
                                     className='w-4 h-4 '
-                                    onClick={() => handleRemove(selectedIndex, index)}
+                                    onClick={() =>
+                                      handleRemove(selectedIndex, index)
+                                    }
                                   >
                                     <path d='M5.28 4.22a.75.75 0 0 0-1.06 1.06L6.94 8l-2.72 2.72a.75.75 0 1 0 1.06 1.06L8 9.06l2.72 2.72a.75.75 0 1 0 1.06-1.06L9.06 8l2.72-2.72a.75.75 0 0 0-1.06-1.06L8 6.94 5.28 4.22Z' />
                                   </svg>
@@ -683,9 +691,14 @@ function TeamsForm() {
                         </div>
                         {showUsers && searchTerm.length > 0 && (
                           <ul className='user-list z-50 absolute top-full left-0  bg-gray-50 border border-1 border-gray-200 w-full'>
-                            {dashboard.paginatedUsers?.filter(mainObj =>
-                              !selected.some(selectedObj => selectedObj.id === mainObj.id)
-                            )
+                            {dashboard.paginatedUsers
+                              ?.filter(
+                                (mainObj) =>
+                                  !selected.some(
+                                    (selectedObj) =>
+                                      selectedObj.id === mainObj.id
+                                  )
+                              )
                               .map((user, ind) => (
                                 <li
                                   key={ind}
@@ -774,7 +787,7 @@ function TeamsForm() {
                     </div>
                   )}
                   {item.type === 'password' && item.field === 'custom' && (
-                    <div className="relative">
+                    <div className='relative'>
                       <label
                         htmlFor={item.label}
                         className='block text-sm font-medium leading-6 mt-2 text-gray-900'
@@ -799,23 +812,38 @@ function TeamsForm() {
                       />
                       <div className='absolute inset-y-0 right-0 top-[28px] flex items-center pr-3'>
                         <button
-                          type="button"
+                          type='button'
                           onClick={() => setShowPassword(!showPassword)}
-                          className="text-gray-600 focus:outline-none"
+                          className='text-gray-600 focus:outline-none'
                         >
                           {showPassword ? (
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4 text-gray-400">
-                              <path d="M10 12.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z" />
-                              <path fill-rule="evenodd" d="M.664 10.59a1.651 1.651 0 0 1 0-1.186A10.004 10.004 0 0 1 10 3c4.257 0 7.893 2.66 9.336 6.41.147.381.146.804 0 1.186A10.004 10.004 0 0 1 10 17c-4.257 0-7.893-2.66-9.336-6.41ZM14 10a4 4 0 1 1-8 0 4 4 0 0 1 8 0Z" clip-rule="evenodd" />
+                            <svg
+                              xmlns='http://www.w3.org/2000/svg'
+                              viewBox='0 0 20 20'
+                              fill='currentColor'
+                              class='w-4 h-4 text-gray-400'
+                            >
+                              <path d='M10 12.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z' />
+                              <path
+                                fill-rule='evenodd'
+                                d='M.664 10.59a1.651 1.651 0 0 1 0-1.186A10.004 10.004 0 0 1 10 3c4.257 0 7.893 2.66 9.336 6.41.147.381.146.804 0 1.186A10.004 10.004 0 0 1 10 17c-4.257 0-7.893-2.66-9.336-6.41ZM14 10a4 4 0 1 1-8 0 4 4 0 0 1 8 0Z'
+                                clip-rule='evenodd'
+                              />
                             </svg>
-
-
                           ) : (
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4 text-gray-400">
-                              <path fill-rule="evenodd" d="M3.28 2.22a.75.75 0 0 0-1.06 1.06l14.5 14.5a.75.75 0 1 0 1.06-1.06l-1.745-1.745a10.029 10.029 0 0 0 3.3-4.38 1.651 1.651 0 0 0 0-1.185A10.004 10.004 0 0 0 9.999 3a9.956 9.956 0 0 0-4.744 1.194L3.28 2.22ZM7.752 6.69l1.092 1.092a2.5 2.5 0 0 1 3.374 3.373l1.091 1.092a4 4 0 0 0-5.557-5.557Z" clip-rule="evenodd" />
-                              <path d="m10.748 13.93 2.523 2.523a9.987 9.987 0 0 1-3.27.547c-4.258 0-7.894-2.66-9.337-6.41a1.651 1.651 0 0 1 0-1.186A10.007 10.007 0 0 1 2.839 6.02L6.07 9.252a4 4 0 0 0 4.678 4.678Z" />
+                            <svg
+                              xmlns='http://www.w3.org/2000/svg'
+                              viewBox='0 0 20 20'
+                              fill='currentColor'
+                              class='w-4 h-4 text-gray-400'
+                            >
+                              <path
+                                fill-rule='evenodd'
+                                d='M3.28 2.22a.75.75 0 0 0-1.06 1.06l14.5 14.5a.75.75 0 1 0 1.06-1.06l-1.745-1.745a10.029 10.029 0 0 0 3.3-4.38 1.651 1.651 0 0 0 0-1.185A10.004 10.004 0 0 0 9.999 3a9.956 9.956 0 0 0-4.744 1.194L3.28 2.22ZM7.752 6.69l1.092 1.092a2.5 2.5 0 0 1 3.374 3.373l1.091 1.092a4 4 0 0 0-5.557-5.557Z'
+                                clip-rule='evenodd'
+                              />
+                              <path d='m10.748 13.93 2.523 2.523a9.987 9.987 0 0 1-3.27.547c-4.258 0-7.894-2.66-9.337-6.41a1.651 1.651 0 0 1 0-1.186A10.007 10.007 0 0 1 2.839 6.02L6.07 9.252a4 4 0 0 0 4.678 4.678Z' />
                             </svg>
-
                           )}
                         </button>
                       </div>
@@ -1222,7 +1250,7 @@ function TeamsForm() {
                 type='submit'
                 className='mt-4 flex w-full justify-center rounded-md bg-orange-600 px-3 py-2.5 text-sm font-medium leading-6 text-white shadow-sm  focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600'
               >
-                {id ? "Update Team" : "Create Team"}
+                {id ? 'Update Team' : 'Create Team'}
               </button>
             </div>
           </form>
@@ -1239,23 +1267,24 @@ function TeamsForm() {
                 const year = date.getUTCFullYear();
 
                 const monthAbbreviations = [
-                  "Jan",
-                  "Feb",
-                  "Mar",
-                  "Apr",
-                  "May",
-                  "Jun",
-                  "Jul",
-                  "Aug",
-                  "Sep",
-                  "Oct",
-                  "Nov",
-                  "Dec",
+                  'Jan',
+                  'Feb',
+                  'Mar',
+                  'Apr',
+                  'May',
+                  'Jun',
+                  'Jul',
+                  'Aug',
+                  'Sep',
+                  'Oct',
+                  'Nov',
+                  'Dec',
                 ];
 
                 // Formatting the date
-                date = `${day < 10 ? "0" : ""}${day}-${monthAbbreviations[monthIndex]
-                  }-${year}`;
+                date = `${day < 10 ? '0' : ''}${day}-${
+                  monthAbbreviations[monthIndex]
+                }-${year}`;
                 return (
                   <div className='relative'>
                     {/* predefined fields*/}
@@ -1362,28 +1391,38 @@ function TeamsForm() {
                                   {index + 1 <= item.value.length && (
                                     <>
                                       <h5
-
                                         style={{
-                                          backgroundColor: item.value[index].image ? 'transparent' : getRandomColor(firstLetter)
+                                          backgroundColor: item.value[index]
+                                            .image
+                                            ? 'transparent'
+                                            : getRandomColor(firstLetter),
                                         }}
                                         className=' rounded-full w-10 h-10  md:h-8 xl:h-10 flex justify-center  text-xs items-center text-white'
                                       >
-
-                                        {
-                                          (item.value[index].image && index < 11) || (index === 11 && item.value.length === 12) ? (
-                                            <img
-                                              src={typeof item.value[index].image === 'string' ? item.value[index].image : URL.createObjectURL(item.value[index].image)}
-                                              name='EntityPhoto'
-                                              alt='Entity Photo'
-                                              className=' rounded-full w-10 h-10   flex justify-center  text-xs items-center text-white'
-                                            />
-                                          ) : (
-                                            <span>
-                                              {firstLetter?.toUpperCase()}
-                                              {secondLetter && secondLetter?.toUpperCase()}
-                                            </span>
-                                          )
-                                        }
+                                        {(item.value[index].image &&
+                                          index < 11) ||
+                                        (index === 11 &&
+                                          item.value.length === 12) ? (
+                                          <img
+                                            src={
+                                              typeof item.value[index].image ===
+                                              'string'
+                                                ? item.value[index].image
+                                                : URL.createObjectURL(
+                                                    item.value[index].image
+                                                  )
+                                            }
+                                            name='EntityPhoto'
+                                            alt='Entity Photo'
+                                            className=' rounded-full w-10 h-10   flex justify-center  text-xs items-center text-white'
+                                          />
+                                        ) : (
+                                          <span>
+                                            {firstLetter?.toUpperCase()}
+                                            {secondLetter &&
+                                              secondLetter?.toUpperCase()}
+                                          </span>
+                                        )}
 
                                         {index == 11 &&
                                           item.value.length > 12 && (
@@ -1405,15 +1444,21 @@ function TeamsForm() {
                                             </span>
                                           )}
                                       </h5>
-                                      <div className=' flex items-center md:items-start xl:items-center  overflow-hidden' style={{ width: "150px" }}>
-                                        <div className=' md:w-28 lg:w-48  truncate' title={mail} >
+                                      <div
+                                        className=' flex items-center md:items-start xl:items-center  overflow-hidden'
+                                        style={{ width: '150px' }}
+                                      >
+                                        <div
+                                          className=' md:w-28 lg:w-48  truncate'
+                                          title={mail}
+                                        >
                                           {index < 11 && mail}
                                           {index == 11 &&
                                             item.value.length == 12 &&
                                             mail}
                                           {index == 11 &&
                                             item.value.length > 12 && (
-                                              <span >
+                                              <span>
                                                 +{item.value.length - 11} more
                                               </span>
                                             )}
@@ -1425,9 +1470,7 @@ function TeamsForm() {
                                     <>
                                       <h5 className='bg-[#e5e7eb] rounded-full w-10 h-10  flex justify-center text-xs items-center text-white'></h5>
                                       <div className=' flex items-center'>
-                                        <div className=' rounded-md  bg-[#e5e7eb] h-2 w-28'>
-
-                                        </div>
+                                        <div className=' rounded-md  bg-[#e5e7eb] h-2 w-28'></div>
                                       </div>
                                     </>
                                   )}
@@ -1505,8 +1548,6 @@ function TeamsForm() {
                               <span> : </span>{' '}
                               <span className='text-md font-[600]  break-all'>
                                 {item.value}
-
-
                               </span>
                             </span>
                           </p>
@@ -1543,7 +1584,7 @@ function TeamsForm() {
                             <span className='  flex gap-2 w-4/6'>
                               <span> : </span>{' '}
                               <span className='text-md font-[600] '>
-                                {date ? date : "No Date"}
+                                {date ? date : 'No Date'}
                               </span>
                             </span>
                           </p>
@@ -1623,8 +1664,7 @@ function TeamsForm() {
                       </div>
                     )}
                   </div>
-                )
-
+                );
               })}
           </div>
         </div>
