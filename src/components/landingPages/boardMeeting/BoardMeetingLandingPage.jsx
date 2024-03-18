@@ -1,4 +1,10 @@
-import React, { useState, Fragment, useRef, useEffect, useContext } from 'react';
+import React, {
+  useState,
+  Fragment,
+  useRef,
+  useEffect,
+  useContext,
+} from 'react';
 import '../LandingPageCommon.css';
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
@@ -23,7 +29,6 @@ const BoardMeetingLandingPage = () => {
   } = useContext(BoardMeetingsDataContext);
   const { id } = useParams();
   const [singleProduct, setSingleProduct] = useState({});
-
 
   // For tabs active
   const getSingleProduct = async () => {
@@ -100,14 +105,13 @@ const BoardMeetingLandingPage = () => {
   const [expand, setExpand] = useState(false);
   let [customFormField, setCustomFormField] = useState();
 
-
   const userData = JSON.parse(localStorage.getItem('data'));
   const token = userData?.token;
   let response;
   let [predefinedImage, setPredefinedImage] = useState('');
   useEffect(() => {
     axios
-      .get(`https://atbtmain.infozit.com/boardmeeting/list/${id}`, {
+      .get(`https://atbtbeta.infozit.com/boardmeeting/list/${id}`, {
         headers: {
           authorization: token,
         },
@@ -128,8 +132,6 @@ const BoardMeetingLandingPage = () => {
     console.log('customFormField', customFormField);
   }, [customFormField]);
 
-
-
   // to set the time in 12hours
   function formatTime(timeString) {
     // Splitting the timeString to extract hours and minutes
@@ -141,7 +143,7 @@ const BoardMeetingLandingPage = () => {
 
     // Checking if hours and minutes are valid numbers
     if (isNaN(hours) || isNaN(minutes)) {
-      return "Invalid time";
+      return 'Invalid time';
     }
 
     // Converting hours to 12-hour format and determining AM/PM
@@ -172,44 +174,50 @@ const BoardMeetingLandingPage = () => {
       <div className=''>
         <div className='flex'>
           <div
-            className={`cursor-pointer px-1 py-1 text-md font-semibold  ${activeTab === 1 ? 'border-b-2 border-orange-600 text-black' : ''
-              }`}
+            className={`cursor-pointer px-1 py-1 text-md font-semibold  ${
+              activeTab === 1 ? 'border-b-2 border-orange-600 text-black' : ''
+            }`}
             onClick={() => handleTabClick(1)}
           >
             Overview
           </div>
 
           <div
-            className={`cursor-pointer px-5 py-1 text-md font-semibold  ${activeTab === 2 ? 'border-b-2 border-orange-600 text-black' : ''
-              }`}
+            className={`cursor-pointer px-5 py-1 text-md font-semibold  ${
+              activeTab === 2 ? 'border-b-2 border-orange-600 text-black' : ''
+            }`}
             onClick={() => handleTabClick(2)}
           >
             List
           </div>
           <div
-            className={`cursor-pointer px-5 py-1 text-md font-semibold  ${activeTab === 3 ? 'border-b-2 border-orange-600 text-black' : ''
-              }`}
+            className={`cursor-pointer px-5 py-1 text-md font-semibold  ${
+              activeTab === 3 ? 'border-b-2 border-orange-600 text-black' : ''
+            }`}
             onClick={() => handleTabClick(3)}
           >
             Calendar
           </div>
           <div
-            className={`cursor-pointer px-5 py-1 text-md font-semibold ${activeTab === 4 ? 'border-b-2 border-orange-600 text-black' : ''
-              }`}
+            className={`cursor-pointer px-5 py-1 text-md font-semibold ${
+              activeTab === 4 ? 'border-b-2 border-orange-600 text-black' : ''
+            }`}
             onClick={() => handleTabClick(4)}
           >
             Dashboard
           </div>
           <div
-            className={`cursor-pointer px-5 py-1 text-md font-semibold  ${activeTab === 5 ? 'border-b-2 border-orange-600 text-black' : ''
-              }`}
+            className={`cursor-pointer px-5 py-1 text-md font-semibold  ${
+              activeTab === 5 ? 'border-b-2 border-orange-600 text-black' : ''
+            }`}
             onClick={() => handleTabClick(5)}
           >
             Messages
           </div>
           <div
-            className={`cursor-pointer px-5 py-1 text-md font-semibold  ${activeTab === 6 ? 'border-b-2 border-orange-600 text-black' : ''
-              }`}
+            className={`cursor-pointer px-5 py-1 text-md font-semibold  ${
+              activeTab === 6 ? 'border-b-2 border-orange-600 text-black' : ''
+            }`}
             onClick={() => handleTabClick(6)}
           >
             Attachments
@@ -234,11 +242,11 @@ const BoardMeetingLandingPage = () => {
                 >
                   <path d='m2.695 14.762-1.262 3.155a.5.5 0 0 0 .65.65l3.155-1.262a4 4 0 0 0 1.343-.886L17.5 5.501a2.121 2.121 0 0 0-3-3L3.58 13.419a4 4 0 0 0-.885 1.343Z' />
                 </svg>
-              </Link></div>
+              </Link>
+            </div>
             {customFormField &&
               customFormField.length > 0 &&
               customFormField.map((item) => {
-
                 return (
                   <div className='relative'>
                     {/* predefined fields*/}
@@ -315,16 +323,11 @@ const BoardMeetingLandingPage = () => {
                       </span>
                     </div>
 
-
-
-
                     {item.type === 'textarea' &&
                       item.inputname == 'description' &&
                       item.field == 'predefined' && (
                         <div className='  h-28 overflow-auto border border-1 border-gray-200 rounded-md p-2 bg-[#f8fafc] text-sm w-full '>
-
                           {item.value}
-
                         </div>
                       )}
                     {item.type === 'multiselect' &&
@@ -380,28 +383,38 @@ const BoardMeetingLandingPage = () => {
                                   {index + 1 <= item.value.length && (
                                     <>
                                       <h5
-
                                         style={{
-                                          backgroundColor: item.value[index].image ? 'transparent' : getRandomColor(firstLetter)
+                                          backgroundColor: item.value[index]
+                                            .image
+                                            ? 'transparent'
+                                            : getRandomColor(firstLetter),
                                         }}
                                         className=' rounded-full w-10 h-10  md:h-8 xl:h-10 flex justify-center  text-xs items-center text-white'
                                       >
-
-                                        {
-                                          (item.value[index].image && index < 11) || (index === 11 && item.value.length === 12) ? (
-                                            <img
-                                              src={typeof item.value[index].image === 'string' ? item.value[index].image : URL.createObjectURL(item.value[index].image)}
-                                              name='EntityPhoto'
-                                              alt='Entity Photo'
-                                              className=' rounded-full w-10 h-10   flex justify-center  text-xs items-center text-white'
-                                            />
-                                          ) : (
-                                            <span>
-                                              {firstLetter?.toUpperCase()}
-                                              {secondLetter && secondLetter?.toUpperCase()}
-                                            </span>
-                                          )
-                                        }
+                                        {(item.value[index].image &&
+                                          index < 11) ||
+                                        (index === 11 &&
+                                          item.value.length === 12) ? (
+                                          <img
+                                            src={
+                                              typeof item.value[index].image ===
+                                              'string'
+                                                ? item.value[index].image
+                                                : URL.createObjectURL(
+                                                    item.value[index].image
+                                                  )
+                                            }
+                                            name='EntityPhoto'
+                                            alt='Entity Photo'
+                                            className=' rounded-full w-10 h-10   flex justify-center  text-xs items-center text-white'
+                                          />
+                                        ) : (
+                                          <span>
+                                            {firstLetter?.toUpperCase()}
+                                            {secondLetter &&
+                                              secondLetter?.toUpperCase()}
+                                          </span>
+                                        )}
 
                                         {index == 11 &&
                                           item.value.length > 12 && (
@@ -423,15 +436,21 @@ const BoardMeetingLandingPage = () => {
                                             </span>
                                           )}
                                       </h5>
-                                      <div className=' flex items-center md:items-start xl:items-center  overflow-hidden' style={{ width: "150px" }}>
-                                        <div className=' md:w-28 lg:w-48  truncate' title={mail} >
+                                      <div
+                                        className=' flex items-center md:items-start xl:items-center  overflow-hidden'
+                                        style={{ width: '150px' }}
+                                      >
+                                        <div
+                                          className=' md:w-28 lg:w-48  truncate'
+                                          title={mail}
+                                        >
                                           {index < 11 && mail}
                                           {index == 11 &&
                                             item.value.length == 12 &&
                                             mail}
                                           {index == 11 &&
                                             item.value.length > 12 && (
-                                              <span >
+                                              <span>
                                                 +{item.value.length - 11} more
                                               </span>
                                             )}
@@ -443,9 +462,7 @@ const BoardMeetingLandingPage = () => {
                                     <>
                                       <h5 className='bg-[#e5e7eb] rounded-full w-10 h-10  flex justify-center text-xs items-center text-white'></h5>
                                       <div className=' flex items-center'>
-                                        <div className=' rounded-md  bg-[#e5e7eb] h-2 w-28'>
-
-                                        </div>
+                                        <div className=' rounded-md  bg-[#e5e7eb] h-2 w-28'></div>
                                       </div>
                                     </>
                                   )}
@@ -471,7 +488,8 @@ const BoardMeetingLandingPage = () => {
                             </span>
                           </p>
                         )}
-                        {item.value && <hr className='mt-2' />} </div>
+                        {item.value && <hr className='mt-2' />}{' '}
+                      </div>
                     )}
                     {item.type === 'email' && item.field == 'custom' && (
                       <div className='my-2 mx-2 '>
@@ -489,7 +507,8 @@ const BoardMeetingLandingPage = () => {
                             </span>
                           </p>
                         )}
-                        {item.value && <hr className='mt-2' />}</div>
+                        {item.value && <hr className='mt-2' />}
+                      </div>
                     )}
 
                     {item.type === 'phonenumber' && item.field == 'custom' && (
@@ -510,7 +529,8 @@ const BoardMeetingLandingPage = () => {
                             </span>
                           </p>
                         )}
-                        {item.value && <hr className='mt-2' />} </div>
+                        {item.value && <hr className='mt-2' />}{' '}
+                      </div>
                     )}
                     {item.type === 'number' && item.field == 'custom' && (
                       <div className='my-2 mx-2  flex-wrap'>
@@ -524,16 +544,14 @@ const BoardMeetingLandingPage = () => {
                               <span> : </span>{' '}
                               <span className='text-md font-[600]  break-all'>
                                 {item.value}
-
-
                               </span>
                             </span>
                           </p>
                         )}
-                        {item.value && <hr className='mt-2' />} </div>
+                        {item.value && <hr className='mt-2' />}{' '}
+                      </div>
                     )}
                     {item.type === 'textarea' && item.field == 'custom' && (
-
                       <div className='my-2 mx-2  '>
                         {item.value && item.value.length > 0 && (
                           <p className='flex  gap-2'>
@@ -549,9 +567,11 @@ const BoardMeetingLandingPage = () => {
                             </span>
                           </p>
                         )}
-                        {item.value && <hr className='mt-2' />} </div>
+                        {item.value && <hr className='mt-2' />}{' '}
+                      </div>
                     )}
-                    {item.type === 'date' && item.field === 'custom' && (
+                    {item.type === 'date' &&
+                      item.field === 'custom' &&
                       (() => {
                         let date = new Date(item.value);
                         const day = date.getUTCDate();
@@ -559,34 +579,37 @@ const BoardMeetingLandingPage = () => {
                         const year = date.getUTCFullYear();
 
                         const monthAbbreviations = [
-                          "Jan",
-                          "Feb",
-                          "Mar",
-                          "Apr",
-                          "May",
-                          "Jun",
-                          "Jul",
-                          "Aug",
-                          "Sep",
-                          "Oct",
-                          "Nov",
-                          "Dec",
+                          'Jan',
+                          'Feb',
+                          'Mar',
+                          'Apr',
+                          'May',
+                          'Jun',
+                          'Jul',
+                          'Aug',
+                          'Sep',
+                          'Oct',
+                          'Nov',
+                          'Dec',
                         ];
 
                         // Formatting the date
-                        date = `${day < 10 ? "0" : ""}${day}-${monthAbbreviations[monthIndex]}-${year}`;
+                        date = `${day < 10 ? '0' : ''}${day}-${
+                          monthAbbreviations[monthIndex]
+                        }-${year}`;
 
                         return (
                           <div className='my-2 mx-2'>
                             {item.value && item.value.length > 0 && (
                               <p className='flex gap-2'>
                                 <span className='w-2/6 text-[#727a85] truncate'>
-                                  {item.label.charAt(0).toUpperCase() + item.label.slice(1)}
+                                  {item.label.charAt(0).toUpperCase() +
+                                    item.label.slice(1)}
                                 </span>
                                 <span className='flex gap-2 w-4/6'>
                                   <span> : </span>{' '}
                                   <span className='text-md font-[600]'>
-                                    {date ? date : "No Date"}
+                                    {date ? date : 'No Date'}
                                   </span>
                                 </span>
                               </p>
@@ -594,8 +617,7 @@ const BoardMeetingLandingPage = () => {
                             {date && <hr className='mt-2' />}
                           </div>
                         );
-                      })()
-                    )}
+                      })()}
 
                     {item.type === 'select' && item.field == 'custom' && (
                       <div className='my-2 mx-2 '>
@@ -613,7 +635,8 @@ const BoardMeetingLandingPage = () => {
                             </span>
                           </p>
                         )}
-                        {item.value && <hr className='mt-2' />}  </div>
+                        {item.value && <hr className='mt-2' />}{' '}
+                      </div>
                     )}
                     {item.type === 'multiselect' && item.field == 'custom' && (
                       <div className='my-2 mx-2 '>
@@ -631,7 +654,8 @@ const BoardMeetingLandingPage = () => {
                             </span>
                           </p>
                         )}
-                        {item.value.join(', ') && <hr className='mt-2' />} </div>
+                        {item.value.join(', ') && <hr className='mt-2' />}{' '}
+                      </div>
                     )}
                     {item.type === 'range' && item.field == 'custom' && (
                       <div className='my-2 mx-2 '>
@@ -649,7 +673,8 @@ const BoardMeetingLandingPage = () => {
                             </span>
                           </p>
                         )}
-                        {item.value && <hr className='mt-2' />} </div>
+                        {item.value && <hr className='mt-2' />}{' '}
+                      </div>
                     )}
                     {item.type === 'time' && item.field == 'custom' && (
                       <div className='my-2 mx-2 '>
@@ -667,10 +692,11 @@ const BoardMeetingLandingPage = () => {
                             </span>
                           </p>
                         )}
-                        {item.value && <hr className='mt-2' />}  </div>
+                        {item.value && <hr className='mt-2' />}{' '}
+                      </div>
                     )}
                   </div>
-                )
+                );
               })}
           </div>
         </div>
@@ -965,12 +991,14 @@ const BoardMeetingLandingPage = () => {
                 </td>
               </tr>
               <div
-                className={`fixed inset-0 transition-all duration-500 bg-gray-800 bg-opacity-50 z-50 ${isOpen ? '' : 'hidden'
-                  }`}
+                className={`fixed inset-0 transition-all duration-500 bg-gray-800 bg-opacity-50 z-50 ${
+                  isOpen ? '' : 'hidden'
+                }`}
               >
                 <div
-                  className={`${expand ? 'w-5/6' : 'w-1/2'
-                    } p-3 fixed inset-y-0 right-0 w-1/2 bg-white shadow-lg transform translate-x-0 transition-transform duration-300 ease-in-out`}
+                  className={`${
+                    expand ? 'w-5/6' : 'w-1/2'
+                  } p-3 fixed inset-y-0 right-0 w-1/2 bg-white shadow-lg transform translate-x-0 transition-transform duration-300 ease-in-out`}
                 >
                   <div className='flex justify-start'>
                     <div className='relative inline-block ms-2'>
@@ -1056,14 +1084,12 @@ const BoardMeetingLandingPage = () => {
                         Assignee
                       </p>
                       <p className='basis-1/2 text-sm  flex flex-row'>
-
                         <p className='bg-yellow-500 text-black py-1.5 w-8 h-8  rounded-full'>
                           <span className='flex justify-center text-gray-800 text-sm'>
                             BA
                           </span>
                         </p>
                         <span className='ms-2 mt-1 text-sm'>
-
                           Bhavitha Agrawal
                         </span>
                       </p>
@@ -1451,9 +1477,7 @@ const BoardMeetingLandingPage = () => {
                   />
                 </div>
                 <div className=''>
-
                   <button className='mt-4 text-lg'>
-
                     <svg
                       xmlns='http://www.w3.org/2000/svg'
                       viewBox='0 0 20 20'

@@ -1,8 +1,14 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLoaderData, useSubmit } from 'react-router-dom';
 import GateKeeper from '../../../../rbac/GateKeeper';
+import { caseLetter } from '../../../../utils/utils';
 
-const TeamsDashboard = () => {
+const TeamsDashboard = ({ data: { data } }) => {
+  const loaderData = useLoaderData();
+  console.log('lolol', loaderData);
+  console.log(data, 'teams');
+  // const fetcher = useFetcher();
+  const submit = useSubmit();
   return (
     <div className='w-full relative h-[450px]  text-center bg-slate-50 border border-gray-200 rounded-md shadow sm:pt-4 dark:bg-gray-800 dark:border-gray-700'>
       <div className='grid1-item overflow-hidden sm:w-full'>
@@ -57,6 +63,18 @@ const TeamsDashboard = () => {
               name='gsearch'
               className='bg-slate-50 w-80 border-none focus:outline-none appearance-none focus:border-none'
               placeholder='Search here....'
+              onChange={(e) => {
+                // fetcher.submit(
+                //   {
+                //     // You can implement any custom serialization logic here
+                //     serialized: JSON.stringify(meetingParams),
+                //   },
+                //   { method: 'get', action: '.' }
+                // );
+                let searchParams = new URLSearchParams();
+                searchParams.append('team', e.target.value);
+                submit(searchParams, { method: 'get', action: '.' });
+              }}
             />
           </div>
           <hr className='w-96 my-1' />
@@ -68,161 +86,39 @@ const TeamsDashboard = () => {
             role='list'
             className='divide-y divide-gray-200 dark:divide-gray-700'
           >
-            <li className='py-2'>
-              <div class='flex items-center'>
-                <div class='flex-shrink-0'>
-                  <img
-                    class='w-8 h-8 rounded-full'
-                    src='https://images.unsplash.com/photo-1701369518365-5c61925a3f7c'
-                    alt='Neil image'
-                  />
+            {data?.Teams?.map((el) => (
+              <li className='py-2'>
+                <div class='flex items-center'>
+                  <div class='flex-shrink-0'>
+                    <img
+                      class='w-8 h-8 rounded-full'
+                      src={el.image}
+                      alt='Neil image'
+                    />
+                  </div>
+                  <div class='flex-1 min-w-0 ms-4'>
+                    <p class='text-sm font-medium text-gray-900 text-start truncate dark:text-white'>
+                      {caseLetter(el.name)}
+                    </p>
+                  </div>
+                  <div class='inline-flex items-center text-base font-semibold text-gray-900 dark:text-white'>
+                    <svg
+                      xmlns='http://www.w3.org/2000/svg'
+                      viewBox='0 0 20 20'
+                      fill='currentColor'
+                      class='w-5 h-5'
+                      aria-hidden='true'
+                    >
+                      <path
+                        fill-rule='evenodd'
+                        d='M8.22 5.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 0 1-1.06-1.06L11.94 10 8.22 6.28a.75.75 0 0 1 0-1.06Z'
+                        clip-rule='evenodd'
+                      ></path>
+                    </svg>
+                  </div>
                 </div>
-                <div class='flex-1 min-w-0 ms-4'>
-                  <p class='text-sm font-medium text-gray-900 text-start truncate dark:text-white'>
-                    Madhu
-                  </p>
-                </div>
-                <div class='inline-flex items-center text-base font-semibold text-gray-900 dark:text-white'>
-                  <svg
-                    xmlns='http://www.w3.org/2000/svg'
-                    viewBox='0 0 20 20'
-                    fill='currentColor'
-                    class='w-5 h-5'
-                    aria-hidden='true'
-                  >
-                    <path
-                      fill-rule='evenodd'
-                      d='M8.22 5.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 0 1-1.06-1.06L11.94 10 8.22 6.28a.75.75 0 0 1 0-1.06Z'
-                      clip-rule='evenodd'
-                    ></path>
-                  </svg>
-                </div>
-              </div>
-            </li>
-            <li className='py-2'>
-              <div class='flex items-center'>
-                <div class='flex-shrink-0'>
-                  <img
-                    class='w-8 h-8 rounded-full'
-                    src='https://picsum.photos/seed/72function random() { [native code] }/100'
-                    alt='Neil image'
-                  />
-                </div>
-                <div class='flex-1 min-w-0 ms-4'>
-                  <p class='text-sm font-medium text-gray-900 text-start truncate dark:text-white'>
-                    Neelu
-                  </p>
-                </div>
-                <div class='inline-flex items-center text-base font-semibold text-gray-900 dark:text-white'>
-                  <svg
-                    xmlns='http://www.w3.org/2000/svg'
-                    viewBox='0 0 20 20'
-                    fill='currentColor'
-                    class='w-5 h-5'
-                    aria-hidden='true'
-                  >
-                    <path
-                      fill-rule='evenodd'
-                      d='M8.22 5.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 0 1-1.06-1.06L11.94 10 8.22 6.28a.75.75 0 0 1 0-1.06Z'
-                      clip-rule='evenodd'
-                    ></path>
-                  </svg>
-                </div>
-              </div>
-            </li>
-            <li className='py-2'>
-              <div class='flex items-center'>
-                <div class='flex-shrink-0'>
-                  <img
-                    class='w-8 h-8 rounded-full'
-                    src='https://picsum.photos/seed/74function random() { [native code] }/100'
-                    alt='Neil image'
-                  />
-                </div>
-                <div class='flex-1 min-w-0 ms-4'>
-                  <p class='text-sm font-medium text-gray-900 text-start truncate dark:text-white'>
-                    Pavan
-                  </p>
-                </div>
-                <div class='inline-flex items-center text-base font-semibold text-gray-900 dark:text-white'>
-                  <svg
-                    xmlns='http://www.w3.org/2000/svg'
-                    viewBox='0 0 20 20'
-                    fill='currentColor'
-                    class='w-5 h-5'
-                    aria-hidden='true'
-                  >
-                    <path
-                      fill-rule='evenodd'
-                      d='M8.22 5.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 0 1-1.06-1.06L11.94 10 8.22 6.28a.75.75 0 0 1 0-1.06Z'
-                      clip-rule='evenodd'
-                    ></path>
-                  </svg>
-                </div>
-              </div>
-            </li>
-            <li className='py-2'>
-              <div class='flex items-center'>
-                <div class='flex-shrink-0'>
-                  <img
-                    class='w-8 h-8 rounded-full'
-                    src='https://images.unsplash.com/photo-1707156222575-bfb9e7daa3d8'
-                    alt='Neil image'
-                  />
-                </div>
-                <div class='flex-1 min-w-0 ms-4'>
-                  <p class='text-sm font-medium text-gray-900 text-start truncate dark:text-white'>
-                    Gopi
-                  </p>
-                </div>
-                <div class='inline-flex items-center text-base font-semibold text-gray-900 dark:text-white'>
-                  <svg
-                    xmlns='http://www.w3.org/2000/svg'
-                    viewBox='0 0 20 20'
-                    fill='currentColor'
-                    class='w-5 h-5'
-                    aria-hidden='true'
-                  >
-                    <path
-                      fill-rule='evenodd'
-                      d='M8.22 5.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 0 1-1.06-1.06L11.94 10 8.22 6.28a.75.75 0 0 1 0-1.06Z'
-                      clip-rule='evenodd'
-                    ></path>
-                  </svg>
-                </div>
-              </div>
-            </li>
-            <li className='py-2'>
-              <div class='flex items-center'>
-                <div class='flex-shrink-0'>
-                  <img
-                    class='w-8 h-8 rounded-full'
-                    src='https://picsum.photos/seed/61/100'
-                    alt='Neil image'
-                  />
-                </div>
-                <div class='flex-1 min-w-0 ms-4'>
-                  <p class='text-sm font-medium text-gray-900 text-start truncate dark:text-white'>
-                    Yogesh
-                  </p>
-                </div>
-                <div class='inline-flex items-center text-base font-semibold text-gray-900 dark:text-white'>
-                  <svg
-                    xmlns='http://www.w3.org/2000/svg'
-                    viewBox='0 0 20 20'
-                    fill='currentColor'
-                    class='w-5 h-5'
-                    aria-hidden='true'
-                  >
-                    <path
-                      fill-rule='evenodd'
-                      d='M8.22 5.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 0 1-1.06-1.06L11.94 10 8.22 6.28a.75.75 0 0 1 0-1.06Z'
-                      clip-rule='evenodd'
-                    ></path>
-                  </svg>
-                </div>
-              </div>
-            </li>
+              </li>
+            ))}
           </ul>
         </div>
         <hr />

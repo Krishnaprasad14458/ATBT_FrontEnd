@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import {  BoardMeetingsDataContext} from '../../../contexts/boardmeetingsDataContext/boardmeetingsDataContext';
+import { BoardMeetingsDataContext } from '../../../contexts/boardmeetingsDataContext/boardmeetingsDataContext';
 // import './Entities.css';
 import { Fragment } from 'react';
 import Swal from 'sweetalert2';
@@ -29,12 +29,12 @@ function BoardMeetings() {
     deleteBoardMeetingbyId,
     setFilters,
   } = useContext(BoardMeetingsDataContext);
-  useEffect(()=>{
-console.log("boardmeetingess",boardmeetingsList)
-
-  })
-  const { debouncedSetPage, debouncedSetSearch } =
-    useDebounce(boardmeetingsDispatch);
+  useEffect(() => {
+    console.log('boardmeetingess', boardmeetingsList);
+  });
+  const { debouncedSetPage, debouncedSetSearch } = useDebounce(
+    boardmeetingsDispatch
+  );
   // const [toggle, setToggle] = useState(false)
   const handlePerPageChange = (event) => {
     const selectedValue = parseInt(event.target.value, 10);
@@ -124,7 +124,7 @@ console.log("boardmeetingess",boardmeetingsList)
   });
   useEffect(() => {
     axios
-      .get(`https://atbtmain.infozit.com/form/list?name=boardmeetingform`)
+      .get(`https://atbtbeta.infozit.com/form/list?name=boardmeetingform`)
       .then((response) => {
         // Handle the successful response
         setCustomForm(response.data.Data);
@@ -147,32 +147,31 @@ console.log("boardmeetingess",boardmeetingsList)
         (obj) =>
           obj.filterable &&
           (obj.type === 'select' ||
-          obj.type === 'date' || obj.type ==='time' ||
-
+            obj.type === 'date' ||
+            obj.type === 'time' ||
             obj.type === 'multiselect')
       )
       .map((obj) => ({
         inputname: obj.inputname,
         label: obj.label,
-        type:obj.type,
+        type: obj.type,
 
         ...(obj.options && { options: obj.options }),
       }));
     const filterableInputsInSearch = customForm
       .filter(
         (obj) =>
-        obj.filterable &&  
-        (obj.type === 'text' ||
-          obj.type === 'email' ||
-        obj.type === 'number' ||
-        obj.type === 'phonenumber' ||
-        obj.type === 'textarea')
+          obj.filterable &&
+          (obj.type === 'text' ||
+            obj.type === 'email' ||
+            obj.type === 'number' ||
+            obj.type === 'phonenumber' ||
+            obj.type === 'textarea')
       )
       .map((obj) => ({
         inputname: obj.inputname,
         label: obj.label,
-        type:obj.type
-
+        type: obj.type,
       }));
 
     setFilterableInputsInBox(filterableInputsInBox);
@@ -204,13 +203,15 @@ console.log("boardmeetingess",boardmeetingsList)
       try {
         axios
           .put(
-            `https://atbtmain.infozit.com/form/tableUpdate?name=boardmeetingform`,
+            `https://atbtbeta.infozit.com/form/tableUpdate?name=boardmeetingform`,
             dupTableView
           )
           .then((response) => {
             console.log('Update successful:', response.data);
             axios
-              .get(`https://atbtmain.infozit.com/form/list?name=boardmeetingform`)
+              .get(
+                `https://atbtbeta.infozit.com/form/list?name=boardmeetingform`
+              )
               .then((response) => {
                 setCustomForm(response.data.Data);
                 setTableView(response.data.Tableview);
@@ -251,7 +252,7 @@ console.log("boardmeetingess",boardmeetingsList)
     const hours = parseInt(hourStr, 10);
     const minutes = parseInt(minuteStr, 10);
     if (isNaN(hours) || isNaN(minutes)) {
-      return "Invalid time";
+      return 'Invalid time';
     }
     const ampm = hours >= 12 ? 'PM' : 'AM';
     const formattedHours = hours % 12 || 12; // Handles midnight
@@ -294,7 +295,10 @@ console.log("boardmeetingess",boardmeetingsList)
             </div>
             <input
               onChange={(e) =>
-                debouncedSetSearch({ conext: 'BOARDMEETINGS', data: e.target.value })
+                debouncedSetSearch({
+                  conext: 'BOARDMEETINGS',
+                  data: e.target.value,
+                })
               }
               type='search'
               id='default-search'
@@ -327,8 +331,9 @@ console.log("boardmeetingess",boardmeetingsList)
 
           {/* for coloumns open */}
           <div
-            className={`fixed inset-0 bg-gray-800 bg-opacity-50 z-10 ${columnsDrawerOpen ? '' : 'opacity-0 pointer-events-none'
-              }`}
+            className={`fixed inset-0 bg-gray-800 bg-opacity-50 z-10 ${
+              columnsDrawerOpen ? '' : 'opacity-0 pointer-events-none'
+            }`}
             style={{ transition: 'opacity 0.3s ease-in-out' }}
           >
             <div
@@ -418,8 +423,9 @@ console.log("boardmeetingess",boardmeetingsList)
 
           {/* for filter open */}
           <div
-            className={`fixed inset-0 bg-gray-800 bg-opacity-50 z-10 ${filterDrawerOpen ? '' : 'opacity-0 pointer-events-none'
-              }`}
+            className={`fixed inset-0 bg-gray-800 bg-opacity-50 z-10 ${
+              filterDrawerOpen ? '' : 'opacity-0 pointer-events-none'
+            }`}
             style={{ transition: 'opacity 0.3s ease-in-out' }}
           >
             <div
@@ -457,85 +463,85 @@ console.log("boardmeetingess",boardmeetingsList)
                       key={index}
                       className=''
                     >
-                    {!filter.options && (filter.type === "date" || filter.type === "time") && (
-                        <div>
-                          <label className='mb-4 text-sm text-[#878a99] font-medium'>
-                            {' '}
-                            {filter.label.charAt(0).toUpperCase() +
-                              filter.label.slice(1)}
-                          </label>
-                          <input
-                          type={filter.type}  
-                            id={filter.inputname}
-                            name={filter.inputname}
-                            className='px-3 py-2 my-2 text-xs block w-full bg-gray-50 rounded-md text-gray-900 border border-1 border-[#e9ebec] placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-xs sm:leading-6'
-                            onChange={(e) =>
-                              handleFilterChange(
-                                filter.inputname,
-                                e.target.value
-                              )
-                            }
-                            value={selectedFilters[filter.inputname] || ''}/>
-                          
-                        </div>
-                      )
+                      {!filter.options &&
+                        (filter.type === 'date' || filter.type === 'time') && (
+                          <div>
+                            <label className='mb-4 text-sm text-[#878a99] font-medium'>
+                              {' '}
+                              {filter.label.charAt(0).toUpperCase() +
+                                filter.label.slice(1)}
+                            </label>
+                            <input
+                              type={filter.type}
+                              id={filter.inputname}
+                              name={filter.inputname}
+                              className='px-3 py-2 my-2 text-xs block w-full bg-gray-50 rounded-md text-gray-900 border border-1 border-[#e9ebec] placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-xs sm:leading-6'
+                              onChange={(e) =>
+                                handleFilterChange(
+                                  filter.inputname,
+                                  e.target.value
+                                )
+                              }
+                              value={selectedFilters[filter.inputname] || ''}
+                            />
+                          </div>
+                        )}
+                      {filter.options &&
+                        (filter.type === 'multiselect' ||
+                          filter.type === 'select') && (
+                          <div>
+                            <label className='mb-4 text-sm text-[#878a99] font-medium'>
+                              {' '}
+                              {filter.label.charAt(0).toUpperCase() +
+                                filter.label.slice(1)}
+                            </label>
 
-                    }
-                      {filter.options && (filter.type === "multiselect" || filter.type === "select") && (
-                       
-                        <div>
-                          <label className='mb-4 text-sm text-[#878a99] font-medium'>
-                            {' '}
-                            {filter.label.charAt(0).toUpperCase() +
-                              filter.label.slice(1)}
-                          </label>
-
-                          <select
-                            id={filter.inputname}
-                            name={filter.inputname}
-                            className='px-3 py-2 my-2 text-xs block w-full bg-gray-50 rounded-md text-gray-900 border border-1 border-[#e9ebec] placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-xs sm:leading-6'
-                            onChange={(e) =>
-                              handleFilterChange(
-                                filter.inputname,
-                                e.target.value
-                              )
-                            }
-                            value={selectedFilters[filter.inputname] || ''}
-                          >
-                            <option
-                              value=''
-                              disabled
-                              defaultValue
+                            <select
+                              id={filter.inputname}
+                              name={filter.inputname}
+                              className='px-3 py-2 my-2 text-xs block w-full bg-gray-50 rounded-md text-gray-900 border border-1 border-[#e9ebec] placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-xs sm:leading-6'
+                              onChange={(e) =>
+                                handleFilterChange(
+                                  filter.inputname,
+                                  e.target.value
+                                )
+                              }
+                              value={selectedFilters[filter.inputname] || ''}
                             >
-                              Please select
-                            </option>
-                            {filter.options &&
-                              filter.options.type === 'custom' &&
-                              filter.options.value &&
-                              filter.options.value.map((option, index) => (
-                                <option
-                                  key={index}
-                                  value={option}
-                                >
-                                  {option}
-                                </option>
-                              ))}
-                            {filter.options &&
-                              filter.options.type === 'predefined' &&
-                              filter.options.value &&
-                              fieldsDropDownData[filter.options.value]?.map(
-                                (option, index) => (
+                              <option
+                                value=''
+                                disabled
+                                defaultValue
+                              >
+                                Please select
+                              </option>
+                              {filter.options &&
+                                filter.options.type === 'custom' &&
+                                filter.options.value &&
+                                filter.options.value.map((option, index) => (
                                   <option
                                     key={index}
                                     value={option}
                                   >
                                     {option}
                                   </option>
-                                )
-                              )}
-                          </select>
-                        </div>
-                      )}
+                                ))}
+                              {filter.options &&
+                                filter.options.type === 'predefined' &&
+                                filter.options.value &&
+                                fieldsDropDownData[filter.options.value]?.map(
+                                  (option, index) => (
+                                    <option
+                                      key={index}
+                                      value={option}
+                                    >
+                                      {option}
+                                    </option>
+                                  )
+                                )}
+                            </select>
+                          </div>
+                        )}
                     </div>
                   ))}
                 </div>
@@ -562,231 +568,231 @@ console.log("boardmeetingess",boardmeetingsList)
 
       {/* table */}
       <div className='max-h-[457px] overflow-y-scroll mt-8'>
-        {visibleColumns && tableView && boardmeetingsList?.paginatedBoardMeetings && (
-          <table className='w-full divide-y divide-gray-200 dark:divide-gray-700 rounded-md'>
-            <thead>
-              <tr>
-                {visibleColumns.map((key) => (
+        {visibleColumns &&
+          tableView &&
+          boardmeetingsList?.paginatedBoardMeetings && (
+            <table className='w-full divide-y divide-gray-200 dark:divide-gray-700 rounded-md'>
+              <thead>
+                <tr>
+                  {visibleColumns.map((key) => (
+                    <th
+                      key={key}
+                      className='sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200'
+                    >
+                      {tableView[key].label}
+                    </th>
+                  ))}
                   <th
-                    key={key}
+                    scope='col'
                     className='sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200'
                   >
-                    {tableView[key].label}
+                    Total Tasks
                   </th>
-                ))}
-                <th
-                  scope='col'
-                  className='sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200'
-                >
-                  Total Tasks
-                </th>
-                <th
-                  scope='col'
-                  className='sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200'
-                >
-                  Completed Tasks
-                </th>
-                <th
-                  scope='col'
-                  className='sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200'
-                >
-                  Upcoming Tasks
-                </th>
-                <th
-                  scope='col'
-                  className='sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200'
-                >
-                  Overdue Tasks
-                </th>
-                <th
-                  scope='col'
-                  className='sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200'
-                >
-                  Actions
-                </th>
-              </tr>
-            </thead>
-            <tbody className='divide-y divide-gray-200 dark:divide-gray-700'>
-              {boardmeetingsList?.paginatedBoardMeetings &&
-                boardmeetingsList?.paginatedBoardMeetings?.map((row) => (
-                  <tr key={row.id}>
-                    {visibleColumns.map((key) => {
-                        let value = row[key]
-                        if (tableView[key].type === "multiselect" && row[key]) {
-                          value =
-                            row[key].join(', ')
+                  <th
+                    scope='col'
+                    className='sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200'
+                  >
+                    Completed Tasks
+                  </th>
+                  <th
+                    scope='col'
+                    className='sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200'
+                  >
+                    Upcoming Tasks
+                  </th>
+                  <th
+                    scope='col'
+                    className='sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200'
+                  >
+                    Overdue Tasks
+                  </th>
+                  <th
+                    scope='col'
+                    className='sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200'
+                  >
+                    Actions
+                  </th>
+                </tr>
+              </thead>
+              <tbody className='divide-y divide-gray-200 dark:divide-gray-700'>
+                {boardmeetingsList?.paginatedBoardMeetings &&
+                  boardmeetingsList?.paginatedBoardMeetings?.map((row) => (
+                    <tr key={row.id}>
+                      {visibleColumns.map((key) => {
+                        let value = row[key];
+                        if (tableView[key].type === 'multiselect' && row[key]) {
+                          value = row[key].join(', ');
                         }
-                        if (tableView[key].type === "time" && row[key])  {
-                          value = formatTime(row[key])
+                        if (tableView[key].type === 'time' && row[key]) {
+                          value = formatTime(row[key]);
                         }
-                        if (tableView[key].type === "date" && row[key]) {
-                           value = new Date(row[key]);
+                        if (tableView[key].type === 'date' && row[key]) {
+                          value = new Date(row[key]);
                           const day = value.getUTCDate();
                           const monthIndex = value.getUTCMonth();
                           const year = value.getUTCFullYear();
-  
+
                           const monthAbbreviations = [
-                            "Jan",
-                            "Feb",
-                            "Mar",
-                            "Apr",
-                            "May",
-                            "Jun",
-                            "Jul",
-                            "Aug",
-                            "Sep",
-                            "Oct",
-                            "Nov",
-                            "Dec",
+                            'Jan',
+                            'Feb',
+                            'Mar',
+                            'Apr',
+                            'May',
+                            'Jun',
+                            'Jul',
+                            'Aug',
+                            'Sep',
+                            'Oct',
+                            'Nov',
+                            'Dec',
                           ];
-  
+
                           // Formatting the date
-                          value = `${day < 10 ? "0" : ""}${day}-${monthAbbreviations[monthIndex]}-${year}`;
-                         
+                          value = `${day < 10 ? '0' : ''}${day}-${
+                            monthAbbreviations[monthIndex]
+                          }-${year}`;
                         }
-                      return (
-                        <td
-                        key={key}
+                        return (
+                          <td
+                            key={key}
+                            className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden`}
+                            style={{ maxWidth: '160px' }}
+                            title={row[key]}
+                          >
+                            <p className='truncate text-xs'> {value}</p>
+                          </td>
+                        );
+                      })}
+                      <td
                         className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden`}
                         style={{ maxWidth: '160px' }}
-                        title={row[key]}
+                        title=''
                       >
-                        <p className='truncate text-xs'> {value}</p>
+                        <p className='truncate text-xs'> 5000</p>
                       </td>
-                      )
-                    }
-                      
-                   )}
-                    <td
-                      className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden`}
-                      style={{ maxWidth: '160px' }}
-                      title=""
-                    >
-                      <p className='truncate text-xs'> 5000</p>
-                    </td>
-                    <td
-                      className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden`}
-                      style={{ maxWidth: '160px' }}
-                      title=""
-                    >
-                      <p className='truncate text-xs'> 2000</p>
-                    </td>
-                    <td
-                      className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden`}
-                      style={{ maxWidth: '160px' }}
-                      title=""
-                    >
-                      <p className='truncate text-xs'> 1000</p>
-                    </td>
-                    <td
-                      className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden`}
-                      style={{ maxWidth: '160px' }}
-                      title=""
-                    >
-                      <p className='truncate text-xs'> 500</p>
-                    </td>
-                    <td
-                      className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden`}
-                      style={{ maxWidth: '160px' }}
-                      title=""
-                    >
-                      <div className='flex justify-start gap-3'>
-                        <GateKeeper
-                          permissionCheck={(permission) =>
-                            permission.module === 'meeting' && permission.canRead
-                          }
-                        >
-                          <button
-                            type='button'
-                            className=' inline-flex items-center gap-x-1 text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600'
+                      <td
+                        className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden`}
+                        style={{ maxWidth: '160px' }}
+                        title=''
+                      >
+                        <p className='truncate text-xs'> 2000</p>
+                      </td>
+                      <td
+                        className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden`}
+                        style={{ maxWidth: '160px' }}
+                        title=''
+                      >
+                        <p className='truncate text-xs'> 1000</p>
+                      </td>
+                      <td
+                        className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden`}
+                        style={{ maxWidth: '160px' }}
+                        title=''
+                      >
+                        <p className='truncate text-xs'> 500</p>
+                      </td>
+                      <td
+                        className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden`}
+                        style={{ maxWidth: '160px' }}
+                        title=''
+                      >
+                        <div className='flex justify-start gap-3'>
+                          <GateKeeper
+                            permissionCheck={(permission) =>
+                              permission.module === 'meeting' &&
+                              permission.canRead
+                            }
                           >
-                            <Link to={`${row.id}`}>
+                            <button
+                              type='button'
+                              className=' inline-flex items-center gap-x-1 text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600'
+                            >
+                              <Link to={`${row.id}`}>
+                                <svg
+                                  xmlns='http://www.w3.org/2000/svg'
+                                  viewBox='0 0 20 20'
+                                  fill='currentColor'
+                                  className='w-4 h-4'
+                                >
+                                  <path d='M10 12.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z' />
+                                  <path
+                                    fill-rule='evenodd'
+                                    d='M.664 10.59a1.651 1.651 0 0 1 0-1.186A10.004 10.004 0 0 1 10 3c4.257 0 7.893 2.66 9.336 6.41.147.381.146.804 0 1.186A10.004 10.004 0 0 1 10 17c-4.257 0-7.893-2.66-9.336-6.41ZM14 10a4 4 0 1 1-8 0 4 4 0 0 1 8 0Z'
+                                    clip-rule='evenodd'
+                                  />
+                                </svg>
+                              </Link>
+                            </button>
+                          </GateKeeper>
+                          <GateKeeper
+                            permissionCheck={(permission) =>
+                              permission.module === 'meeting' &&
+                              permission.canUpdate
+                            }
+                          >
+                            <button
+                              type='button'
+                              className='inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600'
+                            >
+                              <Link to={`${row.id}/edit`}>
+                                <svg
+                                  xmlns='http://www.w3.org/2000/svg'
+                                  viewBox='0 0 20 20'
+                                  fill='currentColor'
+                                  className='w-4 h-4'
+                                >
+                                  <path d='m2.695 14.762-1.262 3.155a.5.5 0 0 0 .65.65l3.155-1.262a4 4 0 0 0 1.343-.886L17.5 5.501a2.121 2.121 0 0 0-3-3L3.58 13.419a4 4 0 0 0-.885 1.343Z' />
+                                </svg>
+                              </Link>
+                            </button>
+                          </GateKeeper>
+                          <GateKeeper
+                            permissionCheck={(permission) =>
+                              permission.module === 'meeting' &&
+                              permission.canDelete
+                            }
+                          >
+                            <button
+                              type='button'
+                              onClick={() => handleDeleteUser(row.id)}
+                              className=' inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none  dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600'
+                            >
                               <svg
                                 xmlns='http://www.w3.org/2000/svg'
                                 viewBox='0 0 20 20'
                                 fill='currentColor'
                                 className='w-4 h-4'
                               >
-                                <path d='M10 12.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z' />
                                 <path
                                   fill-rule='evenodd'
-                                  d='M.664 10.59a1.651 1.651 0 0 1 0-1.186A10.004 10.004 0 0 1 10 3c4.257 0 7.893 2.66 9.336 6.41.147.381.146.804 0 1.186A10.004 10.004 0 0 1 10 17c-4.257 0-7.893-2.66-9.336-6.41ZM14 10a4 4 0 1 1-8 0 4 4 0 0 1 8 0Z'
+                                  d='M8.75 1A2.75 2.75 0 0 0 6 3.75v.443c-.795.077-1.584.176-2.365.298a.75.75 0 1 0 .23 1.482l.149-.022.841 10.518A2.75 2.75 0 0 0 7.596 19h4.807a2.75 2.75 0 0 0 2.742-2.53l.841-10.52.149.023a.75.75 0 0 0 .23-1.482A41.03 41.03 0 0 0 14 4.193V3.75A2.75 2.75 0 0 0 11.25 1h-2.5ZM10 4c.84 0 1.673.025 2.5.075V3.75c0-.69-.56-1.25-1.25-1.25h-2.5c-.69 0-1.25.56-1.25 1.25v.325C8.327 4.025 9.16 4 10 4ZM8.58 7.72a.75.75 0 0 0-1.5.06l.3 7.5a.75.75 0 1 0 1.5-.06l-.3-7.5Zm4.34.06a.75.75 0 1 0-1.5-.06l-.3 7.5a.75.75 0 1 0 1.5.06l.3-7.5Z'
                                   clip-rule='evenodd'
                                 />
                               </svg>
-                            </Link>
-                          </button>
-                        </GateKeeper>
-                        <GateKeeper
-                          permissionCheck={(permission) =>
-                            permission.module === 'meeting' &&
-                            permission.canUpdate
-                          }
-                        >
-                          <button
-                            type='button'
-                            className='inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600'
-                          >
-                            <Link to={`${row.id}/edit`}>
-                              <svg
-                                xmlns='http://www.w3.org/2000/svg'
-                                viewBox='0 0 20 20'
-                                fill='currentColor'
-                                className='w-4 h-4'
-                              >
-                                <path d='m2.695 14.762-1.262 3.155a.5.5 0 0 0 .65.65l3.155-1.262a4 4 0 0 0 1.343-.886L17.5 5.501a2.121 2.121 0 0 0-3-3L3.58 13.419a4 4 0 0 0-.885 1.343Z' />
-                              </svg>
-                            </Link>
-                          </button>
-                        </GateKeeper>
-                        <GateKeeper
-                          permissionCheck={(permission) =>
-                            permission.module === 'meeting' &&
-                            permission.canDelete
-                          }
-                        >
-                          <button
-                            type='button'
-                            onClick={() => handleDeleteUser(row.id)}
-                            className=' inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none  dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600'
-                          >
-                            <svg
-                              xmlns='http://www.w3.org/2000/svg'
-                              viewBox='0 0 20 20'
-                              fill='currentColor'
-                              className='w-4 h-4'
-                            >
-                              <path
-                                fill-rule='evenodd'
-                                d='M8.75 1A2.75 2.75 0 0 0 6 3.75v.443c-.795.077-1.584.176-2.365.298a.75.75 0 1 0 .23 1.482l.149-.022.841 10.518A2.75 2.75 0 0 0 7.596 19h4.807a2.75 2.75 0 0 0 2.742-2.53l.841-10.52.149.023a.75.75 0 0 0 .23-1.482A41.03 41.03 0 0 0 14 4.193V3.75A2.75 2.75 0 0 0 11.25 1h-2.5ZM10 4c.84 0 1.673.025 2.5.075V3.75c0-.69-.56-1.25-1.25-1.25h-2.5c-.69 0-1.25.56-1.25 1.25v.325C8.327 4.025 9.16 4 10 4ZM8.58 7.72a.75.75 0 0 0-1.5.06l.3 7.5a.75.75 0 1 0 1.5-.06l-.3-7.5Zm4.34.06a.75.75 0 1 0-1.5-.06l-.3 7.5a.75.75 0 1 0 1.5.06l.3-7.5Z'
-                                clip-rule='evenodd'
-                              />
-                            </svg>
-                          </button>
-                        </GateKeeper>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-            </tbody>
-          </table>
-        )}
+                            </button>
+                          </GateKeeper>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+              </tbody>
+            </table>
+          )}
       </div>
-
 
       {/* pagination */}
       <div className='inset-x-0 bottom-0 mt-5'>
         <div className='flex justify-between'>
           <div className=''>
             {!boardmeetingsList?.paginatedBoardMeetings ||
-             boardmeetingsList?.paginatedBoardMeetings?.length === 0 ? (
+            boardmeetingsList?.paginatedBoardMeetings?.length === 0 ? (
               'no data to show'
             ) : boardmeetingsList.loading ? (
               'Loading...'
             ) : (
               <p className='text-sm text-gray-700'>
-                Showing {boardmeetingsList.startBoardMeeting} to {boardmeetingsList.endBoardMeeting}{' '}
-                of{' '}
+                Showing {boardmeetingsList.startBoardMeeting} to{' '}
+                {boardmeetingsList.endBoardMeeting} of{' '}
                 <span className='font-medium'>
                   {boardmeetingsList.totalBoardMeetings}
                 </span>
@@ -807,12 +813,13 @@ console.log("boardmeetingess",boardmeetingsList)
                 })
               }
               href='#'
-              className={`relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${boardmeetingsList.loading
-                ? 'cursor-wait'
-                : boardmeetingsList.currentPage === 1
+              className={`relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${
+                boardmeetingsList.loading
+                  ? 'cursor-wait'
+                  : boardmeetingsList.currentPage === 1
                   ? 'cursor-not-allowed'
                   : 'cursor-auto'
-                }`}
+              }`}
             >
               <span className='sr-only'>Previous</span>
               <svg
@@ -833,19 +840,23 @@ console.log("boardmeetingess",boardmeetingsList)
               {boardmeetingsList.currentPage}
             </button>
             <button
-              disabled={boardmeetingsList.currentPage === boardmeetingsList.totalPages}
+              disabled={
+                boardmeetingsList.currentPage === boardmeetingsList.totalPages
+              }
               onClick={() =>
                 debouncedSetPage({
                   conext: 'BOARDMEETINGS',
                   data: boardmeetingsList.currentPage + 1,
                 })
               }
-              className={`relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${boardmeetingsList.loading
-                ? 'cursor-wait'
-                : boardmeetingsList.currentPage === boardmeetingsList.totalPages
+              className={`relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${
+                boardmeetingsList.loading
+                  ? 'cursor-wait'
+                  : boardmeetingsList.currentPage ===
+                    boardmeetingsList.totalPages
                   ? 'cursor-not-allowed'
                   : 'cursor-auto'
-                }`}
+              }`}
             >
               <span className='sr-only'>Next</span>
               <svg
@@ -1068,8 +1079,6 @@ export default BoardMeetings;
 //  </table>
 // </div>
 
-
-
 // import React, { useContext, useEffect, useState } from 'react';
 // import { Link } from 'react-router-dom';
 // import { EntitiesDataContext } from '../../../contexts/entitiesDataContext/entitiesDataContext';
@@ -1107,7 +1116,6 @@ export default BoardMeetings;
 //     setIsChecked((pre) => !pre);
 //   };
 //   // const { allowed, loading } = usePermissionCheck(permissionCheck);
-
 
 //   const [columnsDrawerOpen, setColumnsDrawerOpen] = useState(false);
 
@@ -1299,7 +1307,7 @@ export default BoardMeetings;
 //               </div>
 //               {/* <div className='h-[615px] overflow-auto'>
 //                 <div className='text-start p-3 '>
-                 
+
 //                   {filterableInputsInBox?.map((filter, index) => (
 //                     <div
 //                       key={index}

@@ -28,12 +28,10 @@ function Teams() {
     deleteTeambyId,
     setFilters,
   } = useContext(TeamsDataContext);
-  useEffect(()=>{
-    console.log("teamess",teamsList)
-    
-      })
-  const { debouncedSetPage, debouncedSetSearch } =
-    useDebounce(teamsDispatch);
+  useEffect(() => {
+    console.log('teamess', teamsList);
+  });
+  const { debouncedSetPage, debouncedSetSearch } = useDebounce(teamsDispatch);
   // const [toggle, setToggle] = useState(false)
   const handlePerPageChange = (event) => {
     const selectedValue = parseInt(event.target.value, 10);
@@ -123,7 +121,7 @@ function Teams() {
   });
   useEffect(() => {
     axios
-      .get(`https://atbtmain.infozit.com/form/list?name=teamform`)
+      .get(`https://atbtbeta.infozit.com/form/list?name=teamform`)
       .then((response) => {
         // Handle the successful response
         setCustomForm(response.data.Data);
@@ -146,29 +144,30 @@ function Teams() {
         (obj) =>
           obj.filterable &&
           (obj.type === 'select' ||
-            obj.type === 'date' || obj.type ==='time' ||
+            obj.type === 'date' ||
+            obj.type === 'time' ||
             obj.type === 'multiselect')
       )
       .map((obj) => ({
         inputname: obj.inputname,
         label: obj.label,
-        type:obj.type,
+        type: obj.type,
         ...(obj.options && { options: obj.options }),
       }));
     const filterableInputsInSearch = customForm
       .filter(
         (obj) =>
-          obj.filterable &&  
+          obj.filterable &&
           (obj.type === 'text' ||
             obj.type === 'email' ||
-          obj.type === 'number' ||
-          obj.type === 'phonenumber' ||
-          obj.type === 'textarea')
+            obj.type === 'number' ||
+            obj.type === 'phonenumber' ||
+            obj.type === 'textarea')
       )
       .map((obj) => ({
         inputname: obj.inputname,
         label: obj.label,
-        type:obj.type
+        type: obj.type,
       }));
 
     setFilterableInputsInBox(filterableInputsInBox);
@@ -200,13 +199,13 @@ function Teams() {
       try {
         axios
           .put(
-            `https://atbtmain.infozit.com/form/tableUpdate?name=teamform`,
+            `https://atbtbeta.infozit.com/form/tableUpdate?name=teamform`,
             dupTableView
           )
           .then((response) => {
             console.log('Update successful:', response.data);
             axios
-              .get(`https://atbtmain.infozit.com/form/list?name=teamform`)
+              .get(`https://atbtbeta.infozit.com/form/list?name=teamform`)
               .then((response) => {
                 setCustomForm(response.data.Data);
                 setTableView(response.data.Tableview);
@@ -247,7 +246,7 @@ function Teams() {
     const hours = parseInt(hourStr, 10);
     const minutes = parseInt(minuteStr, 10);
     if (isNaN(hours) || isNaN(minutes)) {
-      return "Invalid time";
+      return 'Invalid time';
     }
     const ampm = hours >= 12 ? 'PM' : 'AM';
     const formattedHours = hours % 12 || 12; // Handles midnight
@@ -323,8 +322,9 @@ function Teams() {
 
           {/* for coloumns open */}
           <div
-            className={`fixed inset-0 bg-gray-800 bg-opacity-50 z-10 ${columnsDrawerOpen ? '' : 'opacity-0 pointer-events-none'
-              }`}
+            className={`fixed inset-0 bg-gray-800 bg-opacity-50 z-10 ${
+              columnsDrawerOpen ? '' : 'opacity-0 pointer-events-none'
+            }`}
             style={{ transition: 'opacity 0.3s ease-in-out' }}
           >
             <div
@@ -414,8 +414,9 @@ function Teams() {
 
           {/* for filter open */}
           <div
-            className={`fixed inset-0 bg-gray-800 bg-opacity-50 z-10 ${filterDrawerOpen ? '' : 'opacity-0 pointer-events-none'
-              }`}
+            className={`fixed inset-0 bg-gray-800 bg-opacity-50 z-10 ${
+              filterDrawerOpen ? '' : 'opacity-0 pointer-events-none'
+            }`}
             style={{ transition: 'opacity 0.3s ease-in-out' }}
           >
             <div
@@ -453,85 +454,85 @@ function Teams() {
                       key={index}
                       className=''
                     >
-                       {!filter.options && (filter.type === "date" || filter.type === "time") && (
-                        <div>
-                          <label className='mb-4 text-sm text-[#878a99] font-medium'>
-                            {' '}
-                            {filter.label.charAt(0).toUpperCase() +
-                              filter.label.slice(1)}
-                          </label>
-                          <input
-                          type={filter.type}  
-                            id={filter.inputname}
-                            name={filter.inputname}
-                            className='px-3 py-2 my-2 text-xs block w-full bg-gray-50 rounded-md text-gray-900 border border-1 border-[#e9ebec] placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-xs sm:leading-6'
-                            onChange={(e) =>
-                              handleFilterChange(
-                                filter.inputname,
-                                e.target.value
-                              )
-                            }
-                            value={selectedFilters[filter.inputname] || ''}/>
-                          
-                        </div>
-                      )
+                      {!filter.options &&
+                        (filter.type === 'date' || filter.type === 'time') && (
+                          <div>
+                            <label className='mb-4 text-sm text-[#878a99] font-medium'>
+                              {' '}
+                              {filter.label.charAt(0).toUpperCase() +
+                                filter.label.slice(1)}
+                            </label>
+                            <input
+                              type={filter.type}
+                              id={filter.inputname}
+                              name={filter.inputname}
+                              className='px-3 py-2 my-2 text-xs block w-full bg-gray-50 rounded-md text-gray-900 border border-1 border-[#e9ebec] placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-xs sm:leading-6'
+                              onChange={(e) =>
+                                handleFilterChange(
+                                  filter.inputname,
+                                  e.target.value
+                                )
+                              }
+                              value={selectedFilters[filter.inputname] || ''}
+                            />
+                          </div>
+                        )}
+                      {filter.options &&
+                        (filter.type === 'multiselect' ||
+                          filter.type === 'select') && (
+                          <div>
+                            <label className='mb-4 text-sm text-[#878a99] font-medium'>
+                              {' '}
+                              {filter.label.charAt(0).toUpperCase() +
+                                filter.label.slice(1)}
+                            </label>
 
-                    }
-                      {filter.options && (filter.type === "multiselect" || filter.type === "select") && (
-                       
-                        <div>
-                          <label className='mb-4 text-sm text-[#878a99] font-medium'>
-                            {' '}
-                            {filter.label.charAt(0).toUpperCase() +
-                              filter.label.slice(1)}
-                          </label>
-
-                          <select
-                            id={filter.inputname}
-                            name={filter.inputname}
-                            className='px-3 py-2 my-2 text-xs block w-full bg-gray-50 rounded-md text-gray-900 border border-1 border-[#e9ebec] placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-xs sm:leading-6'
-                            onChange={(e) =>
-                              handleFilterChange(
-                                filter.inputname,
-                                e.target.value
-                              )
-                            }
-                            value={selectedFilters[filter.inputname] || ''}
-                          >
-                            <option
-                              value=''
-                              disabled
-                              defaultValue
+                            <select
+                              id={filter.inputname}
+                              name={filter.inputname}
+                              className='px-3 py-2 my-2 text-xs block w-full bg-gray-50 rounded-md text-gray-900 border border-1 border-[#e9ebec] placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-xs sm:leading-6'
+                              onChange={(e) =>
+                                handleFilterChange(
+                                  filter.inputname,
+                                  e.target.value
+                                )
+                              }
+                              value={selectedFilters[filter.inputname] || ''}
                             >
-                              Please select
-                            </option>
-                            {filter.options &&
-                              filter.options.type === 'custom' &&
-                              filter.options.value &&
-                              filter.options.value.map((option, index) => (
-                                <option
-                                  key={index}
-                                  value={option}
-                                >
-                                  {option}
-                                </option>
-                              ))}
-                            {filter.options &&
-                              filter.options.type === 'predefined' &&
-                              filter.options.value &&
-                              fieldsDropDownData[filter.options.value]?.map(
-                                (option, index) => (
+                              <option
+                                value=''
+                                disabled
+                                defaultValue
+                              >
+                                Please select
+                              </option>
+                              {filter.options &&
+                                filter.options.type === 'custom' &&
+                                filter.options.value &&
+                                filter.options.value.map((option, index) => (
                                   <option
                                     key={index}
                                     value={option}
                                   >
                                     {option}
                                   </option>
-                                )
-                              )}
-                          </select>
-                        </div>
-                      )}
+                                ))}
+                              {filter.options &&
+                                filter.options.type === 'predefined' &&
+                                filter.options.value &&
+                                fieldsDropDownData[filter.options.value]?.map(
+                                  (option, index) => (
+                                    <option
+                                      key={index}
+                                      value={option}
+                                    >
+                                      {option}
+                                    </option>
+                                  )
+                                )}
+                            </select>
+                          </div>
+                        )}
                     </div>
                   ))}
                 </div>
@@ -607,84 +608,82 @@ function Teams() {
                 teamsList?.paginatedTeams?.map((row) => (
                   <tr key={row.id}>
                     {visibleColumns.map((key) => {
-                         let value = row[key]
-                         if (tableView[key].type === "multiselect" && row[key]) {
-                          value =
-                            row[key].join(', ')
-                        }
-                         if (tableView[key].type === "time" && row[key])  {
-                           value = formatTime(row[key])
-                         }
-                         if (tableView[key].type === "date" && row[key]) {
-                            value = new Date(row[key]);
-                           const day = value.getUTCDate();
-                           const monthIndex = value.getUTCMonth();
-                           const year = value.getUTCFullYear();
-   
-                           const monthAbbreviations = [
-                             "Jan",
-                             "Feb",
-                             "Mar",
-                             "Apr",
-                             "May",
-                             "Jun",
-                             "Jul",
-                             "Aug",
-                             "Sep",
-                             "Oct",
-                             "Nov",
-                             "Dec",
-                           ];
-   
-                           // Formatting the date
-                           value = `${day < 10 ? "0" : ""}${day}-${monthAbbreviations[monthIndex]}-${year}`;
-                          
-                         }
-                      return(
+                      let value = row[key];
+                      if (tableView[key].type === 'multiselect' && row[key]) {
+                        value = row[key].join(', ');
+                      }
+                      if (tableView[key].type === 'time' && row[key]) {
+                        value = formatTime(row[key]);
+                      }
+                      if (tableView[key].type === 'date' && row[key]) {
+                        value = new Date(row[key]);
+                        const day = value.getUTCDate();
+                        const monthIndex = value.getUTCMonth();
+                        const year = value.getUTCFullYear();
+
+                        const monthAbbreviations = [
+                          'Jan',
+                          'Feb',
+                          'Mar',
+                          'Apr',
+                          'May',
+                          'Jun',
+                          'Jul',
+                          'Aug',
+                          'Sep',
+                          'Oct',
+                          'Nov',
+                          'Dec',
+                        ];
+
+                        // Formatting the date
+                        value = `${day < 10 ? '0' : ''}${day}-${
+                          monthAbbreviations[monthIndex]
+                        }-${year}`;
+                      }
+                      return (
                         <td
-                        key={key}
-                        className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden`}
-                        style={{ maxWidth: '160px' }}
-                        title={row[key]}
-                      >
-                        <p className='truncate text-xs'> {value}</p>
-                      </td>
-                      )
-                    }
-                     
-                    )}
+                          key={key}
+                          className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden`}
+                          style={{ maxWidth: '160px' }}
+                          title={row[key]}
+                        >
+                          <p className='truncate text-xs'> {value}</p>
+                        </td>
+                      );
+                    })}
                     <td
                       className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden`}
                       style={{ maxWidth: '160px' }}
-                      title=""
+                      title=''
                     >
                       <p className='truncate text-xs'> 5000</p>
                     </td>
                     <td
                       className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden`}
                       style={{ maxWidth: '160px' }}
-                      title=""
+                      title=''
                     >
                       <p className='truncate text-xs'> 2000</p>
                     </td>
                     <td
                       className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden`}
                       style={{ maxWidth: '160px' }}
-                      title=""
+                      title=''
                     >
                       <p className='truncate text-xs'> 1000</p>
                     </td>
                     <td
                       className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden`}
                       style={{ maxWidth: '160px' }}
-                      title=""
+                      title=''
                     >
                       <p className='truncate text-xs'> 500</p>
                     </td>
                     <td
                       className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden`}
                       style={{ maxWidth: '160px' }}
-                      title=""
+                      title=''
                     >
                       <div className='flex justify-start gap-3'>
                         <GateKeeper
@@ -715,8 +714,7 @@ function Teams() {
                         </GateKeeper>
                         <GateKeeper
                           permissionCheck={(permission) =>
-                            permission.module === 'team' &&
-                            permission.canUpdate
+                            permission.module === 'team' && permission.canUpdate
                           }
                         >
                           <button
@@ -737,8 +735,7 @@ function Teams() {
                         </GateKeeper>
                         <GateKeeper
                           permissionCheck={(permission) =>
-                            permission.module === 'team' &&
-                            permission.canDelete
+                            permission.module === 'team' && permission.canDelete
                           }
                         >
                           <button
@@ -769,23 +766,19 @@ function Teams() {
         )}
       </div>
 
-
       {/* pagination */}
       <div className='inset-x-0 bottom-0 mt-5'>
         <div className='flex justify-between'>
           <div className=''>
             {!teamsList?.paginatedTeams ||
-              teamsList?.paginatedTeams?.length === 0 ? (
+            teamsList?.paginatedTeams?.length === 0 ? (
               'no data to show'
             ) : teamsList.loading ? (
               'Loading...'
             ) : (
               <p className='text-sm text-gray-700'>
-                Showing {teamsList.startTeam} to {teamsList.endTeam}{' '}
-                of{' '}
-                <span className='font-medium'>
-                  {teamsList.totalTeams}
-                </span>
+                Showing {teamsList.startTeam} to {teamsList.endTeam} of{' '}
+                <span className='font-medium'>{teamsList.totalTeams}</span>
                 <span className='font-medium'> </span> results
               </p>
             )}
@@ -803,12 +796,13 @@ function Teams() {
                 })
               }
               href='#'
-              className={`relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${teamsList.loading
-                ? 'cursor-wait'
-                : teamsList.currentPage === 1
+              className={`relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${
+                teamsList.loading
+                  ? 'cursor-wait'
+                  : teamsList.currentPage === 1
                   ? 'cursor-not-allowed'
                   : 'cursor-auto'
-                }`}
+              }`}
             >
               <span className='sr-only'>Previous</span>
               <svg
@@ -836,12 +830,13 @@ function Teams() {
                   data: teamsList.currentPage + 1,
                 })
               }
-              className={`relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${teamsList.loading
-                ? 'cursor-wait'
-                : teamsList.currentPage === teamsList.totalPages
+              className={`relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${
+                teamsList.loading
+                  ? 'cursor-wait'
+                  : teamsList.currentPage === teamsList.totalPages
                   ? 'cursor-not-allowed'
                   : 'cursor-auto'
-                }`}
+              }`}
             >
               <span className='sr-only'>Next</span>
               <svg
@@ -1064,9 +1059,6 @@ export default Teams;
 //  </table>
 // </div>
 
-
-
-
 // import React, { useContext, useEffect, useState } from 'react';
 // import { Link } from 'react-router-dom';
 // import { Fragment } from 'react';
@@ -1098,13 +1090,10 @@ export default Teams;
 //     setFilters,
 //   } = useContext(TeamsDataContext);
 
- 
-
 //   const handleTabClick = (tabNumber) => {
 //     setActiveTab(tabNumber);
 //   };
 
- 
 //   const [isChecked, setIsChecked] = useState(false);
 
 //   const handleToggle = () => {
@@ -1127,7 +1116,7 @@ export default Teams;
 //     formData.append('image', file);
 //     // console.log(formData, 'fd');
 //     const data = await axios.post(
-//       'https://atbtmain.infozit.com/upload',
+//       'https://atbtbeta.infozit.com/upload',
 //       formData
 //     );
 //     // console.log(data);
@@ -1358,7 +1347,7 @@ export default Teams;
 //               </div>
 //               {/* <div className='h-[615px] overflow-auto'>
 //                 <div className='text-start p-3 '>
-                 
+
 //                   {filterableInputsInBox?.map((filter, index) => (
 //                     <div
 //                       key={index}
@@ -1524,7 +1513,7 @@ export default Teams;
 //                 scope='col'
 //                 className='sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200'
 //               >
-              
+
 //                 Team
 //               </th>
 //               <th
@@ -1537,7 +1526,7 @@ export default Teams;
 //                 scope='col'
 //                 className='sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200'
 //               >
-                
+
 //                 Completed Tasks
 //               </th>
 //               <th
@@ -1595,7 +1584,7 @@ export default Teams;
 //                   <p className='truncate text-xs'> 4543</p>
 //                   </td>
 //                   <td className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  `}
-                     
+
 //                   style={{ maxWidth: '160px' }}>
 //                     <div className='flex justify-start gap-3'>
 //                       <GateKeeper
