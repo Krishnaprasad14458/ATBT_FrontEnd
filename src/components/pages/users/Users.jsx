@@ -181,7 +181,7 @@ function Users() {
   useEffect(() => {
     setFieldsDropDownData((prevState) => ({
       ...prevState,
-      entityname: entitiesList.paginatedEntities.map((item) => item.name),
+      entityname: entitiesList?.paginatedEntities?.map((item) => item.name),
     }));
   }, [entitiesList]);
   useEffect(() => {
@@ -203,7 +203,7 @@ function Users() {
       .then((response) => {
         setFieldsDropDownData((prevState) => ({
           ...prevState,
-          role: response.data.roles.map((item) => item.name),
+          role: response?.data?.roles?.map((item) => item.name),
         }));
       })
       .catch((error) => {
@@ -222,25 +222,29 @@ function Users() {
         (obj) =>
           obj.filterable &&
           (obj.type === 'select' ||
-            obj.type === 'date' ||
+            obj.type === 'date' || obj.type ==='time' ||
             obj.type === 'multiselect')
       )
       .map((obj) => ({
         inputname: obj.inputname,
         label: obj.label,
+        type:obj.type,
         ...(obj.options && { options: obj.options }),
       }));
     const filterableInputsInSearch = customForm
       .filter(
         (obj) =>
-          (obj.filterable && obj.type === 'text') ||
-          obj.type === 'email' ||
+          obj.filterable &&  
+          (obj.type === 'text' ||
+            obj.type === 'email' ||
           obj.type === 'number' ||
-          obj.type === 'textarea'
+          obj.type === 'phonenumber' ||
+          obj.type === 'textarea')
       )
       .map((obj) => ({
         inputname: obj.inputname,
         label: obj.label,
+        type:obj.type
       }));
 
     setFilterableInputsInBox(filterableInputsInBox);
@@ -533,7 +537,31 @@ function Users() {
                       key={index}
                       className=''
                     >
-                      {filter.options && (
+                      {!filter.options && (filter.type === "date" || filter.type === "time") && (
+                        <div>
+                          <label className='mb-4 text-sm text-[#878a99] font-medium'>
+                            {' '}
+                            {filter.label.charAt(0).toUpperCase() +
+                              filter.label.slice(1)}
+                          </label>
+                          <input
+                          type={filter.type}  
+                            id={filter.inputname}
+                            name={filter.inputname}
+                            className='px-3 py-2 my-2 text-xs block w-full bg-gray-50 rounded-md text-gray-900 border border-1 border-[#e9ebec] placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-xs sm:leading-6'
+                            onChange={(e) =>
+                              handleFilterChange(
+                                filter.inputname,
+                                e.target.value
+                              )
+                            }
+                            value={selectedFilters[filter.inputname] || ''}/>
+                          
+                        </div>
+                      )
+
+                    }
+                      {filter.options && (filter.type === "multiselect" || filter.type === "select") && (
                         <div>
                           <label className='mb-4 text-sm text-[#878a99] font-medium'>
                             {' '}
