@@ -521,103 +521,103 @@ function EntityForm() {
               customFormFields.map((item, index) => (
                 <div key={index}>
                   {/* predefined fields */}
-                  {item.type === 'text' && item.inputname == 'name' &&  item.field === 'predefined' && (
-                      <div>
-                        <label
-                          htmlFor={item.label}
-                          className='block text-sm font-medium leading-6 mt-2 text-gray-900'
-                        >
-                          {item.label.charAt(0).toUpperCase() +
-                            item.label.slice(1)}
-                          {item.mandatory ? (
-                            <span className='text-red-600'>*</span>
-                          ) : (
-                            <span> </span>
-                          )}
-                        </label>
-                        <input
-                          type='text'
-                          name={item.inputname}
-                          id={item.inputname}
-                          placeholder='Enter entity name'
-                          value={customFormFields[index].value || ''}
-                          className='px-2 py-2 text-sm block w-full rounded-md bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder:text-xs'
-                          onChange={(e) => handleChange(index, e.target.value)}
-                          style={{ fontSize: '0.8rem' }}
-                        />
-                        <div className='h-2 text-[#dc2626]'>
-                          {errors[item.inputname] && (
-                            <span className='text-xs'>
-                              {errors[item.inputname]}
-                            </span>
-                          )}
-                        </div>
+                  {item.type === 'text' && item.inputname == 'name' && item.field === 'predefined' && (
+                    <div>
+                      <label
+                        htmlFor={item.label}
+                        className='block text-sm font-medium leading-6 mt-2 text-gray-900'
+                      >
+                        {item.label.charAt(0).toUpperCase() +
+                          item.label.slice(1)}
+                        {item.mandatory ? (
+                          <span className='text-red-600'>*</span>
+                        ) : (
+                          <span> </span>
+                        )}
+                      </label>
+                      <input
+                        type='text'
+                        name={item.inputname}
+                        id={item.inputname}
+                        placeholder='Enter entity name'
+                        value={customFormFields[index].value || ''}
+                        className='px-2 py-2 text-sm block w-full rounded-md bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder:text-xs'
+                        onChange={(e) => handleChange(index, e.target.value)}
+                        style={{ fontSize: '0.8rem' }}
+                      />
+                      <div className='h-2 text-[#dc2626]'>
+                        {errors[item.inputname] && (
+                          <span className='text-xs'>
+                            {errors[item.inputname]}
+                          </span>
+                        )}
                       </div>
-                    )}
+                    </div>
+                  )}
                   {item.type === 'file' && item.inputname == 'image' && item.field === 'predefined' && (
-                      <div>
-                        <label
-                          htmlFor={item.label}
-                          className='block text-sm font-medium leading-6 mt-2 text-gray-900'
-                        >
-                          {item.label.charAt(0).toUpperCase() +
-                            item.label.slice(1)}{' '}
-                          {item.mandatory ? (
-                            <span className='text-red-600'>*</span>
-                          ) : (
-                            <span> </span>
-                          )}
-                        </label>
-                        <input
-                          type='file'
-                          name={item.inputname}
-                          id={item.inputname}
-                          className='px-2 py-1 md:py-1 lg:py-1 xl:py-1 text-sm block w-full rounded-md bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder:text-xs'
-                          onChange={(event) => handleFileChange(event, index)}
-                          style={{ fontSize: '0.8rem' }}
-                          accept='image/*'
-                        />
-                        <div className='h-2 text-[#dc2626]'>
-                          {errors[item.inputname] && (
-                            <span className='text-xs'>
-                              {errors[item.inputname]}
-                            </span>
-                          )}
-                        </div>
+                    <div>
+                      <label
+                        htmlFor={item.label}
+                        className='block text-sm font-medium leading-6 mt-2 text-gray-900'
+                      >
+                        {item.label.charAt(0).toUpperCase() +
+                          item.label.slice(1)}{' '}
+                        {item.mandatory ? (
+                          <span className='text-red-600'>*</span>
+                        ) : (
+                          <span> </span>
+                        )}
+                      </label>
+                      <input
+                        type='file'
+                        name={item.inputname}
+                        id={item.inputname}
+                        className='px-2 py-1 md:py-1 lg:py-1 xl:py-1 text-sm block w-full rounded-md bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder:text-xs'
+                        onChange={(event) => handleFileChange(event, index)}
+                        style={{ fontSize: '0.8rem' }}
+                        accept='image/*'
+                      />
+                      <div className='h-2 text-[#dc2626]'>
+                        {errors[item.inputname] && (
+                          <span className='text-xs'>
+                            {errors[item.inputname]}
+                          </span>
+                        )}
                       </div>
-                    )}
+                    </div>
+                  )}
                   {item.type === 'textarea' && item.inputname == 'description' && item.field === 'predefined' && (
-                      <div>
-                        <label
-                          htmlFor={item.label}
-                          className='block text-sm font-medium leading-6 mt-2 text-gray-900'
-                        >
-                          {item.label.charAt(0).toUpperCase() +
-                            item.label.slice(1)}{' '}
-                          {item.mandatory ? (
-                            <span className='text-red-600'>*</span>
-                          ) : (
-                            <span> </span>
-                          )}
-                        </label>
-                        <textarea
-                          name={item.inputname}
-                          placeholder='Type here....'
-                          id={item.inputname}
-                          value={customFormFields[index].value || ''}
-                          className='bg-gray-50 rounded-md text-xs p-2 w-full h-20 border-2 border-gray-200 focus:outline-none focus:border-orange-400 placeholder:text-xs'
-                          onChange={(e) => handleChange(index, e.target.value)}
-                          style={{ fontSize: '0.8rem' }}
-                        />
-                        <div className='h-2 text-[#dc2626]'>
-                          {errors[item.inputname] && (
-                            <span className='text-xs'>
-                              {errors[item.inputname]}
-                            </span>
-                          )}
-                        </div>
+                    <div>
+                      <label
+                        htmlFor={item.label}
+                        className='block text-sm font-medium leading-6 mt-2 text-gray-900'
+                      >
+                        {item.label.charAt(0).toUpperCase() +
+                          item.label.slice(1)}{' '}
+                        {item.mandatory ? (
+                          <span className='text-red-600'>*</span>
+                        ) : (
+                          <span> </span>
+                        )}
+                      </label>
+                      <textarea
+                        name={item.inputname}
+                        placeholder='Type here....'
+                        id={item.inputname}
+                        value={customFormFields[index].value || ''}
+                        className='bg-gray-50 rounded-md text-xs p-2 w-full h-20 border-2 border-gray-200 focus:outline-none focus:border-orange-400 placeholder:text-xs'
+                        onChange={(e) => handleChange(index, e.target.value)}
+                        style={{ fontSize: '0.8rem' }}
+                      />
+                      <div className='h-2 text-[#dc2626]'>
+                        {errors[item.inputname] && (
+                          <span className='text-xs'>
+                            {errors[item.inputname]}
+                          </span>
+                        )}
                       </div>
-                    )}
+                    </div>
+                  )}
                   {item.type === 'multiselect' && item.inputname == 'members' &&
                     item.field == 'predefined' && (
                       <div className='relative'>
@@ -1242,29 +1242,7 @@ function EntityForm() {
             {customFormFields &&
               customFormFields.length > 0 &&
               customFormFields.map((item) => {
-                let date = new Date(item.value);
-                const day = date.getUTCDate();
-                const monthIndex = date.getUTCMonth();
-                const year = date.getUTCFullYear();
 
-                const monthAbbreviations = [
-                  "Jan",
-                  "Feb",
-                  "Mar",
-                  "Apr",
-                  "May",
-                  "Jun",
-                  "Jul",
-                  "Aug",
-                  "Sep",
-                  "Oct",
-                  "Nov",
-                  "Dec",
-                ];
-
-                // Formatting the date
-                date = `${day < 10 ? "0" : ""}${day}-${monthAbbreviations[monthIndex]
-                  }-${year}`;
                 return (
                   <div className='relative'>
                     {/* predefined fields*/}
@@ -1462,7 +1440,7 @@ function EntityForm() {
                             </span>
                           </p>
                         )}
-                      </div>
+                        {item.value && <hr className='mt-2' />} </div>
                     )}
                     {item.type === 'email' && item.field == 'custom' && (
                       <div className='my-2 mx-2 '>
@@ -1480,8 +1458,9 @@ function EntityForm() {
                             </span>
                           </p>
                         )}
-                      </div>
+                        {item.value && <hr className='mt-2' />}</div>
                     )}
+
                     {item.type === 'phonenumber' && item.field == 'custom' && (
                       <div className='my-2 mx-2  flex-wrap'>
                         {item.value && item.value.length > 0 && (
@@ -1500,7 +1479,7 @@ function EntityForm() {
                             </span>
                           </p>
                         )}
-                      </div>
+                        {item.value && <hr className='mt-2' />} </div>
                     )}
                     {item.type === 'number' && item.field == 'custom' && (
                       <div className='my-2 mx-2  flex-wrap'>
@@ -1520,10 +1499,10 @@ function EntityForm() {
                             </span>
                           </p>
                         )}
-                      </div>
+                        {item.value && <hr className='mt-2' />} </div>
                     )}
                     {item.type === 'textarea' && item.field == 'custom' && (
-                      // mb-1 ps-6 flex flex-wrap
+
                       <div className='my-2 mx-2  '>
                         {item.value && item.value.length > 0 && (
                           <p className='flex  gap-2'>
@@ -1539,26 +1518,54 @@ function EntityForm() {
                             </span>
                           </p>
                         )}
-                      </div>
+                        {item.value && <hr className='mt-2' />} </div>
                     )}
-                    {item.type === 'date' && item.field == 'custom' && (
-                      <div className='my-2 mx-2 '>
-                        {item.value && item.value.length > 0 && (
-                          <p className='flex  gap-2'>
-                            <span className='w-2/6 text-[#727a85] truncate  '>
-                              {item.label.charAt(0).toUpperCase() +
-                                item.label.slice(1)}
-                            </span>
-                            <span className='  flex gap-2 w-4/6'>
-                              <span> : </span>{' '}
-                              <span className='text-md font-[600] '>
-                                {date ? date : "No Date"}
-                              </span>
-                            </span>
-                          </p>
-                        )}
-                      </div>
+                    {item.type === 'date' && item.field === 'custom' && (
+                      (() => {
+                        let date = new Date(item.value);
+                        const day = date.getUTCDate();
+                        const monthIndex = date.getUTCMonth();
+                        const year = date.getUTCFullYear();
+
+                        const monthAbbreviations = [
+                          "Jan",
+                          "Feb",
+                          "Mar",
+                          "Apr",
+                          "May",
+                          "Jun",
+                          "Jul",
+                          "Aug",
+                          "Sep",
+                          "Oct",
+                          "Nov",
+                          "Dec",
+                        ];
+
+                        // Formatting the date
+                        date = `${day < 10 ? "0" : ""}${day}-${monthAbbreviations[monthIndex]}-${year}`;
+
+                        return (
+                          <div className='my-2 mx-2'>
+                            {item.value && item.value.length > 0 && (
+                              <p className='flex gap-2'>
+                                <span className='w-2/6 text-[#727a85] truncate'>
+                                  {item.label.charAt(0).toUpperCase() + item.label.slice(1)}
+                                </span>
+                                <span className='flex gap-2 w-4/6'>
+                                  <span> : </span>{' '}
+                                  <span className='text-md font-[600]'>
+                                    {date ? date : "No Date"}
+                                  </span>
+                                </span>
+                              </p>
+                            )}
+                            {date && <hr className='mt-2' />}
+                          </div>
+                        );
+                      })()
                     )}
+
                     {item.type === 'select' && item.field == 'custom' && (
                       <div className='my-2 mx-2 '>
                         {item.value && item.value.length > 0 && (
@@ -1575,7 +1582,7 @@ function EntityForm() {
                             </span>
                           </p>
                         )}
-                      </div>
+                        {item.value && <hr className='mt-2' />}  </div>
                     )}
                     {item.type === 'multiselect' && item.field == 'custom' && (
                       <div className='my-2 mx-2 '>
@@ -1593,7 +1600,7 @@ function EntityForm() {
                             </span>
                           </p>
                         )}
-                      </div>
+                        {item.value.join(', ') && <hr className='mt-2' />} </div>
                     )}
                     {item.type === 'range' && item.field == 'custom' && (
                       <div className='my-2 mx-2 '>
@@ -1611,7 +1618,7 @@ function EntityForm() {
                             </span>
                           </p>
                         )}
-                      </div>
+                        {item.value && <hr className='mt-2' />} </div>
                     )}
                     {item.type === 'time' && item.field == 'custom' && (
                       <div className='my-2 mx-2 '>
@@ -1629,7 +1636,7 @@ function EntityForm() {
                             </span>
                           </p>
                         )}
-                      </div>
+                        {item.value && <hr className='mt-2' />}  </div>
                     )}
                   </div>
                 )
@@ -1638,7 +1645,7 @@ function EntityForm() {
           </div>
         </div>
       </div>
-    </div>
+    </div >
   );
 }
 export default EntityForm;

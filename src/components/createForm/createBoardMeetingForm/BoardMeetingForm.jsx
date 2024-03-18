@@ -1329,29 +1329,7 @@ function BoardMeetingForm() {
             {customFormFields &&
               customFormFields.length > 0 &&
               customFormFields.map((item) => {
-                let date = new Date(item.value);
-                const day = date.getUTCDate();
-                const monthIndex = date.getUTCMonth();
-                const year = date.getUTCFullYear();
 
-                const monthAbbreviations = [
-                  "Jan",
-                  "Feb",
-                  "Mar",
-                  "Apr",
-                  "May",
-                  "Jun",
-                  "Jul",
-                  "Aug",
-                  "Sep",
-                  "Oct",
-                  "Nov",
-                  "Dec",
-                ];
-
-                // Formatting the date
-                date = `${day < 10 ? "0" : ""}${day}-${monthAbbreviations[monthIndex]
-                  }-${year}`;
 
                 return (
                   <div className='relative'>
@@ -1643,7 +1621,7 @@ function BoardMeetingForm() {
                         {item.value && <hr className='mt-2' />} </div>
                     )}
                     {item.type === 'textarea' && item.field == 'custom' && (
-                      // mb-1 ps-6 flex flex-wrap
+
                       <div className='my-2 mx-2  '>
                         {item.value && item.value.length > 0 && (
                           <p className='flex  gap-2'>
@@ -1661,24 +1639,52 @@ function BoardMeetingForm() {
                         )}
                         {item.value && <hr className='mt-2' />} </div>
                     )}
-                    {item.type === 'date' && item.field == 'custom' && (
-                      <div className='my-2 mx-2 '>
-                        {item.value && item.value.length > 0 && (
-                          <p className='flex  gap-2'>
-                            <span className='w-2/6 text-[#727a85] truncate  '>
-                              {item.label.charAt(0).toUpperCase() +
-                                item.label.slice(1)}
-                            </span>
-                            <span className='  flex gap-2 w-4/6'>
-                              <span> : </span>{' '}
-                              <span className='text-md font-[600] '>
-                                {date ? date : "No Date"}
-                              </span>
-                            </span>
-                          </p>
-                        )}
-                        {date && <hr className='mt-2' />}  </div>
+                    {item.type === 'date' && item.field === 'custom' && (
+                      (() => {
+                        let date = new Date(item.value);
+                        const day = date.getUTCDate();
+                        const monthIndex = date.getUTCMonth();
+                        const year = date.getUTCFullYear();
+
+                        const monthAbbreviations = [
+                          "Jan",
+                          "Feb",
+                          "Mar",
+                          "Apr",
+                          "May",
+                          "Jun",
+                          "Jul",
+                          "Aug",
+                          "Sep",
+                          "Oct",
+                          "Nov",
+                          "Dec",
+                        ];
+
+                        // Formatting the date
+                        date = `${day < 10 ? "0" : ""}${day}-${monthAbbreviations[monthIndex]}-${year}`;
+
+                        return (
+                          <div className='my-2 mx-2'>
+                            {item.value && item.value.length > 0 && (
+                              <p className='flex gap-2'>
+                                <span className='w-2/6 text-[#727a85] truncate'>
+                                  {item.label.charAt(0).toUpperCase() + item.label.slice(1)}
+                                </span>
+                                <span className='flex gap-2 w-4/6'>
+                                  <span> : </span>{' '}
+                                  <span className='text-md font-[600]'>
+                                    {date ? date : "No Date"}
+                                  </span>
+                                </span>
+                              </p>
+                            )}
+                            {date && <hr className='mt-2' />}
+                          </div>
+                        );
+                      })()
                     )}
+
                     {item.type === 'select' && item.field == 'custom' && (
                       <div className='my-2 mx-2 '>
                         {item.value && item.value.length > 0 && (
@@ -1695,7 +1701,7 @@ function BoardMeetingForm() {
                             </span>
                           </p>
                         )}
-                    {item.value && <hr className='mt-2' />}  </div>
+                        {item.value && <hr className='mt-2' />}  </div>
                     )}
                     {item.type === 'multiselect' && item.field == 'custom' && (
                       <div className='my-2 mx-2 '>
@@ -1713,7 +1719,7 @@ function BoardMeetingForm() {
                             </span>
                           </p>
                         )}
-                        {item.value && <hr className='mt-2' />} </div>
+                        {item.value.join(', ') && <hr className='mt-2' />} </div>
                     )}
                     {item.type === 'range' && item.field == 'custom' && (
                       <div className='my-2 mx-2 '>
