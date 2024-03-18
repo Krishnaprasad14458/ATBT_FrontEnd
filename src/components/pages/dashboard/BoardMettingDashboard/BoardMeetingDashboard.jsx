@@ -1,8 +1,16 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Link, useFetcher, useSubmit } from 'react-router-dom';
 import GateKeeper from '../../../../rbac/GateKeeper';
 
-const BoardMeetingDashboard = () => {
+const BoardMeetingDashboard = ({ data: { data } }) => {
+  const [meetingParams, setMeetingParams] = useState({
+    page: 1,
+    pageSize: 5,
+    sortBy: '',
+    search: '',
+  });
+  // const fetcher = useFetcher();
+  const submit = useSubmit();
   return (
     <div className='w-full relative h-[450px] text-center bg-slate-50 border border-gray-200 rounded-md shadow sm:pt-4 dark:bg-gray-800 dark:border-gray-700'>
       <div className='grid1-item overflow-hidden sm:w-full'>
@@ -54,6 +62,18 @@ const BoardMeetingDashboard = () => {
               name='gsearch'
               className='bg-slate-50 w-80 border-none focus:outline-none appearance-none focus:border-none'
               placeholder='Search here....'
+              onChange={(e) => {
+                // fetcher.submit(
+                //   {
+                //     // You can implement any custom serialization logic here
+                //     serialized: JSON.stringify(meetingParams),
+                //   },
+                //   { method: 'get', action: '.' }
+                // );
+                let searchParams = new URLSearchParams();
+                searchParams.append('meeting', e.target.value);
+                submit(searchParams, { method: 'get', action: '.' });
+              }}
             />
           </div>
           <hr className='w-96 my-1' />
@@ -66,161 +86,40 @@ const BoardMeetingDashboard = () => {
             className='divide-y divide-gray-200 dark:divide-gray-700'
           >
             {/* 1 to 5  static data */}
-            <li className='py-2'>
-              <div class='flex items-center'>
-                <div class='flex-shrink-0'>
-                  <img
-                    class='w-8 h-8 rounded-full'
-                    src='https://images.unsplash.com/photo-1682685795579-37e731bfefab'
-                    alt='Neil image'
-                  />
+            {data.Meetings.map((el) => (
+              <li className='py-2'>
+                <div class='flex items-center'>
+                  <div class='flex-shrink-0'>
+                    <img
+                      class='w-8 h-8 rounded-full'
+                      src={el.image}
+                      alt='Neil image'
+                    />
+                  </div>
+                  <div class='flex-1 min-w-0 ms-4'>
+                    <p class='text-sm font-medium text-gray-900 text-start truncate dark:text-white'>
+                      {el.name}
+                    </p>
+                  </div>
+                  <div class='inline-flex items-center text-base font-semibold text-gray-900 dark:text-white'>
+                    <svg
+                      xmlns='http://www.w3.org/2000/svg'
+                      viewBox='0 0 20 20'
+                      fill='currentColor'
+                      class='w-5 h-5'
+                      aria-hidden='true'
+                    >
+                      <path
+                        fill-rule='evenodd'
+                        d='M8.22 5.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 0 1-1.06-1.06L11.94 10 8.22 6.28a.75.75 0 0 1 0-1.06Z'
+                        clip-rule='evenodd'
+                      ></path>
+                    </svg>
+                  </div>
                 </div>
-                <div class='flex-1 min-w-0 ms-4'>
-                  <p class='text-sm font-medium text-gray-900 text-start truncate dark:text-white'>
-                    Madhav
-                  </p>
-                </div>
-                <div class='inline-flex items-center text-base font-semibold text-gray-900 dark:text-white'>
-                  <svg
-                    xmlns='http://www.w3.org/2000/svg'
-                    viewBox='0 0 20 20'
-                    fill='currentColor'
-                    class='w-5 h-5'
-                    aria-hidden='true'
-                  >
-                    <path
-                      fill-rule='evenodd'
-                      d='M8.22 5.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 0 1-1.06-1.06L11.94 10 8.22 6.28a.75.75 0 0 1 0-1.06Z'
-                      clip-rule='evenodd'
-                    ></path>
-                  </svg>
-                </div>
-              </div>
-            </li>
-            <li className='py-2'>
-              <div class='flex items-center'>
-                <div class='flex-shrink-0'>
-                  <img
-                    class='w-8 h-8 rounded-full'
-                    src='https://images.unsplash.com/photo-1707003839745-0df405c490c5'
-                    alt='Neil image'
-                  />
-                </div>
-                <div class='flex-1 min-w-0 ms-4'>
-                  <p class='text-sm font-medium text-gray-900 text-start truncate dark:text-white'>
-                    Venkat
-                  </p>
-                </div>
-                <div class='inline-flex items-center text-base font-semibold text-gray-900 dark:text-white'>
-                  <svg
-                    xmlns='http://www.w3.org/2000/svg'
-                    viewBox='0 0 20 20'
-                    fill='currentColor'
-                    class='w-5 h-5'
-                    aria-hidden='true'
-                  >
-                    <path
-                      fill-rule='evenodd'
-                      d='M8.22 5.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 0 1-1.06-1.06L11.94 10 8.22 6.28a.75.75 0 0 1 0-1.06Z'
-                      clip-rule='evenodd'
-                    ></path>
-                  </svg>
-                </div>
-              </div>
-            </li>
-            <li className='py-2'>
-              <div class='flex items-center'>
-                <div class='flex-shrink-0'>
-                  <img
-                    class='w-8 h-8 rounded-full'
-                    src='https://images.unsplash.com/photo-1682688759157-57988e10ffa8'
-                    alt='Neil image'
-                  />
-                </div>
-                <div class='flex-1 min-w-0 ms-4'>
-                  <p class='text-sm font-medium text-gray-900 text-start truncate dark:text-white'>
-                    Kumar
-                  </p>
-                </div>
-                <div class='inline-flex items-center text-base font-semibold text-gray-900 dark:text-white'>
-                  <svg
-                    xmlns='http://www.w3.org/2000/svg'
-                    viewBox='0 0 20 20'
-                    fill='currentColor'
-                    class='w-5 h-5'
-                    aria-hidden='true'
-                  >
-                    <path
-                      fill-rule='evenodd'
-                      d='M8.22 5.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 0 1-1.06-1.06L11.94 10 8.22 6.28a.75.75 0 0 1 0-1.06Z'
-                      clip-rule='evenodd'
-                    ></path>
-                  </svg>
-                </div>
-              </div>
-            </li>
-            <li className='py-2'>
-              <div class='flex items-center'>
-                <div class='flex-shrink-0'>
-                  <img
-                    class='w-8 h-8 rounded-full'
-                    src='https://images.unsplash.com/photo-1707139057009-dd16280fa07f'
-                    alt='Neil image'
-                  />
-                </div>
-                <div class='flex-1 min-w-0 ms-4'>
-                  <p class='text-sm font-medium text-gray-900 text-start truncate dark:text-white'>
-                    Sunil
-                  </p>
-                </div>
-                <div class='inline-flex items-center text-base font-semibold text-gray-900 dark:text-white'>
-                  <svg
-                    xmlns='http://www.w3.org/2000/svg'
-                    viewBox='0 0 20 20'
-                    fill='currentColor'
-                    class='w-5 h-5'
-                    aria-hidden='true'
-                  >
-                    <path
-                      fill-rule='evenodd'
-                      d='M8.22 5.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 0 1-1.06-1.06L11.94 10 8.22 6.28a.75.75 0 0 1 0-1.06Z'
-                      clip-rule='evenodd'
-                    ></path>
-                  </svg>
-                </div>
-              </div>
-            </li>
-            <li className='py-2'>
-              <div class='flex items-center'>
-                <div class='flex-shrink-0'>
-                  <img
-                    class='w-8 h-8 rounded-full'
-                    src='https://images.unsplash.com/photo-1707187444693-0a7c57769024'
-                    alt='Neil image'
-                  />
-                </div>
-                <div class='flex-1 min-w-0 ms-4'>
-                  <p class='text-sm font-medium text-gray-900 text-start truncate dark:text-white'>
-                    Venu
-                  </p>
-                </div>
-                <div class='inline-flex items-center text-base font-semibold text-gray-900 dark:text-white'>
-                  <svg
-                    xmlns='http://www.w3.org/2000/svg'
-                    viewBox='0 0 20 20'
-                    fill='currentColor'
-                    class='w-5 h-5'
-                    aria-hidden='true'
-                  >
-                    <path
-                      fill-rule='evenodd'
-                      d='M8.22 5.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 0 1-1.06-1.06L11.94 10 8.22 6.28a.75.75 0 0 1 0-1.06Z'
-                      clip-rule='evenodd'
-                    ></path>
-                  </svg>
-                </div>
-              </div>
-            </li>
+              </li>
+            ))}
+
             {/* {pagination?.paginatedUsers === "no data to show for this page" ? (
                             <li className="py-2 sm:py-2">
                                 <p>No user found</p>

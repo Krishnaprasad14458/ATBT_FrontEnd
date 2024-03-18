@@ -22,7 +22,7 @@ const SettingBoardMeetingForm = () => {
   });
   useEffect(() => {
     axios
-      .get(`https://atbtmain.infozit.com/form/list?name=boardmeetingform`)
+      .get(`https://atbtbeta.infozit.com/form/list?name=boardmeetingform`)
       .then((response) => {
         // Handle the successful response
         setCustomForm(response.data.Data);
@@ -306,7 +306,7 @@ const SettingBoardMeetingForm = () => {
 
   const saveCustomForm = async (formData) => {
     toast.promise(
-      axios.put(`https://atbtmain.infozit.com/form/meetingform`, formData),
+      axios.put(`https://atbtbeta.infozit.com/form/meetingform`, formData),
       {
         pending: 'Updating Form',
         success: {

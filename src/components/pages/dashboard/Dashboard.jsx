@@ -6,13 +6,53 @@ import EntityDashboard from './entityDashboard/EntityDashboard';
 import BoardMeetingDashboard from './BoardMettingDashboard/BoardMeetingDashboard';
 import TeamsDashboard from './TeamsDashboard/TeamsDashboard';
 import GateKeeper from '../../../rbac/GateKeeper';
+import atbtApi from '../../../serviceLayer/interceptor';
+import { useFetchers, useLoaderData } from 'react-router-dom';
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
 }
 
+export async function loader({ request, params }) {
+  try {
+    let url = new URL(request.url);
+    let user = url.searchParams.get('user') || '';
+    let userPage = url.searchParams.get('userPage') || '1';
+    let team = url.searchParams.get('team') || '';
+    let meeting = url.searchParams.get('meeting') || '';
+    let entity = url.searchParams.get('entity') || '';
+    console.log(user, team, meeting, entity, 'st');
+    const [userList, entityList, teamList, meetingList] = await Promise.all([
+      atbtApi.post(`/user/list?search=${user}&page=${userPage}`, {}),
+      atbtApi.post(`/entity/list?search=${entity}`, {}),
+      atbtApi.post(`/team/list?search=${team}`, {}),
+      atbtApi.post(`/boardmeeting/list?search=${meeting}`, {}),
+    ]);
+
+    console.log(
+      userList,
+      entityList,
+      teamList,
+      meetingList,
+      'dashboard response',
+      request,
+      params
+    );
+
+    const combinedResponse = { userList, entityList, teamList, meetingList };
+    return combinedResponse;
+  } catch (error) {
+    console.error('Error occurred:', error);
+    throw error;
+  }
+}
+
 function Dashboard() {
   document.title = 'ATBT | Home';
+  const dashboardData = useLoaderData();
+  const fetchers = useFetchers();
+  console.log(fetchers, 'ftrs');
+  console.log(dashboardData, 'ddl');
   const localStorageData = JSON.parse(localStorage.getItem('data'));
   return (
     <div className='container p-2 bg-[#f8fafc] '>
@@ -58,14 +98,14 @@ function Dashboard() {
               permission.module === 'entity' && permission.canRead
             }
           >
-            <EntityDashboard />
+            <EntityDashboard data={dashboardData.entityList} />
           </GateKeeper>
           <GateKeeper
             permissionCheck={(permission) =>
               permission.module === 'user' && permission.canRead
             }
           >
-            <UserDashboard />
+            <UserDashboard data={dashboardData.userList} />
           </GateKeeper>
         </div>
         <div className='mb-12 pb-5 grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-col-2 gap-10 px-7 dashboard-main mt-4'>
@@ -74,14 +114,14 @@ function Dashboard() {
               permission.module === 'meeting' && permission.canRead
             }
           >
-            <BoardMeetingDashboard />
+            <BoardMeetingDashboard data={dashboardData.meetingList} />
           </GateKeeper>
           <GateKeeper
             permissionCheck={(permission) =>
               permission.module === 'team' && permission.canRead
             }
           >
-            <TeamsDashboard />
+            <TeamsDashboard data={dashboardData.teamList} />
           </GateKeeper>
         </div>
       </div>

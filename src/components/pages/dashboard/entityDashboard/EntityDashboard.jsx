@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useSubmit } from 'react-router-dom';
 import React, { useContext, useEffect, useState } from 'react';
 import EntityList from '../../../list/entityList/EntityList';
 import useDebounce from '../../../../hooks/debounce/useDebounce';
@@ -6,7 +6,9 @@ import { EntitiesDataContext } from '../../../../contexts/entitiesDataContext/en
 import { useSearchParams } from 'react-router-dom';
 import GateKeeper from '../../../../rbac/GateKeeper';
 
-function EntityDashboard() {
+function EntityDashboard({ data: { data } }) {
+  const submit = useSubmit();
+  console.log(data, 'props');
   const {
     entitiesState: { entities, dashboardEntities },
     entitiesDispatch,
@@ -69,12 +71,24 @@ function EntityDashboard() {
               />
             </svg>
             <input
-              onChange={(e) =>
-                debouncedSetSearch({
-                  context: 'DASHBOARD',
-                  data: e.target.value,
-                })
-              }
+              // onChange={(e) =>
+              //   debouncedSetSearch({
+              //     context: 'DASHBOARD',
+              //     data: e.target.value,
+              //   })
+              // }
+              onChange={(e) => {
+                // fetcher.submit(
+                //   {
+                //     // You can implement any custom serialization logic here
+                //     serialized: JSON.stringify(meetingParams),
+                //   },
+                //   { method: 'get', action: '.' }
+                // );
+                let searchParams = new URLSearchParams();
+                searchParams.append('entity', e.target.value);
+                submit(searchParams, { method: 'get', action: '.' });
+              }}
               type='search'
               id='gsearch'
               name='gsearch'
@@ -90,13 +104,12 @@ function EntityDashboard() {
             role='list'
             className='divide-y divide-gray-200 dark:divide-gray-700'
           >
-            {!dashboardEntities?.paginatedEntities ||
-            dashboardEntities?.paginatedEntities?.length === 0 ? (
+            {!data?.Entites || data?.Entites?.length === 0 ? (
               <li className='py-2 sm:py-2'>
                 <p>No user found</p>
               </li>
             ) : (
-              dashboardEntities?.paginatedEntities?.map((entity) => (
+              data?.Entites?.map((entity) => (
                 <li
                   className='py-2 sm:py-2'
                   key={entity.id}
@@ -128,18 +141,14 @@ function EntityDashboard() {
         </div>
         <div className='hidden sm:flex sm:flex-1 sm:items-center sm:justify-between'>
           <div>
-            {!dashboardEntities?.paginatedEntities ||
-            dashboardEntities?.paginatedEntities?.length === 0 ? (
+            {!data?.Entites || data?.Entites?.length === 0 ? (
               'no data to show'
             ) : dashboardEntities.loading ? (
               'Loading...'
             ) : (
               <p className='text-sm text-gray-700'>
-                Showing {dashboardEntities.startEntity} to{' '}
-                {dashboardEntities.endEntity} of{' '}
-                <span className='font-medium'>
-                  {dashboardEntities.totalEntities}
-                </span>
+                Showing {data.startEntity} to {data.endEntity} of{' '}
+                <span className='font-medium'>{data.totalEntities}</span>
                 <span className='font-medium'> </span> results
               </p>
             )}

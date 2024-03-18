@@ -1,16 +1,53 @@
 import React, { useContext, useEffect } from 'react';
 import { UserDataContext } from '../../../../contexts/usersDataContext/usersDataContext';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams, useSubmit } from 'react-router-dom';
 import DashboardList from '../../../list/dashboardList/DashboardList';
 import useDebounce from '../../../../hooks/debounce/useDebounce';
 import * as actions from '../../../../contexts/usersDataContext/utils/usersActions';
 import GateKeeper from '../../../../rbac/GateKeeper';
 
-function UserDashboard() {
+function UserDashboard({ data: { data } }) {
+  let [searchParams, setSearchParams] = useSearchParams();
+  console.log(searchParams.toString(), 'sp');
+  const submit = useSubmit();
+  // const submit = useFetcher();
+  const handleSearchChange = (e) => {
+    const searchParams = new URLSearchParams();
+    searchParams.set('user', e.target.value);
+    searchParams.set('userPage', '1');
+    submit(
+      { user: e.target.value, userPage: '1' },
+      { method: 'get', action: '.' }
+    );
+  };
+
+  const handleNextPageClick = () => {
+    console.log('next');
+    const nextPage = data.currentPage + 1;
+    const searchParams = new URLSearchParams();
+    searchParams.set('user', data.search);
+    searchParams.set('userPage', nextPage.toString());
+    submit(searchParams, {
+      method: 'get',
+      action: '.',
+    });
+  };
+
+  const handlePreviousPageClick = () => {
+    console.log('pevious', data.currentPage);
+    const prevPage = data.currentPage - 1;
+    const searchParams = new URLSearchParams();
+    searchParams.set('user', data.search);
+    searchParams.set('userPage', prevPage.toString());
+    submit(searchParams, { method: 'get', action: '.' });
+  };
+
   const {
     usersState: { users, dashboard },
     usersDispatch,
   } = useContext(UserDataContext);
+  // const fetcher = useFetcher();
+
   console.log(dashboard, 'udud');
   const { debouncedSetPage, debouncedSetSearch } = useDebounce(usersDispatch);
   useEffect(() => {
@@ -72,17 +109,32 @@ function UserDashboard() {
             </svg>
 
             <input
-              onChange={(e) =>
-                debouncedSetSearch({
-                  context: 'DASHBOARD',
-                  data: e.target.value,
-                })
-              }
+              // onChange={(e) =>
+              //   debouncedSetSearch({
+              //     context: 'DASHBOARD',
+              //     data: e.target.value,
+              //   })
+              // }
               type='search'
               id='gsearch'
               name='gsearch'
               className='bg-slate-50  w-80  border-none focus:outline-none appearance-none focus:border-none'
               placeholder='Search here....'
+              // onChange={(e) => {
+              //   fetcher.submit(
+              //     {
+              //       // You can implement any custom serialization logic here
+              //       serialized: JSON.stringify(meetingParams),
+              //     },
+              //     { method: 'get', action: '.' }
+              //   );
+              //   let searchParams = new URLSearchParams();
+              //   searchParams.append('page', '1');
+              //   searchParams.append('user', e.target.value);
+              //   console.log(searchParams.toString(), 'sprms');
+              //   submit(searchParams, { method: 'get', action: '.' });
+              // }}
+              onChange={handleSearchChange}
             />
           </div>
           <hr className='w-96 my-1' />
@@ -94,13 +146,12 @@ function UserDashboard() {
             role='list'
             className='divide-y divide-gray-200 dark:divide-gray-700'
           >
-            {!dashboard?.paginatedUsers ||
-              dashboard?.paginatedUsers?.length === 0 ? (
+            {!data?.users || data?.users?.length === 0 ? (
               <li className='py-2 sm:py-2'>
                 <p>No user found</p>
               </li>
             ) : (
-              dashboard?.paginatedUsers?.map((user) => (
+              data?.users?.map((user) => (
                 <li
                   className='py-2 sm:py-2'
                   key={user.id}
@@ -136,19 +187,16 @@ function UserDashboard() {
         <div className='hidden sm:flex sm:flex-1 sm:items-center sm:justify-between'>
           {/* dashboard data */}
           <div>
-            {!dashboard?.paginatedUsers ||
-              dashboard?.paginatedUsers?.length === 0 ? (
+            {!data?.users || data?.users?.length === 0 ? (
               'no data to show'
             ) : dashboard.loading ? (
               'Loading...'
             ) : (
               <p className='text-sm text-gray-700'>
-                Showing{' '}
-                <span className='font-medium'>{dashboard?.startUser}</span> to
-                <span className='font-medium'>
-                  {' '}
-                  {dashboard?.endUser}
-                </span> of {dashboard?.totalUsers} users
+                Showing <span className='font-medium'>{data?.startUser}</span>{' '}
+                to
+                <span className='font-medium'> {data?.endUser}</span> of{' '}
+                {data?.totalUsers} users
               </p>
             )}
           </div>
@@ -161,23 +209,26 @@ function UserDashboard() {
               {/* previos button */}
               <button
                 disabled={
-                  dashboard.loading
-                    ? true
-                    : false || dashboard.currentPage === 1
+                  dashboard.loading ? true : false || data.currentPage === 1
                 }
-                onClick={() =>
-                  debouncedSetPage({
-                    context: 'DASHBOARD',
-                    data: dashboard.currentPage - 1,
-                  })
-                }
+                // onClick={() => {
+                // debouncedSetPage({
+                //   context: 'DASHBOARD',
+                //   data: dashboard.currentPage - 1,
+                // })
+                // let searchParams = new URLSearchParams();
+                // searchParams.append('userPage', '1');
+                // submit(searchParams, { method: 'get', action: '.' });
+                // }}
+                onClick={handlePreviousPageClick}
                 href='#'
-                className={`relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${dashboard.loading
+                className={`relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${
+                  dashboard.loading
                     ? 'cursor-wait'
-                    : dashboard.currentPage === 1
-                      ? 'cursor-not-allowed'
-                      : 'cursor-auto'
-                  }`}
+                    : data?.currentPage === 1
+                    ? 'cursor-not-allowed'
+                    : 'cursor-auto'
+                }`}
               >
                 <span className='sr-only'>Previous</span>
                 <svg
@@ -199,20 +250,22 @@ function UserDashboard() {
                 disabled={
                   dashboard.loading
                     ? true
-                    : false || dashboard.currentPage === dashboard.totalPages
+                    : false || data?.currentPage === data?.totalPages
                 }
-                onClick={() =>
-                  debouncedSetPage({
-                    context: 'DASHBOARD',
-                    data: dashboard.currentPage + 1,
-                  })
-                }
-                className={`relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${dashboard.loading
+                // onClick={() =>
+                //   debouncedSetPage({
+                //     context: 'DASHBOARD',
+                //     data: dashboard.currentPage + 1,
+                //   })
+                // }
+                onClick={handleNextPageClick}
+                className={`relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${
+                  dashboard.loading
                     ? 'cursor-wait'
-                    : dashboard.currentPage === dashboard.totalPages
-                      ? 'cursor-not-allowed'
-                      : 'cursor-auto'
-                  }`}
+                    : data?.currentPage === data?.totalPages
+                    ? 'cursor-not-allowed'
+                    : 'cursor-auto'
+                }`}
               >
                 <span className='sr-only'>Next</span>
                 <svg

@@ -76,7 +76,6 @@ export const router = createBrowserRouter([
     {
         path: '/',
         element: <RequireAuth />,
-        // errorElement: <ErrorBoundary />,
         ErrorBoundary: ErrorBoundary,
         children: [
             ...dashboardRouter,

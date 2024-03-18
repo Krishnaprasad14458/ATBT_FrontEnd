@@ -1,6 +1,7 @@
 import UserForm, { userFormLoader } from "../../components/createForm/createUserForm/UserForm";
 import UserLandingPage, { userLandingLoader } from "../../components/landingPages/user/UserLandingPage";
-import Users from "../../components/pages/users/Users";
+import Users, { action as userAction, loader as userLoader } from "../../components/pages/users/Users";
+
 import RouteBlocker from "../../rbac/RouteBlocker";
 
 export const userRouter = [
@@ -8,7 +9,7 @@ export const userRouter = [
         element: <RouteBlocker permissionCheck={(permission) =>
             permission.module === 'user' && permission.canRead} />,
         children: [
-            { index: true, element: <Users /> },
+            { index: true, loader: userLoader, action: userAction, element: <Users /> },
             { path: ':id', loader: userLandingLoader, element: <UserLandingPage /> },
         ]
     },

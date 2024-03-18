@@ -16,12 +16,11 @@ import {
 } from 'react-router-dom';
 const userData = JSON.parse(localStorage.getItem('data'));
 const loggedInUser = userData?.user?.id;
-
 const token = userData?.token;
 export async function userFormLoader({ params }) {
   try {
-    const formApi = 'https://atbtmain.infozit.com/form/list?name=userform';
-    const userApi = `https://atbtmain.infozit.com/user/list/${params.id}`;
+    const formApi = 'https://atbtbeta.infozit.com/form/list?name=userform';
+    const userApi = `https://atbtbeta.infozit.com/user/list/${params.id}`;
     // const userApi = `http://localhost:3000/user/list/${params.id}`;
     let userData = null;
     if (params && params.id) {
@@ -31,7 +30,7 @@ export async function userFormLoader({ params }) {
         },
       });
       userData = userResponse?.data?.user;
-      console.log("bahvvuu", userData)
+      console.log('bahvvuu', userData);
     }
     const formResponse = await axios.get(formApi);
     const formData = formResponse.data.Data;
@@ -96,16 +95,16 @@ function UserForm() {
   useEffect(() => {
     setFieldsDropDownData((prevState) => ({
       ...prevState,
-      entityname: entitiesList.paginatedEntities.map((item) => item.name),
+      entityname: entitiesList.paginatedEntities?.map((item) => item?.name),
     }));
   }, [entitiesList]);
   useEffect(() => {
     axios
-      .get(`https://atbtmain.infozit.com/rbac/getroles`)
+      .get(`https://atbtbeta.infozit.com/rbac/getroles`)
       .then((response) => {
         setFieldsDropDownData((prevState) => ({
           ...prevState,
-          role: response.data.roles.map((item) => item.name),
+          role: response?.data?.roles?.map((item) => item?.name),
         }));
       })
       .catch((error) => {
@@ -463,7 +462,6 @@ function UserForm() {
   };
   // end
 
-
   // to set the time in 12hours
   function formatTime(timeString) {
     // Splitting the timeString to extract hours and minutes
@@ -475,7 +473,7 @@ function UserForm() {
 
     // Checking if hours and minutes are valid numbers
     if (isNaN(hours) || isNaN(minutes)) {
-      return "Invalid time";
+      return 'Invalid time';
     }
 
     // Converting hours to 12-hour format and determining AM/PM
@@ -488,11 +486,10 @@ function UserForm() {
     return formattedTime;
   }
 
-
   // end the time function
   useEffect(() => {
-    console.log("cus", customFormFields)
-  })
+    console.log('cus', customFormFields);
+  });
   return (
     <div className='container p-4 bg-[#f8fafc]'>
       {/* <p className="font-lg font-semibold p-3">Entity Form</p> */}
@@ -656,10 +653,11 @@ function UserForm() {
                           style={{ fontSize: '0.8rem' }}
                           onChange={(e) => handleChange(index, e.target.value)}
                           disabled={!!id && !!user?.userData ? true : false}
-                          className={` ${!!id && !!user?.userData
-                            ? 'text-[#d4d4d8] bg-gray-50 cursor-not-allowed'
-                            : 'bg-gray-50 text-gray-900'
-                            } px-2 py-2 text-sm block w-full rounded-md bg-gray-50 border border-gray-300  focus:outline-none  focus:border-orange-400 placeholder:text-xs `}
+                          className={` ${
+                            !!id && !!user?.userData
+                              ? 'text-[#d4d4d8] bg-gray-50 cursor-not-allowed'
+                              : 'bg-gray-50 text-gray-900'
+                          } px-2 py-2 text-sm block w-full rounded-md bg-gray-50 border border-gray-300  focus:outline-none  focus:border-orange-400 placeholder:text-xs `}
                         />
                         <div className='h-2 text-[#dc2626]'>
                           {errors[item.inputname] && (
@@ -709,8 +707,6 @@ function UserForm() {
                         </div>
                       </div>
                     )}
-
-
 
                   {item.type === 'select' &&
                     item.inputname == 'designation' &&
@@ -782,18 +778,20 @@ function UserForm() {
                           //   ? 'text-[##d4d4d8] bg-gray-50 '
                           //   : 'bg-gray-50 text-gray-900 '
                           //   } px-2 py-2 text-sm block w-full rounded-md bg-gray-50 border border-gray-300  focus:outline-none  focus:border-orange-400 placeholder:text-xs `}
-                          className={` ${!!id && !!user?.userData &&
+                          className={` ${
+                            !!id &&
+                            !!user?.userData &&
                             parseInt(id) === loggedInUser
-                            ? 'text-[##d4d4d8] bg-gray-50 cursor-not-allowed'
-                            : 'bg-gray-50 text-gray-900 '
-                            } px-2 py-2 text-sm block w-full rounded-md bg-gray-50 border border-gray-300  focus:outline-none  focus:border-orange-400 placeholder:text-xs `}
+                              ? 'text-[##d4d4d8] bg-gray-50 cursor-not-allowed'
+                              : 'bg-gray-50 text-gray-900 '
+                          } px-2 py-2 text-sm block w-full rounded-md bg-gray-50 border border-gray-300  focus:outline-none  focus:border-orange-400 placeholder:text-xs `}
                           onChange={(e) => handleChange(index, e.target.value)}
                           value={customFormFields[index].value || ''}
                           style={{ fontSize: '0.8rem' }}
                           disabled={
                             id &&
-                              user?.userData &&
-                              parseInt(id) === loggedInUser
+                            user?.userData &&
+                            parseInt(id) === loggedInUser
                               ? true
                               : false
                           }
@@ -888,7 +886,7 @@ function UserForm() {
                     </div>
                   )}
                   {item.type === 'password' && item.field === 'custom' && (
-                    <div className="relative">
+                    <div className='relative'>
                       <label
                         htmlFor={item.label}
                         className='block text-sm font-medium leading-6 mt-2 text-gray-900'
@@ -913,23 +911,38 @@ function UserForm() {
                       />
                       <div className='absolute inset-y-0 right-0 top-[28px] flex items-center pr-3'>
                         <button
-                          type="button"
+                          type='button'
                           onClick={() => setShowPassword(!showPassword)}
-                          className="text-gray-600 focus:outline-none"
+                          className='text-gray-600 focus:outline-none'
                         >
                           {showPassword ? (
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4 text-gray-400">
-                              <path d="M10 12.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z" />
-                              <path fill-rule="evenodd" d="M.664 10.59a1.651 1.651 0 0 1 0-1.186A10.004 10.004 0 0 1 10 3c4.257 0 7.893 2.66 9.336 6.41.147.381.146.804 0 1.186A10.004 10.004 0 0 1 10 17c-4.257 0-7.893-2.66-9.336-6.41ZM14 10a4 4 0 1 1-8 0 4 4 0 0 1 8 0Z" clip-rule="evenodd" />
+                            <svg
+                              xmlns='http://www.w3.org/2000/svg'
+                              viewBox='0 0 20 20'
+                              fill='currentColor'
+                              class='w-4 h-4 text-gray-400'
+                            >
+                              <path d='M10 12.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z' />
+                              <path
+                                fill-rule='evenodd'
+                                d='M.664 10.59a1.651 1.651 0 0 1 0-1.186A10.004 10.004 0 0 1 10 3c4.257 0 7.893 2.66 9.336 6.41.147.381.146.804 0 1.186A10.004 10.004 0 0 1 10 17c-4.257 0-7.893-2.66-9.336-6.41ZM14 10a4 4 0 1 1-8 0 4 4 0 0 1 8 0Z'
+                                clip-rule='evenodd'
+                              />
                             </svg>
-
-
                           ) : (
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4 text-gray-400">
-                              <path fill-rule="evenodd" d="M3.28 2.22a.75.75 0 0 0-1.06 1.06l14.5 14.5a.75.75 0 1 0 1.06-1.06l-1.745-1.745a10.029 10.029 0 0 0 3.3-4.38 1.651 1.651 0 0 0 0-1.185A10.004 10.004 0 0 0 9.999 3a9.956 9.956 0 0 0-4.744 1.194L3.28 2.22ZM7.752 6.69l1.092 1.092a2.5 2.5 0 0 1 3.374 3.373l1.091 1.092a4 4 0 0 0-5.557-5.557Z" clip-rule="evenodd" />
-                              <path d="m10.748 13.93 2.523 2.523a9.987 9.987 0 0 1-3.27.547c-4.258 0-7.894-2.66-9.337-6.41a1.651 1.651 0 0 1 0-1.186A10.007 10.007 0 0 1 2.839 6.02L6.07 9.252a4 4 0 0 0 4.678 4.678Z" />
+                            <svg
+                              xmlns='http://www.w3.org/2000/svg'
+                              viewBox='0 0 20 20'
+                              fill='currentColor'
+                              class='w-4 h-4 text-gray-400'
+                            >
+                              <path
+                                fill-rule='evenodd'
+                                d='M3.28 2.22a.75.75 0 0 0-1.06 1.06l14.5 14.5a.75.75 0 1 0 1.06-1.06l-1.745-1.745a10.029 10.029 0 0 0 3.3-4.38 1.651 1.651 0 0 0 0-1.185A10.004 10.004 0 0 0 9.999 3a9.956 9.956 0 0 0-4.744 1.194L3.28 2.22ZM7.752 6.69l1.092 1.092a2.5 2.5 0 0 1 3.374 3.373l1.091 1.092a4 4 0 0 0-5.557-5.557Z'
+                                clip-rule='evenodd'
+                              />
+                              <path d='m10.748 13.93 2.523 2.523a9.987 9.987 0 0 1-3.27.547c-4.258 0-7.894-2.66-9.337-6.41a1.651 1.651 0 0 1 0-1.186A10.007 10.007 0 0 1 2.839 6.02L6.07 9.252a4 4 0 0 0 4.678 4.678Z' />
                             </svg>
-
                           )}
                         </button>
                       </div>
@@ -1068,7 +1081,7 @@ function UserForm() {
                         name={item.inputname}
                         className='px-2 py-2 text-sm block w-full rounded-md bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder:text-xs'
                         id={item.inputname}
-                        value={customFormFields[index].value || ""}
+                        value={customFormFields[index].value || ''}
                         s
                         onChange={(e) => handleChange(index, e.target.value)}
                         style={{ fontSize: '0.8rem' }}
@@ -1354,7 +1367,6 @@ function UserForm() {
               {customFormFields &&
                 customFormFields.length > 0 &&
                 customFormFields.map((item) => {
-
                   return (
                     // Updating the state with the formatted date
                     <div className=''>
@@ -1365,7 +1377,6 @@ function UserForm() {
                             item.inputname == 'image' &&
                             item.field === 'predefined' && (
                               <div>
-
                                 {item.value ? (
                                   <img
                                     src={
@@ -1387,156 +1398,181 @@ function UserForm() {
                               </div>
                             )}
                         </div>
-                        {item.type === 'text' && item.inputname == 'name' && item.field === 'predefined' && (
-                          <div className=' flex justify-center'>
-                            {item.value ? (
-                              <p className='absolute top-16 my-3 text-md antialiased font-semibold leading-snug tracking-normal text-blue-gray-900'>
-                                {item.value.toUpperCase()}
-                              </p>
-                            ) : (
-                              <p className=' absolute top-16 my-3 text-md antialiased font-semibold leading-snug tracking-normal text-blue-gray-900'>
-                                USER NAME
-                              </p>
-                            )}
-                          </div>
-                        )}
-                        {item.type === 'select' && item.inputname == 'entityname' && item.field == 'predefined' && (
-                          <div className='flex  justify-center   border-t-2 border-gray-300 '>
-                            {item.value ? (
-                              <p className='absolute top-20 mt-8 text-sm antialiased  leading-snug tracking-normal text-blue-gray-90'>
-                                {item.value}
-                              </p>
-                            ) : (
-                              <p className='absolute top-20 mt-8 text-sm antialiased  leading-snug tracking-normal text-blue-gray-900'>
-                                XYZ company
-                              </p>
-                            )}
-                          </div>
-                        )}
+                        {item.type === 'text' &&
+                          item.inputname == 'name' &&
+                          item.field === 'predefined' && (
+                            <div className=' flex justify-center'>
+                              {item.value ? (
+                                <p className='absolute top-16 my-3 text-md antialiased font-semibold leading-snug tracking-normal text-blue-gray-900'>
+                                  {item.value.toUpperCase()}
+                                </p>
+                              ) : (
+                                <p className=' absolute top-16 my-3 text-md antialiased font-semibold leading-snug tracking-normal text-blue-gray-900'>
+                                  USER NAME
+                                </p>
+                              )}
+                            </div>
+                          )}
+                        {item.type === 'select' &&
+                          item.inputname == 'entityname' &&
+                          item.field == 'predefined' && (
+                            <div className='flex  justify-center   border-t-2 border-gray-300 '>
+                              {item.value ? (
+                                <p className='absolute top-20 mt-8 text-sm antialiased  leading-snug tracking-normal text-blue-gray-90'>
+                                  {item.value}
+                                </p>
+                              ) : (
+                                <p className='absolute top-20 mt-8 text-sm antialiased  leading-snug tracking-normal text-blue-gray-900'>
+                                  XYZ company
+                                </p>
+                              )}
+                            </div>
+                          )}
 
-                        {item.type === 'email' && item.inputname == 'email' && item.field == 'predefined' && (
-                          <div className='my-2 mx-5 '>
-                            {item.value ? (
-                              <p className='flex   gap-2'>
-                                <span className='w-2/6 text-[#727a85]  truncate '>
+                        {item.type === 'email' &&
+                          item.inputname == 'email' &&
+                          item.field == 'predefined' && (
+                            <div className='my-2 mx-5 '>
+                              {item.value ? (
+                                <p className='flex   gap-2'>
+                                  <span className='w-2/6 text-[#727a85]  truncate '>
+                                    {item.label.charAt(0).toUpperCase() +
+                                      item.label.slice(1)}
+                                  </span>
+                                  <span className='  flex gap-2 w-4/6'>
+                                    <span> : </span>{' '}
+                                    <span className='text-md font-[600] break-all'>
+                                      {item.value}
+                                    </span>
+                                  </span>
+                                </p>
+                              ) : (
+                                <p className='flex  gap-2'>
+                                  <span className='w-2/6 text-[#727a85]'>
+                                    {item.label.charAt(0).toUpperCase() +
+                                      item.label.slice(1)}{' '}
+                                  </span>
+                                  <span className='  flex gap-2 w-4/6'>
+                                    <span> : </span>{' '}
+                                    <span className='text-md font-[600] '>
+                                      abc@gmail.com
+                                    </span>
+                                  </span>
+                                </p>
+                              )}
+                            </div>
+                          )}
+                        {item.type === 'phonenumber' &&
+                          item.inputname == 'phonenumber' &&
+                          item.field == 'predefined' && (
+                            <div className='my-2 mx-5 '>
+                              <p className='flex  gap-2'>
+                                <span
+                                  className='w-2/6 text-[#727a85]  truncate'
+                                  title={
+                                    item.label.charAt(0).toUpperCase() +
+                                    item.label.slice(1)
+                                  }
+                                >
                                   {item.label.charAt(0).toUpperCase() +
                                     item.label.slice(1)}
                                 </span>
                                 <span className='  flex gap-2 w-4/6'>
                                   <span> : </span>{' '}
-                                  <span className='text-md font-[600] break-all'>
-                                    {item.value}
-                                  </span>
+                                  {item.value && (
+                                    <span className='text-md font-[600] '>
+                                      {item.value.slice(0, 3)}&nbsp;
+                                      {item.value.slice(3, 6)}&nbsp;
+                                      {item.value.slice(6, 10)}
+                                    </span>
+                                  )}
+                                  {!item.value && (
+                                    <span className='text-md font-[600] '>
+                                      000 000 0000{' '}
+                                    </span>
+                                  )}
                                 </span>
                               </p>
-                            ) : (
-                              <p className='flex  gap-2'>
-                                <span className='w-2/6 text-[#727a85]'>
-                                  {item.label.charAt(0).toUpperCase() +
-                                    item.label.slice(1)}{' '}
-                                </span>
-                                <span className='  flex gap-2 w-4/6'>
-                                  <span> : </span>{' '}
-                                  <span className='text-md font-[600] '>
-                                    abc@gmail.com
+                            </div>
+                          )}
+                        {item.type === 'select' &&
+                          item.inputname == 'designation' &&
+                          item.field == 'predefined' && (
+                            <div className='my-2 mx-5 '>
+                              {item.value ? (
+                                <p className='flex  gap-2'>
+                                  <span
+                                    className='w-2/6  truncate text-[#727a85] '
+                                    title={
+                                      item.label.charAt(0).toUpperCase() +
+                                      item.label.slice(1)
+                                    }
+                                  >
+                                    {item.label.charAt(0).toUpperCase() +
+                                      item.label.slice(1)}
                                   </span>
-                                </span>
-                              </p>
-                            )}
-                          </div>
-                        )}
-                        {item.type === 'phonenumber' && item.inputname == 'phonenumber' && item.field == 'predefined' && (
-                          <div className='my-2 mx-5 '>
-                            <p className='flex  gap-2'>
-                              <span className='w-2/6 text-[#727a85]  truncate'
-                                title={item.label.charAt(0).toUpperCase() +
-                                  item.label.slice(1)}>
-                                {item.label.charAt(0).toUpperCase() +
-                                  item.label.slice(1)}
-                              </span>
-                              <span className='  flex gap-2 w-4/6'>
-                                <span> : </span>{' '}
-                                {item.value && (
-                                  <span className='text-md font-[600] '>
-                                    {item.value.slice(0, 3)}&nbsp;
-                                    {item.value.slice(3, 6)}&nbsp;
-                                    {item.value.slice(6, 10)}
+                                  <span className='  flex gap-2 w-4/6'>
+                                    <span> : </span>{' '}
+                                    <span className='text-md font-[600] '>
+                                      {item.value}
+                                    </span>
                                   </span>
-                                )}
-                                {!item.value && (
-                                  <span className='text-md font-[600] '>
-                                    000 000 0000{' '}
+                                </p>
+                              ) : (
+                                <p className='flex  gap-2'>
+                                  <span className='w-2/6 text-[#727a85]'>
+                                    {item.label.charAt(0).toUpperCase() +
+                                      item.label.slice(1)}{' '}
                                   </span>
-                                )}
-                              </span>
-                            </p>
-                          </div>
-                        )}
-                        {item.type === 'select' && item.inputname == 'designation' && item.field == 'predefined' && (
-                          <div className='my-2 mx-5 '>
-                            {item.value ? (
-                              <p className='flex  gap-2'>
-                                <span className='w-2/6  truncate text-[#727a85] '
-                                  title={item.label.charAt(0).toUpperCase() +
-                                    item.label.slice(1)}>
-                                  {item.label.charAt(0).toUpperCase() +
-                                    item.label.slice(1)}
-                                </span>
-                                <span className='  flex gap-2 w-4/6'>
-                                  <span> : </span>{' '}
-                                  <span className='text-md font-[600] '>
-                                    {item.value}
+                                  <span className='  flex gap-2 w-4/6'>
+                                    <span> : </span>{' '}
+                                    <span className='text-md font-[600] '>
+                                      Designation
+                                    </span>
                                   </span>
-                                </span>
-                              </p>
-                            ) : (
-                              <p className='flex  gap-2'>
-                                <span className='w-2/6 text-[#727a85]'>
-                                  {item.label.charAt(0).toUpperCase() +
-                                    item.label.slice(1)}{' '}
-                                </span>
-                                <span className='  flex gap-2 w-4/6'>
-                                  <span> : </span>{' '}
-                                  <span className='text-md font-[600] '>
-                                    Designation
-                                  </span>
-                                </span>
-                              </p>
-                            )}
-                          </div>
-                        )}
+                                </p>
+                              )}
+                            </div>
+                          )}
                       </div>
                       {/* custom fields */}
                       {item.type === 'text' && item.field == 'custom' && (
                         <div>
-                          {
-                            item.value && item.value.length > 0 && (
-                              <div className='my-2 mx-5 '>
-                                <p className='flex  gap-2'>
-                                  <span className='w-2/6  truncate text-[#727a85] '
-                                    title={item.label.charAt(0).toUpperCase() +
-                                      item.label.slice(1)}>
-                                    {item.label.charAt(0).toUpperCase() +
-                                      item.label.slice(1)}
+                          {item.value && item.value.length > 0 && (
+                            <div className='my-2 mx-5 '>
+                              <p className='flex  gap-2'>
+                                <span
+                                  className='w-2/6  truncate text-[#727a85] '
+                                  title={
+                                    item.label.charAt(0).toUpperCase() +
+                                    item.label.slice(1)
+                                  }
+                                >
+                                  {item.label.charAt(0).toUpperCase() +
+                                    item.label.slice(1)}
+                                </span>
+                                <span className=' flex gap-2 w-4/6'>
+                                  <span> : </span>{' '}
+                                  <span className='text-md font-[600]  '>
+                                    {item.value}
                                   </span>
-                                  <span className=' flex gap-2 w-4/6'>
-                                    <span> : </span>{' '}
-                                    <span className='text-md font-[600]  '>
-                                      {item.value}
-                                    </span>
-                                  </span>
-                                </p> </div>
-                            )
-                          }
+                                </span>
+                              </p>{' '}
+                            </div>
+                          )}
                         </div>
                       )}
                       {item.type === 'email' && item.field == 'custom' && (
                         <div className=' '>
                           {item.value && item.value.length > 0 && (
                             <p className='flex  gap-2 my-2 mx-5'>
-                              <span className='w-2/6  truncate text-[#727a85] '
-                                title={item.label.charAt(0).toUpperCase() +
-                                  item.label.slice(1)}>
+                              <span
+                                className='w-2/6  truncate text-[#727a85] '
+                                title={
+                                  item.label.charAt(0).toUpperCase() +
+                                  item.label.slice(1)
+                                }
+                              >
                                 {item.label.charAt(0).toUpperCase() +
                                   item.label.slice(1)}
                               </span>
@@ -1550,35 +1586,44 @@ function UserForm() {
                           )}
                         </div>
                       )}
-                      {item.type === 'phonenumber' && item.field == 'custom' && (
-                        <div className='flex-wrap'>
-                          {item.value && item.value.length > 0 && (
-                            <p className='flex  gap-2 my-2 mx-5 ' >
-                              <span className='w-2/6  truncate text-[#727a85] '
-                                title={item.label.charAt(0).toUpperCase() +
-                                  item.label.slice(1)}>
-                                {item.label.charAt(0).toUpperCase() +
-                                  item.label.slice(1)}
-                              </span>
-                              <span className='  flex gap-2 w-4/6'>
-                                <span> : </span>{' '}
-                                <span className='text-md font-[600] '>
-                                  {item.value.slice(0, 3)}&nbsp;
-                                  {item.value.slice(3, 6)}&nbsp;
-                                  {item.value.slice(6, 10)}
+                      {item.type === 'phonenumber' &&
+                        item.field == 'custom' && (
+                          <div className='flex-wrap'>
+                            {item.value && item.value.length > 0 && (
+                              <p className='flex  gap-2 my-2 mx-5 '>
+                                <span
+                                  className='w-2/6  truncate text-[#727a85] '
+                                  title={
+                                    item.label.charAt(0).toUpperCase() +
+                                    item.label.slice(1)
+                                  }
+                                >
+                                  {item.label.charAt(0).toUpperCase() +
+                                    item.label.slice(1)}
                                 </span>
-                              </span>
-                            </p>
-                          )}
-                        </div>
-                      )}
+                                <span className='  flex gap-2 w-4/6'>
+                                  <span> : </span>{' '}
+                                  <span className='text-md font-[600] '>
+                                    {item.value.slice(0, 3)}&nbsp;
+                                    {item.value.slice(3, 6)}&nbsp;
+                                    {item.value.slice(6, 10)}
+                                  </span>
+                                </span>
+                              </p>
+                            )}
+                          </div>
+                        )}
                       {item.type === 'number' && item.field == 'custom' && (
                         <div className='flex-wrap'>
                           {item.value && item.value.length > 0 && (
                             <p className='flex  gap-2 my-2 mx-5 '>
-                              <span className='w-2/6  truncate text-[#727a85] '
-                                title={item.label.charAt(0).toUpperCase() +
-                                  item.label.slice(1)}>
+                              <span
+                                className='w-2/6  truncate text-[#727a85] '
+                                title={
+                                  item.label.charAt(0).toUpperCase() +
+                                  item.label.slice(1)
+                                }
+                              >
                                 {item.label.charAt(0).toUpperCase() +
                                   item.label.slice(1)}
                               </span>
@@ -1586,8 +1631,6 @@ function UserForm() {
                                 <span> : </span>{' '}
                                 <span className='text-md font-[600]  break-all'>
                                   {item.value}
-
-
                                 </span>
                               </span>
                             </p>
@@ -1599,9 +1642,13 @@ function UserForm() {
                         <div className=' '>
                           {item.value && item.value.length > 0 && (
                             <p className='flex  gap-2 my-2 mx-5'>
-                              <span className='w-2/6 text-[#727a85]  truncate '
-                                title={item.label.charAt(0).toUpperCase() +
-                                  item.label.slice(1)}>
+                              <span
+                                className='w-2/6 text-[#727a85]  truncate '
+                                title={
+                                  item.label.charAt(0).toUpperCase() +
+                                  item.label.slice(1)
+                                }
+                              >
                                 {item.label.charAt(0).toUpperCase() +
                                   item.label.slice(1)}
                               </span>
@@ -1615,7 +1662,8 @@ function UserForm() {
                           )}
                         </div>
                       )}
-                      {item.type === 'date' && item.field === 'custom' && (
+                      {item.type === 'date' &&
+                        item.field === 'custom' &&
                         (() => {
                           let date = new Date(item.value);
                           const day = date.getUTCDate();
@@ -1623,49 +1671,61 @@ function UserForm() {
                           const year = date.getUTCFullYear();
 
                           const monthAbbreviations = [
-                            "Jan",
-                            "Feb",
-                            "Mar",
-                            "Apr",
-                            "May",
-                            "Jun",
-                            "Jul",
-                            "Aug",
-                            "Sep",
-                            "Oct",
-                            "Nov",
-                            "Dec",
+                            'Jan',
+                            'Feb',
+                            'Mar',
+                            'Apr',
+                            'May',
+                            'Jun',
+                            'Jul',
+                            'Aug',
+                            'Sep',
+                            'Oct',
+                            'Nov',
+                            'Dec',
                           ];
 
                           // Formatting the date
-                          date = `${day < 10 ? "0" : ""}${day}-${monthAbbreviations[monthIndex]}-${year}`;
+                          date = `${day < 10 ? '0' : ''}${day}-${
+                            monthAbbreviations[monthIndex]
+                          }-${year}`;
 
                           return (
                             <div className=''>
                               {item.value && item.value.length > 0 && (
                                 <p className='flex gap-2 my-2 mx-5'>
-                                  <span className='w-2/6 text-[#727a85]  truncate ' title={item.label.charAt(0).toUpperCase() + item.label.slice(1)}>
-                                    {item.label.charAt(0).toUpperCase() + item.label.slice(1)}
+                                  <span
+                                    className='w-2/6 text-[#727a85]  truncate '
+                                    title={
+                                      item.label.charAt(0).toUpperCase() +
+                                      item.label.slice(1)
+                                    }
+                                  >
+                                    {item.label.charAt(0).toUpperCase() +
+                                      item.label.slice(1)}
                                   </span>
                                   <span className='flex gap-2 w-4/6'>
-                                    <span > : </span>
+                                    <span> : </span>
                                     <span className='text-md font-[600] '>
-                                      {date ? date : "No Date"}
+                                      {date ? date : 'No Date'}
                                     </span>
                                   </span>
                                 </p>
                               )}
                             </div>
                           );
-                        })()
-                      )}
+                        })()}
                       {item.type === 'select' && item.field == 'custom' && (
                         <div className=' '>
                           {item.value && item.value.length > 0 && (
                             <p className='flex  gap-2 my-2 mx-5'>
-                              <span className='w-2/6 text-[#727a85]  truncate  '
-                                title={item.label.charAt(0).toUpperCase() +
-                                  item.label.slice(1)}>
+                              <span
+                                className='w-2/6 text-[#727a85]  truncate  '
+                                title={
+                                  item.label.charAt(0).toUpperCase() +
+                                  item.label.slice(1)
+                                }
+                              >
                                 {item.label.charAt(0).toUpperCase() +
                                   item.label.slice(1)}
                               </span>
@@ -1679,33 +1739,42 @@ function UserForm() {
                           )}
                         </div>
                       )}
-                      {item.type === 'multiselect' && item.field == 'custom' && (
-                        <div className=''>
-                          {item.value && item.value.length > 0 && (
-                            <p className='flex  gap-2 my-2 mx-5 '>
-                              <span className='w-2/6 text-[#727a85]   truncate '
-                                title={item.label.charAt(0).toUpperCase() +
-                                  item.label.slice(1)}>
-                                {item.label.charAt(0).toUpperCase() +
-                                  item.label.slice(1)}
-                              </span>
-                              <span className='  flex gap-2 w-4/6'>
-                                <span> : </span>{' '}
-                                <span className='text-md font-[600] '>
-                                  {item.value.join(', ')}
+                      {item.type === 'multiselect' &&
+                        item.field == 'custom' && (
+                          <div className=''>
+                            {item.value && item.value.length > 0 && (
+                              <p className='flex  gap-2 my-2 mx-5 '>
+                                <span
+                                  className='w-2/6 text-[#727a85]   truncate '
+                                  title={
+                                    item.label.charAt(0).toUpperCase() +
+                                    item.label.slice(1)
+                                  }
+                                >
+                                  {item.label.charAt(0).toUpperCase() +
+                                    item.label.slice(1)}
                                 </span>
-                              </span>
-                            </p>
-                          )}
-                        </div>
-                      )}
+                                <span className='  flex gap-2 w-4/6'>
+                                  <span> : </span>{' '}
+                                  <span className='text-md font-[600] '>
+                                    {item.value.join(', ')}
+                                  </span>
+                                </span>
+                              </p>
+                            )}
+                          </div>
+                        )}
                       {item.type === 'range' && item.field == 'custom' && (
                         <div className=''>
                           {item.value && item.value.length > 0 && (
                             <p className='flex  gap-2 my-2 mx-5 '>
-                              <span className='w-2/6 text-[#727a85]  truncate '
-                                title={item.label.charAt(0).toUpperCase() +
-                                  item.label.slice(1)}>
+                              <span
+                                className='w-2/6 text-[#727a85]  truncate '
+                                title={
+                                  item.label.charAt(0).toUpperCase() +
+                                  item.label.slice(1)
+                                }
+                              >
                                 {item.label.charAt(0).toUpperCase() +
                                   item.label.slice(1)}
                               </span>
@@ -1723,9 +1792,13 @@ function UserForm() {
                         <div className=''>
                           {item.value && item.value.length > 0 && (
                             <p className='flex gap-2 my-2 mx-5 '>
-                              <span className='w-2/6 text-[#727a85]  truncate  '
-                                title={item.label.charAt(0).toUpperCase() +
-                                  item.label.slice(1)}>
+                              <span
+                                className='w-2/6 text-[#727a85]  truncate  '
+                                title={
+                                  item.label.charAt(0).toUpperCase() +
+                                  item.label.slice(1)
+                                }
+                              >
                                 {item.label.charAt(0).toUpperCase() +
                                   item.label.slice(1)}
                               </span>
@@ -1739,9 +1812,8 @@ function UserForm() {
                           )}
                         </div>
                       )}
-
                     </div>
-                  )
+                  );
                 })}
             </div>
           </div>
@@ -1752,110 +1824,3 @@ function UserForm() {
 }
 
 export default UserForm;
-
-// const array = [
-//   {
-//     "label": "Full Name",
-//     "inputname": "name",
-//     "type": "text",
-//     "value": "",
-//     "field": "predefined",
-//     "mandatory": true,
-//     "filterable": true
-//   },
-//   {
-//     "label": "Image",
-//     "inputname": "image",
-//     "type": "file",
-//     "value": "",
-//     "field": "predefined",
-//     "mandatory": false,
-//     "filterable": false
-//   },
-//   {
-//     "label": "Entity Name",
-//     "type": "select",
-//     "inputname": "entityname",
-//     "value": "",
-//     "filterable": true,
-//     "mandatory": true,
-//     "field": "predefined",
-//     "options": [
-//       "Reliace",
-//       "Infosys",
-//       "Tata consultancy",
-//       "Reliace"
-//     ]
-//   },
-//   {
-//     "label": "Email Id",
-//     "inputname": "email",
-//     "type": "email",
-//     "value": "",
-//     "field": "predefined",
-//     "mandatory": true,
-//     "filterable": true
-//   },
-//   {
-//     "label": "Phone Number",
-//     "inputname": "phonenumber",
-//     "type": "phonenumber",
-//     "value": "",
-//     "field": "predefined",
-//     "mandatory": true,
-//     "filterable": true
-//   },
-//   {
-//     "label": "Designation",
-//     "type": "select",
-//     "inputname": "designation",
-//     "value": "",
-//     "filterable": true,
-//     "mandatory": true,
-//     "field": "predefined",
-//     "options": [
-//       "Developer",
-//       "Quality Analyst",
-//       "Data Analyst"
-//     ]
-//   },
-//   {
-//     "label": "Role",
-//     "type": "select",
-//     "inputname": "role",
-//     "value": "",
-//     "filterable": true,
-//     "mandatory": true,
-//     "field": "predefined",
-//     "options": [
-//       "admin",
-//       "associate",
-//       "Accountant",
-//       "Manager"
-//     ]
-//   }, {
-//     "label": "Role",
-//     "type": "select",
-//     "inputname": "sunny",
-//     "value": "",
-//     "filterable": true,
-//     "mandatory": true,
-//     "field": "predefined",
-//     "options": [
-//       "admin",
-//       "associate",
-//       "Accountant",
-//       "Manager"
-//     ]
-//   }
-// ];
-
-// const values = {name: "irshad", entityname: "infisys", email: "irshad@gmail.com", phonenumber: 12345, designation: "djlkdja", role: "manager",sunny:"uiouiui"};
-
-// array.forEach(input => {
-//   if (values.hasOwnProperty(input.inputname)) {
-//     input.value = values[input.inputname];
-//   }
-// });
-
-// console.log(array);

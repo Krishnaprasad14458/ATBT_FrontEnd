@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState, useRef } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLoaderData } from 'react-router-dom';
 import { EntitiesDataContext } from '../../../contexts/entitiesDataContext/entitiesDataContext';
 import './Entities.css';
 import { Fragment } from 'react';
@@ -11,6 +11,7 @@ import useDebounce from '../../../hooks/debounce/useDebounce';
 import { formatDate } from '../../../utils/utils';
 import GateKeeper from '../../../rbac/GateKeeper';
 import axios from 'axios';
+import atbtApi from '../../../serviceLayer/interceptor';
 // import { Dialog, Menu, Transition } from '@headlessui/react';
 
 function classNames(...classes) {
@@ -19,6 +20,21 @@ function classNames(...classes) {
 const userData = JSON.parse(localStorage.getItem('data'));
 const token = userData?.token;
 const role = userData?.role?.name;
+
+export async function loader({ request, params }) {
+  try {
+    let url = new URL(request.url);
+    let entity = url.searchParams.get('entity') || '';
+    console.log(entity, 'st');
+    let searchParam = entity ? `?search=${entity}` : '';
+    const entityList = await atbtApi.post(`/entity/list${searchParam}`, {});
+    console.log(entityList, 'entityList response', request, params);
+    return entityList;
+  } catch (error) {
+    console.error('Error occurred:', error);
+    throw error;
+  }
+}
 
 function Entities() {
   document.title = 'ATBT | Entity';
@@ -29,9 +45,11 @@ function Entities() {
     setFilters,
   } = useContext(EntitiesDataContext);
   useEffect(() => {
-    console.log("boardmeetingess", entitiesList)
+    console.log('boardmeetingess', entitiesList);
+  });
+  const data = useLoaderData();
+  console.log(data, 'entity list data');
 
-  })
   const { debouncedSetPage, debouncedSetSearch } =
     useDebounce(entitiesDispatch);
   // const [toggle, setToggle] = useState(false)
@@ -123,7 +141,7 @@ function Entities() {
   });
   useEffect(() => {
     axios
-      .get(`https://atbtmain.infozit.com/form/list?name=entityform`)
+      .get(`https://atbtbeta.infozit.com/form/list?name=entityform`)
       .then((response) => {
         // Handle the successful response
         setCustomForm(response.data.Data);
@@ -146,29 +164,30 @@ function Entities() {
         (obj) =>
           obj.filterable &&
           (obj.type === 'select' ||
-          obj.type === 'date' || obj.type ==='time' ||
+            obj.type === 'date' ||
+            obj.type === 'time' ||
             obj.type === 'multiselect')
       )
       .map((obj) => ({
         inputname: obj.inputname,
-        label: obj.label,  type:obj.type,
+        label: obj.label,
+        type: obj.type,
         ...(obj.options && { options: obj.options }),
       }));
     const filterableInputsInSearch = customForm
       .filter(
         (obj) =>
-          obj.filterable &&  
+          obj.filterable &&
           (obj.type === 'text' ||
             obj.type === 'email' ||
-          obj.type === 'number' ||
-          obj.type === 'phonenumber' ||
-          obj.type === 'textarea')
+            obj.type === 'number' ||
+            obj.type === 'phonenumber' ||
+            obj.type === 'textarea')
       )
       .map((obj) => ({
         inputname: obj.inputname,
         label: obj.label,
-        type:obj.type
-
+        type: obj.type,
       }));
 
     setFilterableInputsInBox(filterableInputsInBox);
@@ -200,13 +219,13 @@ function Entities() {
       try {
         axios
           .put(
-            `https://atbtmain.infozit.com/form/tableUpdate?name=entityform`,
+            `https://atbtbeta.infozit.com/form/tableUpdate?name=entityform`,
             dupTableView
           )
           .then((response) => {
             console.log('Update successful:', response.data);
             axios
-              .get(`https://atbtmain.infozit.com/form/list?name=entityform`)
+              .get(`https://atbtbeta.infozit.com/form/list?name=entityform`)
               .then((response) => {
                 setCustomForm(response.data.Data);
                 setTableView(response.data.Tableview);
@@ -247,7 +266,7 @@ function Entities() {
     const hours = parseInt(hourStr, 10);
     const minutes = parseInt(minuteStr, 10);
     if (isNaN(hours) || isNaN(minutes)) {
-      return "Invalid time";
+      return 'Invalid time';
     }
     const ampm = hours >= 12 ? 'PM' : 'AM';
     const formattedHours = hours % 12 || 12; // Handles midnight
@@ -323,8 +342,9 @@ function Entities() {
 
           {/* for coloumns open */}
           <div
-            className={`fixed inset-0 bg-gray-800 bg-opacity-50 z-10 ${columnsDrawerOpen ? '' : 'opacity-0 pointer-events-none'
-              }`}
+            className={`fixed inset-0 bg-gray-800 bg-opacity-50 z-10 ${
+              columnsDrawerOpen ? '' : 'opacity-0 pointer-events-none'
+            }`}
             style={{ transition: 'opacity 0.3s ease-in-out' }}
           >
             <div
@@ -414,8 +434,9 @@ function Entities() {
 
           {/* for filter open */}
           <div
-            className={`fixed inset-0 bg-gray-800 bg-opacity-50 z-10 ${filterDrawerOpen ? '' : 'opacity-0 pointer-events-none'
-              }`}
+            className={`fixed inset-0 bg-gray-800 bg-opacity-50 z-10 ${
+              filterDrawerOpen ? '' : 'opacity-0 pointer-events-none'
+            }`}
             style={{ transition: 'opacity 0.3s ease-in-out' }}
           >
             <div
@@ -453,85 +474,85 @@ function Entities() {
                       key={index}
                       className=''
                     >
-                 {!filter.options && (filter.type === "date" || filter.type === "time") && (
-                        <div>
-                          <label className='mb-4 text-sm text-[#878a99] font-medium'>
-                            {' '}
-                            {filter.label.charAt(0).toUpperCase() +
-                              filter.label.slice(1)}
-                          </label>
-                          <input
-                          type={filter.type}  
-                            id={filter.inputname}
-                            name={filter.inputname}
-                            className='px-3 py-2 my-2 text-xs block w-full bg-gray-50 rounded-md text-gray-900 border border-1 border-[#e9ebec] placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-xs sm:leading-6'
-                            onChange={(e) =>
-                              handleFilterChange(
-                                filter.inputname,
-                                e.target.value
-                              )
-                            }
-                            value={selectedFilters[filter.inputname] || ''}/>
-                          
-                        </div>
-                      )
+                      {!filter.options &&
+                        (filter.type === 'date' || filter.type === 'time') && (
+                          <div>
+                            <label className='mb-4 text-sm text-[#878a99] font-medium'>
+                              {' '}
+                              {filter.label.charAt(0).toUpperCase() +
+                                filter.label.slice(1)}
+                            </label>
+                            <input
+                              type={filter.type}
+                              id={filter.inputname}
+                              name={filter.inputname}
+                              className='px-3 py-2 my-2 text-xs block w-full bg-gray-50 rounded-md text-gray-900 border border-1 border-[#e9ebec] placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-xs sm:leading-6'
+                              onChange={(e) =>
+                                handleFilterChange(
+                                  filter.inputname,
+                                  e.target.value
+                                )
+                              }
+                              value={selectedFilters[filter.inputname] || ''}
+                            />
+                          </div>
+                        )}
+                      {filter.options &&
+                        (filter.type === 'multiselect' ||
+                          filter.type === 'select') && (
+                          <div>
+                            <label className='mb-4 text-sm text-[#878a99] font-medium'>
+                              {' '}
+                              {filter.label.charAt(0).toUpperCase() +
+                                filter.label.slice(1)}
+                            </label>
 
-                    }
-                      {filter.options && (filter.type === "multiselect" || filter.type === "select") && (
-                       
-                        <div>
-                          <label className='mb-4 text-sm text-[#878a99] font-medium'>
-                            {' '}
-                            {filter.label.charAt(0).toUpperCase() +
-                              filter.label.slice(1)}
-                          </label>
-
-                          <select
-                            id={filter.inputname}
-                            name={filter.inputname}
-                            className='px-3 py-2 my-2 text-xs block w-full bg-gray-50 rounded-md text-gray-900 border border-1 border-[#e9ebec] placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-xs sm:leading-6'
-                            onChange={(e) =>
-                              handleFilterChange(
-                                filter.inputname,
-                                e.target.value
-                              )
-                            }
-                            value={selectedFilters[filter.inputname] || ''}
-                          >
-                            <option
-                              value=''
-                              disabled
-                              defaultValue
+                            <select
+                              id={filter.inputname}
+                              name={filter.inputname}
+                              className='px-3 py-2 my-2 text-xs block w-full bg-gray-50 rounded-md text-gray-900 border border-1 border-[#e9ebec] placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-xs sm:leading-6'
+                              onChange={(e) =>
+                                handleFilterChange(
+                                  filter.inputname,
+                                  e.target.value
+                                )
+                              }
+                              value={selectedFilters[filter.inputname] || ''}
                             >
-                              Please select
-                            </option>
-                            {filter.options &&
-                              filter.options.type === 'custom' &&
-                              filter.options.value &&
-                              filter.options.value.map((option, index) => (
-                                <option
-                                  key={index}
-                                  value={option}
-                                >
-                                  {option}
-                                </option>
-                              ))}
-                            {filter.options &&
-                              filter.options.type === 'predefined' &&
-                              filter.options.value &&
-                              fieldsDropDownData[filter.options.value]?.map(
-                                (option, index) => (
+                              <option
+                                value=''
+                                disabled
+                                defaultValue
+                              >
+                                Please select
+                              </option>
+                              {filter.options &&
+                                filter.options.type === 'custom' &&
+                                filter.options.value &&
+                                filter.options.value.map((option, index) => (
                                   <option
                                     key={index}
                                     value={option}
                                   >
                                     {option}
                                   </option>
-                                )
-                              )}
-                          </select>
-                        </div>
-                      )}
+                                ))}
+                              {filter.options &&
+                                filter.options.type === 'predefined' &&
+                                filter.options.value &&
+                                fieldsDropDownData[filter.options.value]?.map(
+                                  (option, index) => (
+                                    <option
+                                      key={index}
+                                      value={option}
+                                    >
+                                      {option}
+                                    </option>
+                                  )
+                                )}
+                            </select>
+                          </div>
+                        )}
                     </div>
                   ))}
                 </div>
@@ -603,43 +624,42 @@ function Entities() {
               </tr>
             </thead>
             <tbody className='divide-y divide-gray-200 dark:divide-gray-700'>
-              {entitiesList?.paginatedEntities &&
-                entitiesList?.paginatedEntities?.map((row) => (
+              {data.data.Entites &&
+                data.data.Entites?.map((row) => (
                   <tr key={row.id}>
                     {visibleColumns.map((key) => {
-                      let value = row[key]
-                      if (tableView[key].type === "multiselect" && row[key]) {
-                        value =
-                          row[key].join(', ')
+                      let value = row[key];
+                      if (tableView[key].type === 'multiselect' && row[key]) {
+                        value = row[key].join(', ');
                       }
-                      if (tableView[key].type === "time" && row[key]) {
-                        value = formatTime(row[key])
+                      if (tableView[key].type === 'time' && row[key]) {
+                        value = formatTime(row[key]);
                       }
-                      if (tableView[key].type === "date" && row[key]) {
+                      if (tableView[key].type === 'date' && row[key]) {
                         value = new Date(row[key]);
                         const day = value.getUTCDate();
                         const monthIndex = value.getUTCMonth();
                         const year = value.getUTCFullYear();
 
                         const monthAbbreviations = [
-                            
-                          "Jan",
-                          "Feb",
-                          "Mar",
-                          "Apr",
-                          "May",
-                          "Jun",
-                          "Jul",
-                          "Aug",
-                          "Sep",
-                          "Oct",
-                          "Nov",
-                          "Dec",
+                          'Jan',
+                          'Feb',
+                          'Mar',
+                          'Apr',
+                          'May',
+                          'Jun',
+                          'Jul',
+                          'Aug',
+                          'Sep',
+                          'Oct',
+                          'Nov',
+                          'Dec',
                         ];
 
                         // Formatting the date
-                        value = `${day < 10 ? "0" : ""}${day}-${monthAbbreviations[monthIndex]}-${year}`;
-
+                        value = `${day < 10 ? '0' : ''}${day}-${
+                          monthAbbreviations[monthIndex]
+                        }-${year}`;
                       }
                       return (
                         <td
@@ -650,41 +670,40 @@ function Entities() {
                         >
                           <p className='truncate text-xs'> {value}</p>
                         </td>
-                      )
-
+                      );
                     })}
                     <td
                       className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden`}
                       style={{ maxWidth: '160px' }}
-                      title=""
+                      title=''
                     >
                       <p className='truncate text-xs'> 5000</p>
                     </td>
                     <td
                       className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden`}
                       style={{ maxWidth: '160px' }}
-                      title=""
+                      title=''
                     >
                       <p className='truncate text-xs'> 2000</p>
                     </td>
                     <td
                       className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden`}
                       style={{ maxWidth: '160px' }}
-                      title=""
+                      title=''
                     >
                       <p className='truncate text-xs'> 1000</p>
                     </td>
                     <td
                       className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden`}
                       style={{ maxWidth: '160px' }}
-                      title=""
+                      title=''
                     >
                       <p className='truncate text-xs'> 500</p>
                     </td>
                     <td
                       className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden`}
                       style={{ maxWidth: '160px' }}
-                      title=""
+                      title=''
                     >
                       <div className='flex justify-start gap-3'>
                         <GateKeeper
@@ -769,23 +788,18 @@ function Entities() {
         )}
       </div>
 
-
       {/* pagination */}
       <div className='inset-x-0 bottom-0 mt-5'>
         <div className='flex justify-between'>
           <div className=''>
-            {!entitiesList?.paginatedEntities ||
-              entitiesList?.paginatedEntities?.length === 0 ? (
+            {!data.data?.Entites || data.data?.Entites?.length === 0 ? (
               'no data to show'
-            ) : entitiesList.loading ? (
+            ) : data.data.loading ? (
               'Loading...'
             ) : (
               <p className='text-sm text-gray-700'>
-                Showing {entitiesList.startEntity} to {entitiesList.endEntity}{' '}
-                of{' '}
-                <span className='font-medium'>
-                  {entitiesList.totalEntities}
-                </span>
+                Showing {data.data.startEntity} to {data.data.endEntity} of{' '}
+                <span className='font-medium'>{data.data.totalEntities}</span>
                 <span className='font-medium'> </span> results
               </p>
             )}
@@ -795,20 +809,21 @@ function Entities() {
             aria-label='Pagination'
           >
             <button
-              disabled={entitiesList.currentPage === 1}
+              disabled={data.data.currentPage === 1}
               onClick={() =>
                 debouncedSetPage({
                   conext: 'ENTITES',
-                  data: entitiesList.currentPage - 1,
+                  data: data.data.currentPage - 1,
                 })
               }
               href='#'
-              className={`relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${entitiesList.loading
-                ? 'cursor-wait'
-                : entitiesList.currentPage === 1
+              className={`relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${
+                data.data.loading
+                  ? 'cursor-wait'
+                  : data.data.currentPage === 1
                   ? 'cursor-not-allowed'
                   : 'cursor-auto'
-                }`}
+              }`}
             >
               <span className='sr-only'>Previous</span>
               <svg
@@ -826,22 +841,23 @@ function Entities() {
               </svg>
             </button>
             <button className='border w-8 border-gray-300'>
-              {entitiesList.currentPage}
+              {data.data.currentPage}
             </button>
             <button
-              disabled={entitiesList.currentPage === entitiesList.totalPages}
+              disabled={data.data.currentPage === data.data.totalPages}
               onClick={() =>
                 debouncedSetPage({
                   conext: 'ENTITES',
-                  data: entitiesList.currentPage + 1,
+                  data: data.data.currentPage + 1,
                 })
               }
-              className={`relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${entitiesList.loading
-                ? 'cursor-wait'
-                : entitiesList.currentPage === entitiesList.totalPages
+              className={`relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${
+                data.data.loading
+                  ? 'cursor-wait'
+                  : data.data.currentPage === data.data.totalPages
                   ? 'cursor-not-allowed'
                   : 'cursor-auto'
-                }`}
+              }`}
             >
               <span className='sr-only'>Next</span>
               <svg
@@ -917,7 +933,7 @@ export default Entities;
 //      </tr>
 //    </thead>
 //    <tbody>
-//      {!entitiesList?.paginatedEntities ||
+//      {!data.data?.Entites ||
 //      entitiesList?.paginatedEntities?.length === 0 ? (
 //        <p className='text-center m-auto'>
 //          no entity found{entitiesList?.paginatedEntities.sdfsdf}
