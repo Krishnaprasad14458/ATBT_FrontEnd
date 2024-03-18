@@ -203,7 +203,7 @@ function Users() {
       .then((response) => {
         setFieldsDropDownData((prevState) => ({
           ...prevState,
-          role: response?.data?.roles?.map((item) => item.name),
+          role: response?.data?.roles.map((item) => item.name),
         }));
       })
       .catch((error) => {
