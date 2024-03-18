@@ -78,6 +78,7 @@ function TeamsForm() {
     usersDispatch,
   } = useContext(UserDataContext);
   const { createTeam, updateTeam } = useContext(TeamsDataContext);
+  const usersEmails = dashboard.paginatedUsers;
   // const usersEmails = dashboard.paginatedUsers?.map((user) => user.email);
   const { debouncedSetPage, debouncedSetSearch } = useDebounce(usersDispatch);
   let [openOptions, setopenOptions] = useState('');
