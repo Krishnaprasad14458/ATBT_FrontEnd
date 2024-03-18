@@ -14,9 +14,8 @@ import axios from 'axios';
 import { EntitiesDataContext } from '../../../contexts/entitiesDataContext/entitiesDataContext';
 import { AuthContext } from '../../../contexts/authContext/authContext';
 function classNames(...classes) {
-  return classes.filter(Boolean).join(' ');
+  return classes.filter(Boolean).join('');
 }
-
 const userData = JSON.parse(localStorage.getItem('data'));
 const token = userData?.token;
 const role = userData?.role?.name;
