@@ -1228,7 +1228,7 @@ function TeamsForm() {
           </form>
         </div>
         {/* preview */}
-        <div className=' col-span-2 hidden sm:block md:block'>
+        <div className='col-span-2 hidden sm:block md:block'>
           <div className='shadow-md px-6 py-4 mt-4 border-2 rounded-md bg-[#f8fafc] '>
             {customFormFields &&
               customFormFields.length > 0 &&
@@ -1271,7 +1271,7 @@ function TeamsForm() {
                           ) : (
                             <p className='text-sm font-black text-gray-800 mt-2 absolute left-12'>
                               {' '}
-                              TEAM NAME
+                              ENTITY NAME
                             </p>
                           )}
                         </div>
@@ -1288,8 +1288,8 @@ function TeamsForm() {
                                     ? item.value
                                     : URL.createObjectURL(item.value)
                                 }
-                                name='TeamsPhoto'
-                                alt='Selected User Photo'
+                                name='EntityPhoto'
+                                alt='Entity Photo'
                                 className='rounded-lg w-10 h-10 mr-4'
                               />
                             ) : (
@@ -1356,7 +1356,7 @@ function TeamsForm() {
                               };
                               return (
                                 <div
-                                  className='col-span-1 flex justify-start gap-1'
+                                  className='col-span-1 flex justify-start gap-3'
                                   key={index}
                                 >
                                   {index + 1 <= item.value.length && (
@@ -1375,7 +1375,7 @@ function TeamsForm() {
                                               src={typeof item.value[index].image === 'string' ? item.value[index].image : URL.createObjectURL(item.value[index].image)}
                                               name='EntityPhoto'
                                               alt='Entity Photo'
-                                              className='rounded-lg w-10 h-10 mr-4'
+                                              className=' rounded-full w-10 h-10   flex justify-center  text-xs items-center text-white'
                                             />
                                           ) : (
                                             <span>
@@ -1416,14 +1416,14 @@ function TeamsForm() {
                                               <span >
                                                 +{item.value.length - 11} more
                                               </span>
-                                            )}{' '}
+                                            )}
                                         </div>
                                       </div>
                                     </>
                                   )}
                                   {index + 1 > item.value.length && (
                                     <>
-                                      <h5 className='bg-[#e5e7eb] rounded-full w-10 h-10  md:h-8 xl:h-10 flex justify-center text-xs items-center text-white'></h5>
+                                      <h5 className='bg-[#e5e7eb] rounded-full w-10 h-10  flex justify-center text-xs items-center text-white'></h5>
                                       <div className=' flex items-center'>
                                         <div className=' rounded-md  bg-[#e5e7eb] h-2 w-28'>
 
@@ -1436,12 +1436,12 @@ function TeamsForm() {
                             })}
                         </div>
                       )}
-                    {/* customfields */}
+                    {/* custom fields*/}
                     {item.type === 'text' && item.field == 'custom' && (
-                      <div className='my-2 mx-5 '>
+                      <div className='my-2 mx-2 '>
                         {item.value && item.value.length > 0 && (
                           <p className='flex  gap-2'>
-                            <span className='w-2/6 break-words text-[#727a85] '>
+                            <span className='w-2/6 truncate text-[#727a85] '>
                               {item.label.charAt(0).toUpperCase() +
                                 item.label.slice(1)}
                             </span>
@@ -1456,10 +1456,10 @@ function TeamsForm() {
                       </div>
                     )}
                     {item.type === 'email' && item.field == 'custom' && (
-                      <div className='my-2 mx-5 '>
+                      <div className='my-2 mx-2 '>
                         {item.value && item.value.length > 0 && (
                           <p className='flex  gap-2'>
-                            <span className='w-2/6 break-words text-[#727a85] '>
+                            <span className='w-2/6 truncate text-[#727a85] '>
                               {item.label.charAt(0).toUpperCase() +
                                 item.label.slice(1)}
                             </span>
@@ -1474,10 +1474,10 @@ function TeamsForm() {
                       </div>
                     )}
                     {item.type === 'phonenumber' && item.field == 'custom' && (
-                      <div className='my-2 mx-5 flex-wrap'>
+                      <div className='my-2 mx-2  flex-wrap'>
                         {item.value && item.value.length > 0 && (
                           <p className='flex  gap-2'>
-                            <span className='w-2/6 break-words text-[#727a85] '>
+                            <span className='w-2/6 truncate text-[#727a85] '>
                               {item.label.charAt(0).toUpperCase() +
                                 item.label.slice(1)}
                             </span>
@@ -1494,10 +1494,10 @@ function TeamsForm() {
                       </div>
                     )}
                     {item.type === 'number' && item.field == 'custom' && (
-                      <div className='my-2 mx-5 flex-wrap'>
+                      <div className='my-2 mx-2  flex-wrap'>
                         {item.value && item.value.length > 0 && (
                           <p className='flex  gap-2'>
-                            <span className='w-2/6 break-words text-[#727a85] '>
+                            <span className='w-2/6 truncate text-[#727a85] '>
                               {item.label.charAt(0).toUpperCase() +
                                 item.label.slice(1)}
                             </span>
@@ -1515,10 +1515,10 @@ function TeamsForm() {
                     )}
                     {item.type === 'textarea' && item.field == 'custom' && (
                       // mb-1 ps-6 flex flex-wrap
-                      <div className='my-2 mx-5 '>
+                      <div className='my-2 mx-2  '>
                         {item.value && item.value.length > 0 && (
                           <p className='flex  gap-2'>
-                            <span className='w-2/6 text-[#727a85] break-words '>
+                            <span className='w-2/6 text-[#727a85] truncate '>
                               {item.label.charAt(0).toUpperCase() +
                                 item.label.slice(1)}
                             </span>
@@ -1533,10 +1533,10 @@ function TeamsForm() {
                       </div>
                     )}
                     {item.type === 'date' && item.field == 'custom' && (
-                      <div className='my-2 mx-5 '>
+                      <div className='my-2 mx-2 '>
                         {item.value && item.value.length > 0 && (
                           <p className='flex  gap-2'>
-                            <span className='w-2/6 text-[#727a85] break-words  '>
+                            <span className='w-2/6 text-[#727a85] truncate  '>
                               {item.label.charAt(0).toUpperCase() +
                                 item.label.slice(1)}
                             </span>
@@ -1551,10 +1551,10 @@ function TeamsForm() {
                       </div>
                     )}
                     {item.type === 'select' && item.field == 'custom' && (
-                      <div className='my-2 mx-5 '>
+                      <div className='my-2 mx-2 '>
                         {item.value && item.value.length > 0 && (
                           <p className='flex  gap-2'>
-                            <span className='w-2/6 text-[#727a85] break-words  '>
+                            <span className='w-2/6 text-[#727a85] truncate  '>
                               {item.label.charAt(0).toUpperCase() +
                                 item.label.slice(1)}
                             </span>
@@ -1569,10 +1569,10 @@ function TeamsForm() {
                       </div>
                     )}
                     {item.type === 'multiselect' && item.field == 'custom' && (
-                      <div className='my-2 mx-5 '>
+                      <div className='my-2 mx-2 '>
                         {item.value && item.value.length > 0 && (
                           <p className='flex  gap-2'>
-                            <span className='w-2/6 text-[#727a85]  break-words '>
+                            <span className='w-2/6 text-[#727a85]  truncate '>
                               {item.label.charAt(0).toUpperCase() +
                                 item.label.slice(1)}
                             </span>
@@ -1587,10 +1587,10 @@ function TeamsForm() {
                       </div>
                     )}
                     {item.type === 'range' && item.field == 'custom' && (
-                      <div className='my-2 mx-5 '>
+                      <div className='my-2 mx-2 '>
                         {item.value && item.value.length > 0 && (
                           <p className='flex  gap-2'>
-                            <span className='w-2/6 text-[#727a85] break-words '>
+                            <span className='w-2/6 text-[#727a85] truncate '>
                               {item.label.charAt(0).toUpperCase() +
                                 item.label.slice(1)}
                             </span>
@@ -1605,10 +1605,10 @@ function TeamsForm() {
                       </div>
                     )}
                     {item.type === 'time' && item.field == 'custom' && (
-                      <div className='my-2 mx-5 '>
+                      <div className='my-2 mx-2 '>
                         {item.value && item.value.length > 0 && (
                           <p className='flex gap-2'>
-                            <span className='w-2/6 text-[#727a85] break-words  '>
+                            <span className='w-2/6 text-[#727a85] truncate  '>
                               {item.label.charAt(0).toUpperCase() +
                                 item.label.slice(1)}
                             </span>

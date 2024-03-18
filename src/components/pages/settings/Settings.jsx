@@ -1,55 +1,67 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import organization from './../../../Images/oraganisation.svg'
+import roles from '../../../Images/Roles.png.svg'
+import communication from '../../../Images/communications.svg';
+import forms from '../../../Images/forms.svg';
+import integration from '../../../Images/integrations.svg';
 
 const Settings = () => {
+  const settingsData = [
+    {
+      name: "Organization Profile",
+      icon: organization,
+      link: "organizationprofile"
+    },
+    {
+      name: "Forms",
+      icon: forms,
+      link: "forms"
+    },
+    {
+      name: "Communication",
+      icon: communication,
+      link: "communication"
+    },
+    {
+      name: "Roles",
+      icon: roles,
+      link: "roles"
+    },
+    {
+      name: "Integrations",
+      icon: integration,
+      link: "integrations"
+    },
+
+
+  ]
+
   document.title = 'ATBT | Setting';
   return (
     <div className='container p-4 bg-[#f8fafc]'>
       <p className='text-xl font-semibold'> Settings</p>
       <div className='grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4  gap-4 mt-4'>
-        <Link to='organizationprofile'>
-          <div className='grid1-item  text-start'>
-            <div className=' py-5 px-4 text-center bg-orange-600 rounded-md'>
-              <p className='text-white text-base'>Organization Profile</p>
-            </div>
-          </div>
-        </Link>
+        {settingsData && settingsData.length > 0 && settingsData.map((item) => (
+          <div className='transition-transform duration-300 ease-in-out transform hover:-translate-y-1 shadow-sm'>
+            <Link to={item.link}>
+              <div className='grid1-item  text-start rounded-md'>
+                <div className=' py-4 px-4 text-start bg-orange-600 rounded-md flex justify-between items-center'>
+                  <div>
+                    <p className='text-white text-base'>{item.name}</p>
+                    <span className='mt-3 text-sm leading-6 underline text-white flex gap-1'>
+                      <p>Explore </p> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-4 h-4 mt-1">
+                        <path fill-rule="evenodd" d="M2 8c0 .414.336.75.75.75h8.69l-1.22 1.22a.75.75 0 1 0 1.06 1.06l2.5-2.5a.75.75 0 0 0 0-1.06l-2.5-2.5a.75.75 0 1 0-1.06 1.06l1.22 1.22H2.75A.75.75 0 0 0 2 8Z" clip-rule="evenodd" />
+                      </svg>
 
-        <Link to='forms'>
-          <div className='grid1-item  text-start'>
-            <div className=' py-5 px-4 text-center bg-orange-600 rounded-md'>
-              <p className='text-white text-base'>Forms</p>
-            </div>
+                    </span></div>
+                  <span className='bg-orange-100 rounded-full'>
+                    <img src={item.icon} className='w-16 h-16 rounded-full ' /> </span>
+                </div>
+              </div>
+            </Link>
           </div>
-        </Link>
-        <Link to='communication'>
-          <div className='grid1-item  text-start'>
-            <div className=' py-5 px-4 text-center bg-orange-600 rounded-md'>
-              <p className='text-white text-base'>Communications</p>
-            </div>
-          </div>
-        </Link>
-        <Link to='roles'>
-          <div className='grid1-item  text-start'>
-            <div className=' py-5 px-4 text-center bg-orange-600 rounded-md'>
-              <p className='text-white text-base'>Roles</p>
-            </div>
-          </div>
-        </Link>
-        <Link to='integrations'>
-          <div className='grid1-item  text-start'>
-            <div className=' py-5 px-4 text-center bg-orange-600 rounded-md'>
-              <p className='text-white text-base'>Integrations</p>
-            </div>
-          </div>
-        </Link>
-        {/* <Link to='designations'>
-          <div className='grid1-item  text-start'>
-            <div className=' py-5 px-4 text-center bg-orange-600 rounded-md'>
-              <p className='text-white text-base'>Designations</p>
-            </div>
-          </div>
-        </Link> */}
+        ))}
       </div>
     </div>
   );
