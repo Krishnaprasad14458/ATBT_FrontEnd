@@ -31,32 +31,34 @@ import { debounce } from '../../../utils/utils';
 function classNames(...classes) {
   return classes.filter(Boolean).join('');
 }
+
 const userData = JSON.parse(localStorage.getItem('data'));
-const token = userData?.token;
+const userId = userData?.id;
 const role = userData?.role?.name;
-const userId = userData?.user?.id;
 
 export async function loader({ request, params }) {
   try {
     let url = new URL(request.url);
-    const userList = await atbtApi.post(
-      `/user/list${url?.search ? url?.search : ''}`,
-      {}
-    );
-    return userList;
-    // const [userList, entityList, roleList] = await Promise.all([
-    //   atbtApi.post(`/user/list${url?.search ? url?.search : ''}`, {}),
-    //   atbtApi.post(`/public/list/entity`, {}),
-    //   atbtApi.post(`/public/list/role`, {}),
-    // ]);
-    // console.log(userList, 'userList response', request, params);
-    // const combinedResponse = {
-    //   userList,
-    //   fieldsDropDownData: {
-    //     role: roleList?.data,
-    //     entityname: entityList?.data,
-    //   },
-    // };
+    // const userList = await atbtApi.post(
+    //   `/user/list${url?.search ? url?.search : ''}`,
+    //   {}
+    // );
+    // return userList;
+    const [userList, entityList, roleList] = await Promise.all([
+      atbtApi.post(`/user/list${url?.search ? url?.search : ''}`, {}),
+      atbtApi.post(`/public/list/entity`, {}),
+      atbtApi.post(`/public/list/role`, {}),
+    ]);
+
+    const combinedResponse = {
+      users: userList?.data,
+      fieldsDropDownData: {
+        role: roleList?.data?.Roles,
+        entityname: entityList?.data?.Entities,
+      },
+    };
+    console.log(combinedResponse, 'userList response', request, params);
+    return combinedResponse;
   } catch (error) {
     console.error('Error occurred:', error);
     throw error;
@@ -86,6 +88,7 @@ function Users() {
   const navigation = useNavigation();
   let [searchParams, setSearchParams] = useSearchParams();
   const data = useLoaderData();
+  const { users } = data;
   let submit = useSubmit();
   let fetcher = useFetcher();
   console.log(searchParams.toString(), 'searchparams', navigation);
@@ -139,25 +142,8 @@ function Users() {
   const handleMouseLeave = () => {
     setHoveredOption('heloo');
   };
-  const {
-    usersState: { settings },
-    usersDispatch,
-    deleteUser,
-    setSortBy,
-    setFilters,
-    toggleUser,
-  } = useContext(UserDataContext);
-  useEffect(() => {
-    console.log('settingss', settings);
-  });
-  const { debouncedSetPage, debouncedSetSearch } = useDebounce(usersDispatch);
 
   function handlefilters() {
-    usersDispatch(setFilters(selectedFilters, 'SETTINGS'));
-    // submit(selectedFilters, {
-    //   method: 'get',
-    //   action: '.',
-    // });
     setQParams({
       ...Qparams,
       ...selectedFilters,
@@ -171,27 +157,9 @@ function Users() {
       page: Qparams?.page,
       pageSize: Qparams?.pageSize,
     });
-    usersDispatch(setFilters({}, 'SETTINGS'));
     setFilterDrawerOpen(!filterDrawerOpen);
   };
-  useEffect(() => {
-    // usersDispatch(actions.setPerPage(10))
-    return () => {
-      usersDispatch({
-        type: 'SET_SEARCH',
-        payload: {
-          data: '',
-          context: 'SEIINGS',
-        },
-      });
-      //   usersDispatch(actions.setPerPage(5))
-    };
-  }, []);
-  // useEffect(() => {
-  //   if (fetcher.state === 'idle' && !fetcher.data) {
-  //     fetcher.load('.');
-  //   }
-  // }, [fetcher]);
+
   const [open, setOpen] = useState(false);
   // const [opening, setOpening] = useState(false);
   const cancelButtonRef = useRef(null);
@@ -491,12 +459,8 @@ function Users() {
                 </svg>
               </div>
               <input
-                onChange={(e) =>
-                  debouncedSetSearch({
-                    context: 'SETTINGS',
-                    data: e.target.value,
-                  })
-                }
+                onChange={handleSearch}
+                value={Qparams?.search}
                 type='search'
                 id='default-search'
                 className='block w-full px-4 py-2 ps-10 text-sm border-2 border-gray-200  rounded-2xl bg-gray-50  focus:outline-none '
@@ -507,7 +471,7 @@ function Users() {
           </div>
           <div className='grid1-item text-end md:flex md:justify-end filter_pagination'>
             <select
-              defaultValue='10'
+              value={Qparams?.pageSize}
               onChange={handlePerPageChange}
               className='focus:outline-none me-3 gap-x-1.5 rounded-md bg-gray-50 px-1 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-200 hover:bg-gray-50'
             >
@@ -767,7 +731,7 @@ function Users() {
         </div>
         {/* table */}
         <div className='max-h-[510px] overflow-y-scroll mt-8'>
-          {visibleColumns && tableView && settings?.paginatedUsers && (
+          {visibleColumns && tableView && users?.users && (
             <table className='w-full divide-y divide-gray-200 dark:divide-gray-700 rounded-md'>
               <thead>
                 <tr>
@@ -785,8 +749,8 @@ function Users() {
                 </tr>
               </thead>
               <tbody className=' divide-gray-200 dark:divide-gray-700'>
-                {settings?.paginatedUsers &&
-                  settings?.paginatedUsers?.map((row) => (
+                {users?.users &&
+                  users?.users?.map((row) => (
                     <tr key={row.id}>
                       {visibleColumns.map((key) => {
                         let value = row[key];
@@ -1070,15 +1034,14 @@ function Users() {
         <div className='inset-x-0 bottom-0 mt-5'>
           <div className='flex justify-between'>
             <div className=''>
-              {!settings?.paginatedUsers ||
-              settings?.paginatedUsers?.length === 0 ? (
+              {!users?.users || users?.users?.length === 0 ? (
                 'no data to show'
-              ) : settings.loading ? (
+              ) : users.loading ? (
                 'Loading...'
               ) : (
                 <p className='text-sm text-gray-700'>
-                  Showing {settings.startUser} to {settings.endUser} of{' '}
-                  <span className='font-medium'>{settings.totalUsers}</span>
+                  Showing {users.startUser} to {users.endUser} of{' '}
+                  <span className='font-medium'>{users.totalUsers}</span>
                   <span className='font-medium'> </span> results
                 </p>
               )}
@@ -1090,19 +1053,16 @@ function Users() {
               {/* previos button */}
               <button
                 disabled={
-                  settings.loading ? true : false || settings.currentPage === 1
+                  navigation?.state === 'loading'
+                    ? true
+                    : false || users.currentPage === 1
                 }
-                onClick={() =>
-                  debouncedSetPage({
-                    context: 'SETTINGS',
-                    data: settings.currentPage - 1,
-                  })
-                }
+                onClick={() => handlePage(1)}
                 href='#'
                 className={`relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${
-                  settings.loading
+                  navigation?.state === 'loading'
                     ? 'cursor-wait'
-                    : settings.currentPage === 1
+                    : users.currentPage === 1
                     ? 'cursor-not-allowed'
                     : 'cursor-auto'
                 }`}
@@ -1125,20 +1085,15 @@ function Users() {
               {/* next button */}
               <button
                 disabled={
-                  settings.loading
+                  navigation?.state === 'loading'
                     ? true
-                    : false || settings.currentPage === settings.totalPages
+                    : false || users.currentPage === users.totalPages
                 }
-                onClick={() =>
-                  debouncedSetPage({
-                    context: 'SETTINGS',
-                    data: settings.currentPage + 1,
-                  })
-                }
+                onClick={() => handlePage(2)}
                 className={`relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${
-                  settings.loading
+                  navigation?.state === 'loading'
                     ? 'cursor-wait'
-                    : settings.currentPage === settings.totalPages
+                    : users.currentPage === users.totalPages
                     ? 'cursor-not-allowed'
                     : 'cursor-auto'
                 }`}
