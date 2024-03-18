@@ -625,7 +625,7 @@ function TeamsForm() {
                       <div className='relative'>
                         <label
                           htmlFor='email'
-                          className='block text-sm  font-medium leading-6 my-2 text-gray-900'
+                          className='block text-sm  font-medium leading-6 mt-2 text-gray-900'
                         >
                           {item.label}
                           {item.mandatory ? (
@@ -635,15 +635,15 @@ function TeamsForm() {
                           )}
                         </label>
                         <div
-                          className='flex flex-wrap gap-1 px-2 py-2
-                         text-sm  w-full  bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 selected-users-container relative  rounded-md'
+                          className=' 
+                       flex flex-wrap gap-1 px-2 py-2 text-sm  w-full  bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 selected-users-container relative  rounded-md'
                         >
                           {selected &&
                             selected.length > 0 &&
                             selected.map((result, selectedIndex) => {
                               let mail = result.email.split('@')[0];
                               return (
-                                <span className='flex gap-1 text-xs mt-2 border-2 border-gray-200 rounded-md  focus:border-orange-600'>
+                                <span className='flex gap-1 text-xs mt-1 border-2 border-gray-200 rounded-md  focus:border-orange-600'>
                                   {result.image ? (
                                     <img
                                       src={
@@ -653,11 +653,11 @@ function TeamsForm() {
                                       }
                                       name='EntityPhoto'
                                       alt='Entity Photo'
-                                      className='rounded-lg w-10 h-10 mr-4'
+                                      className='rounded-lg w-4 h-4 '
                                     />
                                   ) : (
                                     <img
-                                      className='w-10 h-10 rounded-lg '
+                                      className='w-4 h-4 rounded-lg '
                                       src={defprop}
                                       alt='default image'
                                     />
@@ -689,10 +689,11 @@ function TeamsForm() {
                             onChange={handleInputChange}
                           />
                         </div>
+
                         {showUsers && searchTerm.length > 0 && (
-                          <ul className='user-list z-50 absolute top-full left-0  bg-gray-50 border border-1 border-gray-200 w-full'>
-                            {dashboard.paginatedUsers
-                              ?.filter(
+                          <ul className='user-list z-10 absolute top-full left-0 bg-gray-50 border border-1 border-gray-200 w-full'>
+                            {usersEmails
+                              .filter(
                                 (mainObj) =>
                                   !selected.some(
                                     (selectedObj) =>
@@ -710,6 +711,7 @@ function TeamsForm() {
                               ))}
                           </ul>
                         )}
+
                         <div className='h-2 text-[#dc2626]'>
                           {errors[item.inputname] && (
                             <span className='text-xs'>
@@ -1282,9 +1284,8 @@ function TeamsForm() {
                 ];
 
                 // Formatting the date
-                date = `${day < 10 ? '0' : ''}${day}-${
-                  monthAbbreviations[monthIndex]
-                }-${year}`;
+                date = `${day < 10 ? '0' : ''}${day}-${monthAbbreviations[monthIndex]
+                  }-${year}`;
                 return (
                   <div className='relative'>
                     {/* predefined fields*/}
@@ -1401,16 +1402,16 @@ function TeamsForm() {
                                       >
                                         {(item.value[index].image &&
                                           index < 11) ||
-                                        (index === 11 &&
-                                          item.value.length === 12) ? (
+                                          (index === 11 &&
+                                            item.value.length === 12) ? (
                                           <img
                                             src={
                                               typeof item.value[index].image ===
-                                              'string'
+                                                'string'
                                                 ? item.value[index].image
                                                 : URL.createObjectURL(
-                                                    item.value[index].image
-                                                  )
+                                                  item.value[index].image
+                                                )
                                             }
                                             name='EntityPhoto'
                                             alt='Entity Photo'
@@ -1496,7 +1497,7 @@ function TeamsForm() {
                             </span>
                           </p>
                         )}
-                      </div>
+                        {item.value && <hr className='mt-2' />} </div>
                     )}
                     {item.type === 'email' && item.field == 'custom' && (
                       <div className='my-2 mx-2 '>
@@ -1514,7 +1515,7 @@ function TeamsForm() {
                             </span>
                           </p>
                         )}
-                      </div>
+                        {item.value && <hr className='mt-2' />}</div>
                     )}
                     {item.type === 'phonenumber' && item.field == 'custom' && (
                       <div className='my-2 mx-2  flex-wrap'>
@@ -1534,7 +1535,7 @@ function TeamsForm() {
                             </span>
                           </p>
                         )}
-                      </div>
+                        {item.value && <hr className='mt-2' />} </div>
                     )}
                     {item.type === 'number' && item.field == 'custom' && (
                       <div className='my-2 mx-2  flex-wrap'>
@@ -1552,7 +1553,7 @@ function TeamsForm() {
                             </span>
                           </p>
                         )}
-                      </div>
+                        {item.value && <hr className='mt-2' />} </div>
                     )}
                     {item.type === 'textarea' && item.field == 'custom' && (
                       // mb-1 ps-6 flex flex-wrap
@@ -1571,7 +1572,7 @@ function TeamsForm() {
                             </span>
                           </p>
                         )}
-                      </div>
+                        {item.value && <hr className='mt-2' />} </div>
                     )}
                     {item.type === 'date' && item.field == 'custom' && (
                       <div className='my-2 mx-2 '>
@@ -1589,7 +1590,7 @@ function TeamsForm() {
                             </span>
                           </p>
                         )}
-                      </div>
+                        {item.value && <hr className='mt-2' />}</div>
                     )}
                     {item.type === 'select' && item.field == 'custom' && (
                       <div className='my-2 mx-2 '>
@@ -1607,7 +1608,7 @@ function TeamsForm() {
                             </span>
                           </p>
                         )}
-                      </div>
+                        {item.value && <hr className='mt-2' />} </div>
                     )}
                     {item.type === 'multiselect' && item.field == 'custom' && (
                       <div className='my-2 mx-2 '>
@@ -1625,7 +1626,7 @@ function TeamsForm() {
                             </span>
                           </p>
                         )}
-                      </div>
+                        {item.value.join(', ') && <hr className='mt-2' />}</div>
                     )}
                     {item.type === 'range' && item.field == 'custom' && (
                       <div className='my-2 mx-2 '>
@@ -1643,7 +1644,7 @@ function TeamsForm() {
                             </span>
                           </p>
                         )}
-                      </div>
+                        {item.value && <hr className='mt-2' />}</div>
                     )}
                     {item.type === 'time' && item.field == 'custom' && (
                       <div className='my-2 mx-2 '>
@@ -1661,7 +1662,7 @@ function TeamsForm() {
                             </span>
                           </p>
                         )}
-                      </div>
+                        {item.value && <hr className='mt-2' />}</div>
                     )}
                   </div>
                 );
