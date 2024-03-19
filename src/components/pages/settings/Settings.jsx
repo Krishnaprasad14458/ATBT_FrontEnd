@@ -56,7 +56,7 @@ const Settings = () => {
                       </svg>
                     </span>
                   </div>
-                  <span className='bg-orange-100 rounded-full'>
+                  <span className='bg-orange-100 rounded-full hidden sm:block'>
                     <img src={item.icon} className='w-16 h-16 rounded-full' alt='icon' />
                   </span>
                 </div>
