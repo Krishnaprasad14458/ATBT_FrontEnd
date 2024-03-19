@@ -439,8 +439,8 @@ function UserForm() {
       console.log(formDataObj, 'foj');
       let response;
       if (!!id && !!user?.userData) {
-        formData.set('role', user?.userData?.role);
-        formData.set('email', user?.userData?.email);
+        // formData.set('role', user?.userData?.role);
+        // formData.set('email', user?.userData?.email);
         console.log('updating');
         response = await updateUser(formData, id);
       } else {
