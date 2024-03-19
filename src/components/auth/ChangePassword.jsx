@@ -150,7 +150,7 @@ function ChangePassword() {
                       id='passowrd'
                       name='passowrd'
                       onChange={(e) => setOldPassword(e.target.value)}
-                      placeholder='Enter new password'
+                      placeholder='Enter old password'
                       value={oldPassword}
                       type={showOldPassword ? 'text' : 'password'}
                       required
