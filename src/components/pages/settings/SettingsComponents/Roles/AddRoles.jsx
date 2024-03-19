@@ -460,10 +460,20 @@ const AddRoles = () => {
           pending: 'Creating Role...',
           success: {
             render({ data }) {
-              return `Role created`;
+              return `${data?.data?.message || 'Role created'}`;
             },
           },
-          error: 'Check Role details 🤯',
+          error: {
+            render({
+              data: {
+                response: { data },
+              },
+            }) {
+              // When the promise reject, data will contains the error
+              return `error: ${data || data?.message || ' creating role'}`;
+              // return <MyErrorComponent message={data.message} />;
+            },
+          },
         }
       );
 
