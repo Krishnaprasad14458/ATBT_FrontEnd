@@ -353,7 +353,7 @@ export default function TopBar() {
                       <Menu.Item>
                         {({ active }) => (
                           <Link
-                            to='/resetpassword'
+                            to='/changepassword'
                             className={classNames(
                               active
                                 ? 'bg-gray-200 text-gray-900'
@@ -425,9 +425,8 @@ export default function TopBar() {
                 </Transition>
               </Menu>
               <div
-                className={`fixed inset-0 transition-all duration-500 bg-gray-800 bg-opacity-50 z-50 ${
-                  addTask ? '' : 'hidden'
-                }`}
+                className={`fixed inset-0 transition-all duration-500 bg-gray-800 bg-opacity-50 z-50 ${addTask ? '' : 'hidden'
+                  }`}
               >
                 <div className=' fixed inset-y-0 right-3 w-2/6 h-2/3 top-4/2 bg-white shadow-lg transform translate-y-1/2 transition-transform duration-300 ease-in-out'>
                   <div className='flex justify-between p-4'>
