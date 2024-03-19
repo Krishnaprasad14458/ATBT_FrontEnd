@@ -498,7 +498,7 @@ function Users() {
               style={{ transition: 'opacity 0.3s ease-in-out' }}
             >
               <div
-                className='fixed inset-y-0 right-0 w-11/12 md:w-4/12 lg:w-1/5 xl:w-1/5 bg-white shadow-lg transform translate-x-full transition-transform duration-300 ease-in-out h-screen overflow-scroll'
+                className='fixed inset-y-0 right-0 w-11/12 md:w-4/12 lg:w-1/5 xl:w-1/5 bg-white shadow-lg transform translate-x-full transition-transform duration-300 ease-in-out h-full overflow-scroll'
                 style={{
                   transform: `translateX(${columnsDrawerOpen ? '0%' : '100%'})`,
                   transition: 'transform 0.3s ease-in-out',

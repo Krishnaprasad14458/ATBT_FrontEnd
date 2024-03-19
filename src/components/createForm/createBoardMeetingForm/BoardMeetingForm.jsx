@@ -1418,7 +1418,7 @@ function BoardMeetingForm() {
                           item.field === 'predefined' && (
                             <div>
                               {item.value ? (
-                                <p className='text-sm'>Time : {item.value}</p>
+                                <p className='text-sm'>Time :   {formatTime(item.value)}</p>
                               ) : (
                                 <p className='text-sm text-gray-400 '>
                                   Time : 00:00 AM
