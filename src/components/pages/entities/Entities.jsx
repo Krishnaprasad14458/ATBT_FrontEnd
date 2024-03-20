@@ -319,7 +319,7 @@ function Entities() {
             />
           </div>
         </div>
-        <div className='grid1-item text-end filter_pagination'>
+        <div className='grid1-item text-end md:flex md:justify-end filter_pagination'>
           <select
             defaultValue='10'
             onChange={handlePerPageChange}
@@ -342,9 +342,8 @@ function Entities() {
 
           {/* for coloumns open */}
           <div
-            className={`fixed inset-0 bg-gray-800 bg-opacity-50 z-10 ${
-              columnsDrawerOpen ? '' : 'opacity-0 pointer-events-none'
-            }`}
+            className={`fixed inset-0 bg-gray-800 bg-opacity-50 z-10 ${columnsDrawerOpen ? '' : 'opacity-0 pointer-events-none'
+              }`}
             style={{ transition: 'opacity 0.3s ease-in-out' }}
           >
             <div
@@ -434,9 +433,8 @@ function Entities() {
 
           {/* for filter open */}
           <div
-            className={`fixed inset-0 bg-gray-800 bg-opacity-50 z-10 ${
-              filterDrawerOpen ? '' : 'opacity-0 pointer-events-none'
-            }`}
+            className={`fixed inset-0 bg-gray-800 bg-opacity-50 z-10 ${filterDrawerOpen ? '' : 'opacity-0 pointer-events-none'
+              }`}
             style={{ transition: 'opacity 0.3s ease-in-out' }}
           >
             <div
@@ -657,9 +655,8 @@ function Entities() {
                         ];
 
                         // Formatting the date
-                        value = `${day < 10 ? '0' : ''}${day}-${
-                          monthAbbreviations[monthIndex]
-                        }-${year}`;
+                        value = `${day < 10 ? '0' : ''}${day}-${monthAbbreviations[monthIndex]
+                          }-${year}`;
                       }
                       return (
                         <td
@@ -817,13 +814,12 @@ function Entities() {
                 })
               }
               href='#'
-              className={`relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${
-                data.data.loading
+              className={`relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${data.data.loading
                   ? 'cursor-wait'
                   : data.data.currentPage === 1
-                  ? 'cursor-not-allowed'
-                  : 'cursor-auto'
-              }`}
+                    ? 'cursor-not-allowed'
+                    : 'cursor-auto'
+                }`}
             >
               <span className='sr-only'>Previous</span>
               <svg
@@ -851,13 +847,12 @@ function Entities() {
                   data: data.data.currentPage + 1,
                 })
               }
-              className={`relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${
-                data.data.loading
+              className={`relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${data.data.loading
                   ? 'cursor-wait'
                   : data.data.currentPage === data.data.totalPages
-                  ? 'cursor-not-allowed'
-                  : 'cursor-auto'
-              }`}
+                    ? 'cursor-not-allowed'
+                    : 'cursor-auto'
+                }`}
             >
               <span className='sr-only'>Next</span>
               <svg

@@ -14,7 +14,7 @@ import {
   useSubmit,
 } from 'react-router-dom';
 import $ from 'jquery';
-import './User.css';
+
 import Swal from 'sweetalert2';
 import { Fragment } from 'react';
 import { Dialog, Menu, Transition } from '@headlessui/react';
@@ -492,19 +492,18 @@ function Users() {
 
             {/* for coloumns open */}
             <div
-              className={`fixed inset-0 bg-gray-800 bg-opacity-50 z-10 ${
-                columnsDrawerOpen ? '' : 'opacity-0 pointer-events-none'
-              }`}
+              className={`fixed inset-0 bg-gray-800 bg-opacity-50 z-10 ${columnsDrawerOpen ? '' : 'opacity-0 pointer-events-none'
+                }`}
               style={{ transition: 'opacity 0.3s ease-in-out' }}
             >
               <div
-                className='fixed inset-y-0 right-0 w-11/12 md:w-4/12 lg:w-1/5 xl:w-1/5 bg-white shadow-lg transform translate-x-full transition-transform duration-300 ease-in-out h-full overflow-scroll'
+                className='fixed inset-y-0 right-0 w-11/12 md:w-4/12 lg:w-1/5 xl:w-1/5 bg-white shadow-lg transform translate-x-full transition-transform duration-300 ease-in-out  '
                 style={{
                   transform: `translateX(${columnsDrawerOpen ? '0%' : '100%'})`,
                   transition: 'transform 0.3s ease-in-out',
                 }}
               >
-                <div className='flex justify-between px-5 py-4 bg-gray-100 '>
+                <div className='flex justify-between px-5 py-4 bg-gray-100  top-0 sticky z-[3]'>
                   <h5 className='font-[500]'>Columns</h5>
                   <button
                     onClick={columnsDrawer}
@@ -526,7 +525,7 @@ function Users() {
                 </div>
                 <hr className='h-1 w-full' />
 
-                <div className='px-4 py-2 h-[615px] overflow-y-scroll flex-wrap'>
+                <div className='px-4 py-2  flex-wrap h-screen overflow-y-scroll'>
                   {dupTableView &&
                     Object.keys(dupTableView).map((columnName) => (
                       <div
@@ -558,7 +557,7 @@ function Users() {
                     ))}
                 </div>
 
-                <div className='bg-gray-100 flex justify-between px-3 pt-2 pb-1  w-full'>
+                <div className='bg-gray-100 flex justify-between px-3 pt-2 pb-1  w-full absolute bottom-0'>
                   <button
                     className='mr-3 px-3 py-2 inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white '
                     onClick={handleColumnsApply}
@@ -575,6 +574,8 @@ function Users() {
                   )}
                 </div>
               </div>
+
+
             </div>
 
             <button
@@ -586,9 +587,8 @@ function Users() {
 
             {/* for filter open */}
             <div
-              className={`fixed inset-0 bg-gray-800 bg-opacity-50 z-10 ${
-                filterDrawerOpen ? '' : 'opacity-0 pointer-events-none'
-              }`}
+              className={`fixed inset-0 bg-gray-800 bg-opacity-50 z-10 ${filterDrawerOpen ? '' : 'opacity-0 pointer-events-none'
+                }`}
               style={{ transition: 'opacity 0.3s ease-in-out' }}
             >
               <div
@@ -783,18 +783,16 @@ function Users() {
                           ];
 
                           // Formatting the date
-                          value = `${day < 10 ? '0' : ''}${day}-${
-                            monthAbbreviations[monthIndex]
-                          }-${year}`;
+                          value = `${day < 10 ? '0' : ''}${day}-${monthAbbreviations[monthIndex]
+                            }-${year}`;
                         }
                         return (
                           <td
                             key={key}
-                            className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium overflow-hidden  ${
-                              row.userstatus
-                                ? 'text-gray-800 '
-                                : 'bg-gray-100 text-gray-300'
-                            }`}
+                            className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium overflow-hidden  ${row.userstatus
+                              ? 'text-gray-800 '
+                              : 'bg-gray-100 text-gray-300'
+                              }`}
                             style={{ maxWidth: '160px' }}
                             title={row[key]}
                           >
@@ -804,11 +802,10 @@ function Users() {
                       })}
 
                       <td
-                        className={`px-2 py-2  border border-[#e5e7eb] text-xs font-medium  ${
-                          row.userstatus
-                            ? 'text-gray-800 '
-                            : 'bg-gray-100 text-gray-300'
-                        }`}
+                        className={`px-2 py-2  border border-[#e5e7eb] text-xs font-medium  ${row.userstatus
+                          ? 'text-gray-800 '
+                          : 'bg-gray-100 text-gray-300'
+                          }`}
                         style={{ maxWidth: '160px' }}
                       >
                         <div className='flex justify-start gap-3'>
@@ -872,11 +869,10 @@ function Users() {
                                 type='button'
                                 onClick={() => handleDeleteUser(row.id)}
                                 disabled={userId == row.id ? true : false}
-                                className={` ${
-                                  userId == row.id
-                                    ? 'text-gray-500 bg-gray-50 cursor-not-allowed'
-                                    : 'bg-gray-50 text-[#475569] hover:text-orange-500'
-                                } inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg  text-[#475569] disabled:opacity-50   dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600 `}
+                                className={` ${userId == row.id
+                                  ? 'text-gray-500 bg-gray-50 cursor-not-allowed'
+                                  : 'bg-gray-50 text-[#475569] hover:text-orange-500'
+                                  } inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg  text-[#475569] disabled:opacity-50   dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600 `}
                               >
                                 <svg
                                   xmlns='http://www.w3.org/2000/svg'
@@ -903,22 +899,20 @@ function Users() {
                             {
                               <button
                                 disabled={userId == row.id ? true : false}
-                                className={` ${
-                                  userId == row.id
-                                    ? 'text-gray-500 bg-gray-50 cursor-not-allowed'
-                                    : 'bg-gray-50 text-[#475569] hover:text-orange-500'
-                                } items-center  text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50  dark:text-blue-500 dark:hover:text-blue-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600 `}
+                                className={` ${userId == row.id
+                                  ? 'text-gray-500 bg-gray-50 cursor-not-allowed'
+                                  : 'bg-gray-50 text-[#475569] hover:text-orange-500'
+                                  } items-center  text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50  dark:text-blue-500 dark:hover:text-blue-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600 `}
                               >
                                 {row.userstatus !== undefined && (
                                   <label
                                     htmlFor='toggle'
                                     // className='flex items-center cursor-pointer'
                                     disabled={userId == row.id ? true : false}
-                                    className={` ${
-                                      userId == row.id
-                                        ? 'cursor-not-allowed'
-                                        : ''
-                                    } flex items-center`}
+                                    className={` ${userId == row.id
+                                      ? 'cursor-not-allowed'
+                                      : ''
+                                      } flex items-center`}
                                     onClick={(e) =>
                                       handleClickOpen(
                                         row.id,
@@ -928,18 +922,16 @@ function Users() {
                                     }
                                   >
                                     <div
-                                      className={`w-6 h-3 rounded-full shadow-inner ${
-                                        row.userstatus
-                                          ? ' bg-[#ea580c]'
-                                          : 'bg-[#c3c6ca]'
-                                      }`}
+                                      className={`w-6 h-3 rounded-full shadow-inner ${row.userstatus
+                                        ? ' bg-[#ea580c]'
+                                        : 'bg-[#c3c6ca]'
+                                        }`}
                                     >
                                       <div
-                                        className={`toggle__dot w-3 h-3 rounded-full shadow ${
-                                          row.userstatus
-                                            ? 'ml-4 bg-white'
-                                            : 'bg-white'
-                                        }`}
+                                        className={`toggle__dot w-3 h-3 rounded-full shadow ${row.userstatus
+                                          ? 'ml-4 bg-white'
+                                          : 'bg-white'
+                                          }`}
                                       ></div>
                                     </div>
                                   </label>
@@ -1059,13 +1051,12 @@ function Users() {
                 }
                 onClick={() => handlePage(1)}
                 href='#'
-                className={`relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${
-                  navigation?.state === 'loading'
-                    ? 'cursor-wait'
-                    : users.currentPage === 1
+                className={`relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${navigation?.state === 'loading'
+                  ? 'cursor-wait'
+                  : users.currentPage === 1
                     ? 'cursor-not-allowed'
                     : 'cursor-auto'
-                }`}
+                  }`}
               >
                 <span className='sr-only'>Previous</span>
                 <svg
@@ -1090,13 +1081,12 @@ function Users() {
                     : false || users.currentPage === users.totalPages
                 }
                 onClick={() => handlePage(2)}
-                className={`relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${
-                  navigation?.state === 'loading'
-                    ? 'cursor-wait'
-                    : users.currentPage === users.totalPages
+                className={`relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${navigation?.state === 'loading'
+                  ? 'cursor-wait'
+                  : users.currentPage === users.totalPages
                     ? 'cursor-not-allowed'
                     : 'cursor-auto'
-                }`}
+                  }`}
               >
                 <span className='sr-only'>Next</span>
                 <svg
