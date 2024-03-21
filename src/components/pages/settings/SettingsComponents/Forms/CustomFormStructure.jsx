@@ -378,7 +378,7 @@ const CustomFormStructure = () => {
     $(e.target).blur();
   });
   return (
-    <div className='p-4 container bg-[#f8fafc]'>
+    <div className='p-4 container bg-[#f8fafc] w-full'>
       {/* for heading and back button */}
       <div className='grid grid-cols-1 md:grid-cols-2'>
         <p className='col-span-1 text-lg md:text-xl lg:text-xl xl:text-xl font-semibold'>
@@ -436,15 +436,15 @@ const CustomFormStructure = () => {
         </div>
       </div>
       {/* custom fileds */}
-      <div className='flex h-[500px] mt-3'>
-        <div className='w-full px-3 py-4 text-left text-xs overflow-y-scroll'>
+      <div className='flex  mt-3 '>
+        <div className='w-full px-3 py-4 text-left text-xs '>
           {customForm &&
             customForm.length > 0 &&
             customForm.map((input, index) => (
               <div>
                 <div
                   role='button'
-                  className='block w-full  '
+                  className='block'
                 >
                   <div className='flex justify-between items-center mb-3'>
                     <div className='flex justify-between items-center bg-[#f2f2f2] p-4 w-full'>
@@ -453,7 +453,7 @@ const CustomFormStructure = () => {
                           className=' '
                           onClick={() => handleFiledOpen(input.inputname)}
                         >
-                         {input.label.charAt(0).toUpperCase() + input.label.slice(1)}
+                          {input.label.charAt(0).toUpperCase() + input.label.slice(1)}
                         </div>
                       </div>
                       <div className='flex gap-3 md:gap-10'>
@@ -876,16 +876,16 @@ const CustomFormStructure = () => {
           </div>
         </Dialog>
       </Transition.Root>
-      <div className='flex justify-end w-full mt-2'>
-        <div className=''></div>
-        <div className='me-5'>
-          <button
-            className=' flex w-full justify-center rounded-md bg-orange-600 px-3 py-2.5 text-sm font-medium leading-6 text-white shadow-sm  focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600'
-            onClick={handleSubmitCustomForm}
-          >
-            Save
-          </button>
-        </div>
+      <div className='  mt-2 flex justify-end'>
+
+
+        <button
+          className='flex justify-end rounded-md bg-orange-600 px-3 py-2.5 text-sm font-medium leading-6 text-white shadow-sm  focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600'
+          onClick={handleSubmitCustomForm}
+        >
+          Save
+        </button>
+
       </div>
     </div>
   );
