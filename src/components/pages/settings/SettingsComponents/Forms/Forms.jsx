@@ -42,7 +42,7 @@ const Forms = () => {
             <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4  gap-4 mt-4">
                 {formsData && formsData.length > 0 && formsData.map((data) => (
                     <Link to={data.link}>
-                        <div className='transition-transform duration-300 ease-in-out transform hover:-translate-y-1 shadow-sm'>
+                        <div className='transition-transform duration-300 ease-in-out transform hover:-translate-y-1 custom-shadow hover:shadow-sm shadow-sm'>
                             <div className='grid1-item  text-start rounded-md'>
                                 <div className=' py-3 px-4 text-start bg-white rounded-md flex justify-between items-center shadow-sm'>
                                     <div>
@@ -54,7 +54,7 @@ const Forms = () => {
                                         </span>
                                     </div>
                                     <span className='bg-orange-100 rounded-full hidden sm:block'>
-                                        <img src={data.icon} className='w-16 h-16 rounded-full'/> </span>
+                                        <img src={data.icon} className='w-16 h-16 rounded-full' /> </span>
                                 </div>
                             </div>
 
