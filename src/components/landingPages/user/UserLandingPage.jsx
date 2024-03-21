@@ -242,7 +242,7 @@ const UserLandingPage = () => {
                       item.inputname === 'name' &&
                       item.field === 'predefined' && (
                         <div className='flex justify-center relative text-center'>
-                          <p className='absolute top-16 md:top-20 text-sm md:text-md antialiased font-semibold leading-snug tracking-normal text-blue-gray-900 mb-3'>
+                          <p className='absolute top-20 text-sm md:text-md antialiased font-semibold leading-snug tracking-normal text-blue-gray-900 mb-3 w-3/6 truncate md:w-5/6'>
                             {item.value.toUpperCase()}
                           </p>
                         </div>
