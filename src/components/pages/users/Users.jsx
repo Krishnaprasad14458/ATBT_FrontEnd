@@ -459,7 +459,7 @@ function Users() {
                     </svg>
                   </button>
                 </div>
-                <hr className='h-1 w-full' />
+               
                 <div className='overflow-y-auto px-4 py-2.5 content' style={{ maxHeight: 'calc(100vh - 8rem)' }}> {/* Adjust the maxHeight as per your need */}
                   {dupTableView && Object.keys(dupTableView).map((columnName) => (
                     <div key={columnName} className='flex items-center gap-2 text-start'>
@@ -529,7 +529,7 @@ function Users() {
                     </svg>
                   </button>
                 </div>
-                <hr className='h-1 w-full' />
+                
                 <div className='overflow-y-auto px-2 py-2.5 content' style={{ maxHeight: 'calc(100vh - 8rem)' }}>
                   <div className='text-start p-3 '>
                     {/* {filter.label} */}
