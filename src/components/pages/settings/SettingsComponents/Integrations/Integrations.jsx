@@ -5,6 +5,7 @@ import emailintegrationicon from '../../../../../Images/Email.svg';
 import apiingrationicon from '../../../../../Images/API.svg';
 import smsintegrationicon from '../../../../../Images/sms.svg';
 import paymentgatewayintegraionicon from '../../../../../Images/Payment_gateway.svg';
+import webhookintegrationicon from '../../../../../Images/Web_Hook.svg';
 
 
 
@@ -27,7 +28,7 @@ const Integrations = () => {
         },
         {
             name: "Web Hook",
-            // icon: webhookintegrationicon,
+            icon: webhookintegrationicon,
             link: "webhook"
         },
         {
