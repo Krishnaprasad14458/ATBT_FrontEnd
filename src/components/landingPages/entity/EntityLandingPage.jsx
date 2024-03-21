@@ -172,7 +172,7 @@ const EntityLandingPage = () => {
         </div>
       </div>
       <div className=''>
-        <div className='flex'>
+        <div className='flex overflow-auto'>
           <div
             className={`cursor-pointer px-1 py-1 text-md font-semibold  ${
               activeTab === 1 ? 'border-b-2 border-orange-600 text-black' : ''
@@ -253,17 +253,12 @@ const EntityLandingPage = () => {
                       item.inputname == 'name' &&
                       item.field === 'predefined' && (
                         <div>
-                          {item.value ? (
-                            <p className='text-sm font-black text-gray-800 mt-2 ml-4 absolute left-12'>
+                         
+                            <p className='text-sm font-black text-gray-800 mt-2 ml-4 absolute left-12 w-3/6 truncate md:w-5/6 '>
                               {' '}
                               {item.value.toUpperCase()}
                             </p>
-                          ) : (
-                            <p className='text-sm font-black text-gray-800 mt-2 ml-4 absolute left-12'>
-                              {' '}
-                              ENTITY NAME
-                            </p>
-                          )}
+                        
                         </div>
                       )}
                     {item.type === 'file' &&
