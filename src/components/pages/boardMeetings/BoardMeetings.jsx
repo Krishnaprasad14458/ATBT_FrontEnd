@@ -308,7 +308,7 @@ function BoardMeetings() {
             />
           </div>
         </div>
-        <div className='grid1-item text-end filter_pagination'>
+        <div className='grid1-item text-end md:flex md:justify-end filter_pagination'>
           <select
             defaultValue='10'
             onChange={handlePerPageChange}
