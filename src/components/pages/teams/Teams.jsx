@@ -299,7 +299,7 @@ function Teams() {
             />
           </div>
         </div>
-        <div className='grid1-item text-end filter_pagination'>
+        <div className='grid1-item text-end md:flex md:justify-end filter_pagination'>
           <select
             defaultValue='10'
             onChange={handlePerPageChange}
@@ -330,7 +330,7 @@ function Teams() {
                   </svg>
                 </button>
               </div>
-      
+
               <div className='overflow-y-auto px-4 py-2.5 content' style={{ maxHeight: 'calc(100vh - 8rem)' }}> {/* Adjust the maxHeight as per your need */}
                 {dupTableView && Object.keys(dupTableView).map((columnName) => (
                   <div key={columnName} className='flex items-center gap-2 text-start'>
@@ -400,7 +400,7 @@ function Teams() {
                   </svg>
                 </button>
               </div>
-           
+
               <div className='overflow-y-auto px-2 py-2.5 content' style={{ maxHeight: 'calc(100vh - 8rem)' }}>
                 <div className='text-start p-3 '>
                   {/* {filter.label} */}
@@ -740,10 +740,10 @@ function Teams() {
               }
               href='#'
               className={`relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${teamsList.loading
-                  ? 'cursor-wait'
-                  : teamsList.currentPage === 1
-                    ? 'cursor-not-allowed'
-                    : 'cursor-auto'
+                ? 'cursor-wait'
+                : teamsList.currentPage === 1
+                  ? 'cursor-not-allowed'
+                  : 'cursor-auto'
                 }`}
             >
               <span className='sr-only'>Previous</span>
@@ -773,10 +773,10 @@ function Teams() {
                 })
               }
               className={`relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${teamsList.loading
-                  ? 'cursor-wait'
-                  : teamsList.currentPage === teamsList.totalPages
-                    ? 'cursor-not-allowed'
-                    : 'cursor-auto'
+                ? 'cursor-wait'
+                : teamsList.currentPage === teamsList.totalPages
+                  ? 'cursor-not-allowed'
+                  : 'cursor-auto'
                 }`}
             >
               <span className='sr-only'>Next</span>
