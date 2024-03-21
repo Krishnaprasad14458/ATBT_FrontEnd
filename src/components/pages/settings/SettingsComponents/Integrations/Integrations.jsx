@@ -1,7 +1,46 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import whatsappintegrationicon from '../../../../../Images/whatsaapp.svg'
+import emailintegrationicon from '../../../../../Images/Email.svg';
+import apiingrationicon from '../../../../../Images/API.svg';
+import smsintegrationicon from '../../../../../Images/sms.svg';
+import paymentgatewayintegraionicon from '../../../../../Images/Payment_gateway.svg';
+
+
 
 const Integrations = () => {
+    const integration = [
+        {
+            name: "Whatsapp",
+            icon: whatsappintegrationicon,
+            link: "whatsappintegration"
+        },
+        {
+            name: "Email",
+            icon: emailintegrationicon,
+            link: "emailintegration"
+        },
+        {
+            name: "API",
+            icon: apiingrationicon,
+            link: "api"
+        },
+        {
+            name: "Web Hook",
+            // icon: webhookintegrationicon,
+            link: "webhook"
+        },
+        {
+            name: "SMS",
+            icon: smsintegrationicon,
+            link: "sms"
+        },
+        {
+            name: "Payment Gateway",
+            icon: paymentgatewayintegraionicon,
+            link: "paymentgateway"
+        },
+    ]
     return (
         <div className='container p-4 bg-[#f8fafc]'>
             <div className='flex justify-between my-2'>
@@ -16,63 +55,27 @@ const Integrations = () => {
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4  gap-4 mt-4">
 
-                <Link
-                    to="/whatsappintegration">
-                    <div className='grid1-item  text-start'>
-                        <div className=" py-5 px-4 text-center bg-orange-600 rounded-md">
-                            <p className="text-white text-base">
-                                WhatsApp
-                            </p>
-                        </div>
-                    </div>
+            {integration && integration.length > 0 && integration.map((data) => (
+                    <Link to={data.link}>
+                        <div className='transition-transform duration-300 ease-in-out transform hover:-translate-y-1 custom-shadow hover:shadow-sm shadow-sm'>
+                            <div className='grid1-item  text-start rounded-md'>
+                                <div className=' py-3 px-4 text-start bg-white rounded-md flex justify-between items-center shadow-sm'>
+                                    <div>
+                                        <p className='text-black flex text-md font-semibold'>{data.name}</p>
+                                        <span className='mt-3 text-sm leading-6 underline text-black flex gap-1'>
+                                            <p>Explore </p> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-4 h-4 mt-1">
+                                                <path fill-rule="evenodd" d="M2 8c0 .414.336.75.75.75h8.69l-1.22 1.22a.75.75 0 1 0 1.06 1.06l2.5-2.5a.75.75 0 0 0 0-1.06l-2.5-2.5a.75.75 0 1 0-1.06 1.06l1.22 1.22H2.75A.75.75 0 0 0 2 8Z" clip-rule="evenodd" />
+                                            </svg>
+                                        </span>
+                                    </div>
+                                    <span className='bg-orange-100 rounded-full hidden sm:block'>
+                                        <img src={data.icon} className='w-16 h-16 rounded-full'/> </span>
+                                </div>
+                            </div>
 
-                </Link>
-
-                <Link to="/emailintegration">
-                    <div className='grid1-item  text-start'>
-                        <div className=" py-5 px-4 text-center bg-orange-600 rounded-md">
-                            <p className="text-white text-base">
-                                Email
-                            </p>
-                        </div>
-                    </div>
-                </Link>
-                <Link to="/api">
-                    <div className='grid1-item  text-start'>
-                        <div className=" py-5 px-4 text-center bg-orange-600 rounded-md">
-                            <p className="text-white text-base">
-                                API
-                            </p>
-                        </div>
-                    </div>
-                </Link>
-                <Link to="/webhook">
-                    <div className='grid1-item  text-start'>
-                        <div className=" py-5 px-4 text-center bg-orange-600 rounded-md">
-                            <p className="text-white text-base">
-                                Web Hook
-                            </p>
-                        </div>
-                    </div>
-                </Link>
-                <Link to="/sms">
-                    <div className='grid1-item  text-start'>
-                        <div className=" py-5 px-4 text-center bg-orange-600 rounded-md">
-                            <p className="text-white text-base">
-                                Sms
-                            </p>
-                        </div>
-                    </div>
-                </Link>
-                <Link to="/paymentgateway">
-                    <div className='grid1-item  text-start'>
-                        <div className=" py-5 px-4 text-center bg-orange-600 rounded-md">
-                            <p className="text-white text-base">
-                                Payment GateWay
-                            </p>
-                        </div>
-                    </div>
-                </Link>
+                        </div></Link>
+                ))}
+              
             </div>
         </div>
     )
