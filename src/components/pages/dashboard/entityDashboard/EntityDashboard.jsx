@@ -1,38 +1,47 @@
-import { Link, useSubmit } from 'react-router-dom';
-import React, { useContext, useEffect, useState } from 'react';
+import { Link, useFetcher, useSubmit } from 'react-router-dom';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import EntityList from '../../../list/entityList/EntityList';
 import useDebounce from '../../../../hooks/debounce/useDebounce';
 import { EntitiesDataContext } from '../../../../contexts/entitiesDataContext/entitiesDataContext';
 import { useSearchParams } from 'react-router-dom';
 import GateKeeper from '../../../../rbac/GateKeeper';
+import { debounce } from '../../../../utils/utils';
 
-function EntityDashboard({ data: { data } }) {
-  const submit = useSubmit();
-  console.log(data, 'props');
-  const {
-    entitiesState: { entities, dashboardEntities },
-    entitiesDispatch,
-  } = useContext(EntitiesDataContext);
-  const { debouncedSetPage, debouncedSetSearch } =
-    useDebounce(entitiesDispatch);
-  useEffect(() => {
-    return () => {
-      entitiesDispatch({
-        type: 'SET_SEARCH',
-        payload: {
-          context: 'DASHBOARD',
-          data: '',
-        },
+function EntityDashboard() {
+  // const submit = useSubmit();
+  const fetcher = useFetcher();
+  const data = fetcher?.data?.data ?? [];
+  console.log(data, 'entity data');
+  const [Qparams, setQParams] = useState({
+    search: '',
+    page: 1,
+    pageSize: 10,
+  });
+  const debouncedParams = useCallback(
+    debounce((param) => {
+      fetcher.submit(param, {
+        method: 'get',
+        action: 'resource/dashboard/entity',
       });
-    };
-  }, []);
+    }, 500),
+    []
+  );
+  useEffect(() => {
+    debouncedParams(Qparams);
+  }, [Qparams]);
+  const handleSearchChange = (event) => {
+    setQParams({
+      ...Qparams,
+      search: event.target.value,
+    });
+  };
   return (
     <div className='w-full h-[450px] relative text-center bg-slate-50 border border-gray-200 rounded-md shadow sm:pt-4 dark:bg-gray-800 dark:border-gray-700'>
       <div className='grid1-item overflow-hidden sm:w-full'>
         <div className='p-4 sm:px-6 sm:pt-2'>
           <div className='flex items-center justify-between mb-2'>
             <h5 className='text-lg font-semibold leading-none text-gray-800 dark:text-white'>
-              Entities {dashboardEntities.loading ? '...' : null}
+              Entities {fetcher.state === 'loading' ? '...' : null}
             </h5>
             <GateKeeper
               permissionCheck={(permission) =>
@@ -71,24 +80,7 @@ function EntityDashboard({ data: { data } }) {
               />
             </svg>
             <input
-              // onChange={(e) =>
-              //   debouncedSetSearch({
-              //     context: 'DASHBOARD',
-              //     data: e.target.value,
-              //   })
-              // }
-              onChange={(e) => {
-                // fetcher.submit(
-                //   {
-                //     // You can implement any custom serialization logic here
-                //     serialized: JSON.stringify(meetingParams),
-                //   },
-                //   { method: 'get', action: '.' }
-                // );
-                let searchParams = new URLSearchParams();
-                searchParams.append('entity', e.target.value);
-                submit(searchParams, { method: 'get', action: '.' });
-              }}
+              onChange={handleSearchChange}
               type='search'
               id='gsearch'
               name='gsearch'
@@ -143,7 +135,7 @@ function EntityDashboard({ data: { data } }) {
           <div>
             {!data?.Entites || data?.Entites?.length === 0 ? (
               'no data to show'
-            ) : dashboardEntities.loading ? (
+            ) : fetcher.state === 'loading' ? (
               'Loading...'
             ) : (
               <p className='text-sm text-gray-700'>
@@ -160,22 +152,22 @@ function EntityDashboard({ data: { data } }) {
             >
               <button
                 disabled={
-                  dashboardEntities.loading
+                  fetcher.state === 'loading'
                     ? true
-                    : false || dashboardEntities.currentPage === 1
+                    : false || data.currentPage === 1
                 }
-                onClick={() =>
-                  debouncedSetPage({
-                    context: 'DASHBOARD',
-                    data: dashboardEntities.currentPage - 1,
-                  })
-                }
+                // onClick={() =>
+                //   debouncedSetPage({
+                //     context: 'DASHBOARD',
+                //     data: data.currentPage - 1,
+                //   })
+                // }
                 href='#'
                 // className="relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
                 className={`relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${
-                  dashboardEntities.loading
+                  fetcher.state === 'loading'
                     ? 'cursor-wait'
-                    : dashboardEntities.currentPage === 1
+                    : data.currentPage === 1
                     ? 'cursor-not-allowed'
                     : 'cursor-auto'
                 }`}
@@ -197,23 +189,20 @@ function EntityDashboard({ data: { data } }) {
               </button>
               <button
                 disabled={
-                  dashboardEntities.loading
+                  fetcher.state === 'loading'
                     ? true
-                    : false ||
-                      dashboardEntities.currentPage ===
-                        dashboardEntities.totalPages
+                    : false || data.currentPage === data.totalPages
                 }
-                onClick={() =>
-                  debouncedSetPage({
-                    context: 'DASHBOARD',
-                    data: dashboardEntities.currentPage + 1,
-                  })
-                }
+                // onClick={() =>
+                //   debouncedSetPage({
+                //     context: 'DASHBOARD',
+                //     data: data.currentPage + 1,
+                //   })
+                // }
                 className={`relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${
-                  dashboardEntities.loading
+                  data.loading
                     ? 'cursor-wait'
-                    : dashboardEntities.currentPage ===
-                      dashboardEntities.totalPages
+                    : data.currentPage === data.totalPages
                     ? 'cursor-not-allowed'
                     : 'cursor-auto'
                 }`}

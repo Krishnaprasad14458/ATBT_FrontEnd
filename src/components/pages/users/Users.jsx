@@ -28,6 +28,8 @@ import { EntitiesDataContext } from '../../../contexts/entitiesDataContext/entit
 import { AuthContext } from '../../../contexts/authContext/authContext';
 import atbtApi from '../../../serviceLayer/interceptor';
 import { debounce } from '../../../utils/utils';
+import Skeleton from 'react-loading-skeleton';
+
 function classNames(...classes) {
   return classes.filter(Boolean).join('');
 }
@@ -88,6 +90,7 @@ function Users() {
   const navigation = useNavigation();
   let [searchParams, setSearchParams] = useSearchParams();
   const data = useLoaderData();
+  console.log(data, 'users lodaer data');
   const { users } = data;
   let submit = useSubmit();
   let fetcher = useFetcher();
@@ -159,6 +162,12 @@ function Users() {
     });
     setFilterDrawerOpen(!filterDrawerOpen);
   };
+
+  useEffect(() => {
+    if (fetcher.state === 'idle' && !fetcher.data) {
+      fetcher.load('.');
+    }
+  }, [fetcher, navigation]);
 
   const [open, setOpen] = useState(false);
   // const [opening, setOpening] = useState(false);
@@ -423,13 +432,19 @@ function Users() {
     const formattedTime = `${formattedHours}:${formattedMinutes} ${ampm}`;
     return formattedTime;
   }
+  console.log(navigation, 'navigation fetcher', fetcher);
+  // if (navigation?.state === 'loading') {
+  //   return (
+  //     <Skeleton
+  //       count={10}
+  //       height={25}
+  //     />
+  //   );
+  // }
 
-  if (navigation?.state === 'loading') {
-    return <h1>Loading....</h1>;
-  }
-
-  if (navigation?.state === 'idle') {
-    return (
+  // if (navigation?.state === 'idle') {
+  return (
+    <>
       <div className='overflow-x-auto p-3'>
         <div className='grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-3 xl:grid-col-3 gap-2 mt-2'>
           <h1 className='font-semibold text-lg grid1-item'>Users</h1>
@@ -1057,7 +1072,7 @@ function Users() {
                     ? true
                     : false || users.currentPage === 1
                 }
-                onClick={() => handlePage(1)}
+                onClick={() => handlePage(users.currentPage - 1)}
                 href='#'
                 className={`relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${
                   navigation?.state === 'loading'
@@ -1089,7 +1104,7 @@ function Users() {
                     ? true
                     : false || users.currentPage === users.totalPages
                 }
-                onClick={() => handlePage(2)}
+                onClick={() => handlePage(users.currentPage + 1)}
                 className={`relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${
                   navigation?.state === 'loading'
                     ? 'cursor-wait'
@@ -1117,8 +1132,9 @@ function Users() {
           </div>
         </div>
       </div>
-    );
-  }
+    </>
+  );
+  // }
 }
 
 export default Users;
