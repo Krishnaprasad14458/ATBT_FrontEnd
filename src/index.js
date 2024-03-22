@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import "react-toastify/dist/ReactToastify.css";
+import 'react-loading-skeleton/dist/skeleton.css'
 // import App, { router_bsckup } from './App';
 import reportWebVitals from './reportWebVitals';
 import { RouterProvider } from "react-router-dom";
@@ -26,18 +27,18 @@ root.render(
         <EntitiesDataProvider>
           <TeamsDataProvider>
             <BoardMeetingsDataProvider>
-            <RouterProvider router={router} />
-            <ToastContainer
-              position="top-right"
-              autoClose={1000}
-              hideProgressBar={false}
-              newestOnTop={false}
-              closeOnClick
-              rtl={false}
-              pauseOnFocusLoss
-              draggable
-              pauseOnHover
-            />
+              <RouterProvider router={router} />
+              <ToastContainer
+                position="top-right"
+                autoClose={1000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+              />
             </BoardMeetingsDataProvider>
           </TeamsDataProvider>
         </EntitiesDataProvider>

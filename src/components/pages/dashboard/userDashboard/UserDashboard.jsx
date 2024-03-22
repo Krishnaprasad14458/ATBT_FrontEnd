@@ -1,25 +1,76 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { UserDataContext } from '../../../../contexts/usersDataContext/usersDataContext';
-import { Link, useSearchParams, useSubmit } from 'react-router-dom';
+import {
+  Link,
+  useFetcher,
+  useNavigation,
+  useSearchParams,
+  useSubmit,
+} from 'react-router-dom';
 import DashboardList from '../../../list/dashboardList/DashboardList';
 import useDebounce from '../../../../hooks/debounce/useDebounce';
 import * as actions from '../../../../contexts/usersDataContext/utils/usersActions';
 import GateKeeper from '../../../../rbac/GateKeeper';
+import { debounce } from '../../../../utils/utils';
 
-function UserDashboard({ data: { data } }) {
+function objectToQueryString(obj) {
+  const queryParams = [];
+  for (let key in obj) {
+    if (obj.hasOwnProperty(key)) {
+      for (let subKey in obj[key]) {
+        if (obj[key].hasOwnProperty(subKey)) {
+          queryParams.push(
+            `${key}[${subKey}]=${encodeURIComponent(obj[key][subKey])}`
+          );
+        }
+      }
+    }
+  }
+  return queryParams.join('&');
+}
+
+function UserDashboard() {
   let [searchParams, setSearchParams] = useSearchParams();
+  // const [userParams, setUserParams] = params;
   console.log(searchParams.toString(), 'sp');
   const submit = useSubmit();
-  // const submit = useFetcher();
-  const handleSearchChange = (e) => {
-    const searchParams = new URLSearchParams();
-    searchParams.set('user', e.target.value);
-    searchParams.set('userPage', '1');
-    submit(
-      { user: e.target.value, userPage: '1' },
-      { method: 'get', action: '.' }
-    );
+  const fetcher = useFetcher();
+  const data = fetcher?.data?.data ?? [];
+  const navigation = useNavigation();
+  console.log(navigation, 'dparam', fetcher);
+  const [Qparams, setQParams] = useState({
+    search: '',
+    page: 1,
+    pageSize: 10,
+  });
+  const debouncedParams = useCallback(
+    debounce((param) => {
+      console.log(param, objectToQueryString(param), 'dparam', Qparams);
+      const qp = objectToQueryString(param);
+      fetcher.submit(param, {
+        method: 'get',
+        action: 'resource/dashboard/user',
+      });
+    }, 500),
+    []
+  );
+  useEffect(() => {
+    debouncedParams(Qparams);
+  }, [Qparams]);
+  const handleSearchChange = (event) => {
+    setQParams({
+      ...Qparams,
+      page: 1,
+      search: event.target.value,
+    });
   };
+
+  function handlePage(page) {
+    setQParams({
+      ...Qparams,
+      page,
+    });
+  }
 
   const handleNextPageClick = () => {
     console.log('next');
@@ -28,7 +79,7 @@ function UserDashboard({ data: { data } }) {
     searchParams.set('user', data.search);
     searchParams.set('userPage', nextPage.toString());
     submit(searchParams, {
-      method: 'get',
+      method: 'post',
       action: '.',
     });
   };
@@ -39,7 +90,7 @@ function UserDashboard({ data: { data } }) {
     const searchParams = new URLSearchParams();
     searchParams.set('user', data.search);
     searchParams.set('userPage', prevPage.toString());
-    submit(searchParams, { method: 'get', action: '.' });
+    submit(searchParams, { method: 'post', action: '.' });
   };
 
   const {
@@ -210,7 +261,7 @@ function UserDashboard({ data: { data } }) {
               {/* previos button */}
               <button
                 disabled={
-                  dashboard.loading ? true : false || data.currentPage === 1
+                  dashboard.loading ? true : false || data?.currentPage === 1
                 }
                 // onClick={() => {
                 // debouncedSetPage({

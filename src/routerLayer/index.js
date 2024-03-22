@@ -145,7 +145,7 @@ export const router = createBrowserRouter([
             ...authRoutes,
             ...httpInterceptors
         ]
-    }
+    },
 ])
 
 

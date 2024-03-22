@@ -79,6 +79,8 @@ export const createUser = async (userData, token) => {
 export const updateUser = async (userData, id, token) => {
     console.log(`${token} token is present in updateUser api`);
     const url = `${apiUrl}/user/update/${id}`;
+    // const url = `http://localhost:3000/user/update/${id}`;
+    console.log([...userData], "userData")
     return await toast.promise(
         axios.put(url, userData, {
             headers: {

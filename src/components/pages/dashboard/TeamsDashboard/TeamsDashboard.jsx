@@ -1,14 +1,37 @@
-import React from 'react';
-import { Link, useLoaderData, useSubmit } from 'react-router-dom';
+import React, { useCallback, useEffect, useState } from 'react';
+import { Link, useFetcher, useLoaderData, useSubmit } from 'react-router-dom';
 import GateKeeper from '../../../../rbac/GateKeeper';
-import { caseLetter } from '../../../../utils/utils';
+import { caseLetter, debounce } from '../../../../utils/utils';
 
-const TeamsDashboard = ({ data: { data } }) => {
+const TeamsDashboard = () => {
   const loaderData = useLoaderData();
   console.log('lolol', loaderData);
-  console.log(data, 'teams');
-  // const fetcher = useFetcher();
-  const submit = useSubmit();
+  const fetcher = useFetcher();
+  const data = fetcher?.data?.data ?? [];
+  // const submit = useSubmit();
+  const [Qparams, setQParams] = useState({
+    search: '',
+    page: 1,
+    pageSize: 10,
+  });
+  const debouncedParams = useCallback(
+    debounce((param) => {
+      fetcher.submit(param, {
+        method: 'get',
+        action: 'resource/dashboard/team',
+      });
+    }, 500),
+    []
+  );
+  useEffect(() => {
+    debouncedParams(Qparams);
+  }, [Qparams]);
+  const handleSearchChange = (event) => {
+    setQParams({
+      ...Qparams,
+      search: event.target.value,
+    });
+  };
   return (
     <div className='w-full relative h-[450px]  text-center bg-slate-50 border border-gray-200 rounded-md shadow sm:pt-4 dark:bg-gray-800 dark:border-gray-700'>
       <div className='grid1-item overflow-hidden sm:w-full'>
@@ -63,18 +86,7 @@ const TeamsDashboard = ({ data: { data } }) => {
               name='gsearch'
               className='bg-slate-50 w-80 border-none focus:outline-none appearance-none focus:border-none'
               placeholder='Search here....'
-              onChange={(e) => {
-                // fetcher.submit(
-                //   {
-                //     // You can implement any custom serialization logic here
-                //     serialized: JSON.stringify(meetingParams),
-                //   },
-                //   { method: 'get', action: '.' }
-                // );
-                let searchParams = new URLSearchParams();
-                searchParams.append('team', e.target.value);
-                submit(searchParams, { method: 'get', action: '.' });
-              }}
+              onChange={handleSearchChange}
             />
           </div>
           <hr className='w-96 my-1' />

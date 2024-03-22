@@ -1,16 +1,35 @@
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Link, useFetcher, useSubmit } from 'react-router-dom';
 import GateKeeper from '../../../../rbac/GateKeeper';
+import { debounce } from '../../../../utils/utils';
 
-const BoardMeetingDashboard = ({ data: { data } }) => {
-  const [meetingParams, setMeetingParams] = useState({
-    page: 1,
-    pageSize: 5,
-    sortBy: '',
+const BoardMeetingDashboard = () => {
+  const fetcher = useFetcher();
+  const data = fetcher?.data?.data ?? [];
+  console.log(data, 'meeting');
+  const [Qparams, setQParams] = useState({
     search: '',
+    page: 1,
+    pageSize: 10,
   });
-  // const fetcher = useFetcher();
-  const submit = useSubmit();
+  const debouncedParams = useCallback(
+    debounce((param) => {
+      fetcher.submit(param, {
+        method: 'get',
+        action: 'resource/dashboard/meeting',
+      });
+    }, 500),
+    []
+  );
+  useEffect(() => {
+    debouncedParams(Qparams);
+  }, [Qparams]);
+  const handleSearchChange = (event) => {
+    setQParams({
+      ...Qparams,
+      search: event.target.value,
+    });
+  };
   return (
     <div className='w-full relative h-[450px] text-center bg-slate-50 border border-gray-200 rounded-md shadow sm:pt-4 dark:bg-gray-800 dark:border-gray-700'>
       <div className='grid1-item overflow-hidden sm:w-full'>
@@ -62,18 +81,7 @@ const BoardMeetingDashboard = ({ data: { data } }) => {
               name='gsearch'
               className='bg-slate-50 w-80 border-none focus:outline-none appearance-none focus:border-none'
               placeholder='Search here....'
-              onChange={(e) => {
-                // fetcher.submit(
-                //   {
-                //     // You can implement any custom serialization logic here
-                //     serialized: JSON.stringify(meetingParams),
-                //   },
-                //   { method: 'get', action: '.' }
-                // );
-                let searchParams = new URLSearchParams();
-                searchParams.append('meeting', e.target.value);
-                submit(searchParams, { method: 'get', action: '.' });
-              }}
+              onChange={handleSearchChange}
             />
           </div>
           <hr className='w-96 my-1' />
@@ -86,7 +94,7 @@ const BoardMeetingDashboard = ({ data: { data } }) => {
             className='divide-y divide-gray-200 dark:divide-gray-700'
           >
             {/* 1 to 5  static data */}
-            {data.Meetings.map((el) => (
+            {data?.Meetings?.map((el) => (
               <li className='py-2'>
                 <div class='flex items-center'>
                   <div class='flex-shrink-0'>

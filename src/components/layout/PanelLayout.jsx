@@ -1,10 +1,20 @@
 import React, { useContext } from 'react';
 import Sidebar from '../common/sidebar/Sidebar';
 import TopBar from '../common/topbar/TopBar';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useNavigation } from 'react-router-dom';
 import useOnlineStatus from '../../hooks/isOnline/useOnlineStatus ';
 import { AuthContext } from '../../contexts/authContext/authContext';
 import useServiceWorker from '../../useSw';
+import TopBarProgress from 'react-topbar-progress-indicator';
+
+TopBarProgress.config({
+  barColors: {
+    0: '#ff7f50',
+    '1.0': '#ff7f50',
+  },
+  barThickness: 5,
+  shadowBlur: 2,
+});
 
 const Layout = () => {
   const isOnline = useOnlineStatus();
@@ -18,6 +28,8 @@ const Layout = () => {
     sendSWMessage,
     sendStatusUpdate,
   } = useServiceWorker(isOnline, isLoggedIn);
+  const navigation = useNavigation();
+  console.log(navigation, 'navigation state');
   return (
     <div className='app'>
       <Sidebar />
@@ -43,6 +55,7 @@ const Layout = () => {
             ⚠️ You are offline
           </span>
         )}
+        {navigation.state == 'loading' && <TopBarProgress />}
         <Outlet />
       </main>
     </div>
