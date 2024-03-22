@@ -5,12 +5,15 @@ import { AuthContext } from '../../contexts/authContext/authContext';
 import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { set } from 'react-hook-form';
+
 function ChangePassword() {
   const navigate = useNavigate();
   const { id } = useParams();
-  const { resetPassword } = useContext(AuthContext);
+  const { resetPassword, authState, resetPasswordWhenLoggedIn } = useContext(AuthContext);
+  const [showOldPassword, setShowOldPassword] = useState();
   const [showPassword, setShowPassword] = useState();
   const [showConfirmPassword, setShowConfirmPassword] = useState();
+  const [oldPassword, setOldPassword] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [passwordError, setPasswordError] = useState('');
@@ -22,7 +25,9 @@ function ChangePassword() {
     onNumber: false,
     confirmPassword: false,
   });
-
+  useEffect(() => {
+    console.log("authState", authState)
+  })
   useEffect(() => {
     if (password.length >= 6) {
       setCheckValidations((prev) => ({ ...prev, passwordLength: true }));
@@ -82,16 +87,33 @@ function ChangePassword() {
     }
 
     if (password === confirmPassword) {
-      const res = await resetPassword({
-        id,
-        password,
-      });
-      res === 200 && navigate('/login');
+      if (!authState?.user?.id && !authState?.token) {
+
+        const res = await resetPassword({
+          id,
+          password,
+        });
+        res === 200 && navigate('/login');
+      }
+      if (authState?.user?.id && authState?.token) {
+
+
+        const res = await resetPasswordWhenLoggedIn({
+          id: authState.user.id,
+          oldpassword: oldPassword,
+          newpassword: password
+        });
+        res === 200 && navigate('/login');
+      }
+
     } else {
       toast.error('Passwords did not match!');
     }
   };
-
+  const handleCopy = (event) => {
+    event.preventDefault();
+ 
+  };
   return (
     <main className='relative overflow-hidden'>
       <img
@@ -118,6 +140,63 @@ function ChangePassword() {
               action='#'
               method='POST'
             >
+              {authState?.user?.id && authState?.token &&
+                <div>
+                  <label
+                    htmlFor='passowrd'
+                    className='block text-sm font-medium leading-6 text-gray-900'
+                  >
+                    Enter Old Password <span className='text-[#dc2626]'>*</span>
+                  </label>
+                  <div className='mt-2 relative'>
+                    <input
+                      id='passowrd'
+                      name='passowrd'
+                      onChange={(e) => setOldPassword(e.target.value)}
+                      placeholder='Enter old password'
+                      value={oldPassword}
+                      type={showOldPassword ? 'text' : 'password'}
+                      onCopy={handleCopy}
+                      required
+                      className='p-3 block w-full rounded-md border border-1 border-gray-400 py-1.5 text-gray-900 bg-gray-100  appearance-none shadow-sm  placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6'
+                    />
+                    <button
+                      type='button'
+                      onClick={() => setShowOldPassword(!showOldPassword)}
+                      className='absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 focus:outline-none'
+                    >
+                      {showOldPassword ? (
+                        <svg
+                          xmlns='http://www.w3.org/2000/svg'
+                          viewBox='0 0 16 16'
+                          fill='currentColor'
+                          className='w-4 h-4'
+                        >
+                          <path d='M8 9.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Z' />
+                          <path
+                            fill-rule='evenodd'
+                            d='M1.38 8.28a.87.87 0 0 1 0-.566 7.003 7.003 0 0 1 13.238.006.87.87 0 0 1 0 .566A7.003 7.003 0 0 1 1.379 8.28ZM11 8a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z'
+                            clip-rule='evenodd'
+                          />
+                        </svg>
+                      ) : (
+                        <svg
+                          xmlns='http://www.w3.org/2000/svg'
+                          viewBox='0 0 16 16'
+                          fill='currentColor'
+                          className='w-4 h-4'
+                        >
+                          <path
+                            fill-rule='evenodd'
+                            d='M3.28 2.22a.75.75 0 0 0-1.06 1.06l10.5 10.5a.75.75 0 1 0 1.06-1.06l-1.322-1.323a7.012 7.012 0 0 0 2.16-3.11.87.87 0 0 0 0-.567A7.003 7.003 0 0 0 4.82 3.76l-1.54-1.54Zm3.196 3.195 1.135 1.136A1.502 1.502 0 0 1 9.45 8.389l1.136 1.135a3 3 0 0 0-4.109-4.109Z'
+                            clip-rule='evenodd'
+                          />
+                          <path d='m7.812 10.994 1.816 1.816A7.003 7.003 0 0 1 1.38 8.28a.87.87 0 0 1 0-.566 6.985 6.985 0 0 1 1.113-2.039l2.513 2.513a3 3 0 0 0 2.806 2.806Z' />
+                        </svg>
+                      )}
+                    </button>
+                  </div>
+                </div>}
               <div>
                 <label
                   htmlFor='passowrd'
@@ -133,6 +212,7 @@ function ChangePassword() {
                     placeholder='Enter new password'
                     value={password}
                     type={showPassword ? 'text' : 'password'}
+                    onCopy={handleCopy}
                     required
                     className='p-3 block w-full rounded-md border border-1 border-gray-400 py-1.5 text-gray-900 bg-gray-100  appearance-none shadow-sm  placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6'
                   />
@@ -192,6 +272,7 @@ function ChangePassword() {
                     onChange={(e) => setConfirmPassword(e.target.value)}
                     value={confirmPassword}
                     autoComplete='confirmPassword'
+                    onCopy={handleCopy}
                     required
                     className='p-3 block w-full rounded-md border border-1 border-gray-400 py-1.5 text-gray-900 bg-gray-100  appearance-none shadow-sm  placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6'
                   />

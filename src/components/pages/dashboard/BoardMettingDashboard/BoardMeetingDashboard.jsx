@@ -104,7 +104,7 @@ const BoardMeetingDashboard = () => {
                       alt='Neil image'
                     />
                   </div>
-                  <div class='flex-1 min-w-0 ms-4'>
+                  <div class='flex-1 min-w-0 ms-4' title={el.name}>
                     <p class='text-sm font-medium text-gray-900 text-start truncate dark:text-white'>
                       {el.name}
                     </p>

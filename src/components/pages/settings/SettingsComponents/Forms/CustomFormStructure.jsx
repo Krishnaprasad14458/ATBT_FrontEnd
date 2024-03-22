@@ -378,7 +378,7 @@ const CustomFormStructure = () => {
     $(e.target).blur();
   });
   return (
-    <div className='p-4 container bg-[#f8fafc]'>
+    <div className='p-4 container bg-[#f8fafc] w-full'>
       {/* for heading and back button */}
       <div className='grid grid-cols-1 md:grid-cols-2'>
         <p className='col-span-1 text-lg md:text-xl lg:text-xl xl:text-xl font-semibold'>
@@ -436,108 +436,35 @@ const CustomFormStructure = () => {
         </div>
       </div>
       {/* custom fileds */}
-      <div className='flex h-[500px] mt-3'>
-        <div className='w-full px-3 py-4 text-left text-xs overflow-y-scroll'>
+      <div className='flex  mt-3 '>
+        <div className='w-full px-3 py-4 text-left text-xs '>
           {customForm &&
             customForm.length > 0 &&
             customForm.map((input, index) => (
               <div>
                 <div
                   role='button'
-                  className='block w-full  '
+                  className='block'
                 >
                   <div className='flex justify-between items-center mb-3'>
-                    <div className='flex justify-between items-center bg-[#f2f2f2] p-4 w-full cursor-default'>
-                      <div className='flex text-black font-semibold'>
+                    <div className='flex justify-between items-center bg-[#f2f2f2] p-4 w-full'>
+                      <div className='flex text-black font-semibold  flex-wrap break-all '>
                         <div
-                          className='cursor-pointer'
+                          className=' '
                           onClick={() => handleFiledOpen(input.inputname)}
                         >
                           {input.label.charAt(0).toUpperCase() + input.label.slice(1)}
                         </div>
                       </div>
                       <div className='flex gap-3 md:gap-10'>
-                        {/* up and down moving icons */}
-
-                        <svg
-                          disabled={
-                            input.field === 'predefined' ||
-                            (input.field === 'custom' &&
-                              customForm[index - 1]?.field === 'predefined')
-                          }
-                          className={`${
-                            input.field === 'predefined' ||
-                            (input.field === 'custom' &&
-                              customForm[index - 1]?.field === 'predefined')
-                              ? 'text-gray-400 cursor-not-allowed'
-                              : ''
-                          } w-5 h-5`}
-                          onClick={() => {
-                            if (
-                              !(
-                                input.field === 'predefined' ||
-                                (input.field === 'custom' &&
-                                  customForm[index - 1]?.field === 'predefined')
-                              )
-                            ) {
-                              handleMoveDimension(index, 'up');
-                            }
-                          }}
-                          xmlns='http://www.w3.org/2000/svg'
-                          viewBox='0 0 20 20'
-                          fill='currentColor'
-                        >
-                          <path
-                            fillRule='evenodd'
-                            d='M10 17a.75.75 0 0 1-.75-.75V5.612L5.29 9.77a.75.75 0 0 1-1.08-1.04l5.25-5.5a.75.75 0 0 1 1.08 0l5.25 5.5a.75.75 0 1 1-1.08 1.04l-3.96-4.158V16.25A.75.75 0 0 1 10 17Z'
-                            clipRule='evenodd'
-                          />
-                        </svg>
-
-                        <svg
-                          disabled={
-                            input.field === 'predefined' ||
-                            (input.field === 'custom' &&
-                              customForm?.length === index + 1)
-                          }
-                          className={`${
-                            input.field === 'predefined' ||
-                            (input.field === 'custom' &&
-                              customForm?.length === index + 1)
-                              ? 'text-gray-400 cursor-not-allowed'
-                              : ''
-                          } w-5 h-5 `}
-                          onClick={() => {
-                            if (
-                              !(
-                                input.field === 'predefined' ||
-                                (input.field === 'custom' &&
-                                  customForm?.length === index + 1)
-                              )
-                            ) {
-                              handleMoveDimension(index, 'down');
-                            }
-                          }}
-                          xmlns='http://www.w3.org/2000/svg'
-                          viewBox='0 0 20 20'
-                          fill='currentColor'
-                        >
-                          <path
-                            fill-rule='evenodd'
-                            d='M10 3a.75.75 0 0 1 .75.75v10.638l3.96-4.158a.75.75 0 1 1 1.08 1.04l-5.25 5.5a.75.75 0 0 1-1.08 0l-5.25-5.5a.75.75 0 1 1 1.08-1.04l3.96 4.158V3.75A.75.75 0 0 1 10 3Z'
-                            clip-rule='evenodd'
-                          />
-                        </svg>
-
-                        {/* Open and Close Arrow*/}
                         <svg
                           onClick={() => handleFiledOpen(input.inputname)}
                           xmlns='http://www.w3.org/2000/svg'
                           viewBox='0 0 24 24'
                           fill='currentColor'
-                          className='w-6 h-6 cursor-pointer'
+                          className='w-6 h-6'
                         >
-                          {input.inputname == selected ? (
+                          {input.inputname === selected ? (
                             <path
                               fillRule='evenodd'
                               d='M11.47 7.72a.75.75 0 0 1 1.06 0l7.5 7.5a.75.75 0 1 1-1.06 1.06L12 9.31l-6.97 6.97a.75.75 0 0 1-1.06-1.06l7.5-7.5Z'
@@ -553,6 +480,7 @@ const CustomFormStructure = () => {
                         </svg>
                       </div>
                     </div>
+
                   </div>
 
                 </div>
@@ -663,11 +591,10 @@ const CustomFormStructure = () => {
                       </div>
                       <div className='mr-4'>
                         <button
-                          className={`flex w-full justify-center rounded-md bg-[#dc2626] px-3 py-2.5 text-sm font-medium leading-6 text-white shadow-sm  focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600 ${
-                            input.field === 'custom'
-                              ? ''
-                              : 'pointer-events-none opacity-30  cursor-not-allowed'
-                          }`}
+                          className={`flex w-full justify-center rounded-md bg-[#dc2626] px-3 py-2.5 text-sm font-medium leading-6 text-white shadow-sm  focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600 ${input.field === 'custom'
+                            ? ''
+                            : 'pointer-events-none opacity-30  cursor-not-allowed'
+                            }`}
                           onClick={() => {
                             deleteInput(index);
                           }}
@@ -780,11 +707,10 @@ const CustomFormStructure = () => {
                           <span className='mt-3 ms-3'>:</span>
                           <select
                             name='type'
-                            className={`p-2 mx-2  py-1.5 my-2 text-xs w-full md:w-72 lg:w-72 xl:w-72 bg-gray-50 rounded-md border-2  border-gray-200  text-gray-900 shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-xs  custom-scroll " ${
-                              editIndex == null
-                                ? ''
-                                : 'pointer-events-none opacity-30'
-                            }`}
+                            className={`p-2 mx-2  py-1.5 my-2 text-xs w-full md:w-72 lg:w-72 xl:w-72 bg-gray-50 rounded-md border-2  border-gray-200  text-gray-900 shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-xs  custom-scroll " ${editIndex == null
+                              ? ''
+                              : 'pointer-events-none opacity-30'
+                              }`}
                             value={newInputField.type}
                             onChange={handleInputChange}
                           >
@@ -899,28 +825,27 @@ const CustomFormStructure = () => {
                           {
                             <div
                               className={`mb-6 flex items-end gap-1
-                                                         ${
-                                                           newInputField.type ===
-                                                             'text' ||
-                                                           newInputField.type ===
-                                                             'email' ||
-                                                           newInputField.type ===
-                                                             'number' ||
-                                                           newInputField.type ===
-                                                             'phonenumber' ||
-                                                           newInputField.type ===
-                                                             'textarea' ||
-                                                           newInputField.type ===
-                                                             'date' ||
-                                                           newInputField.type ===
-                                                             'select' ||
-                                                           newInputField.type ===
-                                                             'multiselect' ||
-                                                           newInputField.type ===
-                                                             'time'
-                                                             ? ''
-                                                             : 'pointer-events-none opacity-30'
-                                                         }`}
+                                                         ${newInputField.type ===
+                                  'text' ||
+                                  newInputField.type ===
+                                  'email' ||
+                                  newInputField.type ===
+                                  'number' ||
+                                  newInputField.type ===
+                                  'phonenumber' ||
+                                  newInputField.type ===
+                                  'textarea' ||
+                                  newInputField.type ===
+                                  'date' ||
+                                  newInputField.type ===
+                                  'select' ||
+                                  newInputField.type ===
+                                  'multiselect' ||
+                                  newInputField.type ===
+                                  'time'
+                                  ? ''
+                                  : 'pointer-events-none opacity-30'
+                                }`}
                             >
                               <input
                                 type='checkbox'
@@ -951,16 +876,16 @@ const CustomFormStructure = () => {
           </div>
         </Dialog>
       </Transition.Root>
-      <div className='flex justify-end w-full mt-2'>
-        <div className=''></div>
-        <div className='me-5'>
-          <button
-            className=' flex w-full justify-center rounded-md bg-orange-600 px-3 py-2.5 text-sm font-medium leading-6 text-white shadow-sm  focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600'
-            onClick={handleSubmitCustomForm}
-          >
-            Save
-          </button>
-        </div>
+      <div className='  mt-2 flex justify-end'>
+
+
+        <button
+          className='flex justify-end rounded-md bg-orange-600 px-3 py-2.5 text-sm font-medium leading-6 text-white shadow-sm  focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600'
+          onClick={handleSubmitCustomForm}
+        >
+          Save
+        </button>
+
       </div>
     </div>
   );

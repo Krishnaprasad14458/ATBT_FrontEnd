@@ -44,7 +44,7 @@ const Settings = () => {
       <div className='grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4  gap-4 mt-4'>
         {settingsData && settingsData.length > 0 && settingsData.map((item) => (
           <Link to={item.link} >
-            <div className='transition-transform duration-300 ease-in-out transform hover:-translate-y-1 shadow-sm'>
+            <div className='transition-transform duration-300 ease-in-out transform hover:-translate-y-1 custom-shadow hover:shadow-sm shadow-sm'>
 
               <div className='grid1-item text-start rounded-md'>
                 <div className='py-3 px-4 text-start bg-white rounded-md flex justify-between items-center shadow-sm'>
@@ -56,7 +56,7 @@ const Settings = () => {
                       </svg>
                     </span>
                   </div>
-                  <span className='bg-orange-100 rounded-full'>
+                  <span className='bg-orange-100 rounded-full hidden sm:block'>
                     <img src={item.icon} className='w-16 h-16 rounded-full' alt='icon' />
                   </span>
                 </div>

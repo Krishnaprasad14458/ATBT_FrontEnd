@@ -439,6 +439,8 @@ function UserForm() {
       console.log(formDataObj, 'foj');
       let response;
       if (!!id && !!user?.userData) {
+        // formData.set('role', user?.userData?.role);
+        // formData.set('email', user?.userData?.email);
         console.log('updating');
         response = await updateUser(formData, id);
       } else {
@@ -1401,7 +1403,7 @@ function UserForm() {
                           item.field === 'predefined' && (
                             <div className=' flex justify-center'>
                               {item.value ? (
-                                <p className='absolute top-16 my-3 text-md antialiased font-semibold leading-snug tracking-normal text-blue-gray-900'>
+                                <p className='absolute top-16 my-3 text-md antialiased font-semibold leading-snug tracking-normal text-blue-gray-900 w-3/6 truncate md:w-5/6'>
                                   {item.value.toUpperCase()}
                                 </p>
                               ) : (
@@ -1416,7 +1418,10 @@ function UserForm() {
                           item.field == 'predefined' && (
                             <div className='flex  justify-center   border-t-2 border-gray-300 '>
                               {item.value ? (
-                                <p className='absolute top-20 mt-8 text-sm antialiased  leading-snug tracking-normal text-blue-gray-90'>
+                                <p
+                                  className='absolute top-20 mt-8 text-sm antialiased  leading-snug tracking-normal text-blue-gray-90'
+                                  title={item.value}
+                                >
                                   {item.value}
                                 </p>
                               ) : (

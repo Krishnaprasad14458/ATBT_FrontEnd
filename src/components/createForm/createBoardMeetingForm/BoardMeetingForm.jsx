@@ -1354,7 +1354,7 @@ function BoardMeetingForm() {
               customFormFields.length > 0 &&
               customFormFields.map((item) => {
                 return (
-                  <div className='relative'>
+                  <div className='relative '>
                     {/* predefined fields*/}
                     <div className='flex justify-between flex-wrap'>
                       <span>
@@ -1398,14 +1398,14 @@ function BoardMeetingForm() {
                             <div className='relative w-5/6 bottom-5'>
                               {item.value ? (
                                 <p className='text-sm'>
-                                  Venue :{' '}
+                                  Venue :
                                   <span className='text-xs'> {item.value}</span>
                                 </p>
                               ) : (
                                 <p className='text-sm text-gray-400'>
-                                  Venue :{' '}
+                                  Venue :
                                   <span className='text-xs'>
-                                    abc building, xyz street , worldwide.{' '}
+                                    abc building, xyz street , worldwide.
                                   </span>
                                 </p>
                               )}
@@ -1418,7 +1418,7 @@ function BoardMeetingForm() {
                           item.field === 'predefined' && (
                             <div>
                               {item.value ? (
-                                <p className='text-sm'>Time : {item.value}</p>
+                                <p className='text-sm'>Time :   {formatTime(item.value)}</p>
                               ) : (
                                 <p className='text-sm text-gray-400 '>
                                   Time : 00:00 AM
@@ -1441,7 +1441,7 @@ function BoardMeetingForm() {
                     {item.type === 'multiselect' &&
                       item.inputname == 'members' &&
                       item.field == 'predefined' && (
-                        <div className=' grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-2 mt-5'>
+                        <div className=' grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-2 mt-5 mb-5'>
                           {item.value &&
                             Array.from({ length: 12 }).map((_, index) => {
                               let first = '';
@@ -1561,7 +1561,7 @@ function BoardMeetingForm() {
                                               <span>
                                                 +{item.value.length - 11} more
                                               </span>
-                                            )}{' '}
+                                            )}
                                         </div>
                                       </div>
                                     </>
@@ -1580,7 +1580,7 @@ function BoardMeetingForm() {
                         </div>
                       )}                     {/* customfields */}
                     {item.type === 'text' && item.field == 'custom' && (
-                      <div className='my-2 mx-2 '>
+                      <div className=' mx-2 '>
                         {item.value && item.value.length > 0 && (
                           <p className='flex  gap-2'>
                             <span className='w-2/6 truncate text-[#727a85] '>
@@ -1588,18 +1588,18 @@ function BoardMeetingForm() {
                                 item.label.slice(1)}
                             </span>
                             <span className=' flex gap-2 w-4/6'>
-                              <span> : </span>{' '}
+                              <span> : </span>
                               <span className='text-md font-[600]  '>
                                 {item.value}
                               </span>
                             </span>
                           </p>
                         )}
-                        {item.value && <hr className='mt-2' />}{' '}
+                        {item.value && <hr className='my-2' />}
                       </div>
                     )}
                     {item.type === 'email' && item.field == 'custom' && (
-                      <div className='my-2 mx-2 '>
+                      <div className=' mx-2 '>
                         {item.value && item.value.length > 0 && (
                           <p className='flex  gap-2'>
                             <span className='w-2/6 truncate text-[#727a85] '>
@@ -1607,18 +1607,18 @@ function BoardMeetingForm() {
                                 item.label.slice(1)}
                             </span>
                             <span className='  flex gap-2 w-4/6 '>
-                              <span> : </span>{' '}
+                              <span> : </span>
                               <span className='text-md font-[600] break-all'>
                                 {item.value}
                               </span>
                             </span>
                           </p>
                         )}
-                        {item.value && <hr className='mt-2' />}
+                        {item.value && <hr className='my-2' />}
                       </div>
                     )}
                     {item.type === 'phonenumber' && item.field == 'custom' && (
-                      <div className='my-2 mx-2  flex-wrap'>
+                      <div className=' mx-2  flex-wrap'>
                         {item.value && item.value.length > 0 && (
                           <p className='flex  gap-2'>
                             <span className='w-2/6 truncate text-[#727a85] '>
@@ -1626,7 +1626,7 @@ function BoardMeetingForm() {
                                 item.label.slice(1)}
                             </span>
                             <span className='  flex gap-2 w-4/6'>
-                              <span> : </span>{' '}
+                              <span> : </span>
                               <span className='text-md font-[600] '>
                                 {item.value.slice(0, 3)}&nbsp;
                                 {item.value.slice(3, 6)}&nbsp;
@@ -1635,11 +1635,11 @@ function BoardMeetingForm() {
                             </span>
                           </p>
                         )}
-                        {item.value && <hr className='mt-2' />}{' '}
+                        {item.value && <hr className='my-2' />}
                       </div>
                     )}
                     {item.type === 'number' && item.field == 'custom' && (
-                      <div className='my-2 mx-2  flex-wrap'>
+                      <div className=' mx-2  flex-wrap'>
                         {item.value && item.value.length > 0 && (
                           <p className='flex  gap-2'>
                             <span className='w-2/6 truncate text-[#727a85] '>
@@ -1647,18 +1647,18 @@ function BoardMeetingForm() {
                                 item.label.slice(1)}
                             </span>
                             <span className='  flex gap-2 w-4/6'>
-                              <span> : </span>{' '}
+                              <span> : </span>
                               <span className='text-md font-[600]  break-all'>
                                 {item.value}
                               </span>
                             </span>
                           </p>
                         )}
-                        {item.value && <hr className='mt-2' />}{' '}
+                        {item.value && <hr className='my-2' />}
                       </div>
                     )}
                     {item.type === 'textarea' && item.field == 'custom' && (
-                      <div className='my-2 mx-2  '>
+                      <div className=' mx-2  '>
                         {item.value && item.value.length > 0 && (
                           <p className='flex  gap-2'>
                             <span className='w-2/6 text-[#727a85] truncate '>
@@ -1666,14 +1666,14 @@ function BoardMeetingForm() {
                                 item.label.slice(1)}
                             </span>
                             <span className=' flex gap-2 w-4/6'>
-                              <span> : </span>{' '}
+                              <span> : </span>
                               <span className='text-md font-[600]  '>
                                 {item.value}
                               </span>
                             </span>
                           </p>
                         )}
-                        {item.value && <hr className='mt-2' />}{' '}
+                        {item.value && <hr className='my-2' />}
                       </div>
                     )}
                     {item.type === 'date' &&
@@ -1704,7 +1704,7 @@ function BoardMeetingForm() {
                           }-${year}`;
 
                         return (
-                          <div className='my-2 mx-2'>
+                          <div className=' mx-2'>
                             {item.value && item.value.length > 0 && (
                               <p className='flex gap-2'>
                                 <span className='w-2/6 text-[#727a85] truncate'>
@@ -1712,20 +1712,20 @@ function BoardMeetingForm() {
                                     item.label.slice(1)}
                                 </span>
                                 <span className='flex gap-2 w-4/6'>
-                                  <span> : </span>{' '}
+                                  <span> : </span>
                                   <span className='text-md font-[600]'>
                                     {date ? date : 'No Date'}
                                   </span>
                                 </span>
                               </p>
                             )}
-                            {date && <hr className='mt-2' />}
+                            {item.value && <hr className='my-2' />}
                           </div>
                         );
                       })()}
 
                     {item.type === 'select' && item.field == 'custom' && (
-                      <div className='my-2 mx-2 '>
+                      <div className=' mx-2 '>
                         {item.value && item.value.length > 0 && (
                           <p className='flex  gap-2'>
                             <span className='w-2/6 text-[#727a85] truncate  '>
@@ -1733,18 +1733,18 @@ function BoardMeetingForm() {
                                 item.label.slice(1)}
                             </span>
                             <span className='  flex gap-2 w-4/6'>
-                              <span> : </span>{' '}
+                              <span> : </span>
                               <span className='text-md font-[600] '>
                                 {item.value}
                               </span>
                             </span>
                           </p>
                         )}
-                        {item.value && <hr className='mt-2' />}{' '}
+                        {item.value && <hr className='my-2' />}
                       </div>
                     )}
                     {item.type === 'multiselect' && item.field == 'custom' && (
-                      <div className='my-2 mx-2 '>
+                      <div className='mx-2 '>
                         {item.value && item.value.length > 0 && (
                           <p className='flex  gap-2'>
                             <span className='w-2/6 text-[#727a85]  truncate '>
@@ -1752,18 +1752,18 @@ function BoardMeetingForm() {
                                 item.label.slice(1)}
                             </span>
                             <span className='  flex gap-2 w-4/6'>
-                              <span> : </span>{' '}
+                              <span> : </span>
                               <span className='text-md font-[600] '>
                                 {item.value.join(', ')}
                               </span>
                             </span>
                           </p>
                         )}
-                        {item.value.join(', ') && <hr className='mt-2' />}{' '}
+                        {item.value.join(', ') && <hr className='my-2' />}
                       </div>
                     )}
                     {item.type === 'range' && item.field == 'custom' && (
-                      <div className='my-2 mx-2 '>
+                      <div className=' mx-2 '>
                         {item.value && item.value.length > 0 && (
                           <p className='flex  gap-2'>
                             <span className='w-2/6 text-[#727a85] truncate '>
@@ -1771,18 +1771,18 @@ function BoardMeetingForm() {
                                 item.label.slice(1)}
                             </span>
                             <span className='  flex gap-2 w-4/6'>
-                              <span> : </span>{' '}
+                              <span> : </span>
                               <span className='text-md font-[600] '>
                                 {item.value}
                               </span>
                             </span>
                           </p>
                         )}
-                        {item.value && <hr className='mt-2' />}{' '}
+                        {item.value && <hr className='my-2' />}
                       </div>
                     )}
                     {item.type === 'time' && item.field == 'custom' && (
-                      <div className='my-2 mx-2 '>
+                      <div className=' mx-2 '>
                         {item.value && item.value.length > 0 && (
                           <p className='flex gap-2'>
                             <span className='w-2/6 text-[#727a85] truncate  '>
@@ -1790,14 +1790,14 @@ function BoardMeetingForm() {
                                 item.label.slice(1)}
                             </span>
                             <span className='  flex gap-2 w-4/6'>
-                              <span> : </span>{' '}
+                              <span> : </span>
                               <span className='text-md font-[600] '>
                                 {formatTime(item.value)}
                               </span>
                             </span>
                           </p>
                         )}
-                        {item.value && <hr className='mt-2' />}{' '}
+                        {item.value && <hr className='my-2' />}
                       </div>
                     )}
                   </div>

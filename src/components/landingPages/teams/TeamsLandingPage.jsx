@@ -168,52 +168,46 @@ const TeamsLandingPage = () => {
         </div>
       </div>
       <div className=''>
-        <div className='flex'>
+        <div className='flex overflow-auto'>
           <div
-            className={`cursor-pointer px-1 py-1 text-md font-semibold  ${
-              activeTab === 1 ? 'border-b-2 border-orange-600 text-black' : ''
-            }`}
+            className={`cursor-pointer px-1 py-1 text-md font-semibold  ${activeTab === 1 ? 'border-b-2 border-orange-600 text-black' : ''
+              }`}
             onClick={() => handleTabClick(1)}
           >
             Overview
           </div>
 
           <div
-            className={`cursor-pointer px-5 py-1 text-md font-semibold  ${
-              activeTab === 2 ? 'border-b-2 border-orange-600 text-black' : ''
-            }`}
+            className={`cursor-pointer px-5 py-1 text-md font-semibold  ${activeTab === 2 ? 'border-b-2 border-orange-600 text-black' : ''
+              }`}
             onClick={() => handleTabClick(2)}
           >
             List
           </div>
           <div
-            className={`cursor-pointer px-5 py-1 text-md font-semibold  ${
-              activeTab === 3 ? 'border-b-2 border-orange-600 text-black' : ''
-            }`}
+            className={`cursor-pointer px-5 py-1 text-md font-semibold  ${activeTab === 3 ? 'border-b-2 border-orange-600 text-black' : ''
+              }`}
             onClick={() => handleTabClick(3)}
           >
             Calendar
           </div>
           <div
-            className={`cursor-pointer px-5 py-1 text-md font-semibold ${
-              activeTab === 4 ? 'border-b-2 border-orange-600 text-black' : ''
-            }`}
+            className={`cursor-pointer px-5 py-1 text-md font-semibold ${activeTab === 4 ? 'border-b-2 border-orange-600 text-black' : ''
+              }`}
             onClick={() => handleTabClick(4)}
           >
             Dashboard
           </div>
           <div
-            className={`cursor-pointer px-5 py-1 text-md font-semibold  ${
-              activeTab === 5 ? 'border-b-2 border-orange-600 text-black' : ''
-            }`}
+            className={`cursor-pointer px-5 py-1 text-md font-semibold  ${activeTab === 5 ? 'border-b-2 border-orange-600 text-black' : ''
+              }`}
             onClick={() => handleTabClick(5)}
           >
             Messages
           </div>
           <div
-            className={`cursor-pointer px-5 py-1 text-md font-semibold  ${
-              activeTab === 6 ? 'border-b-2 border-orange-600 text-black' : ''
-            }`}
+            className={`cursor-pointer px-5 py-1 text-md font-semibold  ${activeTab === 6 ? 'border-b-2 border-orange-600 text-black' : ''
+              }`}
             onClick={() => handleTabClick(6)}
           >
             Attachments
@@ -264,9 +258,8 @@ const TeamsLandingPage = () => {
                 ];
 
                 // Formatting the date
-                date = `${day < 10 ? '0' : ''}${day}-${
-                  monthAbbreviations[monthIndex]
-                }-${year}`;
+                date = `${day < 10 ? '0' : ''}${day}-${monthAbbreviations[monthIndex]
+                  }-${year}`;
                 return (
                   <div className='relative'>
                     {/* predefined fields*/}
@@ -379,16 +372,16 @@ const TeamsLandingPage = () => {
                                       >
                                         {(item.value[index].image &&
                                           index < 11) ||
-                                        (index === 11 &&
-                                          item.value.length === 12) ? (
+                                          (index === 11 &&
+                                            item.value.length === 12) ? (
                                           <img
                                             src={
                                               typeof item.value[index].image ===
-                                              'string'
+                                                'string'
                                                 ? item.value[index].image
                                                 : URL.createObjectURL(
-                                                    item.value[index].image
-                                                  )
+                                                  item.value[index].image
+                                                )
                                             }
                                             name='EntityPhoto'
                                             alt='Entity Photo'
@@ -941,14 +934,12 @@ const TeamsLandingPage = () => {
               </tr>
               <div
                 id='content'
-                className={`fixed inset-0 transition-all duration-500 bg-gray-800 bg-opacity-50 z-50 ${
-                  isOpen ? '' : 'hidden'
-                }`}
+                className={`fixed inset-0 transition-all duration-500 bg-gray-800 bg-opacity-50 z-50 ${isOpen ? '' : 'hidden'
+                  }`}
               >
                 <div
-                  className={`p-3 fixed inset-y-0 right-0 ${
-                    expand ? 'w-5/6' : 'w-1/2'
-                  } bg-white shadow-lg transform translate-x-0 transition-transform duration-300 ease-in-out`}
+                  className={`p-3 fixed inset-y-0 right-0 ${expand ? 'w-5/6' : 'w-1/2'
+                    } bg-white shadow-lg transform translate-x-0 transition-transform duration-300 ease-in-out`}
                 >
                   <div className='flex justify-start'>
                     <div className='relative inline-block ms-2'>

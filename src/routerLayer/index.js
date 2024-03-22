@@ -33,16 +33,13 @@ import EntityLandingPage from "../components/landingPages/entity/EntityLandingPa
 import BoardMeetingLandingPage from "../components/landingPages/boardMeeting/BoardMeetingLandingPage";
 import TeamsLandingPage from "../components/landingPages/teams/TeamsLandingPage";
 import UserLandingPage from "../components/landingPages/user/UserLandingPage";
-import Settingentityform from "../components/pages/settings/SettingsComponents/Forms/Settingentityform";
-import SettingBoardMeetingForm from "../components/pages/settings/SettingsComponents/Forms/SettingBoardMeetingForm";
-import SettingTeamsForm from "../components/pages/settings/SettingsComponents/Forms/SettingTeamsForm";
-// import SettingUserForm from './components/pages/settings/SettingsComponents/Forms/SettingUserForm';
+
 import BoardMeetings from "../components/pages/boardMeetings/BoardMeetings";
 import BoardMeetingForm from "../components/createForm/createBoardMeetingForm/BoardMeetingForm";
 import Tasks from "../components/pages/task/Tasks";
 import Users from "../components/pages/users/Users";
 import UserForm from "../components/createForm/createUserForm/UserForm";
-import UsersFormDup from "../components/pages/settings/SettingsComponents/Forms/SettingUserForm";
+// import UsersFormDup from "../components/pages/settings/SettingsComponents/Forms/SettingUserForm";
 import UserProfile from "../components/pages/userProfile/UserProfile";
 import UserTasks from "../components/pages/userProfile/userTabs/UserTasks";
 import UserTeams from "../components/pages/userProfile/userTabs/UserTeams";

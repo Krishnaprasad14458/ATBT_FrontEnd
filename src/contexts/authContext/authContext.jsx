@@ -6,6 +6,7 @@ import { toast } from 'react-toastify';
 import Swal from 'sweetalert2';
 import { apiUrl } from '../../utils/constants';
 import { setupAuthenticationErrorHandler } from './utils/setupAthenticationErrorHandler';
+import atbtApi from '../../serviceLayer/interceptor';
 
 export const AuthContext = createContext();
 
@@ -123,12 +124,56 @@ const AuthProvider = ({ children }) => {
   };
 
   const resetPassword = async ({ id, password }) => {
+    console.log("hi", atbtApi)
     try {
       const { data, status } = await toast.promise(
         axios.put(
           `${apiUrl}/auth/changepassword/${id}`,
           {
             newPassword: password,
+          },
+          {
+            headers: {
+              authorization: authState?.token,
+            },
+          }
+        ),
+        {
+          pending: 'verifying data',
+          success: {
+            render({
+              data: {
+                data: { updated },
+              },
+            }) {
+              return `Password Updated`;
+            },
+          },
+          error: 'Unauthorized Access 🤯',
+        }
+      );
+      console.log(status, 'status');
+      if (status === 200) {
+        localStorage.removeItem('data');
+        authDispatch({ type: 'SET_USER', payload: {} });
+        authDispatch({ type: 'SET_TOKEN', payload: '' });
+      }
+      return status;
+    } catch (e) {
+      console.error(e);
+      throw e;
+    }
+  };
+  const resetPasswordWhenLoggedIn = async ({ id, oldpassword, newpassword }) => {
+    console.log("hie", atbtApi)
+
+    try {
+      const { data, status } = await toast.promise(
+        axios.put(
+          `${apiUrl}/auth/renewpassword/${id}`,
+          {
+            oldPassword: oldpassword,
+            newPassword: newpassword,
           },
           {
             headers: {
@@ -188,6 +233,7 @@ const AuthProvider = ({ children }) => {
         changePassword,
         resetPassword,
         userLogout,
+        resetPasswordWhenLoggedIn,
         localStorageData,
       }}
     >

@@ -104,6 +104,7 @@ function EntityDashboard() {
               data?.Entites?.map((entity) => (
                 <li
                   className='py-2 sm:py-2'
+                  title={entity.name}
                   key={entity.id}
                 >
                   <Link to={`/entities/${entity.id}`}>

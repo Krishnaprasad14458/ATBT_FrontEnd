@@ -211,6 +211,7 @@ function UserDashboard() {
               data?.users?.map((user) => (
                 <li
                   className='py-2 sm:py-2'
+                  title={user.name}
                   key={user.id}
                 >
                   <Link to={`/users/${user.id}`}>
