@@ -36,14 +36,21 @@ function classNames(...classes) {
 const userData = JSON.parse(localStorage.getItem('data'));
 const userId = userData?.id;
 const role = userData?.role?.name;
+
 export async function loader({ request, params }) {
   try {
     let url = new URL(request.url);
+    // const userList = await atbtApi.post(
+    //   `/user/list${url?.search ? url?.search : ''}`,
+    //   {}
+    // );
+    // return userList;
     const [userList, entityList, roleList] = await Promise.all([
       atbtApi.post(`/user/list${url?.search ? url?.search : ''}`, {}),
       atbtApi.post(`/public/list/entity`, {}),
       atbtApi.post(`/public/list/role`, {}),
     ]);
+
     const combinedResponse = {
       users: userList?.data,
       fieldsDropDownData: {
@@ -58,6 +65,7 @@ export async function loader({ request, params }) {
     throw error;
   }
 }
+
 export async function action({ request, params }) {
   switch (request.method) {
     case 'PUT': {
@@ -136,6 +144,7 @@ function Users() {
   const handleMouseLeave = () => {
     setHoveredOption('heloo');
   };
+
   function handlefilters() {
     setQParams({
       ...Qparams,
@@ -173,6 +182,7 @@ function Users() {
     setuser_remarks_history(userRemarksHistory);
     setOpen(true);
   };
+
   const handleClosed = () => {
     setOpen(false);
   };
@@ -194,6 +204,7 @@ function Users() {
           date: new Date(),
         };
       }
+
       user_remarks_history.push(newObject);
       const updatedData = {
         user_remarks_history,
@@ -211,15 +222,20 @@ function Users() {
       alert('enter remarks');
     }
   };
+
   const [columnsDrawerOpen, setColumnsDrawerOpen] = useState(false);
+
   const columnsDrawer = () => {
     setColumnsDrawerOpen(!columnsDrawerOpen);
   };
   const [filterDrawerOpen, setFilterDrawerOpen] = useState(false);
+
   const filterDrawer = () => {
     setFilterDrawerOpen(!filterDrawerOpen);
   };
+
   const [activeTab, setActiveTab] = useState(1);
+
   const handleTabClick = (tabNumber) => {
     setActiveTab(tabNumber);
   };
@@ -238,6 +254,7 @@ function Users() {
         content: 'custom-swal2-content',
       },
     });
+
     if (confirmDelete.isConfirmed) {
       try {
         // const result = await deleteUser(id);
@@ -247,6 +264,7 @@ function Users() {
       }
     }
   };
+
   /////////////////////////////////////////////// Irshad
   const [customForm, setCustomForm] = useState([]);
   let [fieldsDropDownData, setFieldsDropDownData] = useState({
@@ -273,6 +291,7 @@ function Users() {
         // Handle errors
         console.error('Error fetching data:', error);
       });
+
     axios
       .get(`https://atbtbeta.infozit.com/rbac/getroles`)
       .then((response) => {
@@ -286,9 +305,11 @@ function Users() {
         console.error('Error fetching data:', error);
       });
   }, []);
+
   ////////filters start
   const [filterableInputsInBox, setFilterableInputsInBox] = useState();
   const [filterableInputsInSearch, setFilterableInputsInSearch] = useState();
+
   useEffect(() => {
     const filterableInputsInBox = customForm
       .filter(
@@ -320,14 +341,17 @@ function Users() {
         label: obj.label,
         type: obj.type,
       }));
+
     setFilterableInputsInBox(filterableInputsInBox);
     setFilterableInputsInSearch(filterableInputsInSearch);
   }, [customForm]);
+
   useEffect(() => {
     console.log('filterableInputsInBox', filterableInputsInBox);
   });
+
   ////////filters end
-  // for table view coloumns
+
   const [tableView, setTableView] = useState();
   const [dupTableView, setDupTableView] = useState();
   const handleColumnsCheckboxChange = (columnName) => {
@@ -373,6 +397,7 @@ function Users() {
     }
     return columnsDrawer();
   };
+
   const [visibleColumns, setvisibleColumns] = useState();
   useEffect(() => {
     let visibleColumns = Object.keys(tableView || {}).filter(
@@ -380,7 +405,9 @@ function Users() {
     );
     setvisibleColumns(visibleColumns);
   }, [tableView]);
+
   const [selectedFilters, setSelectedFilters] = useState({});
+
   const handleFilterChange = (filterName, selectedValue) => {
     setSelectedFilters((prevState) => ({
       ...prevState,
@@ -390,6 +417,7 @@ function Users() {
   useEffect(() => {
     console.log('irshad', tableView, visibleColumns);
   });
+
   function formatTime(timeString) {
     const [hourStr, minuteStr] = timeString.split(':');
     const hours = parseInt(hourStr, 10);
@@ -419,10 +447,11 @@ function Users() {
       <div className='overflow-x-auto p-3'>
         <div className='grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-3 xl:grid-col-3 gap-2 mt-2'>
           <h1 className='font-semibold text-lg grid1-item'>Users</h1>
-          <div className='grid1-item mx-3 text-start'>
+          <div className='grid1-item text-start'>
             <label
               for='default-search'
-              className='mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white'>
+              className='mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white'
+            >
               Search
             </label>
             <div className='relative'>
@@ -432,7 +461,8 @@ function Users() {
                   aria-hidden='true'
                   xmlns='http://www.w3.org/2000/svg'
                   fill='none'
-                  viewBox='0 0 20 20'>
+                  viewBox='0 0 20 20'
+                >
                   <path
                     stroke='currentColor'
                     stroke-linecap='round'
@@ -449,14 +479,16 @@ function Users() {
                 id='default-search'
                 className='block w-full px-4 py-2 ps-10 text-sm border-2 border-gray-200  rounded-2xl bg-gray-50  focus:outline-none '
                 placeholder='Search here...'
-                required />
+                required
+              />
             </div>
           </div>
           <div className='grid1-item text-end md:flex md:justify-end filter_pagination'>
             <select
               value={Qparams?.pageSize}
               onChange={handlePerPageChange}
-              className='focus:outline-none me-3 gap-x-1.5 rounded-md bg-gray-50 px-1 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-200 hover:bg-gray-50'>
+              className='focus:outline-none me-3 gap-x-1.5 rounded-md bg-gray-50 px-1 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-200 hover:bg-gray-50'
+            >
               <option value='10'>10</option>
               <option value='25'>25</option>
               <option value='50'>50</option>
@@ -464,43 +496,83 @@ function Users() {
               <option value='250'>250</option>
               <option value='500'>500</option>
             </select>
+
             <button
               onClick={columnsDrawer}
               className=' focus:outline-none me-3 gap-x-1.5 rounded-md bg-orange-600 px-4 py-2 text-sm font-[500] text-white shadow-md  hover:shadow-lg'
             >
               Columns
             </button>
+
             {/* for coloumns open */}
-            <div className={`fixed inset-0 bg-gray-800 bg-opacity-50 z-10 ${columnsDrawerOpen ? '' : 'opacity-0 pointer-events-none'}`} style={{ transition: 'opacity 0.3s ease-in-out' }}>
-              <div className='fixed inset-y-0 right-0 w-11/12 md:w-4/12 lg:w-1/5 xl:w-1/5 bg-white shadow-lg transform translate-x-full transition-transform duration-300 ease-in-out h-full' style={{ transform: `translateX(${columnsDrawerOpen ? '0%' : '100%'})`, transition: 'transform 0.3s ease-in-out' }}>
-                <div className='sticky top-0 bg-gray-100 px-5 py-4 flex justify-between z-[3] header'>
+            <div
+              className={`fixed inset-0 bg-gray-800 bg-opacity-50 z-10 ${
+                columnsDrawerOpen ? '' : 'opacity-0 pointer-events-none'
+              }`}
+              style={{ transition: 'opacity 0.3s ease-in-out' }}
+            >
+              <div
+                className='fixed inset-y-0 right-0 w-11/12 md:w-4/12 lg:w-1/5 xl:w-1/5 bg-white shadow-lg transform translate-x-full transition-transform duration-300 ease-in-out h-screen overflow-scroll'
+                style={{
+                  transform: `translateX(${columnsDrawerOpen ? '0%' : '100%'})`,
+                  transition: 'transform 0.3s ease-in-out',
+                }}
+              >
+                <div className='flex justify-between px-5 py-4 bg-gray-100 '>
                   <h5 className='font-[500]'>Columns</h5>
-                  <button onClick={columnsDrawer} className=''>
-                    <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='currentColor' className='w-5 h-5 text-gray-500'>
-                      <path fillRule='evenodd' d='M5.47 5.47a.75.75 0 0 1 1.06 0L12 10.94l5.47-5.47a.75.75 0 1 1 1.06 1.06L13.06 12l5.47 5.47a.75.75 0 1 1-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 0 1-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 0 1 0-1.06Z' clipRule='evenodd' />
+                  <button
+                    onClick={columnsDrawer}
+                    className=''
+                  >
+                    <svg
+                      xmlns='http://www.w3.org/2000/svg'
+                      viewBox='0 0 24 24'
+                      fill='currentColor'
+                      className='w-5 h-5 text-gray-500'
+                    >
+                      <path
+                        fillRule='evenodd'
+                        d='M5.47 5.47a.75.75 0 0 1 1.06 0L12 10.94l5.47-5.47a.75.75 0 1 1 1.06 1.06L13.06 12l5.47 5.47a.75.75 0 1 1-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 0 1-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 0 1 0-1.06Z'
+                        clipRule='evenodd'
+                      />
                     </svg>
                   </button>
                 </div>
-               
-                <div className='overflow-y-auto px-4 py-2.5 content' style={{ maxHeight: 'calc(100vh - 8rem)' }}> {/* Adjust the maxHeight as per your need */}
-                  {dupTableView && Object.keys(dupTableView).map((columnName) => (
-                    <div key={columnName} className='flex items-center gap-2 text-start'>
-                      <input
-                        className={(
-                          dupTableView[columnName].value ? 'bg-gray-100 text-gray-700 hover:text-black' : 'text-gray-700 bg-gray-100 hover:text-black',
-                          'appearance-none border border-gray-300 hover:border-gray-900 checked:hover:border-white rounded-md checked:bg-orange-600 checked:border-transparent w-4 h-4 cursor-pointer hover:text-black relative'
-                        )}
-                        type='checkbox'
-                        id={columnName}
-                        checked={dupTableView[columnName].value}
-                        onChange={() => handleColumnsCheckboxChange(columnName)}
-                      />
-                      <label htmlFor={columnName} className='cursor-pointer text-md py-1 flex-1 w-3/6 truncate' title={dupTableView[columnName].label}>{dupTableView[columnName].label}</label>
-                    </div>
+                <hr className='h-1 w-full' />
 
-                  ))}
+                <div className='px-4 py-2 h-[615px] overflow-y-scroll flex-wrap'>
+                  {dupTableView &&
+                    Object.keys(dupTableView).map((columnName) => (
+                      <div
+                        key={columnName}
+                        className='flex items-center gap-2'
+                      >
+                        <input
+                          className={classNames(
+                            tableView[columnName].value
+                              ? 'bg-gray-100 text-gray-700 hover:text-black'
+                              : 'text-gray-700 bg-gray-100 hover:text-black',
+                            'appearance-none border border-gray-300 hover:border-gray-900 checked:hover:border-white rounded-md checked:bg-orange-600 checked:border-transparent w-4 h-4 cursor-pointer hover:text-black relative' // added 'relative' class
+                          )}
+                          type='checkbox'
+                          id={columnName}
+                          checked={dupTableView[columnName].value}
+                          onChange={() =>
+                            handleColumnsCheckboxChange(columnName)
+                          }
+                        />
+
+                        <label
+                          htmlFor={columnName}
+                          className='cursor-pointer text-md py-1 text-left'
+                        >
+                          {dupTableView[columnName].label}
+                        </label>
+                      </div>
+                    ))}
                 </div>
-                <div className='sticky bottom-0 bg-gray-100 flex justify-between p-3 w-full footer'>
+
+                <div className='bg-gray-100 flex justify-between px-3 pt-2 pb-1  w-full'>
                   <button
                     className='mr-3 px-3 py-2 inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white '
                     onClick={handleColumnsApply}
@@ -518,52 +590,62 @@ function Users() {
                 </div>
               </div>
             </div>
+
             <button
               onClick={filterDrawer}
-              className='transition-opacity duration-500 focus:outline-none me-3 gap-x-1.5 mt-1 md:mt-0 rounded-md bg-orange-600 px-4 py-2 text-sm font-[500] text-white shadow-md  hover:shadow-lg'>
+              className='transition-opacity duration-500 focus:outline-none me-3 gap-x-1.5 mt-1 md:mt-0 rounded-md bg-orange-600 px-4 py-2 text-sm font-[500] text-white shadow-md  hover:shadow-lg'
+            >
               Filters
             </button>
+
             {/* for filter open */}
             <div
-              className={`fixed inset-0 bg-gray-800 bg-opacity-50 z-10 ${filterDrawerOpen ? '' : 'opacity-0 pointer-events-none'
-                }`}
-              style={{ transition: 'opacity 0.3s ease-in-out' }}>
+              className={`fixed inset-0 bg-gray-800 bg-opacity-50 z-10 ${
+                filterDrawerOpen ? '' : 'opacity-0 pointer-events-none'
+              }`}
+              style={{ transition: 'opacity 0.3s ease-in-out' }}
+            >
               <div
-                className='fixed inset-y-0 right-0 w-11/12 md:w-4/12 lg:w-1/5 xl:w-w-1/5 bg-white shadow-lg transform translate-x-full transition-transform duration-300 ease-in-out  h-full'
+                className='fixed inset-y-0 right-0 w-11/12 md:w-4/12 lg:w-1/5 xl:w-w-1/5   bg-white shadow-lg transform translate-x-full transition-transform duration-300 ease-in-out h-screen overflow-scroll'
                 style={{
                   transform: `translateX(${filterDrawerOpen ? '0%' : '100%'})`,
                   transition: 'transform 0.3s ease-in-out',
-                }}>
-                <div className='sticky top-0 bg-gray-100 px-5 py-4 flex justify-between z-[3] header'>
+                }}
+              >
+                <div className=' flex justify-between px-5 py-4 bg-gray-100'>
                   <h5 className='font-[500] '> Filters</h5>
                   <button
                     onClick={filterDrawer}
-                    className=''>
+                    className=''
+                  >
                     <svg
                       xmlns='http://www.w3.org/2000/svg'
                       viewBox='0 0 24 24'
                       fill='currentColor'
-                      className='w-5 h-5 text-gray-500'>
+                      className='w-5 h-5 text-gray-500'
+                    >
                       <path
                         fillRule='evenodd'
                         d='M5.47 5.47a.75.75 0 0 1 1.06 0L12 10.94l5.47-5.47a.75.75 0 1 1 1.06 1.06L13.06 12l5.47 5.47a.75.75 0 1 1-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 0 1-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 0 1 0-1.06Z'
-                        clipRule='evenodd' />
+                        clipRule='evenodd'
+                      />
                     </svg>
                   </button>
                 </div>
-                
-                <div className='overflow-y-auto px-2 py-2.5 content' style={{ maxHeight: 'calc(100vh - 8rem)' }}>
+                <div className='h-[615px] overflow-auto'>
                   <div className='text-start p-3 '>
                     {/* {filter.label} */}
                     {filterableInputsInBox?.map((filter, index) => (
                       <div
                         key={index}
-                        className=''>
+                        className=''
+                      >
                         {!filter.options &&
                           (filter.type === 'date' ||
                             filter.type === 'time') && (
                             <div>
                               <label className='mb-4 text-sm text-[#878a99] font-medium'>
+                                {' '}
                                 {filter.label.charAt(0).toUpperCase() +
                                   filter.label.slice(1)}
                               </label>
@@ -571,14 +653,15 @@ function Users() {
                                 type={filter.type}
                                 id={filter.inputname}
                                 name={filter.inputname}
-                                className='px-3 py-1 mb-2 text-xs block w-full bg-gray-50 rounded-md text-gray-900 border border-1 border-[#e9ebec] placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-xs sm:leading-6'
+                                className='px-3 py-2 my-2 text-xs block w-full bg-gray-50 rounded-md text-gray-900 border border-1 border-[#e9ebec] placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-xs sm:leading-6'
                                 onChange={(e) =>
                                   handleFilterChange(
                                     filter.inputname,
                                     e.target.value
                                   )
                                 }
-                                value={selectedFilters[filter.inputname] || ''} />
+                                value={selectedFilters[filter.inputname] || ''}
+                              />
                             </div>
                           )}
                         {filter.options &&
@@ -586,9 +669,11 @@ function Users() {
                             filter.type === 'select') && (
                             <div>
                               <label className='mb-4 text-sm text-[#878a99] font-medium'>
+                                {' '}
                                 {filter.label.charAt(0).toUpperCase() +
                                   filter.label.slice(1)}
                               </label>
+
                               <select
                                 id={filter.inputname}
                                 name={filter.inputname}
@@ -599,11 +684,13 @@ function Users() {
                                     e.target.value
                                   )
                                 }
-                                value={selectedFilters[filter.inputname] || ''}>
+                                value={selectedFilters[filter.inputname] || ''}
+                              >
                                 <option
                                   value=''
                                   disabled
-                                  defaultValue>
+                                  defaultValue
+                                >
                                   Please select
                                 </option>
                                 {filter.options &&
@@ -612,7 +699,8 @@ function Users() {
                                   filter.options.value.map((option, index) => (
                                     <option
                                       key={index}
-                                      value={option}>
+                                      value={option}
+                                    >
                                       {option}
                                     </option>
                                   ))}
@@ -623,7 +711,8 @@ function Users() {
                                     (option, index) => (
                                       <option
                                         key={index}
-                                        value={option}>
+                                        value={option}
+                                      >
                                         {option}
                                       </option>
                                     )
@@ -635,15 +724,18 @@ function Users() {
                     ))}
                   </div>
                 </div>
-                <div className='sticky bottom-0 bg-gray-100 flex justify-between p-3 w-full footer'>
+
+                <div className='bg-gray-100 flex justify-between px-3 pt-2 pb-1 w-full'>
                   <button
                     onClick={handleFilterReset}
-                    className='mr-3 px-3 py-2 inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white '>
+                    className='mr-3 px-3 py-2 inline-flex  whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white '
+                  >
                     Clear
                   </button>
                   <button
                     onClick={handlefilters}
-                    className='mr-3 px-3 py-2 inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white'>
+                    className='mr-3 px-3 py-2 inline-flex  whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white '
+                  >
                     Apply
                   </button>
                 </div>
@@ -660,7 +752,8 @@ function Users() {
                   {visibleColumns.map((key) => (
                     <th
                       key={key}
-                      className='sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200'>
+                      className='sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200 '
+                    >
                       {tableView[key].label}
                     </th>
                   ))}
@@ -675,6 +768,7 @@ function Users() {
                     <tr key={row.id}>
                       {visibleColumns.map((key) => {
                         let value = row[key];
+
                         if (tableView[key].type === 'multiselect' && row[key]) {
                           value = row[key].join(', ');
                         }
@@ -686,6 +780,7 @@ function Users() {
                           const day = value.getUTCDate();
                           const monthIndex = value.getUTCMonth();
                           const year = value.getUTCFullYear();
+
                           const monthAbbreviations = [
                             'Jan',
                             'Feb',
@@ -700,49 +795,60 @@ function Users() {
                             'Nov',
                             'Dec',
                           ];
+
                           // Formatting the date
-                          value = `${day < 10 ? '0' : ''}${day}-${monthAbbreviations[monthIndex]
-                            }-${year}`;
+                          value = `${day < 10 ? '0' : ''}${day}-${
+                            monthAbbreviations[monthIndex]
+                          }-${year}`;
                         }
                         return (
                           <td
                             key={key}
-                            className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium overflow-hidden  ${row.userstatus
-                              ? 'text-gray-800 '
-                              : 'bg-gray-100 text-gray-300'
-                              }`}
+                            className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium overflow-hidden  ${
+                              row.userstatus
+                                ? 'text-gray-800 '
+                                : 'bg-gray-100 text-gray-300'
+                            }`}
                             style={{ maxWidth: '160px' }}
-                            title={row[key]}>
+                            title={row[key]}
+                          >
                             <p className='truncate text-xs '> {value}</p>
                           </td>
                         );
                       })}
+
                       <td
-                        className={`px-2 py-2  border border-[#e5e7eb] text-xs font-medium  ${row.userstatus
-                          ? 'text-gray-800 '
-                          : 'bg-gray-100 text-gray-300'
-                          }`}
-                        style={{ maxWidth: '160px' }}>
+                        className={`px-2 py-2  border border-[#e5e7eb] text-xs font-medium  ${
+                          row.userstatus
+                            ? 'text-gray-800 '
+                            : 'bg-gray-100 text-gray-300'
+                        }`}
+                        style={{ maxWidth: '160px' }}
+                      >
                         <div className='flex justify-start gap-3'>
                           <GateKeeper
                             permissionCheck={(permission) =>
                               permission.module === 'user' &&
                               permission.canCreate
-                            }>
+                            }
+                          >
                             <button
                               type='button'
-                              className=' inline-flex items-center gap-x-1 text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600'>
+                              className=' inline-flex items-center gap-x-1 text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600'
+                            >
                               <Link to={`${row.id}`}>
                                 <svg
                                   xmlns='http://www.w3.org/2000/svg'
                                   viewBox='0 0 20 20'
                                   fill='currentColor'
-                                  className='w-4 h-4'>
+                                  className='w-4 h-4'
+                                >
                                   <path d='M10 12.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z' />
                                   <path
                                     fill-rule='evenodd'
                                     d='M.664 10.59a1.651 1.651 0 0 1 0-1.186A10.004 10.004 0 0 1 10 3c4.257 0 7.893 2.66 9.336 6.41.147.381.146.804 0 1.186A10.004 10.004 0 0 1 10 17c-4.257 0-7.893-2.66-9.336-6.41ZM14 10a4 4 0 1 1-8 0 4 4 0 0 1 8 0Z'
-                                    clip-rule='evenodd' />
+                                    clip-rule='evenodd'
+                                  />
                                 </svg>
                               </Link>
                             </button>
@@ -751,16 +857,19 @@ function Users() {
                             permissionCheck={(permission) =>
                               permission.module === 'user' &&
                               permission.canUpdate
-                            }>
+                            }
+                          >
                             <button
                               type='button'
-                              className=' inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600'>
+                              className=' inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600'
+                            >
                               <Link to={`${row.id}/edit`}>
                                 <svg
                                   xmlns='http://www.w3.org/2000/svg'
                                   viewBox='0 0 20 20'
                                   fill='currentColor'
-                                  className='w-4 h-4'>
+                                  className='w-4 h-4'
+                                >
                                   <path d='m2.695 14.762-1.262 3.155a.5.5 0 0 0 .65.65l3.155-1.262a4 4 0 0 0 1.343-.886L17.5 5.501a2.121 2.121 0 0 0-3-3L3.58 13.419a4 4 0 0 0-.885 1.343Z' />
                                 </svg>
                               </Link>
@@ -770,25 +879,30 @@ function Users() {
                             permissionCheck={(permission) =>
                               permission.module === 'user' &&
                               permission.canUpdate
-                            }>
+                            }
+                          >
                             {
                               <button
                                 type='button'
                                 onClick={() => handleDeleteUser(row.id)}
                                 disabled={userId == row.id ? true : false}
-                                className={` ${userId == row.id
-                                  ? 'text-gray-500 bg-gray-50 cursor-not-allowed'
-                                  : 'bg-gray-50 text-[#475569] hover:text-orange-500'
-                                  } inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg  text-[#475569] disabled:opacity-50   dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600`}>
+                                className={` ${
+                                  userId == row.id
+                                    ? 'text-gray-500 bg-gray-50 cursor-not-allowed'
+                                    : 'bg-gray-50 text-[#475569] hover:text-orange-500'
+                                } inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg  text-[#475569] disabled:opacity-50   dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600 `}
+                              >
                                 <svg
                                   xmlns='http://www.w3.org/2000/svg'
                                   viewBox='0 0 20 20'
                                   fill='currentColor'
-                                  className='w-4 h-4'>
+                                  className='w-4 h-4'
+                                >
                                   <path
                                     fill-rule='evenodd'
                                     d='M8.75 1A2.75 2.75 0 0 0 6 3.75v.443c-.795.077-1.584.176-2.365.298a.75.75 0 1 0 .23 1.482l.149-.022.841 10.518A2.75 2.75 0 0 0 7.596 19h4.807a2.75 2.75 0 0 0 2.742-2.53l.841-10.52.149.023a.75.75 0 0 0 .23-1.482A41.03 41.03 0 0 0 14 4.193V3.75A2.75 2.75 0 0 0 11.25 1h-2.5ZM10 4c.84 0 1.673.025 2.5.075V3.75c0-.69-.56-1.25-1.25-1.25h-2.5c-.69 0-1.25.56-1.25 1.25v.325C8.327 4.025 9.16 4 10 4ZM8.58 7.72a.75.75 0 0 0-1.5.06l.3 7.5a.75.75 0 1 0 1.5-.06l-.3-7.5Zm4.34.06a.75.75 0 1 0-1.5-.06l-.3 7.5a.75.75 0 1 0 1.5.06l.3-7.5Z'
-                                    clip-rule='evenodd' />
+                                    clip-rule='evenodd'
+                                  />
                                 </svg>
                               </button>
                             }
@@ -797,40 +911,50 @@ function Users() {
                             permissionCheck={(permission) =>
                               permission.module === 'user' &&
                               permission.canUpdate
-                            }>
+                            }
+                          >
+                            {/* className='items-center  text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600' */}
                             {
                               <button
                                 disabled={userId == row.id ? true : false}
-                                className={` ${userId == row.id
-                                  ? 'text-gray-500 bg-gray-50 cursor-not-allowed'
-                                  : 'bg-gray-50 text-[#475569] hover:text-orange-500'
-                                  } items-center  text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50  dark:text-blue-500 dark:hover:text-blue-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600 `}>
+                                className={` ${
+                                  userId == row.id
+                                    ? 'text-gray-500 bg-gray-50 cursor-not-allowed'
+                                    : 'bg-gray-50 text-[#475569] hover:text-orange-500'
+                                } items-center  text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50  dark:text-blue-500 dark:hover:text-blue-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600 `}
+                              >
                                 {row.userstatus !== undefined && (
                                   <label
                                     htmlFor='toggle'
+                                    // className='flex items-center cursor-pointer'
                                     disabled={userId == row.id ? true : false}
-                                    className={` ${userId == row.id
-                                      ? 'cursor-not-allowed'
-                                      : ''
-                                      } flex items-center`}
+                                    className={` ${
+                                      userId == row.id
+                                        ? 'cursor-not-allowed'
+                                        : ''
+                                    } flex items-center`}
                                     onClick={(e) =>
                                       handleClickOpen(
                                         row.id,
                                         row.userstatus,
                                         row.userremarkshistory
                                       )
-                                    }>
+                                    }
+                                  >
                                     <div
-                                      className={`w-6 h-3 rounded-full shadow-inner ${row.userstatus
-                                        ? ' bg-[#ea580c]'
-                                        : 'bg-[#c3c6ca]'
-                                        }`}>
+                                      className={`w-6 h-3 rounded-full shadow-inner ${
+                                        row.userstatus
+                                          ? ' bg-[#ea580c]'
+                                          : 'bg-[#c3c6ca]'
+                                      }`}
+                                    >
                                       <div
-                                        className={`toggle__dot w-3 h-3 rounded-full shadow ${row.userstatus
-                                          ? 'ml-4 bg-white'
-                                          : 'bg-white'
-                                          }`}>
-                                      </div>
+                                        className={`toggle__dot w-3 h-3 rounded-full shadow ${
+                                          row.userstatus
+                                            ? 'ml-4 bg-white'
+                                            : 'bg-white'
+                                        }`}
+                                      ></div>
                                     </div>
                                   </label>
                                 )}
@@ -845,14 +969,17 @@ function Users() {
             </table>
           )}
         </div>
+
         <Transition.Root
           show={open}
-          as={Fragment}>
+          as={Fragment}
+        >
           <Dialog
             as='div'
             className='relative z-10'
             initialFocus={cancelButtonRef}
-            onClose={handleClosed}>
+            onClose={handleClosed}
+          >
             <Transition.Child
               as={Fragment}
               enter='ease-out duration-300'
@@ -860,7 +987,8 @@ function Users() {
               enterTo='opacity-100'
               leave='ease-in duration-200'
               leaveFrom='opacity-100'
-              leaveTo='opacity-0'>
+              leaveTo='opacity-0'
+            >
               <div className='fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity' />
             </Transition.Child>
             <div className='fixed inset-0 z-10 w-screen overflow-y-auto'>
@@ -872,7 +1000,8 @@ function Users() {
                   enterTo='opacity-100 translate-y-0 sm:scale-100'
                   leave='ease-in duration-200'
                   leaveFrom='opacity-100 translate-y-0 sm:scale-100'
-                  leaveTo='opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95'>
+                  leaveTo='opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95'
+                >
                   <Dialog.Panel className='relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 px-4 py-6 sm:max-w-lg'>
                     <div className='flex justify-between items-center mb-4'>
                       <p className='text-md font-semibold'>
@@ -880,15 +1009,18 @@ function Users() {
                       </p>
                       <button
                         onClick={handleClosed}
-                        className='text-gray-500 hover:text-gray-700 focus:outline-none'>
+                        className='text-gray-500 hover:text-gray-700 focus:outline-none'
+                      >
                         <svg
                           xmlns='http://www.w3.org/2000/svg'
                           viewBox='0 0 20 20'
                           fill='currentColor'
-                          className='w-6 h-6'>
+                          className='w-6 h-6'
+                        >
                           <path
                             fillRule='evenodd'
-                            d='M6.28 5.22a.75.75 0 0 0-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 1 0 1.06 1.06L10 11.06l3.72 3.72a.75.75 0 1 0 1.06-1.06L11.06 10l3.72-3.72a.75.75 0 0 0-1.06-1.06L10 8.94 6.28 5.22Z' />
+                            d='M6.28 5.22a.75.75 0 0 0-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 1 0 1.06 1.06L10 11.06l3.72 3.72a.75.75 0 1 0 1.06-1.06L11.06 10l3.72-3.72a.75.75 0 0 0-1.06-1.06L10 8.94 6.28 5.22Z'
+                          />
                         </svg>
                       </button>
                     </div>
@@ -896,12 +1028,13 @@ function Users() {
                       className='resize-y w-60 md:w-96 rounded-md bg-gray-50 mb-2 text-sm p-2 border-2 border-gray-200 focus:outline-none focus:border-orange-400'
                       onChange={(e) => setText(e.target.value)}
                       value={text}
-                      rows={4}>
-                    </textarea>
+                      rows={4} // Adjust as needed
+                    ></textarea>
                     <div className='w-full flex justify-end '>
                       <button
                         onClick={(e) => handleUserStatus()}
-                        className='mr-3 px-3 py-2 inline-flex  whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white'>
+                        className='mr-3 px-3 py-2 inline-flex  whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white'
+                      >
                         {user_status ? 'Deactivate' : 'Activate'}
                       </button>
                     </div>
@@ -929,7 +1062,8 @@ function Users() {
             </div>
             <section
               className='isolate inline-flex rounded-md shadow-sm ms-4'
-              aria-label='Pagination'>
+              aria-label='Pagination'
+            >
               {/* previos button */}
               <button
                 disabled={
@@ -939,23 +1073,27 @@ function Users() {
                 }
                 onClick={() => handlePage(users.currentPage - 1)}
                 href='#'
-                className={`relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${navigation?.state === 'loading'
-                  ? 'cursor-wait'
-                  : users.currentPage === 1
+                className={`relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${
+                  navigation?.state === 'loading'
+                    ? 'cursor-wait'
+                    : users.currentPage === 1
                     ? 'cursor-not-allowed'
                     : 'cursor-auto'
-                  }`}>
+                }`}
+              >
                 <span className='sr-only'>Previous</span>
                 <svg
                   xmlns='http://www.w3.org/2000/svg'
                   viewBox='0 0 20 20'
                   fill='currentColor'
                   className='w-5 h-5'
-                  aria-hidden='true'>
+                  aria-hidden='true'
+                >
                   <path
                     fill-rule='evenodd'
                     d='M11.78 5.22a.75.75 0 0 1 0 1.06L8.06 10l3.72 3.72a.75.75 0 1 1-1.06 1.06l-4.25-4.25a.75.75 0 0 1 0-1.06l4.25-4.25a.75.75 0 0 1 1.06 0Z'
-                    clip-rule='evenodd' />
+                    clip-rule='evenodd'
+                  />
                 </svg>
               </button>
               {/* next button */}
@@ -972,14 +1110,16 @@ function Users() {
                     : users.currentPage === users.totalPages
                     ? 'cursor-not-allowed'
                     : 'cursor-auto'
-                  }`}>
+                }`}
+              >
                 <span className='sr-only'>Next</span>
                 <svg
                   xmlns='http://www.w3.org/2000/svg'
                   viewBox='0 0 20 20'
                   fill='currentColor'
                   className='w-5 h-5'
-                  aria-hidden='true'>
+                  aria-hidden='true'
+                >
                   <path
                     fill-rule='evenodd'
                     d='M8.22 5.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 0 1-1.06-1.06L11.94 10 8.22 6.28a.75.75 0 0 1 0-1.06Z'
@@ -990,13 +1130,10 @@ function Users() {
             </section>
           </div>
         </div>
-
-
-
-
       </div>
     </>
   );
   // }
 }
+
 export default Users;

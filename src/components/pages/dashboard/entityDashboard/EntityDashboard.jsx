@@ -32,6 +32,7 @@ function EntityDashboard() {
   const handleSearchChange = (event) => {
     setQParams({
       ...Qparams,
+      page: 1,
       search: event.target.value,
     });
   };

@@ -60,15 +60,9 @@ function UserDashboard() {
   const handleSearchChange = (event) => {
     setQParams({
       ...Qparams,
+      page: 1,
       search: event.target.value,
     });
-    // setUserParams({
-    //   ...userParams,
-    //   user: {
-    //     ...userParams.user,
-    //     search: event.target.value,
-    //   },
-    // });
   };
 
   function handlePage(page) {
