@@ -506,9 +506,8 @@ function Users() {
 
             {/* for coloumns open */}
             <div
-              className={`fixed inset-0 bg-gray-800 bg-opacity-50 z-10 ${
-                columnsDrawerOpen ? '' : 'opacity-0 pointer-events-none'
-              }`}
+              className={`fixed inset-0 bg-gray-800 bg-opacity-50 z-10 ${columnsDrawerOpen ? '' : 'opacity-0 pointer-events-none'
+                }`}
               style={{ transition: 'opacity 0.3s ease-in-out' }}
             >
               <div
@@ -600,9 +599,8 @@ function Users() {
 
             {/* for filter open */}
             <div
-              className={`fixed inset-0 bg-gray-800 bg-opacity-50 z-10 ${
-                filterDrawerOpen ? '' : 'opacity-0 pointer-events-none'
-              }`}
+              className={`fixed inset-0 bg-gray-800 bg-opacity-50 z-10 ${filterDrawerOpen ? '' : 'opacity-0 pointer-events-none'
+                }`}
               style={{ transition: 'opacity 0.3s ease-in-out' }}
             >
               <div
@@ -797,18 +795,16 @@ function Users() {
                           ];
 
                           // Formatting the date
-                          value = `${day < 10 ? '0' : ''}${day}-${
-                            monthAbbreviations[monthIndex]
-                          }-${year}`;
+                          value = `${day < 10 ? '0' : ''}${day}-${monthAbbreviations[monthIndex]
+                            }-${year}`;
                         }
                         return (
                           <td
                             key={key}
-                            className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium overflow-hidden  ${
-                              row.userstatus
+                            className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium overflow-hidden  ${row.userstatus
                                 ? 'text-gray-800 '
                                 : 'bg-gray-100 text-gray-300'
-                            }`}
+                              }`}
                             style={{ maxWidth: '160px' }}
                             title={row[key]}
                           >
@@ -818,11 +814,10 @@ function Users() {
                       })}
 
                       <td
-                        className={`px-2 py-2  border border-[#e5e7eb] text-xs font-medium  ${
-                          row.userstatus
+                        className={`px-2 py-2  border border-[#e5e7eb] text-xs font-medium  ${row.userstatus
                             ? 'text-gray-800 '
                             : 'bg-gray-100 text-gray-300'
-                        }`}
+                          }`}
                         style={{ maxWidth: '160px' }}
                       >
                         <div className='flex justify-start gap-3'>
@@ -834,6 +829,7 @@ function Users() {
                           >
                             <button
                               type='button'
+                              title='View'
                               className=' inline-flex items-center gap-x-1 text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600'
                             >
                               <Link to={`${row.id}`}>
@@ -861,6 +857,7 @@ function Users() {
                           >
                             <button
                               type='button'
+                              title='Edit'
                               className=' inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600'
                             >
                               <Link to={`${row.id}/edit`}>
@@ -884,13 +881,14 @@ function Users() {
                             {
                               <button
                                 type='button'
+                                title="Delete"
                                 onClick={() => handleDeleteUser(row.id)}
                                 disabled={userId == row.id ? true : false}
-                                className={` ${
-                                  userId == row.id
+                                className={` ${userId == row.id
                                     ? 'text-gray-500 bg-gray-50 cursor-not-allowed'
                                     : 'bg-gray-50 text-[#475569] hover:text-orange-500'
-                                } inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg  text-[#475569] disabled:opacity-50   dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600 `}
+                                  } inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg  text-[#475569] disabled:opacity-50   dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600 `}
+                                style={{ transition: 'transform 0.3s ease-in-out' }} // Add transition here
                               >
                                 <svg
                                   xmlns='http://www.w3.org/2000/svg'
@@ -906,6 +904,7 @@ function Users() {
                                 </svg>
                               </button>
                             }
+
                           </GateKeeper>
                           <GateKeeper
                             permissionCheck={(permission) =>
@@ -917,22 +916,20 @@ function Users() {
                             {
                               <button
                                 disabled={userId == row.id ? true : false}
-                                className={` ${
-                                  userId == row.id
+                                className={` ${userId == row.id
                                     ? 'text-gray-500 bg-gray-50 cursor-not-allowed'
                                     : 'bg-gray-50 text-[#475569] hover:text-orange-500'
-                                } items-center  text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50  dark:text-blue-500 dark:hover:text-blue-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600 `}
+                                  } items-center  text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50  dark:text-blue-500 dark:hover:text-blue-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600 `}
                               >
                                 {row.userstatus !== undefined && (
                                   <label
                                     htmlFor='toggle'
                                     // className='flex items-center cursor-pointer'
                                     disabled={userId == row.id ? true : false}
-                                    className={` ${
-                                      userId == row.id
+                                    className={` ${userId == row.id
                                         ? 'cursor-not-allowed'
                                         : ''
-                                    } flex items-center`}
+                                      } flex items-center`}
                                     onClick={(e) =>
                                       handleClickOpen(
                                         row.id,
@@ -942,18 +939,16 @@ function Users() {
                                     }
                                   >
                                     <div
-                                      className={`w-6 h-3 rounded-full shadow-inner ${
-                                        row.userstatus
+                                      className={`w-6 h-3 rounded-full shadow-inner ${row.userstatus
                                           ? ' bg-[#ea580c]'
                                           : 'bg-[#c3c6ca]'
-                                      }`}
+                                        }`}
                                     >
                                       <div
-                                        className={`toggle__dot w-3 h-3 rounded-full shadow ${
-                                          row.userstatus
+                                        className={`toggle__dot w-3 h-3 rounded-full shadow ${row.userstatus
                                             ? 'ml-4 bg-white'
                                             : 'bg-white'
-                                        }`}
+                                          }`}
                                       ></div>
                                     </div>
                                   </label>
@@ -1073,13 +1068,12 @@ function Users() {
                 }
                 onClick={() => handlePage(users.currentPage - 1)}
                 href='#'
-                className={`relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${
-                  navigation?.state === 'loading'
+                className={`relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${navigation?.state === 'loading'
                     ? 'cursor-wait'
                     : users.currentPage === 1
-                    ? 'cursor-not-allowed'
-                    : 'cursor-auto'
-                }`}
+                      ? 'cursor-not-allowed'
+                      : 'cursor-auto'
+                  }`}
               >
                 <span className='sr-only'>Previous</span>
                 <svg
@@ -1104,13 +1098,12 @@ function Users() {
                     : false || users.currentPage === users.totalPages
                 }
                 onClick={() => handlePage(users.currentPage + 1)}
-                className={`relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${
-                  navigation?.state === 'loading'
+                className={`relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${navigation?.state === 'loading'
                     ? 'cursor-wait'
                     : users.currentPage === users.totalPages
-                    ? 'cursor-not-allowed'
-                    : 'cursor-auto'
-                }`}
+                      ? 'cursor-not-allowed'
+                      : 'cursor-auto'
+                  }`}
               >
                 <span className='sr-only'>Next</span>
                 <svg
