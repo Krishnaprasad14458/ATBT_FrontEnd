@@ -242,7 +242,7 @@ const UserLandingPage = () => {
                       item.inputname === 'name' &&
                       item.field === 'predefined' && (
                         <div className='flex justify-center relative text-center'>
-                          <p className='absolute top-20 text-sm md:text-md antialiased font-semibold leading-snug tracking-normal text-blue-gray-900 mb-3 w-3/6 truncate md:w-5/6'>
+                          <p className='absolute top-20 text-sm md:text-md antialiased font-semibold leading-snug tracking-normal text-blue-gray-900 mb-3 w-3/6 truncate md:w-5/6' title={item.value.toUpperCase()}>
                             {item.value.toUpperCase()}
                           </p>
                         </div>
@@ -251,7 +251,7 @@ const UserLandingPage = () => {
                       item.inputname === 'entityname' &&
                       item.field === 'predefined' && (
                         <div className='flex justify-center border-t-2 border-gray-300 relative text-center'>
-                          <p className='absolute  bottom-3 text-sm antialiased leading-snug tracking-normal text-blue-gray-900 '>
+                          <p className='absolute  bottom-3 text-sm antialiased leading-snug tracking-normal text-blue-gray-900 w-3/6 truncate md:w-5/6' title={item.value}>
                             {item.value}
                           </p>
                         </div>

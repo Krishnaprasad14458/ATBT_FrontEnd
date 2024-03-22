@@ -112,6 +112,7 @@ function EntityDashboard({ data: { data } }) {
               data?.Entites?.map((entity) => (
                 <li
                   className='py-2 sm:py-2'
+                  title={entity.name}
                   key={entity.id}
                 >
                   <Link to={`/entities/${entity.id}`}>
@@ -172,13 +173,12 @@ function EntityDashboard({ data: { data } }) {
                 }
                 href='#'
                 // className="relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
-                className={`relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${
-                  dashboardEntities.loading
-                    ? 'cursor-wait'
-                    : dashboardEntities.currentPage === 1
+                className={`relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${dashboardEntities.loading
+                  ? 'cursor-wait'
+                  : dashboardEntities.currentPage === 1
                     ? 'cursor-not-allowed'
                     : 'cursor-auto'
-                }`}
+                  }`}
               >
                 <span className='sr-only'>Previous</span>
                 <svg
@@ -200,8 +200,8 @@ function EntityDashboard({ data: { data } }) {
                   dashboardEntities.loading
                     ? true
                     : false ||
-                      dashboardEntities.currentPage ===
-                        dashboardEntities.totalPages
+                    dashboardEntities.currentPage ===
+                    dashboardEntities.totalPages
                 }
                 onClick={() =>
                   debouncedSetPage({
@@ -209,14 +209,13 @@ function EntityDashboard({ data: { data } }) {
                     data: dashboardEntities.currentPage + 1,
                   })
                 }
-                className={`relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${
-                  dashboardEntities.loading
-                    ? 'cursor-wait'
-                    : dashboardEntities.currentPage ===
-                      dashboardEntities.totalPages
+                className={`relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${dashboardEntities.loading
+                  ? 'cursor-wait'
+                  : dashboardEntities.currentPage ===
+                    dashboardEntities.totalPages
                     ? 'cursor-not-allowed'
                     : 'cursor-auto'
-                }`}
+                  }`}
               >
                 <span className='sr-only'>Next</span>
                 <svg

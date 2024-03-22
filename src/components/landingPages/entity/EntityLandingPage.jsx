@@ -254,8 +254,9 @@ const EntityLandingPage = () => {
                       item.field === 'predefined' && (
                         <div>
                          
-                            <p className='text-sm font-black text-gray-800 mt-2 ml-4 absolute left-12 w-3/6 truncate md:w-5/6 '>
-                              {' '}
+                            <p className='text-sm font-black text-gray-800 mt-2 ml-4 absolute left-12 w-3/6 truncate md:w-5/6 '
+                             title={item.value.toUpperCase()}>
+                              
                               {item.value.toUpperCase()}
                             </p>
                         
