@@ -10,7 +10,7 @@ const BoardMeetingDashboard = () => {
   const [Qparams, setQParams] = useState({
     search: '',
     page: 1,
-    pageSize: 10,
+    pageSize: 5,
   });
   const debouncedParams = useCallback(
     debounce((param) => {
@@ -27,9 +27,16 @@ const BoardMeetingDashboard = () => {
   const handleSearchChange = (event) => {
     setQParams({
       ...Qparams,
+      page: 1,
       search: event.target.value,
     });
   };
+  function handlePage(page) {
+    setQParams({
+      ...Qparams,
+      page,
+    });
+  }
   return (
     <div className='w-full relative h-[450px] text-center bg-slate-50 border border-gray-200 rounded-md shadow sm:pt-4 dark:bg-gray-800 dark:border-gray-700'>
       <div className='grid1-item overflow-hidden sm:w-full'>
@@ -37,9 +44,7 @@ const BoardMeetingDashboard = () => {
           {/* hero module */}
           <div className='flex items-center justify-between mb-2'>
             <h5 className='text-lg font-semibold leading-none text-gray-800 dark:text-white'>
-              {' '}
-              Board Meetings
-              {/* {pagination.loading ? '...' : null} */}
+              Board Meetings {fetcher.state === 'loading' ? '...' : null}
             </h5>
             <GateKeeper
               permissionCheck={(permission) =>
@@ -104,7 +109,10 @@ const BoardMeetingDashboard = () => {
                       alt='Neil image'
                     />
                   </div>
-                  <div class='flex-1 min-w-0 ms-4' title={el.name}>
+                  <div
+                    class='flex-1 min-w-0 ms-4'
+                    title={el.name}
+                  >
                     <p class='text-sm font-medium text-gray-900 text-start truncate dark:text-white'>
                       {el.name}
                     </p>
@@ -127,17 +135,6 @@ const BoardMeetingDashboard = () => {
                 </div>
               </li>
             ))}
-
-            {/* {pagination?.paginatedUsers === "no data to show for this page" ? (
-                            <li className="py-2 sm:py-2">
-                                <p>No user found</p>
-                            </li>) : pagination?.paginatedUsers?.map(user => (
-                                <li className="py-2 sm:py-2" key={user.id}>
-                                    <Link>
-                                        <DashboardList user={user} />
-                                    </Link>
-                                </li>
-                            ))} */}
           </ul>
         </div>
         <hr />
@@ -160,16 +157,23 @@ const BoardMeetingDashboard = () => {
           </a>
         </div>
         <div className='hidden sm:block text-gray-700 text-sm'>
-          Showing 1 to 5 of 5 Result
+          {/* Showing 1 to 5 of 5 Result */}
         </div>
         {/*only for big screen pagination */}
         <div className='hidden sm:flex sm:flex-1 sm:items-center sm:justify-between'>
           {/* pagination data */}
           <div>
-            {/* {pagination?.paginatedUsers === "no data to show for this page" ? null : <p className="text-sm text-gray-700">
-            Showing <span className="font-medium">{pagination?.currentPage}</span> of
-            <span className="font-medium"> {pagination?.totalPages}</span> pages
-          </p>} */}
+            {!data?.Meetings || data?.Meetings?.length === 0 ? (
+              'no data to show'
+            ) : fetcher.state === 'loading' ? (
+              'Loading...'
+            ) : (
+              <p className='text-sm text-gray-700'>
+                Showing {data.startMeeting} to {data.endMeeting} of
+                <span className='font-medium'>{data.totalMeetings}</span>
+                <span className='font-medium'> </span> results
+              </p>
+            )}
           </div>
           {/* prev and next for big screens */}
           <div>
@@ -179,10 +183,19 @@ const BoardMeetingDashboard = () => {
             >
               {/* previos button */}
               <button
-                //   disabled={pagination.currentPage == 1}
-                //   onClick={() => debouncedSetPage(pagination.currentPage - 1)}
-                href='#'
-                className='relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0'
+                disabled={
+                  fetcher.state === 'loading'
+                    ? true
+                    : false || data.currentPage === 1
+                }
+                className={`relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${
+                  fetcher.state === 'loading'
+                    ? 'cursor-wait'
+                    : data.currentPage === 1
+                    ? 'cursor-not-allowed'
+                    : 'cursor-auto'
+                }`}
+                onClick={() => handlePage(data.currentPage - 1)}
               >
                 <span className='sr-only'>Previous</span>
                 <svg
@@ -201,9 +214,19 @@ const BoardMeetingDashboard = () => {
               </button>
               {/* next button */}
               <button
-                //   disabled={pagination.currentPage === pagination.totalPages}
-                //   onClick={() => debouncedSetPage(pagination.currentPage + 1)}
-                className='relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0'
+                disabled={
+                  fetcher?.state === 'loading'
+                    ? true
+                    : false || data?.currentPage === data?.totalPages
+                }
+                onClick={() => handlePage(data.currentPage + 1)}
+                className={`relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${
+                  fetcher?.state === 'loading'
+                    ? 'cursor-wait'
+                    : data?.currentPage === data?.totalPages
+                    ? 'cursor-not-allowed'
+                    : 'cursor-auto'
+                }`}
               >
                 <span className='sr-only'>Next</span>
                 <svg
