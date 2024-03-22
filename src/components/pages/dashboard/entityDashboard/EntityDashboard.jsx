@@ -15,7 +15,7 @@ function EntityDashboard() {
   const [Qparams, setQParams] = useState({
     search: '',
     page: 1,
-    pageSize: 10,
+    pageSize: 5,
   });
   const debouncedParams = useCallback(
     debounce((param) => {
@@ -36,6 +36,12 @@ function EntityDashboard() {
       search: event.target.value,
     });
   };
+  function handlePage(page) {
+    setQParams({
+      ...Qparams,
+      page,
+    });
+  }
   return (
     <div className='w-full h-[450px] relative text-center bg-slate-50 border border-gray-200 rounded-md shadow sm:pt-4 dark:bg-gray-800 dark:border-gray-700'>
       <div className='grid1-item overflow-hidden sm:w-full'>
@@ -97,12 +103,12 @@ function EntityDashboard() {
             role='list'
             className='divide-y divide-gray-200 dark:divide-gray-700'
           >
-            {!data?.Entites || data?.Entites?.length === 0 ? (
+            {!data?.Entities || data?.Entities?.length === 0 ? (
               <li className='py-2 sm:py-2'>
                 <p>No user found</p>
               </li>
             ) : (
-              data?.Entites?.map((entity) => (
+              data?.Entities?.map((entity) => (
                 <li
                   className='py-2 sm:py-2'
                   title={entity.name}
@@ -135,7 +141,7 @@ function EntityDashboard() {
         </div>
         <div className='hidden sm:flex sm:flex-1 sm:items-center sm:justify-between'>
           <div>
-            {!data?.Entites || data?.Entites?.length === 0 ? (
+            {!data?.Entities || data?.Entities?.length === 0 ? (
               'no data to show'
             ) : fetcher.state === 'loading' ? (
               'Loading...'
@@ -158,14 +164,6 @@ function EntityDashboard() {
                     ? true
                     : false || data.currentPage === 1
                 }
-                // onClick={() =>
-                //   debouncedSetPage({
-                //     context: 'DASHBOARD',
-                //     data: data.currentPage - 1,
-                //   })
-                // }
-                href='#'
-                // className="relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
                 className={`relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${
                   fetcher.state === 'loading'
                     ? 'cursor-wait'
@@ -173,6 +171,7 @@ function EntityDashboard() {
                     ? 'cursor-not-allowed'
                     : 'cursor-auto'
                 }`}
+                onClick={() => handlePage(data.currentPage - 1)}
               >
                 <span className='sr-only'>Previous</span>
                 <svg
@@ -195,14 +194,9 @@ function EntityDashboard() {
                     ? true
                     : false || data.currentPage === data.totalPages
                 }
-                // onClick={() =>
-                //   debouncedSetPage({
-                //     context: 'DASHBOARD',
-                //     data: data.currentPage + 1,
-                //   })
-                // }
+                onClick={() => handlePage(data.currentPage + 1)}
                 className={`relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${
-                  data.loading
+                  fetcher.state === 'loading'
                     ? 'cursor-wait'
                     : data.currentPage === data.totalPages
                     ? 'cursor-not-allowed'
