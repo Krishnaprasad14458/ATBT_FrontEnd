@@ -653,11 +653,10 @@ function UserForm() {
                           style={{ fontSize: '0.8rem' }}
                           onChange={(e) => handleChange(index, e.target.value)}
                           disabled={!!id && !!user?.userData ? true : false}
-                          className={` ${
-                            !!id && !!user?.userData
+                          className={` ${!!id && !!user?.userData
                               ? 'text-[#d4d4d8] bg-gray-50 cursor-not-allowed'
                               : 'bg-gray-50 text-gray-900'
-                          } px-2 py-2 text-sm block w-full rounded-md bg-gray-50 border border-gray-300  focus:outline-none  focus:border-orange-400 placeholder:text-xs `}
+                            } px-2 py-2 text-sm block w-full rounded-md bg-gray-50 border border-gray-300  focus:outline-none  focus:border-orange-400 placeholder:text-xs `}
                         />
                         <div className='h-2 text-[#dc2626]'>
                           {errors[item.inputname] && (
@@ -778,20 +777,19 @@ function UserForm() {
                           //   ? 'text-[##d4d4d8] bg-gray-50 '
                           //   : 'bg-gray-50 text-gray-900 '
                           //   } px-2 py-2 text-sm block w-full rounded-md bg-gray-50 border border-gray-300  focus:outline-none  focus:border-orange-400 placeholder:text-xs `}
-                          className={` ${
-                            !!id &&
-                            !!user?.userData &&
-                            parseInt(id) === loggedInUser
+                          className={` ${!!id &&
+                              !!user?.userData &&
+                              parseInt(id) === loggedInUser
                               ? 'text-[##d4d4d8] bg-gray-50 cursor-not-allowed'
                               : 'bg-gray-50 text-gray-900 '
-                          } px-2 py-2 text-sm block w-full rounded-md bg-gray-50 border border-gray-300  focus:outline-none  focus:border-orange-400 placeholder:text-xs `}
+                            } px-2 py-2 text-sm block w-full rounded-md bg-gray-50 border border-gray-300  focus:outline-none  focus:border-orange-400 placeholder:text-xs `}
                           onChange={(e) => handleChange(index, e.target.value)}
                           value={customFormFields[index].value || ''}
                           style={{ fontSize: '0.8rem' }}
                           disabled={
                             id &&
-                            user?.userData &&
-                            parseInt(id) === loggedInUser
+                              user?.userData &&
+                              parseInt(id) === loggedInUser
                               ? true
                               : false
                           }
@@ -1403,7 +1401,7 @@ function UserForm() {
                           item.field === 'predefined' && (
                             <div className=' flex justify-center'>
                               {item.value ? (
-                                <p className='absolute top-16 my-3 text-md antialiased font-semibold leading-snug tracking-normal text-blue-gray-900'>
+                                <p className='absolute top-16 my-3 text-md antialiased font-semibold leading-snug tracking-normal text-blue-gray-900 w-3/6 truncate md:w-5/6'>
                                   {item.value.toUpperCase()}
                                 </p>
                               ) : (
@@ -1418,7 +1416,8 @@ function UserForm() {
                           item.field == 'predefined' && (
                             <div className='flex  justify-center   border-t-2 border-gray-300 '>
                               {item.value ? (
-                                <p className='absolute top-20 mt-8 text-sm antialiased  leading-snug tracking-normal text-blue-gray-90'>
+                                <p className='absolute top-20 mt-8 text-sm antialiased  leading-snug tracking-normal text-blue-gray-90'
+                                  title={item.value}>
                                   {item.value}
                                 </p>
                               ) : (
@@ -1686,9 +1685,8 @@ function UserForm() {
                           ];
 
                           // Formatting the date
-                          date = `${day < 10 ? '0' : ''}${day}-${
-                            monthAbbreviations[monthIndex]
-                          }-${year}`;
+                          date = `${day < 10 ? '0' : ''}${day}-${monthAbbreviations[monthIndex]
+                            }-${year}`;
 
                           return (
                             <div className=''>

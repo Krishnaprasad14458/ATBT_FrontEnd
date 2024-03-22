@@ -96,7 +96,7 @@ const TeamsDashboard = ({ data: { data } }) => {
                       alt='Neil image'
                     />
                   </div>
-                  <div class='flex-1 min-w-0 ms-4'>
+                  <div class='flex-1 min-w-0 ms-4' title={caseLetter(el.name)}>
                     <p class='text-sm font-medium text-gray-900 text-start truncate dark:text-white'>
                       {caseLetter(el.name)}
                     </p>
