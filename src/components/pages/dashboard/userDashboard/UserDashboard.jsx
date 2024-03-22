@@ -13,27 +13,10 @@ import * as actions from '../../../../contexts/usersDataContext/utils/usersActio
 import GateKeeper from '../../../../rbac/GateKeeper';
 import { debounce } from '../../../../utils/utils';
 
-function objectToQueryString(obj) {
-  const queryParams = [];
-  for (let key in obj) {
-    if (obj.hasOwnProperty(key)) {
-      for (let subKey in obj[key]) {
-        if (obj[key].hasOwnProperty(subKey)) {
-          queryParams.push(
-            `${key}[${subKey}]=${encodeURIComponent(obj[key][subKey])}`
-          );
-        }
-      }
-    }
-  }
-  return queryParams.join('&');
-}
-
 function UserDashboard() {
   let [searchParams, setSearchParams] = useSearchParams();
   // const [userParams, setUserParams] = params;
   console.log(searchParams.toString(), 'sp');
-  const submit = useSubmit();
   const fetcher = useFetcher();
   const data = fetcher?.data?.data ?? [];
   const navigation = useNavigation();
@@ -41,12 +24,10 @@ function UserDashboard() {
   const [Qparams, setQParams] = useState({
     search: '',
     page: 1,
-    pageSize: 10,
+    pageSize: 5,
   });
   const debouncedParams = useCallback(
     debounce((param) => {
-      console.log(param, objectToQueryString(param), 'dparam', Qparams);
-      const qp = objectToQueryString(param);
       fetcher.submit(param, {
         method: 'get',
         action: 'resource/dashboard/user',
@@ -71,47 +52,6 @@ function UserDashboard() {
       page,
     });
   }
-
-  const handleNextPageClick = () => {
-    console.log('next');
-    const nextPage = data.currentPage + 1;
-    const searchParams = new URLSearchParams();
-    searchParams.set('user', data.search);
-    searchParams.set('userPage', nextPage.toString());
-    submit(searchParams, {
-      method: 'post',
-      action: '.',
-    });
-  };
-
-  const handlePreviousPageClick = () => {
-    console.log('pevious', data.currentPage);
-    const prevPage = data.currentPage - 1;
-    const searchParams = new URLSearchParams();
-    searchParams.set('user', data.search);
-    searchParams.set('userPage', prevPage.toString());
-    submit(searchParams, { method: 'post', action: '.' });
-  };
-
-  const {
-    usersState: { users, dashboard },
-    usersDispatch,
-  } = useContext(UserDataContext);
-  // const fetcher = useFetcher();
-
-  console.log(dashboard, 'udud');
-  const { debouncedSetPage, debouncedSetSearch } = useDebounce(usersDispatch);
-  useEffect(() => {
-    return () => {
-      usersDispatch({
-        type: 'SET_SEARCH',
-        payload: {
-          data: '',
-          context: 'DASHBOARD',
-        },
-      });
-    };
-  }, []);
   return (
     <div className='w-full h-[450px] relative text-center bg-slate-50 border border-gray-200 rounded-md shadow sm:pt-4 dark:bg-gray-800 dark:border-gray-700'>
       <div className='grid1-item overflow-hidden sm:w-full'>
@@ -119,7 +59,7 @@ function UserDashboard() {
           {/* hero module */}
           <div className='flex items-center justify-between mb-2'>
             <h5 className='text-lg font-semibold leading-none text-gray-800 dark:text-white'>
-              Users {dashboard.loading ? '...' : null}
+              Users {fetcher?.state === 'loading' ? '...' : null}
             </h5>
             <GateKeeper
               permissionCheck={(permission) =>
@@ -160,31 +100,11 @@ function UserDashboard() {
             </svg>
 
             <input
-              // onChange={(e) =>
-              //   debouncedSetSearch({
-              //     context: 'DASHBOARD',
-              //     data: e.target.value,
-              //   })
-              // }
               type='search'
               id='gsearch'
               name='gsearch'
               className='bg-slate-50  w-80  border-none focus:outline-none appearance-none focus:border-none'
               placeholder='Search here....'
-              // onChange={(e) => {
-              //   fetcher.submit(
-              //     {
-              //       // You can implement any custom serialization logic here
-              //       serialized: JSON.stringify(meetingParams),
-              //     },
-              //     { method: 'get', action: '.' }
-              //   );
-              //   let searchParams = new URLSearchParams();
-              //   searchParams.append('page', '1');
-              //   searchParams.append('user', e.target.value);
-              //   console.log(searchParams.toString(), 'sprms');
-              //   submit(searchParams, { method: 'get', action: '.' });
-              // }}
               onChange={handleSearchChange}
             />
           </div>
@@ -241,7 +161,7 @@ function UserDashboard() {
           <div>
             {!data?.users || data?.users?.length === 0 ? (
               'no data to show'
-            ) : dashboard.loading ? (
+            ) : fetcher?.state === 'loading' ? (
               'Loading...'
             ) : (
               <p className='text-sm text-gray-700'>
@@ -261,21 +181,13 @@ function UserDashboard() {
               {/* previos button */}
               <button
                 disabled={
-                  dashboard.loading ? true : false || data?.currentPage === 1
+                  fetcher?.state === 'loading'
+                    ? true
+                    : false || data?.currentPage === 1
                 }
-                // onClick={() => {
-                // debouncedSetPage({
-                //   context: 'DASHBOARD',
-                //   data: dashboard.currentPage - 1,
-                // })
-                // let searchParams = new URLSearchParams();
-                // searchParams.append('userPage', '1');
-                // submit(searchParams, { method: 'get', action: '.' });
-                // }}
-                onClick={handlePreviousPageClick}
-                href='#'
+                onClick={() => handlePage(data.currentPage - 1)}
                 className={`relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${
-                  dashboard.loading
+                  fetcher?.state === 'loading'
                     ? 'cursor-wait'
                     : data?.currentPage === 1
                     ? 'cursor-not-allowed'
@@ -300,19 +212,13 @@ function UserDashboard() {
               {/* next button */}
               <button
                 disabled={
-                  dashboard.loading
+                  fetcher?.state === 'loading'
                     ? true
                     : false || data?.currentPage === data?.totalPages
                 }
-                // onClick={() =>
-                //   debouncedSetPage({
-                //     context: 'DASHBOARD',
-                //     data: dashboard.currentPage + 1,
-                //   })
-                // }
-                onClick={handleNextPageClick}
+                onClick={() => handlePage(data.currentPage + 1)}
                 className={`relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${
-                  dashboard.loading
+                  fetcher?.state === 'loading'
                     ? 'cursor-wait'
                     : data?.currentPage === data?.totalPages
                     ? 'cursor-not-allowed'
