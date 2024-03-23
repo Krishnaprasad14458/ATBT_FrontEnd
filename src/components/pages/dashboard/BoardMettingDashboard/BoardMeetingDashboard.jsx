@@ -144,14 +144,40 @@ const BoardMeetingDashboard = () => {
         {/* hidden pagination only for mobile */}
         <div className='flex flex-1 justify-between sm:hidden'>
           <a
-            href='#'
-            className='relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50'
+            // href='#'
+            // className='relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50'
+            disabled={
+              fetcher.state === 'loading'
+                ? true
+                : false || data.currentPage === 1
+            }
+            className={` cursor-default relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 ${
+              fetcher.state === 'loading'
+                ? 'cursor-wait'
+                : data.currentPage === 1
+                ? 'cursor-not-allowed'
+                : 'cursor-auto'
+            }`}
+            onClick={() => handlePage(data.currentPage - 1)}
           >
             Previous
           </a>
           <a
-            href='#'
-            className='relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50'
+            // href='#'
+            // className='relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50'
+            disabled={
+              fetcher?.state === 'loading'
+                ? true
+                : false || data?.currentPage === data?.totalPages
+            }
+            onClick={() => handlePage(data.currentPage + 1)}
+            className={` cursor-default relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 ${
+              fetcher?.state === 'loading'
+                ? 'cursor-wait'
+                : data?.currentPage === data?.totalPages
+                ? 'cursor-not-allowed'
+                : 'cursor-auto'
+            }`}
           >
             Next
           </a>
