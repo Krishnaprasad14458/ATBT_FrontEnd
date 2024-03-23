@@ -1356,62 +1356,55 @@ function BoardMeetingForm() {
                 return (
                   <div className='relative '>
                     {/* predefined fields*/}
-                    <div className='flex justify-between flex-wrap'>
-                      <span>
-                        {item.type === 'text' &&
-                          item.inputname === 'name' &&
-                          item.field === 'predefined' && (
-                            <div className='absolute mt-2'>
-                              {item.value ? (
-                                <p className='text-lg'>
-                                  {item.value.toUpperCase()}
-                                </p>
-                              ) : (
-                                <p className='text-lg text-gray-400'>Name</p>
-                              )}
-                            </div>
-                          )}
-                      </span>
-                      <span>
-                        {item.type === 'date' &&
-                          item.inputname === 'date' &&
-                          item.field === 'predefined' && (
-                            <div className='mt-3'>
-                              {item.value ? (
-                                <p className='text-sm mt-1'>
-                                  Date : {item.value}
-                                </p>
-                              ) : (
-                                <p className='text-sm text-gray-400 mt-1'>
-                                  Date : YYYY-MM-DD
-                                </p>
-                              )}
-                            </div>
-                          )}
-                      </span>
-                    </div>
-                    <div className='flex justify-between items-center'>
+                    <span>
+                      {item.type === 'text' &&
+                        item.inputname === 'name' &&
+                        item.field === 'predefined' && (
+                          <div className=' mt-2 '>
+                            {item.value ? (
+                              <p className='text-lg'>
+                                {item.value.toUpperCase()}
+                              </p>
+                            ) : (
+                              <p className='text-lg text-gray-400'>Name</p>
+                            )}
+                          </div>
+                        )}
+                    </span>
+
+                    <div className='flex justify-between '>
                       <span className='flex-1 mr-4'>
                         {item.type === 'select' &&
                           item.inputname === 'venue' &&
                           item.field === 'predefined' && (
-                            <div className='relative w-5/6 bottom-5'>
-                              {item.value ? (
-                                <p className='text-sm'>
-                                  Venue :
-                                  <span className='text-xs'> {item.value}</span>
-                                </p>
-                              ) : (
-                                <p className='text-sm text-gray-400'>
-                                  Venue :
-                                  <span className='text-xs'>
-                                    abc building, xyz street , worldwide.
-                                  </span>
-                                </p>
-                              )}
+                            <div className='relative w-5/6 bottom-10'>
+
+                              <p className='text-sm'>
+                                Venue :&nbsp;
+                                <span className='text-xs'>{item.value}  </span>
+                              </p>
+                              {/* {item.value} */}
                             </div>
                           )}
                       </span>
+
+                      <span>
+                        {item.type === 'date' &&
+                          item.inputname === 'date' &&
+                          item.field === 'predefined' && (
+                            <div className='mt-1'>
+
+                              <p className='text-sm '>
+                                Date : {item.value}
+                              </p>
+
+                            </div>
+                          )}
+                      </span>
+
+                    </div>
+                 
+                    <div className='flex justify-end'>
                       <span className=''>
                         {item.type === 'time' &&
                           item.inputname === 'time' &&
@@ -1427,6 +1420,7 @@ function BoardMeetingForm() {
                             </div>
                           )}
                       </span>
+
                     </div>
 
 
