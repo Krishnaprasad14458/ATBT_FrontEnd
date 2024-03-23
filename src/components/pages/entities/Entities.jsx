@@ -1,5 +1,17 @@
-import React, { useContext, useEffect, useState, useRef } from 'react';
-import { Link, useLoaderData } from 'react-router-dom';
+import React, {
+  useContext,
+  useEffect,
+  useState,
+  useRef,
+  useCallback,
+} from 'react';
+import {
+  Link,
+  useFetcher,
+  useLoaderData,
+  useNavigation,
+  useSubmit,
+} from 'react-router-dom';
 import { EntitiesDataContext } from '../../../contexts/entitiesDataContext/entitiesDataContext';
 import './Entities.css';
 import { Fragment } from 'react';
@@ -8,7 +20,7 @@ import Swal from 'sweetalert2';
 import { Dialog, Menu, Transition } from '@headlessui/react';
 import { ChevronDownIcon } from '@heroicons/react/20/solid';
 import useDebounce from '../../../hooks/debounce/useDebounce';
-import { formatDate } from '../../../utils/utils';
+import { debounce, formatDate } from '../../../utils/utils';
 import GateKeeper from '../../../rbac/GateKeeper';
 import axios from 'axios';
 import atbtApi from '../../../serviceLayer/interceptor';
@@ -38,74 +50,81 @@ export async function loader({ request, params }) {
 
 function Entities() {
   document.title = 'ATBT | Entity';
-  const {
-    entitiesState: { entitiesList },
-    entitiesDispatch,
-    deleteEntitybyId,
-    setFilters,
-  } = useContext(EntitiesDataContext);
-  useEffect(() => {
-    console.log('boardmeetingess', entitiesList);
+  const navigation = useNavigation();
+  const loaderData = useLoaderData();
+  const data = loaderData?.data;
+  console.log(data?.Entities, 'entity list data');
+  let submit = useSubmit();
+  let fetcher = useFetcher();
+  const [Qparams, setQParams] = useState({
+    search: '',
+    page: 1,
+    pageSize: 10,
   });
-  const data = useLoaderData();
-  console.log(data, 'entity list data');
-
-  const { debouncedSetPage, debouncedSetSearch } =
-    useDebounce(entitiesDispatch);
-  // const [toggle, setToggle] = useState(false)
+  useEffect(() => {
+    debouncedParams(Qparams);
+  }, [Qparams]);
+  const debouncedParams = useCallback(
+    debounce((param) => {
+      console.log(param);
+      submit(param, { method: 'get', action: '.' });
+    }, 500),
+    []
+  );
+  console.log('Qparams', Qparams);
+  function handleSearch(event) {
+    setQParams({
+      ...Qparams,
+      search: event.target.value,
+    });
+  }
+  function handlePage(page) {
+    setQParams({
+      ...Qparams,
+      page,
+    });
+  }
   const handlePerPageChange = (event) => {
     const selectedValue = parseInt(event.target.value, 10);
-    entitiesDispatch({
-      type: 'SET_PER_PAGE',
-      payload: {
-        conext: 'ENTITES',
-        data: selectedValue,
-      },
+    console.log(selectedValue, 'sv');
+    setQParams({
+      ...Qparams,
+      pageSize: selectedValue,
     });
   };
-  // toggle
-  const [isChecked, setIsChecked] = useState(false);
 
-  const handleToggle = () => {
-    setIsChecked((pre) => !pre);
-  };
-  useEffect(() => {
-    console.log(isChecked);
-  });
   ///////////////////////////////////////////////////////////////
   function handlefilters() {
-    entitiesDispatch(setFilters(selectedFilters, 'SETTINGS'));
+    setQParams({
+      ...Qparams,
+      ...selectedFilters,
+    });
     setFilterDrawerOpen(!filterDrawerOpen);
   }
 
   const handleFilterReset = () => {
     setSelectedFilters({});
-    entitiesDispatch(setFilters({}, 'SETTINGS'));
+    setQParams({
+      search: Qparams?.search,
+      page: Qparams?.page,
+      pageSize: Qparams?.pageSize,
+    });
     setFilterDrawerOpen(!filterDrawerOpen);
   };
-  useEffect(() => {
-    return () => {
-      entitiesDispatch({
-        type: 'SET_SEARCH',
-        payload: {
-          data: '',
-          context: 'SEIINGS',
-        },
-      });
-    };
-  }, []);
-  const [open, setOpen] = useState(false);
-  const handleClosed = () => {
-    setOpen(false);
-  };
 
-  const cancelButtonRef = useRef(null);
+  useEffect(() => {
+    if (fetcher.state === 'idle' && !fetcher.data) {
+      fetcher.load('.');
+    }
+  }, [fetcher, navigation]);
+
+  const [filterDrawerOpen, setFilterDrawerOpen] = useState(false);
   const [columnsDrawerOpen, setColumnsDrawerOpen] = useState(false);
+  const cancelButtonRef = useRef(null);
 
   const columnsDrawer = () => {
     setColumnsDrawerOpen(!columnsDrawerOpen);
   };
-  const [filterDrawerOpen, setFilterDrawerOpen] = useState(false);
 
   const filterDrawer = () => {
     setFilterDrawerOpen(!filterDrawerOpen);
@@ -128,7 +147,7 @@ function Entities() {
 
     if (confirmDelete.isConfirmed) {
       try {
-        const result = await deleteEntitybyId(id);
+        // const result = await deleteEntitybyId(id);
       } catch (error) {
         Swal.fire('Error', 'Unable to delete entity 🤯', 'error');
       }
@@ -279,9 +298,7 @@ function Entities() {
     <div className='overflow-x-auto p-3'>
       {/* search & filter */}
       <div className='grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-3 xl:grid-col-3 gap-2 mt-2'>
-        <h1 className='font-semibold text-lg grid1-item'>
-          Entities {entitiesList.loading ? '...' : null}
-        </h1>
+        <h1 className='font-semibold text-lg grid1-item'>Entities</h1>
         <div className='grid1-item mx-3 text-start'>
           <label
             for='default-search'
@@ -308,9 +325,8 @@ function Entities() {
               </svg>
             </div>
             <input
-              onChange={(e) =>
-                debouncedSetSearch({ conext: 'ENTITES', data: e.target.value })
-              }
+              onChange={handleSearch}
+              value={Qparams?.search}
               type='search'
               id='default-search'
               className='block w-full px-4 py-2 ps-10 text-sm border-2 border-gray-200  rounded-2xl bg-gray-50  focus:outline-none '
@@ -341,33 +357,73 @@ function Entities() {
           </button>
 
           {/* for coloumns open */}
-          <div className={`fixed inset-0 bg-gray-800 bg-opacity-50 z-10 ${columnsDrawerOpen ? '' : 'opacity-0 pointer-events-none'}`} style={{ transition: 'opacity 0.3s ease-in-out' }}>
-            <div className='fixed inset-y-0 right-0 w-11/12 md:w-4/12 lg:w-1/5 xl:w-1/5 bg-white shadow-lg transform translate-x-full transition-transform duration-300 ease-in-out h-full' style={{ transform: `translateX(${columnsDrawerOpen ? '0%' : '100%'})`, transition: 'transform 0.3s ease-in-out' }}>
+          <div
+            className={`fixed inset-0 bg-gray-800 bg-opacity-50 z-10 ${
+              columnsDrawerOpen ? '' : 'opacity-0 pointer-events-none'
+            }`}
+            style={{ transition: 'opacity 0.3s ease-in-out' }}
+          >
+            <div
+              className='fixed inset-y-0 right-0 w-11/12 md:w-4/12 lg:w-1/5 xl:w-1/5 bg-white shadow-lg transform translate-x-full transition-transform duration-300 ease-in-out h-full'
+              style={{
+                transform: `translateX(${columnsDrawerOpen ? '0%' : '100%'})`,
+                transition: 'transform 0.3s ease-in-out',
+              }}
+            >
               <div className='sticky top-0 bg-gray-100 px-5 py-4 flex justify-between z-[3] header'>
                 <h5 className='font-[500]'>Columns</h5>
-                <button onClick={columnsDrawer} className=''>
-                  <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='currentColor' className='w-5 h-5 text-gray-500'>
-                    <path fillRule='evenodd' d='M5.47 5.47a.75.75 0 0 1 1.06 0L12 10.94l5.47-5.47a.75.75 0 1 1 1.06 1.06L13.06 12l5.47 5.47a.75.75 0 1 1-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 0 1-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 0 1 0-1.06Z' clipRule='evenodd' />
+                <button
+                  onClick={columnsDrawer}
+                  className=''
+                >
+                  <svg
+                    xmlns='http://www.w3.org/2000/svg'
+                    viewBox='0 0 24 24'
+                    fill='currentColor'
+                    className='w-5 h-5 text-gray-500'
+                  >
+                    <path
+                      fillRule='evenodd'
+                      d='M5.47 5.47a.75.75 0 0 1 1.06 0L12 10.94l5.47-5.47a.75.75 0 1 1 1.06 1.06L13.06 12l5.47 5.47a.75.75 0 1 1-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 0 1-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 0 1 0-1.06Z'
+                      clipRule='evenodd'
+                    />
                   </svg>
                 </button>
               </div>
-             
-              <div className='overflow-y-auto px-4 py-2.5 content' style={{ maxHeight: 'calc(100vh - 8rem)' }}> {/* Adjust the maxHeight as per your need */}
-                {dupTableView && Object.keys(dupTableView).map((columnName) => (
-                  <div key={columnName} className='flex items-center gap-2 text-start'>
-                    <input
-                      className={(
-                        dupTableView[columnName].value ? 'bg-gray-100 text-gray-700 hover:text-black' : 'text-gray-700 bg-gray-100 hover:text-black',
-                        'appearance-none border border-gray-300 hover:border-gray-900 checked:hover:border-white rounded-md checked:bg-orange-600 checked:border-transparent w-4 h-4 cursor-pointer hover:text-black relative'
-                      )}
-                      type='checkbox'
-                      id={columnName}
-                      checked={dupTableView[columnName].value}
-                      onChange={() => handleColumnsCheckboxChange(columnName)}
-                    />
-                    <label htmlFor={columnName} className='cursor-pointer text-md py-1 flex-1 w-3/6 truncate' title={dupTableView[columnName].label}>{dupTableView[columnName].label}</label>
-                  </div>
-                ))}
+
+              <div
+                className='overflow-y-auto px-4 py-2.5 content'
+                style={{ maxHeight: 'calc(100vh - 8rem)' }}
+              >
+                {' '}
+                {/* Adjust the maxHeight as per your need */}
+                {dupTableView &&
+                  Object.keys(dupTableView).map((columnName) => (
+                    <div
+                      key={columnName}
+                      className='flex items-center gap-2 text-start'
+                    >
+                      <input
+                        className={
+                          (dupTableView[columnName].value
+                            ? 'bg-gray-100 text-gray-700 hover:text-black'
+                            : 'text-gray-700 bg-gray-100 hover:text-black',
+                          'appearance-none border border-gray-300 hover:border-gray-900 checked:hover:border-white rounded-md checked:bg-orange-600 checked:border-transparent w-4 h-4 cursor-pointer hover:text-black relative')
+                        }
+                        type='checkbox'
+                        id={columnName}
+                        checked={dupTableView[columnName].value}
+                        onChange={() => handleColumnsCheckboxChange(columnName)}
+                      />
+                      <label
+                        htmlFor={columnName}
+                        className='cursor-pointer text-md py-1 flex-1 w-3/6 truncate'
+                        title={dupTableView[columnName].label}
+                      >
+                        {dupTableView[columnName].label}
+                      </label>
+                    </div>
+                  ))}
               </div>
               <div className='sticky bottom-0 bg-gray-100 flex justify-between p-3 w-full footer'>
                 <button
@@ -390,48 +446,58 @@ function Entities() {
 
           <button
             onClick={filterDrawer}
-            className='transition-opacity duration-500 focus:outline-none me-3 gap-x-1.5 mt-1 md:mt-0 rounded-md bg-orange-600 px-4 py-2 text-sm font-[500] text-white shadow-md  hover:shadow-lg'>
+            className='transition-opacity duration-500 focus:outline-none me-3 gap-x-1.5 mt-1 md:mt-0 rounded-md bg-orange-600 px-4 py-2 text-sm font-[500] text-white shadow-md  hover:shadow-lg'
+          >
             Filters
           </button>
           {/* for filter open */}
           <div
-            className={`fixed inset-0 bg-gray-800 bg-opacity-50 z-10 ${filterDrawerOpen ? '' : 'opacity-0 pointer-events-none'
-              }`}
-            style={{ transition: 'opacity 0.3s ease-in-out' }}>
+            className={`fixed inset-0 bg-gray-800 bg-opacity-50 z-10 ${
+              filterDrawerOpen ? '' : 'opacity-0 pointer-events-none'
+            }`}
+            style={{ transition: 'opacity 0.3s ease-in-out' }}
+          >
             <div
               className='fixed inset-y-0 right-0 w-11/12 md:w-4/12 lg:w-1/5 xl:w-w-1/5 bg-white shadow-lg transform translate-x-full transition-transform duration-300 ease-in-out  h-full'
               style={{
                 transform: `translateX(${filterDrawerOpen ? '0%' : '100%'})`,
                 transition: 'transform 0.3s ease-in-out',
-              }}>
+              }}
+            >
               <div className='sticky top-0 bg-gray-100 px-5 py-4 flex justify-between z-[3] header'>
                 <h5 className='font-[500] '> Filters</h5>
                 <button
                   onClick={filterDrawer}
-                  className=''>
+                  className=''
+                >
                   <svg
                     xmlns='http://www.w3.org/2000/svg'
                     viewBox='0 0 24 24'
                     fill='currentColor'
-                    className='w-5 h-5 text-gray-500'>
+                    className='w-5 h-5 text-gray-500'
+                  >
                     <path
                       fillRule='evenodd'
                       d='M5.47 5.47a.75.75 0 0 1 1.06 0L12 10.94l5.47-5.47a.75.75 0 1 1 1.06 1.06L13.06 12l5.47 5.47a.75.75 0 1 1-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 0 1-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 0 1 0-1.06Z'
-                      clipRule='evenodd' />
+                      clipRule='evenodd'
+                    />
                   </svg>
                 </button>
               </div>
-           
-              <div className='overflow-y-auto px-2 py-2.5 content' style={{ maxHeight: 'calc(100vh - 8rem)' }}>
+
+              <div
+                className='overflow-y-auto px-2 py-2.5 content'
+                style={{ maxHeight: 'calc(100vh - 8rem)' }}
+              >
                 <div className='text-start p-3 '>
                   {/* {filter.label} */}
                   {filterableInputsInBox?.map((filter, index) => (
                     <div
                       key={index}
-                      className=''>
+                      className=''
+                    >
                       {!filter.options &&
-                        (filter.type === 'date' ||
-                          filter.type === 'time') && (
+                        (filter.type === 'date' || filter.type === 'time') && (
                           <div>
                             <label className='mb-4 text-sm text-[#878a99] font-medium'>
                               {filter.label.charAt(0).toUpperCase() +
@@ -448,7 +514,8 @@ function Entities() {
                                   e.target.value
                                 )
                               }
-                              value={selectedFilters[filter.inputname] || ''} />
+                              value={selectedFilters[filter.inputname] || ''}
+                            />
                           </div>
                         )}
                       {filter.options &&
@@ -469,11 +536,13 @@ function Entities() {
                                   e.target.value
                                 )
                               }
-                              value={selectedFilters[filter.inputname] || ''}>
+                              value={selectedFilters[filter.inputname] || ''}
+                            >
                               <option
                                 value=''
                                 disabled
-                                defaultValue>
+                                defaultValue
+                              >
                                 Please select
                               </option>
                               {filter.options &&
@@ -482,7 +551,8 @@ function Entities() {
                                 filter.options.value.map((option, index) => (
                                   <option
                                     key={index}
-                                    value={option}>
+                                    value={option}
+                                  >
                                     {option}
                                   </option>
                                 ))}
@@ -493,7 +563,8 @@ function Entities() {
                                   (option, index) => (
                                     <option
                                       key={index}
-                                      value={option}>
+                                      value={option}
+                                    >
                                       {option}
                                     </option>
                                   )
@@ -508,12 +579,14 @@ function Entities() {
               <div className='sticky bottom-0 bg-gray-100 flex justify-between p-3 w-full footer'>
                 <button
                   onClick={handleFilterReset}
-                  className='mr-3 px-3 py-2 inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white '>
+                  className='mr-3 px-3 py-2 inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white '
+                >
                   Clear
                 </button>
                 <button
                   onClick={handlefilters}
-                  className='mr-3 px-3 py-2 inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white'>
+                  className='mr-3 px-3 py-2 inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white'
+                >
                   Apply
                 </button>
               </div>
@@ -524,7 +597,7 @@ function Entities() {
 
       {/* table */}
       <div className='max-h-[457px] overflow-y-scroll mt-8'>
-        {visibleColumns && tableView && entitiesList?.paginatedEntities && (
+        {visibleColumns && tableView && data?.Entities && (
           <table className='w-full divide-y divide-gray-200 dark:divide-gray-700 rounded-md'>
             <thead>
               <tr>
@@ -569,8 +642,8 @@ function Entities() {
               </tr>
             </thead>
             <tbody className='divide-y divide-gray-200 dark:divide-gray-700'>
-              {data.data.Entites &&
-                data.data.Entites?.map((row) => (
+              {data.Entities &&
+                data.Entities?.map((row) => (
                   <tr key={row.id}>
                     {visibleColumns.map((key) => {
                       let value = row[key];
@@ -602,8 +675,9 @@ function Entities() {
                         ];
 
                         // Formatting the date
-                        value = `${day < 10 ? '0' : ''}${day}-${monthAbbreviations[monthIndex]
-                          }-${year}`;
+                        value = `${day < 10 ? '0' : ''}${day}-${
+                          monthAbbreviations[monthIndex]
+                        }-${year}`;
                       }
                       return (
                         <td
@@ -736,14 +810,14 @@ function Entities() {
       <div className='inset-x-0 bottom-0 mt-5'>
         <div className='flex justify-between'>
           <div className=''>
-            {!data.data?.Entites || data.data?.Entites?.length === 0 ? (
+            {!data?.Entities || data?.Entities?.length === 0 ? (
               'no data to show'
-            ) : data.data.loading ? (
+            ) : data.loading ? (
               'Loading...'
             ) : (
               <p className='text-sm text-gray-700'>
-                Showing {data.data.startEntity} to {data.data.endEntity} of{' '}
-                <span className='font-medium'>{data.data.totalEntities}</span>
+                Showing {data.startEntity} to {data.endEntity} of{' '}
+                <span className='font-medium'>{data.totalEntities}</span>
                 <span className='font-medium'> </span> results
               </p>
             )}
@@ -753,20 +827,21 @@ function Entities() {
             aria-label='Pagination'
           >
             <button
-              disabled={data.data.currentPage === 1}
-              onClick={() =>
-                debouncedSetPage({
-                  conext: 'ENTITES',
-                  data: data.data.currentPage - 1,
-                })
-              }
+              disabled={data.currentPage === 1}
+              // onClick={() =>
+              //   debouncedSetPage({
+              //     conext: 'ENTITES',
+              //     data: data.currentPage - 1,
+              //   })
+              // }
               href='#'
-              className={`relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${data.data.loading
-                ? 'cursor-wait'
-                : data.data.currentPage === 1
+              className={`relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${
+                data.loading
+                  ? 'cursor-wait'
+                  : data.currentPage === 1
                   ? 'cursor-not-allowed'
                   : 'cursor-auto'
-                }`}
+              }`}
             >
               <span className='sr-only'>Previous</span>
               <svg
@@ -784,22 +859,23 @@ function Entities() {
               </svg>
             </button>
             <button className='border w-8 border-gray-300'>
-              {data.data.currentPage}
+              {data.currentPage}
             </button>
             <button
-              disabled={data.data.currentPage === data.data.totalPages}
-              onClick={() =>
-                debouncedSetPage({
-                  conext: 'ENTITES',
-                  data: data.data.currentPage + 1,
-                })
-              }
-              className={`relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${data.data.loading
-                ? 'cursor-wait'
-                : data.data.currentPage === data.data.totalPages
+              disabled={data.currentPage === data.totalPages}
+              // onClick={() =>
+              //   debouncedSetPage({
+              //     conext: 'ENTITES',
+              //     data: data.currentPage + 1,
+              //   })
+              // }
+              className={`relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${
+                data.loading
+                  ? 'cursor-wait'
+                  : data.currentPage === data.totalPages
                   ? 'cursor-not-allowed'
                   : 'cursor-auto'
-                }`}
+              }`}
             >
               <span className='sr-only'>Next</span>
               <svg

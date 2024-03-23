@@ -87,13 +87,11 @@ export async function action({ request, params }) {
 function Users() {
   document.title = 'ATBT | User';
   const navigation = useNavigation();
-  let [searchParams, setSearchParams] = useSearchParams();
   const data = useLoaderData();
   console.log(data, 'users lodaer data');
   const { users } = data;
   let submit = useSubmit();
   let fetcher = useFetcher();
-  console.log(searchParams.toString(), 'searchparams', navigation);
   const [Qparams, setQParams] = useState({
     search: '',
     page: 1,
