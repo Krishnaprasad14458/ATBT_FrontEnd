@@ -243,84 +243,45 @@ const BoardMeetingLandingPage = () => {
               customFormField.map((item) => {
                 return (
                   <div className='relative'>
-                    {/* predefined fields*/}
-                    <div className='flex justify-between flex-wrap'>
-                      <span>
-                        {item.type === 'text' &&
-                          item.inputname === 'name' &&
-                          item.field === 'predefined' && (
-                            <div className='absolute mt-2'>
-                              {item.value ? (
-                                <p className='text-lg' title={item.value}>
-                                  {item.value.toUpperCase()}
-                                </p>
-                              ) : (
-                                <p className='text-lg text-gray-400'>Name</p>
-                              )}
-                            </div>
-                          )}
-                      </span>
-                      <span>
-                        {item.type === 'date' &&
-                          item.inputname === 'date' &&
-                          item.field === 'predefined' && (
-                            <div className='mt-3'>
-                              {item.value ? (
-                                <p className='text-sm mt-1' title={item.value}>
-                                  Date : {item.value}
-                                </p>
-                              ) : (
-                                <p className='text-sm text-gray-400 mt-1'>
-                                  Date : YYYY-MM-DD
-                                </p>
-                              )}
-                            </div>
-                          )}
-                      </span>
-                    </div>
-                    <div className='flex justify-between items-center'>
-                      <span className='flex-1 mr-4'>
+                    {/* predefined */}
+                    {item.type === 'text' &&
+                      item.inputname === 'name' &&
+                      item.field === 'predefined' && (
+                        <p className='text-lg mt-2'>
+                          {item.value.toUpperCase()}
+                        </p>
+                      )}
+                    <div className='md:flex md:justify-between '>
+                      <div className='md:flex-1 mr-4'>
                         {item.type === 'select' &&
                           item.inputname === 'venue' &&
                           item.field === 'predefined' && (
-                            <div className='relative w-5/6 bottom-5'>
-                              {item.value ? (
-                                <p className='text-sm'>
-                                  Venue :{' '}
-                                  <span className='text-xs' title={item.value}> {item.value}</span>
-                                </p>
-                              ) : (
-                                <p className='text-sm text-gray-400'>
-                                  Venue :{' '}
-                                  <span className='text-xs'>
-                                    abc building, xyz street , worldwide.{' '}
-                                  </span>
-                                </p>
-                              )}
+                            <div className='md:relative md:w-4/6   md:bottom-12 mt-1'>
+                              <p className='text-sm'>  Venue : <span className='text-xs'>&nbsp; f you want to take your writing to the next level, we've got the advice you need. Struggling with your writing skills? Learn the basics with QuillBot's simple guides. 3-Day Trial. Save Time When Writing. Friendly, Quick, Easy. Vocabulary Enhancements</span>  </p>
                             </div>
                           )}
-                      </span>
+                      </div>
+                      {item.type === 'date' &&
+                        item.inputname === 'date' &&
+                        item.field === 'predefined' && (
+                          <p className='text-sm  mt-1'>
+                            Date : {item.value}
+                          </p>
+                        )}
+                    </div>
+                    <div className='flex justify-start md:justify-end'>
                       <span className=''>
                         {item.type === 'time' &&
                           item.inputname === 'time' &&
                           item.field === 'predefined' && (
-                            <div>
-                              {item.value ? (
-                                <p className='text-sm'>Time : {item.value}</p>
-                              ) : (
-                                <p className='text-sm text-gray-400 '>
-                                  Time : 00:00 AM
-                                </p>
-                              )}
-                            </div>
+                            <p className='text-sm mt-1 '>Time :   {formatTime(item.value)}</p>
                           )}
                       </span>
                     </div>
-
                     {item.type === 'textarea' &&
                       item.inputname == 'description' &&
                       item.field == 'predefined' && (
-                        <div className='  h-28 overflow-auto border border-1 border-gray-200 rounded-md p-2 bg-[#f8fafc] text-sm w-full '>
+                        <div className=' mt-2 h-28 overflow-auto border border-1 border-gray-200 rounded-md p-2 bg-[#f8fafc] text-sm w-full '>
                           {item.value}
                         </div>
                       )}
@@ -409,7 +370,6 @@ const BoardMeetingLandingPage = () => {
                                               secondLetter?.toUpperCase()}
                                           </span>
                                         )}
-
                                         {index == 11 &&
                                           item.value.length > 12 && (
                                             <span>
@@ -504,7 +464,6 @@ const BoardMeetingLandingPage = () => {
                         {item.value && <hr className='mt-2' />}
                       </div>
                     )}
-
                     {item.type === 'phonenumber' && item.field == 'custom' && (
                       <div className='my-2 mx-2  flex-wrap'>
                         {item.value && item.value.length > 0 && (
@@ -1124,70 +1083,7 @@ const BoardMeetingLandingPage = () => {
                           </div>
                         </div>
 
-                        {/*                                             
-                                    <Menu as="div" className="relative inline-block">
-                                        <div className=''>
-                                            <Menu.Button className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-gray-50 px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-200 hover:bg-gray-50">
-                                                Priority List
-                                                <ChevronDownIcon className="-mr-1 h-5 w-5 text-gray-400" aria-hidden="true" />
-                                            </Menu.Button>
-                                        </div>
 
-                                        <Transition
-                                            as={Fragment}
-                                            enter="transition ease-out duration-100"
-                                            enterFrom="transform opacity-0 scale-95"
-                                            enterTo="transform opacity-100 scale-100"
-                                            leave="transition ease-in duration-75"
-                                            leaveFrom="transform opacity-100 scale-100"
-                                            leaveTo="transform opacity-0 scale-95"
-                                        >
-                                            <Menu.Items className="absolute left-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                                                <div className="py-1">
-                                                    <Menu.Item>
-                                                        {({ active }) => (
-                                                            <Link
-                                                                to="#"
-                                                                className={classNames(
-                                                                    active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                                                                    'block px-4 py-2 text-sm'
-                                                                )}
-                                                            >
-                                                                Low
-                                                            </Link>
-                                                        )}
-                                                    </Menu.Item>
-                                                    <Menu.Item>
-                                                        {({ active }) => (
-                                                            <Link
-                                                                to="#"
-                                                                className={classNames(
-                                                                    active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                                                                    'block px-4 py-2 text-sm'
-                                                                )}
-                                                            >
-                                                                Medium
-                                                            </Link>
-                                                        )}
-                                                    </Menu.Item>
-                                                    <Menu.Item>
-                                                        {({ active }) => (
-                                                            <Link
-                                                                to="#"
-                                                                className={classNames(
-                                                                    active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                                                                    'block px-4 py-2 text-sm'
-                                                                )}
-                                                            >
-                                                               High
-                                                            </Link>
-                                                        )}
-                                                    </Menu.Item>
-
-                                                </div>
-                                            </Menu.Items>
-                                        </Transition>
-                                    </Menu> */}
                       </p>
                     </div>
                     <div className='mt-5 flex flex-row'>
@@ -1289,57 +1185,6 @@ const BoardMeetingLandingPage = () => {
                   colspan='7'
                 ></td>
               </tr>
-              {/* <div className='flex flex-start' onClick={handledoing}>
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5 mt-3">
-                        <path fillRule="evenodd" d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z" clipRule="evenodd" />
-                    </svg>
-                    <p className='text-md ms-2 font-semibold mb-3 mt-3'>Doing</p>
-                </div>
-                {doing &&
-                    <tr className='text-center text-gray-500'>
-                        <td scope="col" className="py-2 text-sm border-collapse border border-[#e5e7eb] flex justify-start"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-5 h-5 ms-2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                        </svg><span className='text-sm ms-2'>Draft project brief</span></td>
-                        <td scope="col" className="py-2 text-sm border-collapse border border-[#e5e7eb]">Assigne</td>
-                        <td scope="col" className="py-2 text-sm border-collapse border border-[#e5e7eb]">Due Date</td>
-                        <td scope="col" className="py-2 text-sm border-collapse border border-[#e5e7eb]">Board Meeting</td>
-                        <td scope="col" className="py-2 text-sm border-collapse border border-[#e5e7eb] ">Status</td>
-                        <td scope="col" className="py-2 text-sm border-collapse border border-[#e5e7eb] ">Create by User </td>
-                        <td scope="col" className="py-2 text-sm border-collapse border border-[#e5e7eb] ">Update by Admin </td>
-                    </tr>}
-                <tr className='text-center text-gray-500'>
-                    <td className="py-2 border-slate-200 flex justify-start ms-4 text-sm border-b-" colspan="">
-                        <input className='w-full bg-gray-50 border-none focus:outline-none' type="text" placeholder='Add Task ..' />
-                    </td>
-                    <td className="border text-sm" colspan="7"></td>
-                </tr>
-
-                <div className='flex flex-start' onClick={handledone}>
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5 mt-3">
-                        <path fillRule="evenodd" d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z" clipRule="evenodd" />
-                    </svg>
-                    <p className='text-md ms-2 font-semibold mb-3 mt-3'>Done</p>
-                </div>
-                {done &&
-                    <tr className='text-center text-gray-500'>
-                        <td scope="col" className="py-2 text-sm border-collapse border border-[#e5e7eb] flex justify-start"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-5 h-5 ms-2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                        </svg><span className='text-sm ms-2'>Draft project brief</span></td>
-                        <td scope="col" className="py-2 text-sm border-collapse border border-[#e5e7eb]">Assigne</td>
-                        <td scope="col" className="py-2 text-sm border-collapse border border-[#e5e7eb]">Due Date</td>
-                        <td scope="col" className="py-2 text-sm border-collapse border border-[#e5e7eb]">Board Meeting</td>
-                        <td scope="col" className="py-2 text-sm border-collapse border border-[#e5e7eb] ">Status</td>
-                        <td scope="col" className="py-2 text-sm border-collapse border border-[#e5e7eb] ">Create by User </td>
-                        <td scope="col" className="py-2 text-sm border-collapse border border-[#e5e7eb] ">Update by Admin </td>
-                    </tr>
-
-                } 
-                <tr className='text-center text-gray-500'>
-                    <td className="py-2 border-slate-200 flex justify-start ms-4 text-sm border-b-" colspan="">
-                        <input className='w-full bg-gray-50 border-none focus:outline-none' type="text" placeholder='Add Task ..' />
-                    </td>
-                    <td className="border text-sm" colspan="7"></td>
-            </tr> */}
             </tbody>
           </table>
           <div></div>
@@ -1403,8 +1248,6 @@ const BoardMeetingLandingPage = () => {
                               >
                                 <path d='M10.75 4.75a.75.75 0 0 0-1.5 0v4.5h-4.5a.75.75 0 0 0 0 1.5h4.5v4.5a.75.75 0 0 0 1.5 0v-4.5h4.5a.75.75 0 0 0 0-1.5h-4.5v-4.5Z' />
                               </svg>
-
-                              {/* <ExclamationTriangleIcon className="h-6 w-6 text-red-600" aria-hidden="true" /> */}
                             </div>
                             <div className='mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left'>
                               <Dialog.Title
