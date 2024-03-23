@@ -267,17 +267,12 @@ const TeamsLandingPage = () => {
                       item.inputname == 'name' &&
                       item.field === 'predefined' && (
                         <div>
-                          {item.value ? (
-                            <p className='text-sm font-black text-gray-800 mt-2 ml-4 absolute left-12'>
-                              {' '}
-                              {item.value.toUpperCase()}
-                            </p>
-                          ) : (
-                            <p className='text-sm font-black text-gray-800 mt-2 ml-4 absolute left-12'>
-                              {' '}
-                              TEAM NAME
-                            </p>
-                          )}
+
+                          <p className='text-sm font-black text-gray-800 mt-2 ml-2 absolute left-12'>
+                            {' '}
+                            {item.value.toUpperCase()}
+                          </p>
+
                         </div>
                       )}
                     {item.type === 'file' &&

@@ -251,7 +251,7 @@ const BoardMeetingLandingPage = () => {
                           item.field === 'predefined' && (
                             <div className='absolute mt-2'>
                               {item.value ? (
-                                <p className='text-lg'>
+                                <p className='text-lg' title={item.value}>
                                   {item.value.toUpperCase()}
                                 </p>
                               ) : (
@@ -266,7 +266,7 @@ const BoardMeetingLandingPage = () => {
                           item.field === 'predefined' && (
                             <div className='mt-3'>
                               {item.value ? (
-                                <p className='text-sm mt-1'>
+                                <p className='text-sm mt-1' title={item.value}>
                                   Date : {item.value}
                                 </p>
                               ) : (
@@ -287,7 +287,7 @@ const BoardMeetingLandingPage = () => {
                               {item.value ? (
                                 <p className='text-sm'>
                                   Venue :{' '}
-                                  <span className='text-xs'> {item.value}</span>
+                                  <span className='text-xs' title={item.value}> {item.value}</span>
                                 </p>
                               ) : (
                                 <p className='text-sm text-gray-400'>

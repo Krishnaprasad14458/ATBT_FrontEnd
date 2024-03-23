@@ -1280,7 +1280,7 @@ function TeamsForm() {
                           ) : (
                             <p className='text-sm font-black text-gray-800 mt-2 absolute left-12'>
                               {' '}
-                              ENTITY NAME
+                              TEAM NAME
                             </p>
                           )}
                         </div>
