@@ -28,6 +28,7 @@ import { AuthContext } from '../../../contexts/authContext/authContext';
 import atbtApi from '../../../serviceLayer/interceptor';
 import { debounce } from '../../../utils/utils';
 import Skeleton from 'react-loading-skeleton';
+import CustomColumn from '../../../componentLayer/tableCustomization/CustomColumn';
 
 function classNames(...classes) {
   return classes.filter(Boolean).join('');
@@ -45,18 +46,20 @@ export async function loader({ request, params }) {
     //   {}
     // );
     // return userList;
-    const [userList, entityList, roleList] = await Promise.all([
+    const [userList, entityList, roleList, userFormData] = await Promise.all([
       atbtApi.post(`/user/list${url?.search ? url?.search : ''}`, {}),
-      atbtApi.post(`/public/list/entity`, {}),
-      atbtApi.post(`/public/list/role`, {}),
+      atbtApi.post(`/public/list/entity`),
+      atbtApi.post(`/public/list/role`),
+      atbtApi.get(`https://atbtbeta.infozit.com/form/list?name=userform`),
     ]);
-
+    console.log(entityList, roleList, 'entityList, roleList,');
     const combinedResponse = {
       users: userList?.data,
       fieldsDropDownData: {
-        role: roleList?.data?.Roles,
-        entityname: entityList?.data?.Entities,
+        role: roleList?.data?.roles,
+        entityname: entityList?.data?.Entites,
       },
+      tableViewData: userFormData?.data?.Tableview,
     };
     console.log(combinedResponse, 'userList response', request, params);
     return combinedResponse;
@@ -88,8 +91,8 @@ function Users() {
   document.title = 'ATBT | User';
   const navigation = useNavigation();
   const data = useLoaderData();
-  console.log(data, 'users lodaer data');
-  const { users } = data;
+  const { users, tableViewData, fieldsDropDownData } = data;
+  console.log(users, tableViewData, fieldsDropDownData, 'tableViewData');
   let submit = useSubmit();
   let fetcher = useFetcher();
   const [Qparams, setQParams] = useState({
@@ -128,9 +131,9 @@ function Users() {
       pageSize: selectedValue,
     });
   };
-  const {
-    entitiesState: { entitiesList },
-  } = useContext(EntitiesDataContext);
+  // const {
+  //   entitiesState: { entitiesList },
+  // } = useContext(EntitiesDataContext);
   const [hoveredOption, setHoveredOption] = useState(4);
   useEffect(() => {
     console.log('hoveredOption', hoveredOption);
@@ -265,44 +268,17 @@ function Users() {
 
   /////////////////////////////////////////////// Irshad
   const [customForm, setCustomForm] = useState([]);
-  let [fieldsDropDownData, setFieldsDropDownData] = useState({
-    role: [],
-    entityname: [],
-  });
-  useEffect(() => {
-    setFieldsDropDownData((prevState) => ({
-      ...prevState,
-      entityname: entitiesList?.paginatedEntities?.map((item) => item.name),
-      entityname: entitiesList?.paginatedEntities?.map((item) => item.name),
-    }));
-  }, [entitiesList]);
-  useEffect(() => {
-    axios
-      .get(`https://atbtbeta.infozit.com/form/list?name=userform`)
-      .then((response) => {
-        // Handle the successful response
-        setCustomForm(response.data.Data);
-        setTableView(response.data.Tableview);
-        setDupTableView(response.data.Tableview);
-      })
-      .catch((error) => {
-        // Handle errors
-        console.error('Error fetching data:', error);
-      });
-
-    axios
-      .get(`https://atbtbeta.infozit.com/rbac/getroles`)
-      .then((response) => {
-        setFieldsDropDownData((prevState) => ({
-          ...prevState,
-          role: response?.data?.roles?.map((item) => item.name),
-        }));
-      })
-      .catch((error) => {
-        // Handle errors
-        console.error('Error fetching data:', error);
-      });
-  }, []);
+  // let [fieldsDropDownData, setFieldsDropDownData] = useState({
+  //   role: [],
+  //   entityname: [],
+  // });
+  // useEffect(() => {
+  //   setFieldsDropDownData((prevState) => ({
+  //     ...prevState,
+  //     entityname: entitiesList?.paginatedEntities?.map((item) => item.name),
+  //     entityname: entitiesList?.paginatedEntities?.map((item) => item.name),
+  //   }));
+  // }, [entitiesList]);
 
   ////////filters start
   const [filterableInputsInBox, setFilterableInputsInBox] = useState();
@@ -350,51 +326,7 @@ function Users() {
 
   ////////filters end
 
-  const [tableView, setTableView] = useState();
-  const [dupTableView, setDupTableView] = useState();
-  const handleColumnsCheckboxChange = (columnName) => {
-    setDupTableView((prevColumns) => ({
-      ...prevColumns,
-      [columnName]: {
-        ...prevColumns[columnName],
-        value: !prevColumns[columnName].value,
-      },
-    }));
-  };
-  const handleColumnsApply = () => {
-    setTableView(dupTableView);
-    return columnsDrawer();
-  };
-  const handleColumnsSave = () => {
-    if (role === 'admin') {
-      try {
-        axios
-          .put(
-            `https://atbtbeta.infozit.com/form/tableUpdate?name=userform`,
-            dupTableView
-          )
-          .then((response) => {
-            console.log('Update successful:', response.data);
-            axios
-              .get(`https://atbtbeta.infozit.com/form/list?name=userform`)
-              .then((response) => {
-                setCustomForm(response.data.Data);
-                setTableView(response.data.Tableview);
-                setDupTableView(response.data.Tableview);
-              })
-              .catch((error) => {
-                throw new Error('Error fetching data:', error);
-              });
-          })
-          .catch((error) => {
-            throw new Error('Error fetching data:', error);
-          });
-      } catch (error) {
-        console.error('Update failed:', error);
-      }
-    }
-    return columnsDrawer();
-  };
+  const [tableView, setTableView] = useState(tableViewData);
 
   const [visibleColumns, setvisibleColumns] = useState();
   useEffect(() => {
@@ -495,98 +427,10 @@ function Users() {
               <option value='500'>500</option>
             </select>
 
-            <button
-              onClick={columnsDrawer}
-              className=' focus:outline-none me-3 gap-x-1.5 rounded-md bg-orange-600 px-4 py-2 text-sm font-[500] text-white shadow-md  hover:shadow-lg'
-            >
-              Columns
-            </button>
-
-            {/* for coloumns open */}
-            <div
-              className={`fixed inset-0 bg-gray-800 bg-opacity-50 z-10 ${columnsDrawerOpen ? '' : 'opacity-0 pointer-events-none'
-                }`}
-              style={{ transition: 'opacity 0.3s ease-in-out' }}
-            >
-              <div
-                className='fixed inset-y-0 right-0 w-11/12 md:w-4/12 lg:w-1/5 xl:w-1/5 bg-white shadow-lg transform translate-x-full transition-transform duration-300 ease-in-out h-screen overflow-scroll'
-                style={{
-                  transform: `translateX(${columnsDrawerOpen ? '0%' : '100%'})`,
-                  transition: 'transform 0.3s ease-in-out',
-                }}
-              >
-                <div className='flex justify-between px-5 py-4 bg-gray-100 '>
-                  <h5 className='font-[500]'>Columns</h5>
-                  <button
-                    onClick={columnsDrawer}
-                    className=''
-                  >
-                    <svg
-                      xmlns='http://www.w3.org/2000/svg'
-                      viewBox='0 0 24 24'
-                      fill='currentColor'
-                      className='w-5 h-5 text-gray-500'
-                    >
-                      <path
-                        fillRule='evenodd'
-                        d='M5.47 5.47a.75.75 0 0 1 1.06 0L12 10.94l5.47-5.47a.75.75 0 1 1 1.06 1.06L13.06 12l5.47 5.47a.75.75 0 1 1-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 0 1-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 0 1 0-1.06Z'
-                        clipRule='evenodd'
-                      />
-                    </svg>
-                  </button>
-                </div>
-                <hr className='h-1 w-full' />
-
-                <div className='px-4 py-2 h-[615px] overflow-y-scroll flex-wrap'>
-                  {dupTableView &&
-                    Object.keys(dupTableView).map((columnName) => (
-                      <div
-                        key={columnName}
-                        className='flex items-center gap-2'
-                      >
-                        <input
-                          className={classNames(
-                            tableView[columnName].value
-                              ? 'bg-gray-100 text-gray-700 hover:text-black'
-                              : 'text-gray-700 bg-gray-100 hover:text-black',
-                            'appearance-none border border-gray-300 hover:border-gray-900 checked:hover:border-white rounded-md checked:bg-orange-600 checked:border-transparent w-4 h-4 cursor-pointer hover:text-black relative' // added 'relative' class
-                          )}
-                          type='checkbox'
-                          id={columnName}
-                          checked={dupTableView[columnName].value}
-                          onChange={() =>
-                            handleColumnsCheckboxChange(columnName)
-                          }
-                        />
-
-                        <label
-                          htmlFor={columnName}
-                          className='cursor-pointer text-md py-1 text-left'
-                        >
-                          {dupTableView[columnName].label}
-                        </label>
-                      </div>
-                    ))}
-                </div>
-
-                <div className='bg-gray-100 flex justify-between px-3 pt-2 pb-1  w-full'>
-                  <button
-                    className='mr-3 px-3 py-2 inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white '
-                    onClick={handleColumnsApply}
-                  >
-                    Apply
-                  </button>
-                  {role === 'admin' && (
-                    <button
-                      className='mr-3 px-3 py-2 inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white'
-                      onClick={handleColumnsSave}
-                    >
-                      Save
-                    </button>
-                  )}
-                </div>
-              </div>
-            </div>
+            <CustomColumn
+              tableView={tableView}
+              setTableView={setTableView}
+            />
 
             <button
               onClick={filterDrawer}
@@ -597,8 +441,9 @@ function Users() {
 
             {/* for filter open */}
             <div
-              className={`fixed inset-0 bg-gray-800 bg-opacity-50 z-10 ${filterDrawerOpen ? '' : 'opacity-0 pointer-events-none'
-                }`}
+              className={`fixed inset-0 bg-gray-800 bg-opacity-50 z-10 ${
+                filterDrawerOpen ? '' : 'opacity-0 pointer-events-none'
+              }`}
               style={{ transition: 'opacity 0.3s ease-in-out' }}
             >
               <div
@@ -793,16 +638,18 @@ function Users() {
                           ];
 
                           // Formatting the date
-                          value = `${day < 10 ? '0' : ''}${day}-${monthAbbreviations[monthIndex]
-                            }-${year}`;
+                          value = `${day < 10 ? '0' : ''}${day}-${
+                            monthAbbreviations[monthIndex]
+                          }-${year}`;
                         }
                         return (
                           <td
                             key={key}
-                            className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium overflow-hidden  ${row.userstatus
+                            className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium overflow-hidden  ${
+                              row.userstatus
                                 ? 'text-gray-800 '
                                 : 'bg-gray-100 text-gray-300'
-                              }`}
+                            }`}
                             style={{ maxWidth: '160px' }}
                             title={row[key]}
                           >
@@ -812,10 +659,11 @@ function Users() {
                       })}
 
                       <td
-                        className={`px-2 py-2  border border-[#e5e7eb] text-xs font-medium  ${row.userstatus
+                        className={`px-2 py-2  border border-[#e5e7eb] text-xs font-medium  ${
+                          row.userstatus
                             ? 'text-gray-800 '
                             : 'bg-gray-100 text-gray-300'
-                          }`}
+                        }`}
                         style={{ maxWidth: '160px' }}
                       >
                         <div className='flex justify-start gap-3'>
@@ -879,14 +727,17 @@ function Users() {
                             {
                               <button
                                 type='button'
-                                title="Delete"
+                                title='Delete'
                                 onClick={() => handleDeleteUser(row.id)}
                                 disabled={userId == row.id ? true : false}
-                                className={` ${userId == row.id
+                                className={` ${
+                                  userId == row.id
                                     ? 'text-gray-500 bg-gray-50 cursor-not-allowed'
                                     : 'bg-gray-50 text-[#475569] hover:text-orange-500'
-                                  } inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg  text-[#475569] disabled:opacity-50   dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600 `}
-                                style={{ transition: 'transform 0.3s ease-in-out' }} // Add transition here
+                                } inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg  text-[#475569] disabled:opacity-50   dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600 `}
+                                style={{
+                                  transition: 'transform 0.3s ease-in-out',
+                                }} // Add transition here
                               >
                                 <svg
                                   xmlns='http://www.w3.org/2000/svg'
@@ -902,7 +753,6 @@ function Users() {
                                 </svg>
                               </button>
                             }
-
                           </GateKeeper>
                           <GateKeeper
                             permissionCheck={(permission) =>
@@ -914,20 +764,22 @@ function Users() {
                             {
                               <button
                                 disabled={userId == row.id ? true : false}
-                                className={` ${userId == row.id
+                                className={` ${
+                                  userId == row.id
                                     ? 'text-gray-500 bg-gray-50 cursor-not-allowed'
                                     : 'bg-gray-50 text-[#475569] hover:text-orange-500'
-                                  } items-center  text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50  dark:text-blue-500 dark:hover:text-blue-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600 `}
+                                } items-center  text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50  dark:text-blue-500 dark:hover:text-blue-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600 `}
                               >
                                 {row.userstatus !== undefined && (
                                   <label
                                     htmlFor='toggle'
                                     // className='flex items-center cursor-pointer'
                                     disabled={userId == row.id ? true : false}
-                                    className={` ${userId == row.id
+                                    className={` ${
+                                      userId == row.id
                                         ? 'cursor-not-allowed'
                                         : ''
-                                      } flex items-center`}
+                                    } flex items-center`}
                                     onClick={(e) =>
                                       handleClickOpen(
                                         row.id,
@@ -937,16 +789,18 @@ function Users() {
                                     }
                                   >
                                     <div
-                                      className={`w-6 h-3 rounded-full shadow-inner ${row.userstatus
+                                      className={`w-6 h-3 rounded-full shadow-inner ${
+                                        row.userstatus
                                           ? ' bg-[#ea580c]'
                                           : 'bg-[#c3c6ca]'
-                                        }`}
+                                      }`}
                                     >
                                       <div
-                                        className={`toggle__dot w-3 h-3 rounded-full shadow ${row.userstatus
+                                        className={`toggle__dot w-3 h-3 rounded-full shadow ${
+                                          row.userstatus
                                             ? 'ml-4 bg-white'
                                             : 'bg-white'
-                                          }`}
+                                        }`}
                                       ></div>
                                     </div>
                                   </label>
@@ -1066,12 +920,13 @@ function Users() {
                 }
                 onClick={() => handlePage(users.currentPage - 1)}
                 href='#'
-                className={`relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${navigation?.state === 'loading'
+                className={`relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${
+                  navigation?.state === 'loading'
                     ? 'cursor-wait'
                     : users.currentPage === 1
-                      ? 'cursor-not-allowed'
-                      : 'cursor-auto'
-                  }`}
+                    ? 'cursor-not-allowed'
+                    : 'cursor-auto'
+                }`}
               >
                 <span className='sr-only'>Previous</span>
                 <svg
@@ -1096,12 +951,13 @@ function Users() {
                     : false || users.currentPage === users.totalPages
                 }
                 onClick={() => handlePage(users.currentPage + 1)}
-                className={`relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${navigation?.state === 'loading'
+                className={`relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${
+                  navigation?.state === 'loading'
                     ? 'cursor-wait'
                     : users.currentPage === users.totalPages
-                      ? 'cursor-not-allowed'
-                      : 'cursor-auto'
-                  }`}
+                    ? 'cursor-not-allowed'
+                    : 'cursor-auto'
+                }`}
               >
                 <span className='sr-only'>Next</span>
                 <svg
