@@ -215,7 +215,7 @@ export default function TopBar() {
                             permission.canCreate
                           }
                         >
-                          <Menu.Item>
+                          {/* <Menu.Item>
                             {({ active }) => (
                               <Link
                                 to={`/boardmeetings/new`}
@@ -247,7 +247,7 @@ export default function TopBar() {
                                 </div>
                               </Link>
                             )}
-                          </Menu.Item>
+                          </Menu.Item> */}
                         </GateKeeper>
                       </div>
                     </Menu.Items>

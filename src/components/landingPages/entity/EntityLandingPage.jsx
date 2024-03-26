@@ -186,16 +186,16 @@ const EntityLandingPage = () => {
               }`}
             onClick={() => handleTabClick(2)}
           >
-            List
+            Task
           </div>
           <div
             className={`cursor-pointer px-5 py-1 text-md font-semibold  ${activeTab === 3 ? 'border-b-2 border-orange-600 text-black' : ''
               }`}
             onClick={() => handleTabClick(3)}
           >
-            Calendar
+            Board Meetings
           </div>
-          <div
+          {/* <div
             className={`cursor-pointer px-5 py-1 text-md font-semibold ${activeTab === 4 ? 'border-b-2 border-orange-600 text-black' : ''
               }`}
             onClick={() => handleTabClick(4)}
@@ -208,11 +208,11 @@ const EntityLandingPage = () => {
             onClick={() => handleTabClick(5)}
           >
             Messages
-          </div>
+          </div> */}
           <div
-            className={`cursor-pointer px-5 py-1 text-md font-semibold  ${activeTab === 6 ? 'border-b-2 border-orange-600 text-black' : ''
+            className={`cursor-pointer px-5 py-1 text-md font-semibold  ${activeTab === 4 ? 'border-b-2 border-orange-600 text-black' : ''
               }`}
-            onClick={() => handleTabClick(6)}
+            onClick={() => handleTabClick(4)}
           >
             Attachments
           </div>
@@ -1353,7 +1353,25 @@ const EntityLandingPage = () => {
           <div></div>
         </div>
       )}
-      {activeTab === 3 && (
+        {activeTab === 3 && <div >
+<div className='flex justify-end my-2'>
+<button className=' ms-2 create-btn mt-1 inline-flex items-center justify-center whitespace-nowrap rounded-2xl text-sm font-medium  transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50  text-orange-foreground shadow hover:bg-orange/90 h-9 px-3 py-1 shrink-0 bg-orange-600 text-white gap-1'>
+                <svg
+                  xmlns='http://www.w3.org/2000/svg'
+                  viewBox='0 0 20 20'
+                  fill='currentColor'
+                  className='w-5 h-5 '
+                >
+                  <path d='M10.75 4.75a.75.75 0 0 0-1.5 0v4.5h-4.5a.75.75 0 0 0 0 1.5h4.5v4.5a.75.75 0 0 0 1.5 0v-4.5h4.5a.75.75 0 0 0 0-1.5h-4.5v-4.5Z' />
+                </svg>
+             Create Board Meeting
+              </button>
+</div>
+
+          
+          </div>}
+        {activeTab === 4 && <div className='mt-4'>Attachements</div>}
+      {/* {activeTab === 3 && (
         <div className='mt-4'>
           <div>
             <Calendar
@@ -1412,7 +1430,7 @@ const EntityLandingPage = () => {
                                 <path d='M10.75 4.75a.75.75 0 0 0-1.5 0v4.5h-4.5a.75.75 0 0 0 0 1.5h4.5v4.5a.75.75 0 0 0 1.5 0v-4.5h4.5a.75.75 0 0 0 0-1.5h-4.5v-4.5Z' />
                               </svg>
 
-                              {/* <ExclamationTriangleIcon className="h-6 w-6 text-red-600" aria-hidden="true" /> */}
+                    
                             </div>
                             <div className='mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left'>
                               <Dialog.Title
@@ -1456,9 +1474,9 @@ const EntityLandingPage = () => {
             </Transition.Root>
           </div>
         </div>
-      )}
-      {activeTab === 4 && <div className='mt-4'>kikk</div>}
-      {activeTab === 5 && (
+      )} */}
+    
+      {/* {activeTab === 5 && (
         <div className='mt-4'>
           <div className='flex flex-col '>
             <div className='flex justify-center'>
@@ -1493,8 +1511,8 @@ const EntityLandingPage = () => {
             </div>
           </div>
         </div>
-      )}
-      {activeTab === 6 && <div className='mt-4'>kikk</div>}
+      )} */}
+      
     </div>
   );
 };

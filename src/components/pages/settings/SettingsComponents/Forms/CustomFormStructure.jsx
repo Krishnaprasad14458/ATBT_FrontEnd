@@ -544,7 +544,7 @@ const CustomFormStructure = () => {
                           )}
                         </svg>
                         <div className='text-body text-darkSlate01'>
-                          {' '}
+                      
                           Mandatory
                         </div>
                       </div>
@@ -614,10 +614,10 @@ const CustomFormStructure = () => {
         as={Fragment}
       >
         <Dialog
-          as='div'
-          className='relative z-10'
-          initialFocus={cancelButtonRef}
-          onClose={setOpen}
+           as='div'
+           className='fixed inset-0 z-10 overflow-y-auto'
+           initialFocus={cancelButtonRef}
+           onClose={setOpen}
         >
           <Transition.Child
             as={Fragment}
@@ -631,7 +631,7 @@ const CustomFormStructure = () => {
             <div className='fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity' />
           </Transition.Child>
           <div className='fixed inset-0 z-10 w-screen overflow-y-auto'>
-            <div className='flex min-h-full items-center justify-center p-4 text-center sm:items-center sm:p-0'>
+            <div className='flex items-center justify-center min-h-screen'>
               <Transition.Child
                 as={Fragment}
                 enter='ease-out duration-300'
@@ -733,10 +733,10 @@ const CustomFormStructure = () => {
                           newInputField.options.type === 'custom' && (
                             <div>
                               <p className='text-xs   ms-16 md:ms-0 md:justify-center '>
-                                {' '}
+                            
                                 Add options for &nbsp;
                                 <span className='font-semibold text-xs'>
-                                  {' '}
+                              
                                   multi select
                                 </span>
                               </p>
@@ -776,7 +776,7 @@ const CustomFormStructure = () => {
                                 )}
                               </div>
                               <div className='ps-2 py-2'>
-                                {' '}
+                            
                                 {newInputField.options.type === 'custom' &&
                                   newInputField.options.value &&
                                   newInputField.options.value.length > 0 && (
