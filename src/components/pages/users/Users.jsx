@@ -18,17 +18,12 @@ import Swal from 'sweetalert2';
 import { Fragment } from 'react';
 import { Dialog, Menu, Transition } from '@headlessui/react';
 import { ChevronDownIcon } from '@heroicons/react/20/solid';
-import { UserDataContext } from '../../../contexts/usersDataContext/usersDataContext';
-import useDebounce from '../../../hooks/debounce/useDebounce';
-import * as actions from '../../../contexts/usersDataContext/utils/usersActions';
 import GateKeeper from '../../../rbac/GateKeeper';
-import axios from 'axios';
-import { EntitiesDataContext } from '../../../contexts/entitiesDataContext/entitiesDataContext';
-import { AuthContext } from '../../../contexts/authContext/authContext';
 import atbtApi from '../../../serviceLayer/interceptor';
 import { debounce } from '../../../utils/utils';
 import Skeleton from 'react-loading-skeleton';
 import CustomColumn from '../../../componentLayer/tableCustomization/CustomColumn';
+import CustomFilter from '../../../componentLayer/tableCustomization/CustomFilter';
 
 function classNames(...classes) {
   return classes.filter(Boolean).join('');
@@ -41,11 +36,6 @@ const role = userData?.role?.name;
 export async function loader({ request, params }) {
   try {
     let url = new URL(request.url);
-    // const userList = await atbtApi.post(
-    //   `/user/list${url?.search ? url?.search : ''}`,
-    //   {}
-    // );
-    // return userList;
     const [userList, entityList, roleList, userFormData] = await Promise.all([
       atbtApi.post(`/user/list${url?.search ? url?.search : ''}`, {}),
       atbtApi.post(`/public/list/entity`),
@@ -56,10 +46,11 @@ export async function loader({ request, params }) {
     const combinedResponse = {
       users: userList?.data,
       fieldsDropDownData: {
-        role: roleList?.data?.roles,
-        entityname: entityList?.data?.Entites,
+        role: roleList?.data?.roles?.map((item) => item.name),
+        entityname: entityList?.data?.Entites?.map((item) => item.name),
       },
       tableViewData: userFormData?.data?.Tableview,
+      customForm: userFormData?.data?.Data,
     };
     console.log(combinedResponse, 'userList response', request, params);
     return combinedResponse;
@@ -91,8 +82,14 @@ function Users() {
   document.title = 'ATBT | User';
   const navigation = useNavigation();
   const data = useLoaderData();
-  const { users, tableViewData, fieldsDropDownData } = data;
-  console.log(users, tableViewData, fieldsDropDownData, 'tableViewData');
+  const { users, tableViewData, fieldsDropDownData, customForm } = data;
+  console.log(
+    users,
+    tableViewData,
+    fieldsDropDownData,
+    'tableViewData',
+    customForm
+  );
   let submit = useSubmit();
   let fetcher = useFetcher();
   const [Qparams, setQParams] = useState({
@@ -131,46 +128,18 @@ function Users() {
       pageSize: selectedValue,
     });
   };
-  // const {
-  //   entitiesState: { entitiesList },
-  // } = useContext(EntitiesDataContext);
   const [hoveredOption, setHoveredOption] = useState(4);
   useEffect(() => {
     console.log('hoveredOption', hoveredOption);
   });
-  const handleMouseEnter = () => {
-    setHoveredOption('hi');
-  };
-
-  const handleMouseLeave = () => {
-    setHoveredOption('heloo');
-  };
-
-  function handlefilters() {
-    setQParams({
-      ...Qparams,
-      ...selectedFilters,
-    });
-    setFilterDrawerOpen(!filterDrawerOpen);
-  }
-  const handleFilterReset = () => {
-    setSelectedFilters({});
-    setQParams({
-      search: Qparams?.search,
-      page: Qparams?.page,
-      pageSize: Qparams?.pageSize,
-    });
-    setFilterDrawerOpen(!filterDrawerOpen);
-  };
 
   useEffect(() => {
     if (fetcher.state === 'idle' && !fetcher.data) {
       fetcher.load('.');
     }
   }, [fetcher, navigation]);
-
+  // active - inactive
   const [open, setOpen] = useState(false);
-  // const [opening, setOpening] = useState(false);
   const cancelButtonRef = useRef(null);
   const [user_status, setUser_Status] = useState(false);
   const [userremarkshistory, setuser_remarks_history] = useState([]);
@@ -224,22 +193,6 @@ function Users() {
     }
   };
 
-  const [columnsDrawerOpen, setColumnsDrawerOpen] = useState(false);
-
-  const columnsDrawer = () => {
-    setColumnsDrawerOpen(!columnsDrawerOpen);
-  };
-  const [filterDrawerOpen, setFilterDrawerOpen] = useState(false);
-
-  const filterDrawer = () => {
-    setFilterDrawerOpen(!filterDrawerOpen);
-  };
-
-  const [activeTab, setActiveTab] = useState(1);
-
-  const handleTabClick = (tabNumber) => {
-    setActiveTab(tabNumber);
-  };
   const handleDeleteUser = async (id) => {
     const confirmDelete = await Swal.fire({
       title: 'Are you sure?',
@@ -266,66 +219,6 @@ function Users() {
     }
   };
 
-  /////////////////////////////////////////////// Irshad
-  const [customForm, setCustomForm] = useState([]);
-  // let [fieldsDropDownData, setFieldsDropDownData] = useState({
-  //   role: [],
-  //   entityname: [],
-  // });
-  // useEffect(() => {
-  //   setFieldsDropDownData((prevState) => ({
-  //     ...prevState,
-  //     entityname: entitiesList?.paginatedEntities?.map((item) => item.name),
-  //     entityname: entitiesList?.paginatedEntities?.map((item) => item.name),
-  //   }));
-  // }, [entitiesList]);
-
-  ////////filters start
-  const [filterableInputsInBox, setFilterableInputsInBox] = useState();
-  const [filterableInputsInSearch, setFilterableInputsInSearch] = useState();
-
-  useEffect(() => {
-    const filterableInputsInBox = customForm
-      .filter(
-        (obj) =>
-          obj.filterable &&
-          (obj.type === 'select' ||
-            obj.type === 'date' ||
-            obj.type === 'time' ||
-            obj.type === 'multiselect')
-      )
-      .map((obj) => ({
-        inputname: obj.inputname,
-        label: obj.label,
-        type: obj.type,
-        ...(obj.options && { options: obj.options }),
-      }));
-    const filterableInputsInSearch = customForm
-      .filter(
-        (obj) =>
-          obj.filterable &&
-          (obj.type === 'text' ||
-            obj.type === 'email' ||
-            obj.type === 'number' ||
-            obj.type === 'phonenumber' ||
-            obj.type === 'textarea')
-      )
-      .map((obj) => ({
-        inputname: obj.inputname,
-        label: obj.label,
-        type: obj.type,
-      }));
-
-    setFilterableInputsInBox(filterableInputsInBox);
-    setFilterableInputsInSearch(filterableInputsInSearch);
-  }, [customForm]);
-
-  useEffect(() => {
-    console.log('filterableInputsInBox', filterableInputsInBox);
-  });
-
-  ////////filters end
-
   const [tableView, setTableView] = useState(tableViewData);
 
   const [visibleColumns, setvisibleColumns] = useState();
@@ -336,14 +229,6 @@ function Users() {
     setvisibleColumns(visibleColumns);
   }, [tableView]);
 
-  const [selectedFilters, setSelectedFilters] = useState({});
-
-  const handleFilterChange = (filterName, selectedValue) => {
-    setSelectedFilters((prevState) => ({
-      ...prevState,
-      [filterName]: selectedValue,
-    }));
-  };
   useEffect(() => {
     console.log('irshad', tableView, visibleColumns);
   });
@@ -362,16 +247,7 @@ function Users() {
     return formattedTime;
   }
   console.log(navigation, 'navigation fetcher', fetcher);
-  // if (navigation?.state === 'loading') {
-  //   return (
-  //     <Skeleton
-  //       count={10}
-  //       height={25}
-  //     />
-  //   );
-  // }
 
-  // if (navigation?.state === 'idle') {
   return (
     <>
       <div className='overflow-x-auto p-3'>
@@ -384,6 +260,7 @@ function Users() {
             >
               Search
             </label>
+
             <div className='relative'>
               <div className='absolute inset-y-0 start-0 flex items-center p-2 pointer-events-none'>
                 <svg
@@ -432,156 +309,14 @@ function Users() {
               setTableView={setTableView}
             />
 
-            <button
-              onClick={filterDrawer}
-              className='transition-opacity duration-500 focus:outline-none me-3 gap-x-1.5 mt-1 md:mt-0 rounded-md bg-orange-600 px-4 py-2 text-sm font-[500] text-white shadow-md  hover:shadow-lg'
-            >
-              Filters
-            </button>
+            <CustomFilter
+              fieldsDropDownData={fieldsDropDownData}
+              Qparams={Qparams}
+              setQParams={setQParams}
+              customForm={customForm}
+            />
 
             {/* for filter open */}
-            <div
-              className={`fixed inset-0 bg-gray-800 bg-opacity-50 z-10 ${
-                filterDrawerOpen ? '' : 'opacity-0 pointer-events-none'
-              }`}
-              style={{ transition: 'opacity 0.3s ease-in-out' }}
-            >
-              <div
-                className='fixed inset-y-0 right-0 w-11/12 md:w-4/12 lg:w-1/5 xl:w-w-1/5   bg-white shadow-lg transform translate-x-full transition-transform duration-300 ease-in-out h-screen overflow-scroll'
-                style={{
-                  transform: `translateX(${filterDrawerOpen ? '0%' : '100%'})`,
-                  transition: 'transform 0.3s ease-in-out',
-                }}
-              >
-                <div className=' flex justify-between px-5 py-4 bg-gray-100'>
-                  <h5 className='font-[500] '> Filters</h5>
-                  <button
-                    onClick={filterDrawer}
-                    className=''
-                  >
-                    <svg
-                      xmlns='http://www.w3.org/2000/svg'
-                      viewBox='0 0 24 24'
-                      fill='currentColor'
-                      className='w-5 h-5 text-gray-500'
-                    >
-                      <path
-                        fillRule='evenodd'
-                        d='M5.47 5.47a.75.75 0 0 1 1.06 0L12 10.94l5.47-5.47a.75.75 0 1 1 1.06 1.06L13.06 12l5.47 5.47a.75.75 0 1 1-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 0 1-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 0 1 0-1.06Z'
-                        clipRule='evenodd'
-                      />
-                    </svg>
-                  </button>
-                </div>
-                <div className='h-[615px] overflow-auto'>
-                  <div className='text-start p-3 '>
-                    {/* {filter.label} */}
-                    {filterableInputsInBox?.map((filter, index) => (
-                      <div
-                        key={index}
-                        className=''
-                      >
-                        {!filter.options &&
-                          (filter.type === 'date' ||
-                            filter.type === 'time') && (
-                            <div>
-                              <label className='mb-4 text-sm text-[#878a99] font-medium'>
-                                {' '}
-                                {filter.label.charAt(0).toUpperCase() +
-                                  filter.label.slice(1)}
-                              </label>
-                              <input
-                                type={filter.type}
-                                id={filter.inputname}
-                                name={filter.inputname}
-                                className='px-3 py-2 my-2 text-xs block w-full bg-gray-50 rounded-md text-gray-900 border border-1 border-[#e9ebec] placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-xs sm:leading-6'
-                                onChange={(e) =>
-                                  handleFilterChange(
-                                    filter.inputname,
-                                    e.target.value
-                                  )
-                                }
-                                value={selectedFilters[filter.inputname] || ''}
-                              />
-                            </div>
-                          )}
-                        {filter.options &&
-                          (filter.type === 'multiselect' ||
-                            filter.type === 'select') && (
-                            <div>
-                              <label className='mb-4 text-sm text-[#878a99] font-medium'>
-                                {' '}
-                                {filter.label.charAt(0).toUpperCase() +
-                                  filter.label.slice(1)}
-                              </label>
-
-                              <select
-                                id={filter.inputname}
-                                name={filter.inputname}
-                                className='px-3 py-2 my-2 text-xs block w-full bg-gray-50 rounded-md text-gray-900 border border-1 border-[#e9ebec] placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-xs sm:leading-6'
-                                onChange={(e) =>
-                                  handleFilterChange(
-                                    filter.inputname,
-                                    e.target.value
-                                  )
-                                }
-                                value={selectedFilters[filter.inputname] || ''}
-                              >
-                                <option
-                                  value=''
-                                  disabled
-                                  defaultValue
-                                >
-                                  Please select
-                                </option>
-                                {filter.options &&
-                                  filter.options.type === 'custom' &&
-                                  filter.options.value &&
-                                  filter.options.value.map((option, index) => (
-                                    <option
-                                      key={index}
-                                      value={option}
-                                    >
-                                      {option}
-                                    </option>
-                                  ))}
-                                {filter.options &&
-                                  filter.options.type === 'predefined' &&
-                                  filter.options.value &&
-                                  fieldsDropDownData[filter.options.value]?.map(
-                                    (option, index) => (
-                                      <option
-                                        key={index}
-                                        value={option}
-                                      >
-                                        {option}
-                                      </option>
-                                    )
-                                  )}
-                              </select>
-                            </div>
-                          )}
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                <div className='bg-gray-100 flex justify-between px-3 pt-2 pb-1 w-full'>
-                  <button
-                    onClick={handleFilterReset}
-                    className='mr-3 px-3 py-2 inline-flex  whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white '
-                  >
-                    Clear
-                  </button>
-                  <button
-                    onClick={handlefilters}
-                    className='mr-3 px-3 py-2 inline-flex  whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white '
-                  >
-                    Apply
-                  </button>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
         {/* table */}
@@ -980,7 +715,6 @@ function Users() {
       </div>
     </>
   );
-  // }
 }
 
 export default Users;
