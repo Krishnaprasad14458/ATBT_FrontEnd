@@ -2,9 +2,7 @@ import React, { useEffect, useState } from 'react';
 import atbtApi from '../../serviceLayer/interceptor';
 import { useFetcher, useLoaderData } from 'react-router-dom';
 import axios from 'axios';
-function classNames(...classes) {
-  return classes.filter(Boolean).join('');
-}
+
 
 function CustomColumn({ tableView, setTableView }) {
   const [dupTableView, setDupTableView] = useState(tableView);
@@ -70,19 +68,18 @@ function CustomColumn({ tableView, setTableView }) {
 
       {/* for coloumns open */}
       <div
-        className={`fixed inset-0 bg-gray-800 bg-opacity-50 z-10 ${
-          columnsDrawerOpen ? '' : 'opacity-0 pointer-events-none'
-        }`}
+        className={`fixed inset-0 bg-gray-800 bg-opacity-50 z-10 ${columnsDrawerOpen ? '' : 'opacity-0 pointer-events-none'
+          }`}
         style={{ transition: 'opacity 0.3s ease-in-out' }}
       >
         <div
-          className='fixed inset-y-0 right-0 w-11/12 md:w-4/12 lg:w-1/5 xl:w-1/5 bg-white shadow-lg transform translate-x-full transition-transform duration-300 ease-in-out h-screen overflow-scroll'
+          className='fixed inset-y-0 right-0 w-11/12 md:w-4/12 lg:w-1/5 xl:w-1/5 bg-white shadow-lg transform translate-x-full transition-transform duration-300 ease-in-out h-full'
           style={{
             transform: `translateX(${columnsDrawerOpen ? '0%' : '100%'})`,
             transition: 'transform 0.3s ease-in-out',
           }}
         >
-          <div className='flex justify-between px-5 py-4 bg-gray-100 '>
+          <div className='sticky top-0 bg-gray-100 px-5 py-4 flex justify-between z-[3] header'>
             <h5 className='font-[500]'>Columns</h5>
             <button
               onClick={columnsDrawer}
@@ -102,40 +99,42 @@ function CustomColumn({ tableView, setTableView }) {
               </svg>
             </button>
           </div>
-          <hr className='h-1 w-full' />
 
-          <div className='px-4 py-2 h-[615px] overflow-y-scroll flex-wrap'>
-            {dupTableView
-              ? Object.keys(dupTableView).map((columnName) => (
-                  <div
-                    key={columnName}
-                    className='flex items-center gap-2'
+          <div
+            className='overflow-y-auto px-4 py-2.5 content'
+            style={{ maxHeight: 'calc(100vh - 8rem)' }}
+          >
+            {' '}
+            {/* Adjust the maxHeight as per your need */}
+            {dupTableView &&
+              Object.keys(dupTableView).map((columnName) => (
+                <div
+                  key={columnName}
+                  className='flex items-center gap-2 text-start'
+                >
+                  <input
+                    className={
+                      (dupTableView[columnName].value
+                        ? 'bg-gray-100 text-gray-700 hover:text-black'
+                        : 'text-gray-700 bg-gray-100 hover:text-black',
+                        'appearance-none border border-gray-300 hover:border-gray-900 checked:hover:border-white rounded-md checked:bg-orange-600 checked:border-transparent w-4 h-4 cursor-pointer hover:text-black relative')
+                    }
+                    type='checkbox'
+                    id={columnName}
+                    checked={dupTableView[columnName].value}
+                    onChange={() => handleColumnsCheckboxChange(columnName)}
+                  />
+                  <label
+                    htmlFor={columnName}
+                    className='cursor-pointer text-md py-1 flex-1 w-3/6 truncate'
+                    title={dupTableView[columnName].label}
                   >
-                    <input
-                      className={classNames(
-                        tableView[columnName].value
-                          ? 'bg-gray-100 text-gray-700 hover:text-black'
-                          : 'text-gray-700 bg-gray-100 hover:text-black',
-                        'appearance-none border border-gray-300 hover:border-gray-900 checked:hover:border-white rounded-md checked:bg-orange-600 checked:border-transparent w-4 h-4 cursor-pointer hover:text-black relative' // added 'relative' class
-                      )}
-                      type='checkbox'
-                      id={columnName}
-                      checked={dupTableView[columnName].value}
-                      onChange={() => handleColumnsCheckboxChange(columnName)}
-                    />
-
-                    <label
-                      htmlFor={columnName}
-                      className='cursor-pointer text-md py-1 text-left'
-                    >
-                      {dupTableView[columnName].label}
-                    </label>
-                  </div>
-                ))
-              : 'none'}
+                    {dupTableView[columnName].label}
+                  </label>
+                </div>
+              ))}
           </div>
-
-          <div className='bg-gray-100 flex justify-between px-3 pt-2 pb-1  w-full'>
+          <div className='sticky bottom-0 bg-gray-100 flex justify-between p-3 w-full footer'>
             <button
               className='mr-3 px-3 py-2 inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white '
               onClick={handleColumnsApply}
