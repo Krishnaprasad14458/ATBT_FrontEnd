@@ -276,6 +276,7 @@ const UserLandingPage = () => {
                               </span>
                             </span>
                           </p>
+                          {item.value && <hr className='my-2' />}
                         </div>
                       )}
                     {item.type === 'phonenumber' &&
@@ -297,6 +298,7 @@ const UserLandingPage = () => {
                               </span>
                             </span>
                           </p>
+                          {item.value && <hr className='my-2' />}
                         </div>
                       )}
                     {item.type === 'select' &&
@@ -318,6 +320,7 @@ const UserLandingPage = () => {
                               </span>
                             </span>
                           </p>
+                          {item.value && <hr className='my-2' />}
                         </div>
                       )}
                     {/* custom fields */}
@@ -340,6 +343,7 @@ const UserLandingPage = () => {
                             </span>
                           </p>
                         )}
+                        {item.value && <hr className='my-2' />}
                       </div>
                     )}
                     {item.type === 'email' && item.field == 'custom' && (
@@ -359,6 +363,7 @@ const UserLandingPage = () => {
                             </span>
                           </p>
                         )}
+                         {item.value && <hr className='my-2' />}
                       </div>
                     )}
                     {item.type === 'phonenumber' && item.field == 'custom' && (
@@ -381,6 +386,7 @@ const UserLandingPage = () => {
                             </span>
                           </p>
                         )}
+                         {item.value && <hr className='my-2' />}
                       </div>
                     )}
                     {item.type === 'number' && item.field == 'custom' && (
@@ -403,6 +409,7 @@ const UserLandingPage = () => {
                             </span>
                           </p>
                         )}
+                         {item.value && <hr className='my-2' />}
                       </div>
                     )}
                     {item.type === 'textarea' && item.field == 'custom' && (
@@ -424,6 +431,7 @@ const UserLandingPage = () => {
                             </span>
                           </p>
                         )}
+                         {item.value && <hr className='my-2' />}
                       </div>
                     )}
                     {item.type === 'date' && item.field === 'custom' && (
@@ -466,6 +474,7 @@ const UserLandingPage = () => {
                                 </span>
                               </p>
                             )}
+                             {item.value && <hr className='my-2' />}
                           </div>
                         );
                       })()
@@ -490,6 +499,7 @@ const UserLandingPage = () => {
                             </span>
                           </p>
                         )}
+                         {item.value && <hr className='my-2' />}
                       </div>
                     )}
                     {item.type === 'multiselect' && item.field == 'custom' && (
@@ -511,6 +521,7 @@ const UserLandingPage = () => {
                             </span>
                           </p>
                         )}
+                         {item.value && <hr className='my-2' />}
                       </div>
                     )}
                     {item.type === 'range' && item.field == 'custom' && (
@@ -532,6 +543,7 @@ const UserLandingPage = () => {
                             </span>
                           </p>
                         )}
+                         {item.value && <hr className='my-2' />}
                       </div>
                     )}
                     {item.type === 'time' && item.field == 'custom' && (
@@ -552,6 +564,7 @@ const UserLandingPage = () => {
                             </span>
                           </p>
                         )}
+                         {item.value && <hr className='my-2' />}
                       </div>
                     )}
                   </div>

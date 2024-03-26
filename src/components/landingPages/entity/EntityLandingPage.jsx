@@ -243,41 +243,40 @@ const EntityLandingPage = () => {
                 return (
                   <div className='relative'>
                     {/* predefined fields*/}
-                    {item.type === 'text' &&
-                      item.inputname == 'name' &&
-                      item.field === 'predefined' && (
-                        <div>
 
-                          <p className='text-sm font-black text-gray-800 mt-2 ml-4 absolute left-12 '
-                            title={item.value.toUpperCase()}>
+                    {item.type === 'file' && item.inputname === 'image' && item.field === 'predefined' && (
 
-                            {item.value.toUpperCase()}
-                          </p>
 
-                        </div>
-                      )}
-                    {item.type === 'file' &&
-                      item.inputname == 'image' &&
-                      item.field == 'predefined' && (
-                        <div className='flex gap-4'>
-                          <div className='group h-10 '>
-                            {item.value ? (
-                              <img
-                                src={predefinedImage}
-                                name='EntityPhoto'
-                                alt='Selected User Photo'
-                                className='rounded-lg w-10 h-10 mr-4'
-                              />
-                            ) : (
-                              <img
-                                className='w-10 h-10 rounded-lg mr-4'
-                                src={defprop}
-                                alt='defult image'
-                              />
-                            )}
-                          </div>
-                        </div>
-                      )}
+                      <div className=' h-10  hidden sm:block'>
+                        {item.value ? (
+                          <img
+                            src={predefinedImage}
+                            name='EntityPhoto'
+                            alt='Selected User Photo'
+                            className='rounded-lg w-10 h-10 mr-4 '
+                          />
+                        ) : (
+                          <img
+                            className='w-10 h-10 rounded-lg mr-4 '
+                            src={defprop}
+                            alt='default image'
+                          />
+                        )}
+                      </div>
+
+
+                    )}
+
+                    {item.type === 'text' && item.inputname === 'name' && item.field === 'predefined' && (
+
+                      <p className='text-sm font-black text-gray-800 md:mt-2 ml-2 md:absolute md:left-12'>
+                        {item.value.toUpperCase()}
+                      </p>
+
+                    )}
+
+
+
                     {item.type === 'textarea' &&
                       item.inputname == 'description' &&
                       item.field == 'predefined' && (
