@@ -66,6 +66,7 @@ import { taskRouter } from "./task/task.router";
 import RouteBlocker from "../rbac/RouteBlocker";
 import ErrorBoundary from "../components/pages/Errorpages/ErrorBoundary";
 import '../App.css';
+import { resourceRouter } from "./resources/resource.route";
 
 
 
@@ -76,6 +77,7 @@ export const router = createBrowserRouter([
         ErrorBoundary: ErrorBoundary,
         children: [
             ...dashboardRouter,
+            ...resourceRouter,
             {
                 path: 'users',
                 children: [
