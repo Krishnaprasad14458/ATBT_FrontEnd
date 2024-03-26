@@ -509,13 +509,13 @@ function Users() {
               style={{ transition: 'opacity 0.3s ease-in-out' }}
             >
               <div
-                className='fixed inset-y-0 right-0 w-11/12 md:w-4/12 lg:w-1/5 xl:w-1/5 bg-white shadow-lg transform translate-x-full transition-transform duration-300 ease-in-out h-screen overflow-scroll'
+                className='fixed inset-y-0 right-0 w-11/12 md:w-4/12 lg:w-1/5 xl:w-1/5 bg-white shadow-lg transform translate-x-full transition-transform duration-300 ease-in-out h-full'
                 style={{
                   transform: `translateX(${columnsDrawerOpen ? '0%' : '100%'})`,
                   transition: 'transform 0.3s ease-in-out',
                 }}
               >
-                <div className='flex justify-between px-5 py-4 bg-gray-100 '>
+                <div className='sticky top-0 bg-gray-100 px-5 py-4 flex justify-between z-[3] header'>
                   <h5 className='font-[500]'>Columns</h5>
                   <button
                     onClick={columnsDrawer}
@@ -535,41 +535,42 @@ function Users() {
                     </svg>
                   </button>
                 </div>
-                <hr className='h-1 w-full' />
 
-                <div className='px-4 py-2 h-[615px] overflow-y-scroll flex-wrap'>
+                <div
+                  className='overflow-y-auto px-4 py-2.5 content'
+                  style={{ maxHeight: 'calc(100vh - 8rem)' }}
+                >
+                  {' '}
+                  {/* Adjust the maxHeight as per your need */}
                   {dupTableView &&
                     Object.keys(dupTableView).map((columnName) => (
                       <div
                         key={columnName}
-                        className='flex items-center gap-2'
+                        className='flex items-center gap-2 text-start'
                       >
                         <input
-                          className={classNames(
-                            tableView[columnName].value
+                          className={
+                            (dupTableView[columnName].value
                               ? 'bg-gray-100 text-gray-700 hover:text-black'
                               : 'text-gray-700 bg-gray-100 hover:text-black',
-                            'appearance-none border border-gray-300 hover:border-gray-900 checked:hover:border-white rounded-md checked:bg-orange-600 checked:border-transparent w-4 h-4 cursor-pointer hover:text-black relative' // added 'relative' class
-                          )}
+                              'appearance-none border border-gray-300 hover:border-gray-900 checked:hover:border-white rounded-md checked:bg-orange-600 checked:border-transparent w-4 h-4 cursor-pointer hover:text-black relative')
+                          }
                           type='checkbox'
                           id={columnName}
                           checked={dupTableView[columnName].value}
-                          onChange={() =>
-                            handleColumnsCheckboxChange(columnName)
-                          }
+                          onChange={() => handleColumnsCheckboxChange(columnName)}
                         />
-
                         <label
                           htmlFor={columnName}
-                          className='cursor-pointer text-md py-1 text-left'
+                          className='cursor-pointer text-md py-1 flex-1 w-3/6 truncate'
+                          title={dupTableView[columnName].label}
                         >
                           {dupTableView[columnName].label}
                         </label>
                       </div>
                     ))}
                 </div>
-
-                <div className='bg-gray-100 flex justify-between px-3 pt-2 pb-1  w-full'>
+                <div className='sticky bottom-0 bg-gray-100 flex justify-between p-3 w-full footer'>
                   <button
                     className='mr-3 px-3 py-2 inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white '
                     onClick={handleColumnsApply}
@@ -594,7 +595,6 @@ function Users() {
             >
               Filters
             </button>
-
             {/* for filter open */}
             <div
               className={`fixed inset-0 bg-gray-800 bg-opacity-50 z-10 ${filterDrawerOpen ? '' : 'opacity-0 pointer-events-none'
@@ -602,13 +602,13 @@ function Users() {
               style={{ transition: 'opacity 0.3s ease-in-out' }}
             >
               <div
-                className='fixed inset-y-0 right-0 w-11/12 md:w-4/12 lg:w-1/5 xl:w-w-1/5   bg-white shadow-lg transform translate-x-full transition-transform duration-300 ease-in-out h-screen overflow-scroll'
+                className='fixed inset-y-0 right-0 w-11/12 md:w-4/12 lg:w-1/5 xl:w-w-1/5 bg-white shadow-lg transform translate-x-full transition-transform duration-300 ease-in-out  h-full'
                 style={{
                   transform: `translateX(${filterDrawerOpen ? '0%' : '100%'})`,
                   transition: 'transform 0.3s ease-in-out',
                 }}
               >
-                <div className=' flex justify-between px-5 py-4 bg-gray-100'>
+                <div className='sticky top-0 bg-gray-100 px-5 py-4 flex justify-between z-[3] header'>
                   <h5 className='font-[500] '> Filters</h5>
                   <button
                     onClick={filterDrawer}
@@ -628,7 +628,11 @@ function Users() {
                     </svg>
                   </button>
                 </div>
-                <div className='h-[615px] overflow-auto'>
+
+                <div
+                  className='overflow-y-auto px-2 py-2.5 content'
+                  style={{ maxHeight: 'calc(100vh - 8rem)' }}
+                >
                   <div className='text-start p-3 '>
                     {/* {filter.label} */}
                     {filterableInputsInBox?.map((filter, index) => (
@@ -637,11 +641,9 @@ function Users() {
                         className=''
                       >
                         {!filter.options &&
-                          (filter.type === 'date' ||
-                            filter.type === 'time') && (
+                          (filter.type === 'date' || filter.type === 'time') && (
                             <div>
                               <label className='mb-4 text-sm text-[#878a99] font-medium'>
-                                {' '}
                                 {filter.label.charAt(0).toUpperCase() +
                                   filter.label.slice(1)}
                               </label>
@@ -649,7 +651,7 @@ function Users() {
                                 type={filter.type}
                                 id={filter.inputname}
                                 name={filter.inputname}
-                                className='px-3 py-2 my-2 text-xs block w-full bg-gray-50 rounded-md text-gray-900 border border-1 border-[#e9ebec] placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-xs sm:leading-6'
+                                className='px-3 py-1 mb-2 text-xs block w-full bg-gray-50 rounded-md text-gray-900 border border-1 border-[#e9ebec] placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-xs sm:leading-6'
                                 onChange={(e) =>
                                   handleFilterChange(
                                     filter.inputname,
@@ -665,11 +667,9 @@ function Users() {
                             filter.type === 'select') && (
                             <div>
                               <label className='mb-4 text-sm text-[#878a99] font-medium'>
-                                {' '}
                                 {filter.label.charAt(0).toUpperCase() +
                                   filter.label.slice(1)}
                               </label>
-
                               <select
                                 id={filter.inputname}
                                 name={filter.inputname}
@@ -720,17 +720,16 @@ function Users() {
                     ))}
                   </div>
                 </div>
-
-                <div className='bg-gray-100 flex justify-between px-3 pt-2 pb-1 w-full'>
+                <div className='sticky bottom-0 bg-gray-100 flex justify-between p-3 w-full footer'>
                   <button
                     onClick={handleFilterReset}
-                    className='mr-3 px-3 py-2 inline-flex  whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white '
+                    className='mr-3 px-3 py-2 inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white '
                   >
                     Clear
                   </button>
                   <button
                     onClick={handlefilters}
-                    className='mr-3 px-3 py-2 inline-flex  whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white '
+                    className='mr-3 px-3 py-2 inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white'
                   >
                     Apply
                   </button>
@@ -800,8 +799,8 @@ function Users() {
                           <td
                             key={key}
                             className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium overflow-hidden  ${row.userstatus
-                                ? 'text-gray-800 '
-                                : 'bg-gray-100 text-gray-300'
+                              ? 'text-gray-800 '
+                              : 'bg-gray-100 text-gray-300'
                               }`}
                             style={{ maxWidth: '160px' }}
                             title={row[key]}
@@ -813,8 +812,8 @@ function Users() {
 
                       <td
                         className={`px-2 py-2  border border-[#e5e7eb] text-xs font-medium  ${row.userstatus
-                            ? 'text-gray-800 '
-                            : 'bg-gray-100 text-gray-300'
+                          ? 'text-gray-800 '
+                          : 'bg-gray-100 text-gray-300'
                           }`}
                         style={{ maxWidth: '160px' }}
                       >
@@ -883,8 +882,8 @@ function Users() {
                                 onClick={() => handleDeleteUser(row.id)}
                                 disabled={userId == row.id ? true : false}
                                 className={` ${userId == row.id
-                                    ? 'text-gray-500 bg-gray-50 cursor-not-allowed'
-                                    : 'bg-gray-50 text-[#475569] hover:text-orange-500'
+                                  ? 'text-gray-500 bg-gray-50 cursor-not-allowed'
+                                  : 'bg-gray-50 text-[#475569] hover:text-orange-500'
                                   } inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg  text-[#475569] disabled:opacity-50   dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600 `}
                                 style={{ transition: 'transform 0.3s ease-in-out' }} // Add transition here
                               >
@@ -915,8 +914,8 @@ function Users() {
                               <button
                                 disabled={userId == row.id ? true : false}
                                 className={` ${userId == row.id
-                                    ? 'text-gray-500 bg-gray-50 cursor-not-allowed'
-                                    : 'bg-gray-50 text-[#475569] hover:text-orange-500'
+                                  ? 'text-gray-500 bg-gray-50 cursor-not-allowed'
+                                  : 'bg-gray-50 text-[#475569] hover:text-orange-500'
                                   } items-center  text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50  dark:text-blue-500 dark:hover:text-blue-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600 `}
                               >
                                 {row.userstatus !== undefined && (
@@ -925,8 +924,8 @@ function Users() {
                                     // className='flex items-center cursor-pointer'
                                     disabled={userId == row.id ? true : false}
                                     className={` ${userId == row.id
-                                        ? 'cursor-not-allowed'
-                                        : ''
+                                      ? 'cursor-not-allowed'
+                                      : ''
                                       } flex items-center`}
                                     onClick={(e) =>
                                       handleClickOpen(
@@ -938,14 +937,14 @@ function Users() {
                                   >
                                     <div
                                       className={`w-6 h-3 rounded-full shadow-inner ${row.userstatus
-                                          ? ' bg-[#ea580c]'
-                                          : 'bg-[#c3c6ca]'
+                                        ? ' bg-[#ea580c]'
+                                        : 'bg-[#c3c6ca]'
                                         }`}
                                     >
                                       <div
                                         className={`toggle__dot w-3 h-3 rounded-full shadow ${row.userstatus
-                                            ? 'ml-4 bg-white'
-                                            : 'bg-white'
+                                          ? 'ml-4 bg-white'
+                                          : 'bg-white'
                                           }`}
                                       ></div>
                                     </div>
@@ -1067,10 +1066,10 @@ function Users() {
                 onClick={() => handlePage(users.currentPage - 1)}
                 href='#'
                 className={`relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${navigation?.state === 'loading'
-                    ? 'cursor-wait'
-                    : users.currentPage === 1
-                      ? 'cursor-not-allowed'
-                      : 'cursor-auto'
+                  ? 'cursor-wait'
+                  : users.currentPage === 1
+                    ? 'cursor-not-allowed'
+                    : 'cursor-auto'
                   }`}
               >
                 <span className='sr-only'>Previous</span>
@@ -1097,10 +1096,10 @@ function Users() {
                 }
                 onClick={() => handlePage(users.currentPage + 1)}
                 className={`relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${navigation?.state === 'loading'
-                    ? 'cursor-wait'
-                    : users.currentPage === users.totalPages
-                      ? 'cursor-not-allowed'
-                      : 'cursor-auto'
+                  ? 'cursor-wait'
+                  : users.currentPage === users.totalPages
+                    ? 'cursor-not-allowed'
+                    : 'cursor-auto'
                   }`}
               >
                 <span className='sr-only'>Next</span>
