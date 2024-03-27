@@ -457,6 +457,79 @@ const CustomFormStructure = () => {
                         </div>
                       </div>
                       <div className='flex gap-3 md:gap-10'>
+                           {/* up and down moving icons */}
+
+                           <svg
+                          disabled={
+                            input.field === 'predefined' ||
+                            (input.field === 'custom' &&
+                              customForm[index - 1]?.field === 'predefined')
+                          }
+                          className={`${
+                            input.field === 'predefined' ||
+                            (input.field === 'custom' &&
+                              customForm[index - 1]?.field === 'predefined')
+                              ? 'text-gray-400 cursor-not-allowed'
+                              : ''
+                          } w-5 h-5`}
+                          onClick={() => {
+                            if (
+                              !(
+                                input.field === 'predefined' ||
+                                (input.field === 'custom' &&
+                                  customForm[index - 1]?.field === 'predefined')
+                              )
+                            ) {
+                              handleMoveDimension(index, 'up');
+                            }
+                          }}
+                          xmlns='http://www.w3.org/2000/svg'
+                          viewBox='0 0 20 20'
+                          fill='currentColor'
+                        >
+                          <path
+                            fillRule='evenodd'
+                            d='M10 17a.75.75 0 0 1-.75-.75V5.612L5.29 9.77a.75.75 0 0 1-1.08-1.04l5.25-5.5a.75.75 0 0 1 1.08 0l5.25 5.5a.75.75 0 1 1-1.08 1.04l-3.96-4.158V16.25A.75.75 0 0 1 10 17Z'
+                            clipRule='evenodd'
+                          />
+                        </svg>
+
+                        <svg
+                          disabled={
+                            input.field === 'predefined' ||
+                            (input.field === 'custom' &&
+                              customForm?.length === index + 1)
+                          }
+                          className={`${
+                            input.field === 'predefined' ||
+                            (input.field === 'custom' &&
+                              customForm?.length === index + 1)
+                              ? 'text-gray-400 cursor-not-allowed'
+                              : ''
+                          } w-5 h-5 `}
+                          onClick={() => {
+                            if (
+                              !(
+                                input.field === 'predefined' ||
+                                (input.field === 'custom' &&
+                                  customForm?.length === index + 1)
+                              )
+                            ) {
+                              handleMoveDimension(index, 'down');
+                            }
+                          }}
+                          xmlns='http://www.w3.org/2000/svg'
+                          viewBox='0 0 20 20'
+                          fill='currentColor'
+                        >
+                          <path
+                            fill-rule='evenodd'
+                            d='M10 3a.75.75 0 0 1 .75.75v10.638l3.96-4.158a.75.75 0 1 1 1.08 1.04l-5.25 5.5a.75.75 0 0 1-1.08 0l-5.25-5.5a.75.75 0 1 1 1.08-1.04l3.96 4.158V3.75A.75.75 0 0 1 10 3Z'
+                            clip-rule='evenodd'
+                          />
+                        </svg>
+
+                        {/* Open and Close Arrow*/}
                         <svg
                           onClick={() => handleFiledOpen(input.inputname)}
                           xmlns='http://www.w3.org/2000/svg'
@@ -1066,9 +1139,18 @@ export default CustomFormStructure;
 ///////////////////////////////////////// board meeting
 // [
 //   {
-//       "label": "Full Name",
+//       "label": "Name",
 //       "inputname": "name",
 //       "type": "text",
+//       "value": "",
+//       "field": "predefined",
+//       "mandatory": true,
+//       "filterable": true
+//   },
+//    {
+//       "label": "Serial Number",
+//       "inputname": "serialnumber",
+//       "type": "number",
 //       "value": "",
 //       "field": "predefined",
 //       "mandatory": true,
@@ -1084,41 +1166,16 @@ export default CustomFormStructure;
 //       "filterable": true
 //   },
 //   {
-//       "label": "Select a Time",
-//       "inputname": "time",
-//       "type": "time",
-//       "value": "",
-//       "field": "predefined",
-//       "mandatory": true,
-//       "filterable": true
-//   },
-//   {
-//       "label": "Venue",
-//       "inputname": "venue",
-//       "type": "select",
-//       "value": "",
-//       "options": {
-//                     "type":"custom","value":[
-//                       "London",
-//                       "California",
-//                       "USA"
-//                   ]
-//                   },
-//       "field": "predefined",
-//       "mandatory": true,
-//       "filterable": true
-//   },
-//   {
 //       "label": "Description",
 //       "inputname": "description",
 //       "type": "textarea",
 //       "value": "",
 //       "field": "predefined",
-//       "mandatory": true,
+//       "mandatory": false,
 //       "filterable": false
 //   },
 //   {
-//       "label": "Add Members",
+//       "label": "Add Invitees",
 //       "inputname": "members",
 //       "type": "multiselect",
 //       "value": [],
@@ -1134,27 +1191,19 @@ export default CustomFormStructure;
 /////////////////////// predefined tableview
 // {
 //   "name": {
-//       "label": "Full Name",
+//       "label": "Name",
 //       "value": true,
 //       "type":"text"
+//   },
+//    "serialnumber": {
+//       "label": "Serial Number",
+//       "value": true,
+//       "type":"number"
 //   },
 //   "date": {
 //       "label": "Select a Date",
 //       "value": true,
 //       "type":"date"
-
-//   },
-//   "time": {
-//       "label": " Select a Time",
-//       "value": true,
-//       "type":"time"
-
-//   },
-//   "venue": {
-//       "label": " Venue",
-//       "value": true,
-//       "type":"select"
-
 //   }
 // }
 ///////////////team form
