@@ -210,7 +210,7 @@ const TeamsLandingPage = () => {
               }`}
             onClick={() => handleTabClick(4)}
           >
-            Attachments
+            Documentsstar
           </div>
         </div>
         <hr />
