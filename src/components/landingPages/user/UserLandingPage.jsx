@@ -156,35 +156,22 @@ const UserLandingPage = () => {
               }`}
             onClick={() => handleTabClick(2)}
           >
-            List
+            Task
           </div>
           <div
             className={`cursor-pointer px-5 py-1 text-md font-semibold  ${activeTab === 3 ? 'border-b-2 border-orange-600 text-black' : ''
               }`}
             onClick={() => handleTabClick(3)}
           >
-            Calendar
+            Board Meetings
           </div>
+
           <div
-            className={`cursor-pointer px-5 py-1 text-md font-semibold ${activeTab === 4 ? 'border-b-2 border-orange-600 text-black' : ''
+            className={`cursor-pointer px-5 py-1 text-md font-semibold  ${activeTab === 4 ? 'border-b-2 border-orange-600 text-black' : ''
               }`}
             onClick={() => handleTabClick(4)}
           >
-            Dashboard
-          </div>
-          <div
-            className={`cursor-pointer px-5 py-1 text-md font-semibold  ${activeTab === 5 ? 'border-b-2 border-orange-600 text-black' : ''
-              }`}
-            onClick={() => handleTabClick(5)}
-          >
-            Messages
-          </div>
-          <div
-            className={`cursor-pointer px-5 py-1 text-md font-semibold  ${activeTab === 6 ? 'border-b-2 border-orange-600 text-black' : ''
-              }`}
-            onClick={() => handleTabClick(6)}
-          >
-            Attachments
+            Documents
           </div>
         </div>
         <hr />
@@ -363,7 +350,7 @@ const UserLandingPage = () => {
                             </span>
                           </p>
                         )}
-                         {item.value && <hr className='my-2' />}
+                        {item.value && <hr className='my-2' />}
                       </div>
                     )}
                     {item.type === 'phonenumber' && item.field == 'custom' && (
@@ -386,7 +373,7 @@ const UserLandingPage = () => {
                             </span>
                           </p>
                         )}
-                         {item.value && <hr className='my-2' />}
+                        {item.value && <hr className='my-2' />}
                       </div>
                     )}
                     {item.type === 'number' && item.field == 'custom' && (
@@ -409,7 +396,7 @@ const UserLandingPage = () => {
                             </span>
                           </p>
                         )}
-                         {item.value && <hr className='my-2' />}
+                        {item.value && <hr className='my-2' />}
                       </div>
                     )}
                     {item.type === 'textarea' && item.field == 'custom' && (
@@ -431,7 +418,7 @@ const UserLandingPage = () => {
                             </span>
                           </p>
                         )}
-                         {item.value && <hr className='my-2' />}
+                        {item.value && <hr className='my-2' />}
                       </div>
                     )}
                     {item.type === 'date' && item.field === 'custom' && (
@@ -474,7 +461,7 @@ const UserLandingPage = () => {
                                 </span>
                               </p>
                             )}
-                             {item.value && <hr className='my-2' />}
+                            {item.value && <hr className='my-2' />}
                           </div>
                         );
                       })()
@@ -499,7 +486,7 @@ const UserLandingPage = () => {
                             </span>
                           </p>
                         )}
-                         {item.value && <hr className='my-2' />}
+                        {item.value && <hr className='my-2' />}
                       </div>
                     )}
                     {item.type === 'multiselect' && item.field == 'custom' && (
@@ -521,7 +508,7 @@ const UserLandingPage = () => {
                             </span>
                           </p>
                         )}
-                         {item.value && <hr className='my-2' />}
+                        {item.value.join(', ') && <hr className='my-2' />}
                       </div>
                     )}
                     {item.type === 'range' && item.field == 'custom' && (
@@ -543,7 +530,7 @@ const UserLandingPage = () => {
                             </span>
                           </p>
                         )}
-                         {item.value && <hr className='my-2' />}
+                        {item.value && <hr className='my-2' />}
                       </div>
                     )}
                     {item.type === 'time' && item.field == 'custom' && (
@@ -564,7 +551,7 @@ const UserLandingPage = () => {
                             </span>
                           </p>
                         )}
-                         {item.value && <hr className='my-2' />}
+                        {item.value && <hr className='my-2' />}
                       </div>
                     )}
                   </div>
@@ -729,19 +716,7 @@ const UserLandingPage = () => {
                   </Menu.Items>
                 </Transition>
               </Menu>
-              <div>
-                <button className=' ms-2 create-btn mt-1 inline-flex items-center justify-center whitespace-nowrap rounded-2xl text-sm font-medium  transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50  text-orange-foreground shadow hover:bg-orange/90 h-9 px-3 py-1 shrink-0 bg-orange-600 text-white gap-1'>
-                  <svg
-                    xmlns='http://www.w3.org/2000/svg'
-                    viewBox='0 0 20 20'
-                    fill='currentColor'
-                    className='w-5 h-5 '
-                  >
-                    <path d='M10.75 4.75a.75.75 0 0 0-1.5 0v4.5h-4.5a.75.75 0 0 0 0 1.5h4.5v4.5a.75.75 0 0 0 1.5 0v-4.5h4.5a.75.75 0 0 0 0-1.5h-4.5v-4.5Z' />
-                  </svg>
-                  Add Task
-                </button>
-              </div>
+
             </div>
             <div className='overflow-x-auto'>
               <table className='w-full border-collapse border border-slate-200 mt-1 table-auto'>
@@ -1120,133 +1095,23 @@ const UserLandingPage = () => {
           </div>
         )
       }
-      {
-        activeTab === 3 && (
-          <div className='mt-4'>
-            <div>
-              <Calendar
-                localizer={localizer}
-                events={events}
-                startAccessor='start'
-                endAccessor='end'
-                style={{ height: 500 }}
-                selectable
-                onSelectSlot={handleSelect}
-              />
-
-              <Transition.Root
-                show={open}
-                as={Fragment}
+      {activeTab === 3 &&
+        <div >
+          <div className='flex justify-end my-2'>
+            <button className=' ms-2 create-btn mt-1 inline-flex items-center justify-center whitespace-nowrap rounded-2xl text-sm font-medium  transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50  text-orange-foreground shadow hover:bg-orange/90 h-9 px-3 py-1 shrink-0 bg-orange-600 text-white gap-1'>
+              <svg
+                xmlns='http://www.w3.org/2000/svg'
+                viewBox='0 0 20 20'
+                fill='currentColor'
+                className='w-5 h-5 '
               >
-                <Dialog
-                  as='div'
-                  className='relative z-10'
-                  initialFocus={cancelButtonRef}
-                  onClose={setOpen}
-                >
-                  <Transition.Child
-                    as={Fragment}
-                    enter='ease-out duration-300'
-                    enterFrom='opacity-0'
-                    enterTo='opacity-100'
-                    leave='ease-in duration-200'
-                    leaveFrom='opacity-100'
-                    leaveTo='opacity-0'
-                  >
-                    <div className='fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity' />
-                  </Transition.Child>
-
-                  <div className='fixed inset-0 z-10 w-screen overflow-y-auto'>
-                    <div className='flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0'>
-                      <Transition.Child
-                        as={Fragment}
-                        enter='ease-out duration-300'
-                        enterFrom='opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95'
-                        enterTo='opacity-100 translate-y-0 sm:scale-100'
-                        leave='ease-in duration-200'
-                        leaveFrom='opacity-100 translate-y-0 sm:scale-100'
-                        leaveTo='opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95'
-                      >
-                        <Dialog.Panel className='relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg'>
-                          <div className='bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4'>
-                            <div className='sm:flex sm:items-start'>
-                              <div className='mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-orange-600 sm:mx-0 sm:h-10 sm:w-10'>
-                                <svg
-                                  xmlns='http://www.w3.org/2000/svg'
-                                  viewBox='0 0 20 20'
-                                  fill='currentColor'
-                                  className='w-5 h-5 text-white'
-                                >
-                                  <path d='M10.75 4.75a.75.75 0 0 0-1.5 0v4.5h-4.5a.75.75 0 0 0 0 1.5h4.5v4.5a.75.75 0 0 0 1.5 0v-4.5h4.5a.75.75 0 0 0 0-1.5h-4.5v-4.5Z' />
-                                </svg>
-                              </div>
-                              <div className='mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left'>
-                                <Dialog.Title
-                                  as='h3'
-                                  className='text-base font-semibold leading-6 text-gray-900'
-                                >
-                                  Create New Task
-                                </Dialog.Title>
-                                <div className='mt-2'>
-                                  <input
-                                    placeholder='Enter Task Here'
-                                    className='focus:outline-none ps-1 border-b-2 border-gray-200'
-                                    onChange={(e) => setNewTask(e.target.value)}
-                                  />
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                          <div className='bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6 gap-2'>
-                            <button
-                              type='button'
-                              className='mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto'
-                              onClick={() => setOpen(false)}
-                              ref={cancelButtonRef}
-                            >
-                              Cancel
-                            </button>
-                            <button
-                              type='button'
-                              className='inline-flex w-full justify-center rounded-md bg-orange-600 px-3 py-2 text-sm  text-white shadow-sm  sm:ml-3 sm:w-auto'
-                              onClick={handleSave}
-                            >
-                              Save
-                            </button>
-                          </div>
-                        </Dialog.Panel>
-                      </Transition.Child>
-                    </div>
-                  </div>
-                </Dialog>
-              </Transition.Root>
-            </div>
-          </div>
-        )
-      }
-      {activeTab === 4 && <div className='mt-4'>Dashboard</div>}
-      {
-        activeTab === 5 && (
-          <div className='mt-4'>
-            Messages
-            {/* <div className='flex flex-col '>
-          <div className='flex justify-center'>
-            <div className='flex flex-start rounded-md border-2 border-gray-200 px-3 py-2'>
-              <img className="w-8 h-8 rounded-full mx-3 my-3" src={defprop} alt="Neil image" />
-              <div className='mt-2 mr-2'>
-                <input className='px-2 py-2 w-96 focus:outline-none bg-[#f8fafc] rounded-md border-2 border-gray-200 ' type='text' placeholder='Enter Your Message' />
-              </div>
-              <div className=''> <button className='mt-4 text-lg'> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5">
-                <path d="M3.105 2.288a.75.75 0 0 0-.826.95l1.414 4.926A1.5 1.5 0 0 0 5.135 9.25h6.115a.75.75 0 0 1 0 1.5H5.135a1.5 1.5 0 0 0-1.442 1.086l-1.414 4.926a.75.75 0 0 0 .826.95 28.897 28.897 0 0 0 15.293-7.155.75.75 0 0 0 0-1.114A28.897 28.897 0 0 0 3.105 2.288Z" />
+                <path d='M10.75 4.75a.75.75 0 0 0-1.5 0v4.5h-4.5a.75.75 0 0 0 0 1.5h4.5v4.5a.75.75 0 0 0 1.5 0v-4.5h4.5a.75.75 0 0 0 0-1.5h-4.5v-4.5Z' />
               </svg>
-              </button></div>
-            </div>
+              Create Board Meeting
+            </button>
           </div>
-        </div> */}
-          </div>
-        )
-      }
-      {activeTab === 6 && <div className='mt-4'>Attachments</div>}
+        </div>}
+      {activeTab === 4 && <div className='mt-4'>Attachements</div>}
     </div >
   );
 };
