@@ -271,7 +271,7 @@ function Entities() {
     );
     setvisibleColumns(visibleColumns);
   }, [tableView]);
-
+ 
   const [selectedFilters, setSelectedFilters] = useState({});
 
   const handleFilterChange = (filterName, selectedValue) => {
@@ -358,9 +358,8 @@ function Entities() {
 
           {/* for coloumns open */}
           <div
-            className={`fixed inset-0 bg-gray-800 bg-opacity-50 z-10 ${
-              columnsDrawerOpen ? '' : 'opacity-0 pointer-events-none'
-            }`}
+            className={`fixed inset-0 bg-gray-800 bg-opacity-50 z-10 ${columnsDrawerOpen ? '' : 'opacity-0 pointer-events-none'
+              }`}
             style={{ transition: 'opacity 0.3s ease-in-out' }}
           >
             <div
@@ -408,7 +407,7 @@ function Entities() {
                           (dupTableView[columnName].value
                             ? 'bg-gray-100 text-gray-700 hover:text-black'
                             : 'text-gray-700 bg-gray-100 hover:text-black',
-                          'appearance-none border border-gray-300 hover:border-gray-900 checked:hover:border-white rounded-md checked:bg-orange-600 checked:border-transparent w-4 h-4 cursor-pointer hover:text-black relative')
+                            'appearance-none border border-gray-300 hover:border-gray-900 checked:hover:border-white rounded-md checked:bg-orange-600 checked:border-transparent w-4 h-4 cursor-pointer hover:text-black relative')
                         }
                         type='checkbox'
                         id={columnName}
@@ -452,9 +451,8 @@ function Entities() {
           </button>
           {/* for filter open */}
           <div
-            className={`fixed inset-0 bg-gray-800 bg-opacity-50 z-10 ${
-              filterDrawerOpen ? '' : 'opacity-0 pointer-events-none'
-            }`}
+            className={`fixed inset-0 bg-gray-800 bg-opacity-50 z-10 ${filterDrawerOpen ? '' : 'opacity-0 pointer-events-none'
+              }`}
             style={{ transition: 'opacity 0.3s ease-in-out' }}
           >
             <div
@@ -675,20 +673,44 @@ function Entities() {
                         ];
 
                         // Formatting the date
-                        value = `${day < 10 ? '0' : ''}${day}-${
-                          monthAbbreviations[monthIndex]
-                        }-${year}`;
+                        value = `${day < 10 ? '0' : ''}${day}-${monthAbbreviations[monthIndex]
+                          }-${year}`;
                       }
-                      return (
-                        <td
-                          key={key}
-                          className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden`}
-                          style={{ maxWidth: '160px' }}
-                          title={row[key]}
-                        >
-                          <p className='truncate text-xs'> {value}</p>
-                        </td>
-                      );
+                      if (key === "name") {
+                        return (
+
+                          <GateKeeper
+                            permissionCheck={(permission) =>
+                              permission.module === 'entity' && permission.canRead
+                            }
+                          >
+
+                            <Link to={`${row.id}`}>
+                              <td
+                                key={key}
+                                className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden`}
+                                style={{ maxWidth: '160px' }}
+                                title={row[key]}
+                              >
+                                <p className='truncate text-xs'> {value}</p>
+                              </td>
+                            </Link>
+                          </GateKeeper>
+                        );
+                      }
+                      else {
+                        return (
+                          <td
+                            key={key}
+                            className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden`}
+                            style={{ maxWidth: '160px' }}
+                            title={row[key]}
+                          >
+                            <p className='truncate text-xs'> {value}</p>
+                          </td>
+                        );
+                      }
+
                     })}
                     <td
                       className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden`}
@@ -835,13 +857,12 @@ function Entities() {
               //   })
               // }
               href='#'
-              className={`relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${
-                data.loading
-                  ? 'cursor-wait'
-                  : data.currentPage === 1
+              className={`relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${data.loading
+                ? 'cursor-wait'
+                : data.currentPage === 1
                   ? 'cursor-not-allowed'
                   : 'cursor-auto'
-              }`}
+                }`}
             >
               <span className='sr-only'>Previous</span>
               <svg
@@ -869,13 +890,12 @@ function Entities() {
               //     data: data.currentPage + 1,
               //   })
               // }
-              className={`relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${
-                data.loading
-                  ? 'cursor-wait'
-                  : data.currentPage === data.totalPages
+              className={`relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${data.loading
+                ? 'cursor-wait'
+                : data.currentPage === data.totalPages
                   ? 'cursor-not-allowed'
                   : 'cursor-auto'
-              }`}
+                }`}
             >
               <span className='sr-only'>Next</span>
               <svg
@@ -895,7 +915,7 @@ function Entities() {
           </section>
         </div>
       </div>
-    </div>
+    </div >
   );
 }
 
