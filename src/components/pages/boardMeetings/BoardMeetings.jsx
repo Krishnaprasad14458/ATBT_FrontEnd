@@ -338,7 +338,7 @@ function BoardMeetings() {
                   </svg>
                 </button>
               </div>
-             
+
               <div className='overflow-y-auto px-4 py-2.5 content' style={{ maxHeight: 'calc(100vh - 8rem)' }}> {/* Adjust the maxHeight as per your need */}
                 {dupTableView && Object.keys(dupTableView).map((columnName) => (
                   <div key={columnName} className='flex items-center gap-2 text-start'>
@@ -352,7 +352,7 @@ function BoardMeetings() {
                       checked={dupTableView[columnName].value}
                       onChange={() => handleColumnsCheckboxChange(columnName)}
                     />
-                  <label htmlFor={columnName} className='cursor-pointer text-md py-1 flex-1 w-3/6 truncate' title={dupTableView[columnName].label}>{dupTableView[columnName].label}</label>
+                    <label htmlFor={columnName} className='cursor-pointer text-md py-1 flex-1 w-3/6 truncate' title={dupTableView[columnName].label}>{dupTableView[columnName].label}</label>
                   </div>
                 ))}
               </div>
@@ -407,7 +407,7 @@ function BoardMeetings() {
                   </svg>
                 </button>
               </div>
-       
+
               <div className='overflow-y-auto px-2 py-2.5 content' style={{ maxHeight: 'calc(100vh - 8rem)' }}>
                 <div className='text-start p-3 '>
                   {/* {filter.label} */}
@@ -593,6 +593,28 @@ function BoardMeetings() {
                           value = `${day < 10 ? '0' : ''}${day}-${monthAbbreviations[monthIndex]
                             }-${year}`;
                         }
+                        if (key === "name") {
+                          return (
+                            <td
+                              key={key}
+                              className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden`}
+                              style={{ maxWidth: '160px' }}
+                              title={row[key]}
+                            >
+                              <GateKeeper
+                                permissionCheck={(permission) =>
+                                  permission.module === 'meeting' && permission.canRead
+                                }
+                              >
+
+                                <Link to={`${row.id}`}>
+
+                                  <p className='truncate text-xs'> {value}</p>
+
+                                </Link>
+                              </GateKeeper>    </td>
+                          );
+                        }
                         return (
                           <td
                             key={key}
@@ -755,10 +777,10 @@ function BoardMeetings() {
               }
               href='#'
               className={`relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${boardmeetingsList.loading
-                  ? 'cursor-wait'
-                  : boardmeetingsList.currentPage === 1
-                    ? 'cursor-not-allowed'
-                    : 'cursor-auto'
+                ? 'cursor-wait'
+                : boardmeetingsList.currentPage === 1
+                  ? 'cursor-not-allowed'
+                  : 'cursor-auto'
                 }`}
             >
               <span className='sr-only'>Previous</span>
@@ -790,11 +812,11 @@ function BoardMeetings() {
                 })
               }
               className={`relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${boardmeetingsList.loading
-                  ? 'cursor-wait'
-                  : boardmeetingsList.currentPage ===
-                    boardmeetingsList.totalPages
-                    ? 'cursor-not-allowed'
-                    : 'cursor-auto'
+                ? 'cursor-wait'
+                : boardmeetingsList.currentPage ===
+                  boardmeetingsList.totalPages
+                  ? 'cursor-not-allowed'
+                  : 'cursor-auto'
                 }`}
             >
               <span className='sr-only'>Next</span>
