@@ -220,6 +220,7 @@ const EntityLandingPage = () => {
         </div>
         <hr />
       </div>
+      <Outlet />
       {activeTab === 1 && (
         <div className=' flex justify-center mt-5'>
           <div className=' w-full md:w-full  lg:w-11/12 xl:11/12 shadow-md border-2 rounded-md bg-[#f8fafc] px-4 pb-4 pt-1'>
@@ -1340,6 +1341,7 @@ const EntityLandingPage = () => {
           <div></div>
         </div>
       )}
+
       {activeTab === 3 &&
         <div >
           <div className='flex justify-end my-2'>
@@ -1356,6 +1358,7 @@ const EntityLandingPage = () => {
             </button>
           </div>
         </div>}
+
       {activeTab === 4 && <div className='mt-4'>Attachements</div>}
       {/* {activeTab === 3 && (
         <div className='mt-4'>
