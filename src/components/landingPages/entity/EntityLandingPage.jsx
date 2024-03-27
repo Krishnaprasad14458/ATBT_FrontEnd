@@ -5,7 +5,7 @@ import 'react-big-calendar/lib/css/react-big-calendar.css';
 import moment from 'moment';
 import { Dialog, Transition, Menu } from '@headlessui/react';
 import defprop from '../../../Images/defprof.svg';
-import { Link, Outlet, useParams } from 'react-router-dom';
+import { Link, Outlet, useLocation, useParams } from 'react-router-dom';
 import { ChevronDownIcon } from '@heroicons/react/20/solid';
 import useInitializePerPage from '../../../hooks/initializePerPage/useInitializePerPage';
 import useDebounce from '../../../hooks/debounce/useDebounce';
@@ -43,10 +43,16 @@ const EntityLandingPage = () => {
   useEffect(() => {
     getSingleProduct();
   }, [id]);
-  const [activeTab, setActiveTab] = useState(1);
-  const handleTabClick = (tabNumber) => {
-    setActiveTab(tabNumber);
+  // for active tabs
+  const location = useLocation()
+  const currentURL = location.pathname.split("/")
+  console.log("currentURL" , currentURL)
+  const [activeTab, setActiveTab] = useState(currentURL[3]);
+
+  const handleTabClick = (tabName) => {
+    setActiveTab(tabName);
   };
+  //  for active tabs close
   // for calendar
   const localizer = momentLocalizer(moment);
   const [open, setOpen] = useState(false);
@@ -127,38 +133,39 @@ const EntityLandingPage = () => {
           </Link>
         </div>
       </div>
-      <div className=''>
+
         <div className='flex overflow-auto'>
-          <Link to={`overview`}
-            onClick={() => handleTabClick(1)}>
+
+          <Link to={`task`} onClick={() => handleTabClick('task')}>
             <div
-              className={`cursor-pointer px-1 py-1 text-md font-semibold  ${activeTab === 1 ? 'border-b-2 border-orange-600 text-black' : ''
-                }`}>
-              <p> Overview</p>
-            </div>
-          </Link>
-          <Link to={`task`} onClick={() => handleTabClick(2)}>
-            <div
-              className={`cursor-pointer px-5 py-1 text-md font-semibold  ${activeTab === 2 ? 'border-b-2 border-orange-600 text-black' : ''
+              className={`cursor-pointer px-5 py-1 text-md font-semibold  ${activeTab === 'task' ? 'border-b-2 border-orange-600 text-black' : ''
                 }`}>
               <p> Tasks</p>
             </div>
           </Link>
-          <Link to={`boardmeetings`} onClick={() => handleTabClick(3)}>
+          <Link to={`boardmeetings`} onClick={() => handleTabClick('boardmeetings')}>
             <div
-              className={`cursor-pointer px-5 py-1 text-md font-semibold  ${activeTab === 3 ? 'border-b-2 border-orange-600 text-black' : ''
+              className={`cursor-pointer px-5 py-1 text-md font-semibold  ${activeTab === 'boardmeetings' ? 'border-b-2 border-orange-600 text-black' : ''
                 }`}>
               <p>Board Meetings</p>
             </div>
           </Link>
-          <Link to={`documents`} onClick={() => handleTabClick(4)}>
-            <div className={`cursor-pointer px-5 py-1 text-md font-semibold  ${activeTab === 4 ? 'border-b-2 border-orange-600 text-black' : ''}`}>
+          <Link to={`documents`} onClick={() => handleTabClick('documents')}>
+            <div className={`cursor-pointer px-5 py-1 text-md font-semibold  ${activeTab === 'documents' ? 'border-b-2 border-orange-600 text-black' : ''}`}>
               <p>Documents</p>
+            </div>
+          </Link>
+          <Link to={`overview`}
+            onClick={() => handleTabClick('overview')}>
+            <div
+              className={`cursor-pointer px-1 py-1 text-md font-semibold  ${activeTab === 'overview' ? 'border-b-2 border-orange-600 text-black' : ''
+                }`}>
+              <p> Overview</p>
             </div>
           </Link>
         </div>
         <hr />
-      </div>
+
       <Outlet />
     </div>
   );

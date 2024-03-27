@@ -607,7 +607,7 @@ function BoardMeetings() {
                                 }
                               >
 
-                                <Link to={`${row.id}`}>
+                                <Link to={`${row.id}/task`}>
 
                                   <p className='truncate text-xs'> {value}</p>
 
@@ -670,7 +670,7 @@ function BoardMeetings() {
                               type='button'
                               className=' inline-flex items-center gap-x-1 text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600'
                             >
-                              <Link to={`${row.id}`}>
+                              <Link to={`${row.id}/overview`}>
                                 <svg
                                   xmlns='http://www.w3.org/2000/svg'
                                   viewBox='0 0 20 20'

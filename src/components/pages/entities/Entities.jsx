@@ -623,7 +623,7 @@ function Entities() {
                               permissionCheck={(permission) =>
                                 permission.module === 'entity' && permission.canRead
                               }>
-                              <Link to={`${row.id}/overview`}>
+                              <Link to={`${row.id}/task`}>
                                 <p className='truncate text-xs'> {value}</p>
                               </Link>
                             </GateKeeper>

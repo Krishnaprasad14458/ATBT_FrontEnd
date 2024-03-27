@@ -1,16 +1,24 @@
 import UserForm, { userFormLoader } from "../../components/createForm/createUserForm/UserForm";
+import Boardmeeting from "../../components/landingPages/ReuseableComponents/Boardmeeting";
+import Documents from "../../components/landingPages/ReuseableComponents/Documents";
+import Task from "../../components/landingPages/ReuseableComponents/Task";
 import UserLandingPage, { userLandingLoader } from "../../components/landingPages/user/UserLandingPage";
+import UserOverview from "../../components/landingPages/user/UserOverview";
 import Users, { action as userAction, loader as userLoader } from "../../components/pages/users/Users";
-
 import RouteBlocker from "../../rbac/RouteBlocker";
-
 export const userRouter = [
     {
         element: <RouteBlocker permissionCheck={(permission) =>
             permission.module === 'user' && permission.canRead} />,
         children: [
             { index: true, loader: userLoader, action: userAction, element: <Users /> },
-            { path: ':id', loader: userLandingLoader, element: <UserLandingPage /> },
+            { path: ':id', loader: userLandingLoader, element: <UserLandingPage />, children: [
+                { path: 'overview',  loader: userLandingLoader, element: <UserOverview />  },
+                { path: 'task', element: <Task /> },
+                { path: 'boardmeetings', element: <Boardmeeting /> },
+                { path: 'documents', element: <Documents/> },
+            ] },
+
         ]
     },
     {
