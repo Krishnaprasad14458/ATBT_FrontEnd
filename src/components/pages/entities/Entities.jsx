@@ -1,10 +1,4 @@
-import React, {
-  useContext,
-  useEffect,
-  useState,
-  useRef,
-  useCallback,
-} from 'react';
+import React, { useEffect, useState, useRef, useCallback } from 'react';
 import {
   Link,
   useFetcher,
@@ -12,14 +6,12 @@ import {
   useNavigation,
   useSubmit,
 } from 'react-router-dom';
-import { EntitiesDataContext } from '../../../contexts/entitiesDataContext/entitiesDataContext';
 import './Entities.css';
 import { Fragment } from 'react';
 import Swal from 'sweetalert2';
 
 import { Dialog, Menu, Transition } from '@headlessui/react';
 import { ChevronDownIcon } from '@heroicons/react/20/solid';
-import useDebounce from '../../../hooks/debounce/useDebounce';
 import { debounce, formatDate } from '../../../utils/utils';
 import GateKeeper from '../../../rbac/GateKeeper';
 import axios from 'axios';
@@ -36,15 +28,28 @@ const role = userData?.role?.name;
 export async function loader({ request, params }) {
   try {
     let url = new URL(request.url);
-    let entity = url.searchParams.get('entity') || '';
-    console.log(entity, 'st');
-    let searchParam = entity ? `?search=${entity}` : '';
-    const entityList = await atbtApi.post(`/entity/list${searchParam}`, {});
-    console.log(entityList, 'entityList response', request, params);
+    const entityList = await atbtApi.post(
+      `/entity/list${url?.search ? url?.search : ''}`,
+      {}
+    );
+    console.log(entityList, 'entityList action');
     return entityList;
   } catch (error) {
     console.error('Error occurred:', error);
     throw error;
+  }
+}
+
+export async function action({ request, params }) {
+  switch (request.method) {
+    case 'DELETE': {
+      const id = (await request.json()) || null;
+      console.log(id, 'json', id);
+      return await atbtApi.delete(`/entity/delete/${id}`);
+    }
+    default: {
+      throw new Response('', { status: 405 });
+    }
   }
 }
 
@@ -93,7 +98,6 @@ function Entities() {
     });
   };
 
-  ///////////////////////////////////////////////////////////////
   function handlefilters() {
     setQParams({
       ...Qparams,
@@ -148,6 +152,7 @@ function Entities() {
     if (confirmDelete.isConfirmed) {
       try {
         // const result = await deleteEntitybyId(id);
+        fetcher.submit(id, { method: 'DELETE', encType: 'application/json' });
       } catch (error) {
         Swal.fire('Error', 'Unable to delete entity 🤯', 'error');
       }
@@ -850,16 +855,13 @@ function Entities() {
           >
             <button
               disabled={data.currentPage === 1}
-              // onClick={() =>
-              //   debouncedSetPage({
-              //     conext: 'ENTITES',
-              //     data: data.currentPage - 1,
-              //   })
-              // }
-              href='#'
-              className={`relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${data.loading
-                ? 'cursor-wait'
-                : data.currentPage === 1
+
+              onClick={() => handlePage(data?.currentPage - 1)}
+              className={`relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${
+                data.loading
+                  ? 'cursor-wait'
+                  : data.currentPage === 1
+
                   ? 'cursor-not-allowed'
                   : 'cursor-auto'
                 }`}
@@ -884,15 +886,13 @@ function Entities() {
             </button>
             <button
               disabled={data.currentPage === data.totalPages}
-              // onClick={() =>
-              //   debouncedSetPage({
-              //     conext: 'ENTITES',
-              //     data: data.currentPage + 1,
-              //   })
-              // }
-              className={`relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${data.loading
-                ? 'cursor-wait'
-                : data.currentPage === data.totalPages
+
+              onClick={() => handlePage(data?.currentPage + 1)}
+              className={`relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${
+                data.loading
+                  ? 'cursor-wait'
+                  : data.currentPage === data.totalPages
+
                   ? 'cursor-not-allowed'
                   : 'cursor-auto'
                 }`}
