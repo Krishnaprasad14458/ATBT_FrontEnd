@@ -219,6 +219,7 @@ const EntityLandingPage = () => {
         </div>
         <hr />
       </div>
+      <Outlet />
       {activeTab === 1 && (
         <div className=' flex justify-center mt-5'>
           <div className=' w-full md:w-full  lg:w-11/12 xl:11/12 shadow-md border-2 rounded-md bg-[#f8fafc] px-4 pb-4 pt-1'>
@@ -1353,24 +1354,24 @@ const EntityLandingPage = () => {
           <div></div>
         </div>
       )}
-        {activeTab === 3 && <div >
-<div className='flex justify-end my-2'>
-<button className=' ms-2 create-btn mt-1 inline-flex items-center justify-center whitespace-nowrap rounded-2xl text-sm font-medium  transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50  text-orange-foreground shadow hover:bg-orange/90 h-9 px-3 py-1 shrink-0 bg-orange-600 text-white gap-1'>
-                <svg
-                  xmlns='http://www.w3.org/2000/svg'
-                  viewBox='0 0 20 20'
-                  fill='currentColor'
-                  className='w-5 h-5 '
-                >
-                  <path d='M10.75 4.75a.75.75 0 0 0-1.5 0v4.5h-4.5a.75.75 0 0 0 0 1.5h4.5v4.5a.75.75 0 0 0 1.5 0v-4.5h4.5a.75.75 0 0 0 0-1.5h-4.5v-4.5Z' />
-                </svg>
-             Create Board Meeting
-              </button>
-</div>
+      {activeTab === 3 && <div >
+        <div className='flex justify-end my-2'>
+          <button className=' ms-2 create-btn mt-1 inline-flex items-center justify-center whitespace-nowrap rounded-2xl text-sm font-medium  transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50  text-orange-foreground shadow hover:bg-orange/90 h-9 px-3 py-1 shrink-0 bg-orange-600 text-white gap-1'>
+            <svg
+              xmlns='http://www.w3.org/2000/svg'
+              viewBox='0 0 20 20'
+              fill='currentColor'
+              className='w-5 h-5 '
+            >
+              <path d='M10.75 4.75a.75.75 0 0 0-1.5 0v4.5h-4.5a.75.75 0 0 0 0 1.5h4.5v4.5a.75.75 0 0 0 1.5 0v-4.5h4.5a.75.75 0 0 0 0-1.5h-4.5v-4.5Z' />
+            </svg>
+            Create Board Meeting
+          </button>
+        </div>
 
-          
-          </div>}
-        {activeTab === 4 && <div className='mt-4'>Attachements</div>}
+
+      </div>}
+      {activeTab === 4 && <div className='mt-4'>Attachements</div>}
       {/* {activeTab === 3 && (
         <div className='mt-4'>
           <div>
@@ -1475,7 +1476,7 @@ const EntityLandingPage = () => {
           </div>
         </div>
       )} */}
-    
+
       {/* {activeTab === 5 && (
         <div className='mt-4'>
           <div className='flex flex-col '>
@@ -1512,7 +1513,7 @@ const EntityLandingPage = () => {
           </div>
         </div>
       )} */}
-      
+
     </div>
   );
 };
