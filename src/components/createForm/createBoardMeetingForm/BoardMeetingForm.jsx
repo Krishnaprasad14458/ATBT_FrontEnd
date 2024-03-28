@@ -473,7 +473,7 @@ function BoardMeetingForm() {
       console.log('jsonData submitted', response);
       if (response?.status === 201) {
         console.log('data is 201');
-        navigate(`/boardmeetings/${response.data}`);
+        navigate(`/boardmeetings/${response.data}/overview`);
       }
     }
   }

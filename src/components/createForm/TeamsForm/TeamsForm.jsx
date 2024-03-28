@@ -472,7 +472,7 @@ function TeamsForm() {
       console.log('jsonData submitted', response);
       if (response?.status === 201) {
         console.log('data is 201');
-        navigate(`/teams/${response.data}`);
+        navigate(`/teams/${response.data}/overview`);
       }
     }
   }
