@@ -1,5 +1,7 @@
 import UserForm, { userFormLoader } from "../../components/createForm/createUserForm/UserForm";
-import Boardmeeting from "../../components/landingPages/ReuseableComponents/Boardmeeting";
+// import Boardmeeting from "../../components/landingPages/ReuseableComponents/Boardmeeting";
+import Boardmeeting, { action as entityMeetingAction, loader as entityMeetingLoader } from "../../components/landingPages/ReuseableComponents/Boardmeeting";
+
 import Documents from "../../components/landingPages/ReuseableComponents/Documents";
 import Task from "../../components/landingPages/ReuseableComponents/Task";
 import UserLandingPage, { userLandingLoader } from "../../components/landingPages/user/UserLandingPage";
@@ -16,7 +18,9 @@ export const userRouter = [
                 path: ':id', element: <UserLandingPage />, children: [
                     { index: true, loader: userLandingLoader, element: <UserOverview /> },
                     { path: 'task', element: <Task /> },
-                    { path: 'boardmeetings', element: <Boardmeeting /> },
+                    // { path: 'boardmeetings', element: <Boardmeeting /> },
+                    { path: 'boardmeetings', loader: entityMeetingLoader, action: entityMeetingAction, element: <Boardmeeting /> },
+
                     { path: 'documents', element: <Documents /> },
                 ]
             },
