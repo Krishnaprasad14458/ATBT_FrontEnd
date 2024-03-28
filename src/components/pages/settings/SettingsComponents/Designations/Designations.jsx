@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 const Designations = () => {
   return (
-    <div className='container p-4 bg-[#f8fafc]'>
+    <div className=' p-4 bg-[#f8fafc]'>
       <div className='flex justify-between my-2'>
         <p className="text-xl font-semibold">Communication</p>
         <div className='flex justify-end '>
