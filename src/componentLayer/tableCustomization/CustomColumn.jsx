@@ -61,16 +61,17 @@ function CustomColumn({ tableView, setTableView, form }) {
       {/* <h1>Columns apply</h1> */}
       <button
         onClick={columnsDrawer}
-        className=' focus:outline-none me-3 gap-x-1.5 rounded-md bg-orange-600 px-4 py-2 text-sm font-[500] text-white shadow-md  hover:shadow-lg'
-      >
-        Columns
+        className=' focus:outline-none gap-x-1 pe-4  text-sm font-[500] text-gray-500 hover:text-orange-600' title='Columns'>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+          <path d="M14 17h2.75A2.25 2.25 0 0 0 19 14.75v-9.5A2.25 2.25 0 0 0 16.75 3H14v14ZM12.5 3h-5v14h5V3ZM3.25 3H6v14H3.25A2.25 2.25 0 0 1 1 14.75v-9.5A2.25 2.25 0 0 1 3.25 3Z" />
+        </svg>
+
       </button>
 
       {/* for coloumns open */}
       <div
-        className={`fixed inset-0 bg-gray-800 bg-opacity-50 z-10 ${
-          columnsDrawerOpen ? '' : 'opacity-0 pointer-events-none'
-        }`}
+        className={`fixed inset-0 bg-gray-800 bg-opacity-50 z-10 ${columnsDrawerOpen ? '' : 'opacity-0 pointer-events-none'
+          }`}
         style={{ transition: 'opacity 0.3s ease-in-out' }}
       >
         <div
@@ -118,7 +119,7 @@ function CustomColumn({ tableView, setTableView, form }) {
                       (dupTableView[columnName].value
                         ? 'bg-gray-100 text-gray-700 hover:text-black'
                         : 'text-gray-700 bg-gray-100 hover:text-black',
-                      'appearance-none border border-gray-300 hover:border-gray-900 checked:hover:border-white rounded-md checked:bg-orange-600 checked:border-transparent w-4 h-4 cursor-pointer hover:text-black relative')
+                        'appearance-none border border-gray-300 hover:border-gray-900 checked:hover:border-white rounded-md checked:bg-orange-600 checked:border-transparent w-4 h-4 cursor-pointer hover:text-black relative')
                     }
                     type='checkbox'
                     id={columnName}

@@ -331,19 +331,8 @@ function Users() {
               />
             </div>
           </div>
-          <div className='grid1-item text-end md:flex md:justify-end filter_pagination'>
-            <select
-              value={Qparams?.pageSize}
-              onChange={handlePerPageChange}
-              className='focus:outline-none me-3 gap-x-1.5 rounded-md bg-gray-50 px-1 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-200 hover:bg-gray-50'
-            >
-              <option value='10'>10</option>
-              <option value='25'>25</option>
-              <option value='50'>50</option>
-              <option value='100'>100</option>
-              <option value='250'>250</option>
-              <option value='500'>500</option>
-            </select>
+          <div className='grid1-item text-end md:flex md:justify-end filter_pagination divide-x-2 h-7 mt-2'>
+
 
             <CustomColumn
               tableView={tableView}
@@ -693,10 +682,23 @@ function Users() {
                 </p>
               )}
             </div>
+
             <section
-              className='isolate inline-flex rounded-md shadow-sm ms-4'
+              className='isolate inline-flex rounded-md  ms-4'
               aria-label='Pagination'
             >
+              <select
+                value={Qparams?.pageSize}
+                onChange={handlePerPageChange}
+                className='focus:outline-none me-3 rounded-md bg-[#f8fafc]  px-1 py-1.5 text-sm font-semibold  ring-1 ring-inset ring-gray-300 hover:bg-gray-50 shadow-sm  text-gray-500'
+              >
+                <option value='10' >10</option>
+                <option value='25'>25</option>
+                <option value='50'>50</option>
+                <option value='100'>100</option>
+                <option value='250'>250</option>
+                <option value='500'>500</option>
+              </select>
               {/* previos button */}
               <button
                 disabled={
@@ -758,8 +760,13 @@ function Users() {
                   />
                 </svg>
               </button>
+
             </section>
+
           </div>
+
+
+
         </div>
       </div>
     </>
