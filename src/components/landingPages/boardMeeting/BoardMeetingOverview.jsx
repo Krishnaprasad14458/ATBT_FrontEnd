@@ -202,7 +202,7 @@ const BoardMeetingOverview = () => {
                                         item.inputname === 'date' &&
                                         item.field === 'predefined' && (
                                             <p className='text-sm  '>
-                                                Date : {item.value}
+                                                Dateg : {item.value}
                                             </p>
                                         )}
                                 </div>
