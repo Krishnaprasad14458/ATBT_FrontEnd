@@ -29,7 +29,7 @@ const Forms = () => {
         },
     ]
     return (
-        <div className='container p-4 bg-[#f8fafc]'>
+        <div className=' p-4 bg-[#f8fafc]'>
             <div className="flex justify-between">
                 <p className="text-xl font-semibold">Forms</p>
                 <div className='flex justify-end'>

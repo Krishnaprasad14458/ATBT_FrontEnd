@@ -378,7 +378,7 @@ const CustomFormStructure = () => {
     $(e.target).blur();
   });
   return (
-    <div className='p-4 container bg-[#f8fafc] w-full'>
+    <div className='p-4  bg-[#f8fafc] w-full'>
       {/* for heading and back button */}
       <div className='grid grid-cols-1 md:grid-cols-2'>
         <p className='col-span-1 text-lg md:text-xl lg:text-xl xl:text-xl font-semibold'>

@@ -144,7 +144,7 @@ function Dashboard() {
     },
   });
   return (
-    <div className='container p-2 bg-[#f8fafc] '>
+    <div className='  p-4 bg-[#f8fafc] '>
       <h1 className='lg:m-2 font-semibold sm:text-xs md:text-base lg:text-lg xl:text-xl'>
         Home
       </h1>
