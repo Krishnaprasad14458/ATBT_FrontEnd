@@ -1,4 +1,10 @@
-import React, { useState, Fragment, useRef, useEffect, useContext } from 'react';
+import React, {
+  useState,
+  Fragment,
+  useRef,
+  useEffect,
+  useContext,
+} from 'react';
 import '../LandingPageCommon.css';
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
@@ -44,9 +50,9 @@ const EntityLandingPage = () => {
     getSingleProduct();
   }, [id]);
   // for active tabs
-  const location = useLocation()
-  const currentURL = location.pathname.split("/")
-  console.log("currentURL" , currentURL)
+  const location = useLocation();
+  const currentURL = location.pathname.split('/');
+  console.log('currentURL', currentURL);
   const [activeTab, setActiveTab] = useState(currentURL[3]);
 
   const handleTabClick = (tabName) => {
@@ -127,44 +133,73 @@ const EntityLandingPage = () => {
           <Link to='/entities'>
             <button
               type='submit'
-              className='create-btn px-4 py-2 inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white gap-1'>
+              className='create-btn px-4 py-2 inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white gap-1'
+            >
               Back
             </button>
           </Link>
         </div>
       </div>
 
-        <div className='flex overflow-auto'>
-
-          <Link to={`task`} onClick={() => handleTabClick('task')}>
-            <div
-              className={`cursor-pointer px-5 py-1 text-md font-semibold  ${activeTab === 'task' ? 'border-b-2 border-orange-600 text-black' : ''
-                }`}>
-              <p> Tasks</p>
-            </div>
-          </Link>
-          <Link to={`boardmeetings`} onClick={() => handleTabClick('boardmeetings')}>
-            <div
-              className={`cursor-pointer px-5 py-1 text-md font-semibold  ${activeTab === 'boardmeetings' ? 'border-b-2 border-orange-600 text-black' : ''
-                }`}>
-              <p>Board Meetings</p>
-            </div>
-          </Link>
-          <Link to={`documents`} onClick={() => handleTabClick('documents')}>
-            <div className={`cursor-pointer px-5 py-1 text-md font-semibold  ${activeTab === 'documents' ? 'border-b-2 border-orange-600 text-black' : ''}`}>
-              <p>Documents</p>
-            </div>
-          </Link>
-          <Link to={`overview`}
-            onClick={() => handleTabClick('overview')}>
-            <div
-              className={`cursor-pointer px-1 py-1 text-md font-semibold  ${activeTab === 'overview' ? 'border-b-2 border-orange-600 text-black' : ''
-                }`}>
-              <p> Overview</p>
-            </div>
-          </Link>
-        </div>
-        <hr />
+      <div className='flex overflow-auto'>
+        <Link
+          to={`task`}
+          onClick={() => handleTabClick('task')}
+        >
+          <div
+            className={`cursor-pointer px-5 py-1 text-md font-semibold  ${
+              activeTab === 'task'
+                ? 'border-b-2 border-orange-600 text-black'
+                : ''
+            }`}
+          >
+            <p> Tasks</p>
+          </div>
+        </Link>
+        <Link
+          to={`boardmeetings`}
+          onClick={() => handleTabClick('boardmeetings')}
+        >
+          <div
+            className={`cursor-pointer px-5 py-1 text-md font-semibold  ${
+              activeTab === 'boardmeetings'
+                ? 'border-b-2 border-orange-600 text-black'
+                : ''
+            }`}
+          >
+            <p>Board Meetings</p>
+          </div>
+        </Link>
+        <Link
+          to={`documents`}
+          onClick={() => handleTabClick('documents')}
+        >
+          <div
+            className={`cursor-pointer px-5 py-1 text-md font-semibold  ${
+              activeTab === 'documents'
+                ? 'border-b-2 border-orange-600 text-black'
+                : ''
+            }`}
+          >
+            <p>Documents</p>
+          </div>
+        </Link>
+        <Link
+          to={`overview`}
+          onClick={() => handleTabClick('overview')}
+        >
+          <div
+            className={`cursor-pointer px-1 py-1 text-md font-semibold  ${
+              activeTab === 'overview'
+                ? 'border-b-2 border-orange-600 text-black'
+                : ''
+            }`}
+          >
+            <p> Overview</p>
+          </div>
+        </Link>
+      </div>
+      <hr />
 
       <Outlet />
     </div>

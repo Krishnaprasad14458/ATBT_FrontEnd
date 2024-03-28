@@ -1,5 +1,5 @@
 import EntityForm, { entityFormLoader } from "../../components/createForm/createEntityForm/EntityForm";
-import Boardmeeting from "../../components/landingPages/ReuseableComponents/Boardmeeting";
+import Boardmeeting, { action as entityMeetingAction, loader as entityMeetingLoader } from "../../components/landingPages/ReuseableComponents/Boardmeeting";
 import Documents from "../../components/landingPages/ReuseableComponents/Documents";
 import EntityLandingPage from "../../components/landingPages/entity/EntityLandingPage";
 import Overview from "../../components/landingPages/entity/Overview";
@@ -14,12 +14,14 @@ export const entityRouter = [
             permission.module === 'entity' && permission.canRead} />,
         children: [
             { index: true, loader: entityLoader, action: entityAction, element: <Entities />, },
-            { path: ':id', element: <EntityLandingPage />, children: [
-                { path: 'overview', element: <Overview />  },
-                { path: 'task', element: <Task /> },
-                { path: 'boardmeetings', element: <Boardmeeting /> },
-                { path: 'documents', element: <Documents/> },
-            ] },
+            {
+                path: ':id', element: <EntityLandingPage />, children: [
+                    { path: 'overview', element: <Overview /> },
+                    { path: 'task', element: <Task /> },
+                    { path: 'boardmeetings', loader: entityMeetingLoader, action: entityMeetingAction, element: <Boardmeeting /> },
+                    { path: 'documents', element: <Documents /> },
+                ]
+            },
         ]
     },
     {

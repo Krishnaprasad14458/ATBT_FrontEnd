@@ -13,7 +13,14 @@ import 'react-big-calendar/lib/css/react-big-calendar.css';
 import moment from 'moment';
 import { Dialog, Transition, Menu } from '@headlessui/react';
 import defprop from '../../../Images/defprof.svg';
-import { Link, redirect, useLoaderData, useParams , useLocation,  Outlet,} from 'react-router-dom';
+import {
+  NavLink,
+  redirect,
+  useLoaderData,
+  useParams,
+  useLocation,
+  Outlet,
+} from 'react-router-dom';
 import { ChevronDownIcon } from '@heroicons/react/20/solid';
 import useInitializePerPage from '../../../hooks/initializePerPage/useInitializePerPage';
 import useDebounce from '../../../hooks/debounce/useDebounce';
@@ -38,17 +45,17 @@ export const userLandingLoader = async ({ params }) => {
 const UserLandingPage = () => {
   const { id } = useParams();
   const data = useLoaderData();
-  console.log(data.user.customFieldsData, 'rrd');
-  const customFormField = data.user.customFieldsData;
+  console.log(data?.user?.customFieldsData, 'rrd');
+  const customFormField = data?.user?.customFieldsData;
   console.log(customFormField, 'rdd');
   const {
     usersState: { users },
     getUser,
   } = useContext(UserDataContext);
-// for the active tabs
-  const location = useLocation()
-  const currentURL = location.pathname.split("/")
-  console.log("currentURL" , currentURL)
+  // for the active tabs
+  const location = useLocation();
+  const currentURL = location.pathname.split('/');
+  console.log('currentURL', currentURL);
   const [activeTab, setActiveTab] = useState(currentURL[3]);
 
   const handleTabClick = (tabName) => {
@@ -103,8 +110,6 @@ const UserLandingPage = () => {
   // full screen
   const [expand, setExpand] = useState(false);
 
-
-
   // to set the time in 12hours
   function formatTime(timeString) {
     // Splitting the timeString to extract hours and minutes
@@ -116,7 +121,7 @@ const UserLandingPage = () => {
 
     // Checking if hours and minutes are valid numbers
     if (isNaN(hours) || isNaN(minutes)) {
-      return "Invalid time";
+      return 'Invalid time';
     }
 
     // Converting hours to 12-hour format and determining AM/PM
@@ -134,50 +139,75 @@ const UserLandingPage = () => {
       <div className='flex justify-between my-2'>
         <p className='text-xl font-semibold'>User Landing Page</p>
         <div className='flex justify-end gap-3 '>
-          <Link to='/users'>
+          <NavLink to='/users'>
             <button
               type='submit'
               className='create-btn px-4 py-2 inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white gap-1'
             >
               Back
             </button>
-          </Link>
+          </NavLink>
         </div>
       </div>
-   
-      <div className='flex overflow-auto'>
 
-<Link to={`task`} onClick={() => handleTabClick('task')}>
-  <div
-    className={`cursor-pointer px-5 py-1 text-md font-semibold  ${activeTab === 'task' ? 'border-b-2 border-orange-600 text-black' : ''
-      }`}>
-    <p> Tasks</p>
-  </div>
-</Link>
-<Link to={`boardmeetings`} onClick={() => handleTabClick('boardmeetings')}>
-  <div
-    className={`cursor-pointer px-5 py-1 text-md font-semibold  ${activeTab === 'boardmeetings' ? 'border-b-2 border-orange-600 text-black' : ''
-      }`}>
-    <p>Board Meetings</p>
-  </div>
-</Link>
-<Link to={`documents`} onClick={() => handleTabClick('documents')}>
-  <div className={`cursor-pointer px-5 py-1 text-md font-semibold  ${activeTab === 'documents' ? 'border-b-2 border-orange-600 text-black' : ''}`}>
-    <p>Documents</p>
-  </div>
-</Link>
-<Link to={`overview`}
-  onClick={() => handleTabClick('overview')}>
-  <div
-    className={`cursor-pointer px-1 py-1 text-md font-semibold  ${activeTab === 'overview' ? 'border-b-2 border-orange-600 text-black' : ''
-      }`}>
-    <p> Overview</p>
-  </div>
-</Link>
-</div>
-        <hr />
-        <Outlet />
-    </div >
+      <div className='flex overflow-auto'>
+        <NavLink
+          to='task'
+          end
+          className={({ isActive, isPending, isTransitioning }) =>
+            isPending
+              ? 'cursor-pointer px-5 py-1 text-md font-semibold'
+              : isActive
+              ? 'border-b-2 border-orange-600 text-black cursor-pointer px-5 py-1 text-md font-semibold'
+              : 'cursor-pointer px-5 py-1 text-md font-semibold'
+          }
+        >
+          Tasks
+        </NavLink>
+        <NavLink
+          to='boardmeetings'
+          end
+          className={({ isActive, isPending, isTransitioning }) =>
+            isPending
+              ? 'cursor-pointer px-5 py-1 text-md font-semibold'
+              : isActive
+              ? 'border-b-2 border-orange-600 text-black cursor-pointer px-5 py-1 text-md font-semibold'
+              : 'cursor-pointer px-5 py-1 text-md font-semibold'
+          }
+        >
+          Board Meetings
+        </NavLink>
+        <NavLink
+          to='documents'
+          end
+          className={({ isActive, isPending, isTransitioning }) =>
+            isPending
+              ? 'cursor-pointer px-5 py-1 text-md font-semibold'
+              : isActive
+              ? 'border-b-2 border-orange-600 text-black cursor-pointer px-5 py-1 text-md font-semibold'
+              : 'cursor-pointer px-5 py-1 text-md font-semibold'
+          }
+        >
+          Documents
+        </NavLink>
+
+        <NavLink
+          to='.'
+          end
+          className={({ isActive, isPending, isTransitioning }) =>
+            isPending
+              ? 'cursor-pointer px-5 py-1 text-md font-semibold'
+              : isActive
+              ? 'border-b-2 border-orange-600 text-black cursor-pointer px-5 py-1 text-md font-semibold'
+              : 'cursor-pointer px-5 py-1 text-md font-semibold'
+          }
+        >
+          Overview
+        </NavLink>
+      </div>
+      <hr />
+      <Outlet />
+    </div>
   );
 };
 
