@@ -242,19 +242,8 @@ function Boardmeeting() {
             />
           </div>
         </div>
-        <div className='grid1-item text-end md:flex md:justify-end filter_pagination'>
-          <select
-            defaultValue='10'
-            onChange={handlePerPageChange}
-            className='focus:outline-none me-3 gap-x-1.5 rounded-md bg-gray-50 px-1 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-200 hover:bg-gray-50'
-          >
-            <option value='10'>10</option>
-            <option value='25'>25</option>
-            <option value='50'>50</option>
-            <option value='100'>100</option>
-            <option value='250'>250</option>
-            <option value='500'>500</option>
-          </select>
+        <div className='grid1-item text-end md:flex md:justify-end filter_pagination divide-x-2  h-8'>
+
           <CustomColumn
             tableView={tableView}
             setTableView={setTableView}
@@ -267,11 +256,22 @@ function Boardmeeting() {
             setQParams={setQParams}
             customForm={customForm}
           />
+          <button className=' px-2 inline-flex items-center justify-center whitespace-nowrap rounded-full text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground  hover:bg-primary/90 shrink-0 text-white gap-1'>
+            <svg
+              xmlns='http://www.w3.org/2000/svg'
+              viewBox='0 0 20 20'
+              fill='currentColor'
+              className='w-5 h-5 '
+            >
+              <path d='M10.75 4.75a.75.75 0 0 0-1.5 0v4.5h-4.5a.75.75 0 0 0 0 1.5h4.5v4.5a.75.75 0 0 0 1.5 0v-4.5h4.5a.75.75 0 0 0 0-1.5h-4.5v-4.5Z' />
+            </svg>
+            Create
+          </button>
         </div>
       </div>
 
       {/* table */}
-      <div className='max-h-[457px] overflow-y-scroll mt-8'>
+      <div className='max-h-[457px] overflow-y-scroll mt-5'>
         {visibleColumns && tableView && meetings?.Meetings && (
           <table className='w-full divide-y divide-gray-200 dark:divide-gray-700 rounded-md'>
             <thead>
@@ -350,9 +350,8 @@ function Boardmeeting() {
                         ];
 
                         // Formatting the date
-                        value = `${day < 10 ? '0' : ''}${day}-${
-                          monthAbbreviations[monthIndex]
-                        }-${year}`;
+                        value = `${day < 10 ? '0' : ''}${day}-${monthAbbreviations[monthIndex]
+                          }-${year}`;
                       }
                       return (
                         <td
@@ -499,19 +498,30 @@ function Boardmeeting() {
             )}
           </div>
           <section
-            className='isolate inline-flex -space-x-px rounded-md shadow-sm ms-4'
+            className='isolate inline-flex -space-x-px rounded-md  ms-4'
             aria-label='Pagination'
           >
+            <select
+              value={Qparams?.pageSize}
+              onChange={handlePerPageChange}
+              className='focus:outline-none me-3 rounded-md bg-[#f8fafc]  px-1 py-1.5 text-sm font-semibold  ring-1 ring-inset ring-gray-300 hover:bg-gray-50 shadow-sm  text-gray-500'
+            >
+              <option value='10' >10</option>
+              <option value='25'>25</option>
+              <option value='50'>50</option>
+              <option value='100'>100</option>
+              <option value='250'>250</option>
+              <option value='500'>500</option>
+            </select>
             <button
               disabled={meetings.currentPage === 1}
               onClick={() => handlePage(meetings?.currentPage - 1)}
-              className={`relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${
-                meetings.loading
-                  ? 'cursor-wait'
-                  : meetings.currentPage === 1
+              className={`relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${meetings.loading
+                ? 'cursor-wait'
+                : meetings.currentPage === 1
                   ? 'cursor-not-allowed'
                   : 'cursor-auto'
-              }`}
+                }`}
             >
               <span className='sr-only'>Previous</span>
               <svg
@@ -534,13 +544,12 @@ function Boardmeeting() {
             <button
               disabled={meetings.currentPage === meetings.totalPages}
               onClick={() => handlePage(meetings?.currentPage + 1)}
-              className={`relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${
-                meetings.loading
-                  ? 'cursor-wait'
-                  : meetings.currentPage === meetings.totalPages
+              className={`relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${meetings.loading
+                ? 'cursor-wait'
+                : meetings.currentPage === meetings.totalPages
                   ? 'cursor-not-allowed'
                   : 'cursor-auto'
-              }`}
+                }`}
             >
               <span className='sr-only'>Next</span>
               <svg

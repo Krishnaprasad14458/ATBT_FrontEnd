@@ -156,10 +156,10 @@ const UserLandingPage = () => {
           end
           className={({ isActive, isPending, isTransitioning }) =>
             isPending
-              ? 'cursor-pointer px-5 py-1 text-md font-semibold'
+              ? 'cursor-pointer px-4 py-1 text-md font-semibold'
               : isActive
-              ? 'border-b-2 border-orange-600 text-black cursor-pointer px-5 py-1 text-md font-semibold'
-              : 'cursor-pointer px-5 py-1 text-md font-semibold'
+              ? 'border-b-2 border-orange-600 text-black cursor-pointer px-4 py-1 text-md font-semibold'
+              : 'cursor-pointer px-4 py-1 text-md font-semibold'
           }
         >
           Tasks
@@ -169,10 +169,10 @@ const UserLandingPage = () => {
           end
           className={({ isActive, isPending, isTransitioning }) =>
             isPending
-              ? 'cursor-pointer px-5 py-1 text-md font-semibold'
+              ? 'cursor-pointer px-4 py-1 text-md font-semibold'
               : isActive
-              ? 'border-b-2 border-orange-600 text-black cursor-pointer px-5 py-1 text-md font-semibold'
-              : 'cursor-pointer px-5 py-1 text-md font-semibold'
+              ? 'border-b-2 border-orange-600 text-black cursor-pointer px-4 py-1 text-md font-semibold'
+              : 'cursor-pointer px-4 py-1 text-md font-semibold'
           }
         >
           Board Meetings
@@ -182,10 +182,10 @@ const UserLandingPage = () => {
           end
           className={({ isActive, isPending, isTransitioning }) =>
             isPending
-              ? 'cursor-pointer px-5 py-1 text-md font-semibold'
-              : isActive
-              ? 'border-b-2 border-orange-600 text-black cursor-pointer px-5 py-1 text-md font-semibold'
-              : 'cursor-pointer px-5 py-1 text-md font-semibold'
+            ? 'cursor-pointer px-4 py-1 text-md font-semibold'
+            : isActive
+            ? 'border-b-2 border-orange-600 text-black cursor-pointer px-4 py-1 text-md font-semibold'
+            : 'cursor-pointer px-4 py-1 text-md font-semibold'
           }
         >
           Documents
@@ -196,10 +196,10 @@ const UserLandingPage = () => {
           end
           className={({ isActive, isPending, isTransitioning }) =>
             isPending
-              ? 'cursor-pointer px-5 py-1 text-md font-semibold'
-              : isActive
-              ? 'border-b-2 border-orange-600 text-black cursor-pointer px-5 py-1 text-md font-semibold'
-              : 'cursor-pointer px-5 py-1 text-md font-semibold'
+            ? 'cursor-pointer px-4 py-1 text-md font-semibold'
+            : isActive
+            ? 'border-b-2 border-orange-600 text-black cursor-pointer px-4 py-1 text-md font-semibold'
+            : 'cursor-pointer px-4 py-1 text-md font-semibold'
           }
         >
           Overview
