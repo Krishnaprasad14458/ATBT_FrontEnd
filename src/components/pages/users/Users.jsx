@@ -33,26 +33,84 @@ const userData = JSON.parse(localStorage.getItem('data'));
 const userId = userData?.id;
 const role = userData?.role?.name;
 
+// export async function loader({ request, params }) {
+//   try {
+//     let url = new URL(request.url);
+//     const [userList, entityList, roleList, userFormData] = await Promise.all([
+//       atbtApi.post(`user/list${url?.search ? url?.search : ''}`, {}),
+//       atbtApi.post(`public/list/entity`),
+//       atbtApi.post(`public/list/role`),
+//       atbtApi.get(`form/list?name=userform`),
+//     ]);
+//     console.log(entityList, roleList, 'entityList, roleList,');
+//     const combinedResponse = {
+//       users: userList?.data,
+//       fieldsDropDownData: {
+//         role: roleList?.data?.roles?.map((item) => item.name),
+//         entityname: entityList?.data?.Entites?.map((item) => item.name),
+//       },
+//       tableViewData: userFormData?.data?.Tableview,
+//       customForm: userFormData?.data?.Data,
+//     };
+//     console.log(combinedResponse, 'userList response', request, params);
+//     return combinedResponse;
+//   } catch (error) {
+//     console.error('Error occurred:', error);
+//     throw error;
+//   }
+// }
+
+// export async function action({ request, params }) {
+//   switch (request.method) {
+//     case 'PUT': {
+//       const json = (await request.json()) || null;
+//       const { id, ...data } = json;
+//       console.log(json, 'json', request, params);
+//       return await atbtApi.put(`/toggle/${id}`, { ...data });
+//     }
+//     case 'DELETE': {
+//       const id = (await request.json()) || null;
+//       console.log(id, 'json', id);
+//       return await atbtApi.delete(`/user/delete-user/${id}`);
+//     }
+//     default: {
+//       throw new Response('', { status: 405 });
+//     }
+//   }
+// }
+
 export async function loader({ request, params }) {
+  // try {
+  //   let url = new URL(request.url);
+  //   const entityList = await atbtApi.post(
+  //     `/entity/list${url?.search ? url?.search : ''}`,
+  //     {}
+  //   );
+  //   console.log(entityList, 'entityList action');
+  //   return entityList;
+  // } catch (error) {
+  //   console.error('Error occurred:', error);
+  //   throw error;
+  // }
   try {
     let url = new URL(request.url);
-    const [userList, entityList, roleList, userFormData] = await Promise.all([
-      atbtApi.post(`/user/list${url?.search ? url?.search : ''}`, {}),
-      atbtApi.post(`/public/list/entity`),
-      atbtApi.post(`/public/list/role`),
-      atbtApi.get(`https://atbtbeta.infozit.com/form/list?name=userform`),
+    const [users, entityList, roleList, meetingFormData] = await Promise.all([
+      atbtApi.post(`user/list${url?.search ? url?.search : ''}`, {}),
+      atbtApi.post(`public/list/entity`),
+      atbtApi.post(`public/list/role`),
+      atbtApi.get(`form/list?name=userform`),
     ]);
-    console.log(entityList, roleList, 'entityList, roleList,');
+    console.log(users, 'users loader');
     const combinedResponse = {
-      users: userList?.data,
+      users: users?.data,
       fieldsDropDownData: {
         role: roleList?.data?.roles?.map((item) => item.name),
         entityname: entityList?.data?.Entites?.map((item) => item.name),
       },
-      tableViewData: userFormData?.data?.Tableview,
-      customForm: userFormData?.data?.Data,
+      tableViewData: meetingFormData?.data?.Tableview,
+      customForm: meetingFormData?.data?.Data,
     };
-    console.log(combinedResponse, 'userList response', request, params);
+    console.log(combinedResponse, 'entities response', request, params);
     return combinedResponse;
   } catch (error) {
     console.error('Error occurred:', error);
@@ -62,36 +120,24 @@ export async function loader({ request, params }) {
 
 export async function action({ request, params }) {
   switch (request.method) {
-    case 'PUT': {
-      const json = (await request.json()) || null;
-      const { id, ...data } = json;
-      console.log(json, 'json', request, params);
-      return await atbtApi.put(`/toggle/${id}`, { ...data });
-    }
     case 'DELETE': {
       const id = (await request.json()) || null;
       console.log(id, 'json', id);
-      return await atbtApi.delete(`/user/delete-user/${id}`);
+      return await atbtApi.delete(`user/delete/${id}`);
     }
     default: {
       throw new Response('', { status: 405 });
     }
   }
 }
+
 function Users() {
   document.title = 'ATBT | User';
   const navigation = useNavigation();
-  const data = useLoaderData();
-  const { users, tableViewData, fieldsDropDownData, customForm } = data;
-  console.log(
-    users,
-    tableViewData,
-    fieldsDropDownData,
-    'tableViewData',
-    customForm
-  );
   let submit = useSubmit();
   let fetcher = useFetcher();
+  const data = useLoaderData();
+  const { users, tableViewData, fieldsDropDownData, customForm } = data;
   const [Qparams, setQParams] = useState({
     search: '',
     page: 1,
@@ -128,10 +174,6 @@ function Users() {
       pageSize: selectedValue,
     });
   };
-  const [hoveredOption, setHoveredOption] = useState(4);
-  useEffect(() => {
-    console.log('hoveredOption', hoveredOption);
-  });
 
   useEffect(() => {
     if (fetcher.state === 'idle' && !fetcher.data) {
@@ -182,7 +224,6 @@ function Users() {
         id,
       };
       console.log('updatedData', updatedData, user_remarks_history);
-      // await toggleUser(id, updatedData);
       fetcher.submit(updatedData, {
         method: 'PUT',
         encType: 'application/json',
@@ -307,6 +348,7 @@ function Users() {
             <CustomColumn
               tableView={tableView}
               setTableView={setTableView}
+              form='userform'
             />
 
             <CustomFilter
