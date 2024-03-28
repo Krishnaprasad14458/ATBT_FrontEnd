@@ -584,6 +584,28 @@ function Teams() {
                         value = `${day < 10 ? '0' : ''}${day}-${monthAbbreviations[monthIndex]
                           }-${year}`;
                       }
+                      if (key === "name") {
+                        return (
+                          <td
+                            key={key}
+                            className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden`}
+                            style={{ maxWidth: '160px' }}
+                            title={row[key]}
+                          >
+                            <GateKeeper
+                              permissionCheck={(permission) =>
+                                permission.module === 'team' && permission.canRead
+                              }
+                            >
+
+                              <Link to={`${row.id}/task`}>
+
+                                <p className='truncate text-xs'> {value}</p>
+
+                              </Link>
+                            </GateKeeper>    </td>
+                        );
+                      }
                       return (
                         <td
                           key={key}
@@ -638,7 +660,7 @@ function Teams() {
                             type='button'
                             className=' inline-flex items-center gap-x-1 text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600'
                           >
-                            <Link to={`${row.id}`}>
+                            <Link to={`${row.id}/overview`}>
                               <svg
                                 xmlns='http://www.w3.org/2000/svg'
                                 viewBox='0 0 20 20'

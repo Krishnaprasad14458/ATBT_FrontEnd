@@ -543,7 +543,7 @@ function BoardMeetingForm() {
                           type='text'
                           name={item.inputname}
                           id={item.inputname}
-                          placeholder='Enter boardmeeting name'
+                          // placeholder='Enter boardmeeting name'
                           value={customFormFields[index].value || ''}
                           style={{ fontSize: '0.8rem' }}
                           className='px-2 py-2 text-sm block w-full rounded-md bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder:text-xs'
@@ -558,6 +558,49 @@ function BoardMeetingForm() {
                         </div>
                       </div>
                     )}
+                  {item.type === 'number' &&
+                    item.inputname == 'serialnumber' &&
+                    item.field == 'predefined' && (
+                      <div>
+                        <label
+                          htmlFor={item.label}
+                          className='block text-sm font-medium leading-6 mt-2 text-gray-900'
+                        >
+                          {item.label.charAt(0).toUpperCase() +
+                            item.label.slice(1)}
+                          {item.mandatory ? (
+                            <span className='text-red-600'>*</span>
+                          ) : (
+                            <span> </span>
+                          )}
+                        </label>
+                        <input
+                          type='number'
+                          name={item.inputname}
+                       
+                          placeholder='Enter number'
+                          id={item.inputname}
+                          style={{ fontSize: '0.8rem' }}
+                          value={customFormFields[index].value || ''}
+                          onChange={(e) => {
+
+                            handleChange(index, e.target.value);
+                          }}
+                          className='px-2 py-2 text-sm block w-full rounded-md bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder:text-xs'
+                        />
+                        <div className='h-2 text-[#dc2626]'>
+                          {errors[item.inputname] && (
+                            <span className='text-xs'>
+                              {errors[item.inputname]}
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                    )}
+
+
+
+
                   {item.type === 'date' &&
                     item.inputname === 'date' &&
                     item.field === 'predefined' && (
@@ -593,7 +636,7 @@ function BoardMeetingForm() {
                         </div>
                       </div>
                     )}
-
+{/* 
                   {item.type === 'time' &&
                     item.inputname == 'time' &&
                     item.field == 'predefined' && (
@@ -674,7 +717,7 @@ function BoardMeetingForm() {
                           )}
                         </div>
                       </div>
-                    )}
+                    )} */}
                   {item.type === 'textarea' &&
                     item.inputname == 'description' &&
                     item.field == 'predefined' && (
@@ -1403,7 +1446,7 @@ function BoardMeetingForm() {
                       </span>
 
                     </div>
-                 
+
                     <div className='flex justify-end'>
                       <span className=''>
                         {item.type === 'time' &&
