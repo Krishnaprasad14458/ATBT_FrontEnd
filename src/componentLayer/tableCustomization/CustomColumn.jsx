@@ -3,8 +3,8 @@ import atbtApi from '../../serviceLayer/interceptor';
 import { useFetcher, useLoaderData } from 'react-router-dom';
 import axios from 'axios';
 
-
-function CustomColumn({ tableView, setTableView }) {
+function CustomColumn({ tableView, setTableView, form }) {
+  console.log(tableView, 'custom tableView');
   const [dupTableView, setDupTableView] = useState(tableView);
   console.log(tableView, dupTableView, 'tdv');
   const handleColumnsCheckboxChange = (columnName) => {
@@ -31,13 +31,13 @@ function CustomColumn({ tableView, setTableView }) {
       try {
         axios
           .put(
-            `https://atbtbeta.infozit.com/form/tableUpdate?name=userform`,
+            `https://atbtbeta.infozit.com/form/tableUpdate?name=${form}`,
             dupTableView
           )
           .then((response) => {
             console.log('Update successful:', response.data);
             axios
-              .get(`https://atbtbeta.infozit.com/form/list?name=userform`)
+              .get(`https://atbtbeta.infozit.com/form/list?name=${form}`)
               .then((response) => {
                 setTableView(response.data.Tableview);
                 setDupTableView(response.data.Tableview);
@@ -68,8 +68,9 @@ function CustomColumn({ tableView, setTableView }) {
 
       {/* for coloumns open */}
       <div
-        className={`fixed inset-0 bg-gray-800 bg-opacity-50 z-10 ${columnsDrawerOpen ? '' : 'opacity-0 pointer-events-none'
-          }`}
+        className={`fixed inset-0 bg-gray-800 bg-opacity-50 z-10 ${
+          columnsDrawerOpen ? '' : 'opacity-0 pointer-events-none'
+        }`}
         style={{ transition: 'opacity 0.3s ease-in-out' }}
       >
         <div
@@ -117,7 +118,7 @@ function CustomColumn({ tableView, setTableView }) {
                       (dupTableView[columnName].value
                         ? 'bg-gray-100 text-gray-700 hover:text-black'
                         : 'text-gray-700 bg-gray-100 hover:text-black',
-                        'appearance-none border border-gray-300 hover:border-gray-900 checked:hover:border-white rounded-md checked:bg-orange-600 checked:border-transparent w-4 h-4 cursor-pointer hover:text-black relative')
+                      'appearance-none border border-gray-300 hover:border-gray-900 checked:hover:border-white rounded-md checked:bg-orange-600 checked:border-transparent w-4 h-4 cursor-pointer hover:text-black relative')
                     }
                     type='checkbox'
                     id={columnName}
