@@ -81,7 +81,7 @@ function Tasks() {
   };
 
   return (
-    <div className='container p-2 bg-[#f8fafc] '>
+    <div className=' p-4 bg-[#f8fafc] '>
       <h4 className=' font-semibold text-lg grid1-item'>Tasks</h4>
 
       <div className='mt-2'>

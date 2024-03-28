@@ -169,7 +169,7 @@ const BoardMeetingLandingPage = () => {
           <Link to='/users'>
             <button
               type='submit'
-              className='create-btn px-4 py-2 inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white gap-1'
+              className='create-btn px-4  py-2 inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white gap-1'
             >
               Back
             </button>
@@ -180,33 +180,33 @@ const BoardMeetingLandingPage = () => {
 
         <Link to={`task`} onClick={() => handleTabClick('task')}>
           <div
-            className={`cursor-pointer px-5 py-1 text-md font-semibold  ${activeTab === 'task' ? 'border-b-2 border-orange-600 text-black' : ''
+            className={`cursor-pointer pe-5  py-1 text-md font-semibold   text-center  ${activeTab === 'task' ? 'border-b-2 border-orange-600 text-black  text-center' : ''
               }`}>
             <p> Tasks</p>
           </div>
         </Link>
         <Link to={`boardmeetings`} onClick={() => handleTabClick('boardmeetings')}>
           <div
-            className={`cursor-pointer px-5 py-1 text-md font-semibold  ${activeTab === 'boardmeetings' ? 'border-b-2 border-orange-600 text-black' : ''
+            className={`cursor-pointer px-5  py-1 text-md font-semibold   ${activeTab === 'boardmeetings' ? 'border-b-2 border-orange-600 text-black text-center' : ''
               }`}>
-            <p>Board Meetings</p>
+            <p className=''>Board Meetings</p>
           </div>
         </Link>
         <Link to={`documents`} onClick={() => handleTabClick('documents')}>
-          <div className={`cursor-pointer px-5 py-1 text-md font-semibold  ${activeTab === 'documents' ? 'border-b-2 border-orange-600 text-black' : ''}`}>
+          <div className={`cursor-pointer px-5 py-1 text-md font-semibold   ${activeTab === 'documents' ? 'border-b-2 border-orange-600 text-black' : ''}`}>
             <p>Documents</p>
           </div>
         </Link>
         <Link to={`overview`}
           onClick={() => handleTabClick('overview')}>
           <div
-            className={`cursor-pointer px-1 py-1 text-md font-semibold  ${activeTab === 'overview' ? 'border-b-2 border-orange-600 text-black' : ''
+            className={`cursor-pointer px-5 py-1 text-md font-semibold  ${activeTab === 'overview' ? 'border-b-2 border-orange-600 text-black' : ''
               }`}>
             <p> Overview</p>
           </div>
         </Link>
       </div>
-      <hr/>
+      <hr />
       <Outlet />
     </div>
   );
