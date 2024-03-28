@@ -12,12 +12,14 @@ export const userRouter = [
             permission.module === 'user' && permission.canRead} />,
         children: [
             { index: true, loader: userLoader, action: userAction, element: <Users /> },
-            { path: ':id', loader: userLandingLoader, element: <UserLandingPage />, children: [
-                { path: 'overview',  loader: userLandingLoader, element: <UserOverview />  },
-                { path: 'task', element: <Task /> },
-                { path: 'boardmeetings', element: <Boardmeeting /> },
-                { path: 'documents', element: <Documents/> },
-            ] },
+            {
+                path: ':id', element: <UserLandingPage />, children: [
+                    { index: true, loader: userLandingLoader, element: <UserOverview /> },
+                    { path: 'task', element: <Task /> },
+                    { path: 'boardmeetings', element: <Boardmeeting /> },
+                    { path: 'documents', element: <Documents /> },
+                ]
+            },
 
         ]
     },
