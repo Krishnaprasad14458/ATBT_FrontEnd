@@ -7,7 +7,7 @@ import React, {
 import '../LandingPageCommon.css';
 
 import defprop from '../../../Images/defprof.svg';
-import { Link, Outlet, useLocation, useParams } from 'react-router-dom';
+import { NavLink, Link, Outlet, useLocation, useParams } from 'react-router-dom';
 
 import { EntitiesDataContext } from '../../../contexts/entitiesDataContext/entitiesDataContext';
 import axios from 'axios';
@@ -56,7 +56,7 @@ const EntityLandingPage = () => {
 
 
 
-  
+
   // ----toggleDrawer-------
   const [isOpen, setIsOpen] = useState(false);
   const toggleDrawer = () => {
@@ -108,62 +108,60 @@ const EntityLandingPage = () => {
       </div>
 
       <div className='flex overflow-auto'>
-        <Link
-          to={`task`}
-          onClick={() => handleTabClick('task')}
+
+        <NavLink
+          to='task'
+          end
+          className={({ isActive, isPending, isTransitioning }) =>
+            isPending
+              ? 'cursor-pointer px-4 py-1 text-md font-semibold'
+              : isActive
+                ? 'border-b-2 border-orange-600 text-black cursor-pointer px-4 py-1 text-md font-semibold'
+                : 'cursor-pointer px-4 py-1 text-md font-semibold'
+          }
         >
-          <div
-            className={`cursor-pointer px-5 py-1 text-md font-semibold  ${
-              activeTab === 'task'
-                ? 'border-b-2 border-orange-600 text-black'
-                : ''
-            }`}
-          >
-            <p> Tasks</p>
-          </div>
-        </Link>
-        <Link
-          to={`boardmeetings`}
-          onClick={() => handleTabClick('boardmeetings')}
+          Tasks
+        </NavLink>
+        <NavLink
+          to='boardmeetings'
+          end
+          className={({ isActive, isPending, isTransitioning }) =>
+            isPending
+              ? 'cursor-pointer px-4 py-1 text-md font-semibold'
+              : isActive
+                ? 'border-b-2 border-orange-600 text-black cursor-pointer px-4 py-1 text-md font-semibold'
+                : 'cursor-pointer px-4 py-1 text-md font-semibold'
+          }
         >
-          <div
-            className={`cursor-pointer px-5 py-1 text-md font-semibold  ${
-              activeTab === 'boardmeetings'
-                ? 'border-b-2 border-orange-600 text-black'
-                : ''
-            }`}
-          >
-            <p>Board Meetings</p>
-          </div>
-        </Link>
-        <Link
-          to={`documents`}
-          onClick={() => handleTabClick('documents')}
+          Board Meetings
+        </NavLink>
+        <NavLink
+          to='documents'
+          end
+          className={({ isActive, isPending, isTransitioning }) =>
+            isPending
+              ? 'cursor-pointer px-4 py-1 text-md font-semibold'
+              : isActive
+                ? 'border-b-2 border-orange-600 text-black cursor-pointer px-4 py-1 text-md font-semibold'
+                : 'cursor-p px-4 py-1 text-md font-semibold'
+          }
         >
-          <div
-            className={`cursor-pointer px-5 py-1 text-md font-semibold  ${
-              activeTab === 'documents'
-                ? 'border-b-2 border-orange-600 text-black'
-                : ''
-            }`}
-          >
-            <p>Documents</p>
-          </div>
-        </Link>
-        <Link
-          to={`overview`}
-          onClick={() => handleTabClick('overview')}
+          Documents
+        </NavLink>
+
+        <NavLink
+          to='.'
+          end
+          className={({ isActive, isPending, isTransitioning }) =>
+            isPending
+              ? 'cursor-pointer px-4 py-1 text-md font-semibold'
+              : isActive
+                ? 'border-b-2 border-orange-600 text-black cursor-pointer px-4 py-1 text-md font-semibold'
+                : 'cursor-pointer px-4 py-1 text-md font-semibold'
+          }
         >
-          <div
-            className={`cursor-pointer px-1 py-1 text-md font-semibold  ${
-              activeTab === 'overview'
-                ? 'border-b-2 border-orange-600 text-black'
-                : ''
-            }`}
-          >
-            <p> Overview</p>
-          </div>
-        </Link>
+          Overview
+        </NavLink>
       </div>
       <hr />
 
