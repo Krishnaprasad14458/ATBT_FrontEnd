@@ -6,15 +6,12 @@ import React, {
     useContext,
 } from 'react';
 import '../LandingPageCommon.css';
-import { Calendar, momentLocalizer } from 'react-big-calendar';
+
 import 'react-big-calendar/lib/css/react-big-calendar.css';
-import moment from 'moment';
-import { Dialog, Transition, Menu } from '@headlessui/react';
+
 import defprop from '../../../Images/defprof.svg';
 import { Link, Outlet, useParams, useLocation } from 'react-router-dom';
-import { ChevronDownIcon } from '@heroicons/react/20/solid';
-import useInitializePerPage from '../../../hooks/initializePerPage/useInitializePerPage';
-import useDebounce from '../../../hooks/debounce/useDebounce';
+
 import { TeamsDataContext } from '../../../contexts/teamsDataContext/teamsDataContext';
 import axios from 'axios';
 
@@ -52,51 +49,10 @@ const TeamsOverview = () => {
     const location = useLocation()
     const currentURL = location.pathname.split("/")
     console.log("currentURL", currentURL)
-    const [activeTab, setActiveTab] = useState(currentURL[3]);
 
-    const handleTabClick = (tabName) => {
-        setActiveTab(tabName);
-    };
     //  for active tabs close
 
-    // for calendar
-    const localizer = momentLocalizer(moment);
-    const [open, setOpen] = useState(false);
-
-    const cancelButtonRef = useRef(null);
-
-    const [events, setEvents] = useState([
-        {
-            title: 'Event 1',
-            start: new Date(2024, 0, 17, 10, 0),
-            end: new Date(2024, 0, 17, 12, 0),
-        },
-    ]);
-    const [newtask, setNewTask] = useState('');
-    const [newtaskStartDate, setnewtaskStartDate] = useState('');
-
-    const [newtaskEndDate, setnewtaskEndDate] = useState('');
-
-    const handleSelect = ({ start, end }) => {
-        setOpen(true);
-        setnewtaskStartDate(start);
-        setnewtaskEndDate(end);
-        setNewTask('');
-    };
-
-    const handleSave = () => {
-        setOpen(false);
-
-        if (newtask) {
-            const newEvent = {
-                title: newtask,
-                start: newtaskStartDate,
-                end: newtaskEndDate,
-            };
-            setEvents([...events, newEvent]);
-            setNewTask('');
-        }
-    };
+    
     // ----toggleDrawer-------
     const [isOpen, setIsOpen] = useState(false);
 

@@ -1,29 +1,18 @@
 import React, {
     useState,
-    Fragment,
-    useRef,
-    useEffect,
+    
     useContext,
-    useCallback,
-    useMemo,
+   
 } from 'react';
-// import '../LandingPageCommon.css';
-import { Calendar, momentLocalizer } from 'react-big-calendar';
-import 'react-big-calendar/lib/css/react-big-calendar.css';
-import moment from 'moment';
-import { Dialog, Transition, Menu } from '@headlessui/react';
+
 import defprop from '../../../Images/defprof.svg';
 import { Link, redirect, useLoaderData, useParams, useLocation, Outlet, } from 'react-router-dom';
-import { ChevronDownIcon } from '@heroicons/react/20/solid';
-import useInitializePerPage from '../../../hooks/initializePerPage/useInitializePerPage';
-import useDebounce from '../../../hooks/debounce/useDebounce';
+
 import { UserDataContext } from '../../../contexts/usersDataContext/usersDataContext';
-import axios from 'axios';
+
 import { getUserById } from '../../../contexts/usersDataContext/utils/usersApis';
-import linesimage from '../../../Images/lines_10.svg';
-function classNames(...classes) {
-    return classes.filter(Boolean).join(' ');
-}
+
+
 export const userLandingLoader = async ({ params }) => {
     try {
         const { data } = await getUserById(params?.id);
@@ -49,51 +38,7 @@ const UserOverview = () => {
     const location = useLocation()
     const currentURL = location.pathname.split("/")
     console.log("currentURL", currentURL)
-    const [activeTab, setActiveTab] = useState(currentURL[3]);
-
-    const handleTabClick = (tabName) => {
-        setActiveTab(tabName);
-    };
-
-    // for calendar
-    const localizer = momentLocalizer(moment);
-    const [open, setOpen] = useState(false);
-
-    const cancelButtonRef = useRef(null);
-
-    const [events, setEvents] = useState([
-        {
-            title: 'Event 1',
-            start: new Date(2024, 0, 17, 10, 0),
-            end: new Date(2024, 0, 17, 12, 0),
-        },
-    ]);
-    useEffect(() => {
-        console.log('events', events);
-    }, [events]);
-    const [newtask, setNewTask] = useState('');
-    const [newtaskStartDate, setnewtaskStartDate] = useState('');
-    const [newtaskEndDate, setnewtaskEndDate] = useState('');
-    const handleSelect = ({ start, end }) => {
-        setOpen(true);
-        setnewtaskStartDate(start);
-        setnewtaskEndDate(end);
-        setNewTask('');
-    };
-
-    const handleSave = () => {
-        setOpen(false);
-
-        if (newtask) {
-            const newEvent = {
-                title: newtask,
-                start: newtaskStartDate,
-                end: newtaskEndDate,
-            };
-            setEvents([...events, newEvent]);
-            setNewTask('');
-        }
-    };
+  
     // ----
     const [isOpen, setIsOpen] = useState(false);
 
