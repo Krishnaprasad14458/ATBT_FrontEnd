@@ -1,29 +1,18 @@
 import React, {
     useState,
-    Fragment,
-    useRef,
-    useEffect,
+    
     useContext,
-    useCallback,
-    useMemo,
+   
 } from 'react';
-// import '../LandingPageCommon.css';
-import { Calendar, momentLocalizer } from 'react-big-calendar';
-import 'react-big-calendar/lib/css/react-big-calendar.css';
-import moment from 'moment';
-import { Dialog, Transition, Menu } from '@headlessui/react';
+
 import defprop from '../../../Images/defprof.svg';
 import { Link, redirect, useLoaderData, useParams, useLocation, Outlet, } from 'react-router-dom';
-import { ChevronDownIcon } from '@heroicons/react/20/solid';
-import useInitializePerPage from '../../../hooks/initializePerPage/useInitializePerPage';
-import useDebounce from '../../../hooks/debounce/useDebounce';
+
 import { UserDataContext } from '../../../contexts/usersDataContext/usersDataContext';
-import axios from 'axios';
+
 import { getUserById } from '../../../contexts/usersDataContext/utils/usersApis';
-import linesimage from '../../../Images/lines_10.svg';
-function classNames(...classes) {
-    return classes.filter(Boolean).join(' ');
-}
+
+
 export const userLandingLoader = async ({ params }) => {
     try {
         const { data } = await getUserById(params?.id);

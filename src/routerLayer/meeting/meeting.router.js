@@ -21,7 +21,7 @@ export const meetingRouter = [
                 , children: [
                     { path: 'overview', element: <BoardMeetingOverview /> },
                     { path: 'task', element: <Task /> },
-                    { path: 'boardmeetings', element: <Boardmeeting /> },
+                    // { path: 'boardmeetings', element: <Boardmeeting /> },
                     { path: 'documents', element: <Documents /> },
                 ]
             },
