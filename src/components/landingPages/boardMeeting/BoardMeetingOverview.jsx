@@ -9,18 +9,12 @@ import '../LandingPageCommon.css';
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import moment from 'moment';
-import { Dialog, Transition, Menu } from '@headlessui/react';
-import defprop from '../../../Images/defprof.svg';
+
 import { Link, Outlet, useParams } from 'react-router-dom';
-import { ChevronDownIcon } from '@heroicons/react/20/solid';
-import useInitializePerPage from '../../../hooks/initializePerPage/useInitializePerPage';
-import useDebounce from '../../../hooks/debounce/useDebounce';
+
 import { BoardMeetingsDataContext } from '../../../contexts/boardmeetingsDataContext/boardmeetingsDataContext';
 import axios from 'axios';
 
-function classNames(...classes) {
-    return classes.filter(Boolean).join(' ');
-}
 
 const BoardMeetingOverview = () => {
     const {
@@ -51,50 +45,12 @@ const BoardMeetingOverview = () => {
         getSingleProduct();
     }, [id]);
 
-    const [activeTab, setActiveTab] = useState(1);
+   
 
-    const handleTabClick = (tabNumber) => {
-        setActiveTab(tabNumber);
-    };
-
-    // for calendar
-    const localizer = momentLocalizer(moment);
-    const [open, setOpen] = useState(false);
-
-    const cancelButtonRef = useRef(null);
-
-    const [events, setEvents] = useState([
-        {
-            title: 'Event 1',
-            start: new Date(2024, 0, 17, 10, 0),
-            end: new Date(2024, 0, 17, 12, 0),
-        },
-    ]);
-    const [newtask, setNewTask] = useState('');
-    const [newtaskStartDate, setnewtaskStartDate] = useState('');
-
-    const [newtaskEndDate, setnewtaskEndDate] = useState('');
-
-    const handleSelect = ({ start, end }) => {
-        setOpen(true);
-        setnewtaskStartDate(start);
-        setnewtaskEndDate(end);
-        setNewTask('');
-    };
-
-    const handleSave = () => {
-        setOpen(false);
-
-        if (newtask) {
-            const newEvent = {
-                title: newtask,
-                start: newtaskStartDate,
-                end: newtaskEndDate,
-            };
-            setEvents([...events, newEvent]);
-            setNewTask('');
-        }
-    };
+  
+   
+   
+ 
     // ----
     const [isOpen, setIsOpen] = useState(false);
 
@@ -102,13 +58,13 @@ const BoardMeetingOverview = () => {
         setIsOpen(!isOpen);
     };
     // ---full screen
-    const [expand, setExpand] = useState(false);
+
     let [customFormField, setCustomFormField] = useState();
 
     const userData = JSON.parse(localStorage.getItem('data'));
     const token = userData?.token;
     let response;
-    let [predefinedImage, setPredefinedImage] = useState('');
+  
     useEffect(() => {
         axios
             .get(`https://atbtbeta.infozit.com/boardmeeting/list/${id}`, {
