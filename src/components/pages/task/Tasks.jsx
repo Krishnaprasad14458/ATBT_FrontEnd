@@ -1,15 +1,7 @@
-import React, { useState, Fragment, useRef, useEffect } from 'react';
-
+import React, { useState, useRef, useEffect } from 'react';
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import moment from 'moment';
-import { Dialog, Transition, Menu } from '@headlessui/react';
-import defprop from '../../../Images/defprof.svg';
-import { Link, Outlet } from 'react-router-dom';
-
-import { ChevronDownIcon } from '@heroicons/react/20/solid';
-import useInitializePerPage from '../../../hooks/initializePerPage/useInitializePerPage';
-import useDebounce from '../../../hooks/debounce/useDebounce';
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
 }
@@ -87,67 +79,56 @@ function Tasks() {
       <div className='mt-2'>
         <div className='flex overflow-x-auto'>
           <div
-            className={`cursor-pointer px-1 py-1 text-md font-semibold  ${activeTab === 1 ? 'border-b-2 border-orange-600 text-black' : ''
-              }`}
+            className={`cursor-pointer px-1 py-1 text-md font-semibold  ${
+              activeTab === 1 ? 'border-b-2 border-orange-600 text-black' : ''
+            }`}
             onClick={() => handleTabClick(1)}
           >
             Active
           </div>
 
           <div
-            className={`cursor-pointer px-5 py-1 text-md font-semibold  ${activeTab === 2 ? 'border-b-2 border-orange-600 text-black' : ''
-              }`}
+            className={`cursor-pointer px-5 py-1 text-md font-semibold  ${
+              activeTab === 2 ? 'border-b-2 border-orange-600 text-black' : ''
+            }`}
             onClick={() => handleTabClick(2)}
           >
             Due
           </div>
           <div
-            className={`cursor-pointer px-5 py-1 text-md font-semibold  ${activeTab === 3 ? 'border-b-2 border-orange-600 text-black' : ''
-              }`}
+            className={`cursor-pointer px-5 py-1 text-md font-semibold  ${
+              activeTab === 3 ? 'border-b-2 border-orange-600 text-black' : ''
+            }`}
             onClick={() => handleTabClick(3)}
           >
             Completed
           </div>
           <div
-            className={`cursor-pointer px-5 py-1 text-md font-semibold  ${activeTab === 4 ? 'border-b-2 border-orange-600 text-black' : ''
-              }`}
+            className={`cursor-pointer px-5 py-1 text-md font-semibold  ${
+              activeTab === 4 ? 'border-b-2 border-orange-600 text-black' : ''
+            }`}
             onClick={() => handleTabClick(4)}
           >
             Master
           </div>
-
         </div>
         <hr />
       </div>
       {activeTab === 1 && (
         <div className='max-h-[510px] overflow-y-scroll mt-8'>
-
           <table className='w-full divide-y divide-gray-200 dark:divide-gray-700 rounded-md'>
             <thead>
               <tr>
-
-                <th
-
-                  className='sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200 '
-                >
+                <th className='sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200 '>
                   Task Name
                 </th>
-                <th
-
-                  className='sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200 '
-                >
+                <th className='sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200 '>
                   Task Name
                 </th>
-                <th
-
-                  className='sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200 '
-                >
+                <th className='sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200 '>
                   Task Name
                 </th>
-                <th
-
-                  className='sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200 '
-                >
+                <th className='sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200 '>
                   Task Name
                 </th>
                 <th className='sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200'>
@@ -156,30 +137,15 @@ function Tasks() {
               </tr>
             </thead>
             <tbody className=' divide-gray-200 dark:divide-gray-700'>
-
-              <tr >
-
-
-                <td>
-                  bhavitha
-                </td>
-                <td>
-                  bhavitha
-                </td>
-                <td>
-                  bhavitha
-                </td>
-                <td>
-                  bhavitha
-                </td>
-                <td>
-                  bhavitha
-                </td>
+              <tr>
+                <td>bhavitha</td>
+                <td>bhavitha</td>
+                <td>bhavitha</td>
+                <td>bhavitha</td>
+                <td>bhavitha</td>
               </tr>
-
             </tbody>
           </table>
-
         </div>
         // <div className=''>
         //   <div className='flex justify-end my-2'>
@@ -848,33 +814,19 @@ function Tasks() {
       )}
       {activeTab === 2 && (
         <div className='max-h-[510px] overflow-y-scroll mt-8'>
-
           <table className='w-full divide-y divide-gray-200 dark:divide-gray-700 rounded-md'>
             <thead>
               <tr>
-
-                <th
-
-                  className='sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200 '
-                >
+                <th className='sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200 '>
                   Task Name
                 </th>
-                <th
-
-                  className='sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200 '
-                >
+                <th className='sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200 '>
                   Task Name
                 </th>
-                <th
-
-                  className='sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200 '
-                >
+                <th className='sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200 '>
                   Task Name
                 </th>
-                <th
-
-                  className='sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200 '
-                >
+                <th className='sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200 '>
                   Task Name
                 </th>
                 <th className='sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200'>
@@ -883,99 +835,54 @@ function Tasks() {
               </tr>
             </thead>
             <tbody className=' divide-gray-200 dark:divide-gray-700'>
-
-              <tr >
-
-
-                <td>
-                  bhavitha
-                </td>
-                <td>
-                  bhavitha
-                </td>
-                <td>
-                  bhavitha
-                </td>
-                <td>
-                  bhavitha
-                </td>
-                <td>
-                  bhavitha
-                </td>
-              </tr>
-
-            </tbody>
-          </table>
-
-        </div>
-      )}
-      {activeTab === 3 && <div className='mt-4'>
-        <div className='max-h-[510px] overflow-y-scroll mt-8'>
-
-          <table className='w-full divide-y divide-gray-200 dark:divide-gray-700 rounded-md'>
-            <thead>
               <tr>
-
-                <th
-
-                  className='sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200 '
-                >
-                  Task Name
-                </th>
-                <th
-
-                  className='sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200 '
-                >
-                  Task Name
-                </th>
-                <th
-
-                  className='sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200 '
-                >
-                  Task Name
-                </th>
-                <th
-
-                  className='sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200 '
-                >
-                  Task Name
-                </th>
-                <th className='sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200'>
-                  Actions
-                </th>
+                <td>bhavitha</td>
+                <td>bhavitha</td>
+                <td>bhavitha</td>
+                <td>bhavitha</td>
+                <td>bhavitha</td>
               </tr>
-            </thead>
-            <tbody className=' divide-gray-200 dark:divide-gray-700'>
-
-              <tr >
-
-
-                <td>
-                  bhavitha
-                </td>
-                <td>
-                  bhavitha
-                </td>
-                <td>
-                  bhavitha
-                </td>
-                <td>
-                  bhavitha
-                </td>
-                <td>
-                  bhavitha
-                </td>
-              </tr>
-
             </tbody>
           </table>
-
         </div>
-      </div>}
-      {activeTab === 4 && (
-        <p> Master</p>
       )}
-
+      {activeTab === 3 && (
+        <div className='mt-4'>
+          <div className='max-h-[510px] overflow-y-scroll mt-8'>
+            <table className='w-full divide-y divide-gray-200 dark:divide-gray-700 rounded-md'>
+              <thead>
+                <tr>
+                  <th className='sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200 '>
+                    Task Name
+                  </th>
+                  <th className='sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200 '>
+                    Task Name
+                  </th>
+                  <th className='sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200 '>
+                    Task Name
+                  </th>
+                  <th className='sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200 '>
+                    Task Name
+                  </th>
+                  <th className='sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200'>
+                    Actions
+                  </th>
+                </tr>
+              </thead>
+              <tbody className=' divide-gray-200 dark:divide-gray-700'>
+                <tr>
+                  <td>bhavitha</td>
+                  <td>bhavitha</td>
+                  <td>bhavitha</td>
+                  <td>bhavitha</td>
+                  <td>bhavitha</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      )}
+      {activeTab === 4 && <p> Master</p>}
     </div>
   );
 }
