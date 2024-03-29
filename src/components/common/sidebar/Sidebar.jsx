@@ -298,7 +298,7 @@ const Sidebar = () => {
             ))}
           </div>
           <div
-            className={`absolute inset-x-0 bottom-0 h-12 bg-white ${
+            className={`absolute inset-x-0 bottom-0 mb-3 bg-white ${
               open ? '' : 'hidden'
             }`}
           >
