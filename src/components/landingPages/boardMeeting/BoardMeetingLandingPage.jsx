@@ -185,13 +185,13 @@ const BoardMeetingLandingPage = () => {
             <p> Tasks</p>
           </div>
         </Link>
-        <Link to={`boardmeetings`} onClick={() => handleTabClick('boardmeetings')}>
+        {/* <Link to={`boardmeetings`} onClick={() => handleTabClick('boardmeetings')}>
           <div
             className={`cursor-pointer px-5  py-1 text-md font-semibold   ${activeTab === 'boardmeetings' ? 'border-b-2 border-orange-600 text-black text-center' : ''
               }`}>
             <p className=''>Board Meetings</p>
           </div>
-        </Link>
+        </Link> */}
         <Link to={`documents`} onClick={() => handleTabClick('documents')}>
           <div className={`cursor-pointer px-5 py-1 text-md font-semibold   ${activeTab === 'documents' ? 'border-b-2 border-orange-600 text-black' : ''}`}>
             <p>Documents</p>
