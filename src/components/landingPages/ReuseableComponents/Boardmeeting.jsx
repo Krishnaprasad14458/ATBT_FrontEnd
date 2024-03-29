@@ -7,11 +7,7 @@ import React, {
   useCallback,
 } from 'react';
 import '../LandingPageCommon.css';
-import { Calendar, momentLocalizer } from 'react-big-calendar';
-import 'react-big-calendar/lib/css/react-big-calendar.css';
-import moment from 'moment';
-import { Dialog, Transition, Menu } from '@headlessui/react';
-import defprop from '../../../Images/defprof.svg';
+
 import {
   Link,
   Outlet,
@@ -22,12 +18,7 @@ import {
   useParams,
   useSubmit,
 } from 'react-router-dom';
-import { ChevronDownIcon } from '@heroicons/react/20/solid';
-import useInitializePerPage from '../../../hooks/initializePerPage/useInitializePerPage';
-import useDebounce from '../../../hooks/debounce/useDebounce';
-import { EntitiesDataContext } from '../../../contexts/entitiesDataContext/entitiesDataContext';
-import axios from 'axios';
-import BoardMeetings from '../../pages/boardMeetings/BoardMeetings';
+
 import atbtApi from '../../../serviceLayer/interceptor';
 import CustomColumn from '../../../componentLayer/tableCustomization/CustomColumn';
 import CustomFilter from '../../../componentLayer/tableCustomization/CustomFilter';
@@ -35,9 +26,7 @@ import GateKeeper from '../../../rbac/GateKeeper';
 import { debounce } from '../../../utils/utils';
 import Swal from 'sweetalert2';
 
-function classNames(...classes) {
-  return classes.filter(Boolean).join(' ');
-}
+
 export async function loader({ request, params }) {
   try {
     let url = new URL(request.url);

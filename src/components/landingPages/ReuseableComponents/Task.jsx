@@ -42,42 +42,7 @@ const Task = () => {
     useEffect(() => {
         getSingleProduct();
     }, [id]);
-    const [activeTab, setActiveTab] = useState(1);
-    const handleTabClick = (tabNumber) => {
-        setActiveTab(tabNumber);
-    };
-    // for calendar
-    const localizer = momentLocalizer(moment);
-    const [open, setOpen] = useState(false);
-    const cancelButtonRef = useRef(null);
-    const [events, setEvents] = useState([
-        {
-            title: 'Event 1',
-            start: new Date(2024, 0, 17, 10, 0),
-            end: new Date(2024, 0, 17, 12, 0),
-        },
-    ]);
-    const [newtask, setNewTask] = useState('');
-    const [newtaskStartDate, setnewtaskStartDate] = useState('');
-    const [newtaskEndDate, setnewtaskEndDate] = useState('');
-    const handleSelect = ({ start, end }) => {
-        setOpen(true);
-        setnewtaskStartDate(start);
-        setnewtaskEndDate(end);
-        setNewTask('');
-    };
-    const handleSave = () => {
-        setOpen(false);
-        if (newtask) {
-            const newEvent = {
-                title: newtask,
-                start: newtaskStartDate,
-                end: newtaskEndDate,
-            };
-            setEvents([...events, newEvent]);
-            setNewTask('');
-        }
-    };
+   
     // ----toggleDrawer-------
     const [isOpen, setIsOpen] = useState(false);
     const toggleDrawer = () => {

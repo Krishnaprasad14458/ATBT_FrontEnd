@@ -1,26 +1,18 @@
 import React, {
   useState,
-  Fragment,
-  useRef,
+
   useEffect,
   useContext,
 } from 'react';
 import '../LandingPageCommon.css';
-import { Calendar, momentLocalizer } from 'react-big-calendar';
-import 'react-big-calendar/lib/css/react-big-calendar.css';
-import moment from 'moment';
-import { Dialog, Transition, Menu } from '@headlessui/react';
-import defprop from '../../../Images/defprof.svg';
+
+
 import { Link, Outlet, useParams, useLocation } from 'react-router-dom';
-import { ChevronDownIcon } from '@heroicons/react/20/solid';
-import useInitializePerPage from '../../../hooks/initializePerPage/useInitializePerPage';
-import useDebounce from '../../../hooks/debounce/useDebounce';
+
 import { BoardMeetingsDataContext } from '../../../contexts/boardmeetingsDataContext/boardmeetingsDataContext';
 import axios from 'axios';
 
-function classNames(...classes) {
-  return classes.filter(Boolean).join(' ');
-}
+
 
 const BoardMeetingLandingPage = () => {
   const {
@@ -62,44 +54,10 @@ const BoardMeetingLandingPage = () => {
   };
   //  for active tabs close
 
-  // for calendar
-  const localizer = momentLocalizer(moment);
-  const [open, setOpen] = useState(false);
+ 
 
-  const cancelButtonRef = useRef(null);
 
-  const [events, setEvents] = useState([
-    {
-      title: 'Event 1',
-      start: new Date(2024, 0, 17, 10, 0),
-      end: new Date(2024, 0, 17, 12, 0),
-    },
-  ]);
-  const [newtask, setNewTask] = useState('');
-  const [newtaskStartDate, setnewtaskStartDate] = useState('');
-
-  const [newtaskEndDate, setnewtaskEndDate] = useState('');
-
-  const handleSelect = ({ start, end }) => {
-    setOpen(true);
-    setnewtaskStartDate(start);
-    setnewtaskEndDate(end);
-    setNewTask('');
-  };
-
-  const handleSave = () => {
-    setOpen(false);
-
-    if (newtask) {
-      const newEvent = {
-        title: newtask,
-        start: newtaskStartDate,
-        end: newtaskEndDate,
-      };
-      setEvents([...events, newEvent]);
-      setNewTask('');
-    }
-  };
+ 
   // ----
   const [isOpen, setIsOpen] = useState(false);
 
@@ -137,29 +95,7 @@ const BoardMeetingLandingPage = () => {
     console.log('customFormField', customFormField);
   }, [customFormField]);
 
-  // to set the time in 12hours
-  function formatTime(timeString) {
-    // Splitting the timeString to extract hours and minutes
-    const [hourStr, minuteStr] = timeString.split(':');
-
-    // Parsing hours and minutes as integers
-    const hours = parseInt(hourStr, 10);
-    const minutes = parseInt(minuteStr, 10);
-
-    // Checking if hours and minutes are valid numbers
-    if (isNaN(hours) || isNaN(minutes)) {
-      return 'Invalid time';
-    }
-
-    // Converting hours to 12-hour format and determining AM/PM
-    const ampm = hours >= 12 ? 'PM' : 'AM';
-    const formattedHours = hours % 12 || 12; // Handles midnight
-    const formattedMinutes = minutes < 10 ? '0' + minutes : minutes; // Ensures minutes are two digits
-
-    // Constructing the formatted time string
-    const formattedTime = `${formattedHours}:${formattedMinutes} ${ampm}`;
-    return formattedTime;
-  }
+ 
 
   return (
     <div className='container p-4 bg-[#f8fafc]'>
