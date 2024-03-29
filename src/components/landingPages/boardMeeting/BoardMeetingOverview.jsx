@@ -47,9 +47,10 @@ const BoardMeetingOverview = () => {
 
    
 
-  
+    // for calendar
    
    
+
  
     // ----
     const [isOpen, setIsOpen] = useState(false);
@@ -64,7 +65,7 @@ const BoardMeetingOverview = () => {
     const userData = JSON.parse(localStorage.getItem('data'));
     const token = userData?.token;
     let response;
-  
+    let [predefinedImage, setPredefinedImage] = useState('');
     useEffect(() => {
         axios
             .get(`https://atbtbeta.infozit.com/boardmeeting/list/${id}`, {

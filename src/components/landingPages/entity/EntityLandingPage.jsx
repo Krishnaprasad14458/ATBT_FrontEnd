@@ -68,7 +68,7 @@ const EntityLandingPage = () => {
   const userData = JSON.parse(localStorage.getItem('data'));
   const token = userData?.token;
   let response;
-
+  let [predefinedImage, setPredefinedImage] = useState('');
   useEffect(() => {
     axios
       .get(`https://atbtbeta.infozit.com/entity/list/${id}`, {
