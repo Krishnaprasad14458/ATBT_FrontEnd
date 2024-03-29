@@ -231,7 +231,7 @@ function Boardmeeting() {
             />
           </div>
         </div>
-        <div className='grid1-item text-end md:flex md:justify-end filter_pagination divide-x-2  h-8'>
+        <div className='grid1-item text-end md:flex md:justify-end filter_pagination divide-x-2 '>
 
           <CustomColumn
             tableView={tableView}
@@ -245,7 +245,7 @@ function Boardmeeting() {
             setQParams={setQParams}
             customForm={customForm}
           />
-          <button className=' px-2 inline-flex items-center justify-center whitespace-nowrap rounded-full text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground  hover:bg-primary/90 shrink-0 text-white gap-1'>
+          <button className=' px-2 py-1 inline-flex items-center justify-center whitespace-nowrap rounded-full text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground  hover:bg-primary/90 shrink-0 text-white gap-1'>
             <svg
               xmlns='http://www.w3.org/2000/svg'
               viewBox='0 0 20 20'

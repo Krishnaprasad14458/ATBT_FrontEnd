@@ -250,7 +250,7 @@ function BoardMeetings() {
       </div>
 
       {/* table */}
-      <div className='max-h-[457px] overflow-y-scroll mt-8'>
+      <div className='max-h-[457px] overflow-y-scroll mt-5'>
         {visibleColumns && tableView && meetings?.Meetings && (
           <table className='w-full divide-y divide-gray-200 dark:divide-gray-700 rounded-md'>
             <thead>
@@ -332,16 +332,39 @@ function BoardMeetings() {
                         value = `${day < 10 ? '0' : ''}${day}-${monthAbbreviations[monthIndex]
                           }-${year}`;
                       }
-                      return (
-                        <td
-                          key={key}
-                          className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden`}
-                          style={{ maxWidth: '160px' }}
-                          title={row[key]}
-                        >
-                          <p className='truncate text-xs'> {value}</p>
-                        </td>
-                      );
+
+                      if (key === 'name') {
+                        return (
+                          <td
+                            key={key}
+                            className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden`}
+                            style={{ maxWidth: '160px' }}
+                            title={row[key]}
+                          >
+                            <GateKeeper
+                              permissionCheck={(permission) =>
+                                permission.module === 'user' &&
+                                permission.canRead
+                              }
+                            >
+                              <Link to={`${row.id}/task`}>
+                                <p className='truncate text-xs'> {value}</p>
+                              </Link>
+                            </GateKeeper>
+                          </td>
+                        );
+                      } else {
+                        return (
+                          <td
+                            key={key}
+                            className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden`}
+                            style={{ maxWidth: '160px' }}
+                            title={row[key]}
+                          >
+                            <p className='truncate text-xs'> {value}</p>
+                          </td>
+                        );
+                      }
                     })}
                     <td
                       className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden`}
