@@ -1,6 +1,11 @@
 import React, { useEffect, useState } from 'react';
 
-function CustomFilter({ fieldsDropDownData, Qparams, setQParams, customForm }) {
+function CustomFilter({
+  fieldsDropDownData = {},
+  Qparams,
+  setQParams,
+  customForm,
+}) {
   const [selectedFilters, setSelectedFilters] = useState({});
   const [filterDrawerOpen, setFilterDrawerOpen] = useState(false);
   const [filterableInputsInBox, setFilterableInputsInBox] = useState();
@@ -71,20 +76,29 @@ function CustomFilter({ fieldsDropDownData, Qparams, setQParams, customForm }) {
 
   return (
     <>
-
       <button
         onClick={filterDrawer}
-        className='focus:outline-none gap-x-1 px-4  text-sm font-[500] text-gray-500 hover:text-orange-600' title='Filter'
+        className='focus:outline-none gap-x-1 px-4  text-sm font-[500] text-gray-500 hover:text-orange-600'
+        title='Filter'
       >
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
-          <path fill-rule="evenodd" d="M2.628 1.601C5.028 1.206 7.49 1 10 1s4.973.206 7.372.601a.75.75 0 0 1 .628.74v2.288a2.25 2.25 0 0 1-.659 1.59l-4.682 4.683a2.25 2.25 0 0 0-.659 1.59v3.037c0 .684-.31 1.33-.844 1.757l-1.937 1.55A.75.75 0 0 1 8 18.25v-5.757a2.25 2.25 0 0 0-.659-1.591L2.659 6.22A2.25 2.25 0 0 1 2 4.629V2.34a.75.75 0 0 1 .628-.74Z" clip-rule="evenodd" />
+        <svg
+          xmlns='http://www.w3.org/2000/svg'
+          viewBox='0 0 20 20'
+          fill='currentColor'
+          class='w-5 h-5'
+        >
+          <path
+            fill-rule='evenodd'
+            d='M2.628 1.601C5.028 1.206 7.49 1 10 1s4.973.206 7.372.601a.75.75 0 0 1 .628.74v2.288a2.25 2.25 0 0 1-.659 1.59l-4.682 4.683a2.25 2.25 0 0 0-.659 1.59v3.037c0 .684-.31 1.33-.844 1.757l-1.937 1.55A.75.75 0 0 1 8 18.25v-5.757a2.25 2.25 0 0 0-.659-1.591L2.659 6.22A2.25 2.25 0 0 1 2 4.629V2.34a.75.75 0 0 1 .628-.74Z'
+            clip-rule='evenodd'
+          />
         </svg>
-
       </button>
       {/* for filter open */}
       <div
-        className={`fixed inset-0 bg-gray-800 bg-opacity-50 z-10 ${filterDrawerOpen ? '' : 'opacity-0 pointer-events-none'
-          }`}
+        className={`fixed inset-0 bg-gray-800 bg-opacity-50 z-10 ${
+          filterDrawerOpen ? '' : 'opacity-0 pointer-events-none'
+        }`}
         style={{ transition: 'opacity 0.3s ease-in-out' }}
       >
         <div
@@ -139,10 +153,7 @@ function CustomFilter({ fieldsDropDownData, Qparams, setQParams, customForm }) {
                           name={filter.inputname}
                           className='px-3 py-1 mb-2 text-xs block w-full bg-gray-50 rounded-md text-gray-900 border border-1 border-[#e9ebec] placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-xs sm:leading-6'
                           onChange={(e) =>
-                            handleFilterChange(
-                              filter.inputname,
-                              e.target.value
-                            )
+                            handleFilterChange(filter.inputname, e.target.value)
                           }
                           value={selectedFilters[filter.inputname] || ''}
                         />
@@ -161,10 +172,7 @@ function CustomFilter({ fieldsDropDownData, Qparams, setQParams, customForm }) {
                           name={filter.inputname}
                           className='px-3 py-2 my-2 text-xs block w-full bg-gray-50 rounded-md text-gray-900 border border-1 border-[#e9ebec] placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-xs sm:leading-6'
                           onChange={(e) =>
-                            handleFilterChange(
-                              filter.inputname,
-                              e.target.value
-                            )
+                            handleFilterChange(filter.inputname, e.target.value)
                           }
                           value={selectedFilters[filter.inputname] || ''}
                         >

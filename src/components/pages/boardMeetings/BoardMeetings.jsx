@@ -1,10 +1,4 @@
-import React, {
-  useContext,
-  useEffect,
-  useState,
-  useRef,
-  useCallback,
-} from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import {
   Link,
   useFetcher,
@@ -12,59 +6,29 @@ import {
   useNavigation,
   useSubmit,
 } from 'react-router-dom';
-import { BoardMeetingsDataContext } from '../../../contexts/boardmeetingsDataContext/boardmeetingsDataContext';
-// import './Entities.css';
-import { Fragment } from 'react';
 import Swal from 'sweetalert2';
-
-import { Dialog, Menu, Transition } from '@headlessui/react';
-import { ChevronDownIcon } from '@heroicons/react/20/solid';
-import useDebounce from '../../../hooks/debounce/useDebounce';
-import { debounce, formatDate } from '../../../utils/utils';
+import { debounce } from '../../../utils/utils';
 import GateKeeper from '../../../rbac/GateKeeper';
-import axios from 'axios';
 import CustomColumn from '../../../componentLayer/tableCustomization/CustomColumn';
 import CustomFilter from '../../../componentLayer/tableCustomization/CustomFilter';
 import atbtApi from '../../../serviceLayer/interceptor';
 
-// import { Dialog, Menu, Transition } from '@headlessui/react';
-
-function classNames(...classes) {
-  return classes.filter(Boolean).join(' ');
-}
-const userData = JSON.parse(localStorage.getItem('data'));
-const token = userData?.token;
-const role = userData?.role?.name;
-
 export async function loader({ request, params }) {
-  // try {
-  //   let url = new URL(request.url);
-  //   const entityList = await atbtApi.post(
-  //     `/entity/list${url?.search ? url?.search : ''}`,
-  //     {}
-  //   );
-  //   console.log(entityList, 'entityList action');
-  //   return entityList;
-  // } catch (error) {
-  //   console.error('Error occurred:', error);
-  //   throw error;
-  // }
   try {
     let url = new URL(request.url);
-    const [meetings, entityList, roleList, meetingFormData] = await Promise.all(
-      [
+    const [meetings, meetingList, roleList, meetingFormData] =
+      await Promise.all([
         atbtApi.post(`boardmeeting/list${url?.search ? url?.search : ''}`, {}),
-        atbtApi.post(`public/list/entity`),
+        atbtApi.post(`public/list/boardmeeting`),
         atbtApi.post(`public/list/role`),
         atbtApi.get(`form/list?name=boardmeetingform`),
-      ]
-    );
+      ]);
     console.log(meetings, 'meetings loader');
     const combinedResponse = {
       meetings: meetings?.data,
       fieldsDropDownData: {
         role: roleList?.data?.roles?.map((item) => item.name),
-        // entityname: entityList?.data?.Entites?.map((item) => item.name),
+        // boardmeetingname: meetingList?.data?.Meetings?.map((item) => item.name),
         boardmeetingname: ['infosys', 'relid'],
       },
       tableViewData: meetingFormData?.data?.Tableview,
@@ -159,7 +123,6 @@ function BoardMeetings() {
 
     if (confirmDelete.isConfirmed) {
       try {
-        // const result = await deleteBoardMeetingbyId(id);
         fetcher.submit(id, { method: 'DELETE', encType: 'application/json' });
       } catch (error) {
         Swal.fire('Error', 'Unable to delete board meeting 🤯', 'error');
@@ -176,8 +139,6 @@ function BoardMeetings() {
     );
     setvisibleColumns(visibleColumns);
   }, [tableView]);
-
-  const [selectedFilters, setSelectedFilters] = useState({});
 
   function formatTime(timeString) {
     const [hourStr, minuteStr] = timeString.split(':');
@@ -329,8 +290,9 @@ function BoardMeetings() {
                         ];
 
                         // Formatting the date
-                        value = `${day < 10 ? '0' : ''}${day}-${monthAbbreviations[monthIndex]
-                          }-${year}`;
+                        value = `${day < 10 ? '0' : ''}${day}-${
+                          monthAbbreviations[monthIndex]
+                        }-${year}`;
                       }
 
                       if (key === 'name') {
@@ -508,7 +470,7 @@ function BoardMeetings() {
               onChange={handlePerPageChange}
               className='focus:outline-none me-3 rounded-md bg-[#f8fafc]  px-1 py-1.5 text-sm font-semibold  ring-1 ring-inset ring-gray-300 hover:bg-gray-50 shadow-sm  text-gray-500'
             >
-              <option value='10' >10</option>
+              <option value='10'>10</option>
               <option value='25'>25</option>
               <option value='50'>50</option>
               <option value='100'>100</option>
@@ -518,12 +480,13 @@ function BoardMeetings() {
             <button
               disabled={meetings.currentPage === 1}
               onClick={() => handlePage(meetings?.currentPage - 1)}
-              className={`relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${meetings.loading
-                ? 'cursor-wait'
-                : meetings.currentPage === 1
+              className={`relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${
+                meetings.loading
+                  ? 'cursor-wait'
+                  : meetings.currentPage === 1
                   ? 'cursor-not-allowed'
                   : 'cursor-auto'
-                }`}
+              }`}
             >
               <span className='sr-only'>Previous</span>
               <svg
@@ -546,12 +509,13 @@ function BoardMeetings() {
             <button
               disabled={meetings.currentPage === meetings.totalPages}
               onClick={() => handlePage(meetings?.currentPage + 1)}
-              className={`relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${meetings.loading
-                ? 'cursor-wait'
-                : meetings.currentPage === meetings.totalPages
+              className={`relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${
+                meetings.loading
+                  ? 'cursor-wait'
+                  : meetings.currentPage === meetings.totalPages
                   ? 'cursor-not-allowed'
                   : 'cursor-auto'
-                }`}
+              }`}
             >
               <span className='sr-only'>Next</span>
               <svg
@@ -571,7 +535,7 @@ function BoardMeetings() {
           </section>
         </div>
       </div>
-    </div >
+    </div>
   );
 }
 
