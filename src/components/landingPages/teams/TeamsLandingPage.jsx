@@ -6,7 +6,7 @@ import React, {
 } from 'react';
 import '../LandingPageCommon.css';
 
-import { Link, Outlet, useParams, useLocation } from 'react-router-dom';
+import { NavLink, Link, Outlet, useParams, useLocation } from 'react-router-dom';
 
 import { TeamsDataContext } from '../../../contexts/teamsDataContext/teamsDataContext';
 import axios from 'axios';
@@ -126,37 +126,63 @@ const TeamsLandingPage = () => {
       </div>
       <div className='flex overflow-auto'>
 
-        <Link to={`task`} onClick={() => handleTabClick('task')}>
-          <div
-            className={`cursor-pointer px-5 py-1 text-md font-semibold  ${activeTab === 'task' ? 'border-b-2 border-orange-600 text-black' : ''
-              }`}>
-            <p> Tasks</p>
-          </div>
-        </Link>
-        <Link to={`boardmeetings`} onClick={() => handleTabClick('boardmeetings')}>
-          <div
-            className={`cursor-pointer px-5 py-1 text-md font-semibold  ${activeTab === 'boardmeetings' ? 'border-b-2 border-orange-600 text-black' : ''
-              }`}>
-            <p>Board Meetings</p>
-          </div>
-        </Link>
-        <Link to={`documents`} onClick={() => handleTabClick('documents')}>
-          <div className={`cursor-pointer px-5 py-1 text-md font-semibold  ${activeTab === 'documents' ? 'border-b-2 border-orange-600 text-black' : ''}`}>
-            <p>Documents</p>
-          </div>
-        </Link>
-        <Link to={`overview`}
-          onClick={() => handleTabClick('overview')}>
-          <div
-            className={`cursor-pointer px-1 py-1 text-md font-semibold  ${activeTab === 'overview' ? 'border-b-2 border-orange-600 text-black' : ''
-              }`}>
-            <p> Overview</p>
-          </div>
-        </Link>
+        <NavLink
+          to='task'
+          end
+          className={({ isActive, isPending, isTransitioning }) =>
+            isPending
+              ? 'cursor-pointer px-4 py-1 text-md font-semibold'
+              : isActive
+                ? 'border-b-2 border-orange-600 text-black cursor-pointer px-4 py-1 text-md font-semibold'
+                : 'cursor-pointer px-4 py-1 text-md font-semibold'
+          }
+        >
+          Tasks
+        </NavLink>
+        <NavLink
+          to='boardmeetings'
+          end
+          className={({ isActive, isPending, isTransitioning }) =>
+            isPending
+              ? 'cursor-pointer px-4 py-1 text-md font-semibold'
+              : isActive
+                ? 'border-b-2 border-orange-600 text-black cursor-pointer px-4 py-1 text-md font-semibold'
+                : 'cursor-pointer px-4 py-1 text-md font-semibold'
+          }
+        >
+          Board Meetings
+        </NavLink>
+        <NavLink
+          to='documents'
+          end
+          className={({ isActive, isPending, isTransitioning }) =>
+            isPending
+              ? 'cursor-pointer px-4 py-1 text-md font-semibold'
+              : isActive
+                ? 'border-b-2 border-orange-600 text-black cursor-pointer px-4 py-1 text-md font-semibold'
+                : 'cursor-p px-4 py-1 text-md font-semibold'
+          }
+        >
+          Documents
+        </NavLink>
+
+        <NavLink
+          to='.'
+          end
+          className={({ isActive, isPending, isTransitioning }) =>
+            isPending
+              ? 'cursor-pointer px-4 py-1 text-md font-semibold'
+              : isActive
+                ? 'border-b-2 border-orange-600 text-black cursor-pointer px-4 py-1 text-md font-semibold'
+                : 'cursor-pointer px-4 py-1 text-md font-semibold'
+          }
+        >
+          Overview
+        </NavLink>
       </div>
-      <hr/>
-  <Outlet/>
-  </div>
+      <hr />
+      <Outlet />
+    </div>
   );
 };
 

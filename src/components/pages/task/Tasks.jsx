@@ -79,7 +79,7 @@ function Tasks() {
       <div className='mt-2'>
         <div className='flex overflow-x-auto'>
           <div
-            className={`cursor-pointer px-1 py-1 text-md font-semibold  ${
+            className={`cursor-pointer px-4 py-1 text-md font-semibold  ${
               activeTab === 1 ? 'border-b-2 border-orange-600 text-black' : ''
             }`}
             onClick={() => handleTabClick(1)}
@@ -88,7 +88,7 @@ function Tasks() {
           </div>
 
           <div
-            className={`cursor-pointer px-5 py-1 text-md font-semibold  ${
+            className={`cursor-pointer px-4 py-1 text-md font-semibold  ${
               activeTab === 2 ? 'border-b-2 border-orange-600 text-black' : ''
             }`}
             onClick={() => handleTabClick(2)}
@@ -96,7 +96,7 @@ function Tasks() {
             Due
           </div>
           <div
-            className={`cursor-pointer px-5 py-1 text-md font-semibold  ${
+            className={`cursor-pointer px-4 py-1 text-md font-semibold  ${
               activeTab === 3 ? 'border-b-2 border-orange-600 text-black' : ''
             }`}
             onClick={() => handleTabClick(3)}
@@ -104,7 +104,7 @@ function Tasks() {
             Completed
           </div>
           <div
-            className={`cursor-pointer px-5 py-1 text-md font-semibold  ${
+            className={`cursor-pointer px-4 py-1 text-md font-semibold  ${
               activeTab === 4 ? 'border-b-2 border-orange-600 text-black' : ''
             }`}
             onClick={() => handleTabClick(4)}
