@@ -1,11 +1,5 @@
 import React, { useEffect, useState, useRef, useCallback } from 'react';
-import {
-  Link,
-  useFetcher,
-  useLoaderData,
-  useNavigation,
-  useSubmit,
-} from 'react-router-dom';
+import {Link,useFetcher,useLoaderData,useNavigation,useSubmit} from 'react-router-dom';
 import './Entities.css';
 import Swal from 'sweetalert2';
 import { debounce } from '../../../utils/utils';
@@ -128,7 +122,6 @@ function Entities() {
     }
   };
   const [tableView, setTableView] = useState(tableViewData);
-
   const [visibleColumns, setvisibleColumns] = useState();
   useEffect(() => {
     let visibleColumns = Object.keys(tableView || {}).filter(
@@ -196,7 +189,6 @@ function Entities() {
             setTableView={setTableView}
             form='entityform'
           />
-
           <CustomFilter
             fieldsDropDownData={fieldsDropDownData}
             Qparams={Qparams}
@@ -470,10 +462,10 @@ function Entities() {
               disabled={entities.currentPage === 1}
               onClick={() => handlePage(entities?.currentPage - 1)}
               className={`relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${entities.loading
-                  ? 'cursor-wait'
-                  : entities.currentPage === 1
-                    ? 'cursor-not-allowed'
-                    : 'cursor-auto'
+                ? 'cursor-wait'
+                : entities.currentPage === 1
+                  ? 'cursor-not-allowed'
+                  : 'cursor-auto'
                 }`}
             >
               <span className='sr-only'>Previous</span>
@@ -498,10 +490,10 @@ function Entities() {
               disabled={entities.currentPage === entities.totalPages}
               onClick={() => handlePage(entities?.currentPage + 1)}
               className={`relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${entities.loading
-                  ? 'cursor-wait'
-                  : entities.currentPage === entities.totalPages
-                    ? 'cursor-not-allowed'
-                    : 'cursor-auto'
+                ? 'cursor-wait'
+                : entities.currentPage === entities.totalPages
+                  ? 'cursor-not-allowed'
+                  : 'cursor-auto'
                 }`}
             >
               <span className='sr-only'>Next</span>
