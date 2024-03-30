@@ -200,7 +200,7 @@ function Boardmeeting() {
       {/* search & filter */}
       <div className='grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-3 xl:grid-col-3 gap-2 mt-2'>
         <h1 className='font-semibold text-lg grid1-item'>Board Meetings</h1>
-        <div className='grid1-item mx-3 text-start'>
+        <div className='grid1-item text-start'>
           <label
             for='default-search'
             className='mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white'
@@ -236,7 +236,7 @@ function Boardmeeting() {
             />
           </div>
         </div>
-        <div className='grid1-item text-end md:flex md:justify-end filter_pagination divide-x-2 '>
+        <div className='grid1-item text-end flex justify-end filter_pagination divide-x-2 '>
 
           <CustomColumn
             tableView={tableView}
@@ -250,24 +250,17 @@ function Boardmeeting() {
             setQParams={setQParams}
             customForm={customForm}
           />
-          <Link to={{
-            pathname: "/boardmeetings/new",
-            search: `?boardmeetingFor=${moduleName}&boardmeetingForID=${id}`
-          }}>
-            <button className=' px-2 inline-flex items-center justify-center whitespace-nowrap rounded-full text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground  hover:bg-primary/90 shrink-0 text-white gap-1'>
-              <svg
-                xmlns='http://www.w3.org/2000/svg'
-                viewBox='0 0 20 20'
-                fill='currentColor'
-                className='w-5 h-5 '
-              >
-                <path d='M10.75 4.75a.75.75 0 0 0-1.5 0v4.5h-4.5a.75.75 0 0 0 0 1.5h4.5v4.5a.75.75 0 0 0 1.5 0v-4.5h4.5a.75.75 0 0 0 0-1.5h-4.5v-4.5Z' />
-              </svg>
-              Create
-            </button>
-
-          </Link>
-
+          <button className=' px-3 py-2 inline-flex items-center justify-center whitespace-nowrap rounded-full text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground  hover:bg-primary/90 shrink-0 text-white gap-1'>
+            <svg
+              xmlns='http://www.w3.org/2000/svg'
+              viewBox='0 0 20 20'
+              fill='currentColor'
+              className='w-5 h-5 '
+            >
+              <path d='M10.75 4.75a.75.75 0 0 0-1.5 0v4.5h-4.5a.75.75 0 0 0 0 1.5h4.5v4.5a.75.75 0 0 0 1.5 0v-4.5h4.5a.75.75 0 0 0 0-1.5h-4.5v-4.5Z' />
+            </svg>
+            Create
+          </button>
         </div>
       </div>
 
@@ -484,7 +477,7 @@ function Boardmeeting() {
 
       {/* pagination */}
       <div className='inset-x-0 bottom-0 mt-5'>
-        <div className='flex justify-between'>
+        <div className='md:flex md:justify-between block text-end'>
           <div className=''>
             {!meetings?.Meetings || meetings?.Meetings?.length === 0 ? (
               'no data to show'
@@ -499,7 +492,7 @@ function Boardmeeting() {
             )}
           </div>
           <section
-            className='isolate inline-flex -space-x-px rounded-md  ms-4'
+            className='isolate inline-flex rounded-md  ms-4 mt-2 md:mt-0'
             aria-label='Pagination'
           >
             <select
