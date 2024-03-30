@@ -96,8 +96,9 @@ function CustomFilter({
       </button>
       {/* for filter open */}
       <div
-        className={` inset-0 bg-gray-800 bg-opacity-50 z-10 relative ${filterDrawerOpen ? '' : 'opacity-0 pointer-events-none'
-          }`}
+        className={`fixed inset-0 bg-gray-800 bg-opacity-50 z-10 ${
+          filterDrawerOpen ? '' : 'opacity-0 pointer-events-none'
+        }`}
         style={{ transition: 'opacity 0.3s ease-in-out' }}
       >
         <div
@@ -213,7 +214,7 @@ function CustomFilter({
               ))}
             </div>
           </div>
-          <div className='bottom-0 absolute bg-gray-100 flex justify-between p-3 w-full footer'>
+          <div className='sticky bottom-0 bg-gray-100 flex justify-between p-3 w-full footer'>
             <button
               onClick={handleFilterReset}
               className='mr-3 px-3 py-2 inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white '
