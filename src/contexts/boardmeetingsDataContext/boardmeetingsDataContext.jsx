@@ -118,10 +118,10 @@ const BoardMeetingsDataProvider = ({ children }) => {
     }
   };
 
-  const createBoardMeeting = async (boardmeetingData) => {
+  const createBoardMeeting = async (boardmeetingData,boardMeetingFor,boardmeetingForID,id) => {
     try {
       const { data, status } = await api.createBoardMeeting(
-        boardmeetingData,
+        boardmeetingData,boardMeetingFor,boardmeetingForID,
         authState?.token
       );
       if (status === 201) {

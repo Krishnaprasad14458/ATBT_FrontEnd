@@ -7,7 +7,7 @@ import React, {
 import '../LandingPageCommon.css';
 
 
-import {NavLink, Link, Outlet, useParams, useLocation } from 'react-router-dom';
+import { NavLink, Link, Outlet, useParams, useLocation } from 'react-router-dom';
 
 import { BoardMeetingsDataContext } from '../../../contexts/boardmeetingsDataContext/boardmeetingsDataContext';
 import axios from 'axios';
@@ -15,6 +15,7 @@ import axios from 'axios';
 
 
 const BoardMeetingLandingPage = () => {
+
   const {
     getBoardMeetingbyId,
     boardmeetingsState: { boardmeetings },
@@ -43,35 +44,17 @@ const BoardMeetingLandingPage = () => {
     getSingleProduct();
   }, [id]);
 
-  // for active tabs
-  const location = useLocation()
-  const currentURL = location.pathname.split("/")
-  console.log("currentURL", currentURL)
-  const [activeTab, setActiveTab] = useState(currentURL[3]);
-
-  const handleTabClick = (tabName) => {
-    setActiveTab(tabName);
-  };
-  //  for active tabs close
 
 
 
-
-
-  // ----
-  const [isOpen, setIsOpen] = useState(false);
-
-  const toggleDrawer = () => {
-    setIsOpen(!isOpen);
-  };
   // ---full screen
-  const [expand, setExpand] = useState(false);
+
   let [customFormField, setCustomFormField] = useState();
 
   const userData = JSON.parse(localStorage.getItem('data'));
   const token = userData?.token;
   let response;
-  let [predefinedImage, setPredefinedImage] = useState('');
+
   useEffect(() => {
     axios
       .get(`https://atbtbeta.infozit.com/boardmeeting/list/${id}`, {
@@ -83,7 +66,7 @@ const BoardMeetingLandingPage = () => {
         // Handle the successful response
         response = res;
         console.log('response', response.data.image);
-        setPredefinedImage(response.data.image);
+      
         setCustomFormField(response.data.customFieldsData);
       })
       .catch((error) => {

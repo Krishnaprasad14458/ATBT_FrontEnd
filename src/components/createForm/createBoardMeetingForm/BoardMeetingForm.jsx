@@ -50,6 +50,10 @@ export async function boardmeetingFormLoader({ params }) {
   }
 }
 function BoardMeetingForm() {
+  const urlParams = new URLSearchParams(window.location.search);
+  const boardmeetingFor = urlParams.get('boardmeetingFor');
+  const boardmeetingForID = urlParams.get('boardmeetingForID')
+
   const [showPassword, setShowPassword] = useState(false);
 
   document.title = 'ATBT | Meeting';
@@ -468,7 +472,7 @@ function BoardMeetingForm() {
         response = await updateBoardMeeting(formData, id);
       } else {
         console.log('creating');
-        response = await createBoardMeeting(formData);
+        response = await createBoardMeeting(formData,boardmeetingFor,boardmeetingForID);
       }
       console.log('jsonData submitted', response);
       if (response?.status === 201) {
@@ -577,7 +581,7 @@ function BoardMeetingForm() {
                         <input
                           type='number'
                           name={item.inputname}
-                       
+
                           placeholder='Enter number'
                           id={item.inputname}
                           style={{ fontSize: '0.8rem' }}
@@ -636,7 +640,7 @@ function BoardMeetingForm() {
                         </div>
                       </div>
                     )}
-{/* 
+                  {/* 
                   {item.type === 'time' &&
                     item.inputname == 'time' &&
                     item.field == 'predefined' && (
