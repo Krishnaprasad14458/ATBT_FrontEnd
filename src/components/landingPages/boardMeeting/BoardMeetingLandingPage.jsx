@@ -7,7 +7,7 @@ import React, {
 import '../LandingPageCommon.css';
 
 
-import { Link, Outlet, useParams, useLocation } from 'react-router-dom';
+import {NavLink, Link, Outlet, useParams, useLocation } from 'react-router-dom';
 
 import { BoardMeetingsDataContext } from '../../../contexts/boardmeetingsDataContext/boardmeetingsDataContext';
 import axios from 'axios';
@@ -54,10 +54,10 @@ const BoardMeetingLandingPage = () => {
   };
   //  for active tabs close
 
- 
 
 
- 
+
+
   // ----
   const [isOpen, setIsOpen] = useState(false);
 
@@ -95,7 +95,7 @@ const BoardMeetingLandingPage = () => {
     console.log('customFormField', customFormField);
   }, [customFormField]);
 
- 
+
 
   return (
     <div className='container p-4 bg-[#f8fafc]'>
@@ -114,13 +114,19 @@ const BoardMeetingLandingPage = () => {
       </div>
       <div className='flex overflow-auto'>
 
-        <Link to={`task`} onClick={() => handleTabClick('task')}>
-          <div
-            className={`cursor-pointer pe-5  py-1 text-md font-semibold   text-center  ${activeTab === 'task' ? 'border-b-2 border-orange-600 text-black  text-center' : ''
-              }`}>
-            <p> Tasks</p>
-          </div>
-        </Link>
+        <NavLink
+          to='task'
+          end
+          className={({ isActive, isPending, isTransitioning }) =>
+            isPending
+              ? 'cursor-pointer px-4 py-1 text-md font-semibold'
+              : isActive
+                ? 'border-b-2 border-orange-600 text-black cursor-pointer px-4 py-1 text-md font-semibold'
+                : 'cursor-pointer px-4 py-1 text-md font-semibold'
+          }
+        >
+          Tasks
+        </NavLink>
         {/* <Link to={`boardmeetings`} onClick={() => handleTabClick('boardmeetings')}>
           <div
             className={`cursor-pointer px-5  py-1 text-md font-semibold   ${activeTab === 'boardmeetings' ? 'border-b-2 border-orange-600 text-black text-center' : ''
@@ -128,19 +134,34 @@ const BoardMeetingLandingPage = () => {
             <p className=''>Board Meetings</p>
           </div>
         </Link> */}
-        <Link to={`documents`} onClick={() => handleTabClick('documents')}>
-          <div className={`cursor-pointer px-5 py-1 text-md font-semibold   ${activeTab === 'documents' ? 'border-b-2 border-orange-600 text-black' : ''}`}>
-            <p>Documents</p>
-          </div>
-        </Link>
-        <Link to={`overview`}
-          onClick={() => handleTabClick('overview')}>
-          <div
-            className={`cursor-pointer px-5 py-1 text-md font-semibold  ${activeTab === 'overview' ? 'border-b-2 border-orange-600 text-black' : ''
-              }`}>
-            <p> Overview</p>
-          </div>
-        </Link>
+        <NavLink
+          to='documents'
+          end
+          className={({ isActive, isPending, isTransitioning }) =>
+            isPending
+              ? 'cursor-pointer px-4 py-1 text-md font-semibold'
+              : isActive
+                ? 'border-b-2 border-orange-600 text-black cursor-pointer px-4 py-1 text-md font-semibold'
+                : 'cursor-p px-4 py-1 text-md font-semibold'
+          }
+        >
+          Documents
+        </NavLink>
+
+        <NavLink
+          to='.'
+          end
+          className={({ isActive, isPending, isTransitioning }) =>
+            isPending
+              ? 'cursor-pointer px-4 py-1 text-md font-semibold'
+              : isActive
+                ? 'border-b-2 border-orange-600 text-black cursor-pointer px-4 py-1 text-md font-semibold'
+                : 'cursor-pointer px-4 py-1 text-md font-semibold'
+          }
+        >
+          Overview
+        </NavLink>
+
       </div>
       <hr />
       <Outlet />

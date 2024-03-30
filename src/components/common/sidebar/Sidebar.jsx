@@ -82,14 +82,10 @@ const Sidebar = () => {
       name: 'Board Meetings',
       link: '/boardmeetings',
       icon: (
-        <svg
-          xmlns='http://www.w3.org/2000/svg'
-          viewBox='0 0 20 20'
-          fill='currentColor'
-          className='w-5 h-5'
-        >
-          <path d='M10 9a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM6 8a2 2 0 1 1-4 0 2 2 0 0 1 4 0ZM1.49 15.326a.78.78 0 0 1-.358-.442 3 3 0 0 1 4.308-3.516 6.484 6.484 0 0 0-1.905 3.959c-.023.222-.014.442.025.654a4.97 4.97 0 0 1-2.07-.655ZM16.44 15.98a4.97 4.97 0 0 0 2.07-.654.78.78 0 0 0 .357-.442 3 3 0 0 0-4.308-3.517 6.484 6.484 0 0 1 1.907 3.96 2.32 2.32 0 0 1-.026.654ZM18 8a2 2 0 1 1-4 0 2 2 0 0 1 4 0ZM5.304 16.19a.844.844 0 0 1-.277-.71 5 5 0 0 1 9.947 0 .843.843 0 0 1-.277.71A6.975 6.975 0 0 1 10 18a6.974 6.974 0 0 1-4.696-1.81Z' />
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5">
+          <path d="M4.5 6.375a4.125 4.125 0 1 1 8.25 0 4.125 4.125 0 0 1-8.25 0ZM14.25 8.625a3.375 3.375 0 1 1 6.75 0 3.375 3.375 0 0 1-6.75 0ZM1.5 19.125a7.125 7.125 0 0 1 14.25 0v.003l-.001.119a.75.75 0 0 1-.363.63 13.067 13.067 0 0 1-6.761 1.873c-2.472 0-4.786-.684-6.76-1.873a.75.75 0 0 1-.364-.63l-.001-.122ZM17.25 19.128l-.001.144a2.25 2.25 0 0 1-.233.96 10.088 10.088 0 0 0 5.06-1.01.75.75 0 0 0 .42-.643 4.875 4.875 0 0 0-6.957-4.611 8.586 8.586 0 0 1 1.71 5.157v.003Z" />
         </svg>
+
       ),
       module: 'meeting',
     },
@@ -171,9 +167,8 @@ const Sidebar = () => {
     <div className='sidebar'>
       <main className='bg-white'>
         <div
-          className={`bg-white min-h-screen ${
-            open ? 'w-60' : 'w-16'
-          } duration-500 text-gray-100 px-2 relative`}
+          className={`bg-white min-h-screen ${open ? 'w-60' : 'w-16'
+            } duration-500 text-gray-100 px-2 relative`}
         >
           <div className='pt-3 flex justify-between'>
             <img
@@ -198,9 +193,8 @@ const Sidebar = () => {
             </svg>
           </div>
           <div
-            className={`mt-6 flex-col gap-4 text-black relative ${
-              open ? '' : 'mt-8'
-            }`}
+            className={`mt-6 flex-col gap-4 text-black relative ${open ? '' : 'mt-8'
+              }`}
           >
             <Link
               to='/'
@@ -209,11 +203,10 @@ const Sidebar = () => {
               }}
               className={`group flex items-center text-md gap-3.5 font-semibold p-2 leading-normal
                                     hover:bg-orange-600 hover:text-white rounded-md
-                                    ${
-                                      'Home' === active
-                                        ? 'text-orange-600'
-                                        : 'black'
-                                    }`}
+                                    ${'Home' === active
+                  ? 'text-orange-600'
+                  : 'black'
+                }`}
             >
               <div style={{ width: '1rem', height: '1rem', marginLeft: '5px' }}>
                 {
@@ -232,16 +225,14 @@ const Sidebar = () => {
                 }
               </div>
               <h3
-                className={`whitespace-pre font-sans ${
-                  !open && `opacity-0 translate-x-20 overflow-hidden`
-                }`}
+                className={`whitespace-pre font-sans ${!open && `opacity-0 translate-x-20 overflow-hidden`
+                  }`}
               >
                 {'Home'}
               </h3>
               <h3
-                className={`${
-                  open && 'hidden'
-                } absolute left-20 bg-white font-semibold whitespace-pre text-black rounded-md drop-shadow-lg px-0 py-0 w-0 overflow-hidden group-hover:px-2 group-hover:py-1 group-hover:left-14 group-hover:w-fit text-sm`}
+                className={`${open && 'hidden'
+                  } absolute left-20 bg-white font-semibold whitespace-pre text-black rounded-md drop-shadow-lg px-0 py-0 w-0 overflow-hidden group-hover:px-2 group-hover:py-1 group-hover:left-14 group-hover:w-fit text-sm`}
               >
                 {'Home'}
               </h3>
@@ -268,11 +259,10 @@ const Sidebar = () => {
                   }}
                   className={`group flex items-center text-md gap-3.5 font-semibold p-2 leading-normal
                                     hover:bg-orange-600 hover:text-white rounded-md
-                                    ${
-                                      menu?.name === active
-                                        ? 'text-orange-600'
-                                        : 'black'
-                                    }`}
+                                    ${menu?.name === active
+                      ? 'text-orange-600'
+                      : 'black'
+                    }`}
                 >
                   <div
                     style={{ width: '1rem', height: '1rem', marginLeft: '5px' }}
@@ -280,16 +270,14 @@ const Sidebar = () => {
                     {menu?.icon}
                   </div>
                   <h3
-                    className={`whitespace-pre font-sans  ${
-                      !open && `opacity-0 translate-x-20 overflow-hidden `
-                    }`}
+                    className={`whitespace-pre font-sans  ${!open && `opacity-0 translate-x-20 overflow-hidden `
+                      }`}
                   >
                     {menu?.name}
                   </h3>
                   <h4
-                    className={`${
-                      open && 'hidden'
-                    } absolute left-20 bg-white font-semibold whitespace-pre text-black rounded-md drop-shadow-lg px-0 py-0 w-0 overflow-hidden group-hover:px-2 group-hover:py-1 group-hover:left-14 group-hover:w-fit text-sm`}
+                    className={`${open && 'hidden'
+                      } absolute left-20 bg-white font-semibold whitespace-pre text-black rounded-md drop-shadow-lg px-0 py-0 w-0 overflow-hidden group-hover:px-2 group-hover:py-1 group-hover:left-14 group-hover:w-fit text-sm`}
                   >
                     {menu?.name}
                   </h4>
@@ -298,14 +286,12 @@ const Sidebar = () => {
             ))}
           </div>
           <div
-            className={`absolute inset-x-0 bottom-0 mb-3 bg-white ${
-              open ? '' : 'hidden'
-            }`}
+            className={`absolute inset-x-0 bottom-0 mb-3 bg-white ${open ? '' : 'hidden'
+              }`}
           >
             <p
-              className={`text-center text-gray-500 text-sm ${
-                open ? 'right-0' : ''
-              }`}
+              className={`text-center text-gray-500 text-sm ${open ? 'right-0' : ''
+                }`}
             >
               Developed by @Infoz IT V0.1
             </p>

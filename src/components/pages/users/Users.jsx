@@ -273,7 +273,7 @@ function Users() {
               />
             </div>
           </div>
-          <div className='grid1-item text-end md:flex md:justify-end filter_pagination divide-x-2 h-7 mt-2'>
+          <div className='grid1-item text-end flex justify-end filter_pagination divide-x-2 h-7 mt-2'>
 
 
             <CustomColumn
@@ -613,7 +613,7 @@ function Users() {
         </Transition.Root>
         {/* pagination */}
         <div className='inset-x-0 bottom-0 mt-5'>
-          <div className='flex justify-between'>
+          <div className='md:flex md:justify-between block text-end'>
             <div className=''>
               {!users?.users || users?.users?.length === 0 ? (
                 'no data to show'
@@ -629,7 +629,7 @@ function Users() {
             </div>
 
             <section
-              className='isolate inline-flex rounded-md  ms-4'
+              className='isolate inline-flex rounded-md  ms-4 mt-2 md:mt-0'
               aria-label='Pagination'
             >
               <select
