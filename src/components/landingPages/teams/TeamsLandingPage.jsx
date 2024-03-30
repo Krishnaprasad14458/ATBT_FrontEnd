@@ -13,6 +13,7 @@ import axios from 'axios';
 
 
 const TeamsLandingPage = () => {
+  const moduleName = "team"
   const {
     getTeambyId,
     teamsState: { teams },
@@ -181,7 +182,7 @@ const TeamsLandingPage = () => {
         </NavLink>
       </div>
       <hr />
-      <Outlet />
+      <Outlet context={moduleName} />
     </div>
   );
 };

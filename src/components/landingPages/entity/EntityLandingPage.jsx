@@ -16,6 +16,7 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
 }
 const EntityLandingPage = () => {
+  const moduleName = "entity"
   const {
     getEntitybyId,
     entitiesState: { entities },
@@ -165,7 +166,7 @@ const EntityLandingPage = () => {
       </div>
       <hr />
 
-      <Outlet />
+      <Outlet context={moduleName}/>
     </div>
   );
 };

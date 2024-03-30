@@ -11,7 +11,7 @@ export const getAllBoardMeetings = async (token) => {
 };
 
 export const getBoardMeetings = async (page, pageSize, sortBy, search, token, filters) => {
-   
+
     const url = `${apiUrl}/boardmeeting/list?page=${page ?? null}&pageSize=${pageSize ?? null}&sortBy=${sortBy ?? null}&search=${search ?? null}`;
     return axios.post(url, {
         filters: {
@@ -47,8 +47,8 @@ export const deleteBoardMeeting = async (id, token) => {
     );
 };
 
-export const createBoardMeeting = async (boardmeetingData, token) => {
-    const url = `${apiUrl}/boardmeeting/add`
+export const createBoardMeeting = async (boardmeetingData, boardMeetingFor, boardMeetingForID, token) => {
+    const url = `${apiUrl}/boardmeeting/add?${boardMeetingFor}=${boardMeetingForID}`
     return toast.promise(
         axios.post(url, boardmeetingData, {
             headers: { authorization: token || localToken },

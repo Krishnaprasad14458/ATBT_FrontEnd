@@ -17,6 +17,7 @@ import {
   useNavigation,
   useParams,
   useSubmit,
+  useOutletContext
 } from 'react-router-dom';
 
 import atbtApi from '../../../serviceLayer/interceptor';
@@ -26,10 +27,10 @@ import GateKeeper from '../../../rbac/GateKeeper';
 import { debounce } from '../../../utils/utils';
 import Swal from 'sweetalert2';
 
-
+let url;
 export async function loader({ request, params }) {
   try {
-    let url = new URL(request.url);
+    url = new URL(request.url);
     const [meetings, entityList, roleList, meetingFormData] = await Promise.all(
       [
         atbtApi.post(`boardmeeting/list${url?.search ? url?.search : ''}`, {}),
@@ -71,6 +72,10 @@ export async function action({ request, params }) {
 }
 
 function Boardmeeting() {
+  const moduleName = useOutletContext()
+  console.log("moduleName", moduleName)
+  const { id } = useParams()
+  console.log("hi", id)
   document.title = 'ATBT | BoardMeeting';
   const navigation = useNavigation();
   let submit = useSubmit();

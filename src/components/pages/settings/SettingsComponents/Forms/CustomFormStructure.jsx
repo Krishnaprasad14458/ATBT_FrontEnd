@@ -329,9 +329,11 @@ const CustomFormStructure = () => {
   ];
   const handleSubmitCustomForm = async () => {
     let formData = {
-      arrayOfObjects: customForm,
+      arrayOfObjects:
+        customForm,
       Name: formName,
-      Tableview: tableView,
+      Tableview: tableView
+
     };
     await saveCustomForm(formData);
     console.log('formName', formData);
@@ -457,21 +459,20 @@ const CustomFormStructure = () => {
                         </div>
                       </div>
                       <div className='flex gap-3 md:gap-10'>
-                           {/* up and down moving icons */}
+                        {/* up and down moving icons */}
 
-                           <svg
+                        <svg
                           disabled={
                             input.field === 'predefined' ||
                             (input.field === 'custom' &&
                               customForm[index - 1]?.field === 'predefined')
                           }
-                          className={`${
-                            input.field === 'predefined' ||
+                          className={`${input.field === 'predefined' ||
                             (input.field === 'custom' &&
                               customForm[index - 1]?.field === 'predefined')
-                              ? 'text-gray-400 cursor-not-allowed'
-                              : ''
-                          } w-5 h-5`}
+                            ? 'text-gray-400 cursor-not-allowed'
+                            : ''
+                            } w-5 h-5`}
                           onClick={() => {
                             if (
                               !(
@@ -500,13 +501,12 @@ const CustomFormStructure = () => {
                             (input.field === 'custom' &&
                               customForm?.length === index + 1)
                           }
-                          className={`${
-                            input.field === 'predefined' ||
+                          className={`${input.field === 'predefined' ||
                             (input.field === 'custom' &&
                               customForm?.length === index + 1)
-                              ? 'text-gray-400 cursor-not-allowed'
-                              : ''
-                          } w-5 h-5 `}
+                            ? 'text-gray-400 cursor-not-allowed'
+                            : ''
+                            } w-5 h-5 `}
                           onClick={() => {
                             if (
                               !(
@@ -617,7 +617,7 @@ const CustomFormStructure = () => {
                           )}
                         </svg>
                         <div className='text-body text-darkSlate01'>
-                      
+
                           Mandatory
                         </div>
                       </div>
@@ -687,10 +687,10 @@ const CustomFormStructure = () => {
         as={Fragment}
       >
         <Dialog
-           as='div'
-           className='fixed inset-0 z-10 overflow-y-auto'
-           initialFocus={cancelButtonRef}
-           onClose={setOpen}
+          as='div'
+          className='fixed inset-0 z-10 overflow-y-auto'
+          initialFocus={cancelButtonRef}
+          onClose={setOpen}
         >
           <Transition.Child
             as={Fragment}
@@ -806,10 +806,10 @@ const CustomFormStructure = () => {
                           newInputField.options.type === 'custom' && (
                             <div>
                               <p className='text-xs   ms-16 md:ms-0 md:justify-center '>
-                            
+
                                 Add options for &nbsp;
                                 <span className='font-semibold text-xs'>
-                              
+
                                   multi select
                                 </span>
                               </p>
@@ -849,7 +849,7 @@ const CustomFormStructure = () => {
                                 )}
                               </div>
                               <div className='ps-2 py-2'>
-                            
+
                                 {newInputField.options.type === 'custom' &&
                                   newInputField.options.value &&
                                   newInputField.options.value.length > 0 && (
@@ -1137,75 +1137,62 @@ export default CustomFormStructure;
 // }
 
 ///////////////////////////////////////// board meeting
-// [
+//  [
 //   {
-//       "label": "Name",
-//       "inputname": "name",
-//       "type": "text",
-//       "value": "",
-//       "field": "predefined",
-//       "mandatory": true,
-//       "filterable": true
-//   },
-//    {
-//       "label": "Serial Number",
-//       "inputname": "serialnumber",
-//       "type": "number",
-//       "value": "",
-//       "field": "predefined",
-//       "mandatory": true,
-//       "filterable": true
+//     "label": "Board Meeting Number",
+//     "inputname": "meetingnumber",
+//     "type": "number",
+//     "value": "",
+//     "field": "predefined",
+//     "mandatory": true,
+//     "filterable": true
 //   },
 //   {
-//       "label": "Select a Date",
-//       "inputname": "date",
-//       "type": "date",
-//       "value": "",
-//       "field": "predefined",
-//       "mandatory": true,
-//       "filterable": true
+//     "label": "Select a Date",
+//     "inputname": "date",
+//     "type": "date",
+//     "value": "",
+//     "field": "predefined",
+//     "mandatory": true,
+//     "filterable": true
 //   },
 //   {
-//       "label": "Description",
-//       "inputname": "description",
-//       "type": "textarea",
-//       "value": "",
-//       "field": "predefined",
-//       "mandatory": false,
-//       "filterable": false
+//     "label": "Description",
+//     "inputname": "description",
+//     "type": "textarea",
+//     "value": "",
+//     "field": "predefined",
+//     "mandatory": false,
+//     "filterable": false
 //   },
 //   {
-//       "label": "Add Invitees",
-//       "inputname": "members",
-//       "type": "multiselect",
-//       "value": [],
-//       "field": "predefined",
-//       "mandatory": true,
-//       "filterable": false,
-//       "options": {
-//                     "type":"predefined","value":"users"
-//                   }
+//     "label": "Add Invitees",
+//     "inputname": "members",
+//     "type": "multiselect",
+//     "value": [],
+//     "field": "predefined",
+//     "mandatory": true,
+//     "filterable": false,
+//     "options": {
+//       "type": "predefined", "value": "users"
+//     }
 //   }
-// ]
+// ],
 
 /////////////////////// predefined tableview
 // {
-//   "name": {
-//       "label": "Name",
-//       "value": true,
-//       "type":"text"
-//   },
-//    "serialnumber": {
-//       "label": "Serial Number",
-//       "value": true,
-//       "type":"number"
+
+//   "meetingnumber": {
+//     "label": "Board Meeting Number",
+//     "value": true,
+//     "type": "number"
 //   },
 //   "date": {
-//       "label": "Select a Date",
-//       "value": true,
-//       "type":"date"
+//     "label": "Select a Date",
+//     "value": true,
+//     "type": "date"
 //   }
-// }
+// },
 ///////////////team form
 
 //[
