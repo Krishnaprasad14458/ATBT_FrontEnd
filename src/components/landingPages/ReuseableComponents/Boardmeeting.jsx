@@ -17,6 +17,7 @@ import {
   useNavigation,
   useParams,
   useSubmit,
+  useOutletContext
 } from 'react-router-dom';
 
 import atbtApi from '../../../serviceLayer/interceptor';
@@ -26,10 +27,10 @@ import GateKeeper from '../../../rbac/GateKeeper';
 import { debounce } from '../../../utils/utils';
 import Swal from 'sweetalert2';
 
-
+let url;
 export async function loader({ request, params }) {
   try {
-    let url = new URL(request.url);
+    url = new URL(request.url);
     const [meetings, entityList, roleList, meetingFormData] = await Promise.all(
       [
         atbtApi.post(`boardmeeting/list${url?.search ? url?.search : ''}`, {}),
@@ -71,8 +72,10 @@ export async function action({ request, params }) {
 }
 
 function Boardmeeting() {
+  const moduleName = useOutletContext()
+  console.log("moduleName", moduleName)
   const { id } = useParams()
-  console.log("hi",id)
+  console.log("hi", id)
   document.title = 'ATBT | BoardMeeting';
   const navigation = useNavigation();
   let submit = useSubmit();
@@ -249,7 +252,7 @@ function Boardmeeting() {
           />
           <Link to={{
             pathname: "/boardmeetings/new",
-            search: `?entity=${id}`
+            search: `?boardmeetingFor=${moduleName}&boardmeetingForID=${id}`
           }}>
             <button className=' px-2 inline-flex items-center justify-center whitespace-nowrap rounded-full text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground  hover:bg-primary/90 shrink-0 text-white gap-1'>
               <svg
