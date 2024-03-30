@@ -523,7 +523,7 @@ function BoardMeetingForm() {
               customFormFields.map((item, index) => (
                 <div key={index}>
                   {/* predefined fields */}
-                  {item.type === 'text' &&
+                  {/* {item.type === 'text' &&
                     item.inputname == 'name' &&
                     item.field === 'predefined' && (
                       <div>
@@ -557,9 +557,9 @@ function BoardMeetingForm() {
                           )}
                         </div>
                       </div>
-                    )}
+                    )} */}
                   {item.type === 'number' &&
-                    item.inputname == 'serialnumber' &&
+                    item.inputname == 'meetingnumber' &&
                     item.field == 'predefined' && (
                       <div>
                         <label
