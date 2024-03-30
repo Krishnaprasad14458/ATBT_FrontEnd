@@ -1,60 +1,41 @@
-import React, {
-  useState,
-
-  useEffect,
-  useContext,
-} from 'react';
+import React, { useState, useEffect, useContext, } from 'react';
 import '../LandingPageCommon.css';
-
-
 import { NavLink, Link, Outlet, useParams, useLocation } from 'react-router-dom';
-
 import { BoardMeetingsDataContext } from '../../../contexts/boardmeetingsDataContext/boardmeetingsDataContext';
 import axios from 'axios';
-
-
-
 const BoardMeetingLandingPage = () => {
-
   const {
     getBoardMeetingbyId,
     boardmeetingsState: { boardmeetings },
   } = useContext(BoardMeetingsDataContext);
   const { id } = useParams();
   const [singleProduct, setSingleProduct] = useState({});
-
   // For tabs active
   const getSingleProduct = async () => {
     try {
       const boardmeetingById = boardmeetings?.BoardMeetings?.find(
         (element) => element.id === +id
-      );
-      if (!boardmeetingById) {
+       );
+       if (!boardmeetingById){
         const product = await getBoardMeetingbyId(id);
         setSingleProduct(product?.data?.BoardMeetings);
-      } else {
+       } 
+       else {
         setSingleProduct(boardmeetingById);
-      }
-    } catch (e) {
+       }
+     } catch (e) {
       console.error(e);
       throw e;
-    }
+     }
   };
   useEffect(() => {
     getSingleProduct();
   }, [id]);
-
-
-
-
   // ---full screen
-
   let [customFormField, setCustomFormField] = useState();
-
   const userData = JSON.parse(localStorage.getItem('data'));
   const token = userData?.token;
   let response;
-
   useEffect(() => {
     axios
       .get(`https://atbtbeta.infozit.com/boardmeeting/list/${id}`, {
@@ -66,7 +47,7 @@ const BoardMeetingLandingPage = () => {
         // Handle the successful response
         response = res;
         console.log('response', response.data.image);
-      
+
         setCustomFormField(response.data.customFieldsData);
       })
       .catch((error) => {
@@ -77,9 +58,6 @@ const BoardMeetingLandingPage = () => {
   useEffect(() => {
     console.log('customFormField', customFormField);
   }, [customFormField]);
-
-
-
   return (
     <div className='container p-4 bg-[#f8fafc]'>
       <div className='flex justify-between my-2'>
@@ -96,7 +74,6 @@ const BoardMeetingLandingPage = () => {
         </div>
       </div>
       <div className='flex overflow-auto'>
-
         <NavLink
           to='task'
           end
@@ -105,18 +82,9 @@ const BoardMeetingLandingPage = () => {
               ? 'cursor-pointer px-4 py-1 text-md font-semibold'
               : isActive
                 ? 'border-b-2 border-orange-600 text-black cursor-pointer px-4 py-1 text-md font-semibold'
-                : 'cursor-pointer px-4 py-1 text-md font-semibold'
-          }
-        >
+                : 'cursor-pointer px-4 py-1 text-md font-semibold'}>
           Tasks
         </NavLink>
-        {/* <Link to={`boardmeetings`} onClick={() => handleTabClick('boardmeetings')}>
-          <div
-            className={`cursor-pointer px-5  py-1 text-md font-semibold   ${activeTab === 'boardmeetings' ? 'border-b-2 border-orange-600 text-black text-center' : ''
-              }`}>
-            <p className=''>Board Meetings</p>
-          </div>
-        </Link> */}
         <NavLink
           to='documents'
           end
@@ -125,12 +93,9 @@ const BoardMeetingLandingPage = () => {
               ? 'cursor-pointer px-4 py-1 text-md font-semibold'
               : isActive
                 ? 'border-b-2 border-orange-600 text-black cursor-pointer px-4 py-1 text-md font-semibold'
-                : 'cursor-p px-4 py-1 text-md font-semibold'
-          }
-        >
+                : 'cursor-p px-4 py-1 text-md font-semibold'}>
           Documents
         </NavLink>
-
         <NavLink
           to='.'
           end
@@ -139,12 +104,9 @@ const BoardMeetingLandingPage = () => {
               ? 'cursor-pointer px-4 py-1 text-md font-semibold'
               : isActive
                 ? 'border-b-2 border-orange-600 text-black cursor-pointer px-4 py-1 text-md font-semibold'
-                : 'cursor-pointer px-4 py-1 text-md font-semibold'
-          }
-        >
+                : 'cursor-pointer px-4 py-1 text-md font-semibold'}>
           Overview
         </NavLink>
-
       </div>
       <hr />
       <Outlet />

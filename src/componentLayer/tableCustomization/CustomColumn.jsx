@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import atbtApi from '../../serviceLayer/interceptor';
 import { useFetcher, useLoaderData } from 'react-router-dom';
 import axios from 'axios';
-
 function CustomColumn({ tableView, setTableView, form }) {
   console.log(tableView, 'custom tableView');
   const [dupTableView, setDupTableView] = useState(tableView);
@@ -17,11 +16,9 @@ function CustomColumn({ tableView, setTableView, form }) {
     }));
   };
   const [columnsDrawerOpen, setColumnsDrawerOpen] = useState(false);
-
   const columnsDrawer = () => {
     setColumnsDrawerOpen(!columnsDrawerOpen);
   };
-
   const handleColumnsApply = () => {
     setTableView(dupTableView);
     return columnsDrawer();
@@ -55,7 +52,6 @@ function CustomColumn({ tableView, setTableView, form }) {
     }
     return columnsDrawer();
   };
-
   return (
     <>
       {/* <h1>Columns apply</h1> */}
@@ -65,9 +61,7 @@ function CustomColumn({ tableView, setTableView, form }) {
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
           <path d="M14 17h2.75A2.25 2.25 0 0 0 19 14.75v-9.5A2.25 2.25 0 0 0 16.75 3H14v14ZM12.5 3h-5v14h5V3ZM3.25 3H6v14H3.25A2.25 2.25 0 0 1 1 14.75v-9.5A2.25 2.25 0 0 1 3.25 3Z" />
         </svg>
-
       </button>
-
       {/* for coloumns open */}
       <div
         className={`fixed inset-0 bg-gray-800 bg-opacity-50 z-10 ${columnsDrawerOpen ? '' : 'opacity-0 pointer-events-none'
@@ -101,7 +95,6 @@ function CustomColumn({ tableView, setTableView, form }) {
               </svg>
             </button>
           </div>
-
           <div
             className='overflow-y-auto px-4 py-2.5 content'
             style={{ maxHeight: 'calc(100vh - 8rem)' }}
@@ -157,5 +150,4 @@ function CustomColumn({ tableView, setTableView, form }) {
     </>
   );
 }
-
 export default CustomColumn;

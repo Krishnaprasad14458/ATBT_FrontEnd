@@ -1,15 +1,9 @@
 import React, { useEffect, useState } from 'react';
-
 function CustomFilter({
-  fieldsDropDownData = {},
-  Qparams,
-  setQParams,
-  customForm,
-}) {
+  fieldsDropDownData = {}, Qparams, setQParams, customForm, }) {
   const [selectedFilters, setSelectedFilters] = useState({});
   const [filterDrawerOpen, setFilterDrawerOpen] = useState(false);
   const [filterableInputsInBox, setFilterableInputsInBox] = useState();
-
   useEffect(() => {
     const filterableInputsInBox = customForm
       .filter(
@@ -18,8 +12,7 @@ function CustomFilter({
           (obj.type === 'select' ||
             obj.type === 'date' ||
             obj.type === 'time' ||
-            obj.type === 'multiselect')
-      )
+            obj.type === 'multiselect'))
       .map((obj) => ({
         inputname: obj.inputname,
         label: obj.label,
@@ -41,10 +34,8 @@ function CustomFilter({
         label: obj.label,
         type: obj.type,
       }));
-
     setFilterableInputsInBox(filterableInputsInBox);
   }, [customForm]);
-
   function handlefilters() {
     setQParams({
       ...Qparams,
@@ -52,14 +43,12 @@ function CustomFilter({
     });
     setFilterDrawerOpen(!filterDrawerOpen);
   }
-
   const handleFilterChange = (filterName, selectedValue) => {
     setSelectedFilters((prevState) => ({
       ...prevState,
       [filterName]: selectedValue,
     }));
   };
-
   const handleFilterReset = () => {
     setSelectedFilters({});
     setQParams({
@@ -69,11 +58,9 @@ function CustomFilter({
     });
     setFilterDrawerOpen(!filterDrawerOpen);
   };
-
   const filterDrawer = () => {
     setFilterDrawerOpen(!filterDrawerOpen);
   };
-
   return (
     <>
       <button
@@ -96,9 +83,8 @@ function CustomFilter({
       </button>
       {/* for filter open */}
       <div
-        className={`fixed inset-0 bg-gray-800 bg-opacity-50 z-10 ${
-          filterDrawerOpen ? '' : 'opacity-0 pointer-events-none'
-        }`}
+        className={`fixed inset-0 bg-gray-800 bg-opacity-50 z-10 ${filterDrawerOpen ? '' : 'opacity-0 pointer-events-none'
+          }`}
         style={{ transition: 'opacity 0.3s ease-in-out' }}
       >
         <div
@@ -233,5 +219,4 @@ function CustomFilter({
     </>
   );
 }
-
 export default CustomFilter;

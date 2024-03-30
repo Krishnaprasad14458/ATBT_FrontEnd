@@ -1,18 +1,11 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import {
-  Link,
-  useFetcher,
-  useLoaderData,
-  useNavigation,
-  useSubmit,
-} from 'react-router-dom';
+import { Link, useFetcher, useLoaderData, useNavigation, useSubmit } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import { debounce } from '../../../utils/utils';
 import GateKeeper from '../../../rbac/GateKeeper';
 import CustomColumn from '../../../componentLayer/tableCustomization/CustomColumn';
 import CustomFilter from '../../../componentLayer/tableCustomization/CustomFilter';
 import atbtApi from '../../../serviceLayer/interceptor';
-
 export async function loader({ request, params }) {
   try {
     let url = new URL(request.url);
@@ -41,7 +34,6 @@ export async function loader({ request, params }) {
     throw error;
   }
 }
-
 export async function action({ request, params }) {
   switch (request.method) {
     case 'DELETE': {
@@ -54,7 +46,6 @@ export async function action({ request, params }) {
     }
   }
 }
-
 function BoardMeetings() {
   document.title = 'ATBT | BoardMeeting';
   const navigation = useNavigation();
@@ -98,13 +89,11 @@ function BoardMeetings() {
       pageSize: selectedValue,
     });
   };
-
   useEffect(() => {
     if (fetcher.state === 'idle' && !fetcher.data) {
       fetcher.load('.');
     }
   }, [fetcher, navigation]);
-
   const handleDeleteUser = async (id) => {
     const confirmDelete = await Swal.fire({
       title: 'Are you sure?',
@@ -120,7 +109,6 @@ function BoardMeetings() {
         content: 'custom-swal2-content',
       },
     });
-
     if (confirmDelete.isConfirmed) {
       try {
         fetcher.submit(id, { method: 'DELETE', encType: 'application/json' });
@@ -129,9 +117,7 @@ function BoardMeetings() {
       }
     }
   };
-
   const [tableView, setTableView] = useState(tableViewData);
-
   const [visibleColumns, setvisibleColumns] = useState();
   useEffect(() => {
     let visibleColumns = Object.keys(tableView || {}).filter(
@@ -139,7 +125,6 @@ function BoardMeetings() {
     );
     setvisibleColumns(visibleColumns);
   }, [tableView]);
-
   function formatTime(timeString) {
     const [hourStr, minuteStr] = timeString.split(':');
     const hours = parseInt(hourStr, 10);
@@ -153,7 +138,6 @@ function BoardMeetings() {
     const formattedTime = `${formattedHours}:${formattedMinutes} ${ampm}`;
     return formattedTime;
   }
-
   return (
     <div className='overflow-x-auto p-3'>
       {/* search & filter */}
@@ -162,8 +146,7 @@ function BoardMeetings() {
         <div className='grid1-item mx-3 text-start'>
           <label
             for='default-search'
-            className='mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white'
-          >
+            className='mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white'>
             Search
           </label>
           <div className='relative'>
@@ -209,7 +192,6 @@ function BoardMeetings() {
           />
         </div>
       </div>
-
       {/* table */}
       <div className='max-h-[457px] overflow-y-scroll mt-5'>
         {visibleColumns && tableView && meetings?.Meetings && (
@@ -290,11 +272,9 @@ function BoardMeetings() {
                         ];
 
                         // Formatting the date
-                        value = `${day < 10 ? '0' : ''}${day}-${
-                          monthAbbreviations[monthIndex]
-                        }-${year}`;
+                        value = `${day < 10 ? '0' : ''}${day}-${monthAbbreviations[monthIndex]
+                          }-${year}`;
                       }
-
                       if (key === 'name') {
                         return (
                           <td
@@ -444,7 +424,6 @@ function BoardMeetings() {
           </table>
         )}
       </div>
-
       {/* pagination */}
       <div className='inset-x-0 bottom-0 mt-5'>
         <div className='md:flex md:justify-between block text-end'>
@@ -480,13 +459,12 @@ function BoardMeetings() {
             <button
               disabled={meetings.currentPage === 1}
               onClick={() => handlePage(meetings?.currentPage - 1)}
-              className={`relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${
-                meetings.loading
-                  ? 'cursor-wait'
-                  : meetings.currentPage === 1
+              className={`relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${meetings.loading
+                ? 'cursor-wait'
+                : meetings.currentPage === 1
                   ? 'cursor-not-allowed'
                   : 'cursor-auto'
-              }`}
+                }`}
             >
               <span className='sr-only'>Previous</span>
               <svg
@@ -509,13 +487,12 @@ function BoardMeetings() {
             <button
               disabled={meetings.currentPage === meetings.totalPages}
               onClick={() => handlePage(meetings?.currentPage + 1)}
-              className={`relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${
-                meetings.loading
-                  ? 'cursor-wait'
-                  : meetings.currentPage === meetings.totalPages
+              className={`relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${meetings.loading
+                ? 'cursor-wait'
+                : meetings.currentPage === meetings.totalPages
                   ? 'cursor-not-allowed'
                   : 'cursor-auto'
-              }`}
+                }`}
             >
               <span className='sr-only'>Next</span>
               <svg
@@ -538,5 +515,4 @@ function BoardMeetings() {
     </div>
   );
 }
-
 export default BoardMeetings;
