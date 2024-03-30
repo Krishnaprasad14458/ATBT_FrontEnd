@@ -233,7 +233,7 @@ function Boardmeeting() {
             />
           </div>
         </div>
-        <div className='grid1-item text-end md:flex md:justify-end filter_pagination divide-x-2  h-8'>
+        <div className='grid1-item text-end md:flex md:justify-end filter_pagination divide-x-2 '>
 
           <CustomColumn
             tableView={tableView}
