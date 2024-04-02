@@ -363,7 +363,7 @@ function Teams() {
                             type='button'
                             className=' inline-flex items-center gap-x-1 text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600'
                           >
-                            <Link to={`${row.id}/overview`}>
+                            <Link to={`${row.id}`}>
                               <svg
                                 xmlns='http://www.w3.org/2000/svg'
                                 viewBox='0 0 20 20'
@@ -470,10 +470,10 @@ function Teams() {
               disabled={teams.currentPage === 1}
               onClick={() => handlePage(teams?.currentPage - 1)}
               className={`relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${teams.loading
-                  ? 'cursor-wait'
-                  : teams.currentPage === 1
-                    ? 'cursor-not-allowed'
-                    : 'cursor-auto'
+                ? 'cursor-wait'
+                : teams.currentPage === 1
+                  ? 'cursor-not-allowed'
+                  : 'cursor-auto'
                 }`}
             >
               <span className='sr-only'>Previous</span>
@@ -498,10 +498,10 @@ function Teams() {
               disabled={teams.currentPage === teams.totalPages}
               onClick={() => handlePage(teams?.currentPage + 1)}
               className={`relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${teams.loading
-                  ? 'cursor-wait'
-                  : teams.currentPage === teams.totalPages
-                    ? 'cursor-not-allowed'
-                    : 'cursor-auto'
+                ? 'cursor-wait'
+                : teams.currentPage === teams.totalPages
+                  ? 'cursor-not-allowed'
+                  : 'cursor-auto'
                 }`}
             >
               <span className='sr-only'>Next</span>

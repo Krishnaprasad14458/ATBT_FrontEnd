@@ -166,7 +166,7 @@ const EntityLandingPage = () => {
       </div>
       <hr />
 
-      <Outlet context={moduleName}/>
+      <Outlet context={moduleName} />
     </div>
   );
 };

@@ -9,38 +9,20 @@ import Teams, { loader as teamLoader } from "../../components/pages/teams/Teams"
 import RouteBlocker from "../../rbac/RouteBlocker";
 
 
-
 export const teamRouter = [
+    { index: true, loader: teamLoader, element: <Teams />, },
+    { path: 'new', loader: teamFormLoader, element: <TeamsForm /> },
     {
-        element: <RouteBlocker permissionCheck={(permission) =>
-            permission.module === 'team' && permission.canRead} />,
-        children: [
-            { index: true, loader: teamLoader, element: <Teams />, },
+        path: ':id', children: [
+            { path: 'edit', loader: teamFormLoader, element: <TeamsForm /> },
             {
-                path: ':id', element: <TeamsLandingPage />
-                , children: [
-                    { path: 'overview', element: <TeamsOverview /> },
+                element: <TeamsLandingPage />, children: [
+                    { index: true, element: <TeamsOverview /> },
                     { path: 'task', element: <Task /> },
-                    // { path: 'boardmeetings', element: <Boardmeeting /> },
                     { path: 'boardmeetings', loader: entityMeetingLoader, action: entityMeetingAction, element: <Boardmeeting /> },
-
                     { path: 'documents', element: <Documents /> },
                 ]
-            },
-        ]
-    },
-    {
-        element: <RouteBlocker permissionCheck={(permission) =>
-            permission.module === 'team' && permission.canCreate} />,
-        children: [
-            { path: 'new', loader: teamFormLoader, element: <TeamsForm /> },
-        ]
-    },
-    {
-        element: <RouteBlocker permissionCheck={(permission) =>
-            permission.module === 'team' && permission.canUpdate} />,
-        children: [
-            { path: ':id/edit', loader: teamFormLoader, element: <TeamsForm /> },
+            }
         ]
     },
 ]
