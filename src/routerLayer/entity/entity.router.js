@@ -9,33 +9,19 @@ import Entities, { action as entityAction, loader as entityLoader } from "../../
 import RouteBlocker from "../../rbac/RouteBlocker";
 
 export const entityRouter = [
+    { index: true, loader: entityLoader, action: entityAction, element: <Entities />, },
+    { path: 'new', loader: entityFormLoader, element: <EntityForm /> },
     {
-        element: <RouteBlocker permissionCheck={(permission) =>
-            permission.module === 'entity' && permission.canRead} />,
-        children: [
-            { index: true, loader: entityLoader, action: entityAction, element: <Entities />, },
+        path: ':id', children: [
+            { path: 'edit', loader: entityFormLoader, element: <EntityForm /> },
             {
-                path: ':id', element: <EntityLandingPage />, children: [
-                    { path: 'overview', element: <Overview /> },
+                element: <EntityLandingPage />, children: [
+                    { index: true, element: <Overview /> },
                     { path: 'task', element: <Task /> },
                     { path: 'boardmeetings', loader: entityMeetingLoader, action: entityMeetingAction, element: <Boardmeeting /> },
                     { path: 'documents', element: <Documents /> },
                 ]
-            },
-        ]
-    },
-    {
-        element: <RouteBlocker permissionCheck={(permission) =>
-            permission.module === 'entity' && permission.canCreate} />,
-        children: [
-            { path: 'new', loader: entityFormLoader, element: <EntityForm /> },
-        ]
-    },
-    {
-        element: <RouteBlocker permissionCheck={(permission) =>
-            permission.module === 'entity' && permission.canUpdate} />,
-        children: [
-            { path: ':id/edit', loader: entityFormLoader, element: <EntityForm /> },
+            }
         ]
     },
 ]
