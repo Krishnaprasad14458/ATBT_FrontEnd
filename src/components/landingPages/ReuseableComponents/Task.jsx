@@ -81,6 +81,7 @@ const Task = () => {
                             viewBox='0 0 20 20'
                             fill='currentColor'
                             className='w-5 h-5 '
+
                         >
                             <path d='M10.75 4.75a.75.75 0 0 0-1.5 0v4.5h-4.5a.75.75 0 0 0 0 1.5h4.5v4.5a.75.75 0 0 0 1.5 0v-4.5h4.5a.75.75 0 0 0 0-1.5h-4.5v-4.5Z' />
                         </svg>
@@ -92,25 +93,28 @@ const Task = () => {
                         <tr>
                             <th
                                 scope='col'
-                                className='py-2 px-2  text-sm text-white bg-orange-600    border-[#e5e7eb] '
+                                className='py-2 px-2  text-sm text-white bg-orange-600 border border-collapse border-[#e5e7eb] whitespace-nowrap '
                             >
                                 Decision Taken
                             </th>
                             <th
                                 scope='col'
-                                className='py-2 px-2  text-sm text-white bg-orange-600     border border-collapse border-[#e5e7eb]'
+                                className='py-2 px-2  text-sm text-white bg-orange-600 border border-collapse border-[#e5e7eb]
+                                whitespace-nowrap'
                             >
                                 Person Responsible
                             </th>
                             <th
                                 scope='col'
-                                className='py-2 px-2  text-sm text-white bg-orange-600    border border-collapse border-[#e5e7eb] '
+                                className='py-2 px-2  text-sm text-white bg-orange-600 border border-collapse border-[#e5e7eb] 
+                                whitespace-nowrap'
                             >
                                 Due Date
                             </th>
                             <th
                                 scope='col'
-                                className='py-2 px-2  text-sm text-white bg-orange-600   border border-collapse border-[#e5e7eb] '
+                                className='py-2 px-2  text-sm text-white bg-orange-600 border border-collapse border-[#e5e7eb] 
+                                whitespace-nowrap'
                             >
                                 Date of Board Meeting
                             </th>
@@ -118,88 +122,95 @@ const Task = () => {
 
                             <th
                                 scope='col'
-                                className='py-2 px-2  text-sm text-white bg-orange-600   border border-collapse  border-[#e5e7eb]'
+                                className='py-2 px-2  text-sm text-white bg-orange-600   border border-collapse  border-[#e5e7eb]
+                                whitespace-nowrap'
                             >
-                                Board Meeting
+                                Board Meeting No.
                             </th>
 
                             <th
                                 scope='col'
-                                className='py-2 px-2  text-sm text-white bg-orange-600    border border-collapse border-[#e5e7eb] '
+                                className='py-2 px-2  text-sm text-white bg-orange-600    border border-collapse border-[#e5e7eb] 
+                                whitespace-nowrap'
                             >
                                 Status
                             </th>
                             <th
                                 scope='col'
-                                className='py-2  px-2  text-sm text-white bg-orange-600    border border-collapse border-[#e5e7eb] '
+                                className='py-2  px-2  text-sm text-white bg-orange-600    border border-collapse border-[#e5e7eb] 
+                                whitespace-nowrap'
                             >
                                 Updated By User
                             </th>
                             <th
                                 scope='col'
-                                className='py-2 px-2  text-sm text-white bg-orange-600   border border-collapse border-[#e5e7eb] '
+                                className='py-2 px-2  text-sm text-white bg-orange-600   border border-collapse border-[#e5e7eb] whitespace-nowrap'
                             >
                                 Updated by Admin{' '}
                             </th>
                         </tr>
                     </thead>
                     <tbody className=''>
+                        {/* className={`border text-center  text-sm 
+                                 ${activeInputIndex === index && activeInputName === "duedate" ? " border-2 border-slate-300" : " border border-slate-200 "}`} */}
                         {tasks?.map((task, index) => (
                             <tr key={index} >
-                                <td className={`border text-center  text-sm  
-                                 ${activeInputIndex === index && activeInputName === "taskname" ? " border-2 border-slate-300" : " border border-slate-200 "}`} style={{ maxWidth: '360px' }}>
+                                <td className={`border-l border-b text-center flex  justify-evenly items-center text-sm py-1.5 px-0.5`}
+                                >
+                                    <span className='shadow_box p-1 rounded-sm' onClick={handleOverViewNewTask}><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 " >
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
+                                    </svg></span>
                                     <input
-                                        className='outline-none text-black  truncate  py-2 bg-[#f8fafc]'
+                                        className='outline-none text-black  truncate px-1.5 py-1 rounded-md shadow_box  me-2 bg-[#f8fafc] '
                                         type='text'
                                         value={task.taskname}
                                         onChange={(e) => handleEditTask(index, "taskname", e)}
                                         onClick={() => handleActiveInput(index, "taskname")}
-
+                                        placeholder='Decision Taken'
                                         title={task.taskname} />
+
+
                                 </td>
-                                <td className={`border text-center  text-sm  
-                                 ${activeInputIndex === index && activeInputName === "assignee" ? " border-2 border-slate-300" : " border border-slate-200 "}`} style={{ maxWidth: '260px' }}>
+                                <td
+                                    className={`border text-center  text-sm ps-1.5 `} >
                                     <input
-                                        className='outline-none text-black  truncate py-2 bg-[#f8fafc]'
+                                        className='outline-none text-black  truncate px-1.5 py-1 rounded-md shadow_box  me-2 bg-[#f8fafc] '
                                         type='text'
                                         value={task.assignee}
                                         onChange={(e) => handleEditTask(index, "assignee", e)}
                                         onClick={() => handleActiveInput(index, "assignee")}
-
+                                        placeholder='Person Reponsible'
                                         title={task.assignee} />
                                 </td>
-                                <td className={`border text-center  text-sm 
-                                 ${activeInputIndex === index && activeInputName === "duedate" ? " border-2 border-slate-300" : " border border-slate-200 "}`}>
+                                <td className={`border text-center  text-sm ps-1.5`}>
                                     <input
-                                        className='outline-none text-black truncate  py-2 bg-[#f8fafc]'
-                                        type='text'
+                                        className='outline-none text-black  truncate px-1.5 py-1 rounded-md shadow_box  me-2 bg-[#f8fafc] '
+                                        type='date'
                                         value={task.duedate}
                                         onChange={(e) => handleEditTask(index, "duedate", e)}
                                         onClick={() => handleActiveInput(index, "duedate")}
-                                        style={{ maxWidth: '110px' }}
+                                        style={{ maxWidth: '120px' }}
                                         title={task.duedate} />
                                 </td>
-                                <td className={`border text-center  text-sm 
-                                 ${activeInputIndex === index && activeInputName === "dateOfBoardMeeting" ? " border-2 border-slate-300" : " border border-slate-200 "}`}>
-                                    <input
-                                        className='outline-none text-black truncate  py-2 bg-[#f8fafc]'
+                                <td className={`border text-center  text-sm `}>
+                                    {/* <input
+                                        className='outline-none text-black  truncate px-1.5 py-1 rounded-md shadow_box  me-2 bg-[#f8fafc] '
                                         type='text'
                                         value={task.dateOfBoardMeeting}
                                         onChange={(e) => handleEditTask(index, "dateOfBoardMeeting", e)}
                                         onClick={() => handleActiveInput(index, "dateOfBoardMeeting")}
 
-                                        title={task.dateOfBoardMeeting} />
+                                        title={task.dateOfBoardMeeting} /> */}
+                                    dateOfBoardMeeting
                                 </td>
-                                <td className={`border text-center  text-sm 
-                                 ${activeInputIndex === index && activeInputName === "boardMeetingNo" ? " border-2 border-slate-300" : " border border-slate-200 "}`}>
-                                    <input
-                                        className='outline-none text-black truncate  py-2 bg-[#f8fafc]'
-                                        type='text'
+                                <td className={`border text-center  text-sm `}>
+                                    {/* <input
+                                        className='outline-none text-black  truncate px-1.5 py-1 rounded-md shadow_box  me-2 bg-[#f8fafc] ' type='text'
                                         value={task.boardMeetingNo}
                                         onChange={(e) => handleEditTask(index, "boardMeetingNo", e)}
                                         onClick={() => handleActiveInput(index, "boardMeetingNo")}
                                         style={{ maxWidth: '110px' }}
-                                        title={task.boardMeetingNo} />
+                                        title={task.boardMeetingNo} /> */}
                                 </td>
                                 <td className={`border text-center  text-sm 
                                  ${activeInputIndex === index && activeInputName === "status" ? " border-2 border-slate-300" : " border border-slate-200 "}`}>
