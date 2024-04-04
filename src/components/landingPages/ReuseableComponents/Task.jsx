@@ -15,10 +15,7 @@ function classNames(...classes) {
     return classes.filter(Boolean).join(' ');
 }
 const Task = () => {
-
     const { id } = useParams();
-
-
     // ----toggleDrawer-------
     const [isOpen, setIsOpen] = useState(false);
     const toggleDrawer = () => {
@@ -47,7 +44,6 @@ const Task = () => {
             ...prevTasks
         ]);
     };
-
     const handleEditTask = (index, fieldName, e) => {
         const { name, value } = e.target;
         const updatedTasks = tasks.map((task, idx) => {
@@ -69,10 +65,8 @@ const Task = () => {
         setActiveInputIndex(index)
         setActiveInputName(name)
     }
-
     return (
         <div className=''>
-
             <div className='overflow-x-auto'>
                 <div className='flex justify-end'>
                     <button className=' ms-2 create-btn mt-1 inline-flex items-center justify-center whitespace-nowrap rounded-2xl text-sm font-medium  transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50  text-orange-foreground shadow hover:bg-orange/90 h-9 px-3 py-1 shrink-0 bg-orange-600 text-white gap-1' onClick={handleAddNewTask}>
@@ -80,9 +74,7 @@ const Task = () => {
                             xmlns='http://www.w3.org/2000/svg'
                             viewBox='0 0 20 20'
                             fill='currentColor'
-                            className='w-5 h-5 '
-
-                        >
+                            className='w-5 h-5'>
                             <path d='M10.75 4.75a.75.75 0 0 0-1.5 0v4.5h-4.5a.75.75 0 0 0 0 1.5h4.5v4.5a.75.75 0 0 0 1.5 0v-4.5h4.5a.75.75 0 0 0 0-1.5h-4.5v-4.5Z' />
                         </svg>
                         Add Task
@@ -114,17 +106,13 @@ const Task = () => {
                             <th
                                 scope='col'
                                 className='py-2 px-2  text-sm text-white bg-orange-600 border border-collapse border-[#e5e7eb] 
-                                whitespace-nowrap'
-                            >
+                                whitespace-nowrap'>
                                 Date of Board Meeting
                             </th>
-
-
                             <th
                                 scope='col'
                                 className='py-2 px-2  text-sm text-white bg-orange-600   border border-collapse  border-[#e5e7eb]
-                                whitespace-nowrap'
-                            >
+                                whitespace-nowrap'>
                                 Board Meeting No.
                             </th>
 
@@ -142,22 +130,17 @@ const Task = () => {
                             >
                                 Updated By User
                             </th>
-                            <th
-                                scope='col'
-                                className='py-2 px-2  text-sm text-white bg-orange-600   border border-collapse border-[#e5e7eb] whitespace-nowrap'
-                            >
+                            <th scope='col'
+                                className='py-2 px-2  text-sm text-white bg-orange-600   border border-collapse border-[#e5e7eb] whitespace-nowrap'>
                                 Updated by Admin{' '}
                             </th>
                         </tr>
                     </thead>
                     <tbody className=''>
-                        {/* className={`border text-center  text-sm 
-                                 ${activeInputIndex === index && activeInputName === "duedate" ? " border-2 border-slate-300" : " border border-slate-200 "}`} */}
                         {tasks?.map((task, index) => (
                             <tr key={index} >
-                                <td className={`border-l border-b text-center flex  justify-evenly items-center text-sm py-1.5 px-0.5`}
-                                >
-                                    <span className='shadow_box p-1 rounded-sm' onClick={handleOverViewNewTask}><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 " >
+                                <td className={`border-l border-b text-center flex  justify-evenly items-center text-sm py-1.5 px-0.5`}>
+                                    <span className='shadow_box p-1 rounded-sm' onClick={handleOverViewNewTask}><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
                                     </svg></span>
                                     <input
@@ -168,8 +151,6 @@ const Task = () => {
                                         onClick={() => handleActiveInput(index, "taskname")}
                                         placeholder='Decision Taken'
                                         title={task.taskname} />
-
-
                                 </td>
                                 <td
                                     className={`border text-center  text-sm ps-1.5 `} >
@@ -238,8 +219,7 @@ const Task = () => {
                 {/* drawer start */}
                 <div
                     className={`fixed inset-0 transition-all duration-500 bg-gray-800 bg-opacity-50 z-50 ${overViewNewTask ? '' : 'hidden'
-                        }`}
-                >
+                        }`}>
                     <div className='p-3 fixed inset-y-0 right-0 w-1/2 bg-white shadow-lg transform translate-x-0 transition-transform duration-300 ease-in-out'>
                         <div className='flex justify-between'>
                             <p className='text-xs rounded-md border-2 border-gray-100 flex p-1'>
@@ -320,8 +300,7 @@ const Task = () => {
                                     xmlns='http://www.w3.org/2000/svg'
                                     viewBox='0 0 24 24'
                                     fill='currentColor'
-                                    className='me-4 w-5 h-5 text-gray-500'
-                                >
+                                    className='me-4 w-5 h-5 text-gray-500'>
                                     <path
                                         fill-rule='evenodd'
                                         d='M18.97 3.659a2.25 2.25 0 0 0-3.182 0l-10.94 10.94a3.75 3.75 0 1 0 5.304 5.303l7.693-7.693a.75.75 0 0 1 1.06 1.06l-7.693 7.693a5.25 5.25 0 1 1-7.424-7.424l10.939-10.94a3.75 3.75 0 1 1 5.303 5.304L9.097 18.835l-.008.008-.007.007-.002.002-.003.002A2.25 2.25 0 0 1 5.91 15.66l7.81-7.81a.75.75 0 0 1 1.061 1.06l-7.81 7.81a.75.75 0 0 0 1.054 1.068L18.97 6.84a2.25 2.25 0 0 0 0-3.182Z'
@@ -507,8 +486,6 @@ const Task = () => {
                     </div>
                 </div>
                 {/* drawer end */}
-
-
             </div>
         </div >
         // <div className=''>
