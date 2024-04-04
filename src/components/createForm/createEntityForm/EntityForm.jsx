@@ -625,108 +625,7 @@ function EntityForm() {
                         </div>
                       </div>
                     )}
-                  {item.type === 'multiselect' &&
-                    item.inputname == 'members' &&
-                    item.field == 'predefined' && (
-                      <div className='relative'>
-                        <label
-                          htmlFor='email'
-                          className='block text-sm  font-medium leading-6 mt-2 text-gray-900'
-                        >
-                          {item.label}
-                          {item.mandatory ? (
-                            <span className='text-red-600'>*</span>
-                          ) : (
-                            <span> </span>
-                          )}
-                        </label>
-                        <div
-                          className=' 
-                       flex flex-wrap gap-1 px-2 py-2 text-sm  w-full  bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 selected-users-container relative  rounded-md'
-                        >
-                          {selected &&
-                            selected.length > 0 &&
-                            selected.map((result, selectedIndex) => {
-                              let mail = result.email.split('@')[0];
-                              return (
-                                <span className='flex gap-1 text-xs mt-1 border-2 border-gray-200 rounded-md  focus:border-orange-600'>
-                                  {result.image ? (
-                                    <img
-                                      src={
-                                        typeof result.image === 'string'
-                                          ? result.image
-                                          : URL.createObjectURL(result.image)
-                                      }
-                                      name='EntityPhoto'
-                                      alt='Entity Photo'
-                                      className='rounded-lg w-4 h-4 '
-                                    />
-                                  ) : (
-                                    <img
-                                      className='w-4 h-4 rounded-lg '
-                                      src={defprop}
-                                      alt='default image'
-                                    />
-                                  )}
-                                  {mail}
-                                  <svg
-                                    xmlns='http://www.w3.org/2000/svg'
-                                    viewBox='0 0 16 16'
-                                    fill='currentColor'
-                                    className='w-4 h-4 '
-                                    onClick={() =>
-                                      handleRemove(selectedIndex, index)
-                                    }
-                                  >
-                                    <path d='M5.28 4.22a.75.75 0 0 0-1.06 1.06L6.94 8l-2.72 2.72a.75.75 0 1 0 1.06 1.06L8 9.06l2.72 2.72a.75.75 0 1 0 1.06-1.06L9.06 8l2.72-2.72a.75.75 0 0 0-1.06-1.06L8 6.94 5.28 4.22Z' />
-                                  </svg>
-                                </span>
-                              );
-                            })}
-                          <input
-                            type='text'
-                            placeholder='Type email id'
-                            tabindex='0'
-                            aria-describedby='lui_5891'
-                            aria-invalid='false'
-                            style={{ border: 'none' }}
-                            className='bg-[#f8fafc]   focus:outline-none  placeholder:text-xs'
-                            value={searchTerm}
-                            onChange={handleInputChange}
-                          />
-                        </div>
 
-                        {showUsers && searchTerm.length > 0 && (
-                          <ul className='user-list z-10 absolute top-full left-0 bg-gray-50 border border-1 border-gray-200 w-full'>
-                            {usersEmails
-                              .filter(
-                                (mainObj) =>
-                                  !selected.some(
-                                    (selectedObj) =>
-                                      selectedObj.id === mainObj.id
-                                  )
-                              )
-                              .map((user, ind) => (
-                                <li
-                                  key={ind}
-                                  className='px-3 py-1 text-sm hover:bg-gray-200'
-                                  onClick={() => handleClick(user, index)}
-                                >
-                                  {user.email}
-                                </li>
-                              ))}
-                          </ul>
-                        )}
-
-                        <div className='h-2 text-[#dc2626]'>
-                          {errors[item.inputname] && (
-                            <span className='text-xs'>
-                              {errors[item.inputname]}
-                            </span>
-                          )}
-                        </div>
-                      </div>
-                    )}
                   {/* custom fields */}
                   {item.type === 'text' && item.field == 'custom' && (
                     <div>
@@ -1278,12 +1177,12 @@ function EntityForm() {
                         <div>
                           {item.value ? (
                             <p className='text-sm font-black text-gray-800 mt-2 ml-2 absolute left-12'>
-                              
+
                               {item.value.toUpperCase()}
                             </p>
                           ) : (
                             <p className='text-sm font-black text-gray-800 mt-2 ml-2 absolute left-12'>
-                              
+
                               ENTITY NAME
                             </p>
                           )}
@@ -1322,147 +1221,7 @@ function EntityForm() {
                           {item.value}
                         </div>
                       )}
-                    {item.type === 'multiselect' &&
-                      item.inputname == 'members' &&
-                      item.field == 'predefined' && (
-                        <div className=' grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-2 my-5'>
-                          {item.value &&
-                            Array.from({ length: 12 }).map((_, index) => {
-                              let first = '';
-                              let second = '';
-                              let firstLetter;
-                              let secondLetter;
-                              let mail = '';
-                              if (index < item.value.length) {
-                                mail = item.value[index].email.split('@')[0];
-                                if (mail.includes('.')) {
-                                  first = mail.split('.')[0];
-                                  second = mail.split('.')[1];
-                                  firstLetter = first[0];
-                                  secondLetter = second[0];
-                                } else {
-                                  firstLetter = mail[0];
-                                }
-                              }
-                              if (mail.includes('.')) {
-                                first = mail.split('.')[0];
-                                second = mail.split('.')[1];
-                                firstLetter = first[0];
-                                secondLetter = second[0];
-                              } else {
-                                firstLetter = mail[0];
-                              }
-                              const colors = [
-                                '#818cf8',
-                                '#fb923c',
-                                '#f87171',
-                                '#0891b2',
-                                '#db2777',
-                                '#f87171',
-                                '#854d0e',
-                                '#166534',
-                              ];
-                              const getRandomColor = (firstLetter) => {
-                                const randomIndex =
-                                  firstLetter?.charCodeAt(0) % colors.length;
-                                return colors[randomIndex];
-                              };
-                              return (
-                                <div
-                                  className='col-span-1 flex justify-start gap-3'
-                                  key={index}
-                                >
-                                  {index + 1 <= item.value.length && (
-                                    <>
-                                      <h5
-                                        style={{
-                                          backgroundColor: item.value[index]
-                                            .image
-                                            ? 'transparent'
-                                            : getRandomColor(firstLetter),
-                                        }}
-                                        className=' rounded-full w-10 h-10  md:h-8 xl:h-10 flex justify-center  text-xs items-center text-white'
-                                      >
-                                        {(item.value[index].image &&
-                                          index < 11) ||
-                                        (index === 11 &&
-                                          item.value.length === 12) ? (
-                                          <img
-                                            src={
-                                              typeof item.value[index].image ===
-                                              'string'
-                                                ? item.value[index].image
-                                                : URL.createObjectURL(
-                                                    item.value[index].image
-                                                  )
-                                            }
-                                            name='EntityPhoto'
-                                            alt='Entity Photo'
-                                            className=' rounded-full w-10 h-10   flex justify-center  text-xs items-center text-white'
-                                          />
-                                        ) : (
-                                          <span>
-                                            {firstLetter?.toUpperCase()}
-                                            {secondLetter &&
-                                              secondLetter?.toUpperCase()}
-                                          </span>
-                                        )}
 
-                                        {index == 11 &&
-                                          item.value.length > 12 && (
-                                            <span>
-                                              <svg
-                                                xmlns='http://www.w3.org/2000/svg'
-                                                fill='none'
-                                                viewBox='0 0 24 24'
-                                                stroke-width='1.5'
-                                                stroke='currentColor'
-                                                className='w-6 h-6'
-                                              >
-                                                <path
-                                                  stroke-linecap='round'
-                                                  stroke-linejoin='round'
-                                                  d='M18 18.72a9.094 9.094 0 0 0 3.741-.479 3 3 0 0 0-4.682-2.72m.94 3.198.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0 1 12 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 0 1 6 18.719m12 0a5.971 5.971 0 0 0-.941-3.197m0 0A5.995 5.995 0 0 0 12 12.75a5.995 5.995 0 0 0-5.058 2.772m0 0a3 3 0 0 0-4.681 2.72 8.986 8.986 0 0 0 3.74.477m.94-3.197a5.971 5.971 0 0 0-.94 3.197M15 6.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm6 3a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Zm-13.5 0a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Z'
-                                                />
-                                              </svg>
-                                            </span>
-                                          )}
-                                      </h5>
-                                      <div
-                                        className=' flex items-center md:items-start xl:items-center  overflow-hidden'
-                                        style={{ width: '150px' }}
-                                      >
-                                        <div
-                                          className=' md:w-28 lg:w-48  truncate'
-                                          title={mail}
-                                        >
-                                          {index < 11 && mail}
-                                          {index == 11 &&
-                                            item.value.length == 12 &&
-                                            mail}
-                                          {index == 11 &&
-                                            item.value.length > 12 && (
-                                              <span>
-                                                +{item.value.length - 11} more
-                                              </span>
-                                            )}
-                                        </div>
-                                      </div>
-                                    </>
-                                  )}
-                                  {index + 1 > item.value.length && (
-                                    <>
-                                      <h5 className='bg-[#e5e7eb] rounded-full w-10 h-10  flex justify-center text-xs items-center text-white'></h5>
-                                      <div className=' flex items-center'>
-                                        <div className=' rounded-md  bg-[#e5e7eb] h-2 w-28'></div>
-                                      </div>
-                                    </>
-                                  )}
-                                </div>
-                              );
-                            })}
-                        </div>
-                      )}
                     {/* custom fields*/}
                     {item.type === 'text' && item.field == 'custom' && (
                       <div className='my-2 mx-2 '>
@@ -1586,9 +1345,8 @@ function EntityForm() {
                         ];
 
                         // Formatting the date
-                        date = `${day < 10 ? '0' : ''}${day}-${
-                          monthAbbreviations[monthIndex]
-                        }-${year}`;
+                        date = `${day < 10 ? '0' : ''}${day}-${monthAbbreviations[monthIndex]
+                          }-${year}`;
 
                         return (
                           <div className='my-2 mx-2'>
