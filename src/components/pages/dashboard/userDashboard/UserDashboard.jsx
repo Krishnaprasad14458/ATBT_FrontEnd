@@ -115,7 +115,7 @@ function UserDashboard() {
         <div className='flow-root p-3 sm:px-6 sm:py-2'>
           <ul
             role='list'
-            className='divide-y divide-gray-200 dark:divide-gray-700'
+            className='divide-y divide-gray-200 dark:divide-gray-700 '
           >
             {!data?.users || data?.users?.length === 0 ? (
               <li className='py-2 sm:py-2'>
@@ -124,12 +124,12 @@ function UserDashboard() {
             ) : (
               data?.users?.map((user) => (
                 <li
-                  className='py-2 sm:py-2'
+                  className='py-1 sm:py-2 hover:bg-slate-100 '
                   title={user.name}
                   key={user.id}
                 >
                   <Link to={`/users/${user.id}`}>
-                    <DashboardList user={user} />
+                    <DashboardList user={user} className="" />
                   </Link>
                 </li>
               ))
@@ -186,13 +186,12 @@ function UserDashboard() {
                     : false || data?.currentPage === 1
                 }
                 onClick={() => handlePage(data.currentPage - 1)}
-                className={`relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${
-                  fetcher?.state === 'loading'
-                    ? 'cursor-wait'
-                    : data?.currentPage === 1
+                className={`relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${fetcher?.state === 'loading'
+                  ? 'cursor-wait'
+                  : data?.currentPage === 1
                     ? 'cursor-not-allowed'
                     : 'cursor-auto'
-                }`}
+                  }`}
               >
                 <span className='sr-only'>Previous</span>
                 <svg
@@ -217,13 +216,12 @@ function UserDashboard() {
                     : false || data?.currentPage === data?.totalPages
                 }
                 onClick={() => handlePage(data.currentPage + 1)}
-                className={`relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${
-                  fetcher?.state === 'loading'
-                    ? 'cursor-wait'
-                    : data?.currentPage === data?.totalPages
+                className={`relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${fetcher?.state === 'loading'
+                  ? 'cursor-wait'
+                  : data?.currentPage === data?.totalPages
                     ? 'cursor-not-allowed'
                     : 'cursor-auto'
-                }`}
+                  }`}
               >
                 <span className='sr-only'>Next</span>
                 <svg

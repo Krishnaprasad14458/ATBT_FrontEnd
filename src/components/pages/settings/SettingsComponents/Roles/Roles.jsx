@@ -15,7 +15,7 @@ function deleteRole(id) {
   return axios.delete(`https://atbtbeta.infozit.com/rbac/deleteRole/${id}`);
 }
 
-export async function action() {}
+export async function action() { }
 
 const Roles = () => {
   const { data } = useLoaderData();
@@ -162,7 +162,7 @@ const Roles = () => {
                 data?.roles?.map((role, index) => (
                   <tr
                     key={role.id}
-                    className='hover:bg-gray-100 dark:hover:bg-gray-700'
+                    className='hover:bg-slate-100 dark:hover:bg-gray-700'
                   >
                     <td className='px-3 py-2 whitespace-nowrap  text-left text-xs font-[600] text-gray-800 border-collapse border border-[#e5e7eb]'>
                       {++index}
@@ -200,11 +200,10 @@ const Roles = () => {
                         <button
                           type='submit'
                           disabled={userRoleId == role.id ? true : false}
-                          className={` ${
-                            userRoleId == role.id
+                          className={` ${userRoleId == role.id
                               ? 'text-gray-500 bg-gray-50 cursor-not-allowed'
                               : 'bg-gray-50 text-[#475569] hover:text-orange-500'
-                          } mr-5 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent   disabled:opacity-40  dark:text-blue-500 dark:hover:text-blue-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600 `}
+                            } mr-5 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent   disabled:opacity-40  dark:text-blue-500 dark:hover:text-blue-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600 `}
                           // className='mr-5 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600'
                           onClick={() =>
                             submit(
@@ -228,11 +227,10 @@ const Roles = () => {
                         <button
                           type='button'
                           disabled={userRoleId == role.id ? true : false}
-                          className={` ${
-                            userRoleId == role.id
+                          className={` ${userRoleId == role.id
                               ? 'text-gray-500 bg-gray-50 cursor-not-allowed'
                               : 'bg-gray-50 text-[#475569] hover:text-orange-500'
-                          } mr-5 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent   disabled:opacity-40  dark:text-blue-500 dark:hover:text-blue-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600 `}
+                            } mr-5 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent   disabled:opacity-40  dark:text-blue-500 dark:hover:text-blue-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600 `}
                           onClick={() => onDelete({ roleId: `${role.id}` })}
                         >
                           <svg

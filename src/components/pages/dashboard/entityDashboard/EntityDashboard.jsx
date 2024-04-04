@@ -110,7 +110,7 @@ function EntityDashboard() {
             ) : (
               data?.Entities?.map((entity) => (
                 <li
-                  className='py-2 sm:py-2'
+                  className='py-2 sm:py-2 hover:bg-slate-100 '
                   title={entity.name}
                   key={entity.id}
                 >
@@ -164,13 +164,12 @@ function EntityDashboard() {
                     ? true
                     : false || data.currentPage === 1
                 }
-                className={`relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${
-                  fetcher.state === 'loading'
+                className={`relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${fetcher.state === 'loading'
                     ? 'cursor-wait'
                     : data.currentPage === 1
-                    ? 'cursor-not-allowed'
-                    : 'cursor-auto'
-                }`}
+                      ? 'cursor-not-allowed'
+                      : 'cursor-auto'
+                  }`}
                 onClick={() => handlePage(data.currentPage - 1)}
               >
                 <span className='sr-only'>Previous</span>
@@ -195,13 +194,12 @@ function EntityDashboard() {
                     : false || data.currentPage === data.totalPages
                 }
                 onClick={() => handlePage(data.currentPage + 1)}
-                className={`relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${
-                  fetcher.state === 'loading'
+                className={`relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${fetcher.state === 'loading'
                     ? 'cursor-wait'
                     : data.currentPage === data.totalPages
-                    ? 'cursor-not-allowed'
-                    : 'cursor-auto'
-                }`}
+                      ? 'cursor-not-allowed'
+                      : 'cursor-auto'
+                  }`}
               >
                 <span className='sr-only'>Next</span>
                 <svg
