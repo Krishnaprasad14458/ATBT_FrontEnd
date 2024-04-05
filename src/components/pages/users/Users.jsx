@@ -24,6 +24,7 @@ import { debounce } from '../../../utils/utils';
 import Skeleton from 'react-loading-skeleton';
 import CustomColumn from '../../../componentLayer/tableCustomization/CustomColumn';
 import CustomFilter from '../../../componentLayer/tableCustomization/CustomFilter';
+import delete_gif from '../../../Images/Trash.gif'
 
 function classNames(...classes) {
   return classes.filter(Boolean).join('');

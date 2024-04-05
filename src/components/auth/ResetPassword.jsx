@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import login_bg from '../../Images/login_bg.jpg';
 import logo from '../../Images/logo.png';
 import { AuthContext } from '../../contexts/authContext/authContext';
+import reset_gif from '../../Images/05 Mail delivery.gif';
 
 function ResetPassword() {
   const navigate = useNavigate();
@@ -43,18 +44,19 @@ function ResetPassword() {
         <div className='w-96 rounded-lg overflow-hidden shadow-2xl p-8'>
           <div className='sm:mx-auto sm:w-full sm:max-w-sm'>
             <img
-              className='mx-auto h-10 w-auto mb-8'
+              className='mx-auto h-12 w-auto mb-5'
               src={logo}
               alt='Company Logo'
             />
             <h2 className='mb-3 text-center text-lg font-semibold text-gray-900'>
               Reset your Password
             </h2>
-            <p className='mb-10 text-center text-sm'>
+            <p className='mb-3 text-center text-sm'>
               Enter your email id to reset your password.
             </p>
           </div>
-          <div className='mt-10 sm:mx-auto sm:w-full sm:max-w-sm'>
+          <img src={reset_gif} className='h-24 mx-auto w-auto rounded-md ' />
+          <div className=' sm:mx-auto sm:w-full sm:max-w-sm'>
             <form
               className='space-y-6'
               action='#'

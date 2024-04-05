@@ -53,9 +53,9 @@ function UserDashboard() {
     });
   }
   return (
-    <div className='w-full h-[450px] relative text-center bg-slate-50 border border-gray-200 rounded-md shadow sm:pt-4 dark:bg-gray-800 dark:border-gray-700'>
+    <div className='w-full h-[420px] relative text-center bg-slate-50 border border-gray-200 rounded-md shadow sm:pt-4 dark:bg-gray-800 dark:border-gray-700'>
       <div className='grid1-item overflow-hidden sm:w-full'>
-        <div className='p-4 sm:px-6 sm:pt-2'>
+        <div className='p-3 sm:px-6 sm:pt-2'>
           {/* hero module */}
           <div className='flex items-center justify-between mb-2'>
             <h5 className='text-lg font-semibold leading-none text-gray-800 dark:text-white'>
@@ -112,19 +112,19 @@ function UserDashboard() {
         </div>
         <hr />
         {/* list module */}
-        <div className='flow-root p-3 sm:px-6 sm:py-2'>
+        <div className='flow-root md:p-0 px-2 '>
           <ul
             role='list'
-            className='divide-y divide-gray-200 dark:divide-gray-700 '
+            className='divide-y divide-[#e3e3e3] dark:divide-gray-700 '
           >
             {!data?.users || data?.users?.length === 0 ? (
-              <li className='py-2 sm:py-2'>
+              <li className='py-2 px-2'>
                 <p>No user found</p>
               </li>
             ) : (
               data?.users?.map((user) => (
                 <li
-                  className='py-1 sm:py-2 hover:bg-slate-100 '
+                  className='py-2 md:px-5  hover:bg-slate-100 '
                   title={user.name}
                   key={user.id}
                 >
