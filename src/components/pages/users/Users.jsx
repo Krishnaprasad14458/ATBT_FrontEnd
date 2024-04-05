@@ -31,7 +31,8 @@ function classNames(...classes) {
 }
 
 const userData = JSON.parse(localStorage.getItem('data'));
-const userId = userData?.id;
+const userId = userData?.user?.id;
+console.log("userdata", userData)
 const role = userData?.role?.name;
 
 export async function loader({ request, params }) {
@@ -176,7 +177,7 @@ function Users() {
       alert('enter remarks');
     }
   };
-
+  const buttonRef = useRef(null);
   const handleDeleteUser = async (id) => {
     const confirmDelete = await Swal.fire({
       title: 'Are you sure?',
@@ -191,6 +192,7 @@ function Users() {
         title: 'custom-swal2-title',
         content: 'custom-swal2-content',
       },
+
     });
 
     if (confirmDelete.isConfirmed) {
@@ -201,6 +203,8 @@ function Users() {
         Swal.fire('Error', 'Unable to delete user 🤯', 'error');
       }
     }
+
+
   };
 
   const [tableView, setTableView] = useState(tableViewData);
@@ -451,31 +455,47 @@ function Users() {
                           }
                         >
                           {
-                            <button
-                              type='button'
-                              title='Delete'
-                              onClick={() => handleDeleteUser(row.id)}
-                              disabled={userId == row.id ? true : false}
-                              className={` ${userId == row.id
-                                ? 'text-gray-500 bg-gray-50 cursor-not-allowed'
-                                : 'bg-gray-50 text-[#475569] hover:text-red-500 '
-                                } inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg  text-[#475569] disabled:opacity-50   dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600 `}
-                              style={{
-                                transition: 'transform 0.3s ease-in-out',
-                              }} // Add transition here
-                            >
-                              <svg
-                                xmlns='http://www.w3.org/2000/svg'
-                                viewBox='0 0 20 20'
-                                fill='currentColor'
-                                className='w-4 h-4'
-                              >
-                                <path
-                                  fill-rule='evenodd'
-                                  d='M8.75 1A2.75 2.75 0 0 0 6 3.75v.443c-.795.077-1.584.176-2.365.298a.75.75 0 1 0 .23 1.482l.149-.022.841 10.518A2.75 2.75 0 0 0 7.596 19h4.807a2.75 2.75 0 0 0 2.742-2.53l.841-10.52.149.023a.75.75 0 0 0 .23-1.482A41.03 41.03 0 0 0 14 4.193V3.75A2.75 2.75 0 0 0 11.25 1h-2.5ZM10 4c.84 0 1.673.025 2.5.075V3.75c0-.69-.56-1.25-1.25-1.25h-2.5c-.69 0-1.25.56-1.25 1.25v.325C8.327 4.025 9.16 4 10 4ZM8.58 7.72a.75.75 0 0 0-1.5.06l.3 7.5a.75.75 0 1 0 1.5-.06l-.3-7.5Zm4.34.06a.75.75 0 1 0-1.5-.06l-.3 7.5a.75.75 0 1 0 1.5.06l.3-7.5Z'
-                                  clip-rule='evenodd'
-                                />
-                              </svg>
+                            // <button
+                            //   type='button'
+                            //   title='Delete'
+                            //   onClick={() => handleDeleteUser(row.id)}
+                            //   disabled={userId == row.id ? true : false}
+                            //   className={` ${userId == row.id
+                            //     ? 'text-gray-500 bg-gray-50 cursor-not-allowed'
+                            //     : 'bg-gray-50 text-[#475569] hover:text-red-500 '
+                            //     } inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg  text-[#475569] disabled:opacity-50   dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600 `}
+                            // // style={{
+                            // //   transition: 'transform 0.3s ease-in-out',
+                            // // }}
+                            // >
+
+                            //   <svg
+                            //     xmlns='http://www.w3.org/2000/svg'
+                            //     viewBox='0 0 20 20'
+                            //     fill='currentColor'
+                            //     className='w-4 h-4'
+                            //   >
+                            //     <path
+                            //       fill-rule='evenodd'
+                            //       d='M8.75 1A2.75 2.75 0 0 0 6 3.75v.443c-.795.077-1.584.176-2.365.298a.75.75 0 1 0 .23 1.482l.149-.022.841 10.518A2.75 2.75 0 0 0 7.596 19h4.807a2.75 2.75 0 0 0 2.742-2.53l.841-10.52.149.023a.75.75 0 0 0 .23-1.482A41.03 41.03 0 0 0 14 4.193V3.75A2.75 2.75 0 0 0 11.25 1h-2.5ZM10 4c.84 0 1.673.025 2.5.075V3.75c0-.69-.56-1.25-1.25-1.25h-2.5c-.69 0-1.25.56-1.25 1.25v.325C8.327 4.025 9.16 4 10 4ZM8.58 7.72a.75.75 0 0 0-1.5.06l.3 7.5a.75.75 0 1 0 1.5-.06l-.3-7.5Zm4.34.06a.75.75 0 1 0-1.5-.06l-.3 7.5a.75.75 0 1 0 1.5.06l.3-7.5Z'
+                            //       clip-rule='evenodd'
+                            //     />
+                            //   </svg>
+                            // </button>
+                            <button 
+                            type='button'
+                             title='Delete'
+                             onClick={() => handleDeleteUser(row.id)}
+                             disabled={userId == row.id ? true : false}
+                             className={` ${userId == row.id
+                                  ? 'text-gray-500 bg-gray-50 cursor-not-allowed'
+                                   : 'bg-gray-50 text-[#475569] hover:text-red-500 '
+                                   } inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg  text-[#475569] disabled:opacity-50   dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600 delete-button`}
+                             >
+                              <span class="icon">
+                                <span class="lid"></span>
+                                <span class="can"></span>
+                                <span class="trash"></span></span>
                             </button>
                           }
                         </GateKeeper>

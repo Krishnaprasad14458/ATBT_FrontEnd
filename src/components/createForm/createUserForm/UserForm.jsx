@@ -491,7 +491,7 @@ function UserForm() {
     console.log('cus', customFormFields);
   });
   return (
-    <div className='container p-4 bg-[#f8fafc]'>
+    <div className=' p-4 bg-[#f8fafc]'>
       {/* <p className="font-lg font-semibold p-3">Entity Form</p> */}
       <div className='grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-3 xl:grid-cols-3  gap-4 mt-2 '>
         <div className='col-span-1 '>

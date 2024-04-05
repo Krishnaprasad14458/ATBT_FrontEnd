@@ -4,6 +4,7 @@ import { organizationRouter } from "./organization/organization.router";
 import { formRouter } from "./form/form.router";
 import { itegrationRoutes } from "./integration/integration.router";
 import { communicationRouter } from "./communication/commucation.router";
+import { datasharerouter } from "./dataShare/datashare.router";
 
 export const settingRouter = [
     { index: true, element: <Settings /> },
@@ -14,9 +15,16 @@ export const settingRouter = [
     },
     ...organizationRouter,
     ...communicationRouter,
+
+
     {
         path: 'roles', children: [
             ...roleRouter, ,
+        ]
+    },
+    {
+        path: 'datashare', children: [
+            ...datasharerouter, ,
         ]
     },
     ...itegrationRoutes,
