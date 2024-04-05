@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import login_bg from '../../../Images/login_bg.jpg';
 
+
 const PageNotFound = () => {
   document.title = 'ATBT | Page Not Found';
   return (
@@ -26,6 +27,7 @@ const PageNotFound = () => {
               />
             </svg>
           </div>
+       
           <div className='text-4xl sm:text-6xl md:text-8xl text-center text-orange-600 font-light mt-1 sm:mt-3 md:mt-5'>
             404
           </div>

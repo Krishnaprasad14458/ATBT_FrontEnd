@@ -2,6 +2,7 @@ import React, { useContext, useState } from 'react';
 import { AuthContext } from '../../contexts/authContext/authContext';
 import login_bg from '../../Images/login_bg.jpg';
 import logo from '../../Images/logo.png';
+import login_gif from '../../Images/Login_Icon_1.gif'
 import { Link, Navigate } from 'react-router-dom';
 
 const Login = () => {
@@ -54,22 +55,23 @@ const Login = () => {
         <img
           src={login_bg}
           alt='background image'
-          className='absolute left-1/2 top-0 -ml-[47.5rem] w-[122.5rem] max-w-none'
+          className='absolute left-1/2 top-0 -ml-[52.5rem] w-[150.5rem] max-w-none'
         />
         <div className='absolute inset-0 text-slate-900/[0.07] [mask-image:linear-gradient(to_bottom_left,white,transparent,transparent)]'></div>
         <div className='relative flex justify-center h-screen items-center'>
           <div className='w-96 rounded-lg overflow-hidden shadow-2xl p-8'>
             <div className='sm:mx-auto sm:w-full sm:max-w-sm'>
               <img
-                className='mx-auto h-10 w-auto'
+                className='mx-auto h-20 w-auto'
                 src={logo}
                 alt='Company Logo'
               />
-              <h2 className='mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900'>
+              <img src={login_gif} className=' h-24 mx-auto w-auto rounded-md mt-2' />
+              <h2 className=' text-center text-2xl font-bold leading-9 tracking-tight text-gray-900'>
                 Sign in to your Account
               </h2>
             </div>
-            <div className='mt-10 sm:mx-auto sm:w-full sm:max-w-sm'>
+            <div className='mt-5 sm:mx-auto sm:w-full sm:max-w-sm'>
               <form
                 onSubmit={loginHandler}
                 className='space-y-6'
