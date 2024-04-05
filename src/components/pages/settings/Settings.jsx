@@ -33,6 +33,12 @@ const Settings = () => {
       icon: integration,
       link: "integrations"
     },
+    {
+      name: "Data Share",
+      // icon: integration,
+      link: "datashare"
+    },
+
 
 
   ]
