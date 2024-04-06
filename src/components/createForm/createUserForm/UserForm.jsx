@@ -114,9 +114,15 @@ function UserForm() {
     axios
       .post(`https://atbtbeta.infozit.com/public/list/entity`)
       .then((response) => {
+        console.log("responseresponse",response)
         setFieldsDropDownData((prevState) => ({
           ...prevState,
-          entityname: response?.data?.Entites.map((item) => item?.name),
+          // entityname: response?.data?.Entites.map((item) => item?.name),
+          entityname: response?.data?.Entites?.map((item) => ({
+            name: item?.name || "",
+            id: item?.id || ""
+          })) || []
+
         }));
       })
       .catch((error) => {
@@ -124,6 +130,7 @@ function UserForm() {
         console.error('Error fetching data:', error);
       });
   }, []);
+
   const handleOpenOptions = (name) => {
     if (openOptions == name) {
       setopenOptions('');
@@ -624,9 +631,9 @@ function UserForm() {
                               (option, index) => (
                                 <option
                                   key={index}
-                                  value={option}
+                                  value={option.id}
                                 >
-                                  {option}
+                                  {option.name}
                                 </option>
                               )
                             )}
@@ -665,11 +672,10 @@ function UserForm() {
                           style={{ fontSize: '0.8rem' }}
                           onChange={(e) => handleChange(index, e.target.value)}
                           disabled={!!id && !!user?.userData ? true : false}
-                          className={` ${
-                            !!id && !!user?.userData
-                              ? 'text-[#d4d4d8] bg-gray-50 cursor-not-allowed'
-                              : 'bg-gray-50 text-gray-900'
-                          } px-2 py-2 text-sm block w-full rounded-md bg-gray-50 border border-gray-300  focus:outline-none  focus:border-orange-400 placeholder:text-xs `}
+                          className={` ${!!id && !!user?.userData
+                            ? 'text-[#d4d4d8] bg-gray-50 cursor-not-allowed'
+                            : 'bg-gray-50 text-gray-900'
+                            } px-2 py-2 text-sm block w-full rounded-md bg-gray-50 border border-gray-300  focus:outline-none  focus:border-orange-400 placeholder:text-xs `}
                         />
                         <div className='h-2 text-[#dc2626]'>
                           {errors[item.inputname] && (
@@ -790,20 +796,19 @@ function UserForm() {
                           //   ? 'text-[##d4d4d8] bg-gray-50 '
                           //   : 'bg-gray-50 text-gray-900 '
                           //   } px-2 py-2 text-sm block w-full rounded-md bg-gray-50 border border-gray-300  focus:outline-none  focus:border-orange-400 placeholder:text-xs `}
-                          className={` ${
-                            !!id &&
+                          className={` ${!!id &&
                             !!user?.userData &&
                             parseInt(id) === loggedInUser
-                              ? 'text-[##d4d4d8] bg-gray-50 cursor-not-allowed'
-                              : 'bg-gray-50 text-gray-900 '
-                          } px-2 py-2 text-sm block w-full rounded-md bg-gray-50 border border-gray-300  focus:outline-none  focus:border-orange-400 placeholder:text-xs `}
+                            ? 'text-[##d4d4d8] bg-gray-50 cursor-not-allowed'
+                            : 'bg-gray-50 text-gray-900 '
+                            } px-2 py-2 text-sm block w-full rounded-md bg-gray-50 border border-gray-300  focus:outline-none  focus:border-orange-400 placeholder:text-xs `}
                           onChange={(e) => handleChange(index, e.target.value)}
                           value={customFormFields[index].value || ''}
                           style={{ fontSize: '0.8rem' }}
                           disabled={
                             id &&
-                            user?.userData &&
-                            parseInt(id) === loggedInUser
+                              user?.userData &&
+                              parseInt(id) === loggedInUser
                               ? true
                               : false
                           }
@@ -1707,9 +1712,8 @@ function UserForm() {
                           ];
 
                           // Formatting the date
-                          date = `${day < 10 ? '0' : ''}${day}-${
-                            monthAbbreviations[monthIndex]
-                          }-${year}`;
+                          date = `${day < 10 ? '0' : ''}${day}-${monthAbbreviations[monthIndex]
+                            }-${year}`;
 
                           return (
                             <div className=''>
