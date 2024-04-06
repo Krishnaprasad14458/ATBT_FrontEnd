@@ -5,6 +5,7 @@ import roles from '../../../Images/Roles.png.svg'
 import communication from '../../../Images/communications.svg';
 import forms from '../../../Images/forms.svg';
 import integration from '../../../Images/integrations.svg';
+import datashare from '../../../Images/Data_Share_01.svg'
 
 const Settings = () => {
   const settingsData = [
@@ -35,7 +36,7 @@ const Settings = () => {
     },
     {
       name: "Data Share",
-      // icon: integration,
+      icon: datashare,
       link: "datashare"
     },
 
