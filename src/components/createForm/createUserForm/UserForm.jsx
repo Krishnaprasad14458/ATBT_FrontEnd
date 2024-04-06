@@ -92,12 +92,12 @@ function UserForm() {
     role: [],
     entityname: [],
   });
-  useEffect(() => {
-    setFieldsDropDownData((prevState) => ({
-      ...prevState,
-      entityname: entitiesList.paginatedEntities?.map((item) => item?.name),
-    }));
-  }, [entitiesList]);
+  // useEffect(() => {
+  //   setFieldsDropDownData((prevState) => ({
+  //     ...prevState,
+  //     entityname: entitiesList.paginatedEntities?.map((item) => item?.name),
+  //   }));
+  // }, [entitiesList]);
   useEffect(() => {
     axios
       .get(`https://atbtbeta.infozit.com/rbac/getroles`)
@@ -111,7 +111,26 @@ function UserForm() {
         // Handle errors
         console.error('Error fetching data:', error);
       });
+    axios
+      .post(`https://atbtbeta.infozit.com/public/list/entity`)
+      .then((response) => {
+        console.log("responseresponse",response)
+        setFieldsDropDownData((prevState) => ({
+          ...prevState,
+          // entityname: response?.data?.Entites.map((item) => item?.name),
+          entityname: response?.data?.Entites?.map((item) => ({
+            name: item?.name || "",
+            id: item?.id || ""
+          })) || []
+
+        }));
+      })
+      .catch((error) => {
+        // Handle errors
+        console.error('Error fetching data:', error);
+      });
   }, []);
+
   const handleOpenOptions = (name) => {
     if (openOptions == name) {
       setopenOptions('');
@@ -612,9 +631,9 @@ function UserForm() {
                               (option, index) => (
                                 <option
                                   key={index}
-                                  value={option}
+                                  value={option.id}
                                 >
-                                  {option}
+                                  {option.name}
                                 </option>
                               )
                             )}
@@ -1401,7 +1420,10 @@ function UserForm() {
                           item.field === 'predefined' && (
                             <div className=' flex justify-center'>
                               {item.value ? (
-                                <p className='absolute top-16 my-3 text-md antialiased font-semibold leading-snug tracking-normal  text-center  text-blue-gray-900 w-3/6 truncate md:w-5/6' title={item.value.toUpperCase()}>
+                                <p
+                                  className='absolute top-16 my-3 text-md antialiased font-semibold leading-snug tracking-normal  text-center  text-blue-gray-900 w-3/6 truncate md:w-5/6'
+                                  title={item.value.toUpperCase()}
+                                >
                                   {item.value.toUpperCase()}
                                 </p>
                               ) : (
@@ -1442,7 +1464,10 @@ function UserForm() {
                                   </span>
                                   <span className='  flex gap-2 w-4/6 '>
                                     <span> : </span>{' '}
-                                    <span className='text-md font-[600] break-all w-5/6 truncate' title={item.value}>
+                                    <span
+                                      className='text-md font-[600] break-all w-5/6 truncate'
+                                      title={item.value}
+                                    >
                                       {item.value}
                                     </span>
                                   </span>
