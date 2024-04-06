@@ -176,4 +176,6 @@ input[type="checkbox"]:checked::before {
 .placeholder-small::placeholder {
   font-size: small;
 }
+
+
 /* for input placeholder end*/
