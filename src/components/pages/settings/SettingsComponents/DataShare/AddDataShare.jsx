@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Select from "react-select";
 import atbtApi from '../../../../../serviceLayer/interceptor';
-
+ 
 import { useLoaderData } from "react-router-dom";
 export async function loader({ request, params }) {
     try {
@@ -10,7 +10,7 @@ export async function loader({ request, params }) {
             atbtApi.post(`user/list${url?.search ? url?.search : ''}`, {}),
             atbtApi.post(`public/list/entity`),
         ]);
-
+ 
         const combinedResponse = {
             users: users?.data?.users?.map((item) => ({ value: item.id, label: item.name })),
             entities: entityList?.data?.Entites?.map((item) => ({ value: item.id, label: item.name })),
@@ -40,7 +40,7 @@ const AddDataShare = () => {
         }
     }, [module])
     const [shareDataOfSelectedOptions, setShareDataOfSelectedOptions] = useState([])
-
+ 
     const handleShareDataOf = (selected) => {
         setShareDataOfSelectedOptions(selected);
     };
@@ -50,7 +50,7 @@ const AddDataShare = () => {
         setShareDataWithSelectedOptions(selected);
     };
     const [searchValue, setSearchValue] = useState('');
-
+ 
     const handleInputChange = (newValue) => {
         setSearchValue(newValue);
     };
@@ -59,14 +59,14 @@ const AddDataShare = () => {
             let filteredData = data.users.filter((item) => !shareDataOfSelectedOptions.some((filterItem) => filterItem.value === item.value))
             setShareDataWithOptions(filteredData)
         }
-
+ 
     }, [shareDataOfSelectedOptions])
     useEffect(() => {
         if (module?.value === "user") {
             let filteredData = data.users.filter((item) => shareDataWithSelectedOptions.value !== item.value)
             setShareDataOfOptions(filteredData)
         }
-
+ 
     }, [shareDataWithSelectedOptions])
     const handleSubmit = async () => {
         let moduleName = module.value
@@ -79,9 +79,9 @@ const AddDataShare = () => {
         else if (moduleName === "entity") {
             await atbtApi.post(`access/entity/${shareDataOf[0]}`)
         }
-
+ 
     }
-
+ 
     return (
         <div className=" p-4 bg-[#f8fafc]">
             <div className="grid grid-cols-1  sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-2 lg:gap-5 gap-y-4">
@@ -137,7 +137,7 @@ const AddDataShare = () => {
                                     borderRadius: 5,
                                     colors: {
                                         ...theme.colors,
-
+ 
                                         primary: "#fb923c",
                                     },
                                 })}
@@ -165,7 +165,7 @@ const AddDataShare = () => {
                                     borderRadius: 5,
                                     colors: {
                                         ...theme.colors,
-
+ 
                                         primary: "#fb923c",
                                     },
                                 })}
@@ -216,7 +216,7 @@ const AddDataShare = () => {
                                     borderRadius: 5,
                                     colors: {
                                         ...theme.colors,
-
+ 
                                         primary: "#fb923c",
                                     },
                                 })}

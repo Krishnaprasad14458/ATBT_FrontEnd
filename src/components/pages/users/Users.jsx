@@ -490,7 +490,7 @@ function Users() {
                              className={` ${userId == row.id
                                   ? 'text-gray-500 bg-gray-50 cursor-not-allowed'
                                    : 'bg-gray-50 text-[#475569] hover:text-red-500 '
-                                   } inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg  text-[#475569] disabled:opacity-50   dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600 delete-button`}
+                                   } inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg  text-[#475569]  disabled:opacity-50   dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600 delete-button hover:text-red-500`}
                              >
                               <span class="icon">
                                 <span class="lid"></span>
