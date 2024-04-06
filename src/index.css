@@ -5,21 +5,16 @@
 .content {
   height: 100%;
   width: 100%;
-  /* font-family: "Source Sans Pro", sans-serif; */
-  /* font-family: "Nunito", sans-serif; */
 }
-
 .app {
   height: 100vh;
   width: 100%;
   display: flex;
   position: relative;
 }
-
 ::-webkit-scrollbar {
   width: 3px;
 }
-
 /* Track */
 ::-webkit-scrollbar-track {
   background: #e0e0e0;
@@ -83,6 +78,7 @@ input[type="checkbox"]:checked::before {
   position: relative;
 }
 
+
 .delete-button .icon {
   position: absolute;
 
@@ -93,6 +89,7 @@ input[type="checkbox"]:checked::before {
   transform: translate(-50%, -50%);
 }
 
+
 .delete-button .icon .lid {
   position: absolute;
   z-index: 2;
@@ -100,7 +97,7 @@ input[type="checkbox"]:checked::before {
   top: 53%;
   width: 30%;
   height: 4%;
-  background-color: black;
+  background-color: #475569;
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
   transform: translateX(-50%);
@@ -108,18 +105,20 @@ input[type="checkbox"]:checked::before {
   transition: transform 0.3s ease-in-out;
 }
 
+
 .delete-button .icon .can {
   position: absolute;
   z-index: 2;
   left: 50%;
-  bottom: 10%;
-  width: 30%;
-  height: 30%;
-  background-color: black;
+  bottom: 14%;
+  width: 22%;
+  height: 25%;
+  background-color: #475569;
   border-bottom-left-radius: 2px;
   border-bottom-right-radius: 2px;
   transform: translateX(-50%);
 }
+
 
 .delete-button:hover .icon .lid {
   transform: translateX(-50%) rotate(-35deg);
@@ -131,22 +130,20 @@ input[type="checkbox"]:checked::before {
   left: 50%;
 
   bottom: 100%;
-  width: 30%;
-  height: 70%;
-  border: 2px solid black;
+  width: 10%;
+  height: 50%;
+  border: 2px solid #475569;
   transform: translateX(-50%) translateY(2px);
-  /* background-color: black;   */
 }
 
 .delete-button .icon .can::before,
 .delete-button .icon .can::after {
   content: "";
   position: absolute;
-  /* left: 20%; */
   top: 20%;
   bottom: 20%;
-  width: 18%;
-  background-color: #f5f5f5;
+  width: 14%;
+  background-color: #ffffff;
 }
 
 .delete-button .icon .can::before {
@@ -162,10 +159,10 @@ input[type="checkbox"]:checked::before {
   z-index: 1;
   left: 100%;
   top: 0;
-  width: 20%;
+  width: 14%;
   height: 20%;
   border-radius: 25%;
-  background-color: black;
+  background-color: #ffffff ;
   opacity: 0;
 }
 
@@ -175,3 +172,8 @@ input[type="checkbox"]:checked::before {
 
 /* end delete icon css */
 
+/* for input placeholder */
+.placeholder-small::placeholder {
+  font-size: small;
+}
+/* for input placeholder end*/

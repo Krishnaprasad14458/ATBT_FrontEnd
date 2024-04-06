@@ -400,7 +400,7 @@ function BoardMeetings() {
                           <button
                             type='button'
                             onClick={() => handleDeleteUser(row.id)}
-                            className=' inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg  text-[#475569] hover:text-red-500 disabled:opacity-50 disabled:pointer-events-none  dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600'
+                            className=' inline-flex items-center gap-x-2 delete-button'
                           >
                             <svg
                               xmlns='http://www.w3.org/2000/svg'
