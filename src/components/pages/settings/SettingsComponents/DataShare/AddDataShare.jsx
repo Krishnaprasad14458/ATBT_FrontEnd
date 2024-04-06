@@ -7,7 +7,7 @@ export async function loader({ request, params }) {
   try {
     let url = new URL(request.url);
     const [users, entityList] = await Promise.all([
-      atbtApi.post(`user/list${url?.search ? url?.search : ""}`, {}),
+      atbtApi.post(`public/list/user`, {}),
       atbtApi.post(`public/list/entity`),
     ]);
 
