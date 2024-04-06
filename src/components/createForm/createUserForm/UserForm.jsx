@@ -466,7 +466,7 @@ function UserForm() {
         console.log('creating');
         response = await createUser(formData);
       }
-      response?.status === 201 && navigate(`/users/${response.data}/overview`);
+      response?.status === 201 && navigate(`/users/${response.data}`);
       console.log('jsonData submitted', response);
     }
   }
