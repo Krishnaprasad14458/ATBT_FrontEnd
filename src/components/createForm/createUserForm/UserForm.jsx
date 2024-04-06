@@ -92,12 +92,12 @@ function UserForm() {
     role: [],
     entityname: [],
   });
-  useEffect(() => {
-    setFieldsDropDownData((prevState) => ({
-      ...prevState,
-      entityname: entitiesList.paginatedEntities?.map((item) => item?.name),
-    }));
-  }, [entitiesList]);
+  // useEffect(() => {
+  //   setFieldsDropDownData((prevState) => ({
+  //     ...prevState,
+  //     entityname: entitiesList.paginatedEntities?.map((item) => item?.name),
+  //   }));
+  // }, [entitiesList]);
   useEffect(() => {
     axios
       .get(`https://atbtbeta.infozit.com/rbac/getroles`)
@@ -105,6 +105,18 @@ function UserForm() {
         setFieldsDropDownData((prevState) => ({
           ...prevState,
           role: response?.data?.roles?.map((item) => item?.name),
+        }));
+      })
+      .catch((error) => {
+        // Handle errors
+        console.error('Error fetching data:', error);
+      });
+    axios
+      .post(`https://atbtbeta.infozit.com/public/list/entity`)
+      .then((response) => {
+        setFieldsDropDownData((prevState) => ({
+          ...prevState,
+          entityname: response?.data?.Entites.map((item) => item?.name),
         }));
       })
       .catch((error) => {
@@ -653,10 +665,11 @@ function UserForm() {
                           style={{ fontSize: '0.8rem' }}
                           onChange={(e) => handleChange(index, e.target.value)}
                           disabled={!!id && !!user?.userData ? true : false}
-                          className={` ${!!id && !!user?.userData
-                            ? 'text-[#d4d4d8] bg-gray-50 cursor-not-allowed'
-                            : 'bg-gray-50 text-gray-900'
-                            } px-2 py-2 text-sm block w-full rounded-md bg-gray-50 border border-gray-300  focus:outline-none  focus:border-orange-400 placeholder:text-xs `}
+                          className={` ${
+                            !!id && !!user?.userData
+                              ? 'text-[#d4d4d8] bg-gray-50 cursor-not-allowed'
+                              : 'bg-gray-50 text-gray-900'
+                          } px-2 py-2 text-sm block w-full rounded-md bg-gray-50 border border-gray-300  focus:outline-none  focus:border-orange-400 placeholder:text-xs `}
                         />
                         <div className='h-2 text-[#dc2626]'>
                           {errors[item.inputname] && (
@@ -777,19 +790,20 @@ function UserForm() {
                           //   ? 'text-[##d4d4d8] bg-gray-50 '
                           //   : 'bg-gray-50 text-gray-900 '
                           //   } px-2 py-2 text-sm block w-full rounded-md bg-gray-50 border border-gray-300  focus:outline-none  focus:border-orange-400 placeholder:text-xs `}
-                          className={` ${!!id &&
+                          className={` ${
+                            !!id &&
                             !!user?.userData &&
                             parseInt(id) === loggedInUser
-                            ? 'text-[##d4d4d8] bg-gray-50 cursor-not-allowed'
-                            : 'bg-gray-50 text-gray-900 '
-                            } px-2 py-2 text-sm block w-full rounded-md bg-gray-50 border border-gray-300  focus:outline-none  focus:border-orange-400 placeholder:text-xs `}
+                              ? 'text-[##d4d4d8] bg-gray-50 cursor-not-allowed'
+                              : 'bg-gray-50 text-gray-900 '
+                          } px-2 py-2 text-sm block w-full rounded-md bg-gray-50 border border-gray-300  focus:outline-none  focus:border-orange-400 placeholder:text-xs `}
                           onChange={(e) => handleChange(index, e.target.value)}
                           value={customFormFields[index].value || ''}
                           style={{ fontSize: '0.8rem' }}
                           disabled={
                             id &&
-                              user?.userData &&
-                              parseInt(id) === loggedInUser
+                            user?.userData &&
+                            parseInt(id) === loggedInUser
                               ? true
                               : false
                           }
@@ -1401,7 +1415,10 @@ function UserForm() {
                           item.field === 'predefined' && (
                             <div className=' flex justify-center'>
                               {item.value ? (
-                                <p className='absolute top-16 my-3 text-md antialiased font-semibold leading-snug tracking-normal  text-center  text-blue-gray-900 w-3/6 truncate md:w-5/6' title={item.value.toUpperCase()}>
+                                <p
+                                  className='absolute top-16 my-3 text-md antialiased font-semibold leading-snug tracking-normal  text-center  text-blue-gray-900 w-3/6 truncate md:w-5/6'
+                                  title={item.value.toUpperCase()}
+                                >
                                   {item.value.toUpperCase()}
                                 </p>
                               ) : (
@@ -1442,7 +1459,10 @@ function UserForm() {
                                   </span>
                                   <span className='  flex gap-2 w-4/6 '>
                                     <span> : </span>{' '}
-                                    <span className='text-md font-[600] break-all w-5/6 truncate' title={item.value}>
+                                    <span
+                                      className='text-md font-[600] break-all w-5/6 truncate'
+                                      title={item.value}
+                                    >
                                       {item.value}
                                     </span>
                                   </span>
@@ -1687,8 +1707,9 @@ function UserForm() {
                           ];
 
                           // Formatting the date
-                          date = `${day < 10 ? '0' : ''}${day}-${monthAbbreviations[monthIndex]
-                            }-${year}`;
+                          date = `${day < 10 ? '0' : ''}${day}-${
+                            monthAbbreviations[monthIndex]
+                          }-${year}`;
 
                           return (
                             <div className=''>
