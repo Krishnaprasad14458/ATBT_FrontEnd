@@ -29,6 +29,10 @@ export async function loader({ request, params }) {
 }
 const AddDataShare = () => {
   const data = useLoaderData();
+  const [dataShareName, setDataShareName] = useState("")
+  const [dataShareDescription, setDataShareDescription] = useState("")
+
+
   let moduleOptions = [
     { value: "user", label: "user" },
     { value: "entity", label: "entity" },
@@ -97,9 +101,9 @@ const AddDataShare = () => {
       shareDataWith
     );
     if (moduleName === "user") {
-      await atbtApi.post("access/selected", { selectedUsers: shareDataOf });
+      await atbtApi.post("access/selected", { name: dataShareName, description: dataShareDescription, selectedUsers: shareDataOf });
     } else if (moduleName === "entity") {
-      await atbtApi.post(`access/entity`, { entityIds: shareDataOf, userId: shareDataWithSelectedOptions.value, });
+      await atbtApi.post(`access/entity`, { name: dataShareName, description: dataShareDescription, entityIds: shareDataOf, userId: shareDataWithSelectedOptions.value, });
     }
   };
 
@@ -114,6 +118,8 @@ const AddDataShare = () => {
             type="text"
             placeholder="Enter name"
             className="px-2 py-1.5 text-md block w-full rounded-md bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400  placeholder-small"
+            value={dataShareName}
+            onChange={(event) => setDataShareName(event.target.value)}
           />
         </div>
         <div className="col-span-1 ">
@@ -123,7 +129,10 @@ const AddDataShare = () => {
           <input
             type="text"
             placeholder="Enter Description"
-            className="px-2 py-1.5 text-md block w-full rounded-md bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder-small" />
+            className="px-2 py-1.5 text-md block w-full rounded-md bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder-small"
+            value={dataShareDescription}
+            onChange={(event) => setDataShareDescription(event.target.value)} />
+
         </div>
       </div>
       <div className="grid grid-cols-1  sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-2  gap-5 mt-2 ">
