@@ -100,6 +100,8 @@ const AddDataShare = () => {
       "shareDataWith",
       shareDataWith
     );
+    let formData = { name: dataShareName, description: dataShareDescription, entityIds: shareDataOf, userId: shareDataWithSelectedOptions.value }
+    console.log("formData",formData)
     if (moduleName === "user") {
       await atbtApi.post("access/selected", { name: dataShareName, description: dataShareDescription, selectedUsers: shareDataOf });
     } else if (moduleName === "entity") {
