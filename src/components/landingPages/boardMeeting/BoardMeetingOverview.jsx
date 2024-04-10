@@ -115,7 +115,9 @@ const BoardMeetingOverview = () => {
 
     return (
         <div className='mt-5 flex justify-center'>
+             <p>create</p>
             <div className=' w-full md:w-full  lg:w-11/12 xl:11/12 shadow-md border-2 rounded-md bg-[#f8fafc] px-4 pb-4 pt-1'>
+               
                 <div className='flex justify-end '>
                     <Link
                         to={`../${id}/edit`}
@@ -159,7 +161,7 @@ const BoardMeetingOverview = () => {
                                         item.inputname === 'date' &&
                                         item.field === 'predefined' && (
                                             <p className='text-sm  '>
-                                                Dateg : {item.value}
+                                                Date : {item.value}
                                             </p>
                                         )}
                                 </div>
