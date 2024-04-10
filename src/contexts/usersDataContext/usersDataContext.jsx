@@ -31,6 +31,7 @@ const UserDataProvider = ({ children }) => {
     const { currentPage, pageSize, sortBy, search, filters } =
       usersState.dashboard;
     usersDispatch(actions.setLoading('DASHBOARD'));
+    // console.log("usersState", usersState, currentPage, pageSize, sortBy, search, filters)
     try {
       const { status, data } = await api.getDashboardUsers(
         currentPage,

@@ -29,6 +29,10 @@ export async function loader({ request, params }) {
 }
 const AddDataShare = () => {
   const data = useLoaderData();
+  const [dataShareName, setDataShareName] = useState("")
+  const [dataShareDescription, setDataShareDescription] = useState("")
+
+
   let moduleOptions = [
     { value: "user", label: "user" },
     { value: "entity", label: "entity" },
@@ -96,10 +100,12 @@ const AddDataShare = () => {
       "shareDataWith",
       shareDataWith
     );
+    let formData = { name: dataShareName, description: dataShareDescription, entityIds: shareDataOf, userId: shareDataWithSelectedOptions.value }
+    console.log("formData",formData)
     if (moduleName === "user") {
-      await atbtApi.post("access/selected", { selectedUsers: shareDataOf });
+      await atbtApi.post("access/selected", { name: dataShareName, description: dataShareDescription, selectedUsers: shareDataOf });
     } else if (moduleName === "entity") {
-      await atbtApi.post(`access/entity/${shareDataOf[0]}`);
+      await atbtApi.post(`access/entity`, { name: dataShareName, description: dataShareDescription, entityIds: shareDataOf, userId: shareDataWithSelectedOptions.value, });
     }
   };
 
@@ -114,6 +120,8 @@ const AddDataShare = () => {
             type="text"
             placeholder="Enter name"
             className="px-2 py-1.5 text-md block w-full rounded-md bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400  placeholder-small"
+            value={dataShareName}
+            onChange={(event) => setDataShareName(event.target.value)}
           />
         </div>
         <div className="col-span-1 ">
@@ -123,7 +131,10 @@ const AddDataShare = () => {
           <input
             type="text"
             placeholder="Enter Description"
-            className="px-2 py-1.5 text-md block w-full rounded-md bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder-small"/>
+            className="px-2 py-1.5 text-md block w-full rounded-md bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder-small"
+            value={dataShareDescription}
+            onChange={(event) => setDataShareDescription(event.target.value)} />
+
         </div>
       </div>
       <div className="grid grid-cols-1  sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-2  gap-5 mt-2 ">
@@ -137,88 +148,88 @@ const AddDataShare = () => {
           </div>
           <div className="grid grid-cols-1  sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-3 xl:grid-cols-3 lg:gap-5 gap-y-5">
             <div className="col-span-1">
-          <Select
-    options={moduleOptions}
-    className="custom-select"
-   
-             
-    styles={{
-        control: (provided, state) => ({
-            ...provided,
-            backgroundColor: "#f8fafb", // Change the background color of the select input
-            borderWidth: state.isFocused ? "1px" : "1px", // Decrease border width when focused
-            borderColor: state.isFocused ? "#orange-400" : "#d1d5db", // Change border color when focused
-            boxShadow: state.isFocused ? "none" : provided.boxShadow, // Optionally remove box shadow when focused
-        }),
-      placeholder: (provided) => ({
-        ...provided,
-        fontSize: "small", // Adjust the font size of the placeholder text
-      }),
-      option: (provided, state) => ({
-        ...provided,
-        color: state.isFocused ? "#fff" : "#000000",
-        backgroundColor: state.isFocused
-        ? "#ea580c"
-          : "transparent",
+              <Select
+                options={moduleOptions}
+                className="custom-select"
 
-        "&:hover": {
-          color: "#fff",
-          backgroundColor: "#ea580c",
-        },
-      }),
-    }}
-    theme={(theme) => ({
-      ...theme,
-      borderRadius: 5,
-      colors: {
-        ...theme.colors,
 
-        primary: "#fb923c",
-      },
-    })}
- 
-    value={module}
-    onChange={handleModuleChange}
-/>
+                styles={{
+                  control: (provided, state) => ({
+                    ...provided,
+                    backgroundColor: "#f8fafb", // Change the background color of the select input
+                    borderWidth: state.isFocused ? "1px" : "1px", // Decrease border width when focused
+                    borderColor: state.isFocused ? "#orange-400" : "#d1d5db", // Change border color when focused
+                    boxShadow: state.isFocused ? "none" : provided.boxShadow, // Optionally remove box shadow when focused
+                  }),
+                  placeholder: (provided) => ({
+                    ...provided,
+                    fontSize: "small", // Adjust the font size of the placeholder text
+                  }),
+                  option: (provided, state) => ({
+                    ...provided,
+                    color: state.isFocused ? "#fff" : "#000000",
+                    backgroundColor: state.isFocused
+                      ? "#ea580c"
+                      : "transparent",
+
+                    "&:hover": {
+                      color: "#fff",
+                      backgroundColor: "#ea580c",
+                    },
+                  }),
+                }}
+                theme={(theme) => ({
+                  ...theme,
+                  borderRadius: 5,
+                  colors: {
+                    ...theme.colors,
+
+                    primary: "#fb923c",
+                  },
+                })}
+
+                value={module}
+                onChange={handleModuleChange}
+              />
 
             </div>
             <div className="col-span-2">
               <Select
-             
-              styles={{
+
+                styles={{
                   control: (provided, state) => ({
-                      ...provided,
-                      backgroundColor: "#f9fafb", // Change the background color of the select input
-                      borderWidth: state.isFocused ? "1px" : "1px", // Decrease border width when focused
-                      borderColor: state.isFocused ? "#orange-400" : "#d1d5db", // Change border color when focused
-                      boxShadow: state.isFocused ? "none" : provided.boxShadow, // Optionally remove box shadow when focused
+                    ...provided,
+                    backgroundColor: "#f9fafb", // Change the background color of the select input
+                    borderWidth: state.isFocused ? "1px" : "1px", // Decrease border width when focused
+                    borderColor: state.isFocused ? "#orange-400" : "#d1d5db", // Change border color when focused
+                    boxShadow: state.isFocused ? "none" : provided.boxShadow, // Optionally remove box shadow when focused
                   }),
-                placeholder: (provided) => ({
-                  ...provided,
-                  fontSize: "small", // Adjust the font size of the placeholder text
-                }),
-                option: (provided, state) => ({
-                  ...provided,
-                  color: state.isFocused ? "#fff" : "#000000",
-                  backgroundColor: state.isFocused
-                  ? "#ea580c"
-                    : "transparent",
+                  placeholder: (provided) => ({
+                    ...provided,
+                    fontSize: "small", // Adjust the font size of the placeholder text
+                  }),
+                  option: (provided, state) => ({
+                    ...provided,
+                    color: state.isFocused ? "#fff" : "#000000",
+                    backgroundColor: state.isFocused
+                      ? "#ea580c"
+                      : "transparent",
 
-                  "&:hover": {
-                    color: "#fff",
-                    backgroundColor: "#ea580c",
+                    "&:hover": {
+                      color: "#fff",
+                      backgroundColor: "#ea580c",
+                    },
+                  }),
+                }}
+                theme={(theme) => ({
+                  ...theme,
+                  borderRadius: 5,
+                  colors: {
+                    ...theme.colors,
+
+                    primary: "#fb923c",
                   },
-                }),
-              }}
-              theme={(theme) => ({
-                ...theme,
-                borderRadius: 5,
-                colors: {
-                  ...theme.colors,
-
-                  primary: "#fb923c",
-                },
-              })}
+                })}
                 isMulti
                 name="colors"
                 options={shareDataofOptions}
@@ -248,15 +259,15 @@ const AddDataShare = () => {
             <div className="col-span-2">
               <Select
                 options={shareDataWithOptions}
-                
+
                 styles={{
-                    control: (provided, state) => ({
-                        ...provided,
-                        backgroundColor: "#f9fafb", // Change the background color of the select input
-                        borderWidth: state.isFocused ? "1px" : "1px", // Decrease border width when focused
-                        borderColor: state.isFocused ? "#orange-400" : "#d1d5db", // Change border color when focused
-                        boxShadow: state.isFocused ? "none" : provided.boxShadow, // Optionally remove box shadow when focused
-                    }),
+                  control: (provided, state) => ({
+                    ...provided,
+                    backgroundColor: "#f9fafb", // Change the background color of the select input
+                    borderWidth: state.isFocused ? "1px" : "1px", // Decrease border width when focused
+                    borderColor: state.isFocused ? "#orange-400" : "#d1d5db", // Change border color when focused
+                    boxShadow: state.isFocused ? "none" : provided.boxShadow, // Optionally remove box shadow when focused
+                  }),
                   placeholder: (provided) => ({
                     ...provided,
                     fontSize: "small", // Adjust the font size of the placeholder text
@@ -265,7 +276,7 @@ const AddDataShare = () => {
                     ...provided,
                     color: state.isFocused ? "#fff" : "#000000",
                     backgroundColor: state.isFocused
-                    ? "#ea580c"
+                      ? "#ea580c"
                       : "transparent",
 
                     "&:hover": {
