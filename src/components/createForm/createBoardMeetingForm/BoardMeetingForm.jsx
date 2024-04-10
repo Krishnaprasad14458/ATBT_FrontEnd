@@ -518,7 +518,7 @@ function BoardMeetingForm() {
   // end the time function
 
   return (
-    <div className="container p-4 bg-[#f8fafc]">
+    <div className=" p-4 bg-[#f8fafc]">
       {/* <p className="font-lg font-semibold p-3">Entity Form</p> */}
       <p className="text-lg font-semibold">Board Meeting Form</p>
       <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-3 xl:grid-cols-3  gap-4 mt-2  ">
@@ -529,41 +529,7 @@ function BoardMeetingForm() {
               customFormFields.map((item, index) => (
                 <div key={index}>
                   {/* predefined fields */}
-                  {/* {item.type === 'text' &&
-                    item.inputname == 'name' &&
-                    item.field === 'predefined' && (
-                      <div>
-                        <label
-                          htmlFor={item.label}
-                          className='block text-sm font-medium leading-6 mt-2 text-gray-900'
-                        >
-                          {item.label.charAt(0).toUpperCase() +
-                            item.label.slice(1)}
-                          {item.mandatory ? (
-                            <span className='text-red-600'>*</span>
-                          ) : (
-                            <span> </span>
-                          )}
-                        </label>
-                        <input
-                          type='text'
-                          name={item.inputname}
-                          id={item.inputname}
-                          // placeholder='Enter boardmeeting name'
-                          value={customFormFields[index].value || ''}
-                          style={{ fontSize: '0.8rem' }}
-                          className='px-2 py-2 text-sm block w-full rounded-md bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder:text-xs'
-                          onChange={(e) => handleChange(index, e.target.value)}
-                        />
-                        <div className='h-2 text-[#dc2626]'>
-                          {errors[item.inputname] && (
-                            <span className='text-xs'>
-                              {errors[item.inputname]}
-                            </span>
-                          )}
-                        </div>
-                      </div>
-                    )} */}
+
                   {item.type === "number" &&
                     item.inputname == "meetingnumber" &&
                     item.field == "predefined" && (
@@ -636,88 +602,8 @@ function BoardMeetingForm() {
                         </div>
                       </div>
                     )}
-                  {/* 
-                  {item.type === 'time' &&
-                    item.inputname == 'time' &&
-                    item.field == 'predefined' && (
-                      <div>
-                        <label
-                          htmlFor={item.label}
-                          className='block text-sm font-medium leading-6 mt-2 text-gray-900'
-                        >
-                          {item.label.charAt(0).toUpperCase() +
-                            item.label.slice(1)}
-                          {item.mandatory ? (
-                            <span className='text-red-600'>*</span>
-                          ) : (
-                            <span> </span>
-                          )}
-                        </label>
-                        <input
-                          type='time'
-                          name={item.inputname}
-                          style={{ fontSize: '0.8rem' }}
-                          className='px-2 py-2 text-sm block w-full rounded-md bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder:text-xs'
-                          id={item.inputname}
-                          value={customFormFields[index].value || ''}
-                          onChange={(e) => handleChange(index, e.target.value)}
-                        />
-                        <div className='h-2 text-[#dc2626]'>
-                          {errors[item.inputname] && (
-                            <span className='text-xs'>
-                              {errors[item.inputname]}
-                            </span>
-                          )}
-                        </div>
-                      </div>
-                    )}
-                  {item.type === 'select' &&
-                    item.inputname == 'venue' &&
-                    item.field == 'predefined' && (
-                      <div>
-                        <label
-                          htmlFor={item.label}
-                          className='block text-sm font-medium leading-6 mt-2 text-gray-900'
-                        >
-                          {item.label.charAt(0).toUpperCase() +
-                            item.label.slice(1)}
-                          {item.mandatory ? (
-                            <span className='text-red-600'>*</span>
-                          ) : (
-                            <span> </span>
-                          )}
-                        </label>
-                        <select
-                          id={item.inputname}
-                          name={item.inputname}
-                          className='px-2 py-2 text-sm block w-full rounded-md bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder:text-xs'
-                          onChange={(e) => handleChange(index, e.target.value)}
-                          value={customFormFields[index].value || ''}
-                          style={{ fontSize: '0.8rem' }}
-                        >
-                          <option
-                            value=''
-                            disabled
-                            defaultValue
-                          >
-                            Please select
-                          </option>
-                          {item.options &&
-                            item.options.value &&
-                            item.options.value.length > 0 &&
-                            item.options.value.map((option, index) => (
-                              <option value={option}>{option}</option>
-                            ))}
-                        </select>
-                        <div className='h-2 text-[#dc2626]'>
-                          {errors[item.inputname] && (
-                            <span className='text-xs'>
-                              {errors[item.inputname]}
-                            </span>
-                          )}
-                        </div>
-                      </div>
-                    )} */}
+         
+               
                   {item.type === "textarea" &&
                     item.inputname == "description" &&
                     item.field == "predefined" && (
@@ -1370,14 +1256,14 @@ function BoardMeetingForm() {
                   )}
                 </div>
               ))}
-            <Link to="">
+            
               <button
                 type="submit"
                 className="mt-4 flex w-full justify-center rounded-md bg-orange-600 px-3 py-2.5 text-sm font-medium leading-6 text-white shadow-sm  focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600"
               >
                 Create Board Meeting
               </button>
-            </Link>
+        
           </form>
         </div>
         {/* preview */}
