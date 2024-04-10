@@ -390,7 +390,7 @@ function Users() {
                     })}
 
                     <td
-                      className={`px-2 py-2  border border-[#e5e7eb] text-xs font-medium  ${row.userstatus
+                      className={`px-2 py-2  border border-[#e5e7eb] text-xs font-medium text-center ${row.userstatus
                         ? 'text-gray-800 '
                         : 'bg-gray-100 text-gray-300'
                         }`}
