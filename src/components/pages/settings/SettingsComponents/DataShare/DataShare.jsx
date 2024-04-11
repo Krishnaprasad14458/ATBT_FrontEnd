@@ -1,6 +1,31 @@
-import React from 'react'
+import { React, useEffect, useState, useContext} from 'react'
 import { Link } from 'react-router-dom';
+import axios from 'axios';
+import { EntitiesDataContext } from '../../../../../contexts/entitiesDataContext/entitiesDataContext';
 const DataShare = () => {
+    const { entitiesState: { Entities } = {} } = useContext(EntitiesDataContext);
+    const [dataSharing, setDataSharing] = useState([]);
+    const userData = JSON.parse(localStorage.getItem('data'));
+    const token = userData?.token;
+
+    useEffect(() => {
+        axios
+            .get(`https://atbtbeta.infozit.com/access/view`, {
+                headers: {
+                    authorization: token,
+                },
+            })
+            .then((res) => {
+                setDataSharing(res.data);
+                console.log("res.data", res.data);
+            })
+            .catch((error) => {
+                console.error('Error fetching data:', error);
+            });
+    }, [token]);
+
+    
+  
     return (
         <div className=' p-3 bg-[#f8fafc] overflow-hidden'>
             <div className='grid grid-cols-1 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3 xl:grid-col-3 gap-2 mt-2'>
@@ -76,17 +101,73 @@ const DataShare = () => {
                                 <th className='sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200'>
                                     Description
                                 </th>
+                                <th className='sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200'>
+                                    Entity Belongs to
+                                </th>
+                                <th className='sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200'>
+                                    Users Belongs to
+                                </th>
                                 <th className='sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200 '>
                                     Actions{' '}
                                 </th>
                             </tr>
                         </thead>
-                        <tbody className='divide-y divide-gray-200 dark:divide-gray-700'>
+                        {/* <tbody className='divide-y divide-gray-200 dark:divide-gray-700'>
                             <tr>
                                 <td>bhavitha</td>
                                 <td>bhavitha</td>
                                 <td>bhavitha</td>
                             </tr>
+                        </tbody> */}
+                        <tbody className='divide-y divide-gray-200 dark:divide-gray-700'>
+                            {/* Map over the customFormField data to generate table rows */}
+                            {dataSharing.slice(2).map((data, index) => (
+                                <tr key={index}>
+                                    <td>{data.id}</td>
+                                    <td>{data.name}</td>
+                                    <td>{data.description}</td>
+                                    <td>{typeof data.entity_id}</td>
+                                    <td>
+                                        {/* Check if data.entity_id is an array before mapping over it */}
+                                        {Array.isArray(data.entity_id) ? (
+                                            // If data.entity_id is already an array, proceed with mapping over it
+                                            data.entity_id.map(entityId => {
+                                                // Log the entity ID being searched
+                                                console.log('Searching for entity ID:', entityId);
+
+                                                // Find the entity corresponding to the entityId
+                                                const entity = Entities.find(e => e.id === entityId);
+                                                // Log the entity found or 'Unknown'
+                                                console.log('Found entity:', entity);
+
+                                                return entity ? entity.name : 'Unknown';
+                                            }).join(', ')
+                                        ) : (
+                                            // If data.entity_id is not an array, convert it to an array first
+                                            typeof data.entity_id === 'string' ? (
+                                                data.entity_id.split(',').map(entityId => {
+                                                    // Log the entity ID being searched
+                                                    console.log('Searching for entity ID:', entityId);
+
+                                                    // Find the entity corresponding to the entityId
+                                                    const entity = Entities.find(e => e.id === entityId.trim());
+                                                    // Log the entity found or 'Unknown'
+                                                    console.log('Found entity:', entity);
+
+                                                    return entity ? entity.name : 'Unknown';
+                                                }).join(', ')
+                                            ) : (
+                                                // If data.entity_id is not a string or cannot be converted, show a different message
+                                                'Unable to convert data.entity_id to an array'
+                                            )
+                                        )}
+
+
+                                    </td>
+                                    <td>{data.selected_users}</td>
+                                    {/* Add actions column JSX here */}
+                                </tr>
+                            ))}
                         </tbody>
                     </table>
                 </div>
