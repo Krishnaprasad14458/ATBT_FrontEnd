@@ -66,9 +66,9 @@ const Task = () => {
         setActiveInputName(name)
     }
     return (
-        <div className=''>
+        <div className='mt-4'>
             <div className='overflow-x-auto'>
-                <div className='flex justify-end'>
+                {/* <div className='flex justify-end'>
                     <button className=' ms-2 create-btn mt-1 inline-flex items-center justify-center whitespace-nowrap rounded-2xl text-sm font-medium  transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50  text-orange-foreground shadow hover:bg-orange/90 h-9 px-3 py-1 shrink-0 bg-orange-600 text-white gap-1' onClick={handleAddNewTask}>
                         <svg
                             xmlns='http://www.w3.org/2000/svg'
@@ -79,7 +79,7 @@ const Task = () => {
                         </svg>
                         Add Task
                     </button>
-                </div>
+                </div> */}
                 <table className='w-full  mt-1 table-auto'>
                     <thead>
                         <tr>
