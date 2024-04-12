@@ -472,7 +472,7 @@ function EntityForm() {
       console.log('jsonData submitted', response);
       if (response?.status === 201) {
         console.log('data is 201');
-        navigate(`/entities/${response.data}/overview`);
+        navigate(`/entities/${response.data}`);
       }
     }
   }

@@ -396,7 +396,7 @@ function Users() {
                         }`}
                       style={{ maxWidth: '160px' }}
                     >
-                      <div className='flex justify-start gap-3'>
+                      <div className='flex justify-start gap-5'>
                         <GateKeeper
                           permissionCheck={(permission) =>
                             permission.module === 'user' &&
