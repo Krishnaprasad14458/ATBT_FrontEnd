@@ -1,9 +1,4 @@
-import React, {
-    useState,
-    
-    useContext,
-   
-} from 'react';
+import React, { useState,useContex} from 'react';
 
 import defprop from '../../../Images/defprof.svg';
 import { Link, redirect, useLoaderData, useParams, useLocation, Outlet, } from 'react-router-dom';
