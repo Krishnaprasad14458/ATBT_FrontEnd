@@ -275,17 +275,17 @@ function BoardMeetings() {
                         value = `${day < 10 ? '0' : ''}${day}-${monthAbbreviations[monthIndex]
                           }-${year}`;
                       }
-                      if (key === 'name') {
+                      if (key === 'meetingnumber') {
                         return (
                           <td
                             key={key}
-                            className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden`}
+                            className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden hover:text-orange-500`}
                             style={{ maxWidth: '160px' }}
                             title={row[key]}
                           >
                             <GateKeeper
                               permissionCheck={(permission) =>
-                                permission.module === 'user' &&
+                                permission.module === 'meeting' &&
                                 permission.canRead
                               }
                             >
@@ -299,17 +299,19 @@ function BoardMeetings() {
                         return (
                           <td
                             key={key}
-                            className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden`}
+                            className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden hover:text-orange-500`}
                             style={{ maxWidth: '160px' }}
                             title={row[key]}
                           >
-                            <p className='truncate text-xs'> {value}</p>
+                         
+                                <p className='truncate text-xs'> {value}</p>
+                           
                           </td>
                         );
                       }
                     })}
                     <td
-                      className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden`}
+                      className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden hover:text-orange-500`}
                       style={{ maxWidth: '160px' }}
                       title=''
                     >
