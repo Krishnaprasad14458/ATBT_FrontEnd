@@ -88,7 +88,7 @@ const DataShare = () => {
                             Add
                         </button>
                     </Link>
-                </div>
+                </div>  
             </div>
             {/* table */}
             <div className='mt-8'>
@@ -97,7 +97,7 @@ const DataShare = () => {
                         <thead>
                             <tr>
                                 <th className='sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200'>
-                                    S.No
+                                    Id
                                 </th>
                                 <th className='sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200'>
                                     Name
@@ -105,12 +105,12 @@ const DataShare = () => {
                                 <th className='sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200'>
                                     Description
                                 </th>
-                                {/* <th className='sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200'>
-                                    Entity Belongs to
+                                <th className='sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200'>
+                                    Data of
                                 </th>
                                 <th className='sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200'>
-                                    Users Belongs to
-                                </th> */}
+                                    Shared with
+                                </th>
                                 <th className='sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200 '>
                                     Actions{' '}
                                 </th>
@@ -127,9 +127,35 @@ const DataShare = () => {
                             {/* Map over the customFormField data to generate table rows */}
                             {dataSharing.slice(2).map((data, index) => (
                                 <tr key={index}>
-                                    <td>{data.id}</td>
-                                    <td>{data.name}</td>
-                                    <td>{data.description}</td>
+                                    <td   className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden`}
+                      style={{ maxWidth: '3rem' }}
+                      title={data.id}>{data.id}</td>
+                                    <td   className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden`}
+                      style={{ width: '15rem' }}
+                      title={data.name}>{data.name}</td>
+                                    <td   className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden `}
+                      style={{ width: '32rem' }}
+                      title={data.description}>{data.description}</td>
+                        <td   className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden`}
+                      style={{ width: '15rem' }}
+                      title=''>Infoz IT</td>
+                        <td   className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden`}
+                      style={{ width: '15rem' }}
+                      title=''> Bhaskar</td>
+                       <td   className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden`}
+                    style={{ maxWidth: '3rem' }}
+                      title=''> 
+                      <div className='flex justify-start gap-3'>
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+                      <path fill-rule="evenodd" d="M7.793 2.232a.75.75 0 0 1-.025 1.06L3.622 7.25h10.003a5.375 5.375 0 0 1 0 10.75H10.75a.75.75 0 0 1 0-1.5h2.875a3.875 3.875 0 0 0 0-7.75H3.622l4.146 3.957a.75.75 0 0 1-1.036 1.085l-5.5-5.25a.75.75 0 0 1 0-1.085l5.5-5.25a.75.75 0 0 1 1.06.025Z" clip-rule="evenodd" />
+                    </svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+  <path fill-rule="evenodd" d="M8.75 1A2.75 2.75 0 0 0 6 3.75v.443c-.795.077-1.584.176-2.365.298a.75.75 0 1 0 .23 1.482l.149-.022.841 10.518A2.75 2.75 0 0 0 7.596 19h4.807a2.75 2.75 0 0 0 2.742-2.53l.841-10.52.149.023a.75.75 0 0 0 .23-1.482A41.03 41.03 0 0 0 14 4.193V3.75A2.75 2.75 0 0 0 11.25 1h-2.5ZM10 4c.84 0 1.673.025 2.5.075V3.75c0-.69-.56-1.25-1.25-1.25h-2.5c-.69 0-1.25.56-1.25 1.25v.325C8.327 4.025 9.16 4 10 4ZM8.58 7.72a.75.75 0 0 0-1.5.06l.3 7.5a.75.75 0 1 0 1.5-.06l-.3-7.5Zm4.34.06a.75.75 0 1 0-1.5-.06l-.3 7.5a.75.75 0 1 0 1.5.06l.3-7.5Z" clip-rule="evenodd" />
+</svg>
+
+                      </div>
+                    
+                    </td>
                                     {/* <td>{data.entity_id}</td> */}
                                     {/* <td>
                                         
