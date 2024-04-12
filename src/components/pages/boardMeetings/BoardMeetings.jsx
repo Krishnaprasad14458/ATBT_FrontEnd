@@ -275,7 +275,7 @@ function BoardMeetings() {
                         value = `${day < 10 ? '0' : ''}${day}-${monthAbbreviations[monthIndex]
                           }-${year}`;
                       }
-                      if (key === 'name') {
+                      if (key === 'id') {
                         return (
                           <td
                             key={key}
@@ -285,7 +285,7 @@ function BoardMeetings() {
                           >
                             <GateKeeper
                               permissionCheck={(permission) =>
-                                permission.module === 'user' &&
+                                permission.module === 'meeting' &&
                                 permission.canRead
                               }
                             >
@@ -303,7 +303,9 @@ function BoardMeetings() {
                             style={{ maxWidth: '160px' }}
                             title={row[key]}
                           >
-                            <p className='truncate text-xs'> {value}</p>
+                           <Link to={`${row.id}/task`}>
+                                <p className='truncate text-xs'> {value}</p>
+                              </Link>
                           </td>
                         );
                       }

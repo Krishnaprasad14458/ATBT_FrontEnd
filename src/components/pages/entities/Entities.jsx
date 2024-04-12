@@ -344,7 +344,7 @@ function Entities() {
                       style={{ maxWidth: '160px' }}
                       title=''
                     >
-                      <div className='flex justify-start gap-3'>
+                      <div className='flex justify-start gap-4'>
                         <GateKeeper
                           permissionCheck={(permission) =>
                             permission.module === 'entity' && permission.canRead

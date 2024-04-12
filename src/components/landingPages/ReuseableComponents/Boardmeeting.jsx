@@ -354,16 +354,40 @@ function Boardmeeting() {
                         value = `${day < 10 ? '0' : ''}${day}-${monthAbbreviations[monthIndex]
                           }-${year}`;
                       }
-                      return (
-                        <td
-                          key={key}
-                          className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden`}
-                          style={{ maxWidth: '160px' }}
-                          title={row[key]}
-                        >
-                          <p className='truncate text-xs'> {value}</p>
-                        </td>
-                      );
+                      if (key === 'id') {
+                        return (
+                          <td
+                            key={key}
+                            className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden`}
+                            style={{ maxWidth: '160px' }}
+                            title={row[key]}
+                          >
+                            <GateKeeper
+                              permissionCheck={(permission) =>
+                                permission.module === 'meeting' &&
+                                permission.canRead
+                              }
+                            >
+                              <Link to={`/boardmeetings/${row.id}/task`}>
+                                <p className='truncate text-xs'> {value}</p>
+                              </Link>
+                            </GateKeeper>
+                          </td>
+                        );
+                      } else {
+                        return (
+                          <td
+                            key={key}
+                            className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden`}
+                            style={{ maxWidth: '160px' }}
+                            title={row[key]}
+                          >
+                           <Link to={`/boardmeetings/${row.id}/task`}>
+                                <p className='truncate text-xs'> {value}</p>
+                              </Link>
+                          </td>
+                        );
+                      }
                     })}
                     <td
                       className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden`}
