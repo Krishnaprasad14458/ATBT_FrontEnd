@@ -148,7 +148,7 @@ const BoardMeetingOverview = () => {
                       item.inputname === "meetingnumber" &&
                       item.field === "predefined" && (
                 
-                          <p className="text-lg w-5/6 truncate">{item.value}</p>
+                          <p className="text-md w-5/6 truncate"> Meeting Id : {item.value}</p>
                         
                       )}
 
