@@ -275,7 +275,7 @@ function BoardMeetings() {
                         value = `${day < 10 ? '0' : ''}${day}-${monthAbbreviations[monthIndex]
                           }-${year}`;
                       }
-                      if (key === 'id') {
+                      if (key === 'meetingnumber') {
                         return (
                           <td
                             key={key}
@@ -303,9 +303,9 @@ function BoardMeetings() {
                             style={{ maxWidth: '160px' }}
                             title={row[key]}
                           >
-                           <Link to={`${row.id}/task`}>
+                         
                                 <p className='truncate text-xs'> {value}</p>
-                              </Link>
+                           
                           </td>
                         );
                       }
