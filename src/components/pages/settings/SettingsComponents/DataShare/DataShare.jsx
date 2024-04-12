@@ -3,28 +3,32 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { EntitiesDataContext } from '../../../../../contexts/entitiesDataContext/entitiesDataContext';
 const DataShare = () => {
-    const { entitiesState: { Entities } = {} } = useContext(EntitiesDataContext);
-    const [dataSharing, setDataSharing] = useState([]);
-    const userData = JSON.parse(localStorage.getItem('data'));
-    const token = userData?.token;
 
-    useEffect(() => {
-        axios
-            .get(`https://atbtbeta.infozit.com/access/view`, {
-                headers: {
-                    authorization: token,
-                },
-            })
-            .then((res) => {
-                setDataSharing(res.data);
-                console.log("res.data", res.data);
-            })
-            .catch((error) => {
-                console.error('Error fetching data:', error);
-            });
-    }, [token]);
+    const { entitiesState: { entities }, } = useContext(EntitiesDataContext);
 
+    // useEffect(() => {})
+    console.log("getentities", entities)
     
+        const [dataSharing, setDataSharing] = useState([]);
+            const userData = JSON.parse(localStorage.getItem('data'));
+            const token = userData?.token;
+
+            useEffect(() => {
+                axios
+                .get(`https://atbtbeta.infozit.com/access/view`, {
+                    headers: {
+                    authorization: token,
+                    },
+                })
+                .then((res) => {
+                    setDataSharing(res.data);
+                    console.log("res.data", res.data)
+                })
+                .catch((error) => {
+                    console.error('Error fetching data:', error);
+                });
+            }, [token]);
+  
   
     return (
         <div className=' p-3 bg-[#f8fafc] overflow-hidden'>
@@ -101,12 +105,12 @@ const DataShare = () => {
                                 <th className='sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200'>
                                     Description
                                 </th>
-                                <th className='sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200'>
+                                {/* <th className='sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200'>
                                     Entity Belongs to
                                 </th>
                                 <th className='sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200'>
                                     Users Belongs to
-                                </th>
+                                </th> */}
                                 <th className='sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200 '>
                                     Actions{' '}
                                 </th>
@@ -126,9 +130,9 @@ const DataShare = () => {
                                     <td>{data.id}</td>
                                     <td>{data.name}</td>
                                     <td>{data.description}</td>
-                                    <td>{typeof data.entity_id}</td>
-                                    <td>
-                                        {/* Check if data.entity_id is an array before mapping over it */}
+                                    {/* <td>{data.entity_id}</td> */}
+                                    {/* <td>
+                                        
                                         {Array.isArray(data.entity_id) ? (
                                             // If data.entity_id is already an array, proceed with mapping over it
                                             data.entity_id.map(entityId => {
@@ -136,7 +140,7 @@ const DataShare = () => {
                                                 console.log('Searching for entity ID:', entityId);
 
                                                 // Find the entity corresponding to the entityId
-                                                const entity = Entities.find(e => e.id === entityId);
+                                                const entity = entities.find(e => e.id === entityId);
                                                 // Log the entity found or 'Unknown'
                                                 console.log('Found entity:', entity);
 
@@ -150,7 +154,7 @@ const DataShare = () => {
                                                     console.log('Searching for entity ID:', entityId);
 
                                                     // Find the entity corresponding to the entityId
-                                                    const entity = Entities.find(e => e.id === entityId.trim());
+                                                    const entity = entities.find(e => e.id === entityId.trim());
                                                     // Log the entity found or 'Unknown'
                                                     console.log('Found entity:', entity);
 
@@ -163,8 +167,8 @@ const DataShare = () => {
                                         )}
 
 
-                                    </td>
-                                    <td>{data.selected_users}</td>
+                                    </td> */}
+                                    {/* <td>{data.selected_users}</td> */}
                                     {/* Add actions column JSX here */}
                                 </tr>
                             ))}

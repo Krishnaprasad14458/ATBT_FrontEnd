@@ -46,10 +46,10 @@ const Overview = () => {
     useEffect(() => {
         getSingleProduct();
     }, [id]);
-   
+
     // for calendar
 
-   
+
     // ----toggleDrawer-------
     const [isOpen, setIsOpen] = useState(false);
     const toggleDrawer = () => {
@@ -109,7 +109,7 @@ const Overview = () => {
     return (
         <div className=' flex justify-center mt-5'>
             <div className=' w-full md:w-full  lg:w-11/12 xl:11/12 shadow-md border-2 rounded-md bg-[#f8fafc] px-4 pb-4 pt-1'>
-             
+
                 <div className='flex justify-end '>
                     <Link
                         to={`../${id}/edit`}
@@ -165,8 +165,10 @@ const Overview = () => {
                                             {item.value}
                                         </div>
                                     )}
-                                
-                        {item.type === 'multiselect' &&
+
+
+
+                                {item.type === 'multiselect' &&
                                     item.inputname == 'members' &&
                                     item.field == 'predefined' && (
                                         <div className=' grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-2 mt-5'>
