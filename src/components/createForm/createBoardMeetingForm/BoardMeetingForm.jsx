@@ -517,6 +517,23 @@ function BoardMeetingForm() {
 
   // end the time function
 
+
+
+
+  // for previous dates defult
+  const getCurrentDate = () => {
+    const today = new Date();
+    const year = today.getFullYear();
+    let month = today.getMonth() + 1;
+    let day = today.getDate();
+ 
+    month = month < 10 ? `0${month}` : month;
+    day = day < 10 ? `0${day}` : day;
+ 
+    return `${year}-${month}-${day}`;
+  };
+  
+
   return (
     <div className=" p-4 bg-[#f8fafc]">
       {/* <p className="font-lg font-semibold p-3">Entity Form</p> */}
@@ -588,6 +605,9 @@ function BoardMeetingForm() {
                           name={item.inputname}
                           id={item.inputname}
                           style={{ fontSize: "0.8rem" }}
+                          min={ id ? "" : getCurrentDate() }
+                          // {id ? min={getCurrentDate()}:"" }
+                          // min={} 
                           className="px-2 py-2 text-sm block w-full rounded-md bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder:text-xs"
                           // Add this inline style to decrease the font size
                           value={customFormFields[index].value || ""}
@@ -602,8 +622,7 @@ function BoardMeetingForm() {
                         </div>
                       </div>
                     )}
-         
-               
+
                   {item.type === "textarea" &&
                     item.inputname == "description" &&
                     item.field == "predefined" && (
@@ -1003,7 +1022,7 @@ function BoardMeetingForm() {
                         className="px-2 py-2 text-sm block w-full rounded-md bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder:text-xs"
                         id={item.inputname}
                         value={customFormFields[index].value || ""}
-                        s
+                      
                         onChange={(e) => handleChange(index, e.target.value)}
                         style={{ fontSize: "0.8rem" }}
                       />
@@ -1256,14 +1275,14 @@ function BoardMeetingForm() {
                   )}
                 </div>
               ))}
-            
+            <div className="">
               <button
                 type="submit"
                 className="mt-4 flex w-full justify-center rounded-md bg-orange-600 px-3 py-2.5 text-sm font-medium leading-6 text-white shadow-sm  focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600"
               >
-                Create Board Meeting
+                {id ? "Update Board Meeting" : "Create Board Meeting"}
               </button>
-        
+            </div>
           </form>
         </div>
         {/* preview */}
@@ -1276,12 +1295,11 @@ function BoardMeetingForm() {
                   <div className="relative ">
                     {/* predefined fields*/}
                     <div className="flex justify-between my-1 ">
-                  
                       <span>
                         {item.type === "number" &&
                           item.inputname == "meetingnumber" &&
                           item.field == "predefined" && (
-                            <div >
+                            <div>
                               {item.value ? (
                                 <p className="text-lg">{item.value}</p>
                               ) : (
@@ -1296,15 +1314,18 @@ function BoardMeetingForm() {
                         {item.type === "date" &&
                           item.inputname === "date" &&
                           item.field === "predefined" && (
-                            <div >
-                            {item.value ? (
-                              <p className="text-sm absolute bottom-4 right-2"> Date : {item.value}</p>
-                            ) : (
-                              <p className="text-sm text-gray-400 absolute bottom-4 right-2">
-                                Date:dd/mm/yyy
-                              </p>
-                            )}
-                          </div>
+                            <div>
+                              {item.value ? (
+                                <p className="text-sm absolute bottom-4 right-2">
+                                  {" "}
+                                  Date : {item.value}
+                                </p>
+                              ) : (
+                                <p className="text-sm text-gray-400 absolute bottom-4 right-2">
+                                  Date:dd/mm/yyy
+                                </p>
+                              )}
+                            </div>
                           )}
                       </span>
                     </div>

@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import Select from "react-select";
 import atbtApi from "../../../../../serviceLayer/interceptor";
-
+import { Link,  } from 'react-router-dom';
 import { useLoaderData } from "react-router-dom";
+import { toast } from "react-toastify";
 export async function loader({ request, params }) {
   try {
     let url = new URL(request.url);
@@ -31,9 +32,7 @@ const AddDataShare = () => {
   const data = useLoaderData();
   const [dataShareName, setDataShareName] = useState("")
   const [dataShareDescription, setDataShareDescription] = useState("")
-
-
-  let moduleOptions = [
+let moduleOptions = [
     { value: "user", label: "user" },
     { value: "entity", label: "entity" },
   ];
@@ -103,11 +102,79 @@ const AddDataShare = () => {
     let formData = { name: dataShareName, description: dataShareDescription, entityIds: shareDataOf, userId: shareDataWithSelectedOptions.value }
     console.log("formData",formData)
     if (moduleName === "user") {
-      await atbtApi.post("access/selected", { name: dataShareName, description: dataShareDescription, selectedUsers: shareDataOf });
+      // await atbtApi.post("access/selected", { name: dataShareName, description: dataShareDescription, selectedUsers: shareDataOf });
+      await toast.promise(
+        atbtApi.post("access/selected", { name: dataShareName, description: dataShareDescription, selectedUsers: shareDataOf }),
+        {
+          pending: {
+            render() {
+              return 'in progress';
+            },
+          },
+          success: {
+            render({
+              data: {
+                data: {message}
+              },
+            }) {
+  
+  
+              return `Data Shared ${message}`;
+            },
+          },
+          error: {
+            render({
+              data: {
+                response: { data },
+              },
+            }) {
+              // When the promise reject, data will contains the error
+              return `error: Data share failed`;
+              // return <MyErrorComponent message={data.message} />;
+            },
+          },
+        }
+      );
     } else if (moduleName === "entity") {
       await atbtApi.post(`access/entity`, { name: dataShareName, description: dataShareDescription, entityIds: shareDataOf, userId: shareDataWithSelectedOptions.value, });
     }
+
+    // await toast.promise(
+    //   axios.post(`${apiUrl}/auth/login`, loginData),
+    //   {
+    //     pending: {
+    //       render() {
+    //         return 'Logging In...';
+    //       },
+    //     },
+    //     success: {
+    //       render({
+    //         data: {
+    //           data: {
+    //             user: { name },
+    //           },
+    //         },
+    //       }) {
+
+
+    //         return `Welcome ${name}`;
+    //       },
+    //     },
+    //     error: {
+    //       render({
+    //         data: {
+    //           response: { data },
+    //         },
+    //       }) {
+    //         // When the promise reject, data will contains the error
+    //         return `error: ${data?.message}`;
+    //         // return <MyErrorComponent message={data.message} />;
+    //       },
+    //     },
+    //   }
+    // );
   };
+
 
   return (
     <div className="p-4 bg-[#f8fafc]">
@@ -301,14 +368,19 @@ const AddDataShare = () => {
           </div>
         </div>
       </div>
+     
       <div className="flex justify-end ">
+      <Link to="/settings/datashare">
         <button
           className="mt-4 px-3 py-2  whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white "
           onClick={handleSubmit}
         >
           Save
         </button>
+        </Link>
       </div>
+    
+   
     </div>
   );
 };
