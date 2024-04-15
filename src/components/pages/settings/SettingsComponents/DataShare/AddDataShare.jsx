@@ -91,89 +91,47 @@ let moduleOptions = [
     let moduleName = module.value;
     let shareDataOf = shareDataOfSelectedOptions.map((item) => item.value);
     let shareDataWith = shareDataWithSelectedOptions.value;
-    console.log(
-      "module",
-      moduleName,
-      "shareDataOf",
-      shareDataOf,
-      "shareDataWith",
-      shareDataWith
-    );
-    let formData = { name: dataShareName, description: dataShareDescription, entityIds: shareDataOf, userId: shareDataWithSelectedOptions.value }
-    console.log("formData",formData)
+    let endpoint;
     if (moduleName === "user") {
-      // await atbtApi.post("access/selected", { name: dataShareName, description: dataShareDescription, selectedUsers: shareDataOf });
-      await toast.promise(
-        atbtApi.post("access/selected", { name: dataShareName, description: dataShareDescription, selectedUsers: shareDataOf }),
-        {
-          pending: {
-            render() {
-              return 'in progress';
-            },
-          },
-          success: {
-            render({
-              data: {
-                data: {message}
-              },
-            }) {
-  
-  
-              return `Data Shared ${message}`;
-            },
-          },
-          error: {
-            render({
-              data: {
-                response: { data },
-              },
-            }) {
-              // When the promise reject, data will contains the error
-              return `error: Data share failed`;
-              // return <MyErrorComponent message={data.message} />;
-            },
-          },
-        }
-      );
+      endpoint = "access/selected";
+   
     } else if (moduleName === "entity") {
-      await atbtApi.post(`access/entity`, { name: dataShareName, description: dataShareDescription, entityIds: shareDataOf, userId: shareDataWithSelectedOptions.value, });
+      endpoint = "access/entity";
     }
-
-    // await toast.promise(
-    //   axios.post(`${apiUrl}/auth/login`, loginData),
-    //   {
-    //     pending: {
-    //       render() {
-    //         return 'Logging In...';
-    //       },
-    //     },
-    //     success: {
-    //       render({
-    //         data: {
-    //           data: {
-    //             user: { name },
-    //           },
-    //         },
-    //       }) {
-
-
-    //         return `Welcome ${name}`;
-    //       },
-    //     },
-    //     error: {
-    //       render({
-    //         data: {
-    //           response: { data },
-    //         },
-    //       }) {
-    //         // When the promise reject, data will contains the error
-    //         return `error: ${data?.message}`;
-    //         // return <MyErrorComponent message={data.message} />;
-    //       },
-    //     },
-    //   }
-    // );
-  };
+    await toast.promise(
+      atbtApi.post(endpoint, { name: dataShareName,
+         description: dataShareDescription, selectedUsers: shareDataOf,
+            ...(moduleName === "user" ? { selectedUsers: shareDataOf } : { entityIds: shareDataOf }),
+             userId: shareDataWithSelectedOptions.value }),
+      {
+        pending: {
+          render() {
+            return 'in progress';
+          },
+        },
+        success: {
+          render({
+            data: {
+              data: {message}
+            },
+          }) {
+            return `Data Shared ${message}`;
+          },
+        },
+        error: {
+          render({
+            data: {
+              response: { data },
+            },
+          }) {
+            // When the promise reject, data will contains the error
+            return `error: Data share failed`;
+            // return <MyErrorComponent message={data.message} />;
+          },
+        },
+      }
+    );
+    };
 
 
   return (
