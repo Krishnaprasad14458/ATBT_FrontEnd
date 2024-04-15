@@ -6,6 +6,7 @@ import BoardMeetingLandingPage from "../../components/landingPages/boardMeeting/
 import BoardMeetings, { action as meetingAction, loader as meetingLoader } from "../../components/pages/boardMeetings/BoardMeetings";
 import BoardMeetingOverview from "../../components/landingPages/boardMeeting/BoardMeetingOverview";
 import RouteBlocker from "../../rbac/RouteBlocker";
+import MeetingWiseTask from "../../components/landingPages/ReuseableComponents/MeetingWiseTask";
 
 export const meetingRouter = [
     { index: true, loader: meetingLoader, action: meetingAction, element: <BoardMeetings />, },
@@ -16,7 +17,7 @@ export const meetingRouter = [
             {
                 element: <BoardMeetingLandingPage />, children: [
                     { index: true, element: <BoardMeetingOverview /> },
-                    { path: 'task', element: <Task /> },
+                    { path: 'task', element: <MeetingWiseTask /> },
                     { path: 'documents', element: <Documents /> },
                 ]
             }
