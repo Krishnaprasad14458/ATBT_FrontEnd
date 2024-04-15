@@ -248,7 +248,7 @@ function Boardmeeting() {
             fieldsDropDownData={fieldsDropDownData}
             Qparams={Qparams}
             setQParams={setQParams}
-            customForm={customForm} 
+            customForm={customForm}
           />
           <Link className=' px-1 inline-flex items-center  whitespace-nowrap rounded-full  transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground  hover:bg-primary/90 shrink-0 text-white  '
             to={{
@@ -358,6 +358,7 @@ function Boardmeeting() {
                         return (
                           <td
                             key={key}
+
                             className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden hover:text-orange-500`}
                             style={{ maxWidth: '160px' }}
                             title={row[key]}
@@ -372,12 +373,14 @@ function Boardmeeting() {
                                 <p className='truncate text-xs'> {value}</p>
                               </Link>
                             </GateKeeper>
+
                           </td>
                         );
                       } else {
                         return (
                           <td
                             key={key}
+
                             className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden hover:text-orange-500`}
                             style={{ maxWidth: '160px' }}
                             title={row[key]}
@@ -388,6 +391,7 @@ function Boardmeeting() {
                           </td>
                         );
                       }
+
                     })}
                     <td
                       className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden`}

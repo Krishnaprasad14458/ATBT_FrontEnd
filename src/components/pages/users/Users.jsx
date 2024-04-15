@@ -369,7 +369,7 @@ function Users() {
                                 permission.canRead
                               }
                             >
-                              <Link to={`${row.id}/task`}>
+                              <Link to={`${row.id}/boardmeetings`}>
                                 <p className='truncate text-xs'> {value}</p>
                               </Link>
                             </GateKeeper>
@@ -482,6 +482,7 @@ function Users() {
                             //     />
                             //   </svg>
                             // </button>
+
                             <button 
                             type='button'
                              title='Delete'
@@ -504,6 +505,7 @@ function Users() {
                                 clip-rule='evenodd'
                                  />
                               </svg>
+
                             </button>
                           }
                         </GateKeeper>
