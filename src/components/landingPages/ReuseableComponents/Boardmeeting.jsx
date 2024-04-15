@@ -358,14 +358,21 @@ function Boardmeeting() {
                         return (
                           <td
                             key={key}
-                            className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  hover:text-orange-500 overflow-hidden`}
+
+                            className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden hover:text-orange-500`}
                             style={{ maxWidth: '160px' }}
                             title={row[key]}
                           >
-
-                            <Link to={`/task`}>
-                              <p className='truncate text-xs'> {value}</p>
-                            </Link>
+                            <GateKeeper
+                              permissionCheck={(permission) =>
+                                permission.module === 'meeting' &&
+                                permission.canRead
+                              }
+                            >
+                              <Link to={`/boardmeetings/${row.id}/task`}>
+                                <p className='truncate text-xs'> {value}</p>
+                              </Link>
+                            </GateKeeper>
 
                           </td>
                         );
@@ -373,17 +380,17 @@ function Boardmeeting() {
                         return (
                           <td
                             key={key}
-                            className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden`}
+
+                            className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden hover:text-orange-500`}
                             style={{ maxWidth: '160px' }}
                             title={row[key]}
                           >
-                            <p className='truncate text-xs'> {value}</p>
+                          
+                                <p className='truncate text-xs'> {value}</p>
+                             
                           </td>
-
                         );
                       }
-
-
 
                     })}
                     <td

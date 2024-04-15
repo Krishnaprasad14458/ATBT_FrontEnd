@@ -1,6 +1,35 @@
-import React from 'react'
+import { React, useEffect, useState, useContext} from 'react'
 import { Link } from 'react-router-dom';
+import axios from 'axios';
+import { EntitiesDataContext } from '../../../../../contexts/entitiesDataContext/entitiesDataContext';
 const DataShare = () => {
+
+    const { entitiesState: { entities }, } = useContext(EntitiesDataContext);
+
+    // useEffect(() => {})
+    console.log("getentities", entities)
+    
+        const [dataSharing, setDataSharing] = useState([]);
+            const userData = JSON.parse(localStorage.getItem('data'));
+            const token = userData?.token;
+
+            useEffect(() => {
+                axios
+                .get(`https://atbtbeta.infozit.com/access/view`, {
+                    headers: {
+                    authorization: token,
+                    },
+                })
+                .then((res) => {
+                    setDataSharing(res.data);
+                    console.log("res.data", res.data)
+                })
+                .catch((error) => {
+                    console.error('Error fetching data:', error);
+                });
+            }, [token]);
+  
+  
     return (
         <div className=' p-3 bg-[#f8fafc] overflow-hidden'>
             <div className='grid grid-cols-1 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3 xl:grid-col-3 gap-2 mt-2'>
@@ -59,7 +88,7 @@ const DataShare = () => {
                             Add
                         </button>
                     </Link>
-                </div>
+                </div>  
             </div>
             {/* table */}
             <div className='mt-8'>
@@ -68,7 +97,7 @@ const DataShare = () => {
                         <thead>
                             <tr>
                                 <th className='sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200'>
-                                    S.No
+                                    Id
                                 </th>
                                 <th className='sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200'>
                                     Name
@@ -76,17 +105,99 @@ const DataShare = () => {
                                 <th className='sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200'>
                                     Description
                                 </th>
+                                <th className='sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200'>
+                                    Data of
+                                </th>
+                                <th className='sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200'>
+                                    Shared with
+                                </th>
                                 <th className='sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200 '>
                                     Actions{' '}
                                 </th>
                             </tr>
                         </thead>
-                        <tbody className='divide-y divide-gray-200 dark:divide-gray-700'>
+                        {/* <tbody className='divide-y divide-gray-200 dark:divide-gray-700'>
                             <tr>
                                 <td>bhavitha</td>
                                 <td>bhavitha</td>
                                 <td>bhavitha</td>
                             </tr>
+                        </tbody> */}
+                        <tbody className='divide-y divide-gray-200 dark:divide-gray-700'>
+                            {/* Map over the customFormField data to generate table rows */}
+                            {dataSharing.slice(2).map((data, index) => (
+                                <tr key={index}>
+                                    <td   className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden`}
+                      style={{ maxWidth: '3rem' }}
+                      title={data.id}>{data.id}</td>
+                                    <td   className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden`}
+                      style={{ width: '15rem' }}
+                      title={data.name}>{data.name}</td>
+                                    <td   className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden `}
+                      style={{ width: '32rem' }}
+                      title={data.description}>{data.description}</td>
+                        <td   className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden`}
+                      style={{ width: '15rem' }}
+                      title=''>Infoz IT</td>
+                        <td   className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden`}
+                      style={{ width: '15rem' }}
+                      title=''> Bhaskar</td>
+                       <td   className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden`}
+                    style={{ maxWidth: '3rem' }}
+                      title=''> 
+                      <div className='flex justify-start gap-3'>
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+                      <path fill-rule="evenodd" d="M7.793 2.232a.75.75 0 0 1-.025 1.06L3.622 7.25h10.003a5.375 5.375 0 0 1 0 10.75H10.75a.75.75 0 0 1 0-1.5h2.875a3.875 3.875 0 0 0 0-7.75H3.622l4.146 3.957a.75.75 0 0 1-1.036 1.085l-5.5-5.25a.75.75 0 0 1 0-1.085l5.5-5.25a.75.75 0 0 1 1.06.025Z" clip-rule="evenodd" />
+                    </svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+  <path fill-rule="evenodd" d="M8.75 1A2.75 2.75 0 0 0 6 3.75v.443c-.795.077-1.584.176-2.365.298a.75.75 0 1 0 .23 1.482l.149-.022.841 10.518A2.75 2.75 0 0 0 7.596 19h4.807a2.75 2.75 0 0 0 2.742-2.53l.841-10.52.149.023a.75.75 0 0 0 .23-1.482A41.03 41.03 0 0 0 14 4.193V3.75A2.75 2.75 0 0 0 11.25 1h-2.5ZM10 4c.84 0 1.673.025 2.5.075V3.75c0-.69-.56-1.25-1.25-1.25h-2.5c-.69 0-1.25.56-1.25 1.25v.325C8.327 4.025 9.16 4 10 4ZM8.58 7.72a.75.75 0 0 0-1.5.06l.3 7.5a.75.75 0 1 0 1.5-.06l-.3-7.5Zm4.34.06a.75.75 0 1 0-1.5-.06l-.3 7.5a.75.75 0 1 0 1.5.06l.3-7.5Z" clip-rule="evenodd" />
+</svg>
+
+                      </div>
+                    
+                    </td>
+                                    {/* <td>{data.entity_id}</td> */}
+                                    {/* <td>
+                                        
+                                        {Array.isArray(data.entity_id) ? (
+                                            // If data.entity_id is already an array, proceed with mapping over it
+                                            data.entity_id.map(entityId => {
+                                                // Log the entity ID being searched
+                                                console.log('Searching for entity ID:', entityId);
+
+                                                // Find the entity corresponding to the entityId
+                                                const entity = entities.find(e => e.id === entityId);
+                                                // Log the entity found or 'Unknown'
+                                                console.log('Found entity:', entity);
+
+                                                return entity ? entity.name : 'Unknown';
+                                            }).join(', ')
+                                        ) : (
+                                            // If data.entity_id is not an array, convert it to an array first
+                                            typeof data.entity_id === 'string' ? (
+                                                data.entity_id.split(',').map(entityId => {
+                                                    // Log the entity ID being searched
+                                                    console.log('Searching for entity ID:', entityId);
+
+                                                    // Find the entity corresponding to the entityId
+                                                    const entity = entities.find(e => e.id === entityId.trim());
+                                                    // Log the entity found or 'Unknown'
+                                                    console.log('Found entity:', entity);
+
+                                                    return entity ? entity.name : 'Unknown';
+                                                }).join(', ')
+                                            ) : (
+                                                // If data.entity_id is not a string or cannot be converted, show a different message
+                                                'Unable to convert data.entity_id to an array'
+                                            )
+                                        )}
+
+
+                                    </td> */}
+                                    {/* <td>{data.selected_users}</td> */}
+                                    {/* Add actions column JSX here */}
+                                </tr>
+                            ))}
                         </tbody>
                     </table>
                 </div>
