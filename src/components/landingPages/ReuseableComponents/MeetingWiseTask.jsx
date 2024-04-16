@@ -114,7 +114,7 @@ import React, {
                 >
                   Due Date
                 </th>
-                <th
+                {/* <th
                   scope="col"
                   className="py-2 px-2  text-sm text-white bg-orange-600 border border-collapse border-[#e5e7eb] 
                                   whitespace-nowrap"
@@ -127,7 +127,7 @@ import React, {
                                   whitespace-nowrap"
                 >
                   Board Meeting No.
-                </th>
+                </th> */}
   
                 <th
                   scope="col"
@@ -214,26 +214,7 @@ import React, {
                       title={task.duedate}
                     />
                   </td>
-                  <td className={`border text-center  text-sm `}>
-                    {/* <input
-                                          className='outline-none text-black  truncate px-1.5 py-1 rounded-md shadow_box  me-2 bg-[#f8fafc] '
-                                          type='text'
-                                          value={task.dateOfBoardMeeting}
-                                          onChange={(e) => handleEditTask(index, "dateOfBoardMeeting", e)}
-                                          onClick={() => handleActiveInput(index, "dateOfBoardMeeting")}
-  
-                                          title={task.dateOfBoardMeeting} /> */}
-                    dateOfBoardMeeting
-                  </td>
-                  <td className={`border text-center  text-sm `}>
-                    {/* <input
-                                          className='outline-none text-black  truncate px-1.5 py-1 rounded-md shadow_box  me-2 bg-[#f8fafc] ' type='text'
-                                          value={task.boardMeetingNo}
-                                          onChange={(e) => handleEditTask(index, "boardMeetingNo", e)}
-                                          onClick={() => handleActiveInput(index, "boardMeetingNo")}
-                                          style={{ maxWidth: '110px' }}
-                                          title={task.boardMeetingNo} /> */}
-                  </td>
+               
                   <td
                     className={`border text-center  text-sm 
                                    ${

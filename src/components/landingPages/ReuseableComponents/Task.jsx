@@ -24,11 +24,20 @@ const Task = () => {
   const { id } = useParams();
   // ----toggleDrawer-------
   const [isOpen, setIsOpen] = useState(false);
+ 
   const toggleDrawer = () => {
     setIsOpen(!isOpen);
   };
   // -------full screen----
   const [expand, setExpand] = useState(false);
+const handleExpand =()=>{
+  setExpand(!expand);
+}
+
+
+
+
+
   const [overViewNewTask, setOverViewNewTask] = useState(false);
   const handleOverViewNewTask = () => {
     setOverViewNewTask(!overViewNewTask);
@@ -265,7 +274,7 @@ const Task = () => {
       </div>
       <div>
         {/* drawer start */}
-        <div
+        {/* <div
           className={`fixed inset-0 transition-all duration-500 bg-gray-800 bg-opacity-50 z-50 ${
             overViewNewTask ? "" : "hidden"
           }`}
@@ -303,14 +312,13 @@ const Task = () => {
               </button>
             </div>
           </div>
-        </div>
-
+        </div> */}
         <div
-          className={`fixed inset-0 transition-all duration-500 bg-gray-800 bg-opacity-50 z-50 ${
-            isOpen ? "" : "hidden"
+          className={`fixed inset-0 transition-all duration-500 bg-gray-800 bg-opacity-50 z-50  ${
+            overViewNewTask ? "" : "hidden"
           }`}
         >
-          <div className="p-3 fixed inset-y-0 right-0 w-4/12 bg-white shadow-lg transform translate-x-0 transition-transform duration-300 ease-in-out">
+          <div className={`p-3 fixed inset-y-0 right-0  bg-white shadow-lg transform translate-x-0 transition-transform duration-300 ease-in-out ${expand ? "w-3/4" :"w-2/5" }`}>
             <div className="flex justify-start">
               <div className="relative inline-block ms-2">
                 <select className="block appearance-none w-full bg-white text-sm border border-gray-300 hover:border-gray-300 px-1 py-1.5 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
@@ -330,7 +338,7 @@ const Task = () => {
                 </div>
               </div>
               <div className="absolute top-4 right-4 flex flex-row">
-                <svg
+                {/* <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
                   viewBox="0 0 24 24"
@@ -343,7 +351,7 @@ const Task = () => {
                     stroke-linejoin="round"
                     d="M6.633 10.25c.806 0 1.533-.446 2.031-1.08a9.041 9.041 0 0 1 2.861-2.4c.723-.384 1.35-.956 1.653-1.715a4.498 4.498 0 0 0 .322-1.672V2.75a.75.75 0 0 1 .75-.75 2.25 2.25 0 0 1 2.25 2.25c0 1.152-.26 2.243-.723 3.218-.266.558.107 1.282.725 1.282m0 0h3.126c1.026 0 1.945.694 2.054 1.715.045.422.068.85.068 1.285a11.95 11.95 0 0 1-2.649 7.521c-.388.482-.987.729-1.605.729H13.48c-.483 0-.964-.078-1.423-.23l-3.114-1.04a4.501 4.501 0 0 0-1.423-.23H5.904m10.598-9.75H14.25M5.904 18.5c.083.205.173.405.27.602.197.4-.078.898-.523.898h-.908c-.889 0-1.713-.518-1.972-1.368a12 12 0 0 1-.521-3.507c0-1.553.295-3.036.831-4.398C3.387 9.953 4.167 9.5 5 9.5h1.053c.472 0 .745.556.5.96a8.958 8.958 0 0 0-1.302 4.665c0 1.194.232 2.333.654 3.375Z"
                   />
-                </svg>
+                </svg> */}
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 24 24"
@@ -356,11 +364,13 @@ const Task = () => {
                     clip-rule="evenodd"
                   />
                 </svg>
+                <button  onClick={handleExpand}>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 24 24"
                   fill="currentColor"
                   className="w-5 h-5 me-4 text-gray-500"
+                 
                 >
                   <path
                     fillRule="evenodd"
@@ -368,7 +378,8 @@ const Task = () => {
                     clipRule="evenodd"
                   />
                 </svg>
-                <button onClick={toggleDrawer} className="">
+                </button>
+                <button onClick={handleOverViewNewTask} className="">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 24 24"
@@ -385,8 +396,8 @@ const Task = () => {
               </div>
             </div>
             <div className="mt-5 ms-3">
-              <p className="text-xl font-semibold">Bhavitha</p>
-              <div className="mt-5 flex flex-row">
+              {/* <p className="text-xl font-semibold">Bhavitha</p> */}
+              {/* <div className="mt-5 flex flex-row">
                 <p className="basis-1/4 text-sm text-gray-600">Assignee</p>
                 <p className="basis-1/2 text-sm  flex flex-row">
                   {" "}
@@ -397,7 +408,17 @@ const Task = () => {
                   </p>
                   <span className="ms-2 mt-1 text-sm"> Bhavitha Agrawal</span>
                 </p>
-              </div>
+              </div> */}
+
+<div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3 xl:grid-col-3 ">
+  <div className="col-span-1 ">
+    Decision Making :
+  </div>
+  <div className="col-span-2">
+    Decision Making ggv hhh uoiuiuiu vgvgff ffff ff f  f ff yt fyfytf yt f ytf yt f ytf ytfyt ftyfytf ytf tygygtygytg
+  </div>
+</div>
+
               <div className="mt-5 flex flex-row">
                 <p className="basis-1/4 text-sm text-gray-600">Due Date</p>
                 <p className="basis-1/2 text-sm">24/1/2024</p>
