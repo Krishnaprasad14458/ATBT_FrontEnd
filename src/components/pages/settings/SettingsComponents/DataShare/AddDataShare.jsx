@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import Select from "react-select";
 import atbtApi from "../../../../../serviceLayer/interceptor";
-import { Link,  } from 'react-router-dom';
+import { Link,  useNavigate} from 'react-router-dom';
 import { useLoaderData } from "react-router-dom";
 import { toast } from "react-toastify";
+
 export async function loader({ request, params }) {
   try {
     let url = new URL(request.url);
@@ -29,6 +30,7 @@ export async function loader({ request, params }) {
   }
 }
 const AddDataShare = () => {
+  const navigate = useNavigate();
   const data = useLoaderData();
   const [dataShareName, setDataShareName] = useState("")
   const [dataShareDescription, setDataShareDescription] = useState("")
@@ -115,6 +117,7 @@ let moduleOptions = [
               data: {message}
             },
           }) {
+           navigate('/settings/datashare');
             return `Data Shared ${message}`;
           },
         },
@@ -328,14 +331,14 @@ let moduleOptions = [
       </div>
      
       <div className="flex justify-end ">
-      <Link to="/settings/datashare">
+    
         <button
           className="mt-4 px-3 py-2  whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white "
           onClick={handleSubmit}
         >
           Save
         </button>
-        </Link>
+       
       </div>
     
    
