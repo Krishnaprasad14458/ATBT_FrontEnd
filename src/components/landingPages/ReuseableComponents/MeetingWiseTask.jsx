@@ -132,7 +132,7 @@ const MeetingWiseTask = () => {
                 scope="col"
                 className="py-2 px-2  text-sm text-white bg-orange-600   border border-collapse border-[#e5e7eb] whitespace-nowrap"
               >
-                Updated by Admin{" "}
+                Updated by Admin
               </th>
             </tr>
           </thead>
@@ -140,10 +140,10 @@ const MeetingWiseTask = () => {
             {tasks?.map((task, index) => (
               <tr key={index}>
                 <td
-                  className={`border-l border-b text-center flex  justify-evenly items-center text-sm py-1.5 px-0.5`}
+                  className={`border text-center text-sm px-1.5 py-2 flex items-center`}
                 >
                   <input
-                    className="outline-none text-black  truncate px-1.5 py-1 rounded-md shadow_box  me-2 bg-[#f8fafc] "
+                    className="outline-none text-black  truncate px-1.5 py-1 rounded-md shadow_box  mx-2 bg-[#f8fafc] w-full "
                     type="text"
                     value={task.taskname}
                     onChange={(e) => handleEditTask(index, "taskname", e)}
@@ -152,7 +152,7 @@ const MeetingWiseTask = () => {
                     title={task.taskname}
                   />
                   <span
-                    className="shadow_box p-1 rounded-sm"
+                    className="shadow_box p-1 rounded-sm cursor-pointer"
                     onClick={handleOverViewNewTask}
                   >
                     <svg
@@ -169,9 +169,9 @@ const MeetingWiseTask = () => {
                     </svg>
                   </span>
                 </td>
-                <td className={`border text-center  text-sm ps-1.5 `}>
+                <td className={`border text-center  text-sm p-1.5`}>
                   <input
-                    className="outline-none text-black  truncate px-1.5 py-1 rounded-md shadow_box  me-2 bg-[#f8fafc] "
+                    className="outline-none text-black  truncate px-1.5 py-1 rounded-md shadow_box  w-full bg-[#f8fafc] "
                     type="text"
                     value={task.assignee}
                     onChange={(e) => handleEditTask(index, "assignee", e)}
@@ -180,26 +180,26 @@ const MeetingWiseTask = () => {
                     title={task.assignee}
                   />
                 </td>
-                <td className={`border text-center  text-sm ps-1.5`}>
+                <td className={`border text-center  text-sm p-1.5`}>
                   <input
-                    className="outline-none text-black  truncate px-1.5 py-1 rounded-md shadow_box  me-2 bg-[#f8fafc] "
+                    className="outline-none text-black truncate px-1.5 py-1 rounded-md shadow_box w-full bg-[#f8fafc]"
                     type="date"
                     value={task.duedate}
                     onChange={(e) => handleEditTask(index, "duedate", e)}
                     onClick={() => handleActiveInput(index, "duedate")}
-                    style={{ maxWidth: "120px" }}
                     title={task.duedate}
+                 
                   />
+
                 </td>
 
                 <td
                   className={`border text-center  text-sm 
-                                   ${
-                                     activeInputIndex === index &&
-                                     activeInputName === "status"
-                                       ? " border-2 border-slate-300"
-                                       : " border border-slate-200 "
-                                   }`}
+                                   ${activeInputIndex === index &&
+                      activeInputName === "status"
+                      ? " border-2 border-slate-300"
+                      : " border border-slate-200 "
+                    }`}
                 >
                   <input
                     className="outline-none text-black truncate  py-2 bg-[#f8fafc]"
@@ -222,7 +222,10 @@ const MeetingWiseTask = () => {
           </tbody>
         </table>
       </div>
-      <TaskOverview overViewNewTask = {overViewNewTask}  handleOverViewNewTask={handleOverViewNewTask}/>
+      <TaskOverview
+        overViewNewTask={overViewNewTask}
+        handleOverViewNewTask={handleOverViewNewTask}
+      />
     </div>
   );
 };

@@ -134,6 +134,7 @@ const AllTasks = () => {
               </th>
             </tr>
           </thead>
+         
           <tbody className="">
             {tasks?.map((task, index) => (
               <tr key={index}>
@@ -141,7 +142,7 @@ const AllTasks = () => {
                   className={`border-l border-b text-center flex  justify-evenly items-center text-sm py-1.5 px-0.5`}
                 >
                   <input
-                    className="outline-none text-black  truncate px-1.5 py-1 rounded-md shadow_box  me-2 bg-[#f8fafc] "
+                    className="outline-none text-black  truncate px-1.5 py-1 rounded-md shadow_box  me-2 bg-[#f8fafc] w-full "
                     type="text"
                     value={task.taskname}
                     onChange={(e) => handleEditTask(index, "taskname", e)}
