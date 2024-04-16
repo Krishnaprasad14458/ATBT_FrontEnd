@@ -3,7 +3,7 @@ import AllTasks from "../../components/landingPages/ReuseableComponents/AllTasks
 import Boardmeeting, { action as entityMeetingAction, loader as entityMeetingLoader } from "../../components/landingPages/ReuseableComponents/Boardmeeting";
 
 import Documents from "../../components/landingPages/ReuseableComponents/Documents";
-import Task from "../../components/landingPages/ReuseableComponents/Task";
+
 import TeamsLandingPage from "../../components/landingPages/teams/TeamsLandingPage";
 import TeamsOverview from "../../components/landingPages/teams/TeamsOverview";
 import Teams, { loader as teamLoader } from "../../components/pages/teams/Teams";
