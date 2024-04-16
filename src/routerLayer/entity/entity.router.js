@@ -3,10 +3,10 @@ import Boardmeeting, { action as entityMeetingAction, loader as entityMeetingLoa
 import Documents from "../../components/landingPages/ReuseableComponents/Documents";
 import EntityLandingPage from "../../components/landingPages/entity/EntityLandingPage";
 import Overview from "../../components/landingPages/entity/Overview";
-import Task from "../../components/landingPages/ReuseableComponents/Task";
 import BoardMeetings from "../../components/pages/boardMeetings/BoardMeetings";
 import Entities, { action as entityAction, loader as entityLoader } from "../../components/pages/entities/Entities";
 import RouteBlocker from "../../rbac/RouteBlocker";
+import AllTasks from "../../components/landingPages/ReuseableComponents/AllTasks";
 
 export const entityRouter = [
     { index: true, loader: entityLoader, action: entityAction, element: <Entities />, },
@@ -17,7 +17,7 @@ export const entityRouter = [
             {
                 element: <EntityLandingPage />, children: [
                     { index: true, element: <Overview /> },
-                    { path: 'task', element: <Task /> },
+                    { path: 'task', element: <AllTasks /> },
                     { path: 'boardmeetings', loader: entityMeetingLoader, action: entityMeetingAction, element: <Boardmeeting /> },
                     { path: 'documents', element: <Documents /> },
                 ]
