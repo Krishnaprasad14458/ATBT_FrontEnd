@@ -92,8 +92,10 @@ const AddDataShare = () => {
       setShareDataOfOptions(filteredData);
     }
   }, [shareDataWithSelectedOptions]);
+  
+  const [saveButtonClicked,setsaveButtonClicked]=useState(false)
   const handleSubmit = async () => {
-
+    setsaveButtonClicked(true)
     if (!handleValidationsErrors()) {
       let moduleName = module.value;
       let endpoint;
@@ -176,12 +178,12 @@ const AddDataShare = () => {
     if (dataShareName.length === 0) {
       setErrors((prev) => ({ ...prev, dataShareName: "Name is Required" }))
       isErrorsPresent = true
-      return isErrorsPresent
+     
     }
     else if (dataShareName.length < 3) {
       setErrors((prev) => ({ ...prev, dataShareName: "length should be greater than 3 characters" }))
       isErrorsPresent = true
-      return isErrorsPresent
+   
     }else{
       setErrors((prev) => ({ ...prev, dataShareName: "" }))
 
@@ -189,7 +191,7 @@ const AddDataShare = () => {
     if (shareDataOfSelectedOptions.length === 0) {
       setErrors((prev) => ({ ...prev, shareDataOfSelectedOptions: "Select Alteat One" }))
       isErrorsPresent = true
-      return isErrorsPresent
+     
     }
     else{
       setErrors((prev) => ({ ...prev, shareDataOfSelectedOptions: "" }))
@@ -197,14 +199,18 @@ const AddDataShare = () => {
     if (Object.keys(shareDataWithSelectedOptions).length === 0 && shareDataWithSelectedOptions.constructor === Object) {
       setErrors((prev) => ({ ...prev, shareDataWithSelectedOptions: "Select Alteat One" }))
       isErrorsPresent = true
-      return isErrorsPresent
+    
     }
     else{
       setErrors((prev) => ({ ...prev, shareDataWithSelectedOptions: "" }))
     }
    return isErrorsPresent
   }
- 
+ useEffect(()=>{
+  if(saveButtonClicked){
+    handleValidationsErrors()
+  }
+ },[dataShareName,shareDataOfSelectedOptions,shareDataWithSelectedOptions])
   return (
     <div className="p-4 bg-[#f8fafc]">
       <div className="grid grid-cols-1  sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-2 lg:gap-5 gap-y-4">
@@ -219,6 +225,7 @@ const AddDataShare = () => {
             value={dataShareName}
             onChange={(event) => setDataShareName(event.target.value)}
           />
+          {errors && errors.dataShareName}
         </div>
         <div className="col-span-1 ">
           <label className="block text-sm font-medium leading-6  text-gray-900 mb-1">
@@ -231,6 +238,8 @@ const AddDataShare = () => {
             value={dataShareDescription}
             onChange={(event) => setDataShareDescription(event.target.value)}
           />
+       
+
         </div>
       </div>
       <div className="grid grid-cols-1  sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-2  gap-5 mt-2 ">
@@ -330,6 +339,7 @@ const AddDataShare = () => {
                 onChange={handleShareDataOf}
                 onInputChange={handleInputChange}
               />
+                 {errors && errors.shareDataOfSelectedOptions}
             </div>
           </div>
         </div>
@@ -387,6 +397,8 @@ const AddDataShare = () => {
                 value={shareDataWithSelectedOptions}
                 onChange={handleShareDataWith}
               />
+                 {errors && errors.shareDataWithSelectedOptions}
+
             </div>
           </div>
         </div>
