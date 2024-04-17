@@ -136,27 +136,19 @@ const DataShare = () => {
                         style={{ width: "15rem" }}
                         title=""
                       >
-                        {data.selectedUsersNames}
-                        {/* {data.selectedUsersNames
-                          ? data?.selectedUsersNames?.map((name) =>
-                              name.split().join(", ")
-                            )
-                          : "No Data Shared"} */}
+                     
+                          
+                          {
+                            data.selectedUsersNames.join(', ')
+                          }
+
                       </td>
                       <td
                         className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden`}
                         style={{ width: "15rem" }}
                         title=""
                       >
-                       {data.entityNames}
-                        {/* {data.entityNames && (
-                          <span>
-                            {data.entityNames.split().map((name, index) => (
-                              <span key={index}>{name}</span>
-                            ))}
-                            {data.entityNames.split()}
-                          </span>
-                        )} */}
+                       {data.entityNames && data.entityNames.join(', ')}
                       </td>
                       <td
                         className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden`}

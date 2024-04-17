@@ -93,7 +93,7 @@ const AddDataShare = () => {
     }
   }, [shareDataWithSelectedOptions]);
   const handleSubmit = async () => {
-  
+
     if (!handleValidationsErrors()) {
       let moduleName = module.value;
       let endpoint;
@@ -102,6 +102,23 @@ const AddDataShare = () => {
       } else if (moduleName === "entity") {
         endpoint = "access/entity";
       }
+      // console.log("data",{
+      //   name: dataShareName,
+      //   description: dataShareDescription,
+      //   // selectedUsers: shareDataOf,
+      //   ...(moduleName === "user"
+      //     ? {
+      //       selectedUsers: shareDataOfSelectedOptions.map((item) => item.value),
+      //       selectedUsersNames: JSON.stringify(shareDataOfSelectedOptions.map(
+      //         (item) => item.label
+      //       )),
+      //     }
+      //     : {
+      //       entityIds: shareDataOfSelectedOptions.map((item) => item.value),
+      //       entityNames: JSON.stringify(shareDataOfSelectedOptions.map((item) => item.label)),
+      //     }),
+      //   userId: shareDataWithSelectedOptions.value, userName: shareDataWithSelectedOptions.label
+      // })
       await toast.promise(
         atbtApi.post(endpoint, {
           name: dataShareName,
@@ -110,13 +127,13 @@ const AddDataShare = () => {
           ...(moduleName === "user"
             ? {
               selectedUsers: shareDataOfSelectedOptions.map((item) => item.value),
-              selectedUsersNames: shareDataOfSelectedOptions.map(
+              selectedUsersNames: JSON.stringify(shareDataOfSelectedOptions.map(
                 (item) => item.label
-              ),
+              )),
             }
             : {
               entityIds: shareDataOfSelectedOptions.map((item) => item.value),
-              entityNames: shareDataOfSelectedOptions.map((item) => item.label),
+              entityNames: JSON.stringify(shareDataOfSelectedOptions.map((item) => item.label)),
             }),
           userId: shareDataWithSelectedOptions.value, userName: shareDataWithSelectedOptions.label
         }
