@@ -109,7 +109,19 @@ const EntityLandingPage = () => {
       </div>
 
       <div className='flex overflow-auto'>
-
+      <NavLink
+          to='boardmeetings'
+          end
+          className={({ isActive, isPending, isTransitioning }) =>
+            isPending
+              ? 'cursor-pointer px-4 py-1 text-md font-semibold'
+              : isActive
+                ? 'border-b-2 border-orange-600 text-black cursor-pointer px-4 py-1 text-md font-semibold'
+                : 'cursor-pointer px-4 py-1 text-md font-semibold'
+          }
+        >
+          Board Meetings
+        </NavLink>
         <NavLink
           to='task'
           end
@@ -123,19 +135,7 @@ const EntityLandingPage = () => {
         >
           Tasks
         </NavLink>
-        <NavLink
-          to='boardmeetings'
-          end
-          className={({ isActive, isPending, isTransitioning }) =>
-            isPending
-              ? 'cursor-pointer px-4 py-1 text-md font-semibold'
-              : isActive
-                ? 'border-b-2 border-orange-600 text-black cursor-pointer px-4 py-1 text-md font-semibold'
-                : 'cursor-pointer px-4 py-1 text-md font-semibold'
-          }
-        >
-          Board Meetings
-        </NavLink>
+        
         <NavLink
           to='documents'
           end

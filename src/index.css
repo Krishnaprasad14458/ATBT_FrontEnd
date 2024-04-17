@@ -78,7 +78,6 @@ input[type="checkbox"]:checked::before {
   position: relative;
 }
 
-
 .delete-button .icon {
   position: absolute;
 
@@ -88,7 +87,6 @@ input[type="checkbox"]:checked::before {
   height: 40px;
   transform: translate(-50%, -50%);
 }
-
 
 .delete-button .icon .lid {
   position: absolute;
@@ -105,7 +103,6 @@ input[type="checkbox"]:checked::before {
   transition: transform 0.3s ease-in-out;
 }
 
-
 .delete-button .icon .can {
   position: absolute;
   z-index: 2;
@@ -118,7 +115,6 @@ input[type="checkbox"]:checked::before {
   border-bottom-right-radius: 2px;
   transform: translateX(-50%);
 }
-
 
 .delete-button:hover .icon .lid {
   transform: translateX(-50%) rotate(-35deg);
@@ -162,7 +158,7 @@ input[type="checkbox"]:checked::before {
   width: 14%;
   height: 20%;
   border-radius: 25%;
-  background-color: #ffffff ;
+  background-color: #ffffff;
   opacity: 0;
 }
 
@@ -176,6 +172,34 @@ input[type="checkbox"]:checked::before {
 .placeholder-small::placeholder {
   font-size: small;
 }
-
-
 /* for input placeholder end*/
+
+
+
+
+/* dont delete this code ask bhavi before delete */
+/* 
+/* for defult  date input dd/mm/yyy its working in all expect boardmeeting form dont remove */
+ /* input[type="date"]:in-range::-webkit-datetime-edit-year-field,
+input[type="date"]:in-range::-webkit-datetime-edit-month-field,
+input[type="date"]:in-range::-webkit-datetime-edit-day-field,
+input[type="date"]:in-range::-webkit-datetime-edit-text {
+  color: transparent;
+}  */
+/* for defult  date input dd/mm/yyy its working in all expect boardmeeting form  end */
+
+/* this one also working  dont remove */
+/* input[type='date']:not(:focus):in-range::-webkit-datetime-edit-year-field,
+input[type='date']:not(:focus):in-range::-webkit-datetime-edit-month-field,
+input[type='date']:not(:focus):in-range::-webkit-datetime-edit-day-field,
+input[type='date']:not(:focus):in-range::-webkit-datetime-edit-text 
+{
+  color: transparent ;
+} */
+ /* input[type='date']:before {
+  content: attr(placeholder)
+}
+input[type='date']:after {
+  content:''
+}   */
+/* dont delete this code ask bhavi before delete  end*/

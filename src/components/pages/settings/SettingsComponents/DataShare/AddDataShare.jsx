@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import Select from "react-select";
 import atbtApi from "../../../../../serviceLayer/interceptor";
-
+import { Link, useNavigate } from "react-router-dom";
 import { useLoaderData } from "react-router-dom";
+import { toast } from "react-toastify";
+
 export async function loader({ request, params }) {
   try {
-    let url = new URL(request.url);
     const [users, entityList] = await Promise.all([
       atbtApi.post(`public/list/user`, {}),
       atbtApi.post(`public/list/entity`),
@@ -28,19 +29,20 @@ export async function loader({ request, params }) {
   }
 }
 const AddDataShare = () => {
+  const navigate = useNavigate();
   const data = useLoaderData();
-  const [dataShareName, setDataShareName] = useState("")
-  const [dataShareDescription, setDataShareDescription] = useState("")
-
-
+  const [dataShareName, setDataShareName] = useState("");
+  const [dataShareDescription, setDataShareDescription] = useState("");
   let moduleOptions = [
     { value: "user", label: "user" },
     { value: "entity", label: "entity" },
   ];
   const [module, setModule] = useState("");
+
   const handleModuleChange = (selected) => {
     setModule(selected);
   };
+
   const [shareDataofOptions, setShareDataOfOptions] = useState([]);
   useEffect(() => {
     if (module?.value === "user") {
@@ -51,6 +53,7 @@ const AddDataShare = () => {
       setShareDataOfSelectedOptions([]);
     }
   }, [module]);
+
   const [shareDataOfSelectedOptions, setShareDataOfSelectedOptions] = useState(
     []
   );
@@ -58,6 +61,7 @@ const AddDataShare = () => {
   const handleShareDataOf = (selected) => {
     setShareDataOfSelectedOptions(selected);
   };
+
   const [shareDataWithOptions, setShareDataWithOptions] = useState(data.users);
   const [shareDataWithSelectedOptions, setShareDataWithSelectedOptions] =
     useState({});
@@ -89,32 +93,124 @@ const AddDataShare = () => {
     }
   }, [shareDataWithSelectedOptions]);
   const handleSubmit = async () => {
-    let moduleName = module.value;
-    let shareDataOf = shareDataOfSelectedOptions.map((item) => item.value);
-    let shareDataWith = shareDataWithSelectedOptions.value;
-    console.log(
-      "module",
-      moduleName,
-      "shareDataOf",
-      shareDataOf,
-      "shareDataWith",
-      shareDataWith
-    );
-    let formData = { name: dataShareName, description: dataShareDescription, entityIds: shareDataOf, userId: shareDataWithSelectedOptions.value }
-    console.log("formData",formData)
-    if (moduleName === "user") {
-      await atbtApi.post("access/selected", { name: dataShareName, description: dataShareDescription, selectedUsers: shareDataOf });
-    } else if (moduleName === "entity") {
-      await atbtApi.post(`access/entity`, { name: dataShareName, description: dataShareDescription, entityIds: shareDataOf, userId: shareDataWithSelectedOptions.value, });
-    }
-  };
 
+    if (!handleValidationsErrors()) {
+      let moduleName = module.value;
+      let endpoint;
+      if (moduleName === "user") {
+        endpoint = "access/selected";
+      } else if (moduleName === "entity") {
+        endpoint = "access/entity";
+      }
+      // console.log("data",{
+      //   name: dataShareName,
+      //   description: dataShareDescription,
+      //   // selectedUsers: shareDataOf,
+      //   ...(moduleName === "user"
+      //     ? {
+      //       selectedUsers: shareDataOfSelectedOptions.map((item) => item.value),
+      //       selectedUsersNames: JSON.stringify(shareDataOfSelectedOptions.map(
+      //         (item) => item.label
+      //       )),
+      //     }
+      //     : {
+      //       entityIds: shareDataOfSelectedOptions.map((item) => item.value),
+      //       entityNames: JSON.stringify(shareDataOfSelectedOptions.map((item) => item.label)),
+      //     }),
+      //   userId: shareDataWithSelectedOptions.value, userName: shareDataWithSelectedOptions.label
+      // })
+      await toast.promise(
+        atbtApi.post(endpoint, {
+          name: dataShareName,
+          description: dataShareDescription,
+          // selectedUsers: shareDataOf,
+          ...(moduleName === "user"
+            ? {
+              selectedUsers: shareDataOfSelectedOptions.map((item) => item.value),
+              selectedUsersNames: JSON.stringify(shareDataOfSelectedOptions.map(
+                (item) => item.label
+              )),
+            }
+            : {
+              entityIds: shareDataOfSelectedOptions.map((item) => item.value),
+              entityNames: JSON.stringify(shareDataOfSelectedOptions.map((item) => item.label)),
+            }),
+          userId: shareDataWithSelectedOptions.value, userName: shareDataWithSelectedOptions.label
+        }
+        ),
+        {
+          pending: {
+            render() {
+              return "in progress";
+            },
+          },
+          success: {
+            render({
+              data: {
+                data: { message },
+              },
+            }) {
+              navigate("/settings/datashare");
+              return `Data Shared ${message}`;
+            },
+          },
+          error: {
+            render({
+              data: {
+                response: { data },
+              },
+            }) {
+              // When the promise reject, data will contains the error
+              return `error: Data share failed`;
+              // return <MyErrorComponent message={data.message} />;
+            },
+          },
+        }
+      );
+    }
+
+  };
+  const [errors, setErrors] = useState({})
+  const handleValidationsErrors = () => {
+    let isErrorsPresent = false
+    if (dataShareName.length === 0) {
+      setErrors((prev) => ({ ...prev, dataShareName: "Name is Required" }))
+      isErrorsPresent = true
+      return isErrorsPresent
+    }
+    else if (dataShareName.length < 3) {
+      setErrors((prev) => ({ ...prev, dataShareName: "length should be greater than 3 characters" }))
+      isErrorsPresent = true
+      return isErrorsPresent
+    }else{
+      setErrors((prev) => ({ ...prev, dataShareName: "" }))
+
+    }
+    if (shareDataOfSelectedOptions.length === 0) {
+      setErrors((prev) => ({ ...prev, shareDataOfSelectedOptions: "Select Alteat One" }))
+      isErrorsPresent = true
+      return isErrorsPresent
+    }
+    else{
+      setErrors((prev) => ({ ...prev, shareDataOfSelectedOptions: "" }))
+    }
+    if (Object.keys(shareDataWithSelectedOptions).length === 0 && shareDataWithSelectedOptions.constructor === Object) {
+      setErrors((prev) => ({ ...prev, shareDataWithSelectedOptions: "Select Alteat One" }))
+      isErrorsPresent = true
+      return isErrorsPresent
+    }
+    else{
+      setErrors((prev) => ({ ...prev, shareDataWithSelectedOptions: "" }))
+    }
+   return isErrorsPresent
+  }
+ 
   return (
     <div className="p-4 bg-[#f8fafc]">
       <div className="grid grid-cols-1  sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-2 lg:gap-5 gap-y-4">
         <div className="col-span-1 ">
           <label className="block text-sm font-medium leading-6  text-gray-900 mb-1">
-            Name
+            Name <span className="text-red-600">*</span>
           </label>
           <input
             type="text"
@@ -133,8 +229,8 @@ const AddDataShare = () => {
             placeholder="Enter Description"
             className="px-2 py-1.5 text-md block w-full rounded-md bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder-small"
             value={dataShareDescription}
-            onChange={(event) => setDataShareDescription(event.target.value)} />
-
+            onChange={(event) => setDataShareDescription(event.target.value)}
+          />
         </div>
       </div>
       <div className="grid grid-cols-1  sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-2  gap-5 mt-2 ">
@@ -142,17 +238,14 @@ const AddDataShare = () => {
           <div className="grid grid-cols-1  sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-3 xl:grid-cols-3 gap-5">
             <div className="col-span-1">
               <label className=" block text-sm font-medium leading-6 mt-2  text-gray-900 mb-1">
-                Share data of
+                Share data of <span className="text-red-600">*</span>
               </label>
             </div>
           </div>
           <div className="grid grid-cols-1  sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-3 xl:grid-cols-3 lg:gap-5 gap-y-5">
             <div className="col-span-1">
               <Select
-                options={moduleOptions}
                 className="custom-select"
-
-
                 styles={{
                   control: (provided, state) => ({
                     ...provided,
@@ -187,15 +280,13 @@ const AddDataShare = () => {
                     primary: "#fb923c",
                   },
                 })}
-
+                options={moduleOptions}
                 value={module}
                 onChange={handleModuleChange}
               />
-
             </div>
             <div className="col-span-2">
               <Select
-
                 styles={{
                   control: (provided, state) => ({
                     ...provided,
@@ -259,7 +350,6 @@ const AddDataShare = () => {
             <div className="col-span-2">
               <Select
                 options={shareDataWithOptions}
-
                 styles={{
                   control: (provided, state) => ({
                     ...provided,
@@ -301,6 +391,7 @@ const AddDataShare = () => {
           </div>
         </div>
       </div>
+
       <div className="flex justify-end ">
         <button
           className="mt-4 px-3 py-2  whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white "

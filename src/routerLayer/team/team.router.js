@@ -1,8 +1,9 @@
 import TeamsForm, { teamFormLoader } from "../../components/createForm/TeamsForm/TeamsForm";
+import AllTasks from "../../components/landingPages/ReuseableComponents/AllTasks";
 import Boardmeeting, { action as entityMeetingAction, loader as entityMeetingLoader } from "../../components/landingPages/ReuseableComponents/Boardmeeting";
 
 import Documents from "../../components/landingPages/ReuseableComponents/Documents";
-import Task from "../../components/landingPages/ReuseableComponents/Task";
+
 import TeamsLandingPage from "../../components/landingPages/teams/TeamsLandingPage";
 import TeamsOverview from "../../components/landingPages/teams/TeamsOverview";
 import Teams, { loader as teamLoader } from "../../components/pages/teams/Teams";
@@ -18,7 +19,7 @@ export const teamRouter = [
             {
                 element: <TeamsLandingPage />, children: [
                     { index: true, element: <TeamsOverview /> },
-                    { path: 'task', element: <Task /> },
+                    { path: 'task', element: <AllTasks /> },
                     { path: 'boardmeetings', loader: entityMeetingLoader, action: entityMeetingAction, element: <Boardmeeting /> },
                     { path: 'documents', element: <Documents /> },
                 ]
