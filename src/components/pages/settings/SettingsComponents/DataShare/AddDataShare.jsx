@@ -93,84 +93,101 @@ const AddDataShare = () => {
     }
   }, [shareDataWithSelectedOptions]);
   const handleSubmit = async () => {
-    let moduleName = module.value;
-    // let shareDataOf = shareDataOfSelectedOptions.map((item) => item.value);
-    let shareDataOf = shareDataOfSelectedOptions;
-    let shareDataWith = shareDataWithSelectedOptions;
-    let endpoint;
-    if (moduleName === "user") {
-      endpoint = "access/selected";
-    } else if (moduleName === "entity") {
-      endpoint = "access/entity";
-    }
-    console.log("data", {
-      name: dataShareName,
-      description: dataShareDescription,
-      // selectedUsers: shareDataOf,
-      ...(moduleName === "user"
-        ? {
-            selectedUsers: await  shareDataOfSelectedOptions.map((item) => item.value),
-            selectedUsersNames: await shareDataOfSelectedOptions.map(
-              (item) => item.label
-            ),
-          }
-        : {
-            entityIds: await shareDataOfSelectedOptions.map((item) => item.value),
-            entityNames: await shareDataOfSelectedOptions.map((item) => item.label),
-          }),
-      userId: shareDataWithSelectedOptions.value,userName:shareDataWithSelectedOptions.label
-    }
-  );
-    await toast.promise(
-      atbtApi.post(endpoint,{
-        name: dataShareName,
-        description: dataShareDescription,
-        // selectedUsers: shareDataOf,
-        ...(moduleName === "user"
-          ? {
-              selectedUsers:   shareDataOfSelectedOptions.map((item) => item.value),
-              selectedUsersNames:  shareDataOfSelectedOptions.map(
+  
+    if (!handleValidationsErrors()) {
+      let moduleName = module.value;
+      let endpoint;
+      if (moduleName === "user") {
+        endpoint = "access/selected";
+      } else if (moduleName === "entity") {
+        endpoint = "access/entity";
+      }
+      await toast.promise(
+        atbtApi.post(endpoint, {
+          name: dataShareName,
+          description: dataShareDescription,
+          // selectedUsers: shareDataOf,
+          ...(moduleName === "user"
+            ? {
+              selectedUsers: shareDataOfSelectedOptions.map((item) => item.value),
+              selectedUsersNames: shareDataOfSelectedOptions.map(
                 (item) => item.label
               ),
             }
-          : {
-              entityIds:  shareDataOfSelectedOptions.map((item) => item.value),
-              entityNames:  shareDataOfSelectedOptions.map((item) => item.label),
+            : {
+              entityIds: shareDataOfSelectedOptions.map((item) => item.value),
+              entityNames: shareDataOfSelectedOptions.map((item) => item.label),
             }),
-        userId: shareDataWithSelectedOptions.value,userName:shareDataWithSelectedOptions.label
-      }
-    ),
-      {
-        pending: {
-          render() {
-            return "in progress";
-          },
-        },
-        success: {
-          render({
-            data: {
-              data: { message },
+          userId: shareDataWithSelectedOptions.value, userName: shareDataWithSelectedOptions.label
+        }
+        ),
+        {
+          pending: {
+            render() {
+              return "in progress";
             },
-          }) {
-            navigate("/settings/datashare");
-            return `Data Shared ${message}`;
           },
-        },
-        error: {
-          render({
-            data: {
-              response: { data },
+          success: {
+            render({
+              data: {
+                data: { message },
+              },
+            }) {
+              navigate("/settings/datashare");
+              return `Data Shared ${message}`;
             },
-          }) {
-            // When the promise reject, data will contains the error
-            return `error: Data share failed`;
-            // return <MyErrorComponent message={data.message} />;
           },
-        },
-      }
-    );
-  };
+          error: {
+            render({
+              data: {
+                response: { data },
+              },
+            }) {
+              // When the promise reject, data will contains the error
+              return `error: Data share failed`;
+              // return <MyErrorComponent message={data.message} />;
+            },
+          },
+        }
+      );
+    }
 
+  };
+  const [errors, setErrors] = useState({})
+  const handleValidationsErrors = () => {
+    let isErrorsPresent = false
+    if (dataShareName.length === 0) {
+      setErrors((prev) => ({ ...prev, dataShareName: "Name is Required" }))
+      isErrorsPresent = true
+      return isErrorsPresent
+    }
+    else if (dataShareName.length < 3) {
+      setErrors((prev) => ({ ...prev, dataShareName: "length should be greater than 3 characters" }))
+      isErrorsPresent = true
+      return isErrorsPresent
+    }else{
+      setErrors((prev) => ({ ...prev, dataShareName: "" }))
+
+    }
+    if (shareDataOfSelectedOptions.length === 0) {
+      setErrors((prev) => ({ ...prev, shareDataOfSelectedOptions: "Select Alteat One" }))
+      isErrorsPresent = true
+      return isErrorsPresent
+    }
+    else{
+      setErrors((prev) => ({ ...prev, shareDataOfSelectedOptions: "" }))
+    }
+    if (Object.keys(shareDataWithSelectedOptions).length === 0 && shareDataWithSelectedOptions.constructor === Object) {
+      setErrors((prev) => ({ ...prev, shareDataWithSelectedOptions: "Select Alteat One" }))
+      isErrorsPresent = true
+      return isErrorsPresent
+    }
+    else{
+      setErrors((prev) => ({ ...prev, shareDataWithSelectedOptions: "" }))
+    }
+   return isErrorsPresent
+  }
+  console.log("errors",errors,shareDataOfSelectedOptions,shareDataWithSelectedOptions)
   return (
     <div className="p-4 bg-[#f8fafc]">
       <div className="grid grid-cols-1  sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-2 lg:gap-5 gap-y-4">
@@ -204,7 +221,7 @@ const AddDataShare = () => {
           <div className="grid grid-cols-1  sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-3 xl:grid-cols-3 gap-5">
             <div className="col-span-1">
               <label className=" block text-sm font-medium leading-6 mt-2  text-gray-900 mb-1">
-                Share data of <span className="text-red-600">*</span> 
+                Share data of <span className="text-red-600">*</span>
               </label>
             </div>
           </div>
