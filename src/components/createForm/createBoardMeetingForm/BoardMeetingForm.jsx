@@ -516,10 +516,6 @@ function BoardMeetingForm() {
   }
 
   // end the time function
-
-
-
-
   // for previous dates defult
   const getCurrentDate = () => {
     const today = new Date();
