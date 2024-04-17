@@ -136,19 +136,15 @@ const DataShare = () => {
                         style={{ width: "15rem" }}
                         title=""
                       >
-                     
-                          
-                          {
-                            data.selectedUsersNames.join(', ')
-                          }
-
+                        {data.selectedUsersNames ? 
+                          data.selectedUsersNames.join(", ") : "No Data Shared"}
                       </td>
                       <td
                         className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden`}
                         style={{ width: "15rem" }}
                         title=""
                       >
-                       {data.entityNames && data.entityNames.join(', ')}
+                        {data.entityNames ? data.entityNames.join(", ") : "No Data Shared"}
                       </td>
                       <td
                         className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden`}
