@@ -204,7 +204,7 @@ const AddDataShare = () => {
     }
    return isErrorsPresent
   }
-  console.log("errors",errors,shareDataOfSelectedOptions,shareDataWithSelectedOptions)
+ 
   return (
     <div className="p-4 bg-[#f8fafc]">
       <div className="grid grid-cols-1  sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-2 lg:gap-5 gap-y-4">
