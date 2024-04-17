@@ -516,10 +516,6 @@ function BoardMeetingForm() {
   }
 
   // end the time function
-
-
-
-
   // for previous dates defult
   const getCurrentDate = () => {
     const today = new Date();
@@ -532,8 +528,6 @@ function BoardMeetingForm() {
  
     return `${year}-${month}-${day}`;
   };
-  
-
   return (
     <div className=" p-4 bg-[#f8fafc]">
       {/* <p className="font-lg font-semibold p-3">Entity Form</p> */}
@@ -606,10 +600,8 @@ function BoardMeetingForm() {
                           id={item.inputname}
                           style={{ fontSize: "0.8rem" }}
                           min={ id ? "" : getCurrentDate() }
-                          // {id ? min={getCurrentDate()}:"" }
-                          // min={} 
+                          // placeholder="bhavi"
                           className="px-2 py-2 text-sm block w-full rounded-md bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder:text-xs"
-                          // Add this inline style to decrease the font size
                           value={customFormFields[index].value || ""}
                           onChange={(e) => handleChange(index, e.target.value)}
                         />

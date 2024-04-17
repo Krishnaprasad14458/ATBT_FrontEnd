@@ -176,7 +176,7 @@ const AddDataShare = () => {
       <div className="grid grid-cols-1  sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-2 lg:gap-5 gap-y-4">
         <div className="col-span-1 ">
           <label className="block text-sm font-medium leading-6  text-gray-900 mb-1">
-            Name
+            Name <span className="text-red-600">*</span>
           </label>
           <input
             type="text"
@@ -204,7 +204,7 @@ const AddDataShare = () => {
           <div className="grid grid-cols-1  sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-3 xl:grid-cols-3 gap-5">
             <div className="col-span-1">
               <label className=" block text-sm font-medium leading-6 mt-2  text-gray-900 mb-1">
-                Share data of
+                Share data of <span className="text-red-600">*</span> 
               </label>
             </div>
           </div>
