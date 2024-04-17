@@ -15,7 +15,7 @@ export async function DataShareloader() {
 }
 const DataShare = () => {
   const data = useLoaderData();
-
+console.log("datay",data)
   return (
     <div className=" p-3 bg-[#f8fafc] overflow-hidden">
       <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3 xl:grid-col-3 gap-2 mt-2">
@@ -91,7 +91,10 @@ const DataShare = () => {
                   Description
                 </th>
                 <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200">
-                  Data of
+                  Data of Users
+                </th>
+                <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200">
+                  Data of Entities
                 </th>
                 <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200">
                   Shared with
@@ -104,7 +107,7 @@ const DataShare = () => {
 
             <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
               {data?.dataShareList?.map((data, index) => (
-                <tr key={index}>
+            data.id !== 1 && ( <tr key={index}>
                   <td
                     className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden`}
                     style={{ maxWidth: "3rem" }}
@@ -131,7 +134,23 @@ const DataShare = () => {
                     style={{ width: "15rem" }}
                     title=""
                   >
-                    Infoz IT
+                
+               
+              
+                  {
+                  data.selectedUsersNames ? data?.selectedUsersNames?.split().join(', ') : "No Data Shared"
+                }
+                  </td>
+                  <td
+                    className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden`}
+                    style={{ width: "15rem" }}
+                    title=""
+                  >
+                 
+                {
+                  data.entityNames ? data?.entityNames?.split().join(', ') : "No Data Shared"
+                }
+                
                   </td>
                   <td
                     className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden`}
@@ -139,7 +158,7 @@ const DataShare = () => {
                     title=""
                   >
                     {" "}
-                    Bhaskar
+                   {data.userName}
                   </td>
                   <td
                     className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden`}
@@ -173,7 +192,7 @@ const DataShare = () => {
                       </svg>
                     </div>
                   </td>
-                </tr>
+                </tr>)
               ))}
             </tbody>
           </table>
