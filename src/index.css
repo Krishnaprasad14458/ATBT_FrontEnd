@@ -196,10 +196,10 @@ input[type='date']:not(:focus):in-range::-webkit-datetime-edit-text
 {
   color: transparent ;
 } */
-/* input[type='date']:before {
+ /* input[type='date']:before {
   content: attr(placeholder)
 }
 input[type='date']:after {
   content:''
-} */ 
+}   */
 /* dont delete this code ask bhavi before delete  end*/
