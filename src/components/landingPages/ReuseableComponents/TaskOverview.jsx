@@ -99,7 +99,7 @@ const TaskOverview = ({ overViewNewTask, handleOverViewNewTask }) => {
           </div>
         </div>
         <hr/>
-        <div className="mt-2 ms-2 p-3">
+        <div className="mt-2 ms-2 p-3 overflow-y-auto h-screen">
           <div className="grid grid-cols-3 sm:grid-cols-3 md:grid-cols-7 lg:grid-cols-7 xl:grid-col-7 items-center mb-4">
             <div className="col-span-2 basis-1/4 text-sm text-gray-600">
               Decision Taken

@@ -181,7 +181,7 @@ const AddDataShare = () => {
      
     }
     else if (dataShareName.length < 3) {
-      setErrors((prev) => ({ ...prev, dataShareName: "length should be greater than 3 characters" }))
+      setErrors((prev) => ({ ...prev, dataShareName: "Length should be greater than 3 characters" }))
       isErrorsPresent = true
    
     }else{
@@ -225,7 +225,10 @@ const AddDataShare = () => {
             value={dataShareName}
             onChange={(event) => setDataShareName(event.target.value)}
           />
-          {errors && errors.dataShareName}
+
+<div className='h-2 text-red-500 text-xs'>
+{errors && errors.dataShareName}
+                        </div>
         </div>
         <div className="col-span-1 ">
           <label className="block text-sm font-medium leading-6  text-gray-900 mb-1">
@@ -339,7 +342,9 @@ const AddDataShare = () => {
                 onChange={handleShareDataOf}
                 onInputChange={handleInputChange}
               />
-                 {errors && errors.shareDataOfSelectedOptions}
+              <div className='h-2 text-red-500 text-xs'>
+              {errors && errors.shareDataOfSelectedOptions}
+                        </div>
             </div>
           </div>
         </div>
@@ -397,7 +402,8 @@ const AddDataShare = () => {
                 value={shareDataWithSelectedOptions}
                 onChange={handleShareDataWith}
               />
-                 {errors && errors.shareDataWithSelectedOptions}
+             <div className='h-2 text-red-500 text-xs'>
+              {errors && errors.shareDataWithSelectedOptions}</div>
 
             </div>
           </div>
