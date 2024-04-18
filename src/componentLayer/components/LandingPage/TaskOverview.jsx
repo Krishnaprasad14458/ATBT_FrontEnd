@@ -1,14 +1,5 @@
-import React, {
-  useState,
-  Fragment,
-  useRef,
-  useEffect,
-  useContext,
-} from "react";
+import React, { useState,useEffect,} from "react";
 import Select from "react-select";
-import "../LandingPageCommon.css";
-
-
 const TaskOverview = ({
   overViewTask,
   handleOverViewTask,

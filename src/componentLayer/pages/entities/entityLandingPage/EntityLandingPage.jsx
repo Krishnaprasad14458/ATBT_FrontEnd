@@ -1,18 +1,7 @@
-import React, {
-  useState,
-
-  useEffect,
-  useContext,
-} from 'react';
-import '../LandingPageCommon.css';
+import React, {useState,useEffect,useContext,} from 'react';
 import { NavLink, Link, Outlet, useLocation, useParams } from 'react-router-dom';
-
 import { EntitiesDataContext } from '../../../../contexts/entitiesDataContext/entitiesDataContext';
 import axios from 'axios';
-
-function classNames(...classes) {
-  return classes.filter(Boolean).join(' ');
-}
 const EntityLandingPage = () => {
   const moduleName = "entity"
   const {
@@ -52,9 +41,6 @@ const EntityLandingPage = () => {
     setActiveTab(tabName);
   };
   //  for active tabs close
-
-
-
 
   // ----toggleDrawer-------
   const [isOpen, setIsOpen] = useState(false);

@@ -5,8 +5,8 @@ import Swal from 'sweetalert2';
 import { debounce } from '../../../../utils/utils'
 import GateKeeper from '../../../../rbac/GateKeeper';
 import atbtApi from '../../../../serviceLayer/interceptor';
-import CustomColumn from '../../../tableCustomization/CustomColumn';
-import CustomFilter from '../../../tableCustomization/CustomFilter';
+import CustomColumn from '../../../components/tableCustomization/CustomColumn';
+import CustomFilter from '../../../components/tableCustomization/CustomFilter';
 export async function loader({ request, params }) {
   try {
     let url = new URL(request.url);

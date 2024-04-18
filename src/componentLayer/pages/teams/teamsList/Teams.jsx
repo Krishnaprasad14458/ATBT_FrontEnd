@@ -8,9 +8,9 @@ import {
 } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import GateKeeper from '../../../../rbac/GateKeeper';
-import { debounce } from '../../../../utils/utils';
-import CustomColumn from '../../../../componentLayer/tableCustomization/CustomColumn';
-import CustomFilter from '../../../../componentLayer/tableCustomization/CustomFilter';
+import { debounce } from '../../../../utils/utils'
+import CustomColumn from '../../../../componentLayer/components/tableCustomization/CustomColumn';
+import CustomFilter from '../../../../componentLayer/components/tableCustomization/CustomFilter';
 import atbtApi from '../../../../serviceLayer/interceptor';
 
 export async function loader({ request, params }) {
