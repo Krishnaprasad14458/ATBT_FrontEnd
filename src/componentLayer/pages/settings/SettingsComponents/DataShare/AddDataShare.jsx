@@ -34,8 +34,8 @@ const AddDataShare = () => {
   const [dataShareName, setDataShareName] = useState("");
   const [dataShareDescription, setDataShareDescription] = useState("");
   let moduleOptions = [
-    { value: "user", label: "user" },
-    { value: "entity", label: "entity" },
+    { value: "User", label: "user" },
+    { value: "Entity", label: "entity" },
   ];
   const [module, setModule] = useState("");
 
