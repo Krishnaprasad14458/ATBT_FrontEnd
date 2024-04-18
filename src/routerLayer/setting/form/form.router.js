@@ -1,5 +1,5 @@
-import CustomFormStructure from "../../../components/pages/settings/SettingsComponents/Forms/CustomFormStructure";
-import Forms from "../../../components/pages/settings/SettingsComponents/Forms/Forms";
+import CustomFormStructure from "../../../componentLayer/pages/settings/SettingsComponents/Forms/CustomFormStructure";
+import Forms from "../../../componentLayer/pages/settings/SettingsComponents/Forms/Forms";
 
 
 export const formRouter = [

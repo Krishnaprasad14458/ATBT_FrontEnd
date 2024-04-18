@@ -1,7 +1,6 @@
 import axios from "axios"
-import AddRoles from "../../../components/pages/settings/SettingsComponents/Roles/AddRoles"
-import Dupaddrole from "../../../components/pages/settings/SettingsComponents/Roles/Dupaddrole"
-import Roles from "../../../components/pages/settings/SettingsComponents/Roles/Roles"
+import AddRoles from "../../../componentLayer/pages/settings/SettingsComponents/Roles/AddRoles"
+import Roles from "../../../componentLayer/pages/settings/SettingsComponents/Roles/Roles"
 import { redirect } from "react-router-dom"
 import { toast } from "react-toastify"
 
@@ -69,5 +68,5 @@ export const roleRouter = [
         },
         element: <AddRoles />
     },
-    { path: "dupaddroles", element: <Dupaddrole /> },
+
 ]

@@ -1,7 +1,7 @@
-import Error401 from "../../components/pages/Errorpages/Error401"
-import Error403 from "../../components/pages/Errorpages/Error403"
-import ErrorPage from "../../components/pages/Errorpages/ErrorBoundary"
-import PageNotFound from "../../components/pages/Errorpages/PageNotFound"
+import Error401 from "../../componentLayer/pages/errorPages/Error401"
+import Error403 from "../../componentLayer/pages/errorPages/Error403"
+import ErrorPage from "../../componentLayer/pages/errorPages/ErrorBoundary"
+import PageNotFound from "../../componentLayer/pages/errorPages/PageNotFound"
 
 
 export const httpInterceptors = [

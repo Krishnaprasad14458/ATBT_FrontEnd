@@ -1,12 +1,13 @@
-import AddEmailTemplate from "../../../components/pages/settings/SettingsComponents/Communication/AddEmailTemplate";
-import AddWhatsappTemplate from "../../../components/pages/settings/SettingsComponents/Communication/AddWhatsappTemplate";
-import Communication from "../../../components/pages/settings/SettingsComponents/Communication/Communication";
-import EditEmailTemplate from "../../../components/pages/settings/SettingsComponents/Communication/EditEmailTemplate";
-import EditWhatsappTemplate from "../../../components/pages/settings/SettingsComponents/Communication/EditWhatsappTemplate";
-import Email from "../../../components/pages/settings/SettingsComponents/Communication/Email";
-import FieldsWhatsappTemplate from "../../../components/pages/settings/SettingsComponents/Communication/FieldsWhatsappTemplate";
-import ViewEmailTemplate from "../../../components/pages/settings/SettingsComponents/Communication/ViewEmailTemplate";
-import Whatsapp from "../../../components/pages/settings/SettingsComponents/Communication/Whatsapp";
+
+import AddEmailTemplate from "../../../componentLayer/pages/settings/SettingsComponents/Communication/AddEmailTemplate";
+import AddWhatsappTemplate from "../../../componentLayer/pages/settings/SettingsComponents/Communication/AddWhatsappTemplate";
+import Communication from "../../../componentLayer/pages/settings/SettingsComponents/Communication/Communication";
+import EditEmailTemplate from "../../../componentLayer/pages/settings/SettingsComponents/Communication/EditEmailTemplate";
+import EditWhatsappTemplate from "../../../componentLayer/pages/settings/SettingsComponents/Communication/EditWhatsappTemplate";
+import Email from "../../../componentLayer/pages/settings/SettingsComponents/Communication/Email";
+import FieldsWhatsappTemplate from "../../../componentLayer/pages/settings/SettingsComponents/Communication/FieldsWhatsappTemplate";
+import ViewEmailTemplate from "../../../componentLayer/pages/settings/SettingsComponents/Communication/ViewEmailTemplate";
+import Whatsapp from "../../../componentLayer/pages/settings/SettingsComponents/Communication/Whatsapp";
 
 export const communicationRouter = [
     { path: "communication", element: <Communication /> },
