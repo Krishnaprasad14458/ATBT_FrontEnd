@@ -4,14 +4,22 @@ import login_bg from '../../../assets/Images/login_bg.jpg';
 import logo from '../../../assets/Images/logo.png';
 import login_gif from '../../../assets/Images/Login_Icon_1.gif'
 import { Link, Navigate } from 'react-router-dom';
-
+export async function LoginAction({ request, params }) {
+  switch (request.method) {
+    case 'DELETE': {
+      const id = (await request.json()) || null;
+      console.log(id, 'json', id);
+      return await atbtApi.delete(`user/delete/${id}`);
+    }
+    default: {
+      throw new Response('', { status: 405 });
+    }
+  }
+}
 const Login = () => {
   const { adminLogin, authState } = useContext(AuthContext);
   const [formData, setFormData] = useState({ email: '', password: '' });
   const [email, setEmail] = useState();
-
-
-  
   const [passworderror, setPasswordError] = useState();
   const handleFormData = (e) => {
     const { name, value } = e.target;
