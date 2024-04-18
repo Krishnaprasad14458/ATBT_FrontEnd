@@ -43,7 +43,7 @@ const tasks = useLoaderData()
    // add new task api here
    
    
-axios.post(`https://atbtbeta.infozit.com/task/add/${}`)
+// axios.post(`https://atbtbeta.infozit.com/task/add/${}`)
   };
   
   const handleEditTask = (id, fieldName, e) => {
