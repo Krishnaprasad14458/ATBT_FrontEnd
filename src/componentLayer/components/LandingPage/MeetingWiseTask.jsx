@@ -8,6 +8,7 @@ import React, {
 import "../LandingPageCommon.css";
 
 import {  useParams, useLoaderData, } from "react-router-dom";
+import atbtApi from '../../../../serviceLayer/interceptor';
 
 import TaskOverview from "./TaskOverview";
 function classNames(...classes) {
@@ -54,10 +55,14 @@ const tasks = useLoaderData()
     setOverViewTask(!overViewTask);
   };
  
-
+console.log("IDD",id)
   const handleAddNewTask = () => {
    // add new task api here
+   
+   
+axios.post(`https://atbtbeta.infozit.com/task/add/${}`)
   };
+  
   const handleEditTask = (id, fieldName, e) => {
     const { name, value } = e.target;
     const updatedTasks = tasks.map((task, idx) => {
