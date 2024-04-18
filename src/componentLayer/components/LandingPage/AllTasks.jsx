@@ -1,5 +1,4 @@
 import React, {useState} from "react";
-import "../LandingPageCommon.css";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import { useParams } from "react-router-dom";
 const AllTasks = () => {

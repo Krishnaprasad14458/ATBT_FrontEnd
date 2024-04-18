@@ -1,10 +1,10 @@
 import EntityForm, { entityFormLoader } from "../../componentLayer/pages/entities/createEntityForm/EntityForm"
-import Boardmeeting, { action as entityMeetingAction, loader as entityMeetingLoader } from '../../componentLayer/pages/landingPages/ReuseableComponents/Boardmeeting'
-import Documents from "../../componentLayer/pages/landingPages/ReuseableComponents/Documents";
-import EntityLandingPage from "../../componentLayer/pages/landingPages/entity/EntityLandingPage";
-import Overview from "../../componentLayer/pages/landingPages/entity/Overview";
+import Boardmeeting, { action as entityMeetingAction, loader as entityMeetingLoader } from '../../componentLayer/components/LandingPage/Boardmeeting'
+import Documents from "../../componentLayer/components/LandingPage/Documents";
+import EntityLandingPage from "../../componentLayer/pages/entities/entityLandingPage/EntityLandingPage";
+import Overview from "../../componentLayer/pages/entities/entityLandingPage/Overview";
 import Entities, { action as entityAction, loader as entityLoader } from "../../componentLayer/pages/entities/entitiesList/Entities";
-import AllTasks from "../../componentLayer/pages/landingPages/ReuseableComponents/AllTasks";
+import AllTasks from "../../componentLayer/components/LandingPage/AllTasks";
 
 export const entityRouter = [
     { index: true, loader: entityLoader, action: entityAction, element: <Entities />, },

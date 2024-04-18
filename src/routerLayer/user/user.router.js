@@ -1,12 +1,10 @@
-
 import UserForm, { userFormLoader } from "../../componentLayer/pages/users/createUserForm/UserForm";
-import AllTasks from "../../componentLayer/pages/landingPages/ReuseableComponents/AllTasks";
-import Boardmeeting, { action as entityMeetingAction, loader as entityMeetingLoader } from "../../componentLayer/pages/landingPages/ReuseableComponents/Boardmeeting";
-import Documents from "../../componentLayer/pages/landingPages/ReuseableComponents/Documents";
-import UserLandingPage, { userLandingLoader } from "../../componentLayer/pages/landingPages/user/UserLandingPage";
-import UserOverview from "../../componentLayer/pages/landingPages/user/UserOverview";
+import AllTasks from "../../componentLayer/components/LandingPage/AllTasks";
+import Boardmeeting, { action as entityMeetingAction, loader as entityMeetingLoader } from "../../componentLayer/components/LandingPage/Boardmeeting";
+import Documents from "../../componentLayer/components/LandingPage/Documents";
+import UserLandingPage, { userLandingLoader } from "../../componentLayer/pages/users/userLandingPage/UserLandingPage";
+import UserOverview from "../../componentLayer/pages/users/userLandingPage/UserOverview";
 import Users, { action as userAction, loader as userLoader } from "../../componentLayer/pages/users/usersList/Users";
-import RouteBlocker from "../../rbac/RouteBlocker";
 export const userRouter = [
     { index: true, loader: userLoader, action: userAction, element: <Users /> },
     { path: 'new', loader: userFormLoader, element: <UserForm /> },

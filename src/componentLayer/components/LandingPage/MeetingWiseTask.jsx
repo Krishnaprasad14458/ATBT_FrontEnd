@@ -1,19 +1,6 @@
-import React, {
-  useState,
-  Fragment,
-  useRef,
-  useEffect,
-  useContext,
-} from "react";
-import "../LandingPageCommon.css";
-
+import React, {useState,} from "react";
 import {  useParams, useLoaderData, } from "react-router-dom";
-import atbtApi from '../../../../serviceLayer/interceptor';
-
 import TaskOverview from "./TaskOverview";
-function classNames(...classes) {
-  return classes.filter(Boolean).join(" ");
-}
 export async function tasksLoader({ params }) {
   try {
     const tasks =[
@@ -45,17 +32,13 @@ export async function tasksLoader({ params }) {
 const MeetingWiseTask = () => {
   const { id } = useParams();
 const tasks = useLoaderData()
-
   // -------full screen----
-
   const [overViewTask, setOverViewTask] = useState(false);
   const [overViewTaskId,setoverViewTaskID] = useState(null)
   const handleOverViewTask = (id) => {
     setoverViewTaskID(id)
     setOverViewTask(!overViewTask);
   };
- 
-console.log("IDD",id)
   const handleAddNewTask = () => {
    // add new task api here
    

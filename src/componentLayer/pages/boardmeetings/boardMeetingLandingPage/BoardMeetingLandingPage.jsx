@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useContext, } from 'react';
-import '../LandingPageCommon.css';
 import { NavLink, Link, Outlet, useParams, useLocation } from 'react-router-dom';
 import { BoardMeetingsDataContext } from '../../../../contexts/boardmeetingsDataContext/boardmeetingsDataContext';
 import axios from 'axios';
