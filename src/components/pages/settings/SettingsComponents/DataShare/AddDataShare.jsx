@@ -47,6 +47,8 @@ const AddDataShare = () => {
   useEffect(() => {
     if (module?.value === "user") {
       setShareDataOfOptions(data.users);
+     
+    
       setShareDataOfSelectedOptions([]);
     } else if (module?.value === "entity") {
       setShareDataOfOptions(data.entities);
@@ -91,7 +93,7 @@ const AddDataShare = () => {
       );
       setShareDataOfOptions(filteredData);
     }
-  }, [shareDataWithSelectedOptions]);
+  }, [shareDataWithSelectedOptions,module]);
 
   const [saveButtonClicked, setsaveButtonClicked] = useState(false);
   const handleSubmit = async () => {
