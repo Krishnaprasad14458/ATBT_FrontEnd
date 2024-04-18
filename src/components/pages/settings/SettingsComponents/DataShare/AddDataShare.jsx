@@ -195,7 +195,7 @@ const AddDataShare = () => {
     if (shareDataOfSelectedOptions.length === 0) {
       setErrors((prev) => ({
         ...prev,
-        shareDataOfSelectedOptions: "Select Alteat One",
+        shareDataOfSelectedOptions: "Select atleast one user/entity",
       }));
       isErrorsPresent = true;
     } else {
@@ -207,7 +207,7 @@ const AddDataShare = () => {
     ) {
       setErrors((prev) => ({
         ...prev,
-        shareDataWithSelectedOptions: "Select Alteat One",
+        shareDataWithSelectedOptions: "Select alteast one user",
       }));
       isErrorsPresent = true;
     } else {
