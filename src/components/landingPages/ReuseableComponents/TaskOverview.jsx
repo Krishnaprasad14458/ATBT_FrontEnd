@@ -1,4 +1,10 @@
-import React, {useState,Fragment,useRef,useEffect,useContext} from "react";
+import React, {
+  useState,
+  Fragment,
+  useRef,
+  useEffect,
+  useContext,
+} from "react";
 import Select from "react-select";
 import "../LandingPageCommon.css";
 import { Calendar, momentLocalizer } from "react-big-calendar";
@@ -15,13 +21,23 @@ import axios from "axios";
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
-const TaskOverview = ({ overViewNewTask, handleOverViewNewTask }) => {
+const TaskOverview = ({
+  overViewTask,
+  handleOverViewTask,
+  tasks,
+  overViewTaskId,
+}) => {
   // -------full screen----
   const [expand, setExpand] = useState(false);
+  const [task,setTask]=useState()
+  useEffect(()=>{
+    let task  =tasks?.filter(task => task.id === overViewTaskId)
+    setTask(task[0])
+  },[overViewTaskId])
   const handleExpand = () => {
     setExpand(!expand);
   };
-
+console.log("tasktask",task)
   let moduleOptions = [
     { value: "user", label: "user" },
     { value: "entity", label: "entity" },
@@ -29,7 +45,7 @@ const TaskOverview = ({ overViewNewTask, handleOverViewNewTask }) => {
   return (
     <div
       className={`fixed inset-0 transition-all duration-500 bg-gray-800 bg-opacity-50 z-50  ${
-        overViewNewTask ? "" : "hidden"
+        overViewTask ? "" : "hidden"
       }`}
     >
       <div
@@ -82,7 +98,7 @@ const TaskOverview = ({ overViewNewTask, handleOverViewNewTask }) => {
                 />
               </svg>
             </button>
-            <button onClick={handleOverViewNewTask} className="">
+            <button onClick={handleOverViewTask} className="">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
@@ -98,8 +114,8 @@ const TaskOverview = ({ overViewNewTask, handleOverViewNewTask }) => {
             </button>
           </div>
         </div>
-        <hr/>
-        <div className="mt-2 ms-2 p-3">
+        <hr />
+        <div className="mt-2 ms-2 p-3 overflow-y-auto h-screen">
           <div className="grid grid-cols-3 sm:grid-cols-3 md:grid-cols-7 lg:grid-cols-7 xl:grid-col-7 items-center mb-4">
             <div className="col-span-2 basis-1/4 text-sm text-gray-600">
               Decision Taken
@@ -107,6 +123,7 @@ const TaskOverview = ({ overViewNewTask, handleOverViewNewTask }) => {
             <span className="col-span-1 text-center"> : </span>
             <div className="col-span-4">
               <input
+              value={task?.decisionTaken}
                 type="text"
                 placeholder="Enter Description"
                 className="px-2 py-2 text-sm block w-full rounded-md bg-white-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder-small"
@@ -116,7 +133,7 @@ const TaskOverview = ({ overViewNewTask, handleOverViewNewTask }) => {
 
           <div className="grid grid-cols-3 sm:grid-cols-3 md:grid-cols-7 lg:grid-cols-7 xl:grid-col-7 items-center mb-4">
             <div className="col-span-2 basis-1/4 text-sm text-gray-600">
-           Person Responsible
+              Person Responsible
             </div>
             <span className="col-span-1 text-center"> : </span>
             <div className="col-span-4">
@@ -129,20 +146,19 @@ const TaskOverview = ({ overViewNewTask, handleOverViewNewTask }) => {
           </div>
           <div className="grid grid-cols-3 sm:grid-cols-3 md:grid-cols-7 lg:grid-cols-7 xl:grid-col-7 items-center mb-4">
             <div className="col-span-2 basis-1/4 text-sm text-gray-600">
-           Due Date
+              Due Date
             </div>
             <span className="col-span-1 text-center"> : </span>
             <div className="col-span-4">
               <input
                 type="date"
-               
                 className="px-2 py-2 text-sm block w-full rounded-md bg-white-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder-small"
               />
             </div>
           </div>
           <div className="grid grid-cols-3 sm:grid-cols-3 md:grid-cols-7 lg:grid-cols-7 xl:grid-col-7 items-center mb-4">
             <div className="col-span-2 basis-1/4 text-sm text-gray-600">
-           Age
+              Age
             </div>
             <span className="col-span-1 text-center"> : </span>
             <div className="col-span-4">
@@ -155,7 +171,7 @@ const TaskOverview = ({ overViewNewTask, handleOverViewNewTask }) => {
           </div>
           <div className="grid grid-cols-3 sm:grid-cols-3 md:grid-cols-7 lg:grid-cols-7 xl:grid-col-7 items-center mb-4">
             <div className="col-span-2 basis-1/4 text-sm text-gray-600">
-           Date of Board Meeting
+              Date of Board Meeting
             </div>
             <span className="col-span-1 text-center"> : </span>
             <div className="col-span-4">
@@ -168,7 +184,7 @@ const TaskOverview = ({ overViewNewTask, handleOverViewNewTask }) => {
           </div>
           <div className="grid grid-cols-3 sm:grid-cols-3 md:grid-cols-7 lg:grid-cols-7 xl:grid-col-7 items-center mb-4">
             <div className="col-span-2 basis-1/4 text-sm text-gray-600">
-          Board Meeting Number
+              Board Meeting Number
             </div>
             <span className="col-span-1 text-center"> : </span>
             <div className="col-span-4">
@@ -181,29 +197,29 @@ const TaskOverview = ({ overViewNewTask, handleOverViewNewTask }) => {
           </div>
           <div className="grid grid-cols-3 sm:grid-cols-3 md:grid-cols-7 lg:grid-cols-7 xl:grid-col-7 items-center mb-4">
             <div className="col-span-2 basis-1/4 text-sm text-gray-600">
-          Entity
+              Entity
             </div>
             <span className="col-span-1 text-center"> : </span>
             <div className="col-span-4">
-            <Select
+              <Select
                 options={moduleOptions}
                 className="custom-select"
-
-
                 styles={{
                   control: (provided, state) => ({
                     ...provided,
                     backgroundColor: "rgb(255 255 255)", // Change the background color of the select input
                     borderWidth: state.isFocused ? "1px" : "1px", // Decrease border width when focused
-                    borderColor: state.isFocused ? "#orange-400" : "rgb(209 213 219)", // Change border color when focused
+                    borderColor: state.isFocused
+                      ? "#orange-400"
+                      : "rgb(209 213 219)", // Change border color when focused
                     boxShadow: state.isFocused ? "none" : provided.boxShadow, // Optionally remove box shadow when focused
-                    fontSize: '0.875rem', /* 14px */
-lineHeight: '1.25rem' /* 20px */
+                    fontSize: "0.875rem" /* 14px */,
+                    lineHeight: "1.25rem" /* 20px */,
                   }),
                   placeholder: (provided) => ({
                     ...provided,
                     fontSize: "small", // Adjust the font size of the placeholder text
-                    color:"#a0a7b2"
+                    color: "#a0a7b2",
                   }),
                   option: (provided, state) => ({
                     ...provided,
@@ -216,12 +232,11 @@ lineHeight: '1.25rem' /* 20px */
                       color: "#fff",
                       backgroundColor: "#ea580c",
                     },
-                   
                   }),
                   singleValue: (provided) => ({
                     ...provided,
-                    fontSize: '0.875rem', /* 14px */
-                    lineHeight: '1.25rem' /* 20px */, // Adjust the font size for the selected option
+                    fontSize: "0.875rem" /* 14px */,
+                    lineHeight: "1.25rem" /* 20px */, // Adjust the font size for the selected option
                   }),
                 }}
                 theme={(theme) => ({
@@ -244,32 +259,31 @@ lineHeight: '1.25rem' /* 20px */
             <p className="basis-1/2 text-sm">24/1/2024</p>
           </div> */}
 
-
-<div className="grid grid-cols-3 sm:grid-cols-3 md:grid-cols-7 lg:grid-cols-7 xl:grid-col-7 items-center mb-4">
+          <div className="grid grid-cols-3 sm:grid-cols-3 md:grid-cols-7 lg:grid-cols-7 xl:grid-col-7 items-center mb-4">
             <div className="col-span-2 basis-1/4 text-sm text-gray-600">
-            Priority
+              Priority
             </div>
             <span className="col-span-1 text-center"> : </span>
             <div className="col-span-4">
-            <Select
+              <Select
                 options={moduleOptions}
                 className="custom-select"
-
-
                 styles={{
                   control: (provided, state) => ({
                     ...provided,
                     backgroundColor: "rgb(255 255 255)", // Change the background color of the select input
                     borderWidth: state.isFocused ? "1px" : "1px", // Decrease border width when focused
-                    borderColor: state.isFocused ? "#orange-400" : "rgb(209 213 219)", // Change border color when focused
+                    borderColor: state.isFocused
+                      ? "#orange-400"
+                      : "rgb(209 213 219)", // Change border color when focused
                     boxShadow: state.isFocused ? "none" : provided.boxShadow, // Optionally remove box shadow when focused
-                    fontSize: '0.875rem', /* 14px */
-lineHeight: '1.25rem' /* 20px */
+                    fontSize: "0.875rem" /* 14px */,
+                    lineHeight: "1.25rem" /* 20px */,
                   }),
                   placeholder: (provided) => ({
                     ...provided,
                     fontSize: "small", // Adjust the font size of the placeholder text
-                    color:"#a0a7b2"
+                    color: "#a0a7b2",
                   }),
                   option: (provided, state) => ({
                     ...provided,
@@ -282,12 +296,11 @@ lineHeight: '1.25rem' /* 20px */
                       color: "#fff",
                       backgroundColor: "#ea580c",
                     },
-                   
                   }),
                   singleValue: (provided) => ({
                     ...provided,
-                    fontSize: '0.875rem', /* 14px */
-                    lineHeight: '1.25rem' /* 20px */, // Adjust the font size for the selected option
+                    fontSize: "0.875rem" /* 14px */,
+                    lineHeight: "1.25rem" /* 20px */, // Adjust the font size for the selected option
                   }),
                 }}
                 theme={(theme) => ({
@@ -299,7 +312,7 @@ lineHeight: '1.25rem' /* 20px */
                     primary: "#fb923c",
                   },
                 })}
-                />
+              />
             </div>
           </div>
           {/* <div className="mt-5 flex flex-row">
@@ -312,8 +325,8 @@ lineHeight: '1.25rem' /* 20px */
               className="p-3 text-sm resize-none shadow-sm rounded-md w-full h-32 focus:outline-none focus:border-orange-400"
             ></textarea>
           </div> */}
-         <div className="flex justify-end">
-         <button className=" px-3 py-2 inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white mb-4 mt-2">
+          <div className="flex justify-end">
+            <button className=" px-3 py-2 inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white mb-4 mt-2">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 20 20"
@@ -324,9 +337,9 @@ lineHeight: '1.25rem' /* 20px */
               </svg>
               Add Subtask
             </button>
-         </div>
-         
-            <hr/>
+          </div>
+
+          <hr />
           <div className="flex mt-3">
             <div className="me-2">
               <p className="bg-yellow-500 text-black py-1.5 w-8 h-8  rounded-full">

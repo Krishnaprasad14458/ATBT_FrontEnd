@@ -11,7 +11,7 @@ import "react-big-calendar/lib/css/react-big-calendar.css";
 import moment from "moment";
 import { Dialog, Transition, Menu } from "@headlessui/react";
 import defprop from "../../../Images/defprof.svg";
-import { Link, Outlet, useParams } from "react-router-dom";
+import { Link, Outlet, useParams, useLoaderData, } from "react-router-dom";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
 import useInitializePerPage from "../../../hooks/initializePerPage/useInitializePerPage";
 import useDebounce from "../../../hooks/debounce/useDebounce";
@@ -21,40 +21,55 @@ import TaskOverview from "./TaskOverview";
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
+export async function tasksLoader({ params }) {
+  try {
+    const tasks =[
+      {
+        id: 1,
+        decisionTaken: "task1",
+        personResponsible: "bhaskar",
+        dueDate: "",
+      },
+      {
+        id: 2,
+        decisionTaken: "task2",
+        personResponsible: "zaheer",
+        dueDate: "",
+      },
+    ]
+    return tasks;
+  } catch (error) {
+    console.log(error, 'which error');
+    if (error.response) {
+      throw new Error(`Failed to fetch data: ${error.response.status}`);
+    } else if (error.request) {
+      throw new Error('Request made but no response received');
+    } else {
+      throw new Error(`Error setting up request: ${error.message}`);
+    }
+  }
+}
 const MeetingWiseTask = () => {
   const { id } = useParams();
-  // ----toggleDrawer-------
-  const [isOpen, setIsOpen] = useState(false);
-  const toggleDrawer = () => {
-    setIsOpen(!isOpen);
-  };
+const tasks = useLoaderData()
+
   // -------full screen----
 
-  const [overViewNewTask, setOverViewNewTask] = useState(false);
-  const handleOverViewNewTask = () => {
-    setOverViewNewTask(!overViewNewTask);
+  const [overViewTask, setOverViewTask] = useState(false);
+  const [overViewTaskId,setoverViewTaskID] = useState(null)
+  const handleOverViewTask = (id) => {
+    setoverViewTaskID(id)
+    setOverViewTask(!overViewTask);
   };
-  const [tasks, setTasks] = useState([]);
+ 
 
   const handleAddNewTask = () => {
-    setTasks((prevTasks) => [
-      {
-        taskName: "", //decisiontaken
-        assignee: "", //responsibileperson
-        duedate: "",
-        dateOfBoardMeeting: "",
-        boardMeetingNo: "",
-        status: "",
-        updateDecisionUser: "",
-        updateDecisionAdmin: "",
-      },
-      ...prevTasks,
-    ]);
+   // add new task api here
   };
-  const handleEditTask = (index, fieldName, e) => {
+  const handleEditTask = (id, fieldName, e) => {
     const { name, value } = e.target;
     const updatedTasks = tasks.map((task, idx) => {
-      if (idx === index) {
+      if (task.id === id) {
         return {
           ...task,
           [fieldName]: value,
@@ -62,16 +77,9 @@ const MeetingWiseTask = () => {
       }
       return task;
     });
-    setTasks(updatedTasks);
+    // setTasks(updatedTasks);
   };
-  // active input
-  const [activeInputIndex, setActiveInputIndex] = useState();
-  const [activeInputName, setActiveInputName] = useState();
-
-  const handleActiveInput = (index, name) => {
-    setActiveInputIndex(index);
-    setActiveInputName(name);
-  };
+console.log("tasks",tasks)
   return (
     <div className="mt-4">
       <div className="overflow-x-auto">
@@ -145,15 +153,14 @@ const MeetingWiseTask = () => {
                   <input
                     className="outline-none text-black  truncate px-1.5 py-1 rounded-md shadow_box  mx-2 bg-[#f8fafc] w-full "
                     type="text"
-                    value={task.taskname}
-                    onChange={(e) => handleEditTask(index, "taskname", e)}
-                    onClick={() => handleActiveInput(index, "taskname")}
+                    value={task.decisionTaken}
+                    onChange={(e) => handleEditTask(task.id, "decisionTaken", e)}
                     placeholder="Decision Taken"
-                    title={task.taskname}
+                    title={task.decisionTaken}
                   />
                   <span
                     className="shadow_box p-1 rounded-sm cursor-pointer"
-                    onClick={handleOverViewNewTask}
+                    onClick={()=>handleOverViewTask(task.id)}
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -173,11 +180,10 @@ const MeetingWiseTask = () => {
                   <input
                     className="outline-none text-black  truncate px-1.5 py-1 rounded-md shadow_box  w-full bg-[#f8fafc] "
                     type="text"
-                    value={task.assignee}
-                    onChange={(e) => handleEditTask(index, "assignee", e)}
-                    onClick={() => handleActiveInput(index, "assignee")}
+                    value={task.personResponsible}
+                    onChange={(e) => handleEditTask(index, "personResponsible", e)}
                     placeholder="Person Reponsible"
-                    title={task.assignee}
+                    title={task.personResponsible}
                   />
                 </td>
                 <td className={`border text-center  text-sm p-1.5`}>
@@ -186,27 +192,23 @@ const MeetingWiseTask = () => {
                     type="date"
                     value={task.duedate}
                     onChange={(e) => handleEditTask(index, "duedate", e)}
-                    onClick={() => handleActiveInput(index, "duedate")}
                     title={task.duedate}
-                 
                   />
-
                 </td>
 
-                <td
-                  className={`border text-center  text-sm 
-                                   ${activeInputIndex === index &&
-                      activeInputName === "status"
-                      ? " border-2 border-slate-300"
-                      : " border border-slate-200 "
-                    }`}
+                <td className={`border text-center  text-sm p-1.5`}
+                // className={`border text-center  text-sm
+                //                  ${activeInputIndex === index &&
+                //     activeInputName === "status"
+                //     ? " border-2 border-slate-300"
+                //     : " border border-slate-200 "
+                //   }`}
                 >
                   <input
                     className="outline-none text-black truncate  py-2 bg-[#f8fafc]"
                     type="text"
                     value={task.status}
                     onChange={(e) => handleEditTask(index, "status", e)}
-                    onClick={() => handleActiveInput(index, "status")}
                     style={{ maxWidth: "110px" }}
                     title={task.status}
                   />
@@ -223,8 +225,10 @@ const MeetingWiseTask = () => {
         </table>
       </div>
       <TaskOverview
-        overViewNewTask={overViewNewTask}
-        handleOverViewNewTask={handleOverViewNewTask}
+      tasks = {tasks}
+      overViewTaskId = {overViewTaskId} 
+        overViewTask={overViewTask}
+        handleOverViewTask={handleOverViewTask}
       />
     </div>
   );

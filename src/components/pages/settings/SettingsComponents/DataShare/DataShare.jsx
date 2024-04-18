@@ -1,6 +1,8 @@
 import { React, useEffect, useState, useContext } from "react";
-import { Link, useLoaderData } from "react-router-dom";
+import { Link, useLoaderData,  useFetcher, } from "react-router-dom";
 import atbtApi from "../../../../../serviceLayer/interceptor";
+import Swal from 'sweetalert2';
+
 export async function DataShareloader() {
   try {
     const [dataShare] = await Promise.all([atbtApi.get(`access/view`)]);
@@ -13,8 +15,49 @@ export async function DataShareloader() {
     throw error;
   }
 }
+export async function DataShareDeleteAction({ request, params }) {
+  switch (request.method) {
+    case 'DELETE': {
+      const id = (await request.json()) || null;
+      console.log(id, 'json', id);
+      return await atbtApi.delete(`access/remove/${id}`);
+    }
+    default: {
+      throw new Response('', { status: 405 });
+    }
+  }
+}
 const DataShare = () => {
   const data = useLoaderData();
+  let fetcher = useFetcher();
+  const handleDelete = async (id) => {
+    const confirmDelete = await Swal.fire({
+      title: 'Are you sure?',
+      text: 'Once deleted, you will not be able to recover this Data Share!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#ea580c',
+      cancelButtonColor: '#fff',
+      confirmButtonText: 'Delete',
+      customClass: {
+        popup: 'custom-swal2-popup',
+        title: 'custom-swal2-title',
+        content: 'custom-swal2-content',
+      },
+
+    });
+
+    if (confirmDelete.isConfirmed) {
+      try {
+        // const result = await deleteUser(id);
+        fetcher.submit(id, { method: 'DELETE', encType: 'application/json' });
+      } catch (error) {
+        Swal.fire('Error', 'Unable to delete  data share 🤯', 'error');
+      }
+    }
+
+
+  };
   console.log("datay", data);
   return (
     <div className=" p-3 bg-[#f8fafc] overflow-hidden">
@@ -81,9 +124,9 @@ const DataShare = () => {
           <table className="w-full divide-y divide-gray-200 dark:divide-gray-700 rounded-md">
             <thead>
               <tr>
-                <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200">
+                {/* <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200">
                   Id
-                </th>
+                </th> */}
                 <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200">
                   Name
                 </th>
@@ -110,13 +153,13 @@ const DataShare = () => {
                 (data, index) =>
                   data.id !== 1 && (
                     <tr key={index}>
-                      <td
+                      {/* <td
                         className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden`}
                         style={{ maxWidth: "3rem" }}
                         title={data.id}
                       >
                         {data.id}
-                      </td>
+                      </td> */}
                       <td
                         className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden`}
                         style={{ width: "15rem" }}
@@ -151,7 +194,7 @@ const DataShare = () => {
                         style={{ width: "15rem" }}
                         title=""
                       >
-                        {" "}
+                      
                         {data.userName}
                       </td>
                       <td
@@ -159,24 +202,14 @@ const DataShare = () => {
                         style={{ maxWidth: "3rem" }}
                         title=""
                       >
-                        <div className="flex justify-start gap-3">
+                        <div className="flex justify-start gap-3 cursor-pointer">
+                         
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 20 20"
                             fill="currentColor"
                             class="w-5 h-5"
-                          >
-                            <path
-                              fill-rule="evenodd"
-                              d="M7.793 2.232a.75.75 0 0 1-.025 1.06L3.622 7.25h10.003a5.375 5.375 0 0 1 0 10.75H10.75a.75.75 0 0 1 0-1.5h2.875a3.875 3.875 0 0 0 0-7.75H3.622l4.146 3.957a.75.75 0 0 1-1.036 1.085l-5.5-5.25a.75.75 0 0 1 0-1.085l5.5-5.25a.75.75 0 0 1 1.06.025Z"
-                              clip-rule="evenodd"
-                            />
-                          </svg>
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 20 20"
-                            fill="currentColor"
-                            class="w-5 h-5"
+                            onClick={()=>handleDelete(data.id)}
                           >
                             <path
                               fill-rule="evenodd"

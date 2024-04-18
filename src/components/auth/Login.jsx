@@ -55,7 +55,7 @@ const Login = () => {
         <img
           src={login_bg}
           alt='background image'
-          className='absolute left-1/2 top-0 -ml-[52.5rem] w-[150.5rem] max-w-none'
+          className='absolute left-1/2 top-0 -ml-[52.5rem] w-[150.5rem] max-w-none h-screen'
         />
         <div className='absolute inset-0 text-slate-900/[0.07] [mask-image:linear-gradient(to_bottom_left,white,transparent,transparent)]'></div>
         <div className='relative flex justify-center h-screen items-center'>

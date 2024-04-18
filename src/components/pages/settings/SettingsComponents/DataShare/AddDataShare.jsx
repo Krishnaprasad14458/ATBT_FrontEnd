@@ -47,6 +47,8 @@ const AddDataShare = () => {
   useEffect(() => {
     if (module?.value === "user") {
       setShareDataOfOptions(data.users);
+     
+    
       setShareDataOfSelectedOptions([]);
     } else if (module?.value === "entity") {
       setShareDataOfOptions(data.entities);
@@ -91,9 +93,11 @@ const AddDataShare = () => {
       );
       setShareDataOfOptions(filteredData);
     }
-  }, [shareDataWithSelectedOptions]);
-  const handleSubmit = async () => {
+  }, [shareDataWithSelectedOptions,module]);
 
+  const [saveButtonClicked, setsaveButtonClicked] = useState(false);
+  const handleSubmit = async () => {
+    setsaveButtonClicked(true);
     if (!handleValidationsErrors()) {
       let moduleName = module.value;
       let endpoint;
@@ -126,18 +130,22 @@ const AddDataShare = () => {
           // selectedUsers: shareDataOf,
           ...(moduleName === "user"
             ? {
-              selectedUsers: shareDataOfSelectedOptions.map((item) => item.value),
-              selectedUsersNames: JSON.stringify(shareDataOfSelectedOptions.map(
-                (item) => item.label
-              )),
-            }
+                selectedUsers: shareDataOfSelectedOptions.map(
+                  (item) => item.value
+                ),
+                selectedUsersNames: JSON.stringify(
+                  shareDataOfSelectedOptions.map((item) => item.label)
+                ),
+              }
             : {
-              entityIds: shareDataOfSelectedOptions.map((item) => item.value),
-              entityNames: JSON.stringify(shareDataOfSelectedOptions.map((item) => item.label)),
-            }),
-          userId: shareDataWithSelectedOptions.value, userName: shareDataWithSelectedOptions.label
-        }
-        ),
+                entityIds: shareDataOfSelectedOptions.map((item) => item.value),
+                entityNames: JSON.stringify(
+                  shareDataOfSelectedOptions.map((item) => item.label)
+                ),
+              }),
+          userId: shareDataWithSelectedOptions.value,
+          userName: shareDataWithSelectedOptions.label,
+        }),
         {
           pending: {
             render() {
@@ -168,43 +176,52 @@ const AddDataShare = () => {
         }
       );
     }
-
   };
-  const [errors, setErrors] = useState({})
+  const [errors, setErrors] = useState({});
   const handleValidationsErrors = () => {
-    let isErrorsPresent = false
+    let isErrorsPresent = false;
     if (dataShareName.length === 0) {
+
       setErrors((prev) => ({ ...prev, dataShareName: "Name is Required" }))
       isErrorsPresent = true
-      return isErrorsPresent
+     
     }
     else if (dataShareName.length < 3) {
-      setErrors((prev) => ({ ...prev, dataShareName: "length should be greater than 3 characters" }))
+      setErrors((prev) => ({ ...prev, dataShareName: "Name should be greater than 3 characters" }))
       isErrorsPresent = true
-      return isErrorsPresent
+   
     }else{
       setErrors((prev) => ({ ...prev, dataShareName: "" }))
 
     }
     if (shareDataOfSelectedOptions.length === 0) {
-      setErrors((prev) => ({ ...prev, shareDataOfSelectedOptions: "Select Alteat One" }))
-      isErrorsPresent = true
-      return isErrorsPresent
+      setErrors((prev) => ({
+        ...prev,
+        shareDataOfSelectedOptions: "Select atleast one user/entity",
+      }));
+      isErrorsPresent = true;
+    } else {
+      setErrors((prev) => ({ ...prev, shareDataOfSelectedOptions: "" }));
     }
-    else{
-      setErrors((prev) => ({ ...prev, shareDataOfSelectedOptions: "" }))
+    if (
+      Object.keys(shareDataWithSelectedOptions).length === 0 &&
+      shareDataWithSelectedOptions.constructor === Object
+    ) {
+      setErrors((prev) => ({
+        ...prev,
+        shareDataWithSelectedOptions: "Select alteast one user",
+      }));
+      isErrorsPresent = true;
+    } else {
+      setErrors((prev) => ({ ...prev, shareDataWithSelectedOptions: "" }));
     }
-    if (Object.keys(shareDataWithSelectedOptions).length === 0 && shareDataWithSelectedOptions.constructor === Object) {
-      setErrors((prev) => ({ ...prev, shareDataWithSelectedOptions: "Select Alteat One" }))
-      isErrorsPresent = true
-      return isErrorsPresent
+    return isErrorsPresent;
+  };
+  useEffect(() => {
+    if (saveButtonClicked) {
+      handleValidationsErrors();
     }
-    else{
-      setErrors((prev) => ({ ...prev, shareDataWithSelectedOptions: "" }))
-    }
-   return isErrorsPresent
-  }
- 
+  }, [dataShareName, shareDataOfSelectedOptions, shareDataWithSelectedOptions]);
   return (
     <div className="p-4 bg-[#f8fafc]">
       <div className="grid grid-cols-1  sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-2 lg:gap-5 gap-y-4">
@@ -219,6 +236,10 @@ const AddDataShare = () => {
             value={dataShareName}
             onChange={(event) => setDataShareName(event.target.value)}
           />
+
+<div className='h-2 text-red-500 text-xs'>
+{errors && errors.dataShareName}
+                        </div>
         </div>
         <div className="col-span-1 ">
           <label className="block text-sm font-medium leading-6  text-gray-900 mb-1">
@@ -330,6 +351,11 @@ const AddDataShare = () => {
                 onChange={handleShareDataOf}
                 onInputChange={handleInputChange}
               />
+
+              <div className='h-2 text-red-500 text-xs'>
+              {errors && errors.shareDataOfSelectedOptions}
+                        </div>
+
             </div>
           </div>
         </div>
@@ -387,6 +413,11 @@ const AddDataShare = () => {
                 value={shareDataWithSelectedOptions}
                 onChange={handleShareDataWith}
               />
+
+             <div className='h-2 text-red-500 text-xs'>
+              {errors && errors.shareDataWithSelectedOptions}</div>
+
+
             </div>
           </div>
         </div>
