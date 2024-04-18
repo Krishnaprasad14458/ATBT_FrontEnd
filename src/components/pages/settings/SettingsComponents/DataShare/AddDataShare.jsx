@@ -176,12 +176,12 @@ const AddDataShare = () => {
   const handleValidationsErrors = () => {
     let isErrorsPresent = false
     if (dataShareName.length === 0) {
-      setErrors((prev) => ({ ...prev, dataShareName: "Name is Required" }))
+      setErrors((prev) => ({ ...prev, dataShareName: "Name is required" }))
       isErrorsPresent = true
      
     }
     else if (dataShareName.length < 3) {
-      setErrors((prev) => ({ ...prev, dataShareName: "Length should be greater than 3 characters" }))
+      setErrors((prev) => ({ ...prev, dataShareName: "Name should be greater than 3 characters" }))
       isErrorsPresent = true
    
     }else{
@@ -189,7 +189,7 @@ const AddDataShare = () => {
 
     }
     if (shareDataOfSelectedOptions.length === 0) {
-      setErrors((prev) => ({ ...prev, shareDataOfSelectedOptions: "Select Alteat One" }))
+      setErrors((prev) => ({ ...prev, shareDataOfSelectedOptions: "Select atleast one user/entity" }))
       isErrorsPresent = true
      
     }
@@ -197,7 +197,7 @@ const AddDataShare = () => {
       setErrors((prev) => ({ ...prev, shareDataOfSelectedOptions: "" }))
     }
     if (Object.keys(shareDataWithSelectedOptions).length === 0 && shareDataWithSelectedOptions.constructor === Object) {
-      setErrors((prev) => ({ ...prev, shareDataWithSelectedOptions: "Select Alteat One" }))
+      setErrors((prev) => ({ ...prev, shareDataWithSelectedOptions: "Select alteast one user" }))
       isErrorsPresent = true
     
     }
