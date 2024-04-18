@@ -203,3 +203,8 @@ input[type='date']:after {
   content:''
 }   */
 /* dont delete this code ask bhavi before delete  end*/
+@media (max-width:425px) {
+  .teams_img{
+    flex-direction: column-reverse;
+  }
+} 
