@@ -13,7 +13,6 @@ import EntitiesDataProvider from './contexts/entitiesDataContext/entitiesDataCon
 import TeamsDataProvider from './contexts/teamsDataContext/teamsDataContext';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import PermissionsProvider from './rbac/PermissionsProvider';
-import ErrorBoundary from './components/pages/Errorpages/ErrorBoundary';
 import BoardMeetingsDataProvider from "./contexts/boardmeetingsDataContext/boardmeetingsDataContext"
 import { router } from './routerLayer';
 

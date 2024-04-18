@@ -1,6 +1,7 @@
-import Login from "../../components/auth/Login";
-import ChangePassword from "../../components/auth/ChangePassword";
-import ResetPassword from "../../components/auth/ResetPassword";
+import Login from "../../componentLayer/pages/auth/Login"
+import ChangePassword from "../../componentLayer/pages/auth/ChangePassword";
+import ResetPassword from "../../componentLayer/pages/auth/ResetPassword";
+
 export const authRoutes = [
     { path: '/login', element: <Login /> },
     { path: '/resetpassword', element: <ResetPassword /> },      //

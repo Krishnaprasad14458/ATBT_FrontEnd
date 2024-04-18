@@ -1,13 +1,11 @@
-import UserForm, { userFormLoader } from "../../components/createForm/createUserForm/UserForm";
-import AllTasks from "../../components/landingPages/ReuseableComponents/AllTasks";
-// import Boardmeeting from "../../components/landingPages/ReuseableComponents/Boardmeeting";
-import Boardmeeting, { action as entityMeetingAction, loader as entityMeetingLoader } from "../../components/landingPages/ReuseableComponents/Boardmeeting";
 
-import Documents from "../../components/landingPages/ReuseableComponents/Documents";
-
-import UserLandingPage, { userLandingLoader } from "../../components/landingPages/user/UserLandingPage";
-import UserOverview from "../../components/landingPages/user/UserOverview";
-import Users, { action as userAction, loader as userLoader } from "../../components/pages/users/Users";
+import UserForm, { userFormLoader } from "../../componentLayer/pages/users/createUserForm/UserForm";
+import AllTasks from "../../componentLayer/pages/landingPages/ReuseableComponents/AllTasks";
+import Boardmeeting, { action as entityMeetingAction, loader as entityMeetingLoader } from "../../componentLayer/pages/landingPages/ReuseableComponents/Boardmeeting";
+import Documents from "../../componentLayer/pages/landingPages/ReuseableComponents/Documents";
+import UserLandingPage, { userLandingLoader } from "../../componentLayer/pages/landingPages/user/UserLandingPage";
+import UserOverview from "../../componentLayer/pages/landingPages/user/UserOverview";
+import Users, { action as userAction, loader as userLoader } from "../../componentLayer/pages/users/usersList/Users";
 import RouteBlocker from "../../rbac/RouteBlocker";
 export const userRouter = [
     { index: true, loader: userLoader, action: userAction, element: <Users /> },
