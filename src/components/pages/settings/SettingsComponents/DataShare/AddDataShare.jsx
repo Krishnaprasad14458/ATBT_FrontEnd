@@ -179,18 +179,18 @@ const AddDataShare = () => {
   const handleValidationsErrors = () => {
     let isErrorsPresent = false;
     if (dataShareName.length === 0) {
-      setErrors((prev) => ({ ...prev, dataShareName: "Name is Required" }));
-      isErrorsPresent = true;
-      return isErrorsPresent;
-    } else if (dataShareName.length < 3) {
-      setErrors((prev) => ({
-        ...prev,
-        dataShareName: "length should be greater than 3 characters",
-      }));
-      isErrorsPresent = true;
-      return "ghjgjh";
-    } else {
-      setErrors((prev) => ({ ...prev, dataShareName: "" }));
+
+      setErrors((prev) => ({ ...prev, dataShareName: "Name is Required" }))
+      isErrorsPresent = true
+     
+    }
+    else if (dataShareName.length < 3) {
+      setErrors((prev) => ({ ...prev, dataShareName: "Length should be greater than 3 characters" }))
+      isErrorsPresent = true
+   
+    }else{
+      setErrors((prev) => ({ ...prev, dataShareName: "" }))
+
     }
     if (shareDataOfSelectedOptions.length === 0) {
       setErrors((prev) => ({
@@ -234,7 +234,10 @@ const AddDataShare = () => {
             value={dataShareName}
             onChange={(event) => setDataShareName(event.target.value)}
           />
-          {errors && errors.dataShareName}
+
+<div className='h-2 text-red-500 text-xs'>
+{errors && errors.dataShareName}
+                        </div>
         </div>
         <div className="col-span-1 ">
           <label className="block text-sm font-medium leading-6  text-gray-900 mb-1">
@@ -346,7 +349,11 @@ const AddDataShare = () => {
                 onChange={handleShareDataOf}
                 onInputChange={handleInputChange}
               />
+
+              <div className='h-2 text-red-500 text-xs'>
               {errors && errors.shareDataOfSelectedOptions}
+                        </div>
+
             </div>
           </div>
         </div>
@@ -404,7 +411,11 @@ const AddDataShare = () => {
                 value={shareDataWithSelectedOptions}
                 onChange={handleShareDataWith}
               />
-              {errors && errors.shareDataWithSelectedOptions}
+
+             <div className='h-2 text-red-500 text-xs'>
+              {errors && errors.shareDataWithSelectedOptions}</div>
+
+
             </div>
           </div>
         </div>
