@@ -185,7 +185,7 @@ const AddDataShare = () => {
      
     }
     else if (dataShareName.length < 3) {
-      setErrors((prev) => ({ ...prev, dataShareName: "Length should be greater than 3 characters" }))
+      setErrors((prev) => ({ ...prev, dataShareName: "Name should be greater than 3 characters" }))
       isErrorsPresent = true
    
     }else{
