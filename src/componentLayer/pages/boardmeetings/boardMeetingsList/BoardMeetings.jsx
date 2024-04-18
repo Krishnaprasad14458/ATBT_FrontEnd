@@ -3,8 +3,8 @@ import { Link, useFetcher, useLoaderData, useNavigation, useSubmit } from 'react
 import Swal from 'sweetalert2';
 import { debounce } from '../../../../utils/utils'
 import GateKeeper from '../../../../rbac/GateKeeper';
-import CustomColumn from '../../../tableCustomization/CustomColumn';
-import CustomFilter from '../../../tableCustomization/CustomFilter';
+import CustomColumn from '../../../components/tableCustomization/CustomColumn';
+import CustomFilter from '../../../components/tableCustomization/CustomFilter';
 import atbtApi from '../../../../serviceLayer/interceptor';
 export async function loader({ request, params }) {
   try {

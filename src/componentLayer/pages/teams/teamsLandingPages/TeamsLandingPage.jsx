@@ -1,10 +1,4 @@
-import React, {
-  useState,
-
-  useEffect,
-  useContext,
-} from 'react';
-import '../LandingPageCommon.css';
+import React, {useState,useEffect, useContext} from 'react';
 import { NavLink, Link, Outlet, useParams, useLocation } from 'react-router-dom';
 import { TeamsDataContext } from '../../../../contexts/teamsDataContext/teamsDataContext';
 import axios from 'axios';

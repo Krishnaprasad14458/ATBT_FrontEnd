@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
-import '../LandingPageCommon.css';
 import { useParams } from 'react-router-dom';
-import { EntitiesDataContext } from '../../../../contexts/entitiesDataContext/entitiesDataContext';
+import { EntitiesDataContext } from '../../../contexts/entitiesDataContext/entitiesDataContext';
 import axios from 'axios';
 const Documents = () => {
     const {

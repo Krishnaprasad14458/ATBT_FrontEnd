@@ -1,5 +1,4 @@
 import React, {useState,useEffect,useCallback,} from 'react';
-import '../LandingPageCommon.css';
 import {
   Link,
   useFetcher,
@@ -9,11 +8,11 @@ import {
   useSubmit,
   useOutletContext
 } from 'react-router-dom';
-import atbtApi from '../../../../serviceLayer/interceptor';
-import CustomColumn from '../../../tableCustomization/CustomColumn';
-import CustomFilter from '../../../tableCustomization/CustomFilter';
-import GateKeeper from '../../../../rbac/GateKeeper';
-import { debounce } from '../../../../utils/utils'
+import atbtApi from '../../../serviceLayer/interceptor';
+import CustomColumn from '../../../componentLayer/components/tableCustomization/CustomColumn';
+import CustomFilter from '../../../componentLayer/components/tableCustomization/CustomFilter';
+import GateKeeper from '../../../rbac/GateKeeper';
+import { debounce } from '../../../utils/utils'
 import Swal from 'sweetalert2';
 
 let url;

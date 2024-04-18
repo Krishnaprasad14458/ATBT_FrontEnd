@@ -1,11 +1,4 @@
-import React, {
-    useState,
-    Fragment,
-    useRef,
-    useEffect,
-    useContext,
-} from 'react';
-import '../LandingPageCommon.css';
+import React, {useState,useEffect,useContext,} from 'react';
 import defprop from '../../../../assets/Images/defprof.svg';
 import { Link, Outlet, useParams } from 'react-router-dom';
 import { EntitiesDataContext } from '../../../../contexts/entitiesDataContext/entitiesDataContext';

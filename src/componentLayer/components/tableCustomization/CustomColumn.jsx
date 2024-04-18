@@ -1,6 +1,4 @@
-import React, { useEffect, useState } from 'react';
-import atbtApi from '../../serviceLayer/interceptor';
-import { useFetcher, useLoaderData } from 'react-router-dom';
+import React, { useState } from 'react';
 import axios from 'axios';
 function CustomColumn({ tableView, setTableView, form }) {
   console.log(tableView, 'custom tableView');

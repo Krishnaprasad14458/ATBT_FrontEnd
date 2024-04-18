@@ -1,20 +1,8 @@
-import React, {
-    useState,
-    Fragment,
-    useRef,
-    useEffect,
-    useContext,
-} from 'react';
-import '../LandingPageCommon.css';
+import React, {useState,useEffect,useContext,} from 'react';
 import defprop from '../../../../assets/Images/defprof.svg';
-import { Link, Outlet, useParams, useLocation } from 'react-router-dom';
+import { Link, useParams, useLocation } from 'react-router-dom';
 import { TeamsDataContext } from '../../../../contexts/teamsDataContext/teamsDataContext';
 import axios from 'axios';
-
-function classNames(...classes) {
-    return classes.filter(Boolean).join(' ');
-}
-
 const TeamsOverview = () => {
     const {
         getTeambyId,
