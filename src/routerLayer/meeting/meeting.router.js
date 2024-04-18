@@ -1,12 +1,15 @@
-import BoardMeetingForm, { boardmeetingFormLoader } from "../../components/createForm/createBoardMeetingForm/BoardMeetingForm";
-import Boardmeeting, { action, loader } from "../../components/landingPages/ReuseableComponents/Boardmeeting";
-import Documents from "../../components/landingPages/ReuseableComponents/Documents";
 
-import BoardMeetingLandingPage from "../../components/landingPages/boardMeeting/BoardMeetingLandingPage";
-import BoardMeetings, { action as meetingAction, loader as meetingLoader } from "../../components/pages/boardMeetings/BoardMeetings";
-import BoardMeetingOverview from "../../components/landingPages/boardMeeting/BoardMeetingOverview";
-import RouteBlocker from "../../rbac/RouteBlocker";
-import MeetingWiseTask, { tasksLoader } from "../../components/landingPages/ReuseableComponents/MeetingWiseTask";
+import BoardMeetingForm, { boardmeetingFormLoader } from "../../componentLayer/pages/boardmeetings/createBoardMeetingForm/BoardMeetingForm";
+
+import Documents from "../../componentLayer/pages/landingPages/ReuseableComponents/Documents";
+
+import BoardMeetingLandingPage from "../../componentLayer/pages/landingPages/boardMeeting/BoardMeetingLandingPage";
+
+import BoardMeetings, { action as meetingAction, loader as meetingLoader } from "../../componentLayer/pages/boardmeetings/boardMeetingsList/BoardMeetings";
+
+import BoardMeetingOverview from "../../componentLayer/pages/landingPages/boardMeeting/BoardMeetingOverview";
+
+import MeetingWiseTask, { tasksLoader } from "../../componentLayer/pages/landingPages/ReuseableComponents/MeetingWiseTask";
 
 export const meetingRouter = [
     { index: true, loader: meetingLoader, action: meetingAction, element: <BoardMeetings />, },
