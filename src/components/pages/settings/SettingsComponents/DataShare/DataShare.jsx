@@ -124,9 +124,9 @@ const DataShare = () => {
           <table className="w-full divide-y divide-gray-200 dark:divide-gray-700 rounded-md">
             <thead>
               <tr>
-                <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200">
+                {/* <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200">
                   Id
-                </th>
+                </th> */}
                 <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200">
                   Name
                 </th>
@@ -153,13 +153,13 @@ const DataShare = () => {
                 (data, index) =>
                   data.id !== 1 && (
                     <tr key={index}>
-                      <td
+                      {/* <td
                         className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden`}
                         style={{ maxWidth: "3rem" }}
                         title={data.id}
                       >
                         {data.id}
-                      </td>
+                      </td> */}
                       <td
                         className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden`}
                         style={{ width: "15rem" }}
