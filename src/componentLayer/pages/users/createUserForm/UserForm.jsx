@@ -498,9 +498,7 @@ function UserForm() {
   }
 
   // end the time function
-  useEffect(() => {
-    console.log("cus", customFormFields);
-  });
+  
   return (
     <div className=" p-4 bg-[#f8fafc]">
       {/* <p className="font-lg font-semibold p-3">Entity Form</p> */}

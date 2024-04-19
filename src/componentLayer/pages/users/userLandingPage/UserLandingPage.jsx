@@ -20,6 +20,7 @@ export const userLandingLoader = async ({ params }) => {
   }
 };
 const UserLandingPage = () => {
+  const moduleName = "user"
   const { id } = useParams();
   const data = useLoaderData();
   console.log(data?.user?.customFieldsData, "rrd");
@@ -138,7 +139,7 @@ const UserLandingPage = () => {
         </NavLink>
       </div>
       <hr />
-      <Outlet />
+      <Outlet context = {moduleName}/>
     </div>
   );
 };
