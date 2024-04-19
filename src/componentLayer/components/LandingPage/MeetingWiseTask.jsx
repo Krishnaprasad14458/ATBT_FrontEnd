@@ -1,6 +1,9 @@
 import React, {useState,} from "react";
 import {  useParams, useLoaderData, } from "react-router-dom";
 import TaskOverview from "./TaskOverview";
+import axios from "axios"
+
+import atbtApi from "../../../serviceLayer/interceptor";
 export async function tasksLoader({ params }) {
   try {
     const tasks =[
@@ -39,11 +42,20 @@ const tasks = useLoaderData()
     setoverViewTaskID(id)
     setOverViewTask(!overViewTask);
   };
-  const handleAddNewTask = () => {
+  const handleAddNewTask = async () => {
    // add new task api here
+   https://atbtbeta.infozit.com/task/list/74
    
+   console.log("idd",id)
    
-// axios.post(`https://atbtbeta.infozit.com/task/add/${}`)
+   atbtApi.post(`task/add/${id}`)
+   const [tasks] = await Promise.all([
+    
+    atbtApi.get(`task/list/${id}`),
+
+  ]);
+  console.log("tasksf",tasks)
+
   };
   
   const handleEditTask = (id, fieldName, e) => {
