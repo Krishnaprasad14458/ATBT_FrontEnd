@@ -5,14 +5,7 @@ import { UserDataContext } from "../../../../contexts/usersDataContext/usersData
 import { EntitiesDataContext } from "../../../../contexts/entitiesDataContext/entitiesDataContext";
 import $ from "jquery";
 import linesimage from "../../../../assets/Images/lines_10.svg";
-import {
-  Navigate,
-  redirect,
-  useSubmit,
-  useNavigate,
-  useLoaderData,
-  useParams,
-} from "react-router-dom";
+import {useSubmit,useNavigate,useLoaderData,useParams,} from "react-router-dom";
 const userData = JSON.parse(localStorage.getItem("data"));
 const loggedInUser = userData?.user?.id;
 const token = userData?.token;

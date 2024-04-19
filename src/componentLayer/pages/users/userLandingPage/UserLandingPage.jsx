@@ -1,12 +1,5 @@
 import React, { useState, useContext } from "react";
-import {
-  NavLink,
-  redirect,
-  useLoaderData,
-  useParams,
-  useLocation,
-  Outlet,
-} from "react-router-dom";
+import {NavLink,redirect,useLoaderData,useParams,useLocation,Outlet} from "react-router-dom";
 import { UserDataContext } from "../../../../contexts/usersDataContext/usersDataContext";
 import { getUserById } from "../../../../contexts/usersDataContext/utils/usersApis";
 export const userLandingLoader = async ({ params }) => {
