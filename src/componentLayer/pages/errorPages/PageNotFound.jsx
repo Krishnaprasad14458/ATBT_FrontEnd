@@ -1,6 +1,5 @@
 import { Link } from 'react-router-dom';
 import login_bg from '../../../assets/Images/login_bg.jpg'
-
 const PageNotFound = () => {
   document.title = 'ATBT | Page Not Found';
   return (

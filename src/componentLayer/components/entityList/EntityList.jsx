@@ -1,9 +1,5 @@
 import React from 'react';
-
-import defprop from '../../../assets/Images/defprof.svg';
-
 import { caseLetter } from '../../../utils/utils';
-
 function EntityList({ entity }) {
   return (
     <div className='flex items-center'>

@@ -15,7 +15,6 @@ const AllTasks = () => {
     setOverViewNewTask(!overViewNewTask);
   };
   const [tasks, setTasks] = useState([]);
-
   const handleAddNewTask = () => {
     setTasks((prevTasks) => [
       {
@@ -47,7 +46,6 @@ const AllTasks = () => {
   // active input
   const [activeInputIndex, setActiveInputIndex] = useState();
   const [activeInputName, setActiveInputName] = useState();
-
   const handleActiveInput = (index, name) => {
     setActiveInputIndex(index);
     setActiveInputName(name);

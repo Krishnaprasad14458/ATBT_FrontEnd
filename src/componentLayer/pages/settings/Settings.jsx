@@ -1,15 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-
 import organization from '../../../assets/Images/oraganisation.svg'
-
-
 import roles from '../../../assets/Images/Roles.png.svg'
 import communication from '../../../assets/Images/communications.svg';
 import forms from '../../../assets/Images/forms.svg';
 import integration from '../../../assets/Images/integrations.svg';
 import datashare from '../../../assets/Images/Data_Share_01.svg'
-
 const Settings = () => {
   const settingsData = [
     {
@@ -42,12 +38,8 @@ const Settings = () => {
       icon: datashare,
       link: "datashare"
     },
-
-
-
-  ]
-
-  document.title = 'ATBT | Setting';
+]
+document.title = 'ATBT | Setting';
   return (
     <div className='container p-4 bg-[#f8fafc]'>
       <p className='text-xl font-semibold'> Settings</p>
@@ -79,7 +71,6 @@ const Settings = () => {
     </div>
   );
 };
-
 export default Settings;
 
 // import React, { useState } from 'react';

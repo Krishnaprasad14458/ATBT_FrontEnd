@@ -1,15 +1,12 @@
 import { Link, useFetcher, useSubmit } from 'react-router-dom';
 import React, { useCallback, useContext, useEffect, useState } from 'react';
-
 import EntityList from "../../../components/entityList/EntityList"
 import useDebounce from '../../../../hooks/debounce/useDebounce';
 import { EntitiesDataContext } from '../../../../contexts/entitiesDataContext/entitiesDataContext';
 import { useSearchParams } from 'react-router-dom';
 import GateKeeper from '../../../../rbac/GateKeeper';
 import { debounce } from '../../../../utils/utils';
-
 function EntityDashboard() {
-  // const submit = useSubmit();
   const fetcher = useFetcher();
   const data = fetcher?.data?.data ?? [];
   console.log(data, 'entity data');

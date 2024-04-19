@@ -6,8 +6,6 @@ function Reports() {
   document.title = "Page Not Found";
   return (
     <div>
-        {/* <UserChart/>
-        <h1>reports</h1> */}
       <div className="not-found h-96 flex flex-col justify-center items-center mt-14">
         <div className=" border-2 border-gray-100 px-64   py-10 shadow-lg  mt-40">
           <div className="flex justify-center">
