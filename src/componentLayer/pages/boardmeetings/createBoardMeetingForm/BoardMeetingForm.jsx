@@ -2,8 +2,6 @@ import React, { useState, useContext, useEffect } from "react";
 import axios from "axios";
 import defprop from "../../../../assets/Images/defprof.svg";
 import useDebounce from "../../../../hooks/debounce/useDebounce";
-import "./BoardMeetingForm.css";
-import { Link } from "react-router-dom";
 import { UserDataContext } from "../../../../contexts/usersDataContext/usersDataContext";
 import { BoardMeetingsDataContext } from "../../../../contexts/boardmeetingsDataContext/boardmeetingsDataContext";
 import $ from "jquery";
