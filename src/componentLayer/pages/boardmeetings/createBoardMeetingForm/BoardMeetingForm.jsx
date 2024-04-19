@@ -1,23 +1,13 @@
 import React, { useState, useContext, useEffect } from "react";
 import axios from "axios";
-
-import defprop from "../../../../assets/Images/defprof.svg"
-
+import defprop from "../../../../assets/Images/defprof.svg";
 import useDebounce from "../../../../hooks/debounce/useDebounce";
 import "./BoardMeetingForm.css";
 import { Link } from "react-router-dom";
 import { UserDataContext } from "../../../../contexts/usersDataContext/usersDataContext";
 import { BoardMeetingsDataContext } from "../../../../contexts/boardmeetingsDataContext/boardmeetingsDataContext";
 import $ from "jquery";
-import {
-  Navigate,
-  redirect,
-  useSubmit,
-  useNavigate,
-  useLoaderData,
-  useParams,
-} from "react-router-dom";
-
+import { useNavigate, useLoaderData, useParams } from "react-router-dom";
 const userData = JSON.parse(localStorage.getItem("data"));
 let createdBy = userData?.user?.id;
 const token = userData?.token;
@@ -56,9 +46,7 @@ function BoardMeetingForm() {
   const urlParams = new URLSearchParams(window.location.search);
   const boardmeetingFor = urlParams.get("boardmeetingFor");
   const boardmeetingForID = urlParams.get("boardmeetingForID");
-
   const [showPassword, setShowPassword] = useState(false);
-
   document.title = "ATBT | Meeting";
   let { id } = useParams();
   const boardmeeting = useLoaderData();
@@ -70,7 +58,6 @@ function BoardMeetingForm() {
   }, [id, boardmeeting]);
   function setInitialForm() {
     console.log("boardmeeting", boardmeeting);
-
     let response = boardmeeting?.formData;
     if (!!id && !!boardmeeting?.boardmeetingData) {
       let boardmeetingData = boardmeeting?.boardmeetingData;
@@ -93,9 +80,7 @@ function BoardMeetingForm() {
     BoardMeetingsDataContext
   );
   const usersEmails = dashboard.paginatedUsers;
-  // const usersEmails = dashboard.paginatedUsers?.map((user) => user.email);
   const { debouncedSetPage, debouncedSetSearch } = useDebounce(usersDispatch);
-
   let [openOptions, setopenOptions] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
   const [selected, setSelected] = useState([]);
@@ -156,15 +141,13 @@ function BoardMeetingForm() {
     updatedFormData[index].value = updatedMembers;
     setCustomFormFields(updatedFormData);
   };
-
-  const handleChange = (index, newValue) => {
+const handleChange = (index, newValue) => {
     const updatedFormData = [...customFormFields];
     if (updatedFormData[index].type != "multiselect") {
       updatedFormData[index].value = newValue;
       setCustomFormFields(updatedFormData);
     }
     if (updatedFormData[index].type == "multiselect") {
-      // { item.value.includes(option) }
       let selectedoptions = updatedFormData[index].value;
       if (selectedoptions.includes(newValue)) {
         selectedoptions = selectedoptions.filter(
@@ -186,10 +169,7 @@ function BoardMeetingForm() {
   };
 
   console.log("customFormFields", customFormFields);
-  /////
   const [errors, setErrors] = useState({});
-
-  /////
   const [isErrorspresent, setIsErrorspresent] = useState(false);
   const checkValidation = () => {
     let isErrorspresent = false;
@@ -458,18 +438,13 @@ function BoardMeetingForm() {
           );
         }
       }
-
-      formData.set("customFieldsData", JSON.stringify(customFormFields));
+     formData.set("customFieldsData", JSON.stringify(customFormFields));
       formData.set("createdBy", createdBy);
       const formDataObj = {};
       formData.forEach((value, key) => {
         formDataObj[key] = value;
       });
-      // Log form data
-
-      console.log(formDataObj, "foj");
-
-      let response;
+let response;
       if (!!id && !!boardmeeting?.boardmeetingData) {
         console.log("updating");
         response = await updateBoardMeeting(formData, id);
@@ -524,10 +499,10 @@ function BoardMeetingForm() {
     const year = today.getFullYear();
     let month = today.getMonth() + 1;
     let day = today.getDate();
- 
+
     month = month < 10 ? `0${month}` : month;
     day = day < 10 ? `0${day}` : day;
- 
+
     return `${year}-${month}-${day}`;
   };
   return (
@@ -601,7 +576,7 @@ function BoardMeetingForm() {
                           name={item.inputname}
                           id={item.inputname}
                           style={{ fontSize: "0.8rem" }}
-                          min={ id ? "" : getCurrentDate() }
+                          min={id ? "" : getCurrentDate()}
                           // placeholder="bhavi"
                           className="px-2 py-2 text-sm block w-full rounded-md bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder:text-xs"
                           value={customFormFields[index].value || ""}
@@ -1016,7 +991,6 @@ function BoardMeetingForm() {
                         className="px-2 py-2 text-sm block w-full rounded-md bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder:text-xs"
                         id={item.inputname}
                         value={customFormFields[index].value || ""}
-                      
                         onChange={(e) => handleChange(index, e.target.value)}
                         style={{ fontSize: "0.8rem" }}
                       />
@@ -1317,25 +1291,6 @@ function BoardMeetingForm() {
                               ) : (
                                 <p className="text-sm text-gray-400 absolute bottom-4 right-2">
                                   Date:dd/mm/yyy
-                                </p>
-                              )}
-                            </div>
-                          )}
-                      </span>
-                    </div>
-                    <div className="flex justify-end">
-                      <span className="">
-                        {item.type === "time" &&
-                          item.inputname === "time" &&
-                          item.field === "predefined" && (
-                            <div>
-                              {item.value ? (
-                                <p className="text-sm">
-                                  Time : {formatTime(item.value)}
-                                </p>
-                              ) : (
-                                <p className="text-sm text-gray-400 ">
-                                  Time : 00:00 AM
                                 </p>
                               )}
                             </div>

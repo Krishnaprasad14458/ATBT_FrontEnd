@@ -1,49 +1,39 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { Calendar, momentLocalizer } from 'react-big-calendar';
-import 'react-big-calendar/lib/css/react-big-calendar.css';
-import moment from 'moment';
-function classNames(...classes) {
-  return classes.filter(Boolean).join(' ');
-}
+import React, { useState, useRef, useEffect } from "react";
+import { Calendar, momentLocalizer } from "react-big-calendar";
+import "react-big-calendar/lib/css/react-big-calendar.css";
+import moment from "moment";
 function Tasks() {
-  document.title = 'ATBT | Task';
+  document.title = "ATBT | Task";
   const [activeTab, setActiveTab] = useState(1);
 
   const handleTabClick = (tabNumber) => {
     setActiveTab(tabNumber);
   };
-
   // for calendar
   const localizer = momentLocalizer(moment);
   const [open, setOpen] = useState(false);
-
   const cancelButtonRef = useRef(null);
-
   const [events, setEvents] = useState([
     {
-      title: 'Event 1',
+      title: "Event 1",
       start: new Date(2024, 0, 17, 10, 0),
       end: new Date(2024, 0, 17, 12, 0),
     },
   ]);
   useEffect(() => {
-    console.log('events', events);
+    console.log("events", events);
   }, [events]);
-  const [newtask, setNewTask] = useState('');
-  const [newtaskStartDate, setnewtaskStartDate] = useState('');
-
-  const [newtaskEndDate, setnewtaskEndDate] = useState('');
-
+  const [newtask, setNewTask] = useState("");
+  const [newtaskStartDate, setnewtaskStartDate] = useState("");
+  const [newtaskEndDate, setnewtaskEndDate] = useState("");
   const handleSelect = ({ start, end }) => {
     setOpen(true);
     setnewtaskStartDate(start);
     setnewtaskEndDate(end);
-    setNewTask('');
+    setNewTask("");
   };
-
   const handleSave = () => {
     setOpen(false);
-
     if (newtask) {
       const newEvent = {
         title: newtask,
@@ -51,58 +41,55 @@ function Tasks() {
         end: newtaskEndDate,
       };
       setEvents([...events, newEvent]);
-      setNewTask('');
+      setNewTask("");
     }
   };
-  // ----
   const [isOpen, setIsOpen] = useState(false);
-
   const toggleDrawer = () => {
     setIsOpen(!isOpen);
   };
-
   const [addTask, setAddTask] = useState(false);
-
   const toggleAddTaskDrawer = () => {
     setAddTask(!addTask);
   };
-
   const [overViewNewTask, setOverViewNewTask] = useState(false);
   const handleOverViewNewTask = () => {
     setOverViewNewTask(!overViewNewTask);
   };
-
   return (
-    <div className=' p-4 bg-[#f8fafc] '>
-      <h4 className=' font-semibold text-lg grid1-item'>Tasks</h4>
-
-      <div className='mt-2'>
-        <div className='flex overflow-x-auto'>
+    <div className=" p-4 bg-[#f8fafc] ">
+      <h4 className=" font-semibold text-lg grid1-item">Tasks</h4>
+      <div className="mt-2">
+        <div className="flex overflow-x-auto">
           <div
-            className={`cursor-pointer px-4 py-1 text-md font-semibold  ${activeTab === 1 ? 'border-b-2 border-orange-600 text-black' : ''
-              }`}
+            className={`cursor-pointer px-4 py-1 text-md font-semibold  ${
+              activeTab === 1 ? "border-b-2 border-orange-600 text-black" : ""
+            }`}
             onClick={() => handleTabClick(1)}
           >
             Active
           </div>
 
           <div
-            className={`cursor-pointer px-4 py-1 text-md font-semibold  ${activeTab === 2 ? 'border-b-2 border-orange-600 text-black' : ''
-              }`}
+            className={`cursor-pointer px-4 py-1 text-md font-semibold  ${
+              activeTab === 2 ? "border-b-2 border-orange-600 text-black" : ""
+            }`}
             onClick={() => handleTabClick(2)}
           >
             Due
           </div>
           <div
-            className={`cursor-pointer px-4 py-1 text-md font-semibold  ${activeTab === 3 ? 'border-b-2 border-orange-600 text-black' : ''
-              }`}
+            className={`cursor-pointer px-4 py-1 text-md font-semibold  ${
+              activeTab === 3 ? "border-b-2 border-orange-600 text-black" : ""
+            }`}
             onClick={() => handleTabClick(3)}
           >
             Completed
           </div>
           <div
-            className={`cursor-pointer px-4 py-1 text-md font-semibold  ${activeTab === 4 ? 'border-b-2 border-orange-600 text-black' : ''
-              }`}
+            className={`cursor-pointer px-4 py-1 text-md font-semibold  ${
+              activeTab === 4 ? "border-b-2 border-orange-600 text-black" : ""
+            }`}
             onClick={() => handleTabClick(4)}
           >
             Master
@@ -110,90 +97,95 @@ function Tasks() {
         </div>
         <hr />
       </div>
-
-
       {activeTab === 1 && (
-        <div className='max-h-[510px] overflow-y-scroll mt-8'>
-        
-          <table className='w-full divide-y divide-gray-200 dark:divide-gray-700 rounded-md'>
+        <div className="max-h-[510px] overflow-y-scroll mt-8">
+          <table className="w-full divide-y divide-gray-200 dark:divide-gray-700 rounded-md">
             <thead>
               <tr>
-                <th className='sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200 '>
+                <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200 ">
                   S.No
                 </th>
-                <th className='sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200 '>
+                <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200 ">
                   Date of Board Meeting
                 </th>
-                <th className='sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200 '>
-
+                <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200 ">
                   Decision Taken
                 </th>
-                <th className='sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200 '>
+                <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200 ">
                   Person Responsible for implementation
                 </th>
-                <th className='sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200'>
+                <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200">
                   Person Responsible
                 </th>
-                <th className='sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200'>
+                <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200">
                   Update Decision - User
                 </th>
-                <th className='sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200'>
+                <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200">
                   Update Decision - Admin
                 </th>
               </tr>
             </thead>
-            <tbody className=' divide-gray-200 dark:divide-gray-700'>
+            <tbody className=" divide-gray-200 dark:divide-gray-700">
               <tr>
                 <td
                   className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden`}
-                  style={{ maxWidth: '160px' }}
-                  title=''
+                  style={{ maxWidth: "160px" }}
+                  title=""
                 >
-                  <p className='truncate text-xs'> 1</p>
+                  <p className="truncate text-xs"> 1</p>
                 </td>
                 <td
                   className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden`}
-                  style={{ maxWidth: '160px' }}
-                  title=''
+                  style={{ maxWidth: "160px" }}
+                  title=""
                 >
-                  <p className='truncate text-xs'>5/10/2023 </p>
+                  <p className="truncate text-xs">5/10/2023 </p>
                 </td>
                 <td
                   className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden`}
-                  style={{ maxWidth: '160px' }}
-                  title=''
+                  style={{ maxWidth: "160px" }}
+                  title=""
                 >
-                  <p className='truncate text-xs'> To have lock to avoid sale with out inventory by 12th May, 2023</p>
+                  <p className="truncate text-xs">
+                    {" "}
+                    To have lock to avoid sale with out inventory by 12th May,
+                    2023
+                  </p>
                 </td>
                 <td
                   className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden`}
-                  style={{ maxWidth: '160px' }}
-                  title=''
+                  style={{ maxWidth: "160px" }}
+                  title=""
                 >
-                  <p className='truncate text-xs'> Mr. Gopi and  Mr. P.V. Ramana</p>
+                  <p className="truncate text-xs">
+                    {" "}
+                    Mr. Gopi and Mr. P.V. Ramana
+                  </p>
                 </td>
                 <td
                   className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden`}
-                  style={{ maxWidth: '160px' }}
-                  title=''
+                  style={{ maxWidth: "160px" }}
+                  title=""
                 >
-                  <p className='truncate text-xs'> Mr. Gopi and Mr. P.V. Ramana</p>
+                  <p className="truncate text-xs">
+                    {" "}
+                    Mr. Gopi and Mr. P.V. Ramana
+                  </p>
                 </td>
                 <td
                   className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden`}
-                  style={{ maxWidth: '160px' }}
-                  title=''
+                  style={{ maxWidth: "160px" }}
+                  title=""
                 >
-                  <p className='truncate text-xs'> In-Progress</p>
+                  <p className="truncate text-xs"> In-Progress</p>
                 </td>
                 <td
                   className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden`}
-                  style={{ maxWidth: '160px' }}
-                  title=''
+                  style={{ maxWidth: "160px" }}
+                  title=""
                 >
-                  <p className='truncate text-xs'> Complete by today EOD</p>
+                  <p className="truncate text-xs"> Complete by today EOD</p>
                 </td>
-
               </tr>
             </tbody>
           </table>
@@ -862,32 +854,65 @@ function Tasks() {
         //   </div>
         //   <div></div>
         // </div>
-      )
-      }
-      {
-        activeTab === 2 && (
-          <div className='max-h-[510px] overflow-y-scroll mt-8'>
-            <table className='w-full divide-y divide-gray-200 dark:divide-gray-700 rounded-md'>
+      )}
+      {activeTab === 2 && (
+        <div className="max-h-[510px] overflow-y-scroll mt-8">
+          <table className="w-full divide-y divide-gray-200 dark:divide-gray-700 rounded-md">
+            <thead>
+              <tr>
+                <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200 ">
+                  Task Name
+                </th>
+                <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200 ">
+                  Task Name
+                </th>
+                <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200 ">
+                  Task Name
+                </th>
+                <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200 ">
+                  Task Name
+                </th>
+                <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200">
+                  Actions
+                </th>
+              </tr>
+            </thead>
+            <tbody className=" divide-gray-200 dark:divide-gray-700">
+              <tr>
+                <td>bhavitha</td>
+                <td>bhavitha</td>
+                <td>bhavitha</td>
+                <td>bhavitha</td>
+                <td>bhavitha</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      )}
+      {activeTab === 3 && (
+        <div className="mt-4">
+          <div className="max-h-[510px] overflow-y-scroll mt-8">
+            <table className="w-full divide-y divide-gray-200 dark:divide-gray-700 rounded-md">
               <thead>
                 <tr>
-                  <th className='sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200 '>
+                  <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200 ">
                     Task Name
                   </th>
-                  <th className='sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200 '>
+                  <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200 ">
                     Task Name
                   </th>
-                  <th className='sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200 '>
+                  <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200 ">
                     Task Name
                   </th>
-                  <th className='sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200 '>
+                  <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200 ">
                     Task Name
                   </th>
-                  <th className='sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200'>
+                  <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200">
                     Actions
                   </th>
                 </tr>
               </thead>
-              <tbody className=' divide-gray-200 dark:divide-gray-700'>
+              <tbody className=" divide-gray-200 dark:divide-gray-700">
                 <tr>
                   <td>bhavitha</td>
                   <td>bhavitha</td>
@@ -898,48 +923,10 @@ function Tasks() {
               </tbody>
             </table>
           </div>
-        )
-      }
-      {
-        activeTab === 3 && (
-          <div className='mt-4'>
-            <div className='max-h-[510px] overflow-y-scroll mt-8'>
-              <table className='w-full divide-y divide-gray-200 dark:divide-gray-700 rounded-md'>
-                <thead>
-                  <tr>
-                    <th className='sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200 '>
-                      Task Name
-                    </th>
-                    <th className='sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200 '>
-                      Task Name
-                    </th>
-                    <th className='sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200 '>
-                      Task Name
-                    </th>
-                    <th className='sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200 '>
-                      Task Name
-                    </th>
-                    <th className='sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200'>
-                      Actions
-                    </th>
-                  </tr>
-                </thead>
-                <tbody className=' divide-gray-200 dark:divide-gray-700'>
-                  <tr>
-                    <td>bhavitha</td>
-                    <td>bhavitha</td>
-                    <td>bhavitha</td>
-                    <td>bhavitha</td>
-                    <td>bhavitha</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        )
-      }
+        </div>
+      )}
       {activeTab === 4 && <p> Master</p>}
-    </div >
+    </div>
   );
 }
 

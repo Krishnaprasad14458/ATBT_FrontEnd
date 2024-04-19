@@ -189,12 +189,6 @@ console.log("tasks",tasks)
                 </td>
 
                 <td className={`border text-center  text-sm p-1.5`}
-                // className={`border text-center  text-sm
-                //                  ${activeInputIndex === index &&
-                //     activeInputName === "status"
-                //     ? " border-2 border-slate-300"
-                //     : " border border-slate-200 "
-                //   }`}
                 >
                   <input
                     className="outline-none text-black truncate  py-2 bg-[#f8fafc]"

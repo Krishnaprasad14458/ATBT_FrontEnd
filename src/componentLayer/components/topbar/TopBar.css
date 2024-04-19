@@ -1,9 +1,0 @@
-@media (max-width: 640px) {
-    .create-btn {
-        display: none;
-    }
-}
-
-/* 'md': '768px',
-      // => */
-@media (min-width: 768px) {}

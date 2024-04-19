@@ -73,6 +73,14 @@ input[type="checkbox"]:checked::before {
 
 /* for task input */
 
+/* for hidden button in small screen */
+@media (max-width: 640px) {
+  .create-btn {
+      display: none;
+  }
+}
+/* for hidden button in small screen */
+
 /* for delete button hover */
 .delete-button {
   position: relative;

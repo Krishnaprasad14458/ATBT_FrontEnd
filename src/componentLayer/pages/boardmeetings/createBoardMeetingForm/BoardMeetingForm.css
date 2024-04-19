@@ -1,31 +1,18 @@
 .selected-users-container {
-    max-height: 120px;
-    /* Adjust the height as needed */
-    overflow-y: auto;
+  max-height: 120px;
+  overflow-y: auto;
 }
 
 .user-list {
-    max-height: 150px;
-    /* Adjust the height as needed */
-    overflow-y: auto;
-    list-style: none;
-    padding: 0;
-    margin: 0;
-
-}
-
-.draggable-element {
-    position: absolute;
-    cursor: grab;
-    user-select: none;
-}
-
-.draggable-element:active {
-    cursor: grabbing;
+  max-height: 150px;
+  overflow-y: auto;
+  list-style: none;
+  padding: 0;
+  margin: 0;
 }
 
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
+  -webkit-appearance: none;
+  margin: 0;
 }

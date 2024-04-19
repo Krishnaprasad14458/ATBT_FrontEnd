@@ -52,7 +52,6 @@ function CustomColumn({ tableView, setTableView, form }) {
   };
   return (
     <>
-      {/* <h1>Columns apply</h1> */}
       <button
         onClick={columnsDrawer}
         className=' focus:outline-none gap-x-1 pe-4  text-sm font-[500] text-gray-500 hover:text-orange-600' title='Columns'>
@@ -95,7 +94,6 @@ function CustomColumn({ tableView, setTableView, form }) {
             className='overflow-y-auto px-4 py-2.5 content'
             style={{ maxHeight: 'calc(100vh - 8rem)' }}
           >
-            {/* Adjust the maxHeight as per your need */}
             {dupTableView &&
               Object.keys(dupTableView).map((columnName) => (
                 <div key={columnName} className='flex items-center gap-2 text-start'>
@@ -170,7 +168,6 @@ function CustomColumn({ tableView, setTableView, form }) {
             className='overflow-y-auto px-4 py-2.5 content'
             style={{ maxHeight: 'calc(100vh - 8rem)' }}
           >
-            {/* Adjust the maxHeight as per your need */}
             {dupTableView &&
               Object.keys(dupTableView).map((columnName) => (
                 <div key={columnName} className='flex items-center gap-2 text-start'>
