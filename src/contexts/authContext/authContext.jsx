@@ -7,22 +7,15 @@ import Swal from 'sweetalert2';
 import { apiUrl } from '../../utils/constants';
 import { setupAuthenticationErrorHandler } from './utils/setupAthenticationErrorHandler';
 import atbtApi from '../../serviceLayer/interceptor';
-
 export const AuthContext = createContext();
-
 const AuthProvider = ({ children }) => {
-  // const navigate = useNavigate();
-  // const location = useLocation();
-
-  const localStorageData = JSON.parse(localStorage.getItem('data'));
-
-  const initialAuth = {
+const localStorageData = JSON.parse(localStorage.getItem('data'));
+const initialAuth = {
     user: localStorageData?.user || {},
     token: localStorageData?.token || '',
     role: localStorageData?.role || {},
   };
-
-  const [authState, authDispatch] = useReducer(authReducer, initialAuth);
+const [authState, authDispatch] = useReducer(authReducer, initialAuth);
   const adminLogin = async (loginData) => {
     try {
       const { data, status } = await toast.promise(
@@ -41,9 +34,7 @@ const AuthProvider = ({ children }) => {
                 },
               },
             }) {
-
-
-              return `Welcome ${name}`;
+return `Welcome ${name}`;
             },
           },
           error: {
@@ -81,8 +72,7 @@ const AuthProvider = ({ children }) => {
       throw e;
     }
   };
-
-  const changePassword = async ({ email }) => {
+ const changePassword = async ({ email }) => {
     try {
       const { status } = await toast.promise(
         axios.put(`${apiUrl}/auth/forgotpassword?email=${email}`, {
@@ -122,8 +112,7 @@ const AuthProvider = ({ children }) => {
       throw e;
     }
   };
-
-  const resetPassword = async ({ id, password }) => {
+const resetPassword = async ({ id, password }) => {
     console.log("hi", atbtApi)
     try {
       const { data, status } = await toast.promise(
@@ -166,8 +155,7 @@ const AuthProvider = ({ children }) => {
   };
   const resetPasswordWhenLoggedIn = async ({ id, oldpassword, newpassword }) => {
     console.log("hie", atbtApi)
-
-    try {
+try {
       const { data, status } = await toast.promise(
         axios.put(
           `${apiUrl}/auth/renewpassword/${id}`,
