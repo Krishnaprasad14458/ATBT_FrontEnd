@@ -5,12 +5,7 @@ import useDebounce from "../../../../hooks/debounce/useDebounce";
 import { UserDataContext } from "../../../../contexts/usersDataContext/usersDataContext";
 import { EntitiesDataContext } from "../../../../contexts/entitiesDataContext/entitiesDataContext";
 import $ from "jquery";
-import {
-  Navigate,
-  useNavigate,
-  useLoaderData,
-  useParams,
-} from "react-router-dom";
+import {useNavigate,useLoaderData,useParams} from "react-router-dom";
 const userData = JSON.parse(localStorage.getItem("data"));
 let createdBy = userData?.user?.id;
 const token = userData?.token;

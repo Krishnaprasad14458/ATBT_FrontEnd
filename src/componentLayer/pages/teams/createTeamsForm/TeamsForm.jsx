@@ -4,7 +4,7 @@ import defprop from '../../../../assets/Images/defprof.svg';
 import useDebounce from '../../../../hooks/debounce/useDebounce';
 import { UserDataContext } from '../../../../contexts/usersDataContext/usersDataContext';
 import { TeamsDataContext } from '../../../../contexts/teamsDataContext/teamsDataContext';
-import {Navigate,redirect,useSubmit,useNavigate,useLoaderData, useParams,} from 'react-router-dom';
+import {useNavigate,useLoaderData, useParams,} from 'react-router-dom';
 const userData = JSON.parse(localStorage.getItem('data'));
 let createdBy = userData?.user?.id;
 const token = userData?.token;
