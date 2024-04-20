@@ -1,20 +1,19 @@
-import { debounce } from '../../utils/utils';
+import { debounce } from "../../utils/utils";
 
 function useDebounce(dispatch) {
-
   const debouncedSetPage = debounce((newPage) => {
-    console.log(newPage)
+    console.log(newPage);
     dispatch({
       type: "SET_CUSTOM_PAGE",
-      payload: newPage
+      payload: newPage,
     });
   }, 300);
 
   const debouncedSetSearch = debounce((searchData) => {
     dispatch({
       type: "SET_SEARCH",
-      payload: searchData
-    })
+      payload: searchData,
+    });
   }, 500);
 
   return {

@@ -111,10 +111,7 @@ const BoardMeetingsDataReducer = (state, action) => {
                     filters: { ...action.payload.data }
                 }
             }
-
-
-
-        default:
+default:
             return state;
     }
 }

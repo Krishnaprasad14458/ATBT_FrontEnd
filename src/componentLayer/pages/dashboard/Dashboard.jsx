@@ -1,30 +1,23 @@
-import React, { useEffect, useState } from 'react';
-import './Dashboard.css';
-import { getDate } from '../../../utils/utils';
-import UserDashboard from './userDashboard/UserDashboard';
-import EntityDashboard from './entityDashboard/EntityDashboard';
-import GateKeeper from '../../../rbac/GateKeeper';
-import atbtApi from '../../../serviceLayer/interceptor';
-import {
-  useActionData,
-  useFetcher,
-  useFetchers,
-  useLoaderData,
-} from 'react-router-dom';
-
+import React, { useEffect, useState } from "react";
+import "./Dashboard.css";
+import { getDate } from "../../../utils/utils";
+import UserDashboard from "./userDashboard/UserDashboard";
+import EntityDashboard from "./entityDashboard/EntityDashboard";
+import GateKeeper from "../../../rbac/GateKeeper";
+import atbtApi from "../../../serviceLayer/interceptor";
+import { useActionData, useFetcher, useFetchers } from "react-router-dom";
 function classNames(...classes) {
-  return classes.filter(Boolean).join(' ');
+  return classes.filter(Boolean).join(" ");
 }
-
 export async function loader({ request, params }) {
   try {
     let url = new URL(request.url);
-    let user = url.searchParams.get('user[search]') || '';
-    let userPage = url.searchParams.get('userPage') || '1';
-    let team = url.searchParams.get('team') || '';
-    let meeting = url.searchParams.get('meeting') || '';
-    let entity = url.searchParams.get('entity') || '';
-    console.log(user, team, meeting, entity, 'dloader', request, url);
+    let user = url.searchParams.get("user[search]") || "";
+    let userPage = url.searchParams.get("userPage") || "1";
+    let team = url.searchParams.get("team") || "";
+    let meeting = url.searchParams.get("meeting") || "";
+    let entity = url.searchParams.get("entity") || "";
+    console.log(user, team, meeting, entity, "dloader", request, url);
     const requests = [
       atbtApi.post(`/user/list?search=${user}&page=${userPage}`, {}),
       atbtApi.post(`/entity/list?search=${entity}`, {}),
@@ -36,7 +29,7 @@ export async function loader({ request, params }) {
 
     const successfulResults = [];
     results.forEach((result, index) => {
-      if (result.status === 'fulfilled') {
+      if (result.status === "fulfilled") {
         successfulResults[index] = result.value.data; // Save successful data
       } else {
         if (result.reason.response && result.reason.response.status === 403) {
@@ -52,11 +45,11 @@ export async function loader({ request, params }) {
 
     const [userList, entityList, teamList, meetingList] = successfulResults;
     const combinedResponse = { userList, entityList, teamList, meetingList };
-    console.log(combinedResponse, 'allSettled');
+    console.log(combinedResponse, "allSettled");
     return combinedResponse;
   } catch (error) {
     if (!error.response.status === 403) {
-      console.error('Error occurred:', error);
+      console.error("Error occurred:", error);
       throw error;
     }
     return null;
@@ -66,7 +59,7 @@ export async function loader({ request, params }) {
 export async function action({ request, params }) {
   try {
     const data = await request.json();
-    console.log(data, 'daction');
+    console.log(data, "daction");
     const requests = [
       atbtApi.post(
         `/user/list`,
@@ -84,7 +77,7 @@ export async function action({ request, params }) {
 
     const successfulResults = [];
     results.forEach((result, index) => {
-      if (result.status === 'fulfilled') {
+      if (result.status === "fulfilled") {
         successfulResults[index] = result.value.data; // Save successful data
       } else {
         if (result.reason.response && result.reason.response.status === 403) {
@@ -100,11 +93,11 @@ export async function action({ request, params }) {
 
     const [userList, entityList, teamList, meetingList] = successfulResults;
     const combinedResponse = { userList, entityList, teamList, meetingList };
-    console.log(combinedResponse, 'allSettled');
+    console.log(combinedResponse, "allSettled");
     return combinedResponse;
   } catch (error) {
     if (!error.response.status === 403) {
-      console.error('Error occurred:', error);
+      console.error("Error occurred:", error);
       throw error;
     }
     return null;
@@ -112,79 +105,77 @@ export async function action({ request, params }) {
 }
 
 function Dashboard() {
-  document.title = 'ATBT | Home';
-  // const dashboardData = useLoaderData();
+  document.title = "ATBT | Home";
   const fetchers = useFetchers();
   const fetcher = useFetcher();
   let actionData = useActionData();
-  // console.log(dashboardData, 'ddl');
-  const localStorageData = JSON.parse(localStorage.getItem('data'));
+  const localStorageData = JSON.parse(localStorage.getItem("data"));
   useEffect(() => {
-    if (fetcher.state === 'idle' && !fetcher.data) {
-      fetcher.load('.');
+    if (fetcher.state === "idle" && !fetcher.data) {
+      fetcher.load(".");
     }
   }, [fetcher]);
-  console.log(fetchers, 'ftrs', fetcher, actionData);
+  console.log(fetchers, "ftrs", fetcher, actionData);
   const queryParams = useState({
     user: {
-      search: '',
+      search: "",
       page: 1,
     },
     entity: {
-      search: '',
+      search: "",
       page: 1,
     },
     meeting: {
-      search: '',
+      search: "",
       page: 1,
     },
     team: {
-      search: '',
+      search: "",
       page: 1,
     },
   });
   return (
-    <div className='  p-4 bg-[#f8fafc] '>
-      <h1 className='lg:m-2 font-semibold sm:text-xs md:text-base lg:text-lg xl:text-xl'>
+    <div className="  p-4 bg-[#f8fafc] ">
+      <h1 className="lg:m-2 font-semibold sm:text-xs md:text-base lg:text-lg xl:text-xl">
         Home
       </h1>
-      <div className='text-center'>
-        <h6 className='text-sm date_time'>{getDate()}</h6>
-        <h4 className=' text-2xl font-normal dark:text-white welcome_user'>
-          Welcome {localStorageData?.user?.name ?? 'user'}
+      <div className="text-center">
+        <h6 className="text-sm date_time">{getDate()}</h6>
+        <h4 className=" text-2xl font-normal dark:text-white welcome_user">
+          Welcome {localStorageData?.user?.name ?? "user"}
         </h4>
-        <div className='flex flex-wrap mt-2 justify-center'>
-          <div className='tota_tasks border-r-2 border-black-100 bg-gray-100 p-2 rounded-s-full'>
-            <p className='mr-4 ml-4 px-2 pt-1 text-xs text-[#929297]'>
+        <div className="flex flex-wrap mt-2 justify-center">
+          <div className="tota_tasks border-r-2 border-black-100 bg-gray-100 p-2 rounded-s-full">
+            <p className="mr-4 ml-4 px-2 pt-1 text-xs text-[#929297]">
               Total Tasks
             </p>
-            <p className='mr-4 ml-4 px-2 font-semibold'>0</p>
+            <p className="mr-4 ml-4 px-2 font-semibold">0</p>
           </div>
-          <div className=' completed_tasks border-r-2 border-black-100 bg-gray-100 p-2'>
-            <p className='mr-4 ml-4 px-2 pt-1 text-xs text-[#929297]'>
+          <div className=" completed_tasks border-r-2 border-black-100 bg-gray-100 p-2">
+            <p className="mr-4 ml-4 px-2 pt-1 text-xs text-[#929297]">
               Completed Tasks
             </p>
-            <p className='mr-4 ml-4 px-2 font-semibold'>0</p>
+            <p className="mr-4 ml-4 px-2 font-semibold">0</p>
           </div>
-          <div className=' upcoming_tasks border-r-2 border-black-100 bg-gray-100 p-2'>
-            <p className='mr-4 lg:ml-4 px-2 pt-1 text-xs text-[#929297]'>
+          <div className=" upcoming_tasks border-r-2 border-black-100 bg-gray-100 p-2">
+            <p className="mr-4 lg:ml-4 px-2 pt-1 text-xs text-[#929297]">
               Upcoming Tasks
             </p>
-            <p className='mr-4 lg:ml-4 px-2 font-semibold'>0</p>
+            <p className="mr-4 lg:ml-4 px-2 font-semibold">0</p>
           </div>
-          <div className=' overdue_tasks border-black-100 bg-gray-100 p-2 rounded-e-full'>
-            <p className='mr-4 lg:ml-4 px-2 pt-1 text-xs text-[#929297]'>
+          <div className=" overdue_tasks border-black-100 bg-gray-100 p-2 rounded-e-full">
+            <p className="mr-4 lg:ml-4 px-2 pt-1 text-xs text-[#929297]">
               Overdue Tasks
             </p>
-            <p className='mr-4 lg:ml-4 px-2 font-semibold'>0</p>
+            <p className="mr-4 lg:ml-4 px-2 font-semibold">0</p>
           </div>
         </div>
       </div>
-      <div className='mt-4'>
-        <div className=' grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-col-2 gap-10 px-7 dashboard-main'>
+      <div className="mt-4">
+        <div className=" grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-col-2 gap-10 px-7 dashboard-main">
           <GateKeeper
             permissionCheck={(permission) =>
-              permission.module === 'entity' && permission.canRead
+              permission.module === "entity" && permission.canRead
             }
           >
             <EntityDashboard
@@ -194,7 +185,7 @@ function Dashboard() {
           </GateKeeper>
           <GateKeeper
             permissionCheck={(permission) =>
-              permission.module === 'user' && permission.canRead
+              permission.module === "user" && permission.canRead
             }
           >
             <UserDashboard

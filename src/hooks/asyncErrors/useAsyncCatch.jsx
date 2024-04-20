@@ -2,7 +2,6 @@ import { useAsyncThrow } from './useAsyncThrow';
 
 export const useAsyncCatch = () => {
   const throwError = useAsyncThrow();
-
   const handleApiError = (error) => {
     if (error?.response?.status === 500) {
       throwError(error);
