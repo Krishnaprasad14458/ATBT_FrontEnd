@@ -266,7 +266,9 @@ const MeetingWiseTask = () => {
                   )}
                 </td>
 
+
                 <td className={`border text-center  text-sm p-1.5`}
+
                 >
                   {isEditing === true && taskDupFieldId === task.id && taskDupFieldName === "status" &&(
                     <input
