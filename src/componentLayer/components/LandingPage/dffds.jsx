@@ -1,9 +1,9 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import { useParams, useLoaderData, useFetcher } from "react-router-dom";
 import TaskOverview from "./TaskOverview";
 import axios from "axios";
-import atbtApi from "../../../serviceLayer/interceptor";
 
+import atbtApi from "../../../serviceLayer/interceptor";
 export async function tasksLoader({ params }) {
   try {
     const [tasks] = await Promise.all([atbtApi.get(`task/list/${params.id}`)]);
@@ -61,57 +61,63 @@ const MeetingWiseTask = () => {
     } catch (error) {
       console.log(error, "which error");
     }
+    // add new task api here
+    //  atbtApi.post(`task/add/${id}`)
+    //  const [tasks,bm] = await Promise.all([
+    //   atbtApi.get(`task/list/${id}`),
+    // https://atbtbeta.infozit.com/boardmeeting/list/64
+    // atbtApi.get(`boardmeeting/list/56`),
+    // ]);
+  };
+  const [updatedTask, setUpdatedTask] = useState(null);
+  const [typingTimeout, setTypingTimeout] = useState(null);
+
+  const handleEditTask = (id, fieldName, e) => {
+    const { value } = e.target;
+    setUpdatedTask({ id: id, data: { [fieldName]: value } });
   };
 
-  const [taskDupFieldId, SetTaskDupFieldId] = useState();
-  const [taskDupFieldName, SetTaskDupFieldName] = useState();
-  const [taskDupFieldvalue, SetTaskDupFieldvalue] = useState();
-  const [isEditing, setIsEditing] = useState(false);
-  const inputRef = useRef(null);
-
   useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (inputRef.current && !inputRef.current.contains(event.target)) {
-        setIsEditing(false);
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
-
-  const handleEditingClick = (fieldid, fieldName, fieldValue) => {
-    setIsEditing(true);
-    SetTaskDupFieldId(fieldid);
-    SetTaskDupFieldName(fieldName);
-    SetTaskDupFieldvalue(fieldValue);
-  };
-  useEffect(() => {
-    if (taskDupFieldId) {
-      let data = {
-        id: taskDupFieldId,
-        data: { [taskDupFieldName]: taskDupFieldvalue },
-      };
-      try {
-        fetcher.submit(data, {
-          method: "PATCH",
-          encType: "application/json",
-        });
-        // setUpdatedTask(null); // Reset updatedTask after submitting
-      } catch (error) {
-        console.log(error, "which error");
-      }
+    if (typingTimeout) {
+      clearTimeout(typingTimeout);
     }
-  }, [isEditing]);
+    if (updatedTask !== null) {
+      const timeoutId = setTimeout(() => {
+        try {
+          fetcher.submit(updatedTask, {
+            method: "PATCH",
+            encType: "application/json",
+          });
+          setUpdatedTask(null); // Reset updatedTask after submitting
+        } catch (error) {
+          console.log(error, "which error");
+        }
+      }, 500);
+      setTypingTimeout(timeoutId);
+      return () => clearTimeout(timeoutId);
+    }
+  }, [updatedTask]);
 
   return (
     <div className="mt-4">
       <div className="overflow-x-auto">
         <div className="flex justify-end">
-         
+           {/* <div>
+            {isEditing === true && (
+              <input
+                ref={inputRef}
+                value={name}
+                // onClick={handleInputClick}
+                onChange={handleNAmeChange}
+                placeholder="Click me to edit"
+                autoFocus
+              />
+            )}
+
+            {isEditing === false && (
+              <p onClick={handleInputClick}>para-{name}</p>
+            )}
+          </div> */}
           <button
             className=" ms-2 create-btn mt-1 inline-flex items-center justify-center whitespace-nowrap rounded-2xl text-sm font-medium  transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50  text-orange-foreground shadow hover:bg-orange/90 h-9 px-3 py-1 shrink-0 bg-orange-600 text-white gap-1"
             onClick={handleAddNewTask}
@@ -179,28 +185,14 @@ const MeetingWiseTask = () => {
                 <td
                   className={`border text-center text-sm px-1.5 py-2 flex items-center`}
                 >
-                  {isEditing === true && taskDupFieldId === task.id &&  taskDupFieldName === "decision"&& (
-                    <input
-                      className="outline-none text-black truncate px-1.5 py-1 rounded-md shadow_box mx-2 bg-[#f8fafc] w-full"
-                      type="text"
-                      onChange={(e) => SetTaskDupFieldvalue(e.target.value)}
-                      ref={inputRef}
-                      value={taskDupFieldvalue}
-                      autoFocus
-                    />
-                  )}
-
-                  {(isEditing === false || taskDupFieldId !== task.id ||  taskDupFieldName !== "decision") && (
-                    <span
-                      title={task.decision}
-                      onClick={() =>
-                        handleEditingClick(task.id, "decision", task.decision)
-                      }
-                    >
-                  {task.decision}
-                    </span>
-                  )}
-
+                  <input
+                    className="outline-none text-black truncate px-1.5 py-1 rounded-md shadow_box mx-2 bg-[#f8fafc] w-full"
+                    type="text"
+                    value={task.decision}
+                    onChange={(e) => handleEditTask(task.id, "decision", e)}
+                    placeholder="Decision Taken"
+                    title={task.decision}
+                  />
                   <span
                     className="shadow_box p-1 rounded-sm cursor-pointer"
                     onClick={() => handleOverViewTask(task.id)}
@@ -220,50 +212,25 @@ const MeetingWiseTask = () => {
                   </span>
                 </td>
                 <td className={`border text-center  text-sm p-1.5`}>
-                {isEditing === true && taskDupFieldId === task.id &&  taskDupFieldName === "members" && (
-                    <input
-                      className="outline-none text-black truncate px-1.5 py-1 rounded-md shadow_box mx-2 bg-[#f8fafc] w-full"
-                      type="text"
-                      onChange={(e) => SetTaskDupFieldvalue(e.target.value)}
-                      ref={inputRef}
-                      value={taskDupFieldvalue}
-                      autoFocus
-                    />
-                  )}
-
-                  {(isEditing === false || taskDupFieldId !== task.id || taskDupFieldName !== "members") && (
-                    <span
-                      title={task.members}
-                      onClick={() =>
-                        handleEditingClick(task.id, "members", task.members)
-                      }
-                    >
-                  {task.members} -  members
-                    </span>
-                  )}
+                  <input
+                    className="outline-none text-black  truncate px-1.5 py-1 rounded-md shadow_box  w-full bg-[#f8fafc] "
+                    type="text"
+                    value={task.personResponsible}
+                    onChange={(e) =>
+                      handleEditTask(index, "personResponsible", e)
+                    }
+                    placeholder="Person Reponsible"
+                    title={task.personResponsible}
+                  />
                 </td>
                 <td className={`border text-center  text-sm p-1.5`}>
-                {isEditing === true && taskDupFieldId === task.id && taskDupFieldName === "dueDate" && (
-                    <input
-                      className="outline-none text-black truncate px-1.5 py-1 rounded-md shadow_box mx-2 bg-[#f8fafc] w-full"
-                      type="text"
-                      onChange={(e) => SetTaskDupFieldvalue(e.target.value)}
-                      ref={inputRef}
-                      value={taskDupFieldvalue}
-                      autoFocus
-                    />
-                  )}
-
-                  {(isEditing === false || taskDupFieldId !== task.id ||  taskDupFieldName !== "dueDate") && (
-                    <span
-                      title={task.dueDate}
-                      onClick={() =>
-                        handleEditingClick(task.id, "dueDate", task.dueDate)
-                      }
-                    >
-                  {task.dueDate} -  dueDate
-                    </span>
-                  )}
+                  <input
+                    className="outline-none text-black truncate px-1.5 py-1 rounded-md shadow_box w-full bg-[#f8fafc]"
+                    type="date"
+                    value={task.duedate}
+                    onChange={(e) => handleEditTask(index, "duedate", e)}
+                    title={task.duedate}
+                  />
                 </td>
 
                 <td
@@ -275,27 +242,14 @@ const MeetingWiseTask = () => {
                   //     : " border border-slate-200 "
                   //   }`}
                 >
-                  {isEditing === true && taskDupFieldId === task.id && taskDupFieldName === "status" &&(
-                    <input
-                      className="outline-none text-black truncate px-1.5 py-1 rounded-md shadow_box mx-2 bg-[#f8fafc] w-full"
-                      type="text"
-                      onChange={(e) => SetTaskDupFieldvalue(e.target.value)}
-                      ref={inputRef}
-                      value={taskDupFieldvalue}
-                      autoFocus
-                    />
-                  )}
-
-                  {(isEditing === false || taskDupFieldId !== task.id || taskDupFieldName !== "status" ) && (
-                    <span
-                      title={task.status}
-                      onClick={() =>
-                        handleEditingClick(task.id, "status", task.status)
-                      }
-                    >
-                  {task.status} -  para
-                    </span>
-                  )}
+                  <input
+                    className="outline-none text-black truncate  py-2 bg-[#f8fafc]"
+                    type="text"
+                    value={task.status}
+                    onChange={(e) => handleEditTask(index, "status", e)}
+                    style={{ maxWidth: "110px" }}
+                    title={task.status}
+                  />
                 </td>
                 <td className=" border border-slate-200 text-center  text-sm">
                   Updated By User

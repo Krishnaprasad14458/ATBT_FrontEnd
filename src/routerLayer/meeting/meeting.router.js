@@ -4,7 +4,7 @@ import Documents from "../../componentLayer/components/LandingPage/Documents";
 import BoardMeetingLandingPage from "../../componentLayer/pages/boardmeetings/boardMeetingLandingPage/BoardMeetingLandingPage";
 import BoardMeetings, { action as meetingAction, loader as meetingLoader } from "../../componentLayer/components/LandingPage/Boardmeeting";
 import BoardMeetingOverview from "../../componentLayer/pages/boardmeetings/boardMeetingLandingPage/BoardMeetingOverview";
-import MeetingWiseTask, { tasksLoader } from "../../componentLayer/components/LandingPage/MeetingWiseTask";
+import MeetingWiseTask, { MeetingWiseTasksActions, tasksLoader } from "../../componentLayer/components/LandingPage/MeetingWiseTask";
 export const meetingRouter = [
     { index: true, loader: meetingLoader, action: meetingAction, element: <BoardMeetings />, },
     { path: 'new', loader: boardmeetingFormLoader, element: <BoardMeetingForm /> },
@@ -14,7 +14,7 @@ export const meetingRouter = [
             {
                 element: <BoardMeetingLandingPage />, children: [
                     { index: true, element: <BoardMeetingOverview /> },
-                    { path: 'task', loader: tasksLoader, element: <MeetingWiseTask /> },
+                    { path: 'task', loader: tasksLoader, action:MeetingWiseTasksActions, element: <MeetingWiseTask /> },
                     { path: 'documents', element: <Documents /> },
                 ]
             }
