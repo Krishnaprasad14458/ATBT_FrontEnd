@@ -4,14 +4,7 @@ import defprop from '../../../../assets/Images/defprof.svg';
 import useDebounce from '../../../../hooks/debounce/useDebounce';
 import { UserDataContext } from '../../../../contexts/usersDataContext/usersDataContext';
 import { TeamsDataContext } from '../../../../contexts/teamsDataContext/teamsDataContext';
-import {
-  Navigate,
-  redirect,
-  useSubmit,
-  useNavigate,
-  useLoaderData,
-  useParams,
-} from 'react-router-dom';
+import {useNavigate,useLoaderData, useParams,} from 'react-router-dom';
 const userData = JSON.parse(localStorage.getItem('data'));
 let createdBy = userData?.user?.id;
 const token = userData?.token;
@@ -79,7 +72,6 @@ function TeamsForm() {
   } = useContext(UserDataContext);
   const { createTeam, updateTeam } = useContext(TeamsDataContext);
   const usersEmails = dashboard.paginatedUsers;
-  // const usersEmails = dashboard.paginatedUsers?.map((user) => user.email);
   const { debouncedSetPage, debouncedSetSearch } = useDebounce(usersDispatch);
   let [openOptions, setopenOptions] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
@@ -88,8 +80,7 @@ function TeamsForm() {
   let [customFormFields, setCustomFormFields] = useState(() =>
     setInitialForm()
   );
-
-  useEffect(() => {
+useEffect(() => {
     setCustomFormFields(setInitialForm());
     if (!id) {
       setSelected([]);
@@ -125,8 +116,7 @@ function TeamsForm() {
     setSearchTerm('');
     setShowUsers(false);
   };
-
-  useEffect(() => {
+useEffect(() => {
     console.log(searchTerm, 'clear');
   }, [searchTerm]);
   const handleRemove = (selectedIndex, index) => {
@@ -171,11 +161,8 @@ function TeamsForm() {
     setCustomFormFields(updatedFormData);
     const name = event.target.name;
   };
-
-  /////
   const [errors, setErrors] = useState({});
-
-  const [isErrorspresent, setIsErrorspresent] = useState(false);
+const [isErrorspresent, setIsErrorspresent] = useState(false);
   const checkValidation = () => {
     let isErrorspresent = false;
     for (let i = 0; i < customFormFields.length > 0; i++) {
@@ -186,16 +173,14 @@ function TeamsForm() {
             [customFormFields[i]
               .inputname]: `Please Enter ${customFormFields[i].label}`,
           }));
-
-          isErrorspresent = true;
+isErrorspresent = true;
         } else if (customFormFields[i].value.length < 3) {
           setErrors((prev) => ({
             ...prev,
             [customFormFields[i].inputname]:
               'Name should contain atleast 3 characters',
           }));
-
-          isErrorspresent = true;
+isErrorspresent = true;
         } else {
           setErrors((prev) => ({
             ...prev,
@@ -490,12 +475,10 @@ function TeamsForm() {
     if (isNaN(hours) || isNaN(minutes)) {
       return 'Invalid time';
     }
-
     // Converting hours to 12-hour format and determining AM/PM
     const ampm = hours >= 12 ? 'PM' : 'AM';
     const formattedHours = hours % 12 || 12; // Handles midnight
     const formattedMinutes = minutes < 10 ? '0' + minutes : minutes; // Ensures minutes are two digits
-
     // Constructing the formatted time string
     const formattedTime = `${formattedHours}:${formattedMinutes} ${ampm}`;
     return formattedTime;

@@ -1,70 +1,39 @@
-/* 'sm': '640px',
-      // => */
+
 @media (max-width: 640px) {
-
-    .tota_tasks,
-    .completed_tasks,
-    .upcoming_tasks,
-    .overdue_tasks {
-        padding: 0;
-
-        background-color: #f8fafc;
-        border-radius: none;
-        border: none;
-    }
-
-    .dashboard-main {
-        padding: 0;
-    }
-
-    .welcome_user {
-        font-size: 1.125rem;
-        font-weight: 600;
-    }
-
-    .date_time {
-        font-size: 0.75rem;
-    }
-
-
-
+  .tota_tasks,
+  .completed_tasks,
+  .upcoming_tasks,
+  .overdue_tasks {
+    padding: 0;
+background-color: #f8fafc;
+    border-radius: none;
+    border: none;
+  }
+.dashboard-main {
+    padding: 0;
+  }
+.welcome_user {
+    font-size: 1.125rem;
+    font-weight: 600;
+  }
+.date_time {
+    font-size: 0.75rem;
+  }
 }
-
 @media (max-width: 768px) {
-
-    .tota_tasks,
-    .completed_tasks,
-    .upcoming_tasks {
-        background-color: #f8fafc;
-        border-radius: none;
-    }
-
-    .overdue_tasks {
-        border: none;
-        background-color: #f8fafc;
-        border-radius: none;
-    }
-
-    .welcome_user {
-        font-size: 1.25rem;
-        font-weight: 600;
-    }
-
-    /* .tota_tasks,
-    .completed_tasks,
-    .upcoming_tasks,
-    .overdue_tasks {
-        margin-left: 0.5rem; 
-        margin-right: 0.5rem;
-    } */
-
+  .tota_tasks,
+  .completed_tasks,
+  .upcoming_tasks {
+    background-color: #f8fafc;
+    border-radius: none;
+  }
+.overdue_tasks {
+    border: none;
+    background-color: #f8fafc;
+    border-radius: none;
+  }
+.welcome_user {
+    font-size: 1.25rem;
+    font-weight: 600;
+  }
 }
-
-/* 'lg': '1024px',
-      // => @media (min-width: 1024px) { ... } */
-/* 
-      'xl': '1280px',
-      // => @media (min-width: 1280px) { ... } */
-/* 
-      '2xl': '1536px',
-      // => @media (min-width: 1536px) { ... } */

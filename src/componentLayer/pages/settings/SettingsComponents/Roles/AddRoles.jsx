@@ -1,15 +1,7 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import Swal from 'sweetalert2';
-import {
-  useLoaderData,
-  useSubmit,
-  useNavigation,
-  useFetcher,
-  Link,
-} from 'react-router-dom';
+import {useLoaderData,useSubmit,useNavigation,useFetcher,Link,} from 'react-router-dom';
 import { toast } from 'react-toastify';
-
 const AddRoles = () => {
   const submit = useSubmit();
   const response = useLoaderData();
@@ -852,9 +844,6 @@ placeholder:text-xs`}
                   </>
                 );
               })}
-            {/* <div className={item.all ? "w-7 h-4 bg-orange-600 peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[1px] after:start-[1px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-3.5 after:w-3.5 after:transition-all dark:border-orange-600 checked:bg-orange-600" : ""}
-
-            ></div> */}
           </tbody>
         </table>
       </div>

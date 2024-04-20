@@ -2,26 +2,18 @@ import React, { createContext, useContext, useEffect, useReducer } from 'react';
 import * as actions from './utils/boardmeetingsActions';
 import * as api from './utils/boardmeetingsApis';
 import BoardMeetingsDataReducer from "./boardmeetingsDataReducer"
-
-import { useNavigate } from 'react-router-dom';
 import { initialState } from './utils/boardmeetingsConfig';
 import { AuthContext } from '../authContext/authContext';
-import { useAsyncThrow } from '../../hooks/asyncErrors/useAsyncThrow';
 import { useAsyncCatch } from '../../hooks/asyncErrors/useAsyncCatch';
-
 export const BoardMeetingsDataContext = createContext();
-
 const BoardMeetingsDataProvider = ({ children }) => {
   const throwError = useAsyncCatch();
-
-  const [boardmeetingsState, boardmeetingsDispatch] = useReducer(
+const [boardmeetingsState, boardmeetingsDispatch] = useReducer(
     BoardMeetingsDataReducer,
     initialState
   );
-
-  const { authState } = useContext(AuthContext);
-
-  const getAllBoardMeetings = async () => {
+const { authState } = useContext(AuthContext);
+const getAllBoardMeetings = async () => {
     try {
       const { data, status } = await api.getAllBoardMeetings(authState?.token);
       console.log(data, status, 'boardmeetings');
@@ -35,8 +27,7 @@ const BoardMeetingsDataProvider = ({ children }) => {
       throwError(error);
     }
   };
-
-  const getDashboardBoardMeetingsData = async () => {
+const getDashboardBoardMeetingsData = async () => {
     const { currentPage, perPage, sortBy, search, filters } =
       boardmeetingsState.dashboardBoardMeetings;
     boardmeetingsDispatch(actions.setLoading('DASHBOARD'));
@@ -62,8 +53,7 @@ const BoardMeetingsDataProvider = ({ children }) => {
       boardmeetingsDispatch(actions.setLoading('DASHBOARD'));
     }
   };
-
-  const getpaginatedBoardMeetingsData = async () => {
+const getpaginatedBoardMeetingsData = async () => {
     const { currentPage, perPage, sortBy, search, filters } =
       boardmeetingsState.boardmeetingsList;
     boardmeetingsDispatch(actions.setLoading('BOARDMEETINGS'));
@@ -89,8 +79,7 @@ const BoardMeetingsDataProvider = ({ children }) => {
       boardmeetingsDispatch(actions.setLoading('BOARDMEETINGS'));
     }
   };
-
-  const deleteBoardMeetingbyId = async (id) => {
+const deleteBoardMeetingbyId = async (id) => {
     try {
       const { status } = await api.deleteBoardMeeting(id, authState?.token);
       if (status === 200) {
@@ -105,8 +94,7 @@ const BoardMeetingsDataProvider = ({ children }) => {
       throwError(error);
     }
   };
-
-  const getBoardMeetingbyId = async (id) => {
+const getBoardMeetingbyId = async (id) => {
     try {
       const data = await api.getBoardMeetingById(id, authState?.token);
       getpaginatedBoardMeetingsData();
@@ -117,8 +105,7 @@ const BoardMeetingsDataProvider = ({ children }) => {
       throwError(error);
     }
   };
-
-  const createBoardMeeting = async (boardmeetingData,boardMeetingFor,boardmeetingForID,id) => {
+ const createBoardMeeting = async (boardmeetingData,boardMeetingFor,boardmeetingForID,id) => {
     try {
       const { data, status } = await api.createBoardMeeting(
         boardmeetingData,boardMeetingFor,boardmeetingForID,

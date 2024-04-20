@@ -1,22 +1,13 @@
 import axios from "axios";
 import React, { useContext } from "react";
-import {
-  Form,
-  Link,
-  useFetcher,
-  useLoaderData,
-  useSubmit,
-} from "react-router-dom";
-import GateKeeper from "../../../../../rbac/GateKeeper";
+import {Link,useFetcher,useLoaderData,useSubmit,} from "react-router-dom";
 import { AuthContext } from "../../../../../contexts/authContext/authContext";
 import Swal from "sweetalert2";
 import { debounce } from "../../../../../utils/utils";
 function deleteRole(id) {
   return axios.delete(`https://atbtbeta.infozit.com/rbac/deleteRole/${id}`);
 }
-
 export async function action() {}
-
 const Roles = () => {
   const { data } = useLoaderData();
   console.log(data, "data");
@@ -27,7 +18,6 @@ const Roles = () => {
   const debouncedSearchParams = debounce((search) => {
     console.log(search);
     params(search);
-    // Call the function to rerender the component with the latest results
   }, 500);
   console.log(data.roles , "userroleid")
   const fetcher = useFetcher();
@@ -50,7 +40,6 @@ const Roles = () => {
       try {
         fetcher.submit(
           {
-            // You can implement any custom serialization logic here
             serialized: JSON.stringify(data),
           },
           { method: "delete" }
@@ -98,29 +87,11 @@ const Roles = () => {
               className="block w-full px-4 py-2 ps-10 text-sm border-2 border-gray-200  rounded-2xl bg-gray-50  focus:outline-none "
               placeholder="Search here..."
               required
-              // onChange={(event) => {
-              //   console.log(event.target.value);
-              //   params(`search=${event.target.value}`);
-              // }}
               onChange={handleSearch}
             />
           </div>
         </div>
         <div className="grid1-item  sm:text-start md:text-end lg:text-end xl:text-end flex justify-end">
-          {/* <div className='mt-2'>
-            <select
-              defaultValue='10'
-              // onChange={handlePerPageChange}
-              className='focus:outline-none me-3 gap-x-1.5 rounded-md bg-gray-50 px-1 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-200 hover:bg-gray-50'
-            >
-              <option value='10'>10</option>
-              <option value='25'>25</option>
-              <option value='50'>50</option>
-              <option value='100'>100</option>
-              <option value='250'>250</option>
-              <option value='500'>500</option>
-            </select></div> */}
-
           <Link to="upsert">
             <button className="mt-1 px-3 py-2 inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white ">
               <svg
@@ -172,13 +143,7 @@ const Roles = () => {
                       className="px-3 py-2 whitespace-nowrap text-left  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb] hover:text-orange-500  overflow-hidden"
                       style={{ maxWidth: "160px" }}
                     >
-                      {/* <Link
-                      to='/taskform'
-                      className='text-xs truncate'
-                      title={role.name}
-                    > */}
                       {role.name}
-                      {/* </Link> */}
                     </td>
 
                     <td
@@ -192,10 +157,6 @@ const Roles = () => {
                         {role.description}
                       </div>
                     </td>
-
-                    {/* <td className='px-5 py-2 whitespace-nowrap text-left  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]'>
-                    {role.createdAt}
-                  </td> */}
                     {
                       <td className="px-3 py-2 whitespace-nowrap text-left  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]  ">
                         <button
@@ -206,7 +167,6 @@ const Roles = () => {
                               ? "text-gray-500 bg-gray-50 cursor-not-allowed"
                               : "bg-gray-50 text-[#475569] hover:text-orange-500"
                           } mr-5 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent   disabled:opacity-40  dark:text-blue-500 dark:hover:text-blue-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600 `}
-                          // className='mr-5 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600'
                           onClick={() =>
                             submit(
                               { id: `${role.id}` },

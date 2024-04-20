@@ -1,8 +1,7 @@
 import { React, useEffect, useState, useContext } from "react";
-import { Link, useLoaderData,  useFetcher, } from "react-router-dom";
+import { Link, useLoaderData, useFetcher } from "react-router-dom";
 import atbtApi from "../../../../../serviceLayer/interceptor";
-import Swal from 'sweetalert2';
-
+import Swal from "sweetalert2";
 export async function DataShareloader() {
   try {
     const [dataShare] = await Promise.all([atbtApi.get(`access/view`)]);
@@ -17,13 +16,13 @@ export async function DataShareloader() {
 }
 export async function DataShareDeleteAction({ request, params }) {
   switch (request.method) {
-    case 'DELETE': {
+    case "DELETE": {
       const id = (await request.json()) || null;
-      console.log(id, 'json', id);
+      console.log(id, "json", id);
       return await atbtApi.delete(`access/remove/${id}`);
     }
     default: {
-      throw new Response('', { status: 405 });
+      throw new Response("", { status: 405 });
     }
   }
 }
@@ -32,31 +31,27 @@ const DataShare = () => {
   let fetcher = useFetcher();
   const handleDelete = async (id) => {
     const confirmDelete = await Swal.fire({
-      title: 'Are you sure?',
-      text: 'Once deleted, you will not be able to recover this Data Share!',
-      icon: 'warning',
+      title: "Are you sure?",
+      text: "Once deleted, you will not be able to recover this Data Share!",
+      icon: "warning",
       showCancelButton: true,
-      confirmButtonColor: '#ea580c',
-      cancelButtonColor: '#fff',
-      confirmButtonText: 'Delete',
+      confirmButtonColor: "#ea580c",
+      cancelButtonColor: "#fff",
+      confirmButtonText: "Delete",
       customClass: {
-        popup: 'custom-swal2-popup',
-        title: 'custom-swal2-title',
-        content: 'custom-swal2-content',
+        popup: "custom-swal2-popup",
+        title: "custom-swal2-title",
+        content: "custom-swal2-content",
       },
-
     });
 
     if (confirmDelete.isConfirmed) {
       try {
-        // const result = await deleteUser(id);
-        fetcher.submit(id, { method: 'DELETE', encType: 'application/json' });
+        fetcher.submit(id, { method: "DELETE", encType: "application/json" });
       } catch (error) {
-        Swal.fire('Error', 'Unable to delete  data share 🤯', 'error');
+        Swal.fire("Error", "Unable to delete  data share 🤯", "error");
       }
     }
-
-
   };
   console.log("datay", data);
   return (
@@ -94,11 +89,6 @@ const DataShare = () => {
               className="block w-full px-4 py-2 ps-10 text-sm border-2 border-gray-200  rounded-2xl bg-gray-50  focus:outline-none "
               placeholder="Search here..."
               required
-              // onChange={(event) => {
-              //   console.log(event.target.value);
-              //   params(`search=${event.target.value}`);
-              // }}
-              // onChange={handleSearch}
             />
           </div>
         </div>
@@ -124,9 +114,6 @@ const DataShare = () => {
           <table className="w-full divide-y divide-gray-200 dark:divide-gray-700 rounded-md">
             <thead>
               <tr>
-                {/* <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200">
-                  Id
-                </th> */}
                 <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200">
                   Name
                 </th>
@@ -153,13 +140,6 @@ const DataShare = () => {
                 (data, index) =>
                   data.id !== 1 && (
                     <tr key={index}>
-                      {/* <td
-                        className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden`}
-                        style={{ maxWidth: "3rem" }}
-                        title={data.id}
-                      >
-                        {data.id}
-                      </td> */}
                       <td
                         className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden`}
                         style={{ width: "15rem" }}
@@ -179,22 +159,24 @@ const DataShare = () => {
                         style={{ width: "15rem" }}
                         title=""
                       >
-                        {data.selectedUsersNames ? 
-                          data.selectedUsersNames.join(", ") : "No Data Shared"}
+                        {data.selectedUsersNames
+                          ? data.selectedUsersNames.join(", ")
+                          : "No Data Shared"}
                       </td>
                       <td
                         className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden`}
                         style={{ width: "15rem" }}
                         title=""
                       >
-                        {data.entityNames ? data.entityNames.join(", ") : "No Data Shared"}
+                        {data.entityNames
+                          ? data.entityNames.join(", ")
+                          : "No Data Shared"}
                       </td>
                       <td
                         className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden`}
                         style={{ width: "15rem" }}
                         title=""
                       >
-                      
                         {data.userName}
                       </td>
                       <td
@@ -203,13 +185,12 @@ const DataShare = () => {
                         title=""
                       >
                         <div className="flex justify-start gap-3 cursor-pointer">
-                         
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 20 20"
                             fill="currentColor"
                             class="w-5 h-5"
-                            onClick={()=>handleDelete(data.id)}
+                            onClick={() => handleDelete(data.id)}
                           >
                             <path
                               fill-rule="evenodd"

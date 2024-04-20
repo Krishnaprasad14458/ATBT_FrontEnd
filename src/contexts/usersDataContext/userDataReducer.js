@@ -73,139 +73,153 @@
 
 // export default userDataReducer;
 
-import * as actionTypes from './utils/usersActionTypes'
+import * as actionTypes from "./utils/usersActionTypes";
 const userDataReducer = (state, action) => {
-    switch (action.type) {
-        case actionTypes.SET_USERS_DATA:
-            return {
-                ...state,
-                users: { ...action?.payload } // Keep this if necessary
-            };
+  switch (action.type) {
+    case actionTypes.SET_USERS_DATA:
+      return {
+        ...state,
+        users: { ...action?.payload }, // Keep this if necessary
+      };
 
-        case actionTypes.SET_PAGINATED_USERS:
-            const reducerData = action.payload.data;
-            return action.payload.context === 'DASHBOARD' ? {
-                ...state,
-                dashboard: {
-                    ...state.dashboard,
-                    paginatedUsers: reducerData.users,
-                    totalUsers: reducerData.totalUsers,
-                    totalPages: reducerData.totalPages,
-                    currentPage: reducerData.currentPage,
-                    startUser: reducerData.startUser,
-                    endUser: reducerData.endUser,
-                    pageSize: reducerData.pageSize
-                },
-            } : {
-                ...state,
-                settings: {
-                    ...state.settings,
-                    paginatedUsers: reducerData.users,
-                    totalUsers: reducerData.totalUsers,
-                    totalPages: reducerData.totalPages,
-                    currentPage: reducerData.currentPage,
-                    startUser: reducerData.startUser,
-                    endUser: reducerData.endUser,
-                    pageSize: reducerData.pageSize
-                },
-            };
+    case actionTypes.SET_PAGINATED_USERS:
+      const reducerData = action.payload.data;
+      return action.payload.context === "DASHBOARD"
+        ? {
+            ...state,
+            dashboard: {
+              ...state.dashboard,
+              paginatedUsers: reducerData.users,
+              totalUsers: reducerData.totalUsers,
+              totalPages: reducerData.totalPages,
+              currentPage: reducerData.currentPage,
+              startUser: reducerData.startUser,
+              endUser: reducerData.endUser,
+              pageSize: reducerData.pageSize,
+            },
+          }
+        : {
+            ...state,
+            settings: {
+              ...state.settings,
+              paginatedUsers: reducerData.users,
+              totalUsers: reducerData.totalUsers,
+              totalPages: reducerData.totalPages,
+              currentPage: reducerData.currentPage,
+              startUser: reducerData.startUser,
+              endUser: reducerData.endUser,
+              pageSize: reducerData.pageSize,
+            },
+          };
 
-        case actionTypes.SET_SEARCH:
-            return action.payload.context === 'DASHBOARD' ? {
-                ...state,
-                dashboard: {
-                    ...state.dashboard,
-                    search: action.payload.data,
-                    currentPage: 1,
-                },
-            } : {
-                ...state,
-                settings: {
-                    ...state.settings,
-                    search: action.payload.data,
-                    currentPage: 1,
-                },
-            };
+    case actionTypes.SET_SEARCH:
+      return action.payload.context === "DASHBOARD"
+        ? {
+            ...state,
+            dashboard: {
+              ...state.dashboard,
+              search: action.payload.data,
+              currentPage: 1,
+            },
+          }
+        : {
+            ...state,
+            settings: {
+              ...state.settings,
+              search: action.payload.data,
+              currentPage: 1,
+            },
+          };
 
-        case actionTypes.SET_PER_PAGE:
-            return action.payload.context === 'DASHBOARD' ? {
-                ...state,
-                dashboard: {
-                    ...state.dashboard,
-                    pageSize: action.payload.data
-                },
-            } : {
-                ...state,
-                settings: {
-                    ...state.settings,
-                    pageSize: action.payload.data
-                },
-            };
+    case actionTypes.SET_PER_PAGE:
+      return action.payload.context === "DASHBOARD"
+        ? {
+            ...state,
+            dashboard: {
+              ...state.dashboard,
+              pageSize: action.payload.data,
+            },
+          }
+        : {
+            ...state,
+            settings: {
+              ...state.settings,
+              pageSize: action.payload.data,
+            },
+          };
 
-        case actionTypes.SET_CUSTOM_PAGE:
-            return action.payload.context === 'DASHBOARD' ? {
-                ...state,
-                dashboard: {
-                    ...state.dashboard,
-                    currentPage: action.payload.data
-                }
-            } : {
-                ...state,
-                settings: {
-                    ...state.settings,
-                    currentPage: action.payload.data
-                }
-            };
+    case actionTypes.SET_CUSTOM_PAGE:
+      return action.payload.context === "DASHBOARD"
+        ? {
+            ...state,
+            dashboard: {
+              ...state.dashboard,
+              currentPage: action.payload.data,
+            },
+          }
+        : {
+            ...state,
+            settings: {
+              ...state.settings,
+              currentPage: action.payload.data,
+            },
+          };
 
-        case actionTypes.SET_LOADING:
-            return action.payload.context === 'DASHBOARD' ? {
-                ...state,
-                dashboard: {
-                    ...state.dashboard,
-                    loading: !state.dashboard.loading
-                }
-            } : {
-                ...state,
-                settings: {
-                    ...state.settings,
-                    loading: !state.settings.loading
-                }
-            };
+    case actionTypes.SET_LOADING:
+      return action.payload.context === "DASHBOARD"
+        ? {
+            ...state,
+            dashboard: {
+              ...state.dashboard,
+              loading: !state.dashboard.loading,
+            },
+          }
+        : {
+            ...state,
+            settings: {
+              ...state.settings,
+              loading: !state.settings.loading,
+            },
+          };
 
-        case actionTypes.SET_SORT_BY:
-            return action.payload.context === 'DASHBOARD' ? {
-                ...state,
-                dashboard: {
-                    ...state.dashboard,
-                    sortBy: action.payload.data
-                }
-            } : {
-                ...state,
-                settings: {
-                    ...state.settings,
-                    sortBy: action.payload.data
-                }
-            }
+    case actionTypes.SET_SORT_BY:
+      return action.payload.context === "DASHBOARD"
+        ? {
+            ...state,
+            dashboard: {
+              ...state.dashboard,
+              sortBy: action.payload.data,
+            },
+          }
+        : {
+            ...state,
+            settings: {
+              ...state.settings,
+              sortBy: action.payload.data,
+            },
+          };
 
-        case actionTypes.SET_FILTERS:
-            console.log(action.payload, "filterss")
-            return action.payload.context === 'DASHBOARD' ? {
-                ...state,
-                dashboard: {
-                    ...state.dashboard,
-                    filters: { ...action.payload.data }
-                }
-            } : {
-                ...state,
-                settings: {
-                    ...state.settings,
-                    filters: { ...action.payload.data }
-                }
-            }
+    case actionTypes.SET_FILTERS:
+      console.log(action.payload, "filterss");
+      return action.payload.context === "DASHBOARD"
+        ? {
+            ...state,
+            dashboard: {
+              ...state.dashboard,
+              filters: { ...action.payload.data },
+            },
+          }
+        : {
+            ...state,
+            settings: {
+              ...state.settings,
+              filters: { ...action.payload.data },
+            },
+          };
 
-        default:
-            return state;
-    }
+    default:
+      return state;
+  }
 };
 
 export default userDataReducer;

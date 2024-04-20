@@ -6,7 +6,6 @@ import useOnlineStatus from '../../../hooks/isOnline/useOnlineStatus ';
 import { AuthContext } from '../../../contexts/authContext/authContext';
 import useServiceWorker from '../../../useSw';
 import TopBarProgress from 'react-topbar-progress-indicator';
-
 TopBarProgress.config({
   barColors: {
     0: '#ff7f50',
@@ -15,7 +14,6 @@ TopBarProgress.config({
   barThickness: 5,
   shadowBlur: 2,
 });
-
 const Layout = () => {
   const isOnline = useOnlineStatus();
   const { authState } = useContext(AuthContext);

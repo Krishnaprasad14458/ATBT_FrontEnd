@@ -1,14 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-
 import userformicon from '../../../../../assets/Images/Userform.svg';
-
 import entityform from '../../../../../assets/Images/entity.svg';
 import boardmeetingform from '../../../../../assets/Images/boardmeeting.svg';
 import teamsform from '../../../../../assets/Images/teams.svg';
 const Forms = () => {
-
-    const formsData = [
+const formsData = [
         {
             name: "User Form",
             icon: userformicon,
@@ -62,45 +59,6 @@ const Forms = () => {
 
                         </div></Link>
                 ))}
-                {/* <Link
-                    to="userform">
-                    <div className='grid1-item  text-start'>
-                        <div className=" py-5 px-4 text-center bg-orange-600 rounded-md">
-                            <p className="text-white text-base">
-                                User Form
-                            </p>
-                        </div>
-                    </div>
-                </Link>
-                <Link
-                    to="entityform">
-                    <div className='grid1-item  text-start'>
-                        <div className=" py-5 px-4 text-center bg-orange-600 rounded-md">
-                            <p className="text-white text-base">
-                                Entity Form
-                            </p>
-                        </div>
-                    </div>
-                </Link>
-                <Link to="boardmeetingform">
-                    <div className='grid1-item  text-start'>
-                        <div className=" py-5 px-4 text-center bg-orange-600 rounded-md">
-                            <p className="text-white text-base">
-                                Board Meeting Form
-                            </p>
-                        </div>
-                    </div>
-                </Link>
-
-                <Link to="teamform">
-                    <div className='grid1-item  text-start'>
-                        <div className=" py-5 px-4 text-center bg-orange-600 rounded-md">
-                            <p className="text-white text-base">
-                                Teams Form
-                            </p>
-                        </div>
-                    </div>
-                </Link> */}
             </div>
         </div >
     )
