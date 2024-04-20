@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 import { AuthContext } from "../../../contexts/authContext/authContext";
 import login_bg from "../../../assets/Images/login_bg.jpg";
 import logo from "../../../assets/Images/logo.png";
-import login_gif from "../../../assets/Images/Login_Icon_1.gif";
+import login_gif from "../../../assets/Images/login_giff.gif";
 import { Link, Navigate } from "react-router-dom";
 
 const Login = () => {
@@ -62,7 +62,7 @@ const Login = () => {
               />
               <img
                 src={login_gif}
-                className=" h-24 mx-auto w-auto rounded-md mt-2"
+                className=" h-24 mx-auto w-auto rounded-md mb-2 "
               />
               <h2 className=" text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
                 Sign in to your Account
