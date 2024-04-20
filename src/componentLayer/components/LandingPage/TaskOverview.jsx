@@ -1,22 +1,28 @@
 import React, { useState, useEffect } from "react";
 import Select from "react-select";
+
 const TaskOverview = ({
   overViewTask,
   handleOverViewTask,
-  tasks,
-  overViewTaskId,
+ 
+  task,
+  isEditing,
+  taskDupFieldId,
+  taskDupFieldName,
+  SetTaskDupFieldvalue,
+  inputRef,
+  taskDupFieldvalue,
+  handleEditingClick,
 }) => {
   // -------full screen----
   const [expand, setExpand] = useState(false);
-  const [task, setTask] = useState();
-  useEffect(() => {
-    let task = tasks?.filter((task) => task.id === overViewTaskId);
-    setTask(task[0]);
-  }, [overViewTaskId]);
+
   const handleExpand = () => {
     setExpand(!expand);
   };
-  console.log("tasktask", task);
+useEffect(()=>{
+  console.log("tasksks",task)
+},[task])
   let moduleOptions = [
     { value: "user", label: "user" },
     { value: "entity", label: "entity" },
@@ -101,12 +107,32 @@ const TaskOverview = ({
             </div>
             <span className="col-span-1 text-center"> : </span>
             <div className="col-span-4">
-              <input
-                value={task?.decisionTaken}
-                type="text"
-                placeholder="Enter Description"
-                className="px-2 py-2 text-sm block w-full rounded-md bg-white-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder-small"
-              />
+              {isEditing === true &&
+                taskDupFieldId === task?.id &&
+                taskDupFieldName === "decision" && (
+                  <input
+                    className="px-2 py-2 text-sm block w-full rounded-md bg-white-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder-small"
+                    type="text"
+                    onChange={(e) => SetTaskDupFieldvalue(e.target.value)}
+                    ref={inputRef}
+                    placeholder="Enter Decision"
+                    value={taskDupFieldvalue}
+                    autoFocus
+                  />
+                )}
+
+              {(isEditing === false ||
+                taskDupFieldId !== task?.id ||
+                taskDupFieldName !== "decision") && (
+                <span
+                  title={task?.decision}
+                  onClick={() =>
+                    handleEditingClick(task?.id, "decision", task?.decision)
+                  }
+                >
+                  {task?.decision}
+                </span>
+              )}
             </div>
           </div>
 
