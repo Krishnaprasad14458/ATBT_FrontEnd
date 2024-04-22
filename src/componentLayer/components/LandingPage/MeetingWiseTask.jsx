@@ -50,7 +50,7 @@ const MeetingWiseTask = () => {
   let fetcher = useFetcher();
    const { id } = useParams();
    const [Qparams, setQParams] = useState({
-     taskID:null
+    //  taskID:null
    });
    useEffect(() => {
      debouncedParams(Qparams);
@@ -186,18 +186,18 @@ const MeetingWiseTask = () => {
             {data?.tasks?.map((task, index) => (
               <tr key={index}>
                 <td
-                  className={`border text-sm  py-2`}
+                  className={`border text-sm  py-2 px-2`}
                   onClick={() =>
                     handleEditingClick(task.id, "decision", task.decision)
                   }
                 >
 
-                  <div className=" flex justify-between">
+                  <div className=" flex justify-between items-start">
                   {isEditing === true &&
                     taskDupFieldId === task.id &&
                     taskDupFieldName === "decision" && (
                       <input
-                        className="outline-none text-black truncate px-1.5 py-1 rounded-md shadow_box mx-2 bg-[#f8fafc] w-full  text-sm"
+                        className="outline-none text-black truncate px-1.5 py-1 rounded-md shadow_box  bg-[#f8fafc] w-full  text-sm"
                         type="text"
                         onChange={(e) => SetTaskDupFieldvalue(e.target.value)}
                         ref={inputRef}
@@ -357,7 +357,8 @@ const MeetingWiseTask = () => {
           </tbody>
         </table>
       </div>
-      <TaskOverview
+      <TaskOve
+      rview
         taskDupFieldId={taskDupFieldId}
         taskDupFieldName={taskDupFieldName}
         SetTaskDupFieldvalue={SetTaskDupFieldvalue}
