@@ -46,7 +46,8 @@ export async function MeetingWiseTasksActions({ request, params }) {
 }
 const MeetingWiseTask = () => {
   let submit = useSubmit();
-  
+  const data = useLoaderData();
+  let fetcher = useFetcher();
    const { id } = useParams();
    const [Qparams, setQParams] = useState({
      taskID:null
@@ -62,14 +63,8 @@ const MeetingWiseTask = () => {
      []
    );
 
-  const data = useLoaderData();
-  let fetcher = useFetcher();
-  console.log("tassa", data.tasks);
-  // ----full screen----
   const [overViewTask, setOverViewTask] = useState(false);
-  const [overViewTaskId, setoverViewTaskID] = useState(null);
   const handleOverViewTask = (task) => {
-    setoverViewTaskID(task.id);
     setOverViewTask(!overViewTask);
     setQParams((prev)=>({...prev,taskID:task.id}))
   };
@@ -371,7 +366,6 @@ const MeetingWiseTask = () => {
         handleEditingClick={handleEditingClick}
         isEditing={isEditing}
         task={data?.task[0]}
-        overViewTaskId={overViewTaskId}
         overViewTask={overViewTask}
         handleOverViewTask={handleOverViewTask}
       />
