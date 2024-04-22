@@ -4,7 +4,6 @@ import Select from "react-select";
 const TaskOverview = ({
   overViewTask,
   handleOverViewTask,
- 
   task,
   isEditing,
   taskDupFieldId,
@@ -16,13 +15,9 @@ const TaskOverview = ({
 }) => {
   // -------full screen----
   const [expand, setExpand] = useState(false);
-
   const handleExpand = () => {
     setExpand(!expand);
   };
-useEffect(()=>{
-  console.log("tasksks",task)
-},[task])
   let moduleOptions = [
     { value: "user", label: "user" },
     { value: "entity", label: "entity" },
