@@ -11,6 +11,7 @@ const TaskOverview = ({
   setQParams,
   members,
   setTask,
+ 
 }) => {
   // -------full screen----
   const [expand, setExpand] = useState(false);
@@ -26,6 +27,7 @@ const TaskOverview = ({
   console.log("ttaskask", task);
 
   },[task])
+
   return (
     <div
       className={`fixed inset-0 transition-all duration-500 bg-gray-800 bg-opacity-50 z-50  ${
@@ -109,16 +111,16 @@ const TaskOverview = ({
         </div>
         <hr />
         <div className="mt-2 ms-2 p-3 overflow-y-auto h-screen">
-          <div className="grid grid-cols-3 sm:grid-cols-3 md:grid-cols-7 lg:grid-cols-7 xl:grid-col-7 items-center mb-4">
+          <div className="grid grid-cols-3 sm:grid-cols-3 md:grid-cols-8 lg:grid-cols-8 xl:grid-col-8 items-center mb-3">
             <div className="col-span-2 basis-1/4 text-sm text-gray-600">
               Decision Taken
             </div>
             <span className="col-span-1 text-center"> : </span>
             
-            <div className="col-span-4">
-              <input
-                className="px-2 py-2 text-sm block w-full rounded-md bg-white-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder-small"
-                type="text"
+            <div className="col-span-5">
+              <textarea
+                className="px-2 py-2 text-sm block w-full rounded-md bg-white-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder:text-[13px] placeholder:text-[#A0AEC0]"
+                // type="textarea"
                 placeholder="Enter Decision"
                 value={task?.decision === null ? "" : task?.decision}
                 onChange={(e) =>
@@ -130,26 +132,27 @@ const TaskOverview = ({
               />
             </div>
           </div>
-
-          <div className="grid grid-cols-3 sm:grid-cols-3 md:grid-cols-7 lg:grid-cols-7 xl:grid-col-7 items-center mb-4">
+          <div className="grid grid-cols-3 sm:grid-cols-3 md:grid-cols-8 lg:grid-cols-8 xl:grid-col-8 items-center mb-3">
             <div className="col-span-2 basis-1/4 text-sm text-gray-600">
               Person Responsible
             </div>
             <span className="col-span-1 text-center"> : </span>
-            <div className="col-span-4">
+            <div className="col-span-5">
               <Select
                 options={members}
+                // placeholder="Custom Placeholder Text"
                 styles={{
                   control: (provided, state) => ({
                     ...provided,
-                    backgroundColor: "#f9fafb", // Change the background color of the select input
+                    backgroundColor: "#white-50", // Change the background color of the select input
                     borderWidth: state.isFocused ? "1px" : "1px", // Decrease border width when focused
                     borderColor: state.isFocused ? "#orange-400" : "#d1d5db", // Change border color when focused
                     boxShadow: state.isFocused ? "none" : provided.boxShadow, // Optionally remove box shadow when focused
                   }),
                   placeholder: (provided) => ({
                     ...provided,
-                    fontSize: "small", // Adjust the font size of the placeholder text
+                    fontSize: "small",
+                    color: "#A0AEC0", // Lighter color for placeholder
                   }),
                   option: (provided, state) => ({
                     ...provided,
@@ -163,7 +166,16 @@ const TaskOverview = ({
                       backgroundColor: "#ea580c",
                     },
                   }),
-                }}
+               
+
+                singleValue: (provided) => ({
+                  ...provided,
+                  fontSize: "0.875rem" /* 14px */,
+                  lineHeight: "1.25rem" /* 20px */, // Adjust the font size for the selected option
+                }),
+              }}
+              
+           
                 theme={(theme) => ({
                   ...theme,
                   borderRadius: 5,
@@ -176,21 +188,21 @@ const TaskOverview = ({
                 onChange={(selectedOption) => {
                   handleOverviewTaskChange("members", selectedOption.value);
                   handleSubmit(task?.id, "members", selectedOption.value);
-                }}
-                className="basic-multi-select "
-                classNamePrefix="select"
-                value={{ label: task?.members, value: task?.members }}
+                }}             
+                // value={{ label: task?.members, value: task?.members }}
+                value = {task?.members === null || task?.members === "" ? "" :{ label: task?.members, value: task?.members }}
+                className="date_type"
+                // placeholder={placeholder} // Use placeholder prop here
+             
               />
             </div>
           </div>
-          <div className="grid grid-cols-3 sm:grid-cols-3 md:grid-cols-7 lg:grid-cols-7 xl:grid-col-7 items-center mb-4">
-            <div className="col-span-2 basis-1/4 text-sm text-gray-600">
-              Due Date
-            </div>
-            <span className="col-span-1 text-center"> : </span>
-            <div className="col-span-4">
-              <input
-                type="date"
+         <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-col-2 items-center mb-3 gap-3">
+         <div className="col-span-1">
+            <label className="block text-sm font-medium leading-6 my-1 text-gray-900">Due Date </label>
+            <input
+            className={`border border-[#d1d5db] text-black px-1.5 py-2 rounded-md  bg-white-50 focus:outline-none text-sm focus:border-orange-400 w-full date_type`}
+                type='date'
                 value={task?.dueDate}
                 onChange={(e) => {
                   handleSubmit(task?.id, "dueDate", e.target.value);
@@ -198,52 +210,43 @@ const TaskOverview = ({
                 }}
               />
             </div>
-          </div>
-          <div className="grid grid-cols-3 sm:grid-cols-3 md:grid-cols-7 lg:grid-cols-7 xl:grid-col-7 items-center mb-4">
-            <div className="col-span-2 basis-1/4 text-sm text-gray-600">
-              Age
-            </div>
-            <span className="col-span-1 text-center"> : </span>
-            <div className="col-span-4">
-              <input
-                type="number"
-                placeholder="Age"
-                className="px-2 py-2 text-sm block w-full rounded-md bg-white-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder-small"
+            <div className="col-span-1">
+            <label className="block text-sm font-medium leading-6 my-1 text-gray-900">Age</label>
+            <input
+            className=" border border-[#d1d5db] text-black px-1.5 py-2 rounded-md  bg-white-50 focus:outline-none text-sm focus:border-orange-400 w-full placeholder:text-[13px] placeholder:text-[#A0AEC0]"
+            type="number"
+            
+            placeholder="Age"
+               
               />
             </div>
-          </div>
-          <div className="grid grid-cols-3 sm:grid-cols-3 md:grid-cols-7 lg:grid-cols-7 xl:grid-col-7 items-center mb-4">
-            <div className="col-span-2 basis-1/4 text-sm text-gray-600">
-              Date of Board Meeting
-            </div>
-            <span className="col-span-1 text-center"> : </span>
-            <div className="col-span-4">
-              <input
-                type="date"
-                placeholder="Date of Board Meeting"
-                className="px-2 py-2 text-sm block w-full rounded-md bg-white-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder-small"
+         </div>
+
+
+         <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-col-2 items-center mb-3 gap-3">
+         <div className="col-span-1">
+            <label className="block text-sm font-medium leading-6 my-1 text-gray-900"> Date of Board Meeting</label>
+            <input
+            className={`border border-[#d1d5db] text-black px-1.5 py-2 rounded-md  bg-white-50 focus:outline-none text-sm focus:border-orange-400 w-full date_type`}
+                type='date'
+             
               />
             </div>
-          </div>
-          <div className="grid grid-cols-3 sm:grid-cols-3 md:grid-cols-7 lg:grid-cols-7 xl:grid-col-7 items-center mb-4">
-            <div className="col-span-2 basis-1/4 text-sm text-gray-600">
-              Board Meeting Number
-            </div>
-            <span className="col-span-1 text-center"> : </span>
-            <div className="col-span-4">
-              <input
-                type="number"
-                placeholder="Board Meeting Number"
-                className="px-2 py-2 text-sm block w-full rounded-md bg-white-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder-small"
+            <div className="col-span-1">
+            <label className="block text-sm font-medium leading-6 my-1 text-gray-900"> Board Meeting Number</label>
+            <input
+            className=" border border-[#d1d5db] text-black px-1.5 py-2 rounded-md  bg-white-50 focus:outline-none text-sm focus:border-orange-400 w-full placeholder:text-[13px] placeholder:text-[#A0AEC0]"
+            type="number"
+            
+            placeholder=" Board Meeting Number"
+               
               />
             </div>
-          </div>
-          <div className="grid grid-cols-3 sm:grid-cols-3 md:grid-cols-7 lg:grid-cols-7 xl:grid-col-7 items-center mb-4">
-            <div className="col-span-2 basis-1/4 text-sm text-gray-600">
-              Entity
-            </div>
-            <span className="col-span-1 text-center"> : </span>
-            <div className="col-span-4">
+         </div>
+          <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-col-2 items-center mb-3 gap-3">
+            <div
+             className="col-span-1">
+              <label className="block text-sm font-medium leading-6 my-1 text-gray-900"> Entity</label>
               <Select
                 options={moduleOptions}
                 className="custom-select"
@@ -291,15 +294,11 @@ const TaskOverview = ({
                     primary: "#fb923c",
                   },
                 })}
+                
               />
             </div>
-          </div>
-          <div className="grid grid-cols-3 sm:grid-cols-3 md:grid-cols-7 lg:grid-cols-7 xl:grid-col-7 items-center mb-4">
-            <div className="col-span-2 basis-1/4 text-sm text-gray-600">
-              Priority
-            </div>
-            <span className="col-span-1 text-center"> : </span>
-            <div className="col-span-4">
+            <div className="col-span-1">
+            <label className="block text-sm font-medium leading-6 my-1 text-gray-900"> priority</label>
               <Select
                 options={moduleOptions}
                 className="custom-select"
@@ -350,6 +349,11 @@ const TaskOverview = ({
               />
             </div>
           </div>
+
+
+
+      
+
           <div className="flex justify-end">
             <button className=" px-3 py-2 inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white mb-4 mt-2">
               <svg
@@ -375,7 +379,7 @@ const TaskOverview = ({
             <div className="flex-1 w-86">
               <textarea
                 placeholder="Add a comment"
-                className="p-2 border-2 text-sm resize-none shadow-sm rounded-md w-full h-28 focus:outline-none focus:border-orange-400"
+                className="p-2 border-2 text-sm resize-none shadow-sm rounded-md w-full h-60 focus:outline-none focus:border-orange-400"
               ></textarea>
               <div className="me-2 flex flex-row">
                 <p className="text-sm mt-1">Collaborators</p>
