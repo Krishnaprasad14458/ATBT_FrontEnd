@@ -357,8 +357,7 @@ const MeetingWiseTask = () => {
           </tbody>
         </table>
       </div>
-      <TaskOve
-      rview
+      <TaskOverview
         taskDupFieldId={taskDupFieldId}
         taskDupFieldName={taskDupFieldName}
         SetTaskDupFieldvalue={SetTaskDupFieldvalue}
