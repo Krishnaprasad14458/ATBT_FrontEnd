@@ -2,16 +2,15 @@ import React, { useState, useEffect } from "react";
 import Select from "react-select";
 
 const TaskOverview = ({
-  overViewTask,
-  handleOverViewTask,
+  Qparams,
   task,
-  isEditing,
-  taskDupFieldId,
-  taskDupFieldName,
-  SetTaskDupFieldvalue,
-  inputRef,
-  taskDupFieldvalue,
-  handleEditingClick,
+  overViewTask,
+  handleOverviewTaskChange,
+  handleSubmit,
+  setOverViewTask,
+  setQParams,
+  members,
+  setTask,
 }) => {
   // -------full screen----
   const [expand, setExpand] = useState(false);
@@ -22,6 +21,7 @@ const TaskOverview = ({
     { value: "user", label: "user" },
     { value: "entity", label: "entity" },
   ];
+  console.log("ttaskask", task);
   return (
     <div
       className={`fixed inset-0 transition-all duration-500 bg-gray-800 bg-opacity-50 z-50  ${
@@ -78,7 +78,17 @@ const TaskOverview = ({
                 />
               </svg>
             </button>
-            <button onClick={handleOverViewTask} className="">
+
+            <button
+              onClick={() => {
+                setTask({});
+                setOverViewTask(!overViewTask);
+                let updatedQparams = { ...Qparams };
+                delete updatedQparams.taskID;
+                setQParams(updatedQparams);
+              }}
+              className=""
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
@@ -102,32 +112,18 @@ const TaskOverview = ({
             </div>
             <span className="col-span-1 text-center"> : </span>
             <div className="col-span-4">
-              {isEditing === true &&
-                taskDupFieldId === task?.id &&
-                taskDupFieldName === "decision" && (
-                  <input
-                    className="px-2 py-2 text-sm block w-full rounded-md bg-white-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder-small"
-                    type="text"
-                    onChange={(e) => SetTaskDupFieldvalue(e.target.value)}
-                    ref={inputRef}
-                    placeholder="Enter Decision"
-                    value={taskDupFieldvalue}
-                    autoFocus
-                  />
-                )}
-
-              {(isEditing === false ||
-                taskDupFieldId !== task?.id ||
-                taskDupFieldName !== "decision") && (
-                <span
-                  title={task?.decision}
-                  onClick={() =>
-                    handleEditingClick(task?.id, "decision", task?.decision)
-                  }
-                >
-                  {task?.decision}
-                </span>
-              )}
+              <input
+                className="px-2 py-2 text-sm block w-full rounded-md bg-white-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder-small"
+                type="text"
+                placeholder="Enter Decision"
+                value={task?.decision}
+                onChange={(e) =>
+                  handleOverviewTaskChange("decision", e.target.value)
+                }
+                onBlur={(e) =>
+                  handleSubmit(task?.id, "decision", e.target.value)
+                }
+              />
             </div>
           </div>
 
@@ -137,10 +133,49 @@ const TaskOverview = ({
             </div>
             <span className="col-span-1 text-center"> : </span>
             <div className="col-span-4">
-              <input
-                type="text"
-                placeholder="Person Responsible"
-                className="px-2 py-2 text-sm block w-full rounded-md bg-white-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder-small"
+              <Select
+                options={members}
+                styles={{
+                  control: (provided, state) => ({
+                    ...provided,
+                    backgroundColor: "#f9fafb", // Change the background color of the select input
+                    borderWidth: state.isFocused ? "1px" : "1px", // Decrease border width when focused
+                    borderColor: state.isFocused ? "#orange-400" : "#d1d5db", // Change border color when focused
+                    boxShadow: state.isFocused ? "none" : provided.boxShadow, // Optionally remove box shadow when focused
+                  }),
+                  placeholder: (provided) => ({
+                    ...provided,
+                    fontSize: "small", // Adjust the font size of the placeholder text
+                  }),
+                  option: (provided, state) => ({
+                    ...provided,
+                    color: state.isFocused ? "#fff" : "#000000",
+                    backgroundColor: state.isFocused
+                      ? "#ea580c"
+                      : "transparent",
+
+                    "&:hover": {
+                      color: "#fff",
+                      backgroundColor: "#ea580c",
+                    },
+                  }),
+                }}
+                theme={(theme) => ({
+                  ...theme,
+                  borderRadius: 5,
+                  colors: {
+                    ...theme.colors,
+
+                    primary: "#fb923c",
+                  },
+                })}
+                onChange={(selectedOption) => {
+                  handleOverviewTaskChange("members", selectedOption.value);
+                  handleSubmit(task?.id, "members", selectedOption.value);
+                }}
+                className="basic-multi-select "
+                classNamePrefix="select"
+                value={{ label: task?.members, value: task?.members }}
               />
             </div>
           </div>
@@ -152,7 +187,11 @@ const TaskOverview = ({
             <div className="col-span-4">
               <input
                 type="date"
-                className="px-2 py-2 text-sm block w-full rounded-md bg-white-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder-small"
+                value={task.dueDate}
+                onChange={(e) => {
+                  handleSubmit(task.id, "dueDate", e.target.value);
+                  handleOverviewTaskChange("dueDate", e.target.value);
+                }}
               />
             </div>
           </div>
