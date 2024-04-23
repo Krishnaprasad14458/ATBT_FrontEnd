@@ -101,15 +101,16 @@ input::-webkit-inner-spin-button {
   margin: 0;
 }
 
+
 /* all customforms CSS end*/
 
-/* for input placeholder */
-.placeholder-small::placeholder {
-  font-size: small;
+
+
+/* for input select new end*/
+
+.css-1dimb5e-singleValue{
+  font-size: 14px !important;
 }
-/* for input placeholder end*/
-
-
 
 
 /* dont delete this code ask bhavi before delete */
@@ -124,19 +125,50 @@ input[type="date"]:in-range::-webkit-datetime-edit-text {
 /* for defult  date input dd/mm/yyy its working in all expect boardmeeting form  end */
 
 /* this one also working  dont remove */
-/* input[type='date']:not(:focus):in-range::-webkit-datetime-edit-year-field,
-input[type='date']:not(:focus):in-range::-webkit-datetime-edit-month-field,
-input[type='date']:not(:focus):in-range::-webkit-datetime-edit-day-field,
-input[type='date']:not(:focus):in-range::-webkit-datetime-edit-text 
+.date_type:not(:focus):in-range::-webkit-datetime-edit-year-field,
+.date_type:not(:focus):in-range::-webkit-datetime-edit-month-field,
+.date_type:not(:focus):in-range::-webkit-datetime-edit-day-field,
+.date_type:not(:focus):in-range::-webkit-datetime-edit-text 
 {
-  color: transparent ;
+   opacity: 1;
+  filter: invert(40%);
+  /* filter: grayscale(20%) */
+} 
+/* .date_type:not(:focus)::-webkit-calendar-picker-indicator {
+  filter: grayscale(100%);
 } */
+/* .date_type::-webkit-calendar-picker-indicator {
+  filter:brightness(50%);
+} */
+.date_type::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+  border-radius: 4px;
+  margin-right: 2px;
+  opacity: 0.6;
+  filter: invert(0.6);
+  }
+
+
+/* .date_type:before {
+  color: lightgrey;
+  content: attr(placeholder) !important;
+  margin-right: 0.5em;
+}
+.date_type:focus:before {
+  content: '' !important;
+} */
+
+/* .date_type::-webkit-calendar-picker-indicator:hover {
+  opacity: 1
+} */
+
+
  /* input[type='date']:before {
   content: attr(placeholder)
 }
 input[type='date']:after {
   content:''
-}   */
+}  
 /* dont delete this code ask bhavi before delete  end*/
 @media (max-width:425px) {
   .teams_img{
