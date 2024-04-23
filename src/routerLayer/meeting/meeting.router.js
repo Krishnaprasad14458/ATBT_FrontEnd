@@ -2,7 +2,7 @@
 import BoardMeetingForm, { boardmeetingFormLoader } from "../../componentLayer/pages/boardmeetings/createBoardMeetingForm/BoardMeetingForm";
 import Documents from "../../componentLayer/components/LandingPage/Documents";
 import BoardMeetingLandingPage from "../../componentLayer/pages/boardmeetings/boardMeetingLandingPage/BoardMeetingLandingPage";
-import BoardMeetings, { action as meetingAction, loader as meetingLoader } from "../../componentLayer/components/LandingPage/Boardmeeting";
+import BoardMeetings, { action as meetingAction, loader as meetingLoader } from "../../componentLayer/pages/boardmeetings/boardMeetingsList/BoardMeetings";
 import BoardMeetingOverview from "../../componentLayer/pages/boardmeetings/boardMeetingLandingPage/BoardMeetingOverview";
 import MeetingWiseTask, { MeetingWiseTasksActions, tasksLoader } from "../../componentLayer/components/LandingPage/MeetingWiseTask";
 export const meetingRouter = [

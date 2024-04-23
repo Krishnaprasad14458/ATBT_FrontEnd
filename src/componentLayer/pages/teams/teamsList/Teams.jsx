@@ -291,7 +291,7 @@ function Teams() {
                                 permission.canRead
                               }
                             >
-                              <Link to={`${row.id}/task`}>
+                              <Link to={`${row.id}/team/boardmeetings`}>
                                 <p className="truncate text-xs"> {value}</p>
                               </Link>
                             </GateKeeper>{" "}

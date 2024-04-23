@@ -9,10 +9,11 @@ import atbtApi from '../../../../serviceLayer/interceptor';
 export async function loader({ request, params }) {
   try {
     let url = new URL(request.url);
-    const [meetings, meetingList, roleList, meetingFormData] =
+    const [meetings,  roleList, meetingFormData] =
       await Promise.all([
-        atbtApi.post(`boardmeeting/list${url?.search ? url?.search : ''}`, {}),
-        atbtApi.post(`public/list/boardmeeting`),
+       
+        atbtApi.get(`boardmeeting/list${url?.search ? url?.search : ""}`),
+        // atbtApi.post(`public/list/boardmeeting`),
         atbtApi.post(`public/list/role`),
         atbtApi.get(`form/list?name=boardmeetingform`),
       ]);

@@ -331,7 +331,7 @@ function Users() {
                                 permission.canRead
                               }
                             >
-                              <Link to={`${row.id}/boardmeetings`}>
+                              <Link to={`${row.id}/user/boardmeetings`}>
                                 <p className="truncate text-xs"> {value}</p>
                               </Link>
                             </GateKeeper>

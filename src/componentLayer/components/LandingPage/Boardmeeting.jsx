@@ -18,9 +18,10 @@ let url;
 export async function loader({ request, params }) {
   try {
     url = new URL(request.url);
-    const [meetings, entityList, roleList, meetingFormData] = await Promise.all(
+    const [meetings,entityList, roleList, meetingFormData] = await Promise.all(
       [
-        atbtApi.post(`boardmeeting/list${url?.search ? url?.search : ""}`, {}),
+        // atbtApi.post(`boardmeeting/list${url?.search ? url?.search : ""}`, {}),
+        atbtApi.get(`boardmeeting/list?${params.moduleName}=${params.id}${url?.search ? url?.search : ""}`),
         atbtApi.post(`public/list/entity`),
         atbtApi.post(`public/list/role`),
         atbtApi.get(`form/list?name=boardmeetingform`),
