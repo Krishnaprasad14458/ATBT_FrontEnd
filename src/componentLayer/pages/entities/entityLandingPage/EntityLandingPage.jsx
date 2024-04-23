@@ -100,7 +100,7 @@ const EntityLandingPage = () => {
 
       <div className="flex overflow-auto">
         <NavLink
-          to="boardmeetings"
+          to="entity/boardmeetings"
           end
           className={({ isActive, isPending, isTransitioning }) =>
             isPending
@@ -113,7 +113,7 @@ const EntityLandingPage = () => {
           Board Meetings
         </NavLink>
         <NavLink
-          to="task"
+          to="tasks"
           end
           className={({ isActive, isPending, isTransitioning }) =>
             isPending

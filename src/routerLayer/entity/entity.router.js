@@ -15,8 +15,8 @@ export const entityRouter = [
             {
                 element: <EntityLandingPage />, children: [
                     { index: true, element: <Overview /> },
-                    { path: 'task', element: <AllTasks /> },
-                    { path: 'boardmeetings', loader: entityMeetingLoader, action: entityMeetingAction, element: <Boardmeeting /> },
+                    { path: 'tasks', element: <AllTasks /> },
+                    { path: ':moduleName/boardmeetings', loader: entityMeetingLoader, action: entityMeetingAction, element: <Boardmeeting /> },
                     { path: 'documents', element: <Documents /> },
                 ]
             }

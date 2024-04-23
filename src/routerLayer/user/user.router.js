@@ -15,7 +15,7 @@ export const userRouter = [
                 element: <UserLandingPage />, children: [
                     { index: true, loader: userLandingLoader, element: <UserOverview /> },
                     { path: 'tasks', element: <AllTasks /> },
-                    { path: 'boardmeetings', loader: entityMeetingLoader, action: entityMeetingAction, element: <Boardmeeting /> },
+                    { path: ':moduleName/boardmeetings', loader: entityMeetingLoader, action: entityMeetingAction, element: <Boardmeeting /> },
                     { path: 'documents', element: <Documents /> },
                 ]
             }

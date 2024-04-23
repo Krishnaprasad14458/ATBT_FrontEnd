@@ -110,21 +110,8 @@ const TeamsLandingPage = () => {
         </div>
       </div>
       <div className="flex overflow-auto">
-        <NavLink
-          to="task"
-          end
-          className={({ isActive, isPending, isTransitioning }) =>
-            isPending
-              ? "cursor-pointer px-4 py-1 text-md font-semibold"
-              : isActive
-              ? "border-b-2 border-orange-600 text-black cursor-pointer px-4 py-1 text-md font-semibold"
-              : "cursor-pointer px-4 py-1 text-md font-semibold"
-          }
-        >
-          Tasks
-        </NavLink>
-        <NavLink
-          to="boardmeetings"
+      <NavLink
+          to="team/boardmeetings"
           end
           className={({ isActive, isPending, isTransitioning }) =>
             isPending
@@ -136,6 +123,20 @@ const TeamsLandingPage = () => {
         >
           Board Meetings
         </NavLink>
+        <NavLink
+          to="tasks"
+          end
+          className={({ isActive, isPending, isTransitioning }) =>
+            isPending
+              ? "cursor-pointer px-4 py-1 text-md font-semibold"
+              : isActive
+              ? "border-b-2 border-orange-600 text-black cursor-pointer px-4 py-1 text-md font-semibold"
+              : "cursor-pointer px-4 py-1 text-md font-semibold"
+          }
+        >
+          Tasks
+        </NavLink>
+       
         <NavLink
           to="documents"
           end

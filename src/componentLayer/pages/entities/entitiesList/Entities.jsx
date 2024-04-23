@@ -292,7 +292,7 @@ function Entities() {
                                 permission.canRead
                               }
                             >
-                              <Link to={`${row.id}/boardmeetings`}>
+                              <Link to={`${row.id}/entity/boardmeetings`}>
                                 <p className='truncate text-xs'> {value}</p>
                               </Link>
                             </GateKeeper>
