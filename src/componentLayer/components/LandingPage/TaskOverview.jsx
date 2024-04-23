@@ -185,14 +185,14 @@ const TaskOverview = ({
             </div>
             <span className="col-span-1 text-center"> : </span>
             <div className="col-span-4">
-              {/* <input
+              <input
                 type="date"
                 value={task.dueDate}
                 onChange={(e) => {
                   handleSubmit(task.id, "dueDate", e.target.value);
                   handleOverviewTaskChange("dueDate", e.target.value);
                 }}
-              /> */}
+              />
             </div>
           </div>
           <div className="grid grid-cols-3 sm:grid-cols-3 md:grid-cols-7 lg:grid-cols-7 xl:grid-col-7 items-center mb-4">

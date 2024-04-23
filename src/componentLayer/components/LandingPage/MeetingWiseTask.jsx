@@ -284,14 +284,14 @@ const MeetingWiseTask = () => {
                   />
                 </td>
                 <td className={`border text-sm  py-2 px-2`}>
-                  {/* <input
+                  <input
                     type="date"
                     value={task.dueDate}
                     onChange={(e) => {
                       handleSubmit(task.id, "dueDate", e.target.value);
                       handleTaskChange(index, "dueDate", e.target.value);
                     }}
-                  /> */}
+                  />
                 </td>
                 <td className={`border text-center  text-sm p-1.5`}>
                   <Select
