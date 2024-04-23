@@ -205,18 +205,18 @@ const MeetingWiseTask = () => {
                       className="outline-none text-black truncate px-1.5 py-1 rounded-md shadow_box  bg-[#f8fafc] w-full  text-sm"
                       type="text"
                       placeholder="Type here"
-                      value={task.decision}
+                      value={task?.decision}
                       onChange={(e) =>
                         handleTaskChange(index, "decision", e.target.value)
                       }
                       onBlur={(e) =>
-                        handleSubmit(task.id, "decision", e.target.value)
+                        handleSubmit(task?.id, "decision", e.target.value)
                       }
                     />
 
                     <span
                       className="shadow_box p-1 rounded-sm cursor-pointer "
-                      onClick={() => handleOverViewTask(task.id)}
+                      onClick={() => handleOverViewTask(task?.id)}
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -275,7 +275,7 @@ const MeetingWiseTask = () => {
                       },
                     })}
                     onChange={(selectedOption) => {
-                      handleSubmit(task.id, "members", selectedOption.value);
+                      handleSubmit(task?.id, "members", selectedOption.value);
                       handleTaskChange(index, "members", selectedOption.value);
                     }}
                     className="basic-multi-select "
@@ -286,7 +286,7 @@ const MeetingWiseTask = () => {
                 <td className={`border text-sm  py-2 px-2`}>
                   <input
                     type="date"
-                    value={task.dueDate}
+                    value={task?.dueDate}
                     onChange={(e) => {
                       handleSubmit(task.id, "dueDate", e.target.value);
                       handleTaskChange(index, "dueDate", e.target.value);

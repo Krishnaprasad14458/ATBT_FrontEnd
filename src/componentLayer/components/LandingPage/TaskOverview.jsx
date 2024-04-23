@@ -187,9 +187,9 @@ const TaskOverview = ({
             <div className="col-span-4">
               <input
                 type="date"
-                value={task.dueDate}
+                value={task?.dueDate}
                 onChange={(e) => {
-                  handleSubmit(task.id, "dueDate", e.target.value);
+                  handleSubmit(task?.id, "dueDate", e.target.value);
                   handleOverviewTaskChange("dueDate", e.target.value);
                 }}
               />
