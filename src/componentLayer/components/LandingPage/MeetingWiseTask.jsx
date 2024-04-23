@@ -1,17 +1,37 @@
-import React, { useEffect, useState, useRef , useCallback} from "react";
-import { useParams, useLoaderData, useFetcher ,useSubmit} from "react-router-dom";
+import React, { useEffect, useState, useCallback } from "react";
+import {
+  useParams,
+  useLoaderData,
+  useFetcher,
+  useSubmit,
+} from "react-router-dom";
+import Select from "react-select";
 import TaskOverview from "./TaskOverview";
 import atbtApi from "../../../serviceLayer/interceptor";
-import {debounce} from '../../../utils/utils'
-export async function tasksLoader({ request ,params }) {
+import { debounce } from "../../../utils/utils";
+let members = [
+  { label: "Bhaskar", value: "bhaskar" },
+  { label: "Zaheer", value: "zaheer" },
+  { label: "Raghu Vamshi", value: "raghuvamshi" },
+];
+let status = [
+  { label: "In Progress", value: "inprogress" },
+  { label: "Close", value: "close" },
+  { label: "Resolve", value: "resolve" },
+];
+export async function tasksLoader({ request, params }) {
   try {
     const url = new URL(request.url);
-    const taskID = url.searchParams.get("taskID")
-    const [tasks ,task] = await Promise.all([atbtApi.get(`task/list/${params.id} `), atbtApi.get(`task/listbyid/${taskID}`)]);
+    const taskID = url.searchParams.get("taskID");
+    const [tasks, task] = await Promise.all([
+      atbtApi.get(`task/list/${params.id} `),
+      atbtApi.get(`task/listbyid/${taskID}`),
+    ]);
     const combinedResponse = {
       tasks: tasks?.data,
-      task:task?.data
+      task: task?.data,
     };
+    console.log("combinedResponse", combinedResponse);
     return combinedResponse;
   } catch (error) {
     console.log(error, "which error");
@@ -47,26 +67,34 @@ export async function MeetingWiseTasksActions({ request, params }) {
 const MeetingWiseTask = () => {
   let submit = useSubmit();
   const data = useLoaderData();
+  let [tasks, setTasks] = useState([]);
+  let [task, setTask] = useState({});
+  useEffect(() => {
+    setTasks(data?.tasks);
+    setTask(data?.task[0]);
+  }, [data]);
+  console.log("task", task);
+  console.log("tasks", tasks);
   let fetcher = useFetcher();
-   const { id } = useParams();
-   const [Qparams, setQParams] = useState({
+  const { id } = useParams();
+  const [Qparams, setQParams] = useState({
     //  taskID:null
-   });
-   useEffect(() => {
-     debouncedParams(Qparams);
-   }, [Qparams]);
-   const debouncedParams = useCallback(
-     debounce((param) => {
-       console.log(param);
-       submit(param, { method: "get", action: "." });
-     }, 500),
-     []
-   );
-
+  });
+  useEffect(() => {
+    debouncedParams(Qparams);
+  }, [Qparams]);
+  const debouncedParams = useCallback(
+    debounce((param) => {
+      console.log(param);
+      submit(param, { method: "get", action: "." });
+    }, 500),
+    []
+  );
   const [overViewTask, setOverViewTask] = useState(false);
-  const handleOverViewTask = (task) => {
+  const handleOverViewTask = (taskId) => {
     setOverViewTask(!overViewTask);
-    setQParams((prev)=>({...prev,taskID:task.id}))
+    setTask({});
+    setQParams((prev) => ({ ...prev, taskID: taskId }));
   };
   const handleAddNewTask = async () => {
     try {
@@ -75,48 +103,33 @@ const MeetingWiseTask = () => {
       console.log(error, "which error");
     }
   };
-  const [taskDupFieldId, SetTaskDupFieldId] = useState();
-  const [taskDupFieldName, SetTaskDupFieldName] = useState();
-  const [taskDupFieldvalue, SetTaskDupFieldvalue] = useState();
-  const [isEditing, setIsEditing] = useState(false);
-  const inputRef = useRef(null);
-
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (inputRef.current && !inputRef.current.contains(event.target)) {
-        setIsEditing(false);
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
-
-  const handleEditingClick = (fieldid, fieldName, fieldValue) => {
-    setIsEditing(true);
-    SetTaskDupFieldId(fieldid);
-    SetTaskDupFieldName(fieldName);
-    SetTaskDupFieldvalue(fieldValue);
+  const handleTaskChange = (index, field, value) => {
+    const updatedTasks = [...tasks];
+    updatedTasks[index][field] = value;
+    setTasks(updatedTasks);
   };
-  useEffect(() => {
-    if (taskDupFieldId && taskDupFieldName) {
-      let UpdateData = {
-        id: taskDupFieldId,
-        data: { [taskDupFieldName]: taskDupFieldvalue },
-      };
-      try {
-        fetcher.submit(UpdateData, {
-          method: "PATCH",
-          encType: "application/json",
-        });
-      } catch (error) {
-        console.log(error, "which error");
-      }
+  const handleOverviewTaskChange = (field, value) => {
+    const updatedTask = { ...task };
+
+    updatedTask[field] = value;
+    setTask(updatedTask);
+  };
+
+  const handleSubmit = (taskId, taskFieldName, taskValue) => {
+    let UpdateData = {
+      id: taskId,
+      data: { [taskFieldName]: taskValue },
+    };
+    console.log("UpdateData", UpdateData);
+    try {
+      fetcher.submit(UpdateData, {
+        method: "PATCH",
+        encType: "application/json",
+      });
+    } catch (error) {
+      console.log(error, "which error");
     }
-  }, [isEditing]);
+  };
   return (
     <div className="mt-4">
       <div className="overflow-x-auto">
@@ -136,6 +149,7 @@ const MeetingWiseTask = () => {
             Add Task
           </button>
         </div>
+
         <table className="w-full  mt-1 table-auto">
           <thead>
             <tr>
@@ -183,191 +197,174 @@ const MeetingWiseTask = () => {
             </tr>
           </thead>
           <tbody className="">
-            {data?.tasks?.map((task, index) => (
-              <tr key={index}>
-                <td
-                  className={`border text-sm  py-2 px-2`}
-                  onClick={() =>
-                    handleEditingClick(task.id, "decision", task.decision)
-                  }
-                >
-
+            {tasks?.map((task, index) => (
+              <tr key={task.id}>
+                <td className={`border text-sm  py-2 px-2`}>
                   <div className=" flex justify-between items-start">
-                  {isEditing === true &&
-                    taskDupFieldId === task.id &&
-                    taskDupFieldName === "decision" && (
-                      <input
-                        className="outline-none text-black truncate px-1.5 py-1 rounded-md shadow_box  bg-[#f8fafc] w-full  text-sm"
-                        type="text"
-                        onChange={(e) => SetTaskDupFieldvalue(e.target.value)}
-                        ref={inputRef}
-                        placeholder="Type here"
-                        value={taskDupFieldvalue}
-                        autoFocus
-                      />
-                    )}
-                  {(isEditing === false ||
-                    taskDupFieldId !== task.id ||
-                    taskDupFieldName !== "decision") && (
-                    <p className="px-2  text-sm" title={task.decision}>
-                      {task.decision}
-                    </p>
-                  )}
-                  <span
-                    className="shadow_box p-1 rounded-sm cursor-pointer "
-                    onClick={() => handleOverViewTask(task)}
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                      class="w-4 h-4"
-                    >
-                      <path
-                        fill-rule="evenodd"
-                        d="M8.22 5.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 0 1-1.06-1.06L11.94 10 8.22 6.28a.75.75 0 0 1 0-1.06Z"
-                        clip-rule="evenodd"
-                      />
-                    </svg>
-                  </span>
-                  </div>
-                 
-                </td>
-                <td
-                  className={`border text-sm  py-2 px-2`}
-                  onClick={() =>
-                    handleEditingClick(task.id, "members", task.members)
-                  }
-                  style={{ width: "15rem" }}
-                >
-                  {isEditing === true &&
-                    taskDupFieldId === task.id &&
-                    taskDupFieldName === "members" && (
-                      <select
-                        className="outline-none text-black truncate px-1.5 py-1 rounded-md shadow_box   bg-[#f8fafc] text-sm w-full"
-                        onChange={(e) => SetTaskDupFieldvalue(e.target.value)}
-                        ref={inputRef}
-                        value={taskDupFieldvalue}
-                        autoFocus
-                      >
-                        <option value="" disabled defaultValue>
-                          Please select
-                        </option>
-                        <option>bhavithaakshmi sri hhh hhhhhhhh </option>
+                    <input
+                      className="outline-none text-black truncate px-1.5 py-1 rounded-md shadow_box  bg-[#f8fafc] w-full  text-sm"
+                      type="text"
+                      placeholder="Type here"
+                      value={task.decision}
+                      onChange={(e) =>
+                        handleTaskChange(index, "decision", e.target.value)
+                      }
+                      onBlur={(e) =>
+                        handleSubmit(task.id, "decision", e.target.value)
+                      }
+                    />
 
-                        <option>Irshad </option>
-                      </select>
-                      // <input
-                      //   className="outline-none text-black truncate px-1.5 py-1 rounded-md shadow_box mx-2 bg-[#f8fafc] text-sm"
-                      //   type="text"
-                      //   onChange={(e) => SetTaskDupFieldvalue(e.target.value)}
-                      //   ref={inputRef}
-                      //   value={taskDupFieldvalue}
-                      //   autoFocus
-                      // />
-                    )}
-
-                  {(isEditing === false ||
-                    taskDupFieldId !== task.id ||
-                    taskDupFieldName !== "members") && (
-                    <p className="px-2 text-sm" title={task.members}>
-                      {task.members}
-                    </p>
-                  )}
-                </td>
-                <td
-                  className={`border text-sm  py-2 px-2`}
-                  onClick={() =>
-                    handleEditingClick(task.id, "dueDate", task.dueDate)
-                  }
-                  style={{ width: "8rem" }}
-                >
-                  {isEditing === true &&
-                    taskDupFieldId === task.id &&
-                    taskDupFieldName === "dueDate" && (
-                      <input
-                        className="outline-none text-black truncate px-1.5 py-1 rounded-md shadow_box  bg-[#f8fafc] w-full  text-sm "
-                        type="date"
-                        onChange={(e) => SetTaskDupFieldvalue(e.target.value)}
-                        ref={inputRef}
-                        value={taskDupFieldvalue}
-                        autoFocus
-                      />
-                    )}
-                  {(isEditing === false ||
-                    taskDupFieldId !== task.id ||
-                    taskDupFieldName !== "dueDate") && (
-
-                      <p className="px-2 text-sm" title={task.dueDate}>
-                      {task.dueDate}
-                    </p>
-                    // <span title={task.dueDate}>{task.dueDate}</span>
-                  )}
-                </td>
-                <td className={`border text-center  text-sm p-1.5`}
-                 onClick={() =>
-                  handleEditingClick(task.id, "status", task.status)
-                }
-                style={{ width: "10rem" }}>
-                  {isEditing === true &&
-                    taskDupFieldId === task.id &&
-                    taskDupFieldName === "status" && (
-                      <select
-                      className="outline-none text-black truncate px-1.5 py-1 rounded-md shadow_box   bg-[#f8fafc] text-sm w-full"
-                      onChange={(e) => SetTaskDupFieldvalue(e.target.value)}
-                      ref={inputRef}
-                      value={taskDupFieldvalue}
-                      autoFocus
-                    >
-                      <option value="" disabled defaultValue>
-                        Please select
-                      </option>
-                      <option>complete </option>
-                      <option>Inprogress </option>
-                      <option>Pending </option>
-                    </select>
-                      // <input
-                      //   className="outline-none text-black truncate px-1.5 py-1 rounded-md shadow_box mx-2 bg-[#f8fafc] w-full"
-                      //   type="text"
-                      //   onChange={(e) => SetTaskDupFieldvalue(e.target.value)}
-                      //   ref={inputRef}
-                      //   value={taskDupFieldvalue}
-                      //   autoFocus
-                      // />
-                    )}
-                  {(isEditing === false ||
-                    taskDupFieldId !== task.id ||
-                    taskDupFieldName !== "status") && (
                     <span
-                      title={task.status}
+                      className="shadow_box p-1 rounded-sm cursor-pointer "
+                      onClick={() => handleOverViewTask(task.id)}
                     >
-                      {task.status}
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                        class="w-4 h-4"
+                      >
+                        <path
+                          fill-rule="evenodd"
+                          d="M8.22 5.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 0 1-1.06-1.06L11.94 10 8.22 6.28a.75.75 0 0 1 0-1.06Z"
+                          clip-rule="evenodd"
+                        />
+                      </svg>
                     </span>
-                  )}
+                  </div>
                 </td>
-                <td className=" border border-slate-200 text-center  text-sm">
-                  
-                  Updated By User  
+                <td className={`border text-sm  py-2 px-2`}>
+                  <Select
+                    options={members}
+                    styles={{
+                      control: (provided, state) => ({
+                        ...provided,
+                        backgroundColor: "#f9fafb", // Change the background color of the select input
+                        borderWidth: state.isFocused ? "1px" : "1px", // Decrease border width when focused
+                        borderColor: state.isFocused
+                          ? "#orange-400"
+                          : "#d1d5db", // Change border color when focused
+                        boxShadow: state.isFocused
+                          ? "none"
+                          : provided.boxShadow, // Optionally remove box shadow when focused
+                      }),
+                      placeholder: (provided) => ({
+                        ...provided,
+                        fontSize: "small", // Adjust the font size of the placeholder text
+                      }),
+                      option: (provided, state) => ({
+                        ...provided,
+                        color: state.isFocused ? "#fff" : "#000000",
+                        backgroundColor: state.isFocused
+                          ? "#ea580c"
+                          : "transparent",
+
+                        "&:hover": {
+                          color: "#fff",
+                          backgroundColor: "#ea580c",
+                        },
+                      }),
+                    }}
+                    theme={(theme) => ({
+                      ...theme,
+                      borderRadius: 5,
+                      colors: {
+                        ...theme.colors,
+
+                        primary: "#fb923c",
+                      },
+                    })}
+                    onChange={(selectedOption) => {
+                      handleSubmit(task.id, "members", selectedOption.value);
+                      handleTaskChange(index, "members", selectedOption.value);
+                    }}
+                    className="basic-multi-select "
+                    classNamePrefix="select"
+                    value={{ label: task.members, value: task.members }}
+                  />
                 </td>
-                <td className=" border border-slate-200 text-center text-sm">
-                  Updated ByAdmin
+                <td className={`border text-sm  py-2 px-2`}>
+                  <input
+                    type="date"
+                    value={task.dueDate}
+                    onChange={(e) => {
+                      handleSubmit(task.id, "dueDate", e.target.value);
+                      handleTaskChange(index, "dueDate", e.target.value);
+                    }}
+                  />
+                </td>
+                <td className={`border text-center  text-sm p-1.5`}>
+                  <Select
+                    options={status}
+                    styles={{
+                      control: (provided, state) => ({
+                        ...provided,
+                        backgroundColor: "#f9fafb", // Change the background color of the select input
+                        borderWidth: state.isFocused ? "1px" : "1px", // Decrease border width when focused
+                        borderColor: state.isFocused
+                          ? "#orange-400"
+                          : "#d1d5db", // Change border color when focused
+                        boxShadow: state.isFocused
+                          ? "none"
+                          : provided.boxShadow, // Optionally remove box shadow when focused
+                      }),
+                      placeholder: (provided) => ({
+                        ...provided,
+                        fontSize: "small", // Adjust the font size of the placeholder text
+                      }),
+                      option: (provided, state) => ({
+                        ...provided,
+                        color: state.isFocused ? "#fff" : "#000000",
+                        backgroundColor: state.isFocused
+                          ? "#ea580c"
+                          : "transparent",
+
+                        "&:hover": {
+                          color: "#fff",
+                          backgroundColor: "#ea580c",
+                        },
+                      }),
+                    }}
+                    theme={(theme) => ({
+                      ...theme,
+                      borderRadius: 5,
+                      colors: {
+                        ...theme.colors,
+
+                        primary: "#fb923c",
+                      },
+                    })}
+                    onChange={(selectedOption) => {
+                      handleSubmit(task.id, "status", selectedOption.value);
+                      handleTaskChange(index, "status", selectedOption.value);
+                    }}
+                    className="basic-multi-select "
+                    classNamePrefix="select"
+                    value={{ label: task.status, value: task.status }}
+                  />
+                </td>
+                <td className="border border-slate-200 text-center text-sm">
+                  Updated By User
+                </td>
+                <td className="border border-slate-200 text-center text-sm">
+                  Updated By Admin
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
+
       <TaskOverview
-        taskDupFieldId={taskDupFieldId}
-        taskDupFieldName={taskDupFieldName}
-        SetTaskDupFieldvalue={SetTaskDupFieldvalue}
-        inputRef={inputRef}
-        taskDupFieldvalue={taskDupFieldvalue}
-        handleEditingClick={handleEditingClick}
-        isEditing={isEditing}
-        task={data?.task[0]}
+        task={task}
+        setTask={setTask}
+        Qparams={Qparams}
+        setQParams={setQParams}
+        setOverViewTask={setOverViewTask}
+        handleOverviewTaskChange={handleOverviewTaskChange}
         overViewTask={overViewTask}
-        handleOverViewTask={handleOverViewTask}
+        handleSubmit={handleSubmit}
+        members={members}
       />
     </div>
   );
