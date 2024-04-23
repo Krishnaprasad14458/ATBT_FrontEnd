@@ -93,7 +93,7 @@ const MeetingWiseTask = () => {
   const [overViewTask, setOverViewTask] = useState(false);
   const handleOverViewTask = (taskId) => {
     setOverViewTask(!overViewTask);
-    setTask({});
+
     setQParams((prev) => ({ ...prev, taskID: taskId }));
   };
   const handleAddNewTask = async () => {
@@ -116,6 +116,8 @@ const MeetingWiseTask = () => {
   };
 
   const handleSubmit = (taskId, taskFieldName, taskValue) => {
+    setAutoFocusID(null)
+    setIsInputActive(null);
     let UpdateData = {
       id: taskId,
       data: { [taskFieldName]: taskValue },
@@ -130,6 +132,14 @@ const MeetingWiseTask = () => {
       console.log(error, "which error");
     }
   };
+  const [isInputActiveID, setIsInputActive] = useState(null);
+  const [autoFocusID,setAutoFocusID]= useState(null)
+
+  // Event handler for input focus
+  const handleInputFocus = (id) => {
+    setIsInputActive(id);
+  };
+
   return (
     <div className="mt-4">
       <div className="overflow-x-auto">
@@ -201,19 +211,34 @@ const MeetingWiseTask = () => {
               <tr key={task.id}>
                 <td className={`border text-sm  py-2 px-2`}>
                   <div className=" flex justify-between items-start">
-                    <input
-                      className="outline-none text-black truncate px-1.5 py-1 rounded-md shadow_box  bg-[#f8fafc] w-full  text-sm"
-                      type="text"
-                      placeholder="Type here"
-                      value={task?.decision}
-                      onChange={(e) =>
-                        handleTaskChange(index, "decision", e.target.value)
-                      }
-                      onBlur={(e) =>
-                        handleSubmit(task?.id, "decision", e.target.value)
-                      }
-                    />
+                    {isInputActiveID === task.id && (
+                      <input
+                        className="outline-none text-black truncate px-1.5 py-1 rounded-md shadow_box  bg-[#f8fafc] w-full  text-sm"
+                        type="text"
+                        placeholder="Type here"
+                        value={task?.decision}
+                        onChange={(e) =>
+                          handleTaskChange(index, "decision", e.target.value)
+                        }
+                        onBlur={(e) =>
+                          handleSubmit(task?.id, "decision", e.target.value)
+                        }
+                        // onFocus={handleInputFocus}
+                        autoFocus={autoFocusID === task.id ? true : false}
+                      />
+                    )}
 
+                    {(isInputActiveID !== task.id ||
+                      isInputActiveID === null) && (
+                      <p
+                        onClick={() => {
+                          setIsInputActive(task.id);
+                          setAutoFocusID(task.id);
+                        }}
+                      >
+                        {task.decision}
+                      </p>
+                    )}
                     <span
                       className="shadow_box p-1 rounded-sm cursor-pointer "
                       onClick={() => handleOverViewTask(task?.id)}
@@ -280,7 +305,7 @@ const MeetingWiseTask = () => {
                     }}
                     className="basic-multi-select "
                     classNamePrefix="select"
-                    value={{ label: task.members, value: task.members }}
+                    value={{ label: task?.members, value: task?.members }}
                   />
                 </td>
                 <td className={`border text-sm  py-2 px-2`}>
@@ -288,7 +313,7 @@ const MeetingWiseTask = () => {
                     type="date"
                     value={task?.dueDate}
                     onChange={(e) => {
-                      handleSubmit(task.id, "dueDate", e.target.value);
+                      handleSubmit(task?.id, "dueDate", e.target.value);
                       handleTaskChange(index, "dueDate", e.target.value);
                     }}
                   />
@@ -335,12 +360,12 @@ const MeetingWiseTask = () => {
                       },
                     })}
                     onChange={(selectedOption) => {
-                      handleSubmit(task.id, "status", selectedOption.value);
+                      handleSubmit(task?.id, "status", selectedOption.value);
                       handleTaskChange(index, "status", selectedOption.value);
                     }}
                     className="basic-multi-select "
                     classNamePrefix="select"
-                    value={{ label: task.status, value: task.status }}
+                    value={{ label: task?.status, value: task?.status }}
                   />
                 </td>
                 <td className="border border-slate-200 text-center text-sm">

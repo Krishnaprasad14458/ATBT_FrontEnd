@@ -21,7 +21,11 @@ const TaskOverview = ({
     { value: "user", label: "user" },
     { value: "entity", label: "entity" },
   ];
+  useEffect(()=>{
+
   console.log("ttaskask", task);
+
+  },[task])
   return (
     <div
       className={`fixed inset-0 transition-all duration-500 bg-gray-800 bg-opacity-50 z-50  ${
@@ -78,10 +82,9 @@ const TaskOverview = ({
                 />
               </svg>
             </button>
-
             <button
               onClick={() => {
-                setTask({});
+                setTask({decision:"",members:"",dueDate:"",status:""});
                 setOverViewTask(!overViewTask);
                 let updatedQparams = { ...Qparams };
                 delete updatedQparams.taskID;
@@ -111,12 +114,13 @@ const TaskOverview = ({
               Decision Taken
             </div>
             <span className="col-span-1 text-center"> : </span>
+            
             <div className="col-span-4">
               <input
                 className="px-2 py-2 text-sm block w-full rounded-md bg-white-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder-small"
                 type="text"
                 placeholder="Enter Decision"
-                value={task?.decision}
+                value={task?.decision === null ? "" : task?.decision}
                 onChange={(e) =>
                   handleOverviewTaskChange("decision", e.target.value)
                 }
