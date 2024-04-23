@@ -139,7 +139,6 @@ const MeetingWiseTask = () => {
   const handleInputFocus = (id) => {
     setIsInputActive(id);
   };
-
   return (
     <div className="mt-4">
       <div className="overflow-x-auto">
@@ -207,8 +206,12 @@ const MeetingWiseTask = () => {
             </tr>
           </thead>
           <tbody className="">
-            {tasks?.map((task, index) => (
-              <tr key={task.id}>
+            {tasks?.map((task, index) => {
+  const decisionHeight = task?.decision === null ||  task?.decision === ""  ? "2rem" : "";
+
+              return (
+
+                <tr key={task.id}>
                 <td className={`border text-sm  py-2 px-2`}>
                   <div className=" flex justify-between items-start">
                     {isInputActiveID === task.id && (
@@ -235,6 +238,12 @@ const MeetingWiseTask = () => {
                           setIsInputActive(task.id);
                           setAutoFocusID(task.id);
                         }}
+                        style={{
+                          width: "20rem",
+                          height: decisionHeight,
+                          cursor: "pointer",
+                        }}
+
                       >
                         {task.decision}
                       </p>
@@ -375,7 +384,9 @@ const MeetingWiseTask = () => {
                   Updated By Admin
                 </td>
               </tr>
-            ))}
+              )
+           
+ } )}
           </tbody>
         </table>
       </div>
