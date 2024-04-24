@@ -10,17 +10,17 @@ const TaskOverview = ({
   setOverViewTask,
   setQParams,
   members,
-  setTask,
+  setTask,status
 }) => {
   // -------full screen----
   const [expand, setExpand] = useState(false);
   const handleExpand = () => {
     setExpand(!expand);
   };
-  let status = [
-    { label: "In Progress", value: "inprogress" },
-    { label: "Close", value: "close" },
-    { label: "Resolve", value: "resolve" },
+  let priority=[
+    { label: "High", value: "high"  },
+    { label: "Medium", value: "medium" },
+    { label: "Low", value: "low" },
   ];
   let moduleOptions = [
     { value: "user", label: "user" },
@@ -283,8 +283,48 @@ const TaskOverview = ({
             </div>
             <div className="col-span-1">
               <label className="block text-sm font-medium leading-6 my-1 text-gray-900">
+
+                Age
+              </label>
+              {/* <input
+                className=" border border-[#d1d5db] text-black px-1.5 py-2 rounded-md  bg-white-50 focus:outline-none text-sm focus:border-orange-400 w-full placeholder:text-[13px] placeholder:text-[#A0AEC0]"
+                type="number"
+                placeholder="Age"
+                value={task?.age === null ? "" : task?.age}
+              /> */}
+<p>{task?.age}</p>
+          
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-col-2 items-center mb-3 gap-3">
+            <div className="col-span-1">
+              <label className="block text-sm font-medium leading-6 my-1 text-gray-900">
                 {" "}
-                priority
+                Date of Board Meeting
+              </label>
+              <input
+                className={`border border-[#d1d5db] text-black px-1.5 py-2 rounded-md  bg-white-50 focus:outline-none text-sm focus:border-orange-400 w-full date_type`}
+                type="date"
+              />
+            </div>
+            <div className="col-span-1">
+              <label className="block text-sm font-medium leading-6 my-1 text-gray-900">
+                {" "}
+                Board Meeting Number
+              </label>
+              <input
+                className=" border border-[#d1d5db] text-black px-1.5 py-2 rounded-md  bg-white-50 focus:outline-none text-sm focus:border-orange-400 w-full placeholder:text-[13px] placeholder:text-[#A0AEC0]"
+                type="number"
+                placeholder=" Board Meeting Number"
+              />
+            </div>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-col-2 items-center mb-3 gap-3">
+            <div className="col-span-1">
+              <label className="block text-sm font-medium leading-6 my-1 text-gray-900">
+                {" "}
+                Entity
               </label>
               <Select
                 options={moduleOptions}
@@ -292,19 +332,19 @@ const TaskOverview = ({
                 styles={{
                   control: (provided, state) => ({
                     ...provided,
-                    backgroundColor: "rgb(255 255 255)",
-                    borderWidth: state.isFocused ? "1px" : "1px",
+                    backgroundColor: "rgb(255 255 255)", // Change the background color of the select input
+                    borderWidth: state.isFocused ? "1px" : "1px", // Decrease border width when focused
                     borderColor: state.isFocused
                       ? "#orange-400"
                       : "rgb(209 213 219)",
                     boxShadow: state.isFocused ? "none" : provided.boxShadow,
                     fontSize: "0.875rem",
                     lineHeight: "1.25rem",
-                    cursor: "pointer",
+                    cursor:"pointer"
                   }),
                   placeholder: (provided) => ({
                     ...provided,
-                    fontSize: "small",
+                    fontSize: "small", // Adjust the font size of the placeholder text
                     color: "#a0a7b2",
                   }),
                   option: (provided, state) => ({
@@ -321,8 +361,8 @@ const TaskOverview = ({
                   }),
                   singleValue: (provided) => ({
                     ...provided,
-                    fontSize: "0.875rem",
-                    lineHeight: "1.25rem",
+                    fontSize: "0.875rem" /* 14px */,
+                    lineHeight: "1.25rem" /* 20px */, // Adjust the font size for the selected option
                   }),
                 }}
                 theme={(theme) => ({
@@ -334,7 +374,77 @@ const TaskOverview = ({
                     primary: "#fb923c",
                   },
                 })}
+                
               />
+            </div>
+            <div className="col-span-1">
+              <label className="block text-sm font-medium leading-6 my-1 text-gray-900">
+
+                {" "}
+                priority
+              </label>
+              <Select
+
+  options={priority}
+  className="custom-select"
+  styles={{
+    control: (provided, state) => ({
+      ...provided,
+      backgroundColor: "rgb(255 255 255)",
+      borderWidth: "1px",
+      borderColor: state.isFocused ? "#orange-400" : "rgb(209 213 219)",
+      boxShadow: state.isFocused ? "none" : provided.boxShadow,
+      fontSize: "0.875rem",
+      lineHeight: "1.25rem",
+    }),
+    placeholder: (provided) => ({
+      ...provided,
+      fontSize: "small",
+      color: "#a0a7b2",
+    }),
+    option: (provided, state) => ({
+      ...provided,
+      color: state.isFocused ? "#fff" : "#000000",
+      backgroundColor: state.isFocused ? "#ea580c" : "transparent",
+      "&:hover": {
+        color: "#fff",
+        backgroundColor: "#ea580c",
+      },
+    }),
+    singleValue: (provided) => ({
+      ...provided,
+      fontSize: "0.875rem",
+      lineHeight: "1.25rem",
+    }),
+  }}
+  theme={(theme) => ({
+    ...theme,
+    borderRadius: 5,
+    colors: {
+      ...theme.colors,
+      primary: "#fb923c",
+    },
+  })}
+  onChange={(selectedOption) => {
+    handleOverviewTaskChange("priority", selectedOption.value);
+    handleSubmit(task?.id, "priority", selectedOption.value);
+  }}
+  value={
+    task?.priority
+      ? {
+          label:
+            task.priority === "high"
+              ? "High"
+              : task.priority === "medium"
+              ? "Medium"
+              : task.priority === "low" ? "Low" : "",
+          value: task.priority,
+        }
+      : ""
+  }
+  
+/>
+
             </div>
           </div>
         </div>

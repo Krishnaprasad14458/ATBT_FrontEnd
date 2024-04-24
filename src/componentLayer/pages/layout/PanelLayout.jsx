@@ -6,6 +6,7 @@ import useOnlineStatus from '../../../hooks/isOnline/useOnlineStatus ';
 import { AuthContext } from '../../../contexts/authContext/authContext';
 import useServiceWorker from '../../../useSw';
 import TopBarProgress from 'react-topbar-progress-indicator';
+import BreadCrumbs from '../../components/breadcrumbs/BreadCrumbs';
 TopBarProgress.config({
   barColors: {
     0: '#ff7f50',
@@ -54,6 +55,7 @@ const Layout = () => {
           </span>
         )}
         {navigation.state == 'loading' && <TopBarProgress />}
+        <BreadCrumbs/>
         <Outlet />
       </main>
     </div>
