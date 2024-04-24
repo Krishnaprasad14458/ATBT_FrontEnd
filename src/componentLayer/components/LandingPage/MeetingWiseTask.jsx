@@ -29,11 +29,24 @@ export async function tasksLoader({ request, params }) {
       atbtApi.get(`task/list/${params.id} `),
       atbtApi.get(`task/listbyid/${taskID}`),
     ]);
+    let updatedTask = task?.data[0]
+    let age = null
+
+    if(updatedTask){
+      const currentDate = new Date();
+      const enteredDate = new Date(updatedTask?.createdAt);
+      const differenceInMilliseconds = currentDate - enteredDate;
+      const differenceInDays = differenceInMilliseconds / (1000 * 3600 * 24);
+      age = (Math.floor(differenceInDays));
+    updatedTask.age = age
+
+    }
     const combinedResponse = {
       tasks: tasks?.data,
-      task: task?.data,
+      task: updatedTask,
     };
-    console.log("combinedResponse", combinedResponse);
+   
+    console.log("combinedResponse", combinedResponse,updatedTask);
     return combinedResponse;
   } catch (error) {
     console.log(error, "which error");
@@ -73,7 +86,7 @@ const MeetingWiseTask = () => {
   let [task, setTask] = useState({});
   useEffect(() => {
     setTasks(data?.tasks);
-    setTask(data?.task[0]);
+    setTask(data?.task);
   }, [data]);
   console.log("task", task);
   console.log("tasks", tasks);
