@@ -90,8 +90,8 @@ function CustomColumn({ tableView, setTableView, form }) {
             
             </button>
           </div>
-          <div
-            className='overflow-y-auto px-4 py-2.5 content'
+          <div 
+            className='overflow-y-auto px-4 py-2.5 content relative'
             style={{ maxHeight: 'calc(100vh - 8rem)' }}
           >
             {dupTableView &&
