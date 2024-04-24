@@ -269,11 +269,14 @@ const TaskOverview = ({
               <label className="block text-sm font-medium leading-6 my-1 text-gray-900">
                 Age
               </label>
-              <input
+              {/* <input
                 className=" border border-[#d1d5db] text-black px-1.5 py-2 rounded-md  bg-white-50 focus:outline-none text-sm focus:border-orange-400 w-full placeholder:text-[13px] placeholder:text-[#A0AEC0]"
                 type="number"
                 placeholder="Age"
-              />
+                value={task?.age === null ? "" : task?.age}
+              /> */}
+<p>{task?.age}</p>
+          
             </div>
           </div>
 
