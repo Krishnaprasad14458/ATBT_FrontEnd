@@ -1,10 +1,10 @@
-import { useMatches } from "react-router-dom";
+import { useLocation, useMatches } from "react-router-dom";
 
 import React from "react";
 
 const BreadCrumbs = () => {
   let matches = useMatches();
-  
+  let location = useLocation()
   let crumbs = matches
     // first get rid of any matches that don't have handle and crumb
     .filter((match) => Boolean(match.handle?.crumb))
@@ -13,6 +13,8 @@ const BreadCrumbs = () => {
     .map((match) => match.handle.crumb(match.data));
   console.log("matches", matches);
   console.log("crumbs", crumbs);
+  console.log("location", location);
+
   // 
 ///// reference net ninja https://www.youtube.com/watch?v=zy8rqihtvA8
   return (
