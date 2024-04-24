@@ -100,10 +100,29 @@ input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
-
-
 /* all customforms CSS end*/
 
+/* for breadcrumbs */
+.breadcrumbs{
+  max-width:1200px ;
+  margin: 20px auto;
+}
+.breadcrumbs > *{
+  display: inline-block;
+  margin-right: 10px;
+}
+.breadcrumbs .crumb:after{
+  content: '>';
+  margin-left: 10px;
+}
+.breadcrumbs .crumb:last-child::after{
+  display: none;
+}
+.breadcrumbs .crumb a{
+  color: #ddd;
+}
+
+/* for breadcrumbs end */
 
 
 /* for input select new end*/
@@ -130,7 +149,7 @@ input[type="date"]:in-range::-webkit-datetime-edit-text {
 .date_type:not(:focus):in-range::-webkit-datetime-edit-day-field,
 .date_type:not(:focus):in-range::-webkit-datetime-edit-text 
 {
-   opacity: 1;
+   opacity: 0;
   filter: invert(40%);
   /* filter: grayscale(20%) */
 } 
@@ -147,7 +166,7 @@ input[type="date"]:in-range::-webkit-datetime-edit-text {
   opacity: 0.6;
   filter: invert(0.6);
   }
-
+ 
 /* .date_type:before {
   color: lightgrey;
   content: attr(placeholder) !important;
