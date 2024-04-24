@@ -158,7 +158,7 @@ const TaskOverview = ({
                 Date of Board Meeting
               </label>
               <p className=" border border-[#d1d5db] text-black px-1.5 py-2 rounded-md text-sm   bg-white-50">
-                04-05-2024
+                {task?.date}
               </p>
             </div>
             <div className="col-span-1">
@@ -166,7 +166,7 @@ const TaskOverview = ({
                 Board Meeting Number
               </label>
               <p className=" border border-[#d1d5db] text-black px-1.5 py-2 rounded-md text-sm  bg-white-50">
-                1245
+                {task?.meetingnumber}
               </p>
             </div>
             <div className="col-span-1">
@@ -183,7 +183,7 @@ const TaskOverview = ({
                 Entity
               </label>
               <p className=" border border-[#d1d5db] text-black px-1.5 py-2 rounded-md text-sm  bg-white-50">
-                Infoz IT infoz
+             Infoz
               </p>
             </div>
           </div>
