@@ -39,65 +39,52 @@ const TaskOverview = ({
       <div
         className={` fixed inset-y-0 right-0  bg-white shadow-lg transform translate-x-0 transition-transform duration-300 ease-in-out ${
           expand
-            ? "w-full md:w-full lg:w-3/5 xl:w-3/5"
-            : "w-4/5 md:w-4/5 lg:w-2/5 xl:2/5"
+            ? "w-full md:w-full lg:w-3/6 xl:w-3/6"
+            : "w-4/5 md:w-3/5 lg:w-3/6 xl:2/5"
         }`}
       >
         <div className="flex justify-start p-2">
           <div className="relative inline-block ms-2">
-          <Select
-                        options={status}
-                        styles={{
-                            control: (provided, state) => ({
-                                ...provided,
-                                backgroundColor: "#f9fafb",
-                                borderWidth: "1px",
-                                borderColor: state.isFocused ? "#orange-400" : "#d1d5db",
-                                boxShadow: state.isFocused ? "none" : provided.boxShadow,
-                                width:"8rem"
-                            }),
-                            
-                            placeholder: (provided) => ({
-                                ...provided,
-                                fontSize: "small",
-                            }),
-                            option: (provided, state) => ({
-                                ...provided,
-                                color: state.isFocused ? "#fff" : "#000000",
-                                backgroundColor: state.isFocused ? "#ea580c" : "transparent",
-                                "&:hover": {
-                                    color: "#fff",
-                                    backgroundColor: "#ea580c",
-                                },
-                            }),
-                        }}
-                        theme={(theme) => ({
-                            ...theme,
-                            borderRadius: 5,
-                            colors: {
-                                ...theme.colors,
-                                primary: "#fb923c",
-                            },
-                        })}
-                        // onChange={(selectedOption) => {
-                        //     handleSubmit(task?.id, "status", selectedOption.value);
-                        //     handleTaskChange(index, "status", selectedOption.value);
-                        // }}
-                        className=""
-                        classNamePrefix="select"
-                        // value={{ label: task?.status, value: task?.status }}
-                    />
-            {/* <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-              <svg
-                className="fill-current h-4 w-4"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 20 20"
-              >
-                <path d="M7 7l3-3 3 3m0 6l-3 3-3-3"></path>
-              </svg>
+            <Select
+              options={status}
+              styles={{
+                control: (provided, state) => ({
+                  ...provided,
+                  backgroundColor: "#white-50",
+                  borderWidth: "1px",
+                  borderColor: state.isFocused ? "#orange-400" : "#d1d5db",
+                  boxShadow: state.isFocused ? "none" : provided.boxShadow,
+                  width: "8rem",
+                }),
 
-          
-            </div> */}
+                placeholder: (provided) => ({
+                  ...provided,
+                  fontSize: "small",
+                }),
+                option: (provided, state) => ({
+                  ...provided,
+                  color: state.isFocused ? "#fff" : "#000000",
+                  backgroundColor: state.isFocused ? "#ea580c" : "transparent",
+                  "&:hover": {
+                    color: "#fff",
+                    backgroundColor: "#ea580c",
+                  },
+                }),
+              }}
+              theme={(theme) => ({
+                ...theme,
+                borderRadius: 5,
+                colors: {
+                  ...theme.colors,
+                  primary: "#fb923c",
+                },
+              })}
+
+              className=""
+              classNamePrefix="select"
+
+            />
+
           </div>
           <div className="absolute top-4 right-4 flex flex-row">
             <svg
@@ -163,35 +150,66 @@ const TaskOverview = ({
           </div>
         </div>
         <hr />
-        <div className="mt-2 ms-2 p-3 overflow-y-auto h-full">
-          <div className="grid grid-cols-3 sm:grid-cols-3 md:grid-cols-8 lg:grid-cols-8 xl:grid-col-8 items-center mb-3">
-            <div className="col-span-2 basis-1/4 text-sm text-gray-600">
-              Decision Taken
-            </div>
-            <span className="col-span-1 text-center"> : </span>
 
-            <div className="col-span-5">
-              <textarea
-                className="px-2 py-2 text-sm block w-full rounded-md bg-white-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder:text-[13px] placeholder:text-[#A0AEC0]"
-                // type="textarea"
-                placeholder="Enter Decision"
-                value={task?.decision === null ? "" : task?.decision}
-                onChange={(e) =>
-                  handleOverviewTaskChange("decision", e.target.value)
-                }
-                onBlur={(e) =>
-                  handleSubmit(task?.id, "decision", e.target.value)
-                }
-              />
+        <div className=" ms-2 p-3 ">
+          <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-4 lg:grid-cols-4 xl:grid-col-4 items-center mb-3 gap-5">
+            <div className="col-span-1">
+              <label className="block text-xs font-medium leading-6 my-1 text-[1e1f21]">
+                Date of Board Meeting
+              </label>
+              <p className=" border border-[#d1d5db] text-black px-1.5 py-2 rounded-md text-sm   bg-white-50">
+                04-05-2024
+              </p>
+            </div>
+            <div className="col-span-1">
+              <label className="block text-xs font-medium leading-6 my-1 text-[1e1f21]">
+                Board Meeting Number
+              </label>
+              <p className=" border border-[#d1d5db] text-black px-1.5 py-2 rounded-md text-sm  bg-white-50">
+                1245
+              </p>
+            </div>
+            <div className="col-span-1">
+              <label className="block text-xs font-medium leading-6 my-1 text-[1e1f21]">
+                Age
+              </label>
+              <p className=" border border-[#d1d5db] text-black px-1.5 py-2 rounded-md text-sm  bg-white-50">
+                {task?.age}
+              </p>
+            </div>
+            <div className="col-span-1">
+              <label className="block text-xs font-medium leading-6 my-1 text-[1e1f21]">
+                {" "}
+                Entity
+              </label>
+              <p className=" border border-[#d1d5db] text-black px-1.5 py-2 rounded-md text-sm  bg-white-50">
+                Infoz IT infoz
+              </p>
             </div>
           </div>
-          <div className="grid grid-cols-3 sm:grid-cols-3 md:grid-cols-8 lg:grid-cols-8 xl:grid-col-8 items-center mb-3">
-            <div className="col-span-2 basis-1/4 text-sm text-gray-600">
+
+          <div className="mb-2">
+            <label className="block text-xs font-medium leading-6 my-1 text-[1e1f21]">
+              Decision Taken
+            </label>
+            <textarea
+              className="px-2 py-2 text-sm block w-full resize-none h-24 overflow-auto rounded-md bg-white-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder:text-[13px] placeholder:text-[#A0AEC0]"
+              // type="textarea"
+              placeholder="Enter Decision"
+              value={task?.decision === null ? "" : task?.decision}
+              onChange={(e) =>
+                handleOverviewTaskChange("decision", e.target.value)
+              }
+              onBlur={(e) => handleSubmit(task?.id, "decision", e.target.value)}
+            />
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3 xl:grid-col-3 items-center mb-3 gap-3">
+            <div className="col-span-1">
+            <label className="block text-xs font-medium leading-6 my-1 text-[1e1f21]">
               Person Responsible
-            </div>
-            <span className="col-span-1 text-center"> : </span>
-            <div className="col-span-5">
-              <Select
+            </label>
+            <Select
                 options={members}
                 // placeholder="Custom Placeholder Text"
                 styles={{
@@ -201,6 +219,7 @@ const TaskOverview = ({
                     borderWidth: state.isFocused ? "1px" : "1px", // Decrease border width when focused
                     borderColor: state.isFocused ? "#orange-400" : "#d1d5db", // Change border color when focused
                     boxShadow: state.isFocused ? "none" : provided.boxShadow, // Optionally remove box shadow when focused
+                    cursor:"pointer"
                   }),
                   placeholder: (provided) => ({
                     ...provided,
@@ -222,8 +241,8 @@ const TaskOverview = ({
 
                   singleValue: (provided) => ({
                     ...provided,
-                    fontSize: "0.875rem" /* 14px */,
-                    lineHeight: "1.25rem" /* 20px */, // Adjust the font size for the selected option
+                    fontSize: "0.875rem" ,
+                    lineHeight: "1.25rem",
                   }),
                 }}
                 theme={(theme) => ({
@@ -239,20 +258,17 @@ const TaskOverview = ({
                   handleOverviewTaskChange("members", selectedOption.value);
                   handleSubmit(task?.id, "members", selectedOption.value);
                 }}
-                // value={{ label: task?.members, value: task?.members }}
                 value={
                   task?.members === null || task?.members === ""
                     ? ""
                     : { label: task?.members, value: task?.members }
                 }
                 className="date_type"
-                // placeholder={placeholder} // Use placeholder prop here
+
               />
             </div>
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-col-2 items-center mb-3 gap-3">
             <div className="col-span-1">
-              <label className="block text-sm font-medium leading-6 my-1 text-gray-900">
+              <label className="block text-xs font-medium leading-6 my-1 text-[1e1f21]">
                 Due Date{" "}
               </label>
               <input
@@ -267,6 +283,7 @@ const TaskOverview = ({
             </div>
             <div className="col-span-1">
               <label className="block text-sm font-medium leading-6 my-1 text-gray-900">
+
                 Age
               </label>
               {/* <input
@@ -361,10 +378,12 @@ const TaskOverview = ({
             </div>
             <div className="col-span-1">
               <label className="block text-sm font-medium leading-6 my-1 text-gray-900">
+
                 {" "}
                 priority
               </label>
               <Select
+
   options={priority}
   className="custom-select"
   styles={{
@@ -424,8 +443,12 @@ const TaskOverview = ({
   }
   
 />
+
             </div>
-          </div>
+            </div>
+
+
+         
           <div className="flex justify-end">
             <button className=" px-3 py-2 inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white mb-4 mt-2">
               <svg
@@ -440,76 +463,81 @@ const TaskOverview = ({
             </button>
           </div>
           <hr />
-          <div className="flex mt-3">
-            <div className="me-2">
-              <p className="bg-yellow-500 text-black py-1.5 w-8 h-8  rounded-full">
-                <span className="flex justify-center text-gray-800 text-sm">
-                  BA
-                </span>
-              </p>
-            </div>
-            <div className="flex-1 w-86">
-              <textarea
-                placeholder="Add a comment"
-                className="p-2 border-2 text-sm resize-none shadow-sm rounded-md w-full h-48 focus:outline-none focus:border-orange-400"
-              ></textarea>
-              <div className="me-2 flex flex-row">
-                <p className="text-sm mt-1">Collaborators</p>
-                <p className="ms-2 bg-yellow-500 text-black py-1.5 w-8 h-8 rounded-full">
-                  <span className="flex justify-center text-gray-800 text-sm">
-                    BA
-                  </span>
-                </p>
-                <p className="ms-2 bg-white border-dashed border-2 border-gray-600 text-gray-600  py-1 w-7 h-7 rounded-full">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke-width="1.5"
-                    stroke="currentColor"
-                    className="ms-1 w-4 h-4"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"
-                    />
-                  </svg>
-                </p>
-                <p className="ms-2 bg-white border-dashed border-2 border-gray-600 text-gray-600  py-1 w-7 h-7 rounded-full">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke-width="1.5"
-                    stroke="currentColor"
-                    className="ms-1 w-4 h-4"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"
-                    />
-                  </svg>
-                </p>
-                <p>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth={1.5}
-                    stroke="currentColor"
-                    className="w-4 h-4 mt-2 ms-2"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M12 4.5v15m7.5-7.5h-15"
-                    />
-                  </svg>
-                </p>
-              </div>
-            </div>
+        </div>
+        <div className="grid grid-cols-7 sm:grid-cols-7 md:grid-cols-7 lg:grid-cols-7 xl:grid-cols-7 ms-3 p-3">
+          <div className="col-span-1 text-center ">
+            <p className="bg-yellow-500 text-black py-1.5 w-8 h-8  rounded-full">
+              <span className="flex justify-center text-gray-800 text-sm">
+                BA
+              </span>
+            </p>
+          </div>
+          <div className="col-span-6">
+            <textarea
+              placeholder="Add a comment"
+              className="p-2 border-2 text-sm w-full  shadow-sm rounded-md  focus:outline-none focus:border-orange-400"
+            ></textarea>
+          </div>
+        </div>
+
+        <div className="flex ">
+
+          <div className="flex-1 "></div>
+          <div className="me-2 flex flex-row">
+            <p className="text-sm mt-1">Collaborators</p>
+            <p className="ms-2 bg-yellow-500 text-black py-1.5 w-8 h-8 rounded-full">
+              <span className="flex justify-center text-gray-800 text-sm">
+                BA
+              </span>
+            </p>
+            <p className="ms-2 bg-white border-dashed border-2 border-gray-600 text-gray-600  py-1 w-7 h-7 rounded-full">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                className="ms-1 w-4 h-4"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"
+                />
+              </svg>
+            </p>
+            <p className="ms-2 bg-white border-dashed border-2 border-gray-600 text-gray-600  py-1 w-7 h-7 rounded-full">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                className="ms-1 w-4 h-4"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"
+                />
+              </svg>
+            </p>
+            <p>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={1.5}
+                stroke="currentColor"
+                className="w-4 h-4 mt-2 ms-2"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M12 4.5v15m7.5-7.5h-15"
+                />
+              </svg>
+            </p>
           </div>
         </div>
       </div>
