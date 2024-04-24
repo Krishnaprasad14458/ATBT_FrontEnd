@@ -21,10 +21,13 @@ let status = [
   { label: "Close", value: "close" },
   { label: "Resolve", value: "resolve" },
 ];
+
+
 export async function tasksLoader({ request, params }) {
   try {
     const url = new URL(request.url);
     const taskID = url.searchParams.get("taskID");
+
     const [tasks, task] = await Promise.all([
       atbtApi.get(`task/list/${params.id} `),
       atbtApi.get(`task/listbyid/${taskID}`),
@@ -63,16 +66,22 @@ export async function MeetingWiseTasksActions({ request, params }) {
   switch (request.method) {
     case "POST": {
       const id = (await request.json()) || null;
-      console.log(id, "json", id);
+      // console.log(id, "json", id);
       return await atbtApi.post(`task/add/${id}`);
     }
     case "PATCH": {
       const UpdatedTask = (await request.json()) || null;
-      console.log(UpdatedTask.id, "json", UpdatedTask.data);
+      // console.log(UpdatedTask.id, "json", UpdatedTask.data);
       return await atbtApi.patch(
         `task/update/${UpdatedTask.id}`,
         UpdatedTask.data
       );
+    }
+    case "DELETE": {
+      const DeleteTaskId = (await request.json()) || null;
+     
+     return await atbtApi.delete(`task/delete/${DeleteTaskId}`);
+
     }
     default: {
       throw new Response("", { status: 405 });
@@ -114,6 +123,13 @@ const MeetingWiseTask = () => {
   const handleAddNewTask = async () => {
     try {
       fetcher.submit(id, { method: "POST", encType: "application/json" });
+    } catch (error) {
+      console.log(error, "which error");
+    }
+  };
+  const handleDeleteTask = async (deleteId) => {
+    try {
+      fetcher.submit(deleteId, { method: "DELETE", encType: "application/json" });
     } catch (error) {
       console.log(error, "which error");
     }
@@ -218,6 +234,12 @@ const MeetingWiseTask = () => {
               >
                 Updated by Admin
               </th>
+              <th
+               
+               className="py-2 px-2  text-sm text-white bg-orange-600   border border-collapse border-[#e5e7eb] whitespace-nowrap text-left"
+             >
+          Actions
+             </th>
             </tr>
           </thead>
           <tbody className="">
@@ -389,7 +411,22 @@ const MeetingWiseTask = () => {
                         }}
                         className="basic-multi-select"
                         classNamePrefix="select"
-                        value={{ label: task?.status, value: task?.status }}
+                        // value={{ label: task?.status, value: task?.status }}
+
+                        value={
+                          task?.status
+                            ? {
+                                label:
+                                  task.status === "inprogress"
+                                    ? "In Progress"
+                                    : task.status === "close"
+                                    ? "Close"
+                                    : task.status === "resolve" ? "Resolve" : "",
+                                value: task.status,
+                              }
+                            : ""
+                        }
+                      
                     />
                 </td>
                 <td className="border py-1.5 px-3 text-sm text-gray-600">
@@ -397,6 +434,9 @@ const MeetingWiseTask = () => {
                 </td>
                 <td className="border py-1.5 px-3 text-sm text-gray-600">
                     Updated By Admin
+                </td>
+                <td className="border py-1.5 px-3 text-sm text-gray-600">
+                 <button onClick={()=>handleDeleteTask(task.id)}>Delete</button>
                 </td>
             </tr>
             
@@ -419,7 +459,7 @@ const MeetingWiseTask = () => {
         overViewTask={overViewTask}
         handleSubmit={handleSubmit}
         members={members}
-      
+        status={status}
       />
 
     </div>

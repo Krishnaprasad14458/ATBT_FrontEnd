@@ -10,17 +10,17 @@ const TaskOverview = ({
   setOverViewTask,
   setQParams,
   members,
-  setTask,
+  setTask,status
 }) => {
   // -------full screen----
   const [expand, setExpand] = useState(false);
   const handleExpand = () => {
     setExpand(!expand);
   };
-  let status = [
-    { label: "In Progress", value: "inprogress" },
-    { label: "Close", value: "close" },
-    { label: "Resolve", value: "resolve" },
+  let priority=[
+    { label: "High", value: "high"  },
+    { label: "Medium", value: "medium" },
+    { label: "Low", value: "low" },
   ];
   let moduleOptions = [
     { value: "user", label: "user" },
@@ -356,6 +356,7 @@ const TaskOverview = ({
                     primary: "#fb923c",
                   },
                 })}
+                
               />
             </div>
             <div className="col-span-1">
@@ -364,53 +365,65 @@ const TaskOverview = ({
                 priority
               </label>
               <Select
-                options={moduleOptions}
-                className="custom-select"
-                styles={{
-                  control: (provided, state) => ({
-                    ...provided,
-                    backgroundColor: "rgb(255 255 255)",
-                    borderWidth: state.isFocused ? "1px" : "1px",
-                    borderColor: state.isFocused
-                      ? "#orange-400"
-                      : "rgb(209 213 219)",
-                    boxShadow: state.isFocused ? "none" : provided.boxShadow,
-                    fontSize: "0.875rem",
-                    lineHeight: "1.25rem",
-                  }),
-                  placeholder: (provided) => ({
-                    ...provided,
-                    fontSize: "small",
-                    color: "#a0a7b2",
-                  }),
-                  option: (provided, state) => ({
-                    ...provided,
-                    color: state.isFocused ? "#fff" : "#000000",
-                    backgroundColor: state.isFocused
-                      ? "#ea580c"
-                      : "transparent",
-
-                    "&:hover": {
-                      color: "#fff",
-                      backgroundColor: "#ea580c",
-                    },
-                  }),
-                  singleValue: (provided) => ({
-                    ...provided,
-                    fontSize: "0.875rem",
-                    lineHeight: "1.25rem",
-                  }),
-                }}
-                theme={(theme) => ({
-                  ...theme,
-                  borderRadius: 5,
-                  colors: {
-                    ...theme.colors,
-
-                    primary: "#fb923c",
-                  },
-                })}
-              />
+  options={priority}
+  className="custom-select"
+  styles={{
+    control: (provided, state) => ({
+      ...provided,
+      backgroundColor: "rgb(255 255 255)",
+      borderWidth: "1px",
+      borderColor: state.isFocused ? "#orange-400" : "rgb(209 213 219)",
+      boxShadow: state.isFocused ? "none" : provided.boxShadow,
+      fontSize: "0.875rem",
+      lineHeight: "1.25rem",
+    }),
+    placeholder: (provided) => ({
+      ...provided,
+      fontSize: "small",
+      color: "#a0a7b2",
+    }),
+    option: (provided, state) => ({
+      ...provided,
+      color: state.isFocused ? "#fff" : "#000000",
+      backgroundColor: state.isFocused ? "#ea580c" : "transparent",
+      "&:hover": {
+        color: "#fff",
+        backgroundColor: "#ea580c",
+      },
+    }),
+    singleValue: (provided) => ({
+      ...provided,
+      fontSize: "0.875rem",
+      lineHeight: "1.25rem",
+    }),
+  }}
+  theme={(theme) => ({
+    ...theme,
+    borderRadius: 5,
+    colors: {
+      ...theme.colors,
+      primary: "#fb923c",
+    },
+  })}
+  onChange={(selectedOption) => {
+    handleOverviewTaskChange("priority", selectedOption.value);
+    handleSubmit(task?.id, "priority", selectedOption.value);
+  }}
+  value={
+    task?.priority
+      ? {
+          label:
+            task.priority === "high"
+              ? "High"
+              : task.priority === "medium"
+              ? "Medium"
+              : task.priority === "low" ? "Low" : "",
+          value: task.priority,
+        }
+      : ""
+  }
+  
+/>
             </div>
           </div>
           <div className="flex justify-end">

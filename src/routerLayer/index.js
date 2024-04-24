@@ -1,7 +1,7 @@
 
 import PublicLayout from "../componentLayer/pages/layout/PublicLayout";
 import RequireAuth from "../componentLayer/pages/layout/RequireAuth";
-import { createBrowserRouter, redirect } from "react-router-dom";
+import { createBrowserRouter, redirect,Link } from "react-router-dom";
 import { authRoutes } from "./auth/auth.router";
 import { httpInterceptors } from "./httpInts/httpInts.router";
 import { dashboardRouter } from "./dashboard/dashboard.router";
@@ -29,7 +29,10 @@ export const router = createBrowserRouter([
                 path: 'users',
                 children: [
                     ...userRouter,
-                ]
+                ],
+                handle:{
+                    crumb: () => <Link to="/users">Users</Link>,
+                  }
             },
             {
                 path: 'entities',
