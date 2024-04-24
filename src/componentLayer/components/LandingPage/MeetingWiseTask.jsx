@@ -142,7 +142,7 @@ const MeetingWiseTask = () => {
     setIsInputActive(id);
   };
   return (
-    <div className=" p-3">
+    <div className="p-3">
 
         <div className="flex justify-end">
           <button
@@ -160,7 +160,7 @@ const MeetingWiseTask = () => {
             Add Task
           </button>
         </div>
-<div className="">
+<div className=" ">
 <table className="w-full divide-y divide-gray-200 dark:divide-gray-700 rounded-md">
           <thead>
             <tr>
@@ -188,7 +188,7 @@ const MeetingWiseTask = () => {
               <th
                 
                 className="py-2 px-2  text-sm text-white bg-orange-600    border border-collapse border-[#e5e7eb]  text-left
-               whitespace-nowrap"
+               whitespace-nowrap" 
               >
                 Status
               </th>
@@ -218,7 +218,8 @@ const MeetingWiseTask = () => {
                     <div className="flex items-center">
                     {isInputActiveID === task.id && (
                       <input
-                        className="border border-[#d1d5db] text-black px-1.5 py-1.5 rounded-md  bg-[#f9fafb] focus:outline-none text-sm focus:border-orange-400 w-full"
+                        className="border border-[#d1d5db] text-black px-1.5 py-1.5 rounded-md  bg-[#f9fafb] focus:outline-none text-sm focus:border-orange-400 "
+                        style={{ width: "22rem" }}
                         type="text"
                         placeholder="Type here"
                         value={task?.decision}
@@ -242,7 +243,7 @@ const MeetingWiseTask = () => {
                           setAutoFocusID(task.id);
                         }}
                         style={{
-                          width: "20rem",
+                          width: "22rem",
                           height: decisionHeight,
                           cursor: "pointer",
                         }}
@@ -334,7 +335,8 @@ const MeetingWiseTask = () => {
                     />
                 </td>
                 <td className="border py-1.5 px-3"
-                style={{width:"11rem"}}>
+                style={{ width:"8rem"}}
+                >
                     <Select
                         options={status}
                         styles={{
@@ -344,6 +346,7 @@ const MeetingWiseTask = () => {
                                 borderWidth: "1px",
                                 borderColor: state.isFocused ? "#orange-400" : "#d1d5db",
                                 boxShadow: state.isFocused ? "none" : provided.boxShadow,
+                                width:"8rem"
                             }),
                             placeholder: (provided) => ({
                                 ...provided,

@@ -11,22 +11,24 @@ const TaskOverview = ({
   setQParams,
   members,
   setTask,
- 
 }) => {
   // -------full screen----
   const [expand, setExpand] = useState(false);
   const handleExpand = () => {
     setExpand(!expand);
   };
+  let status = [
+    { label: "In Progress", value: "inprogress" },
+    { label: "Close", value: "close" },
+    { label: "Resolve", value: "resolve" },
+  ];
   let moduleOptions = [
     { value: "user", label: "user" },
     { value: "entity", label: "entity" },
   ];
-  useEffect(()=>{
-
-  console.log("ttaskask", task);
-
-  },[task])
+  useEffect(() => {
+    console.log("ttaskask", task);
+  }, [task]);
 
   return (
     <div
@@ -36,18 +38,56 @@ const TaskOverview = ({
     >
       <div
         className={` fixed inset-y-0 right-0  bg-white shadow-lg transform translate-x-0 transition-transform duration-300 ease-in-out ${
-          expand ? "w-3/4" : "w-2/5"
+          expand
+            ? "w-full md:w-full lg:w-3/5 xl:w-3/5"
+            : "w-4/5 md:w-4/5 lg:w-2/5 xl:2/5"
         }`}
       >
         <div className="flex justify-start p-2">
           <div className="relative inline-block ms-2">
-            <select className="block appearance-none w-full bg-white text-sm border border-gray-300 hover:border-gray-300 px-1 py-1.5 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
-              <option value="option1">Select Status</option>
-              <option value="option2">Completed</option>
-              <option value="option3">Inprogress</option>
-              <option value="option4">To Do</option>
-            </select>
-            <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+          <Select
+                        options={status}
+                        styles={{
+                            control: (provided, state) => ({
+                                ...provided,
+                                backgroundColor: "#f9fafb",
+                                borderWidth: "1px",
+                                borderColor: state.isFocused ? "#orange-400" : "#d1d5db",
+                                boxShadow: state.isFocused ? "none" : provided.boxShadow,
+                                width:"8rem"
+                            }),
+                            
+                            placeholder: (provided) => ({
+                                ...provided,
+                                fontSize: "small",
+                            }),
+                            option: (provided, state) => ({
+                                ...provided,
+                                color: state.isFocused ? "#fff" : "#000000",
+                                backgroundColor: state.isFocused ? "#ea580c" : "transparent",
+                                "&:hover": {
+                                    color: "#fff",
+                                    backgroundColor: "#ea580c",
+                                },
+                            }),
+                        }}
+                        theme={(theme) => ({
+                            ...theme,
+                            borderRadius: 5,
+                            colors: {
+                                ...theme.colors,
+                                primary: "#fb923c",
+                            },
+                        })}
+                        // onChange={(selectedOption) => {
+                        //     handleSubmit(task?.id, "status", selectedOption.value);
+                        //     handleTaskChange(index, "status", selectedOption.value);
+                        // }}
+                        className=""
+                        classNamePrefix="select"
+                        // value={{ label: task?.status, value: task?.status }}
+                    />
+            {/* <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
               <svg
                 className="fill-current h-4 w-4"
                 xmlns="http://www.w3.org/2000/svg"
@@ -55,7 +95,9 @@ const TaskOverview = ({
               >
                 <path d="M7 7l3-3 3 3m0 6l-3 3-3-3"></path>
               </svg>
-            </div>
+
+          
+            </div> */}
           </div>
           <div className="absolute top-4 right-4 flex flex-row">
             <svg
@@ -71,22 +113,33 @@ const TaskOverview = ({
               />
             </svg>
             <button onClick={handleExpand}>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-                className="w-5 h-5 me-4 text-gray-500"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M15 3.75a.75.75 0 0 1 .75-.75h4.5a.75.75 0 0 1 .75.75v4.5a.75.75 0 0 1-1.5 0V5.56l-3.97 3.97a.75.75 0 1 1-1.06-1.06l3.97-3.97h-2.69a.75.75 0 0 1-.75-.75Zm-12 0A.75.75 0 0 1 3.75 3h4.5a.75.75 0 0 1 0 1.5H5.56l3.97 3.97a.75.75 0 0 1-1.06 1.06L4.5 5.56v2.69a.75.75 0 0 1-1.5 0v-4.5Zm11.47 11.78a.75.75 0 1 1 1.06-1.06l3.97 3.97v-2.69a.75.75 0 0 1 1.5 0v4.5a.75.75 0 0 1-.75.75h-4.5a.75.75 0 0 1 0-1.5h2.69l-3.97-3.97Zm-4.94-1.06a.75.75 0 0 1 0 1.06L5.56 19.5h2.69a.75.75 0 0 1 0 1.5h-4.5a.75.75 0 0 1-.75-.75v-4.5a.75.75 0 0 1 1.5 0v2.69l3.97-3.97a.75.75 0 0 1 1.06 0Z"
-                  clipRule="evenodd"
-                />
-              </svg>
+              {expand ? (
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                  className="w-5 h-5 me-4 text-gray-500"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M15 3.75a.75.75 0 0 1 .75-.75h4.5a.75.75 0 0 1 .75.75v4.5a.75.75 0 0 1-1.5 0V5.56l-3.97 3.97a.75.75 0 1 1-1.06-1.06l3.97-3.97h-2.69a.75.75 0 0 1-.75-.75Zm-12 0A.75.75 0 0 1 3.75 3h4.5a.75.75 0 0 1 0 1.5H5.56l3.97 3.97a.75.75 0 0 1-1.06 1.06L4.5 5.56v2.69a.75.75 0 0 1-1.5 0v-4.5Zm11.47 11.78a.75.75 0 1 1 1.06-1.06l3.97 3.97v-2.69a.75.75 0 0 1 1.5 0v4.5a.75.75 0 0 1-.75.75h-4.5a.75.75 0 0 1 0-1.5h2.69l-3.97-3.97Zm-4.94-1.06a.75.75 0 0 1 0 1.06L5.56 19.5h2.69a.75.75 0 0 1 0 1.5h-4.5a.75.75 0 0 1-.75-.75v-4.5a.75.75 0 0 1 1.5 0v2.69l3.97-3.97a.75.75 0 0 1 1.06 0Z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+              ) : (
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                  className="w-5 h-5 me-4 text-gray-500"
+                >
+                  <path d="M3.28 2.22a.75.75 0 0 0-1.06 1.06L5.44 6.5H2.75a.75.75 0 0 0 0 1.5h4.5A.75.75 0 0 0 8 7.25v-4.5a.75.75 0 0 0-1.5 0v2.69L3.28 2.22ZM13.5 2.75a.75.75 0 0 0-1.5 0v4.5c0 .414.336.75.75.75h4.5a.75.75 0 0 0 0-1.5h-2.69l3.22-3.22a.75.75 0 0 0-1.06-1.06L13.5 5.44V2.75ZM3.28 17.78l3.22-3.22v2.69a.75.75 0 0 0 1.5 0v-4.5a.75.75 0 0 0-.75-.75h-4.5a.75.75 0 0 0 0 1.5h2.69l-3.22 3.22a.75.75 0 1 0 1.06 1.06ZM13.5 14.56l3.22 3.22a.75.75 0 1 0 1.06-1.06l-3.22-3.22h2.69a.75.75 0 0 0 0-1.5h-4.5a.75.75 0 0 0-.75.75v4.5a.75.75 0 0 0 1.5 0v-2.69Z" />
+                </svg>
+              )}
             </button>
             <button
               onClick={() => {
-                setTask({decision:"",members:"",dueDate:"",status:""});
+                setTask({ decision: "", members: "", dueDate: "", status: "" });
                 setOverViewTask(!overViewTask);
                 let updatedQparams = { ...Qparams };
                 delete updatedQparams.taskID;
@@ -110,13 +163,13 @@ const TaskOverview = ({
           </div>
         </div>
         <hr />
-        <div className="mt-2 ms-2 p-3 overflow-y-auto h-screen">
+        <div className="mt-2 ms-2 p-3 overflow-y-auto h-full">
           <div className="grid grid-cols-3 sm:grid-cols-3 md:grid-cols-8 lg:grid-cols-8 xl:grid-col-8 items-center mb-3">
             <div className="col-span-2 basis-1/4 text-sm text-gray-600">
               Decision Taken
             </div>
             <span className="col-span-1 text-center"> : </span>
-            
+
             <div className="col-span-5">
               <textarea
                 className="px-2 py-2 text-sm block w-full rounded-md bg-white-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder:text-[13px] placeholder:text-[#A0AEC0]"
@@ -166,16 +219,13 @@ const TaskOverview = ({
                       backgroundColor: "#ea580c",
                     },
                   }),
-               
 
-                singleValue: (provided) => ({
-                  ...provided,
-                  fontSize: "0.875rem" /* 14px */,
-                  lineHeight: "1.25rem" /* 20px */, // Adjust the font size for the selected option
-                }),
-              }}
-              
-           
+                  singleValue: (provided) => ({
+                    ...provided,
+                    fontSize: "0.875rem" /* 14px */,
+                    lineHeight: "1.25rem" /* 20px */, // Adjust the font size for the selected option
+                  }),
+                }}
                 theme={(theme) => ({
                   ...theme,
                   borderRadius: 5,
@@ -188,21 +238,26 @@ const TaskOverview = ({
                 onChange={(selectedOption) => {
                   handleOverviewTaskChange("members", selectedOption.value);
                   handleSubmit(task?.id, "members", selectedOption.value);
-                }}             
+                }}
                 // value={{ label: task?.members, value: task?.members }}
-                value = {task?.members === null || task?.members === "" ? "" :{ label: task?.members, value: task?.members }}
+                value={
+                  task?.members === null || task?.members === ""
+                    ? ""
+                    : { label: task?.members, value: task?.members }
+                }
                 className="date_type"
                 // placeholder={placeholder} // Use placeholder prop here
-             
               />
             </div>
           </div>
-         <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-col-2 items-center mb-3 gap-3">
-         <div className="col-span-1">
-            <label className="block text-sm font-medium leading-6 my-1 text-gray-900">Due Date </label>
-            <input
-            className={`border border-[#d1d5db] text-black px-1.5 py-2 rounded-md  bg-white-50 focus:outline-none text-sm focus:border-orange-400 w-full date_type`}
-                type='date'
+          <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-col-2 items-center mb-3 gap-3">
+            <div className="col-span-1">
+              <label className="block text-sm font-medium leading-6 my-1 text-gray-900">
+                Due Date{" "}
+              </label>
+              <input
+                className={`border border-[#d1d5db] text-black px-1.5 py-2 rounded-md  bg-white-50 focus:outline-none text-sm focus:border-orange-400 w-full date_type`}
+                type="date"
                 value={task?.dueDate}
                 onChange={(e) => {
                   handleSubmit(task?.id, "dueDate", e.target.value);
@@ -211,42 +266,46 @@ const TaskOverview = ({
               />
             </div>
             <div className="col-span-1">
-            <label className="block text-sm font-medium leading-6 my-1 text-gray-900">Age</label>
-            <input
-            className=" border border-[#d1d5db] text-black px-1.5 py-2 rounded-md  bg-white-50 focus:outline-none text-sm focus:border-orange-400 w-full placeholder:text-[13px] placeholder:text-[#A0AEC0]"
-            type="number"
-            
-            placeholder="Age"
-               
+              <label className="block text-sm font-medium leading-6 my-1 text-gray-900">
+                Age
+              </label>
+              <input
+                className=" border border-[#d1d5db] text-black px-1.5 py-2 rounded-md  bg-white-50 focus:outline-none text-sm focus:border-orange-400 w-full placeholder:text-[13px] placeholder:text-[#A0AEC0]"
+                type="number"
+                placeholder="Age"
               />
             </div>
-         </div>
+          </div>
 
-
-         <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-col-2 items-center mb-3 gap-3">
-         <div className="col-span-1">
-            <label className="block text-sm font-medium leading-6 my-1 text-gray-900"> Date of Board Meeting</label>
-            <input
-            className={`border border-[#d1d5db] text-black px-1.5 py-2 rounded-md  bg-white-50 focus:outline-none text-sm focus:border-orange-400 w-full date_type`}
-                type='date'
-             
+          <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-col-2 items-center mb-3 gap-3">
+            <div className="col-span-1">
+              <label className="block text-sm font-medium leading-6 my-1 text-gray-900">
+                {" "}
+                Date of Board Meeting
+              </label>
+              <input
+                className={`border border-[#d1d5db] text-black px-1.5 py-2 rounded-md  bg-white-50 focus:outline-none text-sm focus:border-orange-400 w-full date_type`}
+                type="date"
               />
             </div>
             <div className="col-span-1">
-            <label className="block text-sm font-medium leading-6 my-1 text-gray-900"> Board Meeting Number</label>
-            <input
-            className=" border border-[#d1d5db] text-black px-1.5 py-2 rounded-md  bg-white-50 focus:outline-none text-sm focus:border-orange-400 w-full placeholder:text-[13px] placeholder:text-[#A0AEC0]"
-            type="number"
-            
-            placeholder=" Board Meeting Number"
-               
+              <label className="block text-sm font-medium leading-6 my-1 text-gray-900">
+                {" "}
+                Board Meeting Number
+              </label>
+              <input
+                className=" border border-[#d1d5db] text-black px-1.5 py-2 rounded-md  bg-white-50 focus:outline-none text-sm focus:border-orange-400 w-full placeholder:text-[13px] placeholder:text-[#A0AEC0]"
+                type="number"
+                placeholder=" Board Meeting Number"
               />
             </div>
-         </div>
+          </div>
           <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-col-2 items-center mb-3 gap-3">
-            <div
-             className="col-span-1">
-              <label className="block text-sm font-medium leading-6 my-1 text-gray-900"> Entity</label>
+            <div className="col-span-1">
+              <label className="block text-sm font-medium leading-6 my-1 text-gray-900">
+                {" "}
+                Entity
+              </label>
               <Select
                 options={moduleOptions}
                 className="custom-select"
@@ -294,11 +353,13 @@ const TaskOverview = ({
                     primary: "#fb923c",
                   },
                 })}
-                
               />
             </div>
             <div className="col-span-1">
-            <label className="block text-sm font-medium leading-6 my-1 text-gray-900"> priority</label>
+              <label className="block text-sm font-medium leading-6 my-1 text-gray-900">
+                {" "}
+                priority
+              </label>
               <Select
                 options={moduleOptions}
                 className="custom-select"
@@ -349,11 +410,6 @@ const TaskOverview = ({
               />
             </div>
           </div>
-
-
-
-      
-
           <div className="flex justify-end">
             <button className=" px-3 py-2 inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white mb-4 mt-2">
               <svg
@@ -379,7 +435,7 @@ const TaskOverview = ({
             <div className="flex-1 w-86">
               <textarea
                 placeholder="Add a comment"
-                className="p-2 border-2 text-sm resize-none shadow-sm rounded-md w-full h-60 focus:outline-none focus:border-orange-400"
+                className="p-2 border-2 text-sm resize-none shadow-sm rounded-md w-full h-48 focus:outline-none focus:border-orange-400"
               ></textarea>
               <div className="me-2 flex flex-row">
                 <p className="text-sm mt-1">Collaborators</p>
