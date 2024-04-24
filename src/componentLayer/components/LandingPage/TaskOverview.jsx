@@ -193,7 +193,7 @@ const TaskOverview = ({
               Decision Taken
             </label>
             <textarea
-              className="px-2 py-2 text-sm block w-full resize-none h-28 overflow-auto rounded-md bg-white-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder:text-[13px] placeholder:text-[#A0AEC0]"
+              className="px-2 py-2 text-sm block w-full resize-none h-24 overflow-auto rounded-md bg-white-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder:text-[13px] placeholder:text-[#A0AEC0]"
               // type="textarea"
               placeholder="Enter Decision"
               value={task?.decision === null ? "" : task?.decision}
