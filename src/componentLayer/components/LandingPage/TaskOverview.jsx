@@ -163,7 +163,7 @@ const TaskOverview = ({
           </div>
         </div>
         <hr />
-        <div className="mt-2 ms-2 p-3 overflow-y-auto h-full">
+        <div className="mt-2 ms-2 p-3 overflow-y-auto ">
           <div className="grid grid-cols-3 sm:grid-cols-3 md:grid-cols-8 lg:grid-cols-8 xl:grid-col-8 items-center mb-3">
             <div className="col-span-2 basis-1/4 text-sm text-gray-600">
               Decision Taken
@@ -427,7 +427,32 @@ const TaskOverview = ({
             </button>
           </div>
           <hr />
-          <div className="flex mt-3">
+
+
+        </div>
+        <div className="grid grid-cols-7 sm:grid-cols-7 md:grid-cols-7 lg:grid-cols-7 xl:grid-cols-7 mt-3">
+  <div className="col-span-1 text-center ">
+  <p className="bg-yellow-500 text-black py-1.5 w-8 h-8  rounded-full">
+                <span className="flex justify-center text-gray-800 text-sm">
+                  BA
+                </span>
+              </p></div>
+              <div className="col-span-6">
+              <textarea
+                placeholder="Add a comment"
+                className="p-2 border-2 text-sm w-full  shadow-sm rounded-md  focus:outline-none focus:border-orange-400"
+              ></textarea> 
+
+              </div>
+</div>
+
+
+
+
+
+
+
+          <div className="flex ">
             <div className="me-2">
               <p className="bg-yellow-500 text-black py-1.5 w-8 h-8  rounded-full">
                 <span className="flex justify-center text-gray-800 text-sm">
@@ -435,11 +460,8 @@ const TaskOverview = ({
                 </span>
               </p>
             </div>
-            <div className="flex-1 w-86">
-              <textarea
-                placeholder="Add a comment"
-                className="p-2 border-2 text-sm resize-none shadow-sm rounded-md w-full h-48 focus:outline-none focus:border-orange-400"
-              ></textarea>
+            <div className="flex-1 ">
+                 </div>
               <div className="me-2 flex flex-row">
                 <p className="text-sm mt-1">Collaborators</p>
                 <p className="ms-2 bg-yellow-500 text-black py-1.5 w-8 h-8 rounded-full">
@@ -496,9 +518,8 @@ const TaskOverview = ({
                   </svg>
                 </p>
               </div>
-            </div>
+       
           </div>
-        </div>
       </div>
     </div>
   );
