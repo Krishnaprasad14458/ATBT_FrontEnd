@@ -72,7 +72,7 @@ function CustomColumn({ tableView, setTableView, form }) {
             transition: 'transform 0.3s ease-in-out',
           }}
         >
-          <div className='sticky  bg-gray-100 px-5 py-4 flex justify-between z-[3] header'>
+          <div className=' bg-gray-100 px-5 py-4 flex justify-between z-[3] '>
             <h5 className='font-[500]'>Columns</h5>
             <button onClick={columnsDrawer} className='flex items-center'>
               <svg
