@@ -65,6 +65,7 @@ const UserLandingPage = () => {
       <div className="flex justify-between my-2">
         <p className="text-xl font-semibold">User Landing Page</p>
         <div className="flex justify-end gap-3 ">
+         
           <NavLink to="/users">
             <button
               type="submit"
