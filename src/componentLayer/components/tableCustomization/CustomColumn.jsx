@@ -101,7 +101,7 @@ function CustomColumn({ tableView, setTableView, form }) {
                     className={`${dupTableView[columnName].value
                       ? 'bg-gray-100 text-gray-700 hover:text-black'
                       : 'text-gray-700 bg-gray-100 hover:text-black'
-                      } appearance-none border border-gray-300 hover:border-gray-900 checked:hover:border-white rounded-md checked:bg-orange-600 checked:border-transparent w-4 h-4 cursor-pointer hover:text-black relative`}
+                      } appearance-none border border-gray-300 hover:border-gray-900 checked:hover:border-white rounded-md checked:bg-orange-600 checked:border-transparent w-4 h-4 cursor-pointer hover:text-black relative   `}
                     type='checkbox'
                     id={columnName}
                     checked={dupTableView[columnName].value}
@@ -175,7 +175,7 @@ function CustomColumn({ tableView, setTableView, form }) {
                     className={`${dupTableView[columnName].value
                       ? 'bg-gray-100 text-gray-700 hover:text-black'
                       : 'text-gray-700 bg-gray-100 hover:text-black'
-                      } appearance-none border border-gray-300 hover:border-gray-900 checked:hover:border-white rounded-md checked:bg-orange-600 checked:border-transparent w-4 h-4 cursor-pointer hover:text-black relative`}
+                      } appearance-none border border-gray-300 hover:border-gray-900 checked:hover:border-white rounded-md checked:bg-orange-600 checked:border-transparent w-4 h-4 cursor-pointer hover:text-black absolute right-4`}
                     type='checkbox'
                     id={columnName}
                     checked={dupTableView[columnName].value}
