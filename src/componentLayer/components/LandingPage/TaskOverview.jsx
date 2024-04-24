@@ -32,14 +32,14 @@ const TaskOverview = ({
 
   return (
     <div
-      className={`fixed inset-0 transition-all duration-500 bg-gray-800 bg-opacity-50 z-50  ${
+      className={`fixed inset-0 transition-all duration-500 bg-gray-800 bg-opacity-50 z-50 relative ${
         overViewTask ? "" : "hidden"
       }`}
     >
       <div
         className={` fixed inset-y-0 right-0  bg-white shadow-lg transform translate-x-0 transition-transform duration-300 ease-in-out ${
           expand
-            ? "w-full md:w-full lg:w-3/6 xl:w-3/6"
+            ? "w-full md:w-full lg:w-4/6 xl:w-4/6"
             : "w-4/5 md:w-3/5 lg:w-3/6 xl:2/5"
         }`}
       >
@@ -79,12 +79,9 @@ const TaskOverview = ({
                   primary: "#fb923c",
                 },
               })}
-
               className=""
               classNamePrefix="select"
-
             />
-
           </div>
           <div className="absolute top-4 right-4 flex flex-row">
             <svg
@@ -150,24 +147,25 @@ const TaskOverview = ({
           </div>
         </div>
         <hr />
-
-        <div className=" ms-2 p-3 ">
-          <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-4 lg:grid-cols-4 xl:grid-col-4 items-center mb-3 gap-5">
+<div className="overflow-y-auto max-h-full">
+<div className=" ms-2 p-3 ">
+          <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-5 xl:grid-col-5 items-center mb-3 gap-3 md:gap-3 lg:gap-5">
             <div className="col-span-1">
               <label className="block text-xs font-medium leading-6 my-1 text-[1e1f21]">
-                Date of Board Meeting
+                Date
               </label>
-              <p className=" border border-[#d1d5db] text-black px-1.5 py-2 rounded-md text-sm   bg-white-50">
+              <p
+                className=" border border-[#d1d5db] text-black h-10 rounded-md text-sm ps-2 flex items-center w-full truncate  bg-white-50"
+                title="04-05-2024"
+              >
                 04-05-2024
               </p>
             </div>
             <div className="col-span-1">
               <label className="block text-xs font-medium leading-6 my-1 text-[1e1f21]">
-                Board Meeting Number
+                Number
               </label>
-              <p className=" border border-[#d1d5db] text-black px-1.5 py-2 rounded-md text-sm  bg-white-50">
-                1245
-              </p>
+              <p className="  border border-[#d1d5db] text-black h-10 rounded-md text-sm ps-3 flex items-center w-full truncate  bg-white-50"></p>
             </div>
             <div className="col-span-1">
               <label className="block text-xs font-medium leading-6 my-1 text-[1e1f21]">
@@ -177,13 +175,16 @@ const TaskOverview = ({
                 {task?.age}
               </p>
             </div>
-            <div className="col-span-1">
+            <div className="col-span-1 md:col-span-1 lg:col-span-2 xl:col-span-2">
               <label className="block text-xs font-medium leading-6 my-1 text-[1e1f21]">
                 {" "}
                 Entity
               </label>
-              <p className=" border border-[#d1d5db] text-black px-1.5 py-2 rounded-md text-sm  bg-white-50">
-                Infoz IT infoz
+              <p
+                className=" border border-[#d1d5db] text-black px-1.5 py-2 rounded-md text-sm  bg-white-50 w-full truncate"
+                title="Infoz IT infoz"
+              >
+                Infoz IT infoz dsfsdfds nhhyugygy fsdfsdfsd sdsfsd
               </p>
             </div>
           </div>
@@ -206,10 +207,10 @@ const TaskOverview = ({
 
           <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3 xl:grid-col-3 items-center mb-3 gap-3">
             <div className="col-span-1">
-            <label className="block text-xs font-medium leading-6 my-1 text-[1e1f21]">
-              Person Responsible
-            </label>
-            <Select
+              <label className="block text-xs font-medium leading-6 my-1 text-[1e1f21]">
+                Person Responsible
+              </label>
+              <Select
                 options={members}
                 // placeholder="Custom Placeholder Text"
                 styles={{
@@ -219,7 +220,7 @@ const TaskOverview = ({
                     borderWidth: state.isFocused ? "1px" : "1px", // Decrease border width when focused
                     borderColor: state.isFocused ? "#orange-400" : "#d1d5db", // Change border color when focused
                     boxShadow: state.isFocused ? "none" : provided.boxShadow, // Optionally remove box shadow when focused
-                    cursor:"pointer"
+                    cursor: "pointer",
                   }),
                   placeholder: (provided) => ({
                     ...provided,
@@ -241,7 +242,7 @@ const TaskOverview = ({
 
                   singleValue: (provided) => ({
                     ...provided,
-                    fontSize: "0.875rem" ,
+                    fontSize: "0.875rem",
                     lineHeight: "1.25rem",
                   }),
                 }}
@@ -264,7 +265,6 @@ const TaskOverview = ({
                     : { label: task?.members, value: task?.members }
                 }
                 className="date_type"
-
               />
             </div>
             <div className="col-span-1">
@@ -336,10 +336,11 @@ const TaskOverview = ({
                     borderWidth: state.isFocused ? "1px" : "1px", // Decrease border width when focused
                     borderColor: state.isFocused
                       ? "#orange-400"
-                      : "rgb(209 213 219)", // Change border color when focused
-                    boxShadow: state.isFocused ? "none" : provided.boxShadow, // Optionally remove box shadow when focused
-                    fontSize: "0.875rem" /* 14px */,
-                    lineHeight: "1.25rem" /* 20px */,
+                      : "rgb(209 213 219)",
+                    boxShadow: state.isFocused ? "none" : provided.boxShadow,
+                    fontSize: "0.875rem",
+                    lineHeight: "1.25rem",
+                    cursor:"pointer"
                   }),
                   placeholder: (provided) => ({
                     ...provided,
@@ -445,26 +446,26 @@ const TaskOverview = ({
 />
 
             </div>
-            </div>
-
-
-         
-          <div className="flex justify-end">
-            <button className=" px-3 py-2 inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white mb-4 mt-2">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-                className="w-5 h-5 "
-              >
-                <path d="M10.75 4.75a.75.75 0 0 0-1.5 0v4.5h-4.5a.75.75 0 0 0 0 1.5h4.5v4.5a.75.75 0 0 0 1.5 0v-4.5h4.5a.75.75 0 0 0 0-1.5h-4.5v-4.5Z" />
-              </svg>
-              Add Subtask
-            </button>
           </div>
-          <hr />
         </div>
-        <div className="grid grid-cols-7 sm:grid-cols-7 md:grid-cols-7 lg:grid-cols-7 xl:grid-cols-7 ms-3 p-3">
+        <div className="flex justify-end pe-3">
+          <button className=" px-3 py-2 inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white mb-4 mt-2">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+              className="w-5 h-5 "
+            >
+              <path d="M10.75 4.75a.75.75 0 0 0-1.5 0v4.5h-4.5a.75.75 0 0 0 0 1.5h4.5v4.5a.75.75 0 0 0 1.5 0v-4.5h4.5a.75.75 0 0 0 0-1.5h-4.5v-4.5Z" />
+            </svg>
+            Add Subtask
+          </button>
+        </div>
+        <hr />
+
+        
+      
+        <div className="grid grid-cols-1 sm:grid-cols-7 md:grid-cols-7 lg:grid-cols-7 xl:grid-cols-7 ms-3 p-3  ">
           <div className="col-span-1 text-center ">
             <p className="bg-yellow-500 text-black py-1.5 w-8 h-8  rounded-full">
               <span className="flex justify-center text-gray-800 text-sm">
@@ -472,15 +473,14 @@ const TaskOverview = ({
               </span>
             </p>
           </div>
-          <div className="col-span-6">
-            <textarea
-              placeholder="Add a comment"
-              className="p-2 border-2 text-sm w-full  shadow-sm rounded-md  focus:outline-none focus:border-orange-400"
-            ></textarea>
+          <div className="col-span-6 me-3">
+              <div className=" border border-[#d1d5db] text-black h-52 rounded-md text-sm  bg-white-50 ">
+
+</div>
           </div>
         </div>
-
-        <div className="flex ">
+        </div>
+        {/* <div className="flex ">
 
           <div className="flex-1 "></div>
           <div className="me-2 flex flex-row">
@@ -539,7 +539,7 @@ const TaskOverview = ({
               </svg>
             </p>
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
   );
