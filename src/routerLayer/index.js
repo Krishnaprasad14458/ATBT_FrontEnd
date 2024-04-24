@@ -7,7 +7,6 @@ import { httpInterceptors } from "./httpInts/httpInts.router";
 import { dashboardRouter } from "./dashboard/dashboard.router";
 import { reportRouter } from "./report/report.router";
 import { settingRouter } from "./setting/setting.router";
-// import { teamRouter } from "./team/team.router";
 import { meetingRouter } from "./meeting/meeting.router";
 import { userRouter } from "./user/user.router";
 import { entityRouter } from "./entity/entity.router";
@@ -30,9 +29,6 @@ export const router = createBrowserRouter([
                 children: [
                     ...userRouter,
                 ],
-                handle:{
-                    crumb: () => <Link to="/users">Users</Link>,
-                  }
             },
             {
                 path: 'entities',
