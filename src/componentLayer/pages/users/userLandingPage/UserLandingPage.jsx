@@ -2,16 +2,7 @@ import React, { useState, useContext } from "react";
 import {NavLink,redirect,useLoaderData,useParams,useLocation,Outlet} from "react-router-dom";
 import { UserDataContext } from "../../../../contexts/usersDataContext/usersDataContext";
 import { getUserById } from "../../../../contexts/usersDataContext/utils/usersApis";
-export const userLandingLoader = async ({ params }) => {
-  try {
-    const { data } = await getUserById(params?.id);
-    console.log(data, "id data");
-    return data;
-  } catch (error) {
-    console.error("Error loading dashboard:", error);
-    throw redirect(`/${error?.response?.status ?? "500"}`);
-  }
-};
+
 const UserLandingPage = () => {
   const moduleName = "user"
   const { id } = useParams();

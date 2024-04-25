@@ -3,10 +3,24 @@ import defprop from "../../../../assets/Images/defprof.svg";
 import {Link,redirect,useLoaderData,useParams,useLocation} from "react-router-dom";
 import { UserDataContext } from "../../../../contexts/usersDataContext/usersDataContext";
 import { getUserById } from "../../../../contexts/usersDataContext/utils/usersApis";
+// export const userLandingLoader = async ({ params }) => {
+//   try {
+//     const { data } = await getUserById(params?.id);
+//     // console.log(data, "id data");
+//     // data.threadName= data?.user?.name
+//     // data.threadPath= `/users/${params.id}`
+//     return data;
+//   } catch (error) {
+//     console.error("Error loading dashboard:", error);
+//     throw redirect(`/${error?.response?.status ?? "500"}`);
+//   }
+// };
 export const userLandingLoader = async ({ params }) => {
   try {
-    const { data } = await getUserById(params?.id);
+    let { data } = await getUserById(params?.id);
     console.log(data, "id data");
+ data.threadName= data?.user?.name
+    data.threadPath= `/users/${params.id}`
     return data;
   } catch (error) {
     console.error("Error loading dashboard:", error);
