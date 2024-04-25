@@ -29,6 +29,9 @@ export const router = createBrowserRouter([
                 children: [
                     ...userRouter,
                 ],
+                handle: {
+                    crumb: () => <Link to="/users">Users</Link>,
+                  },
             },
             {
                 path: 'entities',
