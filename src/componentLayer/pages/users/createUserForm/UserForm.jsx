@@ -25,7 +25,18 @@ export async function userFormLoader({ params }) {
     }
     const formResponse = await axios.get(formApi);
     const formData = formResponse.data.Data;
-    return { userData, formData };
+    if(userData){
+      let threadName = userData?.name
+      let threadPath = `/Users/${params.id}/edit`
+    return { userData, formData,threadName,threadPath};
+
+    }
+    else{
+    return { userData, formData};
+
+    }
+
+  
   } catch (error) {
     console.log(error, "which error");
     if (error.response) {

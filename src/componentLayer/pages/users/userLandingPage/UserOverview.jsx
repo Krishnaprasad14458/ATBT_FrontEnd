@@ -5,8 +5,10 @@ import { UserDataContext } from "../../../../contexts/usersDataContext/usersData
 import { getUserById } from "../../../../contexts/usersDataContext/utils/usersApis";
 export const userLandingLoader = async ({ params }) => {
   try {
-    const { data } = await getUserById(params?.id);
+    let { data } = await getUserById(params?.id);
     console.log(data, "id data");
+ data.threadName= data?.user?.name
+    data.threadPath= `/users/${params.id}`
     return data;
   } catch (error) {
     console.error("Error loading dashboard:", error);
