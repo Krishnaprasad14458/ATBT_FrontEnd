@@ -21,20 +21,16 @@ let status = [
   { label: "Close", value: "Close" },
   { label: "Resolve", value: "Resolve" },
 ];
-
-
 export async function tasksLoader({ request, params }) {
   try {
     const url = new URL(request.url);
     const taskID = url.searchParams.get("taskID");
-
     const [tasks, task] = await Promise.all([
-      atbtApi.get(`task/list/${params.id} `),
+      atbtApi.get(`task/list/${params.BMid} `),
       atbtApi.get(`task/listbyid/${taskID}`),
     ]);
     let updatedTask = task?.data[0];
     let age = null;
-
     if (updatedTask) {
       const currentDate = new Date();
       const enteredDate = new Date(updatedTask?.createdAt);
@@ -46,6 +42,8 @@ export async function tasksLoader({ request, params }) {
     const combinedResponse = {
       tasks: tasks?.data,
       task: updatedTask,
+      threadName: "BoardMeetingName",
+      threadPath:`/users/${params.id}/boardmeetings/${params.BMid}`
     };
 
     console.log("combinedResponse", combinedResponse, updatedTask);
@@ -66,7 +64,7 @@ export async function MeetingWiseTasksActions({ request, params }) {
     case "POST": {
       const id = (await request.json()) || null;
       // console.log(id, "json", id);
-      return await atbtApi.post(`task/add/${id}`);
+      return await atbtApi.post(`task/add/${params.BMid}`);
     }
     case "PATCH": {
       const UpdatedTask = (await request.json()) || null;
@@ -78,9 +76,8 @@ export async function MeetingWiseTasksActions({ request, params }) {
     }
     case "DELETE": {
       const DeleteTaskId = (await request.json()) || null;
-     
-     return await atbtApi.delete(`task/delete/${DeleteTaskId}`);
 
+      return await atbtApi.delete(`task/delete/${DeleteTaskId}`);
     }
     default: {
       throw new Response("", { status: 405 });
@@ -127,7 +124,10 @@ const MeetingWiseTask = () => {
   };
   const handleDeleteTask = async (deleteId) => {
     try {
-      fetcher.submit(deleteId, { method: "DELETE", encType: "application/json" });
+      fetcher.submit(deleteId, {
+        method: "DELETE",
+        encType: "application/json",
+      });
     } catch (error) {
       console.log(error, "which error");
     }
@@ -223,12 +223,9 @@ const MeetingWiseTask = () => {
               <th className="py-2 px-2  text-sm text-white bg-orange-600   border border-collapse border-[#e5e7eb] whitespace-nowrap text-left">
                 Updated by Admin
               </th>
-              <th
-               
-               className="py-2 px-2  text-sm text-white bg-orange-600   border border-collapse border-[#e5e7eb] whitespace-nowrap text-left"
-             >
-          Actions
-             </th>
+              <th className="py-2 px-2  text-sm text-white bg-orange-600   border border-collapse border-[#e5e7eb] whitespace-nowrap text-left">
+                Actions
+              </th>
             </tr>
           </thead>
           <tbody className="">
@@ -380,84 +377,82 @@ const MeetingWiseTask = () => {
                   </td>
                   <td className="border py-1.5 px-3" style={{ width: "8rem" }}>
                     <Select
-
-                        options={status}
-                        styles={{
-                          control: (provided, state) => ({
-                            ...provided,
-                            backgroundColor: "#f9fafb",
-                            borderWidth: "1px",
+                      options={status}
+                      styles={{
+                        control: (provided, state) => ({
+                          ...provided,
+                          backgroundColor: "#f9fafb",
+                          borderWidth: "1px",
+                          borderColor: state.isFocused
+                            ? "#orange-400"
+                            : "transparent", // Changed borderColor
+                          boxShadow: state.isFocused
+                            ? "none"
+                            : provided.boxShadow,
+                          fontSize: "16px",
+                          height: "36px", // Adjust the height here
+                          "&:hover": {
                             borderColor: state.isFocused
-                              ? "#orange-400"
-                              : "transparent", // Changed borderColor
-                            boxShadow: state.isFocused
-                              ? "none"
-                              : provided.boxShadow,
-                            fontSize: "16px",
-                            height: "36px", // Adjust the height here
-                            "&:hover": {
-                              borderColor: state.isFocused
-                                ? "#fb923c"
-                                : "transparent",
-                            },
-                            "&:focus": {
-                              borderColor: "#fb923c",
-                            },
-                            "&:focus-within": {
-                              borderColor: "#fb923c",
-                            },
-                          }),
-                          option: (provided, state) => ({
-                            ...provided,
-                            color: state.isFocused ? "#fff" : "#000000",
-                            backgroundColor: state.isFocused
-                              ? "#ea580c"
+                              ? "#fb923c"
                               : "transparent",
-                            "&:hover": {
-                              color: "#fff",
-                              backgroundColor: "#ea580c",
-                            },
-                          }),
-                          indicatorSeparator: (provided, state) => ({
-                            ...provided,
-                            display: state.isFocused ? "visible" : "none",
-                          }),
-                          dropdownIndicator: (provided, state) => ({
-                            ...provided,
-                            display: state.isFocused ? "visible" : "none",
-                          }),
-                        }}
-                        theme={(theme) => ({
-                            ...theme,
-                            borderRadius: 5,
-                            colors: {
-                                ...theme.colors,
-                                primary: "#fb923c",
-                            },
-                        })}
-                        onChange={(selectedOption) => {
-                            handleSubmit(task?.id, "status", selectedOption.value);
-                            handleTaskChange(index, "status", selectedOption.value);
-                        }}
-                        className="basic-multi-select"
-                        classNamePrefix="select"
-                        // value={{ label: task?.status, value: task?.status }}
+                          },
+                          "&:focus": {
+                            borderColor: "#fb923c",
+                          },
+                          "&:focus-within": {
+                            borderColor: "#fb923c",
+                          },
+                        }),
+                        option: (provided, state) => ({
+                          ...provided,
+                          color: state.isFocused ? "#fff" : "#000000",
+                          backgroundColor: state.isFocused
+                            ? "#ea580c"
+                            : "transparent",
+                          "&:hover": {
+                            color: "#fff",
+                            backgroundColor: "#ea580c",
+                          },
+                        }),
+                        indicatorSeparator: (provided, state) => ({
+                          ...provided,
+                          display: state.isFocused ? "visible" : "none",
+                        }),
+                        dropdownIndicator: (provided, state) => ({
+                          ...provided,
+                          display: state.isFocused ? "visible" : "none",
+                        }),
+                      }}
+                      theme={(theme) => ({
+                        ...theme,
+                        borderRadius: 5,
+                        colors: {
+                          ...theme.colors,
+                          primary: "#fb923c",
+                        },
+                      })}
+                      onChange={(selectedOption) => {
+                        handleSubmit(task?.id, "status", selectedOption.value);
+                        handleTaskChange(index, "status", selectedOption.value);
+                      }}
+                      className="basic-multi-select"
+                      classNamePrefix="select"
+                      // value={{ label: task?.status, value: task?.status }}
 
-                        // value={
-                        //   task?.status
-                        //     ? {
-                        //         label:
-                        //           task.status === "inprogress"
-                        //             ? "In Progress"
-                        //             : task.status === "close"
-                        //             ? "Close"
-                        //             : task.status === "resolve" ? "Resolve" : "",
-                        //         value: task.status,
-                        //       }
-                        //     : ""
-                        // }
-                      value={{label:task?.status, value:task?.status  }}
-
+                      // value={
+                      //   task?.status
+                      //     ? {
+                      //         label:
+                      //           task.status === "inprogress"
+                      //             ? "In Progress"
+                      //             : task.status === "close"
+                      //             ? "Close"
+                      //             : task.status === "resolve" ? "Resolve" : "",
+                      //         value: task.status,
+                      //       }
+                      //     : ""
+                      // }
+                      value={{ label: task?.status, value: task?.status }}
                     />
                   </td>
                   <td className="border py-1.5 px-3 text-sm text-gray-600">
@@ -465,17 +460,15 @@ const MeetingWiseTask = () => {
                   </td>
                   <td className="border py-1.5 px-3 text-sm text-gray-600">
                     Updated By Admin
-
-                </td>
-                <td className="border py-1.5 px-3 text-sm text-gray-600">
-                 <button onClick={()=>handleDeleteTask(task.id)}>Delete</button>
-                </td>
-            </tr>
-            
-              )
-           
- } )}
-
+                  </td>
+                  <td className="border py-1.5 px-3 text-sm text-gray-600">
+                    <button onClick={() => handleDeleteTask(task.id)}>
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
       </div>
@@ -490,9 +483,7 @@ const MeetingWiseTask = () => {
         overViewTask={overViewTask}
         handleSubmit={handleSubmit}
         members={members}
-
         status={status}
-
       />
     </div>
   );

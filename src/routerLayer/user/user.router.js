@@ -49,36 +49,63 @@ export const userRouter = [
       },
       {
         element: <UserLandingPage />,
+        loader: userLandingLoader,
+
+        handle: {
+          crumb: (data) => <Link to={data.threadPath}>{data.threadName}</Link>,
+        },
         children: [
           {
             index: true,
             loader: userLandingLoader,
             element: <UserOverview />,
             handle: {
-              crumb: (data) => <Link to={data.threadPath}>{data.threadName}</Link>,
+              crumb: () => <Link to="">Overview</Link>,
             },
           },
-          { path: "tasks", element: <AllTasks /> },
+          {
+            path: "tasks",
+            element: <AllTasks />,
+            handle: {
+              crumb: () => <Link to="">Tasks</Link>,
+            },
+          },
           {
             path: "boardmeetings",
+            loader: entityMeetingLoader,
+
+            handle: {
+              crumb: (data) => (
+                <Link to={data.threadPath}>{data.threadName}</Link>
+              ),
+            },
             children: [
               {
                 index: true,
                 loader: entityMeetingLoader,
                 action: entityMeetingAction,
                 element: <Boardmeeting />,
+                
               },
               {
                 path: ":BMid",
                 loader: tasksLoader,
                 action: MeetingWiseTasksActions,
                 element: <MeetingWiseTask />,
+                handle: {
+                  crumb: (data) => (
+                    <Link to={data.threadPath}>{data.threadName}</Link>
+                  ),
+                },
               },
             ],
           },
           {
             path: "documents",
             element: <Documents />,
+            handle: {
+              crumb: () => <Link to="">Documents</Link>,
+            },
           },
         ],
       },

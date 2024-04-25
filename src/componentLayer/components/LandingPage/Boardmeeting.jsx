@@ -39,6 +39,8 @@ export async function loader({ request, params }) {
       },
       tableViewData: meetingFormData?.data?.Tableview,
       customForm: meetingFormData?.data?.Data,
+      threadName: "BoardMeetings",
+     threadPath:`/users/${params.id}/boardmeetings`
     };
     console.log(combinedResponse, "entities response", request, params);
     return combinedResponse;
