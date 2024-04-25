@@ -794,7 +794,7 @@ const CustomFormStructure = () => {
                           newInputField.type === "multiselect") &&
                           newInputField.options.type === "custom" && (
                             <div>
-                              <p className="text-xs   ms-16 md:ms-0 md:justify-center ">
+                              <p className="text-xs   ms-16 md:ms-0 md:text-center ">
                                 Add options for &nbsp;
                                 <span className="font-semibold text-xs">
                                   multi select
