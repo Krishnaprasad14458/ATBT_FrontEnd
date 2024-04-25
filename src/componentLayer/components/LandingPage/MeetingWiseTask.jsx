@@ -17,9 +17,9 @@ let members = [
   { label: "Raghu Vamshi Krishna", value: "raghuvamshiKrishna" },
 ];
 let status = [
-  { label: "In Progress", value: "inprogress" },
-  { label: "Close", value: "close" },
-  { label: "Resolve", value: "resolve" },
+  { label: "In-Progress", value: "In-Progress" },
+  { label: "Close", value: "Close" },
+  { label: "Resolve", value: "Resolve" },
 ];
 
 
@@ -369,14 +369,6 @@ const MeetingWiseTask = () => {
                     />
                   </td>
                   <td className="border py-1.5 px-3" style={{ width: "11rem" }}>
-                    {/* <DatePicker 
-                 value={task?.dueDate}
-                 
-                // selected={startDate}
-                        onChange={(e) => {
-                            handleSubmit(task?.id, "dueDate", e.target.value);
-                            handleTaskChange(index, "dueDate", e.target.value);
-                        }} /> */}
                     <input
                       className=" border border-transparent text-black px-1.5 py-2 rounded-md  bg-[#f9fafb] focus:outline-none text-sm focus:border-orange-400  date_type"
                       type="date"
@@ -392,27 +384,49 @@ const MeetingWiseTask = () => {
 
                         options={status}
                         styles={{
-                            control: (provided, state) => ({
-                                ...provided,
-                                backgroundColor: "#f9fafb",
-                                borderWidth: "1px",
-                                borderColor: state.isFocused ? "#orange-400" : "#d1d5db",
-                                boxShadow: state.isFocused ? "none" : provided.boxShadow,
-                                width:"8rem"
-                            }),
-                            placeholder: (provided) => ({
-                                ...provided,
-                                fontSize: "small",
-                            }),
-                            option: (provided, state) => ({
-                                ...provided,
-                                color: state.isFocused ? "#fff" : "#000000",
-                                backgroundColor: state.isFocused ? "#ea580c" : "transparent",
-                                "&:hover": {
-                                    color: "#fff",
-                                    backgroundColor: "#ea580c",
-                                },
-                            }),
+                          control: (provided, state) => ({
+                            ...provided,
+                            backgroundColor: "#f9fafb",
+                            borderWidth: "1px",
+                            borderColor: state.isFocused
+                              ? "#orange-400"
+                              : "transparent", // Changed borderColor
+                            boxShadow: state.isFocused
+                              ? "none"
+                              : provided.boxShadow,
+                            fontSize: "16px",
+                            height: "36px", // Adjust the height here
+                            "&:hover": {
+                              borderColor: state.isFocused
+                                ? "#fb923c"
+                                : "transparent",
+                            },
+                            "&:focus": {
+                              borderColor: "#fb923c",
+                            },
+                            "&:focus-within": {
+                              borderColor: "#fb923c",
+                            },
+                          }),
+                          option: (provided, state) => ({
+                            ...provided,
+                            color: state.isFocused ? "#fff" : "#000000",
+                            backgroundColor: state.isFocused
+                              ? "#ea580c"
+                              : "transparent",
+                            "&:hover": {
+                              color: "#fff",
+                              backgroundColor: "#ea580c",
+                            },
+                          }),
+                          indicatorSeparator: (provided, state) => ({
+                            ...provided,
+                            display: state.isFocused ? "visible" : "none",
+                          }),
+                          dropdownIndicator: (provided, state) => ({
+                            ...provided,
+                            display: state.isFocused ? "visible" : "none",
+                          }),
                         }}
                         theme={(theme) => ({
                             ...theme,
@@ -430,20 +444,20 @@ const MeetingWiseTask = () => {
                         classNamePrefix="select"
                         // value={{ label: task?.status, value: task?.status }}
 
-                        value={
-                          task?.status
-                            ? {
-                                label:
-                                  task.status === "inprogress"
-                                    ? "In Progress"
-                                    : task.status === "close"
-                                    ? "Close"
-                                    : task.status === "resolve" ? "Resolve" : "",
-                                value: task.status,
-                              }
-                            : ""
-                        }
-                      
+                        // value={
+                        //   task?.status
+                        //     ? {
+                        //         label:
+                        //           task.status === "inprogress"
+                        //             ? "In Progress"
+                        //             : task.status === "close"
+                        //             ? "Close"
+                        //             : task.status === "resolve" ? "Resolve" : "",
+                        //         value: task.status,
+                        //       }
+                        //     : ""
+                        // }
+                      value={{label:task?.status, value:task?.status  }}
 
                     />
                   </td>

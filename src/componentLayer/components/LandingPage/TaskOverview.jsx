@@ -51,7 +51,7 @@ const TaskOverview = ({
               styles={{
                 control: (provided, state) => ({
                   ...provided,
-                  backgroundColor: "#f9fafb",
+                  backgroundColor: "#white-50",
                   borderWidth: "1px",
                   borderColor: state.isFocused ? "#orange-400" : "#d1d5db",
                   boxShadow: state.isFocused ? "none" : provided.boxShadow,
@@ -173,25 +173,69 @@ const TaskOverview = ({
             <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-4 lg:grid-cols-4 xl:grid-col-4 items-center mb-3 gap-5">
               <div className="col-span-1">
                 <label className="block text-xs font-medium leading-6 my-1 text-[1e1f21]">
-                  Date of Board Meeting
+                  Date 
                 </label>
-                <p className=" border border-[#d1d5db] text-black px-1.5 py-2 rounded-md text-sm   bg-white-50">
-                  {task?.date}
-                </p>
+               
+                <p className=" border border-[#d1d5db] text-black h-10 w-full truncate ps-3 flex items-center rounded-md text-sm   bg-white-50">
+                {task && (() => {
+                        let date = new Date(task?.date);
+                        const day = date.getUTCDate();
+                        const monthIndex = date.getUTCMonth();
+                        const year = date.getUTCFullYear();
+
+                        const monthAbbreviations = [
+                          "January",
+                          "February",
+                          "March",
+                          "April",
+                          "May",
+                          "June",
+                          "July",
+                          "August",
+                          "September",
+                          "October",
+                          "November",
+                          "December",
+                        ];
+
+let ordinalsText =""
+if(day == 1 || day ==21 || day == 31){
+        ordinalsText = "st"
+}else if(day == 2 || day == 22 ){
+  ordinalsText = "nd"
+}
+else if(day == 3 || day == 23 ){
+  ordinalsText = "rd"
+}
+else {
+  ordinalsText = "th"
+}
+                        // Formatting the date
+                        date = ` ${
+                          monthAbbreviations[monthIndex]
+                        } ${day < 10 ? "0" : ""} ${day}${ordinalsText}, ${year}`;
+
+                        return (
+                        <> {date ? date : "No Date"}</> 
+                        );
+                      })()}
+
+</p>
+                
               </div>
               <div className="col-span-1">
                 <label className="block text-xs font-medium leading-6 my-1 text-[1e1f21]">
-                  Board Meeting Number
+                   Number
                 </label>
-                <p className=" border border-[#d1d5db] text-black px-1.5 py-2 rounded-md text-sm  bg-white-50">
+                <p className=" border border-[#d1d5db] text-black h-10 w-full truncate ps-3 flex items-center rounded-md text-sm  bg-white-50">
                   {task?.meetingnumber}
                 </p>
               </div>
               <div className="col-span-1">
                 <label className="block text-xs font-medium leading-6 my-1 text-[1e1f21]">
-                  Age
+                  Age(days)
                 </label>
-                <p className=" border border-[#d1d5db] text-black px-1.5 py-2 rounded-md text-sm  bg-white-50">
+                <p className=" border border-[#d1d5db] text-black h-10 w-full truncate ps-3 flex items-center rounded-md text-sm  bg-white-50">
                   {task?.age}
                 </p>
               </div>
@@ -200,7 +244,7 @@ const TaskOverview = ({
                   {" "}
                   Entity
                 </label>
-                <p className=" border border-[#d1d5db] text-black px-1.5 py-2 rounded-md text-sm  bg-white-50">
+                <p className=" border border-[#d1d5db] text-black h-10 w-full truncate ps-3 flex items-center rounded-md text-sm  bg-white-50">
                   Infoz
                 </p>
               </div>
