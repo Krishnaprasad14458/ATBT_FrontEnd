@@ -152,8 +152,8 @@ function Boardmeeting() {
     <div className="overflow-x-auto p-3">
       {/* search & filter */}
       <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-3 xl:grid-col-3 gap-2 mt-2">
-        <h1 className="font-semibold text-lg grid1-item">Board Meetings</h1>
-        <div className="grid1-item text-start">
+        {/* <h1 className="font-semibold text-lg grid1-item">Board Meetings</h1> */}
+        <div className="col-span-1 text-start">
           <label
             for="default-search"
             className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white"
@@ -189,7 +189,7 @@ function Boardmeeting() {
             />
           </div>
         </div>
-        <div className="grid1-item text-end flex justify-end filter_pagination divide-x-2 ">
+        <div className="col-span-2 text-end flex justify-end filter_pagination divide-x-2 ">
           <CustomColumn
             tableView={tableView}
             setTableView={setTableView}

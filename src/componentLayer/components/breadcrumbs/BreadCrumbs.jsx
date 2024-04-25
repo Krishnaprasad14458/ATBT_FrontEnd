@@ -6,9 +6,9 @@ export default function BreadCrumbs() {
     .filter((match) => Boolean(match.handle?.crumb))
     .map((match) => match.handle.crumb(match.data));
   return (
-    <ol>
+    <ol className="breadcrumbs ">
       {crumbs.map((crumb, index) => (
-        <li key={index}>{crumb}</li>
+        <li className="crumb" key={index}>{crumb}</li>
       ))}
     </ol>
   );

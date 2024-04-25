@@ -2,6 +2,7 @@ import React, { useState, useContext } from "react";
 import {NavLink,redirect,useLoaderData,useParams,useLocation,Outlet} from "react-router-dom";
 import { UserDataContext } from "../../../../contexts/usersDataContext/usersDataContext";
 import { getUserById } from "../../../../contexts/usersDataContext/utils/usersApis";
+import BreadCrumbs from "../../../components/breadcrumbs/BreadCrumbs";
 
 const UserLandingPage = () => {
   const moduleName = "user"
@@ -54,7 +55,7 @@ const UserLandingPage = () => {
   return (
     <div className="container p-4 bg-[#f8fafc]">
       <div className="flex justify-between my-2">
-        <p className="text-xl font-semibold">User Landing Page</p>
+        {/* <p className="text-xl font-semibold">User Landing Page</p> */}<BreadCrumbs/>
         <div className="flex justify-end gap-3 ">
          
           <NavLink to="/users">
@@ -74,10 +75,10 @@ const UserLandingPage = () => {
           end
           className={({ isActive, isPending, isTransitioning }) =>
             isPending
-              ? "cursor-pointer px-4 py-1 text-md font-semibold"
+              ? "cursor-pointer px-4 py-1 text-sm  text-[#0c0a09]"
               : isActive
-              ? "border-b-2 border-orange-600 text-black cursor-pointer px-4 py-1 text-md font-semibold"
-              : "cursor-pointer px-4 py-1 text-md font-semibold"
+              ? "border-b-2 border-orange-600 text-[#0c0a09] cursor-pointer px-4 py-1 text-sm font-[500]"
+              : "cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09]"
           }
         >
           Board Meetings
@@ -87,10 +88,10 @@ const UserLandingPage = () => {
           end
           className={({ isActive, isPending, isTransitioning }) =>
             isPending
-              ? "cursor-pointer px-4 py-1 text-md font-semibold"
+              ? "cursor-pointer px-4 py-1 text-sm  text-[#0c0a09]"
               : isActive
-              ? "border-b-2 border-orange-600 text-black cursor-pointer px-4 py-1 text-md font-semibold"
-              : "cursor-pointer px-4 py-1 text-md font-semibold"
+              ? "border-b-2 border-orange-600 text-[#0c0a09] cursor-pointer px-4 py-1 text-sm font-[500]"
+              : "cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09]"
           }
         >
           Tasks
@@ -100,10 +101,10 @@ const UserLandingPage = () => {
           end
           className={({ isActive, isPending, isTransitioning }) =>
             isPending
-              ? "cursor-pointer px-4 py-1 text-md font-semibold"
+              ? "cursor-pointer px-4 py-1 text-sm  text-[#0c0a09]"
               : isActive
-              ? "border-b-2 border-orange-600 text-black cursor-pointer px-4 py-1 text-md font-semibold"
-              : "cursor-pointer px-4 py-1 text-md font-semibold"
+              ? "border-b-2 border-orange-600 text-[#0c0a09] cursor-pointer px-4 py-1 text-sm font-[500]"
+              : "cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09]"
           }
         >
           Documents
@@ -114,10 +115,10 @@ const UserLandingPage = () => {
           end
           className={({ isActive, isPending, isTransitioning }) =>
             isPending
-              ? "cursor-pointer px-4 py-1 text-md font-semibold"
+              ? "cursor-pointer px-4 py-1 text-sm  text-[#0c0a09]"
               : isActive
-              ? "border-b-2 border-orange-600 text-black cursor-pointer px-4 py-1 text-md font-semibold"
-              : "cursor-pointer px-4 py-1 text-md font-semibold"
+              ? "border-b-2 border-orange-600 text-[#0c0a09] cursor-pointer px-4 py-1 text-sm font-[500]"
+              : "cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09]"
           }
         >
           Overview

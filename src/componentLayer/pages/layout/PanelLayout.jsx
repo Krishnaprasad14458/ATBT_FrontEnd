@@ -55,7 +55,7 @@ const Layout = () => {
           </span>
         )}
         {navigation.state == 'loading' && <TopBarProgress />}
-        <BreadCrumbs/>
+        
         <Outlet />
       </main>
     </div>

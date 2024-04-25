@@ -105,21 +105,36 @@ input::-webkit-inner-spin-button {
 /* for breadcrumbs */
 .breadcrumbs{
   max-width:1200px ;
-  margin: 20px auto;
+  margin-left: 2px;
+
+  font-size: 1.25rem;
+
 }
+
 .breadcrumbs > *{
   display: inline-block;
-  margin-right: 10px;
+  margin-right: 5px;
+  
+  font-size: 1rem;
+
 }
+
 .breadcrumbs .crumb:after{
   content: '>';
-  margin-left: 10px;
+  margin-left: 7px;
+  
+  
 }
 .breadcrumbs .crumb:last-child::after{
   display: none;
 }
 .breadcrumbs .crumb a{
-  color: #ddd;
+  color: #334155;
+  font-weight: 600;
+}
+.breadcrumbs .crumb a:hover{
+  color:#ea580c ;
+  border-bottom: 1px solid #fb923c;
 }
 
 /* for breadcrumbs end */
