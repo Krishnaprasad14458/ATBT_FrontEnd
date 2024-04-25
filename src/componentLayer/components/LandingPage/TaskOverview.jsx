@@ -33,14 +33,14 @@ const TaskOverview = ({
 
   return (
     <div
-      className={`fixed inset-0 transition-all duration-500 bg-gray-800 bg-opacity-50 z-50 h-full ${
+      className={`fixed inset-0 transition-all duration-500 bg-gray-800 bg-opacity-50 z-50  min-h-screen overflow-y-auto ${
         overViewTask ? "" : "hidden"
       }`}
     >
       <div
         className={` fixed inset-y-0 right-0  bg-white shadow-lg transform translate-x-0 transition-transform duration-300 ease-in-out ${
           expand
-            ? "w-full md:w-full lg:w-3/6 xl:w-3/6"
+            ? "w-full md:w-full lg:w-4/6 xl:w-4/6"
             : "w-4/5 md:w-3/5 lg:w-3/6 xl:2/5"
         }`}
       >
@@ -86,22 +86,22 @@ const TaskOverview = ({
               className="basic-multi-select"
               classNamePrefix="select"
               // value={{ label: task?.status, value: task?.status }}
-
-              value={
-                task?.status
-                  ? {
-                      label:
-                        task.status === "inprogress"
-                          ? "In Progress"
-                          : task.status === "close"
-                          ? "Close"
-                          : task.status === "resolve"
-                          ? "Resolve"
-                          : "",
-                      value: task.status,
-                    }
-                  : ""
-              }
+              value={{label:task?.status, value:task?.status  }}
+              // value={
+              //   task?.status
+              //     ? {
+              //         label:
+              //           task.status === "inprogress"
+              //             ? "In Progress"
+              //             : task.status === "close"
+              //             ? "Close"
+              //             : task.status === "resolve"
+              //             ? "Resolve"
+              //             : "",
+              //         value: task.status,
+              //       }
+              //     : ""
+              // }
             />
           </div>
           <div className="absolute top-4 right-4 flex flex-row">
@@ -168,15 +168,17 @@ const TaskOverview = ({
           </div>
         </div>
         <hr />
-        <div className="">
-          <div className=" ms-2 p-3 ">
+        <div className=" h-screen">
+        <div className="overflow-y-scroll h-full">
+            <div className=" ms-2 p-3 ">
             <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-4 lg:grid-cols-4 xl:grid-col-4 items-center mb-3 gap-5">
               <div className="col-span-1">
                 <label className="block text-xs font-medium leading-6 my-1 text-[1e1f21]">
                   Date 
                 </label>
                
-                <p className=" border border-[#d1d5db] text-black h-10 w-full truncate ps-3 flex items-center rounded-md text-sm   bg-white-50">
+                <p className=" border border-[#d1d5db] text-black h-10 w-full truncate px-3 flex items-center rounded-md text-sm   bg-white-50
+                " >
                 {task && (() => {
                         let date = new Date(task?.date);
                         const day = date.getUTCDate();
@@ -216,7 +218,7 @@ else {
                         } ${day < 10 ? "0" : ""} ${day}${ordinalsText}, ${year}`;
 
                         return (
-                        <> {date ? date : "No Date"}</> 
+                        <span className="w-full truncate text-sm" title= {date ? date : "No Date"}>  {date ? date : "No Date"}</span> 
                         );
                       })()}
 
@@ -227,7 +229,8 @@ else {
                 <label className="block text-xs font-medium leading-6 my-1 text-[1e1f21]">
                    Number
                 </label>
-                <p className=" border border-[#d1d5db] text-black h-10 w-full truncate ps-3 flex items-center rounded-md text-sm  bg-white-50">
+                <p className=" border border-[#d1d5db] text-black h-10 w-full truncate px-3 flex items-center rounded-md text-sm  bg-white-50"
+                title={task?.meetingnumber}>
                   {task?.meetingnumber}
                 </p>
               </div>
@@ -235,7 +238,8 @@ else {
                 <label className="block text-xs font-medium leading-6 my-1 text-[1e1f21]">
                   Age(days)
                 </label>
-                <p className=" border border-[#d1d5db] text-black h-10 w-full truncate ps-3 flex items-center rounded-md text-sm  bg-white-50">
+                <p className=" border border-[#d1d5db] text-black h-10 w-full truncate px-3 flex items-center rounded-md text-sm  bg-white-50"
+                title={task?.age}>
                   {task?.age}
                 </p>
               </div>
@@ -244,7 +248,7 @@ else {
                   {" "}
                   Entity
                 </label>
-                <p className=" border border-[#d1d5db] text-black h-10 w-full truncate ps-3 flex items-center rounded-md text-sm  bg-white-50">
+                <p className=" border border-[#d1d5db] text-black h-10 w-full truncate px-3 flex items-center rounded-md text-sm  bg-white-50">
                   Infoz
                 </p>
               </div>
@@ -449,7 +453,9 @@ else {
               className="p-2 border-2 text-sm w-full  shadow-sm rounded-md  focus:outline-none focus:border-orange-400"
             ></textarea> */}
             </div>
-          </div>
+          </div> 
+        </div>
+          
         </div>
 
         {/* <div className="flex ">
