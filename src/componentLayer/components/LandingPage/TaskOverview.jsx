@@ -51,13 +51,12 @@ const TaskOverview = ({
               styles={{
                 control: (provided, state) => ({
                   ...provided,
-                  backgroundColor: "#white-50",
+                  backgroundColor: "#f9fafb",
                   borderWidth: "1px",
                   borderColor: state.isFocused ? "#orange-400" : "#d1d5db",
                   boxShadow: state.isFocused ? "none" : provided.boxShadow,
                   width: "8rem",
                 }),
-
                 placeholder: (provided) => ({
                   ...provided,
                   fontSize: "small",
@@ -80,8 +79,29 @@ const TaskOverview = ({
                   primary: "#fb923c",
                 },
               })}
-              className=""
+              onChange={(selectedOption) => {
+                handleSubmit(task?.id, "status", selectedOption.value);
+                handleOverviewTaskChange("status", selectedOption.value);
+              }}
+              className="basic-multi-select"
               classNamePrefix="select"
+              // value={{ label: task?.status, value: task?.status }}
+
+              value={
+                task?.status
+                  ? {
+                      label:
+                        task.status === "inprogress"
+                          ? "In Progress"
+                          : task.status === "close"
+                          ? "Close"
+                          : task.status === "resolve"
+                          ? "Resolve"
+                          : "",
+                      value: task.status,
+                    }
+                  : ""
+              }
             />
           </div>
           <div className="absolute top-4 right-4 flex flex-row">
@@ -353,7 +373,6 @@ const TaskOverview = ({
                       : ""
                   }
                 />
-                
               </div>
             </div>
           </div>
