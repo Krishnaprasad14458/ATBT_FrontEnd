@@ -79,7 +79,7 @@ const UserLandingPage = () => {
 
       <div className="flex overflow-auto">
         <NavLink
-          to="user/boardmeetings"
+          to="boardmeetings"
           end
           className={({ isActive, isPending, isTransitioning }) =>
             isPending
