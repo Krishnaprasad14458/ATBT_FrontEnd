@@ -33,9 +33,9 @@ const TaskOverview = ({
 
   return (
     <div
-      className={`fixed inset-0 transition-all duration-500 bg-gray-800 bg-opacity-50 z-50  min-h-screen overflow-y-auto ${
+      className={`fixed inset-0 transition-all duration-500 bg-gray-800 bg-opacity-50 z-50  ${
         overViewTask ? "" : "hidden"
-      }`}
+      }` }
     >
       <div
         className={` fixed inset-y-0 right-0  bg-white shadow-lg transform translate-x-0 transition-transform duration-300 ease-in-out ${
@@ -168,8 +168,9 @@ const TaskOverview = ({
           </div>
         </div>
         <hr />
-        <div className=" h-screen">
-        <div className="overflow-y-scroll h-full">
+   
+        <div className="overflow-y-scroll content relative"
+           style={{ maxHeight: 'calc(100vh - 17rem)' }}>
             <div className=" ms-2 p-3 ">
             <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-4 lg:grid-cols-4 xl:grid-col-4 items-center mb-3 gap-5">
               <div className="col-span-1">
@@ -437,8 +438,10 @@ else {
               Add Subtask
             </button>
           </div>
+          </div>
           <hr />
-          <div className="grid grid-cols-7 sm:grid-cols-7 md:grid-cols-7 lg:grid-cols-7 xl:grid-cols-7 ms-3 p-3">
+
+          <div className="grid grid-cols-7 sm:grid-cols-7 md:grid-cols-7 lg:grid-cols-7 xl:grid-cols-7 ms-3 p-3 sticky bottom-0">
             <div className="col-span-1 text-center ">
               <p className="bg-yellow-500 text-black py-1.5 w-8 h-8  rounded-full">
                 <span className="flex justify-center text-gray-800 text-sm">
@@ -454,9 +457,9 @@ else {
             ></textarea> */}
             </div>
           </div> 
-        </div>
+        
           
-        </div>
+      
 
         {/* <div className="flex ">
 

@@ -92,7 +92,7 @@ function CustomColumn({ tableView, setTableView, form }) {
           </div>
           <div 
             className='overflow-y-auto px-4 py-2.5 content relative'
-            style={{ maxHeight: 'calc(100vh - 8rem)' }}
+            style={{ maxHeight: 'calc(100vh - 7rem)' }}
           >
             {dupTableView &&
               Object.keys(dupTableView).map((columnName) => (
@@ -117,7 +117,7 @@ function CustomColumn({ tableView, setTableView, form }) {
                 </div>
               ))}
           </div>
-          <div className='sticky bottom-0 bg-gray-100 flex justify-between p-3 w-full footer'>
+          <div className='absolute bottom-0 bg-gray-100 flex justify-between p-3 w-full '>
             <button
               className='px-3 py-2 inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white '
               onClick={handleColumnsApply}
