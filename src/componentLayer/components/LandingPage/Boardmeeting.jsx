@@ -15,13 +15,16 @@ import GateKeeper from "../../../rbac/GateKeeper";
 import { debounce } from "../../../utils/utils";
 import Swal from "sweetalert2";
 let url;
+let moduleName
 export async function loader({ request, params }) {
   try {
     url = new URL(request.url);
+
+
     const [meetings,entityList, roleList, meetingFormData] = await Promise.all(
       [
         // atbtApi.post(`boardmeeting/list${url?.search ? url?.search : ""}`, {}),
-        atbtApi.get(`boardmeeting/list?${params.moduleName}=${params.id}${url?.search ? url?.search : ""}`),
+        atbtApi.get(`boardmeeting/list?${moduleName}=${params.id}${url?.search ? url?.search : ""}`),
         atbtApi.post(`public/list/entity`),
         atbtApi.post(`public/list/role`),
         atbtApi.get(`form/list?name=boardmeetingform`),
@@ -58,7 +61,7 @@ export async function action({ request, params }) {
 }
 
 function Boardmeeting() {
-  const moduleName = useOutletContext();
+   moduleName = useOutletContext();
   console.log("moduleName", moduleName);
   const { id } = useParams();
   console.log("hi", id);
@@ -312,7 +315,7 @@ function Boardmeeting() {
                                 permission.canRead
                               }
                             >
-                              <Link to={`/boardmeetings/${row.id}/task`}>
+                              <Link to={`${row.id}`}>
                                 <p className="truncate text-xs"> {value}</p>
                               </Link>
                             </GateKeeper>

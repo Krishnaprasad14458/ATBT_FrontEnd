@@ -116,7 +116,6 @@ const MeetingWiseTask = () => {
   const [overViewTask, setOverViewTask] = useState(false);
   const handleOverViewTask = (taskId) => {
     setOverViewTask(!overViewTask);
-
     setQParams((prev) => ({ ...prev, taskID: taskId }));
   };
   const handleAddNewTask = async () => {
