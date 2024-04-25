@@ -94,7 +94,7 @@ function CustomFilter({
             transition: 'transform 0.3s ease-in-out',
           }}
         >
-          <div className='sticky top-0 bg-gray-100 px-5 py-4 flex justify-between z-[3] header'>
+          <div className=' bg-gray-100 px-5 py-4 flex justify-between z-[3] '>
             <h5 className='font-[500] '> Filters</h5>
             <button
               onClick={filterDrawer}
@@ -115,9 +115,8 @@ function CustomFilter({
             </button>
           </div>
 
-          <div
-            className='overflow-y-auto px-2 py-2.5 content'
-            style={{ maxHeight: 'calc(100vh - 8rem)' }}
+          <div className='overflow-y-auto px-2 py-2.5 content relative'
+            style={{ maxHeight: 'calc(100vh - 7rem)' }}
           >
             <div className='text-start p-3 '>
               {/* {filter.label} */}
@@ -200,7 +199,7 @@ function CustomFilter({
               ))}
             </div>
           </div>
-          <div className='sticky bottom-0 bg-gray-100 flex justify-between p-3 w-full footer'>
+          <div className='absolute bottom-0 bg-gray-100 flex justify-between p-3 w-full '>
             <button
               onClick={handleFilterReset}
               className='mr-3 px-3 py-2 inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white '
