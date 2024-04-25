@@ -85,7 +85,6 @@ export const userRouter = [
                 loader: entityMeetingLoader,
                 action: entityMeetingAction,
                 element: <Boardmeeting />,
-                
               },
               {
                 path: ":BMid",

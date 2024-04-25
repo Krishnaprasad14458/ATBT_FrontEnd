@@ -42,8 +42,8 @@ export async function tasksLoader({ request, params }) {
     const combinedResponse = {
       tasks: tasks?.data,
       task: updatedTask,
-      threadName: "BoardMeetingName",
-      threadPath:`/users/${params.id}/boardmeetings/${params.BMid}`
+      threadName: `${tasks?.data[0]?.meetingnumber}`,
+    threadPath:`/users/${params.id}/boardmeetings/${params.BMid}`
     };
 
     console.log("combinedResponse", combinedResponse, updatedTask);
