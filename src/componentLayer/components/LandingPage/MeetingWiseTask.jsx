@@ -42,7 +42,9 @@ export async function tasksLoader({ request, params }) {
     const combinedResponse = {
       tasks: tasks?.data,
       task: updatedTask,
-      threadName: "BoardMeetingName",
+      // threadName: `${tasks?.data[0]?.meetingnumber}`,
+      threadName: "123",
+
       threadPath:`/users/${params.id}/boardmeetings/${params.BMid}`
     };
 
