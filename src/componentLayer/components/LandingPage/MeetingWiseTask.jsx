@@ -25,9 +25,10 @@ export async function tasksLoader({ request, params }) {
   try {
     const url = new URL(request.url);
     const taskID = url.searchParams.get("taskID");
-    const [tasks, task,] = await Promise.all([
+    const [tasks, task,subTasks] = await Promise.all([
       atbtApi.get(`task/list/${params.BMid} `),
       atbtApi.get(`task/listbyid/${taskID}`),
+      atbtApi.get(`task/subList/${taskID}`)
     ]);
     let updatedTask = task?.data[0];
     let age = null;
@@ -42,11 +43,12 @@ export async function tasksLoader({ request, params }) {
     const combinedResponse = {
       tasks: tasks?.data,
       task: updatedTask,
+      subTasks:subTasks?.data?.Task,
       threadName: `${tasks?.data[0]?.meetingnumber}`,
       threadPath: `/users/${params.id}/boardmeetings/${params.BMid}`,
     };
 
-    console.log("combinedResponse", combinedResponse, updatedTask);
+    console.log("combinedResponse", combinedResponse);
     return combinedResponse;
   } catch (error) {
     console.log(error, "which error");
@@ -62,27 +64,40 @@ export async function tasksLoader({ request, params }) {
 export async function MeetingWiseTasksActions({ request, params }) {
   switch (request.method) {
     case "POST": {
-      const id = (await request.json()) || null;
-      // console.log(id, "json", id);
+      const requestBody = (await request.json()) || null;
+      console.log(requestBody, "request");
+      if(requestBody.type==="ADD_NEW_TASK"){
       return await atbtApi.post(`task/add/${params.BMid}`);
+      }
+      if(requestBody.type==="ADD_SUB_TASK"){
+        return await atbtApi.post(`task/subtaskAdd/${requestBody.id}`);
+      }
     }
     case "PATCH": {
-      const UpdatedTask = (await request.json()) || null;
-      // console.log(UpdatedTask.id, "json", UpdatedTask.data);
-      return await atbtApi.patch(
-        `task/update/${UpdatedTask.id}`,
-        UpdatedTask.data
-      );
+      const requestBody = (await request.json()) || null;
+      console.log(requestBody, "request");
+
+      if(requestBody.type==="UPDATE_TASK"){
+        return await atbtApi.patch(
+          `task/update/${requestBody.id}`,
+          requestBody.data
+        );
+        }
+        if(requestBody.type==="UPDATE_SUB_TASK"){
+          return await atbtApi.patch(
+            `task/subtaskUpdate/${requestBody.id}`,
+            requestBody.data
+          );
+        }
     }
     case "DELETE": {
       const DeleteTaskId = (await request.json()) || null;
 
       return await atbtApi.delete(`task/delete/${DeleteTaskId}`);
     }
-    case "ADD_SUB_TASK": {
-      const taskID = (await request.json()) || null;
-      return await atbtApi.post(`task/subtaskAdd/${taskID}`);
-    }
+    // case "ADD_SUB_TASK": {
+    //   const taskID = (await request.json()) || null;
+    // }
     
     default: {
       throw new Response("", { status: 405 });
@@ -94,9 +109,11 @@ const MeetingWiseTask = () => {
   const data = useLoaderData();
   let [tasks, setTasks] = useState([]);
   let [task, setTask] = useState({});
+  let [subTasks,setSubTasks] = useState()
   useEffect(() => {
     setTasks(data?.tasks);
     setTask(data?.task);
+    setSubTasks(data?.subTasks)
   }, [data]);
   console.log("task", task);
   console.log("tasks", tasks);
@@ -121,8 +138,10 @@ const MeetingWiseTask = () => {
     setQParams((prev) => ({ ...prev, taskID: taskId }));
   };
   const handleAddNewTask = async () => {
+    let requestBody = { type:'ADD_NEW_TASK'}
+
     try {
-      fetcher.submit(id, { method: "POST", encType: "application/json" });
+      fetcher.submit(requestBody, { method: "POST", encType: "application/json" });
     } catch (error) {
       console.log(error, "which error");
     }
@@ -138,9 +157,10 @@ const MeetingWiseTask = () => {
     }
   };
   const handleAddSubTask = (taskID)=>{
+    let requestBody = { id :taskID, type:'ADD_SUB_TASK'}
     try {
-      fetcher.submit(taskID, {
-        method: "ADD_SUB_TASK",
+      fetcher.submit(requestBody, {
+        method: "POST",
         encType: "application/json",
       });
     } catch (error) {
@@ -152,9 +172,14 @@ const MeetingWiseTask = () => {
     updatedTasks[index][field] = value;
     setTasks(updatedTasks);
   };
+  const handleSubTaskChange = (index, field, value) => {
+    const updatedSubTasks = [...subTasks];
+    updatedSubTasks[index][field] = value;
+    setSubTasks(updatedSubTasks);
+    
+  };
   const handleOverviewTaskChange = (field, value) => {
     const updatedTask = { ...task };
-
     updatedTask[field] = value;
     setTask(updatedTask);
   };
@@ -166,6 +191,7 @@ const MeetingWiseTask = () => {
     let UpdateData = {
       id: taskId,
       data: { [taskFieldName]: taskValue },
+      type:"UPDATE_TASK"
     };
     console.log("UpdateData", UpdateData);
     try {
@@ -177,8 +203,28 @@ const MeetingWiseTask = () => {
       console.log(error, "which error");
     }
   };
+  const handleSubTaskSubmit = (subTaskId, taskFieldName, taskValue) => {
+    setAutoFocussubTaskID(null);
+    setIsInputActive(null);
+    let UpdateData = {
+      id: subTaskId,
+      data: { [taskFieldName]: taskValue },
+      type:"UPDATE_SUB_TASK"
+    };
+   
+    try {
+      fetcher.submit(UpdateData, {
+        method: "PATCH",
+        encType: "application/json",
+      });
+    } catch (error) {
+      console.log(error, "which error");
+    }
+  };
   const [isInputActiveID, setIsInputActive] = useState(null);
   const [autoFocusID, setAutoFocusID] = useState(null);
+  const [autoFocusSubTaskID, setAutoFocussubTaskID] = useState(null);
+
   const [startDate, setStartDate] = useState();
   // Event handler for input focus
   const handleInputFocus = (id) => {
@@ -511,6 +557,10 @@ const MeetingWiseTask = () => {
         members={members}
         status={status}
         handleAddSubTask={handleAddSubTask}
+        subTasks={subTasks}
+        handleSubTaskChange={handleSubTaskChange}
+        handleSubTaskSubmit={handleSubTaskSubmit}
+        autoFocusSubTaskID
       />
     </div>
   );
