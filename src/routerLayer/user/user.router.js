@@ -59,9 +59,9 @@ export const userRouter = [
             index: true,
             loader: userLandingLoader,
             element: <UserOverview />,
-            handle: {
-              crumb: () => <Link to="">Overview</Link>,
-            },
+            // handle: {
+            //   crumb: () => <Link to="">Overview</Link>,
+            // },
           },
           {
             path: "tasks",
