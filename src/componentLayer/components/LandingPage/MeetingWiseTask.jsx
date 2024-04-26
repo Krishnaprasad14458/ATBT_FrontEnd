@@ -29,25 +29,35 @@ export async function tasksLoader({ request, params }) {
 
     const [tasks, task,subTasks,subTask] = await Promise.all([
       atbtApi.get(`task/list/${params.BMid} `),
-      atbtApi.get(`task/listbyid/${taskID}`),
-      atbtApi.get(`task/subList/${taskID}`),
+      taskID ? atbtApi.get(`task/listbyid/${taskID}`) : null,
+      taskID ? atbtApi.get(`task/subList/${taskID}`) : null,
       subTaskID ? atbtApi.get(`task/subtaskbyid/${subTaskID}`) : null
     ]);
     let updatedTask = task?.data[0];
-    let age = null;
+    let updatedSubTask = subTask?.data[0]
+    let taskAge = null;
+    let subTaskAge = null;
     if (updatedTask) {
       const currentDate = new Date();
       const enteredDate = new Date(updatedTask?.createdAt);
       const differenceInMilliseconds = currentDate - enteredDate;
       const differenceInDays = differenceInMilliseconds / (1000 * 3600 * 24);
-      age = Math.floor(differenceInDays);
-      updatedTask.age = age;
+      taskAge = Math.floor(differenceInDays);
+      updatedTask.age = taskAge;
+    }
+    if (updatedSubTask) {
+      const currentDate = new Date();
+      const enteredDate = new Date(updatedSubTask?.createdAt);
+      const differenceInMilliseconds = currentDate - enteredDate;
+      const differenceInDays = differenceInMilliseconds / (1000 * 3600 * 24);
+      subTaskAge = Math.floor(differenceInDays);
+      updatedSubTask.age = subTaskAge;
     }
     const combinedResponse = {
       tasks: tasks?.data,
       task: updatedTask,
       subTasks:subTasks?.data?.Task,
-      subTask:subTask?.data[0],
+      subTask:updatedSubTask,
       threadName: `${tasks?.data[0]?.meetingnumber}`,
       threadPath: `/users/${params.id}/boardmeetings/${params.BMid}`,
     };
