@@ -31,7 +31,7 @@ const TaskOverview = ({
   displayOverviewTask,
   setDisplayOverviewTask,
   setDisplayOverviewSubTask,
-  setSubTask
+  setSubTask,
 }) => {
   // -------full screen----
   const [expand, setExpand] = useState(false);
@@ -94,6 +94,7 @@ const TaskOverview = ({
           <div className=" ms-2 p-3 ">
             <NonEditableFields task={task} />
             <EditableFields
+              taskDecision={displayOverviewSubTask ? task?.decision : null}
               task={displayOverviewTask ? task : subTask}
               handleOverviewTaskChange={
                 displayOverviewTask
