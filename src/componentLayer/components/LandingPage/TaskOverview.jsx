@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-
 import NonEditableFields from "./taskOverviewComponents/NonEditableFields";
 import EditableFields from "./taskOverviewComponents/EditableFields";
 import SubTasksList from "./taskOverviewComponents/SubTasksList";
@@ -22,6 +21,12 @@ const TaskOverview = ({
   autoFocusSubTaskID,
   handleSubTaskSubmit,
   handleSubTaskChange,
+  handleOverviewSubTaskChange,
+  subTask,
+  displayOverviewSubTask,
+  displayOverviewTask,
+  setDisplayOverviewTask,
+  setDisplayOverviewSubTask,
 }) => {
   // -------full screen----
   const [expand, setExpand] = useState(false);
@@ -54,7 +59,6 @@ const TaskOverview = ({
             : "w-4/5 md:w-3/5 lg:w-3/6 xl:2/5"
         }`}
       >
-       
         <TaskOverViewHeader
           Qparams={Qparams}
           setQParams={setQParams}
@@ -75,22 +79,39 @@ const TaskOverview = ({
         >
           <div className=" ms-2 p-3 ">
             <NonEditableFields task={task} />
-            <EditableFields
-              task={task}
-              handleOverviewTaskChange={handleOverviewTaskChange}
-              handleSubmit={handleSubmit}
-              members={members}
-              priority={priority}
-            />
+
+            {displayOverviewTask && (
+              <EditableFields
+                task={task}
+                handleOverviewTaskChange={handleOverviewTaskChange}
+                handleSubmit={handleSubmit}
+                members={members}
+                priority={priority}
+              />
+            )}
+            {displayOverviewSubTask && (
+              <EditableFields
+                task={subTask}
+                handleOverviewTaskChange={handleOverviewSubTaskChange}
+                handleSubmit={handleSubTaskSubmit}
+                members={members}
+                priority={priority}
+              />
+            )}
           </div>
-          <SubTasksList
-          task={task}
+         { displayOverviewTask && <SubTasksList
+            task={task}
             handleAddSubTask={handleAddSubTask}
             subTasks={subTasks}
             handleSubTaskChange={handleSubTaskChange}
             handleSubTaskSubmit={handleSubTaskSubmit}
             autoFocusSubTaskID={autoFocusSubTaskID}
-          />
+            setQParams={setQParams}
+            displayOverviewTask={displayOverviewTask}
+            displayOverviewSubTask={displayOverviewSubTask}
+            setDisplayOverviewTask={setDisplayOverviewTask}
+            setDisplayOverviewSubTask={setDisplayOverviewSubTask}
+          />}
         </div>
         <hr />
         <Comments />
