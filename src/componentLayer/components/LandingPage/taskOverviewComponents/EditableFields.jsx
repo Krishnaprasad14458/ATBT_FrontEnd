@@ -8,12 +8,29 @@ const EditableFields = ({
   members,
   priority,
   taskDecision,
+  setSubTask,
+  setDisplayOverviewTask,
+  setDisplayOverviewSubTask,
+  displayOverviewSubTask
 }) => {
-  console.log("taskDecision",taskDecision)
+  console.log("taskDecision", taskDecision);
   return (
     <>
       <div className="mb-2">
-        {taskDecision} - {task?.decision}
+        {displayOverviewSubTask && 
+        
+        <>
+          <span
+          onClick={() => {
+            setSubTask({ decision: "", members: "", dueDate: "", status: "" });
+              setDisplayOverviewSubTask(false);
+              setDisplayOverviewTask(true);
+          }}
+        >
+          {taskDecision}
+        </span>
+        - {task?.decision}</>}
+      
         <label className="block text-xs font-medium leading-6 my-1 text-[1e1f21]">
           Decision Taken
         </label>
@@ -88,12 +105,12 @@ const EditableFields = ({
         </div>
         <div className="col-span-1">
           <label className="block text-xs font-medium leading-6 my-1 text-[1e1f21]">
-            Due Date{" "}
+            Due Date
           </label>
           <input
             className={`border border-[#d1d5db] text-black px-1.5 py-2 rounded-md  bg-white-50 focus:outline-none text-sm focus:border-orange-400 w-full date_type`}
             type="date"
-            value={task?.dueDate}
+            value={task?.dueDate ? task.dueDate : ""}
             onChange={(e) => {
               handleSubmit(task?.id, "dueDate", e.target.value);
               handleOverviewTaskChange("dueDate", e.target.value);
@@ -102,7 +119,6 @@ const EditableFields = ({
         </div>
         <div className="col-span-1">
           <label className="block text-sm font-medium leading-6 my-1 text-gray-900">
-            {" "}
             priority
           </label>
           <Select
