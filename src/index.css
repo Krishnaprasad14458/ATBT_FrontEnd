@@ -182,19 +182,19 @@ input[type="date"]:in-range::-webkit-datetime-edit-text {
   cursor: pointer;
   border-radius: 4px;
   margin-right: 2px;
-  /* opacity: 0.6; */
-  /* filter: invert(0.6); */
+  opacity: 0.6; 
+  /* filter: invert(0.6);
   
-  background: transparent;
+  /* background: transparent;
   bottom: 0;
   color: transparent;
 
-  /* height: auto; */
+  
   left: 0;
   position: absolute;
   right: 0;
   top: 0;
-  width: auto;
+  width: auto; */
   }
 
  

@@ -92,7 +92,8 @@ const TaskOverview = ({
           style={{ maxHeight: "calc(100vh - 17rem)" }}
         >
           <div className=" ms-2 p-2 ">
-            <NonEditableFields task={task} />
+            <NonEditableFields task={task} 
+            age={displayOverviewTask ? task?.age :subTask?.age}/>
             <EditableFields
               taskDecision={displayOverviewSubTask ? task?.decision : null}
               task={displayOverviewTask ? task : subTask}

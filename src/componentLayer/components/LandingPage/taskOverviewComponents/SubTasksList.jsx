@@ -1,5 +1,10 @@
 import React from "react";
-
+import Select from "react-select";
+let members = [
+  { label: "Bhaskar", value: "bhaskar" },
+  { label: "Zaheer", value: "zaheer" },
+  { label: "Raghu Vamshi Krishna", value: "raghuvamshiKrishna" },
+];
 const SubTasksList = ({
   task,
   handleAddSubTask,
@@ -40,11 +45,14 @@ const SubTasksList = ({
           task?.decision === null || task?.decision === "" ? "2rem" : "";
 
           return (
-            <div className="border border-[#d1d5db] flex items-center gap-3">
-              {isInputActiveID === task.id && (
+            <div className="border border-t-[#d1d5db] flex items-center">
+            
+        
+      
+       {isInputActiveID === task.id && (
                 <input
-                  className="border border-[#d1d5db] text-black px-1.5 py-1.5 rounded-md  bg-[#f9fafb] focus:outline-none text-sm focus:border-orange-400 "
-                  style={{ width: "22rem" }}
+                  className="outline-none text-black px-1.5 py-1.5 bg-[#f9fafb] "
+                  style={{ width: "20rem" }}
                   type="text"
                   placeholder="Type here"
                   value={task?.decision}
@@ -58,8 +66,11 @@ const SubTasksList = ({
                   autoFocus={autoFocusID === task.id ? true : false}
                 />
               )}
+    
+         
 
-              {(isInputActiveID !== task.id || isInputActiveID === null) && (
+  
+{(isInputActiveID !== task.id || isInputActiveID === null) && (
                 <p
                   className="text-sm"
                   onClick={() => {
@@ -67,7 +78,7 @@ const SubTasksList = ({
                     setAutoFocusID(task.id);
                   }}
                   style={{
-                    width: "22rem",
+                    width: "20rem",
                     height: decisionHeight,
                     cursor: "pointer",
                   }}
@@ -75,6 +86,7 @@ const SubTasksList = ({
                   {task.decision}
                 </p>
               )}
+
               {/* <input
            className="outline-none text-black px-1.5 py-1.5   bg-white-50 text-sm  "
            style={{ width: "40rem" }}
@@ -91,18 +103,74 @@ const SubTasksList = ({
            autoFocus={autoFocusSubTaskID === subTask.id ? true : false}
          /> */}
               {/* person responsibile */}
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-                class="w-5 h-5"
-              >
-                <path
-                  fill-rule="evenodd"
-                  d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0Zm-5.5-2.5a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0ZM10 12a5.99 5.99 0 0 0-4.793 2.39A6.483 6.483 0 0 0 10 16.5a6.483 6.483 0 0 0 4.793-2.11A5.99 5.99 0 0 0 10 12Z"
-                  clip-rule="evenodd"
-                />
-              </svg>
+              <Select
+                      options={members}
+                      styles={{
+                        control: (provided, state) => ({
+                          ...provided,
+                          backgroundColor: "#f9fafb",
+                          borderWidth: "1px",
+                          borderColor: state.isFocused
+                            ? "#orange-400"
+                            : "transparent", // Changed borderColor
+                          boxShadow: state.isFocused
+                            ? "none"
+                            : provided.boxShadow,
+                          fontSize: "16px",
+                          height: "36px", // Adjust the height here
+                          "&:hover": {
+                            borderColor: state.isFocused
+                              ? "#fb923c"
+                              : "transparent",
+                          },
+                          "&:focus": {
+                            borderColor: "#fb923c",
+                          },
+                          "&:focus-within": {
+                            borderColor: "#fb923c",
+                          },
+                          width:"10rem"
+                        }),
+                        option: (provided, state) => ({
+                          ...provided,
+                          color: state.isFocused ? "#fff" : "#000000",
+                          backgroundColor: state.isFocused
+                            ? "#ea580c"
+                            : "transparent",
+                          "&:hover": {
+                            color: "#fff",
+                            backgroundColor: "#ea580c",
+                          },
+                        }),
+                        indicatorSeparator: (provided, state) => ({
+                          ...provided,
+                          display: state.isFocused ? "visible" : "none",
+                        }),
+                        dropdownIndicator: (provided, state) => ({
+                          ...provided,
+                          display: state.isFocused ? "visible" : "none",
+                        }),
+                      }}
+                      theme={(theme) => ({
+                        ...theme,
+                        borderRadius: 5,
+                        colors: {
+                          ...theme.colors,
+                          primary: "#fb923c",
+                        },
+                      })}
+                      onChange={(selectedOption) => {
+                        handleSubmit(task?.id, "members", selectedOption.value);
+                        handleTaskChange(
+                          index,
+                          "members",
+                          selectedOption.value
+                        );
+                      }}
+                      className="basic-multi-select "
+                      classNamePrefix="select"
+                      value={{ label: task?.members, value: task?.members }}
+                    />
 
               {/* calender */}
               <svg

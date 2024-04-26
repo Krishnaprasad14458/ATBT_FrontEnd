@@ -1,6 +1,6 @@
 import React from 'react'
 
-const NonEditableFields = ({task}) => {
+const NonEditableFields = ({task , age}) => {
   return (
 <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-4 lg:grid-cols-4 xl:grid-col-4 items-center mb-3 gap-5">
               <div className="col-span-1">
@@ -78,9 +78,9 @@ const NonEditableFields = ({task}) => {
                 </label>
                 <p
                   className=" border border-[#d1d5db] text-black h-10 w-full truncate px-3 flex items-center rounded-md text-sm  bg-white-50"
-                  title={task?.age}
+                  title={age}
                 >
-                  {task?.age}
+                  {age}
                 </p>
               </div>
               <div className="col-span-1">
