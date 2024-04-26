@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import Select from "react-select";
-
 const TaskOverview = ({
   Qparams,
   task,
@@ -12,6 +11,7 @@ const TaskOverview = ({
   members,
   setTask,
   status,
+  handleAddSubTask
 }) => {
   // -------full screen----
   const [expand, setExpand] = useState(false);
@@ -35,7 +35,7 @@ const TaskOverview = ({
     <div
       className={`fixed inset-0 transition-all duration-500 bg-gray-800 bg-opacity-50 z-50  ${
         overViewTask ? "" : "hidden"
-      }` }
+      }`}
     >
       <div
         className={` fixed inset-y-0 right-0  bg-white shadow-lg transform translate-x-0 transition-transform duration-300 ease-in-out ${
@@ -86,7 +86,7 @@ const TaskOverview = ({
               className="basic-multi-select"
               classNamePrefix="select"
               // value={{ label: task?.status, value: task?.status }}
-              value={{label:task?.status, value:task?.status  }}
+              value={{ label: task?.status, value: task?.status }}
               // value={
               //   task?.status
               //     ? {
@@ -168,70 +168,79 @@ const TaskOverview = ({
           </div>
         </div>
         <hr />
-   
-        <div className="overflow-y-scroll content relative"
-           style={{ maxHeight: 'calc(100vh - 17rem)' }}>
-            <div className=" ms-2 p-3 ">
+
+        <div
+          className="overflow-y-scroll content relative"
+          style={{ maxHeight: "calc(100vh - 17rem)" }}
+        >
+          <div className=" ms-2 p-3 ">
             <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-4 lg:grid-cols-4 xl:grid-col-4 items-center mb-3 gap-5">
               <div className="col-span-1">
                 <label className="block text-xs font-medium leading-6 my-1 text-[1e1f21]">
-                  Date 
+                  Date
                 </label>
-               
-                <p className=" border border-[#d1d5db] text-black h-10 w-full truncate px-3 flex items-center rounded-md text-sm   bg-white-50
-                " >
-                {task && (() => {
-                        let date = new Date(task?.date);
-                        const day = date.getUTCDate();
-                        const monthIndex = date.getUTCMonth();
-                        const year = date.getUTCFullYear();
 
-                        const monthAbbreviations = [
-                          "January",
-                          "February",
-                          "March",
-                          "April",
-                          "May",
-                          "June",
-                          "July",
-                          "August",
-                          "September",
-                          "October",
-                          "November",
-                          "December",
-                        ];
+                <p
+                  className=" border border-[#d1d5db] text-black h-10 w-full truncate px-3 flex items-center rounded-md text-sm   bg-white-50
+                "
+                >
+                  {task &&
+                    (() => {
+                      let date = new Date(task?.date);
+                      const day = date.getUTCDate();
+                      const monthIndex = date.getUTCMonth();
+                      const year = date.getUTCFullYear();
 
-let ordinalsText =""
-if(day == 1 || day ==21 || day == 31){
-        ordinalsText = "st"
-}else if(day == 2 || day == 22 ){
-  ordinalsText = "nd"
-}
-else if(day == 3 || day == 23 ){
-  ordinalsText = "rd"
-}
-else {
-  ordinalsText = "th"
-}
-                        // Formatting the date
-                        date = ` ${
-                          monthAbbreviations[monthIndex]
-                        } ${day < 10 ? "0" : ""} ${day}${ordinalsText}, ${year}`;
+                      const monthAbbreviations = [
+                        "January",
+                        "February",
+                        "March",
+                        "April",
+                        "May",
+                        "June",
+                        "July",
+                        "August",
+                        "September",
+                        "October",
+                        "November",
+                        "December",
+                      ];
 
-                        return (
-                        <span className="w-full truncate text-sm" title= {date ? date : "No Date"}>  {date ? date : "No Date"}</span> 
-                        );
-                      })()}
+                      let ordinalsText = "";
+                      if (day == 1 || day == 21 || day == 31) {
+                        ordinalsText = "st";
+                      } else if (day == 2 || day == 22) {
+                        ordinalsText = "nd";
+                      } else if (day == 3 || day == 23) {
+                        ordinalsText = "rd";
+                      } else {
+                        ordinalsText = "th";
+                      }
+                      // Formatting the date
+                      date = ` ${monthAbbreviations[monthIndex]} ${
+                        day < 10 ? "0" : ""
+                      } ${day}${ordinalsText}, ${year}`;
 
-</p>
-                
+                      return (
+                        <span
+                          className="w-full truncate text-sm"
+                          title={date ? date : "No Date"}
+                        >
+                          {" "}
+                          {date ? date : "No Date"}
+                        </span>
+                      );
+                    })()}
+                </p>
               </div>
               <div className="col-span-1">
                 <label className="block text-xs font-medium leading-6 my-1 text-[1e1f21]">
-                   Number
+                  Number
                 </label>
-                <p className=" border border-[#d1d5db] text-black h-10 w-full truncate px-3 flex items-center rounded-md text-sm  bg-white-50"
-                title={task?.meetingnumber}>
+                <p
+                  className=" border border-[#d1d5db] text-black h-10 w-full truncate px-3 flex items-center rounded-md text-sm  bg-white-50"
+                  title={task?.meetingnumber}
+                >
                   {task?.meetingnumber}
                 </p>
               </div>
@@ -239,8 +248,10 @@ else {
                 <label className="block text-xs font-medium leading-6 my-1 text-[1e1f21]">
                   Age(days)
                 </label>
-                <p className=" border border-[#d1d5db] text-black h-10 w-full truncate px-3 flex items-center rounded-md text-sm  bg-white-50"
-                title={task?.age}>
+                <p
+                  className=" border border-[#d1d5db] text-black h-10 w-full truncate px-3 flex items-center rounded-md text-sm  bg-white-50"
+                  title={task?.age}
+                >
                   {task?.age}
                 </p>
               </div>
@@ -426,7 +437,10 @@ else {
             </div>
           </div>
           <div className="flex justify-end pe-3">
-            <button className=" px-3 py-2 inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white mb-4 mt-2">
+            <button
+              onClick={() => handleAddSubTask(task?.id)}
+              className=" px-3 py-2 inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white mb-4 mt-2"
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 20 20"
@@ -438,28 +452,25 @@ else {
               Add Subtask
             </button>
           </div>
-          </div>
-          <hr />
+        </div>
+        <hr />
 
-          <div className="grid grid-cols-7 sm:grid-cols-7 md:grid-cols-7 lg:grid-cols-7 xl:grid-cols-7 ms-3 p-3 sticky bottom-0">
-            <div className="col-span-1 text-center ">
-              <p className="bg-yellow-500 text-black py-1.5 w-8 h-8  rounded-full">
-                <span className="flex justify-center text-gray-800 text-sm">
-                  BA
-                </span>
-              </p>
-            </div>
-            <div className="col-span-6">
-              <p className=" border border-[#d1d5db] text-black h-48 rounded-md text-sm   bg-white-50"></p>
-              {/* <textarea
+        <div className="grid grid-cols-7 sm:grid-cols-7 md:grid-cols-7 lg:grid-cols-7 xl:grid-cols-7 ms-3 p-3 sticky bottom-0">
+          <div className="col-span-1 text-center ">
+            <p className="bg-yellow-500 text-black py-1.5 w-8 h-8  rounded-full">
+              <span className="flex justify-center text-gray-800 text-sm">
+                BA
+              </span>
+            </p>
+          </div>
+          <div className="col-span-6">
+            <p className=" border border-[#d1d5db] text-black h-48 rounded-md text-sm   bg-white-50"></p>
+            {/* <textarea
               placeholder="Add a comment"
               className="p-2 border-2 text-sm w-full  shadow-sm rounded-md  focus:outline-none focus:border-orange-400"
             ></textarea> */}
-            </div>
-          </div> 
-        
-          
-      
+          </div>
+        </div>
 
         {/* <div className="flex ">
 
