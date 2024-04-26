@@ -91,7 +91,7 @@ const TaskOverview = ({
           className="overflow-y-scroll content relative"
           style={{ maxHeight: "calc(100vh - 17rem)" }}
         >
-          <div className=" ms-2 p-3 ">
+          <div className=" ms-2 p-2 ">
             <NonEditableFields task={task} />
             <EditableFields
               taskDecision={displayOverviewSubTask ? task?.decision : null}
@@ -106,6 +106,10 @@ const TaskOverview = ({
               }
               members={members}
               priority={priority}
+              setSubTask={setSubTask}
+              setDisplayOverviewTask = {setDisplayOverviewTask}
+              setDisplayOverviewSubTask ={setDisplayOverviewSubTask}
+              displayOverviewSubTask={displayOverviewSubTask}
             />
           </div>
           {displayOverviewTask && (

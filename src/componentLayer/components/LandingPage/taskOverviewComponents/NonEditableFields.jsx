@@ -2,14 +2,14 @@ import React from 'react'
 
 const NonEditableFields = ({task}) => {
   return (
-<div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-4 lg:grid-cols-2 xl:grid-col-2 items-center mb-1 gap-2">
+<div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-4 lg:grid-cols-4 xl:grid-col-4 items-center mb-3 gap-5">
               <div className="col-span-1">
-                <label className="block text-xs font-medium leading-4 my-1 text-[1e1f21]">
+                <label className="block text-xs font-medium leading-6 my-1 text-[1e1f21]">
                   Date
                 </label>
 
                 <p
-                  className=" border border-[#d1d5db] text-black h-10 w-full truncate px-3 flex items-center rounded-md text-sm bg-white-50
+                  className=" border border-[#d1d5db] text-black h-10 w-full truncate px-3 flex items-center rounded-md text-sm   bg-white-50
                 "
                 >
                   {task &&
@@ -47,7 +47,7 @@ const NonEditableFields = ({task}) => {
                       // Formatting the date
                       date = ` ${monthAbbreviations[monthIndex]} ${
                         day < 10 ? "0" : ""
-                      }${day}${ordinalsText}, ${year}`;
+                      }${day} ${ordinalsText}, ${year}`;
 
                       return (
                         <span
@@ -63,7 +63,7 @@ const NonEditableFields = ({task}) => {
               </div>
               <div className="col-span-1">
                 <label className="block text-xs font-medium leading-6 my-1 text-[1e1f21]">
-                  Number
+                  Meeting Id
                 </label>
                 <p
                   className=" border border-[#d1d5db] text-black h-10 w-full truncate px-3 flex items-center rounded-md text-sm  bg-white-50"
@@ -73,7 +73,7 @@ const NonEditableFields = ({task}) => {
                 </p>
               </div>
               <div className="col-span-1">
-                <label className="block text-xs font-medium leading-4 my-1 text-[1e1f21]">
+                <label className="block text-xs font-medium leading-6 my-1 text-[1e1f21]">
                   Age(days)
                 </label>
                 <p
@@ -84,7 +84,7 @@ const NonEditableFields = ({task}) => {
                 </p>
               </div>
               <div className="col-span-1">
-                <label className="block text-xs font-medium leading-4 my-1 text-[1e1f21]">
+                <label className="block text-xs font-medium leading-6 my-1 text-[1e1f21]">
                   {" "}
                   Entity
                 </label>
