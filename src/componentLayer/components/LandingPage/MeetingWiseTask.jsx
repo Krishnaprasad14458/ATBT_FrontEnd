@@ -25,10 +25,13 @@ export async function tasksLoader({ request, params }) {
   try {
     const url = new URL(request.url);
     const taskID = url.searchParams.get("taskID");
-    const [tasks, task,subTasks] = await Promise.all([
+    const subTaskID = url.searchParams.get("subTaskID");
+
+    const [tasks, task,subTasks,subTask] = await Promise.all([
       atbtApi.get(`task/list/${params.BMid} `),
       atbtApi.get(`task/listbyid/${taskID}`),
-      atbtApi.get(`task/subList/${taskID}`)
+      atbtApi.get(`task/subList/${taskID}`),
+      subTaskID ? atbtApi.get(`task/subtaskbyid/${subTaskID}`) : null
     ]);
     let updatedTask = task?.data[0];
     let age = null;
@@ -44,6 +47,7 @@ export async function tasksLoader({ request, params }) {
       tasks: tasks?.data,
       task: updatedTask,
       subTasks:subTasks?.data?.Task,
+      subTask:subTask?.data[0],
       threadName: `${tasks?.data[0]?.meetingnumber}`,
       threadPath: `/users/${params.id}/boardmeetings/${params.BMid}`,
     };
@@ -110,10 +114,13 @@ const MeetingWiseTask = () => {
   let [tasks, setTasks] = useState([]);
   let [task, setTask] = useState({});
   let [subTasks,setSubTasks] = useState()
+  let [subTask,setSubTask] = useState()
+
   useEffect(() => {
     setTasks(data?.tasks);
     setTask(data?.task);
     setSubTasks(data?.subTasks)
+    setSubTask(data?.subTask)
   }, [data]);
   console.log("task", task);
   console.log("tasks", tasks);
@@ -133,8 +140,11 @@ const MeetingWiseTask = () => {
     []
   );
   const [overViewTask, setOverViewTask] = useState(false);
+  const [displayOverviewTask,setDisplayOverviewTask] = useState(false)
+  const [displayOverviewSubTask,setDisplayOverviewSubTask] = useState(false)
   const handleOverViewTask = (taskId) => {
     setOverViewTask(!overViewTask);
+    setDisplayOverviewTask(!displayOverviewTask)
     setQParams((prev) => ({ ...prev, taskID: taskId }));
   };
   const handleAddNewTask = async () => {
@@ -156,6 +166,18 @@ const MeetingWiseTask = () => {
       console.log(error, "which error");
     }
   };
+  const handleTaskChange = (index, field, value) => {
+    const updatedTasks = [...tasks];
+    updatedTasks[index][field] = value;
+    setTasks(updatedTasks);
+  };
+
+  const handleOverviewTaskChange = (field, value) => {
+    const updatedTask = { ...task };
+    updatedTask[field] = value;
+    setTask(updatedTask);
+  };
+ 
   const handleAddSubTask = (taskID)=>{
     let requestBody = { id :taskID, type:'ADD_SUB_TASK'}
     try {
@@ -167,24 +189,18 @@ const MeetingWiseTask = () => {
       console.log(error, "which error");
     }
   }
-  const handleTaskChange = (index, field, value) => {
-    const updatedTasks = [...tasks];
-    updatedTasks[index][field] = value;
-    setTasks(updatedTasks);
-  };
+
   const handleSubTaskChange = (index, field, value) => {
     const updatedSubTasks = [...subTasks];
     updatedSubTasks[index][field] = value;
     setSubTasks(updatedSubTasks);
-    
   };
-  const handleOverviewTaskChange = (field, value) => {
-    const updatedTask = { ...task };
-    updatedTask[field] = value;
-    setTask(updatedTask);
+  
+  const handleOverviewSubTaskChange = (field, value) => {
+    const updatedSubTask = { ...subTask };
+    updatedSubTask[field] = value;
+    setSubTask(updatedSubTask);
   };
- 
-
   const handleSubmit = (taskId, taskFieldName, taskValue) => {
     setAutoFocusID(null);
     setIsInputActive(null);
@@ -225,7 +241,7 @@ const MeetingWiseTask = () => {
   const [autoFocusID, setAutoFocusID] = useState(null);
   const [autoFocusSubTaskID, setAutoFocussubTaskID] = useState(null);
 
-  const [startDate, setStartDate] = useState();
+  
   // Event handler for input focus
   const handleInputFocus = (id) => {
     setIsInputActive(id);
@@ -561,6 +577,11 @@ const MeetingWiseTask = () => {
         handleSubTaskChange={handleSubTaskChange}
         handleSubTaskSubmit={handleSubTaskSubmit}
         autoFocusSubTaskID
+        handleOverviewSubTaskChange={handleOverviewSubTaskChange} subTask={subTask}
+        displayOverviewTask={displayOverviewTask}
+        displayOverviewSubTask={displayOverviewSubTask}
+        setDisplayOverviewTask={setDisplayOverviewTask}
+        setDisplayOverviewSubTask={setDisplayOverviewSubTask}
       />
     </div>
   );
