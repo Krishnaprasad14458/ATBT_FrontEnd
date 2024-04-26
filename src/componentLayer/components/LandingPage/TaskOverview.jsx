@@ -5,7 +5,11 @@ import SubTasksList from "./taskOverviewComponents/SubTasksList";
 import Collaborators from "./taskOverviewComponents/Collaborators";
 import Comments from "./taskOverviewComponents/Comments";
 import TaskOverViewHeader from "./taskOverviewComponents/TaskOverViewHeader";
+
 const TaskOverview = ({
+  setAutoFocussubTaskID,
+  isSubTaskInputActiveID,
+  setIsSubTaskInputActive,
   Qparams,
   task,
   overViewTask,
@@ -27,6 +31,7 @@ const TaskOverview = ({
   displayOverviewTask,
   setDisplayOverviewTask,
   setDisplayOverviewSubTask,
+  setSubTask
 }) => {
   // -------full screen----
   const [expand, setExpand] = useState(false);
@@ -62,15 +67,24 @@ const TaskOverview = ({
         <TaskOverViewHeader
           Qparams={Qparams}
           setQParams={setQParams}
+          overViewTask={overViewTask}
           setOverViewTask={setOverViewTask}
           setTask={setTask}
+          setSubTask={setSubTask}
           status={status}
-          task={task}
+          task={displayOverviewTask ? task : subTask}
           handleExpand={handleExpand}
           expand={expand}
-          handleSubmit={handleSubmit}
-          handleOverviewTaskChange={handleOverviewTaskChange}
-          overViewTask={overViewTask}
+          handleSubmit={
+            displayOverviewTask ? handleSubmit : handleSubTaskSubmit
+          }
+          handleOverviewTaskChange={
+            displayOverviewTask
+              ? handleOverviewTaskChange
+              : handleOverviewSubTaskChange
+          }
+          setDisplayOverviewTask={setDisplayOverviewTask}
+          setDisplayOverviewSubTask={setDisplayOverviewSubTask}
         />
         <hr />
         <div
@@ -79,39 +93,38 @@ const TaskOverview = ({
         >
           <div className=" ms-2 p-3 ">
             <NonEditableFields task={task} />
-
-            {displayOverviewTask && (
-              <EditableFields
-                task={task}
-                handleOverviewTaskChange={handleOverviewTaskChange}
-                handleSubmit={handleSubmit}
-                members={members}
-                priority={priority}
-              />
-            )}
-            {displayOverviewSubTask && (
-              <EditableFields
-                task={subTask}
-                handleOverviewTaskChange={handleOverviewSubTaskChange}
-                handleSubmit={handleSubTaskSubmit}
-                members={members}
-                priority={priority}
-              />
-            )}
+            <EditableFields
+              task={displayOverviewTask ? task : subTask}
+              handleOverviewTaskChange={
+                displayOverviewTask
+                  ? handleOverviewTaskChange
+                  : handleOverviewSubTaskChange
+              }
+              handleSubmit={
+                displayOverviewTask ? handleSubmit : handleSubTaskSubmit
+              }
+              members={members}
+              priority={priority}
+            />
           </div>
-         { displayOverviewTask && <SubTasksList
-            task={task}
-            handleAddSubTask={handleAddSubTask}
-            subTasks={subTasks}
-            handleSubTaskChange={handleSubTaskChange}
-            handleSubTaskSubmit={handleSubTaskSubmit}
-            autoFocusSubTaskID={autoFocusSubTaskID}
-            setQParams={setQParams}
-            displayOverviewTask={displayOverviewTask}
-            displayOverviewSubTask={displayOverviewSubTask}
-            setDisplayOverviewTask={setDisplayOverviewTask}
-            setDisplayOverviewSubTask={setDisplayOverviewSubTask}
-          />}
+          {displayOverviewTask && (
+            <SubTasksList
+              task={task}
+              handleAddSubTask={handleAddSubTask}
+              subTasks={subTasks}
+              setQParams={setQParams}
+              displayOverviewTask={displayOverviewTask}
+              displayOverviewSubTask={displayOverviewSubTask}
+              setDisplayOverviewTask={setDisplayOverviewTask}
+              setDisplayOverviewSubTask={setDisplayOverviewSubTask}
+              isInputActiveID={isSubTaskInputActiveID}
+              handleTaskChange={handleSubTaskChange}
+              handleSubmit={handleSubTaskSubmit}
+              autoFocusID={autoFocusSubTaskID}
+              setIsInputActive={setIsSubTaskInputActive}
+              setAutoFocusID={setAutoFocussubTaskID}
+            />
+          )}
         </div>
         <hr />
         <Comments />
