@@ -11,7 +11,9 @@ const TaskOverview = ({
   members,
   setTask,
   status,
-  handleAddSubTask
+  handleAddSubTask,
+  subTasks,
+  autoFocusSubTaskID,handleSubTaskSubmit,handleSubTaskChange
 }) => {
   // -------full screen----
   const [expand, setExpand] = useState(false);
@@ -435,6 +437,29 @@ const TaskOverview = ({
                 />
               </div>
             </div>
+          </div>
+          <div>
+            {subTasks &&
+              subTasks.map((subTask, index) => (
+                <div>
+                 
+                  <input
+                    className="border border-[#d1d5db] text-black px-1.5 py-1.5 rounded-md  bg-[#f9fafb] focus:outline-none text-sm focus:border-orange-400 "
+                    style={{ width: "22rem" }}
+                    type="text"
+                    placeholder="Type here"
+                    value={subTask?.decision}
+                    onChange={(e) =>
+                      handleSubTaskChange(index, "decision", e.target.value)
+                    }
+                    onBlur={(e) =>
+                      handleSubTaskSubmit(subTask?.id, "decision", e.target.value)
+                    }
+                    // onFocus={handleInputFocus}
+                    autoFocus={autoFocusSubTaskID === subTask.id ? true : false}
+                  />
+                </div>
+              ))}
           </div>
           <div className="flex justify-end pe-3">
             <button
