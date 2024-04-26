@@ -348,7 +348,7 @@ function Users() {
                             style={{ maxWidth: "160px" }}
                             title={row[key]}
                           >
-                            <p className="truncate text-xs"> {value}</p>
+                            <p className="truncate text-xs">{value}</p>
                           </td>
                         );
                       }

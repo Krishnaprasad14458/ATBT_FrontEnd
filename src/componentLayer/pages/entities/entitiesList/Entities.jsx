@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef, useCallback } from 'react';
 import { Link, useFetcher, useLoaderData, useNavigation, useSubmit } from 'react-router-dom';
 import './Entities.css';
 import Swal from 'sweetalert2';
-import { debounce } from '../../../../utils/utils'
+import { debounce , caseLetter } from '../../../../utils/utils'
 import GateKeeper from '../../../../rbac/GateKeeper';
 import atbtApi from '../../../../serviceLayer/interceptor';
 import CustomColumn from '../../../components/tableCustomization/CustomColumn';
@@ -293,7 +293,7 @@ function Entities() {
                               }
                             >
                               <Link to={`${row.id}/entity/boardmeetings`}>
-                                <p className='truncate text-xs'> {value}</p>
+                                <p className='truncate text-xs'> {caseLetter(value)}</p>
                               </Link>
                             </GateKeeper>
                           </td>
