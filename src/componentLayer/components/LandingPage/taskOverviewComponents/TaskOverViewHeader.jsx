@@ -9,10 +9,13 @@ const TaskOverViewHeader = ({
   handleExpand,
   expand,
   setTask,
-  setOverViewTask,
+  setSubTask,
   Qparams,
   setQParams,
-  overViewTask
+  overViewTask,
+  setOverViewTask,
+  setDisplayOverviewTask,
+  setDisplayOverviewSubTask,
 }) => {
   return (
     <div className="flex justify-start p-2">
@@ -116,9 +119,13 @@ const TaskOverViewHeader = ({
         <button
           onClick={() => {
             setTask({ decision: "", members: "", dueDate: "", status: "" });
+            setSubTask({ decision: "", members: "", dueDate: "", status: "" });
+            setDisplayOverviewTask(false);
+            setDisplayOverviewSubTask(false);
             setOverViewTask(!overViewTask);
             let updatedQparams = { ...Qparams };
             delete updatedQparams.taskID;
+            delete updatedQparams.subTaskID;
             setQParams(updatedQparams);
           }}
           className=""
