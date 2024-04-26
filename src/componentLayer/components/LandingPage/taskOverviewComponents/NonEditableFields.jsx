@@ -47,7 +47,7 @@ const NonEditableFields = ({task}) => {
                       // Formatting the date
                       date = ` ${monthAbbreviations[monthIndex]} ${
                         day < 10 ? "0" : ""
-                      } ${day}${ordinalsText}, ${year}`;
+                      }${day}${ordinalsText}, ${year}`;
 
                       return (
                         <span
