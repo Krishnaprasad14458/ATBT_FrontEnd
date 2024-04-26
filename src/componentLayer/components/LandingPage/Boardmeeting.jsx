@@ -310,9 +310,9 @@ function Boardmeeting() {
                         ordinalsText = "th";
                       }
                         // Formatting the date
-                        value = ` ${monthAbbreviations[monthIndex]} ${
+                        value = `${monthAbbreviations[monthIndex]} ${
                           day < 10 ? "0" : ""
-                        } ${day}${ordinalsText}, ${year}`;
+                        }${day}${ordinalsText}, ${year}`;
   
                       }
                       if (key === "meetingnumber") {
