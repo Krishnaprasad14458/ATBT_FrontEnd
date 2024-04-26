@@ -7,6 +7,11 @@ const SubTasksList = ({
   handleSubTaskChange,
   handleSubTaskSubmit,
   autoFocusSubTaskID,
+  setQParams,
+  displayOverviewSubTask,
+  displayOverviewTask,
+  setDisplayOverviewTask,
+  setDisplayOverviewSubTask,
 }) => {
   return (
     <div>
@@ -91,6 +96,11 @@ const SubTasksList = ({
               viewBox="0 0 20 20"
               fill="currentColor"
               className="w-4 h-4"
+              onClick={() => {
+                setDisplayOverviewTask(!displayOverviewTask);
+                setDisplayOverviewSubTask(!displayOverviewSubTask);
+                setQParams((prev) => ({ ...prev, subTaskID: subTask?.id }));
+              }}
             >
               <path
                 fillRule="evenodd"
