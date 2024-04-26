@@ -285,23 +285,35 @@ function Boardmeeting() {
                         const year = value.getUTCFullYear();
 
                         const monthAbbreviations = [
-                          "Jan",
-                          "Feb",
-                          "Mar",
-                          "Apr",
+                          "January",
+                          "February",
+                          "March",
+                          "April",
                           "May",
-                          "Jun",
-                          "Jul",
-                          "Aug",
-                          "Sep",
-                          "Oct",
-                          "Nov",
-                          "Dec",
+                          "June",
+                          "July",
+                          "August",
+                          "September",
+                          "October",
+                          "November",
+                          "December",
                         ];
+                        
+                      let ordinalsText = "";
+                      if (day == 1 || day == 21 || day == 31) {
+                        ordinalsText = "st";
+                      } else if (day == 2 || day == 22) {
+                        ordinalsText = "nd";
+                      } else if (day == 3 || day == 23) {
+                        ordinalsText = "rd";
+                      } else {
+                        ordinalsText = "th";
+                      }
                         // Formatting the date
-                        value = `${day < 10 ? "0" : ""}${day}-${
-                          monthAbbreviations[monthIndex]
-                        }-${year}`;
+                        value = ` ${monthAbbreviations[monthIndex]} ${
+                          day < 10 ? "0" : ""
+                        } ${day}${ordinalsText}, ${year}`;
+  
                       }
                       if (key === "meetingnumber") {
                         return (
