@@ -7,10 +7,13 @@ const EditableFields = ({
   handleSubmit,
   members,
   priority,
+  taskDecision,
 }) => {
+  console.log("taskDecision",taskDecision)
   return (
     <>
       <div className="mb-2">
+        {taskDecision} - {task?.decision}
         <label className="block text-xs font-medium leading-6 my-1 text-[1e1f21]">
           Decision Taken
         </label>
