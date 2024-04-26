@@ -51,7 +51,6 @@ export async function tasksLoader({ request, params }) {
       threadName: `${tasks?.data[0]?.meetingnumber}`,
       threadPath: `/users/${params.id}/boardmeetings/${params.BMid}`,
     };
-
     console.log("combinedResponse", combinedResponse);
     return combinedResponse;
   } catch (error) {
@@ -99,10 +98,6 @@ export async function MeetingWiseTasksActions({ request, params }) {
 
       return await atbtApi.delete(`task/delete/${DeleteTaskId}`);
     }
-    // case "ADD_SUB_TASK": {
-    //   const taskID = (await request.json()) || null;
-    // }
-    
     default: {
       throw new Response("", { status: 405 });
     }
@@ -122,8 +117,7 @@ const MeetingWiseTask = () => {
     setSubTasks(data?.subTasks)
     setSubTask(data?.subTask)
   }, [data]);
-  console.log("task", task);
-  console.log("tasks", tasks);
+  
   let fetcher = useFetcher();
   const { id } = useParams();
   const [Qparams, setQParams] = useState({
@@ -156,28 +150,6 @@ const MeetingWiseTask = () => {
       console.log(error, "which error");
     }
   };
-  const handleDeleteTask = async (deleteId) => {
-    try {
-      fetcher.submit(deleteId, {
-        method: "DELETE",
-        encType: "application/json",
-      });
-    } catch (error) {
-      console.log(error, "which error");
-    }
-  };
-  const handleTaskChange = (index, field, value) => {
-    const updatedTasks = [...tasks];
-    updatedTasks[index][field] = value;
-    setTasks(updatedTasks);
-  };
-
-  const handleOverviewTaskChange = (field, value) => {
-    const updatedTask = { ...task };
-    updatedTask[field] = value;
-    setTask(updatedTask);
-  };
- 
   const handleAddSubTask = (taskID)=>{
     let requestBody = { id :taskID, type:'ADD_SUB_TASK'}
     try {
@@ -189,19 +161,8 @@ const MeetingWiseTask = () => {
       console.log(error, "which error");
     }
   }
-
-  const handleSubTaskChange = (index, field, value) => {
-    const updatedSubTasks = [...subTasks];
-    updatedSubTasks[index][field] = value;
-    setSubTasks(updatedSubTasks);
-  };
-  
-  const handleOverviewSubTaskChange = (field, value) => {
-    const updatedSubTask = { ...subTask };
-    updatedSubTask[field] = value;
-    setSubTask(updatedSubTask);
-  };
   const handleSubmit = (taskId, taskFieldName, taskValue) => {
+    console.log("handleSubmit clicked")
     setAutoFocusID(null);
     setIsInputActive(null);
     let UpdateData = {
@@ -220,8 +181,10 @@ const MeetingWiseTask = () => {
     }
   };
   const handleSubTaskSubmit = (subTaskId, taskFieldName, taskValue) => {
+    console.log("handleSubTaskSubmit clicked")
+
     setAutoFocussubTaskID(null);
-    setIsInputActive(null);
+    setIsSubTaskInputActive(null);
     let UpdateData = {
       id: subTaskId,
       data: { [taskFieldName]: taskValue },
@@ -237,15 +200,41 @@ const MeetingWiseTask = () => {
       console.log(error, "which error");
     }
   };
+  const handleDeleteTask = async (deleteId) => {
+    try {
+      fetcher.submit(deleteId, {
+        method: "DELETE",
+        encType: "application/json",
+      });
+    } catch (error) {
+      console.log(error, "which error");
+    }
+  };
+  const handleTaskChange = (index, field, value) => {
+    const updatedTasks = [...tasks];
+    updatedTasks[index][field] = value;
+    setTasks(updatedTasks);
+  };
+  const handleOverviewTaskChange = (field, value) => {
+    const updatedTask = { ...task };
+    updatedTask[field] = value;
+    setTask(updatedTask);
+  };
+  const handleSubTaskChange = (index, field, value) => {
+    const updatedSubTasks = [...subTasks];
+    updatedSubTasks[index][field] = value;
+    setSubTasks(updatedSubTasks);
+  };
+  
+  const handleOverviewSubTaskChange = (field, value) => {
+    const updatedSubTask = { ...subTask };
+    updatedSubTask[field] = value;
+    setSubTask(updatedSubTask);
+  };
   const [isInputActiveID, setIsInputActive] = useState(null);
+  const [isSubTaskInputActiveID, setIsSubTaskInputActive] = useState(null);
   const [autoFocusID, setAutoFocusID] = useState(null);
   const [autoFocusSubTaskID, setAutoFocussubTaskID] = useState(null);
-
-  
-  // Event handler for input focus
-  const handleInputFocus = (id) => {
-    setIsInputActive(id);
-  };
   return (
     <div className="p-3">
       <div className="flex justify-end">
@@ -576,12 +565,18 @@ const MeetingWiseTask = () => {
         subTasks={subTasks}
         handleSubTaskChange={handleSubTaskChange}
         handleSubTaskSubmit={handleSubTaskSubmit}
-        autoFocusSubTaskID
         handleOverviewSubTaskChange={handleOverviewSubTaskChange} subTask={subTask}
         displayOverviewTask={displayOverviewTask}
         displayOverviewSubTask={displayOverviewSubTask}
         setDisplayOverviewTask={setDisplayOverviewTask}
         setDisplayOverviewSubTask={setDisplayOverviewSubTask}
+        isSubTaskInputActiveID={isSubTaskInputActiveID} 
+        setIsSubTaskInputActive={setIsSubTaskInputActive}
+        autoFocusSubTaskID={autoFocusSubTaskID}
+       setAutoFocussubTaskID={setAutoFocussubTaskID}
+       setSubTask={setSubTask}
+
+      
       />
     </div>
   );
