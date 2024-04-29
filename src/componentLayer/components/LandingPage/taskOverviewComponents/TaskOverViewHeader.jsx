@@ -59,23 +59,7 @@ const TaskOverViewHeader = ({
           }}
           className="basic-multi-select"
           classNamePrefix="select"
-          // value={{ label: task?.status, value: task?.status }}
           value={{ label: task?.status, value: task?.status }}
-          // value={
-          //   task?.status
-          //     ? {
-          //         label:
-          //           task.status === "inprogress"
-          //             ? "In Progress"
-          //             : task.status === "close"
-          //             ? "Close"
-          //             : task.status === "resolve"
-          //             ? "Resolve"
-          //             : "",
-          //         value: task.status,
-          //       }
-          //     : ""
-          // }
         />
       </div>
       <div className="absolute top-4 right-4 flex flex-row">

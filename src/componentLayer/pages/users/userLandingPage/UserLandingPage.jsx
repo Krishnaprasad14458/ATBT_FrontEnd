@@ -53,7 +53,7 @@ const UserLandingPage = () => {
     return formattedTime;
   }
   return (
-    <div className="container p-4 bg-[#f8fafc]">
+    <div className=" p-4 bg-[#f8fafc]">
       <div className="flex justify-between my-2">
         {/* <p className="text-xl font-semibold">User Landing Page</p> */}<BreadCrumbs/>
         <div className="flex justify-end gap-3 ">
@@ -69,7 +69,7 @@ const UserLandingPage = () => {
         </div>
       </div>
 
-      <div className="flex overflow-auto">
+      <div className="flex overflow-x-auto">
         <NavLink
           to="boardmeetings"
           end

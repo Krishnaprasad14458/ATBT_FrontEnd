@@ -92,8 +92,10 @@ const TaskOverview = ({
           style={{ maxHeight: "calc(100vh - 17rem)" }}
         >
           <div className=" ms-2 p-2 ">
-            <NonEditableFields task={task} 
-            age={displayOverviewTask ? task?.age :subTask?.age}/>
+            <NonEditableFields
+              task={task}
+              age={displayOverviewTask ? task?.age : subTask?.age}
+            />
             <EditableFields
               taskDecision={displayOverviewSubTask ? task?.decision : null}
               task={displayOverviewTask ? task : subTask}
@@ -108,8 +110,8 @@ const TaskOverview = ({
               members={members}
               priority={priority}
               setSubTask={setSubTask}
-              setDisplayOverviewTask = {setDisplayOverviewTask}
-              setDisplayOverviewSubTask ={setDisplayOverviewSubTask}
+              setDisplayOverviewTask={setDisplayOverviewTask}
+              setDisplayOverviewSubTask={setDisplayOverviewSubTask}
               displayOverviewSubTask={displayOverviewSubTask}
             />
           </div>
@@ -129,7 +131,7 @@ const TaskOverview = ({
               autoFocusID={autoFocusSubTaskID}
               setIsInputActive={setIsSubTaskInputActive}
               setAutoFocusID={setAutoFocussubTaskID}
-              status ={status}
+              status={status}
             />
           )}
         </div>
