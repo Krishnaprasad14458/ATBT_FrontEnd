@@ -129,6 +129,7 @@ const TaskOverview = ({
               autoFocusID={autoFocusSubTaskID}
               setIsInputActive={setIsSubTaskInputActive}
               setAutoFocusID={setAutoFocussubTaskID}
+              status ={status}
             />
           )}
         </div>
