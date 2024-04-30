@@ -337,7 +337,7 @@ const MeetingWiseTask = () => {
               <th
                 className="py-2 px-2  text-sm text-white bg-orange-600    border border-collapse border-[#e5e7eb]  text-left
                whitespace-nowrap"
-              >
+               style={{ width: "8rem" }}>
                 Status
               </th>
               <th
@@ -511,7 +511,9 @@ const MeetingWiseTask = () => {
                       }}
                     />
                   </td>
-                  <td className="border py-1.5 px-3" style={{ width: "9rem" }}>
+                  <td className="border py-1.5 px-3 "
+                    title={task?.status}
+                    style={{ width: "8rem" }}>
                     <Select
                       options={status}
                       menuPortalTarget={document.body}
@@ -539,6 +541,7 @@ const MeetingWiseTask = () => {
                           "&:focus-within": {
                             borderColor: "#fb923c",
                           },
+                          width: "8rem"
                         }),
                         option: (provided, state) => ({
                           ...provided,
@@ -572,7 +575,6 @@ const MeetingWiseTask = () => {
                         handleSubmit(task?.id, "status", selectedOption.value);
                         handleTaskChange(index, "status", selectedOption.value);
                       }}
-                      className="basic-multi-select"
                       classNamePrefix="select"
                       value={{ label: task?.status, value: task?.status }}
                       menuPlacement="auto"
