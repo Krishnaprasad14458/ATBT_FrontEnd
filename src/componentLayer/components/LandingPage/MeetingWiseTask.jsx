@@ -88,6 +88,9 @@ export async function MeetingWiseTasksActions({ request, params }) {
       if(requestBody.type==="ADD_TASK_COMMENT"){
         return await atbtApi.post(`task/addComments?task=${requestBody.id}`,requestBody.data);
       }
+      if(requestBody.type==="ADD_SUBTASK_COMMENT"){
+        return await atbtApi.post(`task/addComments?subtask=${requestBody.id}`,requestBody.data);
+      }
     }
     break
     case "PATCH": {
