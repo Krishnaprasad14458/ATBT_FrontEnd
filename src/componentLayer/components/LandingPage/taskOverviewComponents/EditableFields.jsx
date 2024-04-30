@@ -18,7 +18,6 @@ const EditableFields = ({
     <>
       <div className="mb-2">
         {displayOverviewSubTask && 
-        
         <>
           <span
           onClick={() => {
@@ -28,8 +27,7 @@ const EditableFields = ({
           }}
         >
           {taskDecision}
-        </span>
-        - {task?.decision}</>}
+        </span> - {task?.decision}</>}
       
         <label className="block text-xs font-medium leading-6 my-1 text-[1e1f21]">
           Decision Taken

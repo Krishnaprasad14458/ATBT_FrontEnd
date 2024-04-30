@@ -264,10 +264,10 @@ const MeetingWiseTask = () => {
   const [autoFocusID, setAutoFocusID] = useState(null);
   const [autoFocusSubTaskID, setAutoFocussubTaskID] = useState(null);
   return (
-    <div className="p-3">
+    <div className="p-3 ">
       <div className="flex justify-end">
         <button
-          className=" ms-2  mt-1 inline-flex items-center justify-center whitespace-nowrap rounded-2xl text-sm font-medium  transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50  text-orange-foreground shadow hover:bg-orange/90 h-9 px-3 py-1 shrink-0 bg-orange-600 text-white gap-1"
+          className=" ms-2  mt-1 inline-flex items-center  whitespace-nowrap rounded-2xl text-sm font-medium  transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50  text-orange-foreground shadow hover:bg-orange/90 h-9 px-3 py-1 shrink-0 bg-orange-600 text-white gap-1"
           onClick={handleAddNewTask}
         >
           <svg
@@ -281,7 +281,7 @@ const MeetingWiseTask = () => {
           Add Task
         </button>
       </div>
-      <div className=" ">
+      <div className="overflow-x-auto ">
         <table className="w-full divide-y divide-gray-200 dark:divide-gray-700 rounded-md">
           <thead>
             <tr>
@@ -345,7 +345,6 @@ const MeetingWiseTask = () => {
                           onBlur={(e) =>
                             handleSubmit(task?.id, "decision", e.target.value)
                           }
-                          // onFocus={handleInputFocus}
                           autoFocus={autoFocusID === task.id ? true : false}
                         />
                       )}
@@ -393,6 +392,7 @@ const MeetingWiseTask = () => {
                   >
                     <Select
                       options={members}
+                      menuPortalTarget={document.body}
                       styles={{
                         control: (provided, state) => ({
                           ...provided,
@@ -437,6 +437,10 @@ const MeetingWiseTask = () => {
                           ...provided,
                           display: state.isFocused ? "visible" : "none",
                         }),
+                        menu: (provided) => ({
+                          ...provided,
+                          zIndex: 9999, // Ensure the dropdown menu appears above other elements
+                        }),
                       }}
                       theme={(theme) => ({
                         ...theme,
@@ -454,9 +458,10 @@ const MeetingWiseTask = () => {
                           selectedOption.value
                         );
                       }}
-                      className="basic-multi-select "
+                      
                       classNamePrefix="select"
                       value={{ label: task?.members, value: task?.members }}
+                      menuPlacement="auto" 
                     />
                   </td>
                   <td className="border py-1.5 px-3" style={{ width: "11rem" }}>
@@ -470,9 +475,10 @@ const MeetingWiseTask = () => {
                       }}
                     />
                   </td>
-                  <td className="border py-1.5 px-3" style={{ width: "8rem" }}>
+                  <td className="border py-1.5 px-3" style={{ width: "9rem" }}>
                     <Select
                       options={status}
+                      menuPortalTarget={document.body}
                       styles={{
                         control: (provided, state) => ({
                           ...provided,
@@ -532,22 +538,8 @@ const MeetingWiseTask = () => {
                       }}
                       className="basic-multi-select"
                       classNamePrefix="select"
-                      // value={{ label: task?.status, value: task?.status }}
-
-                      // value={
-                      //   task?.status
-                      //     ? {
-                      //         label:
-                      //           task.status === "inprogress"
-                      //             ? "In Progress"
-                      //             : task.status === "close"
-                      //             ? "Close"
-                      //             : task.status === "resolve" ? "Resolve" : "",
-                      //         value: task.status,
-                      //       }
-                      //     : ""
-                      // }
                       value={{ label: task?.status, value: task?.status }}
+                      menuPlacement="auto" 
                     />
                   </td>
                   <td className="border py-1.5 px-3 text-sm text-gray-600">

@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import { useParams } from "react-router-dom";
 const AllTasks = () => {
@@ -113,7 +113,7 @@ const AllTasks = () => {
               </th>
             </tr>
           </thead>
-         
+
           <tbody className="">
             {tasks?.map((task, index) => (
               <tr key={index}>

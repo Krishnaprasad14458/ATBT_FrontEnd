@@ -15,16 +15,18 @@ import GateKeeper from "../../../rbac/GateKeeper";
 import { debounce } from "../../../utils/utils";
 import Swal from "sweetalert2";
 let url;
-let moduleName
+let moduleName;
 export async function loader({ request, params }) {
   try {
     url = new URL(request.url);
 
-
-    const [meetings,entityList, roleList, meetingFormData] = await Promise.all(
+    const [meetings, entityList, roleList, meetingFormData] = await Promise.all(
       [
-        // atbtApi.post(`boardmeeting/list${url?.search ? url?.search : ""}`, {}),
-        atbtApi.get(`boardmeeting/list?${moduleName}=${params.id}${url?.search ? url?.search : ""}`),
+        atbtApi.get(
+          `boardmeeting/list?${moduleName}=${params.id}${
+            url?.search ? url?.search : ""
+          }`
+        ),
         atbtApi.post(`public/list/entity`),
         atbtApi.post(`public/list/role`),
         atbtApi.get(`form/list?name=boardmeetingform`),
@@ -40,7 +42,7 @@ export async function loader({ request, params }) {
       tableViewData: meetingFormData?.data?.Tableview,
       customForm: meetingFormData?.data?.Data,
       threadName: "BoardMeetings",
-     threadPath:`/users/${params.id}/boardmeetings`
+      threadPath: `/users/${params.id}/boardmeetings`,
     };
     console.log(combinedResponse, "entities response", request, params);
     return combinedResponse;
@@ -62,10 +64,8 @@ export async function action({ request, params }) {
   }
 }
 
-
-
 function Boardmeeting() {
-   moduleName = useOutletContext();
+  moduleName = useOutletContext();
   console.log("moduleName", moduleName);
   const { id } = useParams();
   console.log("hi", id);
@@ -300,22 +300,21 @@ function Boardmeeting() {
                           "November",
                           "December",
                         ];
-                        
-                      let ordinalsText = "";
-                      if (day == 1 || day == 21 || day == 31) {
-                        ordinalsText = "st";
-                      } else if (day == 2 || day == 22) {
-                        ordinalsText = "nd";
-                      } else if (day == 3 || day == 23) {
-                        ordinalsText = "rd";
-                      } else {
-                        ordinalsText = "th";
-                      }
+
+                        let ordinalsText = "";
+                        if (day == 1 || day == 21 || day == 31) {
+                          ordinalsText = "st";
+                        } else if (day == 2 || day == 22) {
+                          ordinalsText = "nd";
+                        } else if (day == 3 || day == 23) {
+                          ordinalsText = "rd";
+                        } else {
+                          ordinalsText = "th";
+                        }
                         // Formatting the date
                         value = `${monthAbbreviations[monthIndex]} ${
                           day < 10 ? "0" : ""
                         }${day}${ordinalsText}, ${year}`;
-  
                       }
                       if (key === "meetingnumber") {
                         return (

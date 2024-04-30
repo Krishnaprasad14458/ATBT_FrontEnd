@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import logo from "../../../assets/Images/logo.png";
 import { Link, useLocation } from "react-router-dom";
 import GateKeeper from "../../../rbac/GateKeeper";
-
 const Sidebar = () => {
   const location = useLocation();
   console.log(location, "location");
@@ -99,7 +98,6 @@ const Sidebar = () => {
       ),
       module: "task",
     },
-
     {
       name: "Reports",
       link: "/reports",
@@ -139,7 +137,6 @@ const Sidebar = () => {
       module: "setting",
     },
   ];
-
   const [open, setOpen] = useState(true);
   const [active, setActive] = useState("Home");
   let screenSize = window.innerWidth;

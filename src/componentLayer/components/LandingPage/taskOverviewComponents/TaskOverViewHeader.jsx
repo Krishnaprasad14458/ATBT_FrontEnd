@@ -1,6 +1,6 @@
 import React from "react";
 import Select from "react-select";
-
+import { useMediaQuery } from 'react-responsive';
 const TaskOverViewHeader = ({
   handleSubmit,
   handleOverviewTaskChange,
@@ -17,6 +17,7 @@ const TaskOverViewHeader = ({
   setDisplayOverviewTask,
   setDisplayOverviewSubTask,
 }) => {
+  const isSmallScreen = useMediaQuery({ query: '(max-width: 768px)' });
   return (
     <div className="flex justify-start p-2">
       <div className="relative inline-block ms-2">
@@ -29,7 +30,7 @@ const TaskOverViewHeader = ({
               borderWidth: "1px",
               borderColor: state.isFocused ? "#orange-400" : "#d1d5db",
               boxShadow: state.isFocused ? "none" : provided.boxShadow,
-              width: "8rem",
+              width: isSmallScreen ? "8rem" : "10rem",
             }),
             placeholder: (provided) => ({
               ...provided,
@@ -59,23 +60,7 @@ const TaskOverViewHeader = ({
           }}
           className="basic-multi-select"
           classNamePrefix="select"
-          // value={{ label: task?.status, value: task?.status }}
           value={{ label: task?.status, value: task?.status }}
-          // value={
-          //   task?.status
-          //     ? {
-          //         label:
-          //           task.status === "inprogress"
-          //             ? "In Progress"
-          //             : task.status === "close"
-          //             ? "Close"
-          //             : task.status === "resolve"
-          //             ? "Resolve"
-          //             : "",
-          //         value: task.status,
-          //       }
-          //     : ""
-          // }
         />
       </div>
       <div className="absolute top-4 right-4 flex flex-row">

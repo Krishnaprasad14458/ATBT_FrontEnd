@@ -175,6 +175,8 @@ input[type="date"]:in-range::-webkit-datetime-edit-text {
   filter:brightness(50%);
 } */
 
+
+
 .date_type{
   position: relative;
 }
