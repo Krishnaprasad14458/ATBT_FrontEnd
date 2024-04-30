@@ -18,7 +18,6 @@ const CommentsForm = ({taskID}) => {
       ...prev,
       file: [...prev.file, ...acceptedFiles]
     }));
-   
   };
 
   // const handleSubmit = (e) => {
