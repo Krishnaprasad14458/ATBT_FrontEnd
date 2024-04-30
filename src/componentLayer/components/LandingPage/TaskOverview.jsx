@@ -3,8 +3,9 @@ import NonEditableFields from "./taskOverviewComponents/NonEditableFields";
 import EditableFields from "./taskOverviewComponents/EditableFields";
 import SubTasksList from "./taskOverviewComponents/SubTasksList";
 import Collaborators from "./taskOverviewComponents/Collaborators";
-import Comments from "./taskOverviewComponents/Comments";
 import TaskOverViewHeader from "./taskOverviewComponents/TaskOverViewHeader";
+import CommentsView from "./taskOverviewComponents/CommentsView";
+import CommentsForm from "./taskOverviewComponents/CommentsForm";
 
 const TaskOverview = ({
   setAutoFocussubTaskID,
@@ -139,9 +140,13 @@ const TaskOverview = ({
               status={status}
             />
           )}
+{/* <CommentsView  
+comments = {displayOverviewTask ? task?.comments : subTask?.comments}
+/> */}
+
         </div>
         <hr />
-        <Comments handleSendComment={handleSendComment}  />
+        <CommentsForm handleSendComment={handleSendComment}  />
 
         <Collaborators />
       </div>

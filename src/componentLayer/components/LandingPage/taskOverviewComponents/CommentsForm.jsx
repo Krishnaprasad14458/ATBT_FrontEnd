@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Dropzone from 'react-dropzone';
-const Comments = ({ handleSendComment }) => {
+const CommentsForm = ({ handleSendComment }) => {
   // let [comment, setComment] = useState({
   //   senderId: "",
   //   message: "",
@@ -108,4 +108,4 @@ const attachmentStyle = {
   maxHeight: '200px',
   margin: '10px',
 };
-export default Comments;
+export default CommentsForm;
