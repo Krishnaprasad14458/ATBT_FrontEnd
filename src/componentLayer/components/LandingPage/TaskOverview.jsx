@@ -56,7 +56,7 @@ const TaskOverview = ({
   return (
     <div
       className={`fixed inset-0  bg-gray-800 bg-opacity-50 z-40  ${
-        overViewTask ? "" : "opacity-0 pointer-events-none"
+        overViewTask ? "" : "opacity-0 pointer-events-none "
       }`}
       style={{ transition: "opacity 0.3s ease-in-out" }}
     >
@@ -64,7 +64,7 @@ const TaskOverview = ({
         className={` fixed inset-y-0 right-0  w-full bg-white shadow-lg transform translate-x-full transition-transform duration-200 ease-in-out ${
           expand
             ? "w-full md:w-full lg:w-4/6 xl:w-4/6"
-            : "w-4/5 md:w-3/5 lg:w-3/6 xl:2/5"
+            : "w-4/5 md:w-3/5 lg:w-3/6 xl:2/5 "
         }`}
         style={{
           transform: `translateX(${overViewTask ? "0%" : "100%"})`,
