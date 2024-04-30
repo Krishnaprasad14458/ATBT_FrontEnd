@@ -29,7 +29,8 @@ const CommentsForm = ({taskID}) => {
   //   setAttachments([]);
   // };
   
-  const handleSubmit = () => {
+  const handleSubmit = (e) => {
+    e.preventDefault()
   let postComment = newComment;
   postComment.senderId = loggedInUserId
     let UpdateData = {
@@ -43,6 +44,7 @@ const CommentsForm = ({taskID}) => {
         method: "POST",
         encType: "application/json",
       });
+      setNewComment({})
     } catch (error) {
       console.log(error, "which error");
     }
