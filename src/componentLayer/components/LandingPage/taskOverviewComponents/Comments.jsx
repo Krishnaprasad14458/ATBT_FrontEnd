@@ -1,9 +1,4 @@
 import React, { useState } from "react";
-
-import { Picker } from 'emoji-mart';
-// import 'emoji-mart/css/emoji-mart.css';
-// import 'emoji-mart/dist/emoji-mart.css';
-import EmojiPicker from 'emoji-picker-react';
 import Dropzone from 'react-dropzone';
 const Comments = ({ handleSendComment }) => {
   // let [comment, setComment] = useState({
