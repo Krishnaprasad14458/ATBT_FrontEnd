@@ -86,6 +86,7 @@ export async function MeetingWiseTasksActions({ request, params }) {
         return await atbtApi.post(`task/subtaskAdd/${requestBody.id}`);
       }
     }
+    break
     case "PATCH": {
       const requestBody = (await request.json()) || null;
       console.log(requestBody, "request");
@@ -103,6 +104,7 @@ export async function MeetingWiseTasksActions({ request, params }) {
           );
         }
     }
+    break
     case "DELETE": {
       const DeleteTaskId = (await request.json()) || null;
 
@@ -220,6 +222,22 @@ const MeetingWiseTask = () => {
       console.log(error, "which error");
     }
   };
+  const handleSendComment = async () => {
+    let UpdateData = {
+      // id: subTaskId,
+      // data: { [taskFieldName]: taskValue },
+      type:"Send_Comment"
+    };
+   
+    try {
+      fetcher.submit(UpdateData, {
+        method: "POST",
+        encType: "application/json",
+      });
+    } catch (error) {
+      console.log(error, "which error");
+    }
+  }
   const handleTaskChange = (index, field, value) => {
     const updatedTasks = [...tasks];
     updatedTasks[index][field] = value;
@@ -577,7 +595,7 @@ const MeetingWiseTask = () => {
         autoFocusSubTaskID={autoFocusSubTaskID}
        setAutoFocussubTaskID={setAutoFocussubTaskID}
        setSubTask={setSubTask}
-
+       handleSendComment={handleSendComment}
       
       />
     </div>

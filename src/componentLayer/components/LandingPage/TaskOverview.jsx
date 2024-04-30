@@ -31,7 +31,7 @@ const TaskOverview = ({
   displayOverviewTask,
   setDisplayOverviewTask,
   setDisplayOverviewSubTask,
-  setSubTask,
+  setSubTask,handleSendComment
 }) => {
   // -------full screen----
   const [expand, setExpand] = useState(false);
@@ -141,7 +141,8 @@ const TaskOverview = ({
           )}
         </div>
         <hr />
-        <Comments />
+        <Comments handleSendComment={handleSendComment}  />
+
         <Collaborators />
       </div>
   
