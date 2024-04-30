@@ -263,7 +263,7 @@ const MeetingWiseTask = () => {
           Add Task
         </button>
       </div>
-      <div className=" overflow-x-auto">
+      <div className="overflow-x-auto ">
         <table className="w-full divide-y divide-gray-200 dark:divide-gray-700 rounded-md">
           <thead>
             <tr>

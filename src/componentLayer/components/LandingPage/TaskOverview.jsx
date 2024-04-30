@@ -53,17 +53,22 @@ const TaskOverview = ({
 
   return (
     <div
-      className={`fixed inset-0 transition-all duration-500 bg-gray-800 bg-opacity-50 z-50  ${
-        overViewTask ? "" : "hidden"
+      className={`fixed inset-0  bg-gray-800 bg-opacity-50 z-40  ${
+        overViewTask ? "" : "opacity-0 pointer-events-none"
       }`}
+      style={{ transition: "opacity 0.3s ease-in-out" }}
     >
       <div
-        className={` fixed inset-y-0 right-0  bg-white shadow-lg transform translate-x-0 transition-transform duration-300 ease-in-out ${
+        className={` fixed inset-y-0 right-0  w-full bg-white shadow-lg transform translate-x-full transition-transform duration-200 ease-in-out ${
           expand
             ? "w-full md:w-full lg:w-4/6 xl:w-4/6"
             : "w-4/5 md:w-3/5 lg:w-3/6 xl:2/5"
         }`}
-      >
+        style={{
+          transform: `translateX(${overViewTask ? "0%" : "100%"})`,
+          transition: "transform 0.3s ease-in-out",
+        }}>
+    
         <TaskOverViewHeader
           Qparams={Qparams}
           setQParams={setQParams}
@@ -139,6 +144,7 @@ const TaskOverview = ({
         <Comments />
         <Collaborators />
       </div>
+  
     </div>
   );
 };
