@@ -11,6 +11,10 @@ const CommentsForm = ({taskID}) => {
   let loggedInUserId = JSON.parse(loggedInUser).user.id
   
   // const [comments, setComments] = useState({message:"",file:"",senderId:"",});
+  const [commentBoxExpand , setCommentBoxExpand] = useState()
+  const handleBoxExpand =()=>{
+    setCommentBoxExpand(!commentBoxExpand)
+  }
   const [newComment, setNewComment] = useState({message:"",file:"",senderId:"",});
 
   const handleDrop = (acceptedFiles) => {
@@ -50,6 +54,7 @@ const CommentsForm = ({taskID}) => {
     }
   };
 
+
   return (
     <div className="p-3">
       {/* <div>
@@ -71,13 +76,28 @@ const CommentsForm = ({taskID}) => {
       </div> */}
       <form onSubmit={handleSubmit}>
         <div className="grid grid-cols-11 md:grid-cols-11 lg:grid-cols-11 xl:grid-cols-11 justify-center gap-3">
-          <textarea
+       <div  className="col-span-10  flex items-end border-2  border-back rounded-md">
+       <textarea
+          onClick={handleBoxExpand}
             value={newComment.message}
             onChange={(e)=>setNewComment((prev)=>({...prev,message:e.target.value}))}
             placeholder="Type your comment..."
-            className="col-span-10 p-2 border-2 text-sm w-full h-10 resize-none  shadow-sm rounded-md  focus:outline-none focus:border-orange-400"
+            className={`p-2 text-sm w-full  resize-none  shadow-sm rounded-md  outline-none ${commentBoxExpand ? "h-16 " : "h-10"}` }
           />
-          <button type="submit col-span-1 ">
+          <Dropzone onDrop={handleDrop}>
+          {({ getRootProps, getInputProps }) => (
+            <div {...getRootProps()} style={dropzoneStyle}>
+              <input {...getInputProps()} />
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 me-2 mb-2 ">
+  <path stroke-linecap="round" stroke-linejoin="round" d="m18.375 12.739-7.693 7.693a4.5 4.5 0 0 1-6.364-6.364l10.94-10.94A3 3 0 1 1 19.5 7.372L8.552 18.32m.009-.01-.01.01m5.699-9.941-7.81 7.81a1.5 1.5 0 0 0 2.112 2.13" />
+</svg>
+
+            </div>
+          )}
+        </Dropzone>
+       </div>
+        <div  className="col-span-1 flex justify-center items-center">
+        <button type="submit">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -94,15 +114,9 @@ const CommentsForm = ({taskID}) => {
             </svg>
           </button>
         </div>
+        </div>
 
-        <Dropzone onDrop={handleDrop}>
-          {({ getRootProps, getInputProps }) => (
-            <div {...getRootProps()} style={dropzoneStyle}>
-              <input {...getInputProps()} />
-              <p>Icon</p>
-            </div>
-          )}
-        </Dropzone>
+        
       </form>
     </div>
   );
