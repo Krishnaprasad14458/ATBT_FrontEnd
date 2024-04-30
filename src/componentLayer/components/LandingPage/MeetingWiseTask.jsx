@@ -11,11 +11,7 @@ import atbtApi from "../../../serviceLayer/interceptor";
 import { debounce } from "../../../utils/utils";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-let members = [
-  { label: "Bhaskar", value: "bhaskar" },
-  { label: "Zaheer", value: "zaheer" },
-  { label: "Raghu Vamshi Krishna", value: "raghuvamshiKrishna" },
-];
+let members 
 let status = [
   { label: "In-Progress", value: "In-Progress" },
   { label: "Close", value: "Close" },
@@ -31,8 +27,12 @@ export async function tasksLoader({ request, params }) {
       taskID ? atbtApi.get(`task/listbyid/${taskID}`) : null,
       taskID ? atbtApi.get(`task/subList/${taskID}`) : null,
       subTaskID ? atbtApi.get(`task/subtaskbyid/${subTaskID}`) : null,
-      // atbtApi.get(`/boardmeeting/groupMember/${params.BMid}`) 
-      ''
+      atbtApi.get(`/boardmeeting/groupUser/${params.BMid}`) 
+      // Api For Get boardmeeting members 
+ 
+      // get('/groupEntiy/:id')                Meeting.ListEntiyGroup
+      // get('/groupTeam/:id',)            Meeting.ListTeamGroup)
+      // get('/groupUser/:id')              Meeting.ListUserGroup)
     ]);
     let updatedTask = task?.data[0];
     let updatedSubTask = subTask?.data[0];
@@ -59,7 +59,7 @@ export async function tasksLoader({ request, params }) {
       task: updatedTask,
       subTasks: subTasks?.data?.Task,
       subTask: updatedSubTask,
-      personResponsible:personResponsible,
+      personResponsible:personResponsible?.data?.User?.map((user) => ({ label: user.name, value: user.id })),
       threadName: `${tasks?.data[0]?.meetingnumber}`,
       threadPath: `/users/${params.id}/boardmeetings/${params.BMid}`,
     };
@@ -145,7 +145,7 @@ const MeetingWiseTask = () => {
   let [task, setTask] = useState({});
   let [subTasks, setSubTasks] = useState();
   let [subTask, setSubTask] = useState();
-
+  members = data?.personResponsible
   useEffect(() => {
     setTasks(data?.tasks);
     setTask(data?.task);
@@ -490,7 +490,13 @@ const MeetingWiseTask = () => {
                         );
                       }}
                       classNamePrefix="select"
-                      value={{ label: task?.members, value: task?.members }}
+                      // value={{ label: task?.members, value: task?.members }}
+                      // value={members?.find(person => person.value === task?.members)}
+                      value={
+                        task?.members === null || task?.members === "" || task?.members === undefined
+                        ? ''
+                        : members?.find(person => person.value === task?.members)
+                    }
                       menuPlacement="auto"
                     />
                   </td>
