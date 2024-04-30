@@ -26,15 +26,16 @@ export async function tasksLoader({ request, params }) {
     const url = new URL(request.url);
     const taskID = url.searchParams.get("taskID");
     const subTaskID = url.searchParams.get("subTaskID");
-
-    const [tasks, task,subTasks,subTask] = await Promise.all([
+    const [tasks, task, subTasks, subTask,personResponsible] = await Promise.all([
       atbtApi.get(`task/list/${params.BMid} `),
       taskID ? atbtApi.get(`task/listbyid/${taskID}`) : null,
       taskID ? atbtApi.get(`task/subList/${taskID}`) : null,
-      subTaskID ? atbtApi.get(`task/subtaskbyid/${subTaskID}`) : null
+      subTaskID ? atbtApi.get(`task/subtaskbyid/${subTaskID}`) : null,
+      // atbtApi.get(`/boardmeeting/groupMember/${params.BMid}`) 
+      ''
     ]);
     let updatedTask = task?.data[0];
-    let updatedSubTask = subTask?.data[0]
+    let updatedSubTask = subTask?.data[0];
     let taskAge = null;
     let subTaskAge = null;
     if (updatedTask) {
@@ -56,8 +57,9 @@ export async function tasksLoader({ request, params }) {
     const combinedResponse = {
       tasks: tasks?.data,
       task: updatedTask,
-      subTasks:subTasks?.data?.Task,
-      subTask:updatedSubTask,
+      subTasks: subTasks?.data?.Task,
+      subTask: updatedSubTask,
+      personResponsible:personResponsible,
       threadName: `${tasks?.data[0]?.meetingnumber}`,
       threadPath: `/users/${params.id}/boardmeetings/${params.BMid}`,
     };
@@ -76,46 +78,61 @@ export async function tasksLoader({ request, params }) {
 }
 export async function MeetingWiseTasksActions({ request, params }) {
   switch (request.method) {
-    case "POST": {
-      const requestBody = (await request.json()) || null;
-      console.log(requestBody, "request");
-      if(requestBody.type==="ADD_NEW_TASK"){
-      return await atbtApi.post(`task/add/${params.BMid}`);
-      }
-      if(requestBody.type==="ADD_SUB_TASK"){
-        return await atbtApi.post(`task/subtaskAdd/${requestBody.id}`);
-      }
-      if(requestBody.type==="ADD_TASK_COMMENT"){
-        return await atbtApi.post(`task/addComments?task=${requestBody.id}`,requestBody.data);
-      }
-      if(requestBody.type==="ADD_SUBTASK_COMMENT"){
-        return await atbtApi.post(`task/addComments?subtask=${requestBody.id}`,requestBody.data);
-      }
-    }
-    break
-    case "PATCH": {
-      const requestBody = (await request.json()) || null;
-      console.log(requestBody, "request");
-
-      if(requestBody.type==="UPDATE_TASK"){
-        return await atbtApi.patch(
-          `task/update/${requestBody.id}`,
-          requestBody.data
-        );
+    case "POST":
+      {
+        const requestBody = (await request.json()) || null;
+        console.log(requestBody, "request");
+        if (requestBody.type === "ADD_NEW_TASK") {
+          return await atbtApi.post(`task/add/${params.BMid}`);
         }
-        if(requestBody.type==="UPDATE_SUB_TASK"){
+        if (requestBody.type === "ADD_SUB_TASK") {
+          return await atbtApi.post(`task/subtaskAdd/${requestBody.id}`);
+        }
+        if (requestBody.type === "ADD_TASK_COMMENT") {
+          return await atbtApi.post(
+            `task/addComments?task=${requestBody.id}`,
+            requestBody.data
+          );
+        }
+        if (requestBody.type === "ADD_SUBTASK_COMMENT") {
+          return await atbtApi.post(
+            `task/addComments?subtask=${requestBody.id}`,
+            requestBody.data
+          );
+        }
+      }
+      break;
+    case "PATCH":
+      {
+        const requestBody = (await request.json()) || null;
+        console.log(requestBody, "request");
+
+        if (requestBody.type === "UPDATE_TASK") {
+          return await atbtApi.patch(
+            `task/update/${requestBody.id}`,
+            requestBody.data
+          );
+        }
+        if (requestBody.type === "UPDATE_SUB_TASK") {
           return await atbtApi.patch(
             `task/subtaskUpdate/${requestBody.id}`,
             requestBody.data
           );
         }
+      }
+      break;
+    case "DELETE": {
+      const requestBody = (await request.json()) || null;
+      console.log(requestBody, "request");
+
+      if (requestBody.type === "DELETE_TASK") {
+        return await atbtApi.delete(`task/delete/${requestBody.id}`);
+      }
+      if (requestBody.type === "DELETE_SUB_TASK") {
+        return await atbtApi.delete(`task/subtaskdelete/${requestBody.id}`);
+      }
     }
     break
-    case "DELETE": {
-      const DeleteTaskId = (await request.json()) || null;
-
-      return await atbtApi.delete(`task/delete/${DeleteTaskId}`);
-    }
     default: {
       throw new Response("", { status: 405 });
     }
@@ -126,16 +143,16 @@ const MeetingWiseTask = () => {
   const data = useLoaderData();
   let [tasks, setTasks] = useState([]);
   let [task, setTask] = useState({});
-  let [subTasks,setSubTasks] = useState()
-  let [subTask,setSubTask] = useState()
+  let [subTasks, setSubTasks] = useState();
+  let [subTask, setSubTask] = useState();
 
   useEffect(() => {
     setTasks(data?.tasks);
     setTask(data?.task);
-    setSubTasks(data?.subTasks)
-    setSubTask(data?.subTask)
+    setSubTasks(data?.subTasks);
+    setSubTask(data?.subTask);
   }, [data]);
-  
+
   let fetcher = useFetcher();
   const { id } = useParams();
   const [Qparams, setQParams] = useState({
@@ -152,24 +169,16 @@ const MeetingWiseTask = () => {
     []
   );
   const [overViewTask, setOverViewTask] = useState(false);
-  const [displayOverviewTask,setDisplayOverviewTask] = useState(false)
-  const [displayOverviewSubTask,setDisplayOverviewSubTask] = useState(false)
+  const [displayOverviewTask, setDisplayOverviewTask] = useState(false);
+  const [displayOverviewSubTask, setDisplayOverviewSubTask] = useState(false);
   const handleOverViewTask = (taskId) => {
     setOverViewTask(!overViewTask);
-    setDisplayOverviewTask(!displayOverviewTask)
+    setDisplayOverviewTask(!displayOverviewTask);
     setQParams((prev) => ({ ...prev, taskID: taskId }));
   };
   const handleAddNewTask = async () => {
-    let requestBody = { type:'ADD_NEW_TASK'}
+    let requestBody = { type: "ADD_NEW_TASK" };
 
-    try {
-      fetcher.submit(requestBody, { method: "POST", encType: "application/json" });
-    } catch (error) {
-      console.log(error, "which error");
-    }
-  };
-  const handleAddSubTask = (taskID)=>{
-    let requestBody = { id :taskID, type:'ADD_SUB_TASK'}
     try {
       fetcher.submit(requestBody, {
         method: "POST",
@@ -178,15 +187,26 @@ const MeetingWiseTask = () => {
     } catch (error) {
       console.log(error, "which error");
     }
-  }
+  };
+  const handleAddSubTask = (taskID) => {
+    let requestBody = { id: taskID, type: "ADD_SUB_TASK" };
+    try {
+      fetcher.submit(requestBody, {
+        method: "POST",
+        encType: "application/json",
+      });
+    } catch (error) {
+      console.log(error, "which error");
+    }
+  };
   const handleSubmit = (taskId, taskFieldName, taskValue) => {
-    console.log("handleSubmit clicked")
+    console.log("handleSubmit clicked");
     setAutoFocusID(null);
     setIsInputActive(null);
     let UpdateData = {
       id: taskId,
       data: { [taskFieldName]: taskValue },
-      type:"UPDATE_TASK"
+      type: "UPDATE_TASK",
     };
     console.log("UpdateData", UpdateData);
     try {
@@ -199,16 +219,16 @@ const MeetingWiseTask = () => {
     }
   };
   const handleSubTaskSubmit = (subTaskId, taskFieldName, taskValue) => {
-    console.log("handleSubTaskSubmit clicked")
+    console.log("handleSubTaskSubmit clicked");
 
     setAutoFocussubTaskID(null);
     setIsSubTaskInputActive(null);
     let UpdateData = {
       id: subTaskId,
       data: { [taskFieldName]: taskValue },
-      type:"UPDATE_SUB_TASK"
+      type: "UPDATE_SUB_TASK",
     };
-   
+
     try {
       fetcher.submit(UpdateData, {
         method: "PATCH",
@@ -219,8 +239,13 @@ const MeetingWiseTask = () => {
     }
   };
   const handleDeleteTask = async (deleteId) => {
+    let UpdateData = {
+      id: deleteId,
+      type: "DELETE_TASK",
+    };
+
     try {
-      fetcher.submit(deleteId, {
+      fetcher.submit(UpdateData, {
         method: "DELETE",
         encType: "application/json",
       });
@@ -232,9 +257,9 @@ const MeetingWiseTask = () => {
     let UpdateData = {
       // id: subTaskId,
       // data: { [taskFieldName]: taskValue },
-      type:"Send_Comment"
+      type: "Send_Comment",
     };
-   
+
     try {
       fetcher.submit(UpdateData, {
         method: "POST",
@@ -243,7 +268,7 @@ const MeetingWiseTask = () => {
     } catch (error) {
       console.log(error, "which error");
     }
-  }
+  };
   const handleTaskChange = (index, field, value) => {
     const updatedTasks = [...tasks];
     updatedTasks[index][field] = value;
@@ -259,7 +284,7 @@ const MeetingWiseTask = () => {
     updatedSubTasks[index][field] = value;
     setSubTasks(updatedSubTasks);
   };
-  
+
   const handleOverviewSubTaskChange = (field, value) => {
     const updatedSubTask = { ...subTask };
     updatedSubTask[field] = value;
@@ -464,10 +489,9 @@ const MeetingWiseTask = () => {
                           selectedOption.value
                         );
                       }}
-                      
                       classNamePrefix="select"
                       value={{ label: task?.members, value: task?.members }}
-                      menuPlacement="auto" 
+                      menuPlacement="auto"
                     />
                   </td>
                   <td className="border py-1.5 px-3" style={{ width: "11rem" }}>
@@ -545,7 +569,7 @@ const MeetingWiseTask = () => {
                       className="basic-multi-select"
                       classNamePrefix="select"
                       value={{ label: task?.status, value: task?.status }}
-                      menuPlacement="auto" 
+                      menuPlacement="auto"
                     />
                   </td>
                   <td className="border py-1.5 px-3 text-sm text-gray-600">
@@ -591,18 +615,18 @@ const MeetingWiseTask = () => {
         subTasks={subTasks}
         handleSubTaskChange={handleSubTaskChange}
         handleSubTaskSubmit={handleSubTaskSubmit}
-        handleOverviewSubTaskChange={handleOverviewSubTaskChange} subTask={subTask}
+        handleOverviewSubTaskChange={handleOverviewSubTaskChange}
+        subTask={subTask}
         displayOverviewTask={displayOverviewTask}
         displayOverviewSubTask={displayOverviewSubTask}
         setDisplayOverviewTask={setDisplayOverviewTask}
         setDisplayOverviewSubTask={setDisplayOverviewSubTask}
-        isSubTaskInputActiveID={isSubTaskInputActiveID} 
+        isSubTaskInputActiveID={isSubTaskInputActiveID}
         setIsSubTaskInputActive={setIsSubTaskInputActive}
         autoFocusSubTaskID={autoFocusSubTaskID}
-       setAutoFocussubTaskID={setAutoFocussubTaskID}
-       setSubTask={setSubTask}
-       handleSendComment={handleSendComment}
-      
+        setAutoFocussubTaskID={setAutoFocussubTaskID}
+        setSubTask={setSubTask}
+        handleSendComment={handleSendComment}
       />
     </div>
   );

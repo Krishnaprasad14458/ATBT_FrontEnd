@@ -22,11 +22,12 @@ export async function loader({ request, params }) {
 
     const [meetings, entityList, roleList, meetingFormData] = await Promise.all(
       [
-        atbtApi.get(
+        
+        moduleName ? atbtApi.get(
           `boardmeeting/list?${moduleName}=${params.id}${
             url?.search ? url?.search : ""
           }`
-        ),
+        ):null,
         atbtApi.post(`public/list/entity`),
         atbtApi.post(`public/list/role`),
         atbtApi.get(`form/list?name=boardmeetingform`),
@@ -472,12 +473,12 @@ function Boardmeeting() {
           <div className="">
             {!meetings?.Meetings || meetings?.Meetings?.length === 0 ? (
               "no data to show"
-            ) : meetings.loading ? (
+            ) : meetings?.loading ? (
               "Loading..."
             ) : (
               <p className="text-sm text-gray-700">
-                Showing {meetings.startMeeting} to {meetings.endMeeting} of{" "}
-                <span className="font-medium">{meetings.totalMeetings}</span>
+                Showing {meetings?.startMeeting} to {meetings?.endMeeting} of{" "}
+                <span className="font-medium">{meetings?.totalMeetings}</span>
                 <span className="font-medium"> </span> results
               </p>
             )}
@@ -499,12 +500,12 @@ function Boardmeeting() {
               <option value="500">500</option>
             </select>
             <button
-              disabled={meetings.currentPage === 1}
+              disabled={meetings?.currentPage === 1}
               onClick={() => handlePage(meetings?.currentPage - 1)}
               className={`relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${
-                meetings.loading
+                meetings?.loading
                   ? "cursor-wait"
-                  : meetings.currentPage === 1
+                  : meetings?.currentPage === 1
                   ? "cursor-not-allowed"
                   : "cursor-auto"
               }`}
@@ -525,15 +526,15 @@ function Boardmeeting() {
               </svg>
             </button>
             <button className="border w-8 border-gray-300">
-              {meetings.currentPage}
+              {meetings?.currentPage}
             </button>
             <button
-              disabled={meetings.currentPage === meetings.totalPages}
+              disabled={meetings?.currentPage === meetings?.totalPages}
               onClick={() => handlePage(meetings?.currentPage + 1)}
               className={`relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${
-                meetings.loading
+                meetings?.loading
                   ? "cursor-wait"
-                  : meetings.currentPage === meetings.totalPages
+                  : meetings?.currentPage === meetings?.totalPages
                   ? "cursor-not-allowed"
                   : "cursor-auto"
               }`}

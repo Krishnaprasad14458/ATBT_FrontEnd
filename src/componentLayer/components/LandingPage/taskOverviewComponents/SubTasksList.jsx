@@ -1,5 +1,7 @@
 import React from "react";
 import Select from "react-select";
+import { useFetcher } from "react-router-dom";
+
 let members = [
   { label: "Bhaskar", value: "bhaskar" },
   { label: "Zaheer", value: "zaheer" },
@@ -22,6 +24,24 @@ const SubTasksList = ({
   setAutoFocusID,
   status,
 }) => {
+  let fetcher = useFetcher();
+
+  const handleDeleteSubTask =(subtaskID)=>{
+   
+    let UpdateData = {
+      id: subtaskID,
+      type:"DELETE_SUB_TASK"
+    };
+   
+    try {
+      fetcher.submit(UpdateData, {
+        method: "DELETE",
+        encType: "application/json",
+      });
+    } catch (error) {
+      console.log(error, "which error");
+    }
+  }
   return (
     <div>
       <div className="flex justify-end pe-3">
@@ -266,6 +286,7 @@ const SubTasksList = ({
                       viewBox="0 0 20 20"
                       fill="currentColor"
                       class="w-5 h-5"
+                      onClick={()=>handleDeleteSubTask(task.id)}
                     >
                       <path
                         fill-rule="evenodd"
