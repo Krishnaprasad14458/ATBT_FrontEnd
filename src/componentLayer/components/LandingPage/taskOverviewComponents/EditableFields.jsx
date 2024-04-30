@@ -94,10 +94,14 @@ const EditableFields = ({
               handleSubmit(task?.id, "members", selectedOption.value);
             }}
             value={
-              task?.members === null || task?.members === ""
-                ? ""
-                : { label: task?.members, value: task?.members }
-            }
+              task?.members === null || task?.members === "" || task?.members === undefined
+              ? ''
+              : members?.find(person => person.value === task?.members)
+          }
+          // value={members?.find(person => person.value === task?.members)}
+
+          
+
             className="date_type"
           />
         </div>

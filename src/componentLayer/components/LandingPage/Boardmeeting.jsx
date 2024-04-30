@@ -22,7 +22,6 @@ export async function loader({ request, params }) {
 
     const [meetings, entityList, roleList, meetingFormData] = await Promise.all(
       [
-        
         moduleName ? atbtApi.get(
           `boardmeeting/list?${moduleName}=${params.id}${
             url?.search ? url?.search : ""

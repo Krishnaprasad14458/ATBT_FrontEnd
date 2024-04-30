@@ -2,12 +2,9 @@ import React from "react";
 import Select from "react-select";
 import { useFetcher } from "react-router-dom";
 
-let members = [
-  { label: "Bhaskar", value: "bhaskar" },
-  { label: "Zaheer", value: "zaheer" },
-  { label: "Raghu Vamshi Krishna", value: "raghuvamshiKrishna" },
-];
+
 const SubTasksList = ({
+  members,
   task,
   handleAddSubTask,
   subTasks,
@@ -198,7 +195,14 @@ const SubTasksList = ({
                       }}
                       className="basic-multi-select "
                       classNamePrefix="select"
-                      value={{ label: task?.members, value: task?.members }}
+                      // value={{ label: task?.members, value: task?.members }}
+                     
+                      value={
+                        task?.members === null || task?.members === "" || task?.members === undefined
+                        ? ''
+                        : members?.find(person => person.value === task?.members)
+                    }
+
                       menuPlacement="auto"
                     />
                   </td>

@@ -124,6 +124,8 @@ const TaskOverview = ({
           </div>
           {displayOverviewTask && (
             <SubTasksList
+            members={members}
+
               task={task}
               handleAddSubTask={handleAddSubTask}
               subTasks={subTasks}
