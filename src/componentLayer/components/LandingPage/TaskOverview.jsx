@@ -146,7 +146,7 @@ comments = {displayOverviewTask ? task?.comments : subTask?.comments}
 
         </div>
         <hr />
-        <CommentsForm handleSendComment={handleSendComment}  />
+        <CommentsForm  taskID={displayOverviewTask ? task?.id : subTask?.id} />
 
         <Collaborators />
       </div>
