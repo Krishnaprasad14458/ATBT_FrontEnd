@@ -1,24 +1,97 @@
-import React from 'react'
+import React, { useState } from "react";
 
-const Comments = () => {
+import { Picker } from 'emoji-mart';
+// import 'emoji-mart/css/emoji-mart.css';
+// import 'emoji-mart/dist/emoji-mart.css';
+import EmojiPicker from 'emoji-picker-react';
+import Dropzone from 'react-dropzone';
+const Comments = ({ handleSendComment }) => {
+  // let [comment, setComment] = useState({
+  //   senderId: "",
+  //   message: "",
+  //   file: "",
+  // });
+  const [comments, setComments] = useState([]);
+  const [newComment, setNewComment] = useState('');
+  const [attachments, setAttachments] = useState([]);
+  console.log("attachments",attachments)
+
+  const handleCommentChange = (e) => {
+    setNewComment(e.target.value);
+  };
+
+  // const handleEmojiClick = (event, emojiObject) => {
+  //   setNewComment(newComment + emojiObject.emoji);
+  // };
+  const handleEmojiClick = (event, emojiObject) => {
+    console.log("FFSDFDSfs",emojiObject)
+    const emoji = emojiObject.emoji;
+    setNewComment(newComment + emoji);
+  };
+
+  const handleDrop = (acceptedFiles) => {
+    setAttachments([...attachments, ...acceptedFiles]);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // Here, you can send the comment and attachments to your backend
+    setComments([...comments, { text: newComment, attachments }]);
+    setNewComment('');
+    setAttachments([]);
+  };
+
   return (
-    <div className="grid grid-cols-7 sm:grid-cols-7 md:grid-cols-7 lg:grid-cols-7 xl:grid-cols-7 ms-3 p-3 sticky bottom-0">
-    <div className="col-span-1 text-center ">
-      <p className="bg-yellow-500 text-black py-1.5 w-8 h-8  rounded-full">
-        <span className="flex justify-center text-gray-800 text-sm">
-          BA
-        </span>
-      </p>
+    <div>
+       <div>
+        {comments.map((comment, index) => (
+          <div key={index}>
+            <p>{comment.text}</p>
+            <div>
+              {comment.attachments.map((attachment, idx) => (
+                <img
+                  key={idx}
+                  src={URL.createObjectURL(attachment)}
+                  alt={`Attachment ${idx}`}
+                  style={attachmentStyle}
+                />
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+      <form onSubmit={handleSubmit}>
+        <textarea
+          value={newComment}
+          onChange={handleCommentChange}
+          placeholder="Type your comment..."
+          className="p-2 border-2 text-sm w-full  shadow-sm rounded-md  focus:outline-none focus:border-orange-400"
+        />
+        <Dropzone onDrop={handleDrop}>
+          {({ getRootProps, getInputProps }) => (
+            <div {...getRootProps()} style={dropzoneStyle}>
+              <input {...getInputProps()} />
+              <p>Icon</p>
+            </div>
+          )}
+        </Dropzone>
+        <button type="submit">Comment</button>
+      </form>
+     
     </div>
-    <div className="col-span-6">
-      <p className=" border border-[#d1d5db] text-black h-48 rounded-md text-sm   bg-white-50"></p>
-      {/* <textarea
-        placeholder="Add a comment"
-        className="p-2 border-2 text-sm w-full  shadow-sm rounded-md  focus:outline-none focus:border-orange-400"
-      ></textarea> */}
-    </div>
-  </div>
-  )
+  );
 }
+const dropzoneStyle = {
+  // border: '2px dashed #cccccc',
+  // borderRadius: '4px',
+  // padding: '20px',
+  textAlign: 'center',
+  cursor: 'pointer',
+};
 
-export default Comments
+const attachmentStyle = {
+  maxWidth: '200px',
+  maxHeight: '200px',
+  margin: '10px',
+};
+export default Comments;

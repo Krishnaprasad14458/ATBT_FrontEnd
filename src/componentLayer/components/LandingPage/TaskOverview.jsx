@@ -31,7 +31,7 @@ const TaskOverview = ({
   displayOverviewTask,
   setDisplayOverviewTask,
   setDisplayOverviewSubTask,
-  setSubTask,
+  setSubTask,handleSendComment
 }) => {
   // -------full screen----
   const [expand, setExpand] = useState(false);
@@ -92,6 +92,7 @@ const TaskOverview = ({
           style={{ maxHeight: "calc(100vh - 17rem)" }}
         >
           <div className=" ms-2 p-2 ">
+
             <NonEditableFields task={task} 
             age={displayOverviewTask ? task?.age :subTask?.age}/>
             <EditableFields
@@ -134,7 +135,8 @@ const TaskOverview = ({
           )}
         </div>
         <hr />
-        <Comments />
+        <Comments handleSendComment={handleSendComment}  />
+
         <Collaborators />
       </div>
     </div>
