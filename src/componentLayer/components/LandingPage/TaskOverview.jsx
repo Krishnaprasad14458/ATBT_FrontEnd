@@ -32,7 +32,8 @@ const TaskOverview = ({
   displayOverviewTask,
   setDisplayOverviewTask,
   setDisplayOverviewSubTask,
-  setSubTask,handleSendComment
+  setSubTask,
+  handleSendComment,
 }) => {
   // -------full screen----
   const [expand, setExpand] = useState(false);
@@ -68,8 +69,8 @@ const TaskOverview = ({
         style={{
           transform: `translateX(${overViewTask ? "0%" : "100%"})`,
           transition: "transform 0.3s ease-in-out",
-        }}>
-    
+        }}
+      >
         <TaskOverViewHeader
           Qparams={Qparams}
           setQParams={setQParams}
@@ -95,7 +96,7 @@ const TaskOverview = ({
         <hr />
         <div
           className="overflow-y-scroll content relative"
-          style={{ maxHeight: "calc(100vh - 17rem)" }}
+          style={{ maxHeight: "calc(100vh - 10rem)" }}
         >
           <div className=" ms-2 p-2 ">
             <NonEditableFields
@@ -140,17 +141,17 @@ const TaskOverview = ({
               status={status}
             />
           )}
-{/* <CommentsView  
-comments = {displayOverviewTask ? task?.comments : subTask?.comments}
-/> */}
-
+          <CommentsView
+            comments={displayOverviewTask ? task?.comments : subTask?.comments}
+          />
         </div>
         <hr />
-        <CommentsForm  taskID={displayOverviewTask ? task?.id : subTask?.id} />
+        <CommentsForm 
+        displayOverviewTask={displayOverviewTask}
+        taskID={displayOverviewTask ? task?.id : subTask?.id} />
 
         <Collaborators />
       </div>
-  
     </div>
   );
 };
