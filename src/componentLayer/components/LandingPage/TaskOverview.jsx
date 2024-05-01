@@ -96,7 +96,7 @@ const TaskOverview = ({
         <hr />
         <div
           className="overflow-y-scroll content relative"
-          style={{ maxHeight: "calc(100vh - 10rem)" }}
+          style={{ maxHeight: "calc(100vh - 12rem)" }}
         >
           <div className=" ms-2 p-2 ">
             <NonEditableFields
@@ -152,7 +152,8 @@ const TaskOverview = ({
         displayOverviewTask={displayOverviewTask}
         taskID={displayOverviewTask ? task?.id : subTask?.id} />
 
-        <Collaborators />
+        <Collaborators 
+         members={members}/>
       </div>
     </div>
   );
