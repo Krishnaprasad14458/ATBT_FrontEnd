@@ -57,7 +57,8 @@ const SubTasksList = ({
           Add Subtask
         </button>
       </div>
-      <table>
+    <div className="overflow-x-auto">
+    <table>
         <thead></thead>
         <tbody className="">
           {subTasks &&
@@ -71,7 +72,7 @@ const SubTasksList = ({
                       {isInputActiveID === task.id && (
                         <input
                           className="border border-[#d1d5db] text-black px-1.5 py-1.5 rounded-md  bg-[#f9fafb] focus:outline-none text-sm focus:border-orange-400 "
-                          style={{ width: "17rem" }}
+                          style={{ width: "15rem" }}
                           type="text"
                           placeholder="Type here"
                           value={task?.decision}
@@ -127,7 +128,7 @@ const SubTasksList = ({
                   <td
                     className="border py-1.5 px-2"
                     title={task?.members}
-                    style={{ width: "14rem" }}
+                    style={{ width: "16rem" }}
                   >
                     <Select
                       options={members}
@@ -156,6 +157,7 @@ const SubTasksList = ({
                           "&:focus-within": {
                             borderColor: "#fb923c",
                           },
+                          width: "8rem"
                         }),
                         option: (provided, state) => ({
                           ...provided,
@@ -176,6 +178,10 @@ const SubTasksList = ({
                           ...provided,
                           display: state.isFocused ? "visible" : "none",
                         }),
+                        placeholder: (provided) => ({
+                          ...provided,
+                          fontSize: "12px", // Set the font size of the placeholder
+                        }),
                       }}
                       theme={(theme) => ({
                         ...theme,
@@ -193,11 +199,7 @@ const SubTasksList = ({
                           selectedOption.value
                         );
                       }}
-                      className="basic-multi-select "
-                      classNamePrefix="select"
-                      // value={{ label: task?.members, value: task?.members }}
-                     
-                      value={
+                       value={
                         task?.members === null || task?.members === "" || task?.members === undefined
                         ? ''
                         : members?.find(person => person.value === task?.members)
@@ -245,6 +247,7 @@ const SubTasksList = ({
                           "&:focus-within": {
                             borderColor: "#fb923c",
                           },
+                          width: "8rem"
                         }),
                         option: (provided, state) => ({
                           ...provided,
@@ -264,6 +267,10 @@ const SubTasksList = ({
                         dropdownIndicator: (provided, state) => ({
                           ...provided,
                           display: state.isFocused ? "visible" : "none",
+                        }),
+                        placeholder: (provided) => ({
+                          ...provided,
+                          fontSize: "12px", // Set the font size of the placeholder
                         }),
                       }}
                       theme={(theme) => ({
@@ -304,6 +311,7 @@ const SubTasksList = ({
             })}
         </tbody>
       </table>
+    </div>
     </div>
   );
 };

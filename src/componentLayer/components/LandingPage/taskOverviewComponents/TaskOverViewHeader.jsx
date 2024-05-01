@@ -17,7 +17,7 @@ const TaskOverViewHeader = ({
   setDisplayOverviewTask,
   setDisplayOverviewSubTask,
 }) => {
-  const isSmallScreen = useMediaQuery({ query: '(max-width: 768px)' });
+  // const isSmallScreen = useMediaQuery({ query: '(max-width: 768px)' });
   return (
     <div className="flex justify-start p-2">
       <div className="relative inline-block ms-2">
@@ -30,7 +30,7 @@ const TaskOverViewHeader = ({
               borderWidth: "1px",
               borderColor: state.isFocused ? "#orange-400" : "#d1d5db",
               boxShadow: state.isFocused ? "none" : provided.boxShadow,
-              width: isSmallScreen ? "8rem" : "10rem",
+              width:"10rem",
             }),
             placeholder: (provided) => ({
               ...provided,
@@ -58,8 +58,6 @@ const TaskOverViewHeader = ({
             handleSubmit(task?.id, "status", selectedOption.value);
             handleOverviewTaskChange("status", selectedOption.value);
           }}
-          className="basic-multi-select"
-          classNamePrefix="select"
           value={{ label: task?.status, value: task?.status }}
         />
       </div>
