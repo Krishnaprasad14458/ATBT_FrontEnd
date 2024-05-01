@@ -295,7 +295,7 @@ const MeetingWiseTask = () => {
   const [autoFocusID, setAutoFocusID] = useState(null);
   const [autoFocusSubTaskID, setAutoFocussubTaskID] = useState(null);
   return (
-    <div className="p-3 ">
+    <div className="">
       <div className="flex justify-end">
         <button
           className=" ms-2  mt-1 inline-flex items-center  whitespace-nowrap rounded-2xl text-sm font-medium  transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50  text-orange-foreground shadow hover:bg-orange/90 h-9 px-3 py-1 shrink-0 bg-orange-600 text-white gap-1"
@@ -312,7 +312,7 @@ const MeetingWiseTask = () => {
           Add Task
         </button>
       </div>
-      <div className="overflow-x-auto ">
+      <div className=" mt-2 overflow-x-auto">
         <table className="w-full divide-y divide-gray-200 dark:divide-gray-700 rounded-md">
           <thead>
             <tr>
