@@ -481,7 +481,7 @@ const MeetingWiseTask = () => {
                         
                         placeholder: (provided) => ({
                           ...provided,
-                          fontSize: "16px", // Set the font size of the placeholder
+                          fontSize: "12px", // Set the font size of the placeholder
                         }),
                       }}
                       
@@ -501,9 +501,6 @@ const MeetingWiseTask = () => {
                           selectedOption.value
                         );
                       }}
-                      // classNamePrefix="select"
-                      // value={{ label: task?.members, value: task?.members }}
-                      // value={members?.find(person => person.value === task?.members)}
                       value={
                         task?.members === null || task?.members === "" || task?.members === undefined
                         ? ''
