@@ -20,13 +20,15 @@ const CommentsView = ({ comments }) => {
       {Array.isArray(comments) &&
         comments.length > 0 &&
         comments?.map((comment, index) => (
-          <div className=" p-3 grid grid-cols-11 sm:grid-cols-11 md:grid-cols-11 xl:grid-cols-11 lg:grid-ols-11 gap-3 items-start">
-            <div className="col-span-2 md:col-span-1  md:px-2.5">
-              <p className="bg-orange-500 rounded-full border-2 border-[#e5e7eb] p-2 text-white">
-                BA
+          <div className=" p-3 grid grid-cols-11 sm:grid-cols-11 md:grid-cols-11 xl:grid-cols-11 lg:grid-ols-11  items-start">
+            <div className="col-span-1 text-center mt-1">
+              <p className="bg-orange-500  p-2 w-9 h-9  rounded-full">
+                <span className="flex justify-center text-white text-sm">
+                  BA
+                </span>
               </p>
             </div>
-            <div key={index} className="col-span-8 md:col-span-9 ">
+            <div key={index} className="col-span-9 ">
               <div>
                 <span className="font-semibold"> Bhavitha</span> &nbsp;
                 <span className="text-sm text-gray-500">
