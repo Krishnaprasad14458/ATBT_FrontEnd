@@ -53,19 +53,21 @@ const CommentsView = ({ comments }) => {
       {Array.isArray(comments) &&
         comments.length > 0 &&
         comments?.map((comment, index) => (
-          <div className=" p-3 grid grid-cols-11 sm:grid-cols-11 md:grid-cols-11 xl:grid-cols-11 lg:grid-ols-11  items-start">
-            <div className="col-span-1 text-center mt-1">
-              <p className="bg-orange-500  p-2 w-9 h-9  rounded-full">
+          <div className=" pe-5 md:pe-3  py-3 grid grid-cols-11 sm:grid-cols-11 md:grid-cols-11 xl:grid-cols-11 lg:grid-ols-11  items-start">
+            <div className="md:col-span-1 text-center mt-1 flex justify-center">
+              <p className="hidden md:block bg-orange-500 p-2 w-9 h-9 rounded-full ">
                 <span className="flex justify-center text-white text-sm">
-                  BA
+                  B
                 </span>
               </p>
             </div>
+
             <div key={index} className="col-span-9 ">
               <div>
-                <span className="font-semibold"> Bhavitha</span> &nbsp;
+                <span className="font-semibold block md:inline">
+                  Bhavitha &nbsp;
+                </span>
                 <span className="text-sm text-gray-500">
-                  {" "}
                   April 25th, 2024 at 5:00 PM
                 </span>
               </div>
@@ -73,7 +75,7 @@ const CommentsView = ({ comments }) => {
             </div>
             <div>
               {/* like button */}
-              <div className="flex justify-around items-center">
+              <div className="flex justify-around items-center md:gap-3">
                 <div>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
