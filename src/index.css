@@ -227,3 +227,43 @@ input[type='date']:after {
     flex-direction: column-reverse;
   }
 } 
+
+
+
+
+
+/* Styling for the collaborator container */
+.collaborator-container {
+  position: relative;
+}
+
+/* Styling for the close icon */
+.collaborator-container svg {
+  width: 0.8rem; /* Adjust the size of the close icon */
+  height: 0.8rem;
+  cursor: pointer;
+  padding: 1px;
+ background-color: #64748b;
+  position: absolute;
+  border-radius: 50%;
+
+}
+
+/* Hide the close icon by default */
+.collaborator-container .hidden {
+  display: none;
+}
+
+/* Display the close icon when hovering over the container */
+.collaborator-container:hover .hidden {
+  display: flex;
+}
+
+/* Align the close icon to the top right corner */
+.collaborator-container .hidden {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 0.25rem; /* Adjust padding as needed */
+}
+
