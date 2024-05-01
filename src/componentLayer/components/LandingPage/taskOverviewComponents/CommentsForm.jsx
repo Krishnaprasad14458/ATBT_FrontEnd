@@ -3,8 +3,9 @@ import { useFetcher } from "react-router-dom";
 import Dropzone from "react-dropzone";
 const CommentsForm = ({ taskID,displayOverviewTask }) => {
   let fetcher = useFetcher();
-  let loggedInUser = localStorage.getItem("data");
-  let loggedInUserId = JSON.parse(loggedInUser).user.id;
+  let loggedInUser = JSON.parse(localStorage.getItem("data")).user;
+  console.log("loggedInUser",loggedInUser)
+ 
   const [newComment, setNewComment] = useState({
     message: "",
     file: "",
@@ -21,7 +22,8 @@ const CommentsForm = ({ taskID,displayOverviewTask }) => {
     e.preventDefault();
     
     let postComment = newComment;
-    postComment.senderId = loggedInUserId;
+    postComment.senderId = loggedInUser.id;
+   
     let UpdateData = {
       id: taskID,
       data: postComment,
