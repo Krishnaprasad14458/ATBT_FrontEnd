@@ -451,7 +451,10 @@ const MeetingWiseTask = () => {
                           "&:focus-within": {
                             borderColor: "#fb923c",
                           },
+                       
                         }),
+                        
+                       
                         option: (provided, state) => ({
                           ...provided,
                           color: state.isFocused ? "#fff" : "#000000",
@@ -475,7 +478,13 @@ const MeetingWiseTask = () => {
                           ...provided,
                           zIndex: 9999, // Ensure the dropdown menu appears above other elements
                         }),
+                        
+                        placeholder: (provided) => ({
+                          ...provided,
+                          fontSize: "16px", // Set the font size of the placeholder
+                        }),
                       }}
+                      
                       theme={(theme) => ({
                         ...theme,
                         borderRadius: 5,
@@ -492,7 +501,7 @@ const MeetingWiseTask = () => {
                           selectedOption.value
                         );
                       }}
-                      classNamePrefix="select"
+                      // classNamePrefix="select"
                       // value={{ label: task?.members, value: task?.members }}
                       // value={members?.find(person => person.value === task?.members)}
                       value={
