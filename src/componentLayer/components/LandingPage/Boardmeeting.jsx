@@ -6,7 +6,7 @@ import {
   useNavigation,
   useParams,
   useSubmit,
-  useOutletContext,
+
 } from "react-router-dom";
 import atbtApi from "../../../serviceLayer/interceptor";
 import CustomColumn from "../../../componentLayer/components/tableCustomization/CustomColumn";
@@ -19,14 +19,16 @@ let moduleName;
 export async function loader({ request, params }) {
   try {
     url = new URL(request.url);
-
+    if (params.users === "users") {
+      moduleName = "user";
+    }
     const [meetings, entityList, roleList, meetingFormData] = await Promise.all(
       [
-        moduleName ? atbtApi.get(
+        atbtApi.get(
           `boardmeeting/list?${moduleName}=${params.id}${
             url?.search ? url?.search : ""
           }`
-        ):null,
+        ),
         atbtApi.post(`public/list/entity`),
         atbtApi.post(`public/list/role`),
         atbtApi.get(`form/list?name=boardmeetingform`),
@@ -65,8 +67,6 @@ export async function action({ request, params }) {
 }
 
 function Boardmeeting() {
-  moduleName = useOutletContext();
-  console.log("moduleName", moduleName);
   const { id } = useParams();
   console.log("hi", id);
   document.title = "ATBT | BoardMeeting";
