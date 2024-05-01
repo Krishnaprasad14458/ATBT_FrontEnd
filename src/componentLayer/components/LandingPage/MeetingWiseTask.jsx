@@ -131,6 +131,9 @@ export async function MeetingWiseTasksActions({ request, params }) {
       if (requestBody.type === "DELETE_SUB_TASK") {
         return await atbtApi.delete(`task/subtaskdelete/${requestBody.id}`);
       }
+      if (requestBody.type === "DELETE_COMMENT") {
+        return await atbtApi.delete(`task/delComments/${requestBody.id}`);
+      }
     }
     break
     default: {

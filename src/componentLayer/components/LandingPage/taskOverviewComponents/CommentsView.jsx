@@ -1,16 +1,33 @@
 import React from "react";
 import { useState } from "react";
+import { useFetcher } from "react-router-dom";
 
 const CommentsView = ({ comments }) => {
-  console.log("comments", comments);
+  let fetcher = useFetcher();
+
   const attachmentStyle = {
     maxWidth: "200px",
     maxHeight: "200px",
     margin: "10px",
   };
-  const [commentOptions, setCommentOptions] = useState();
-  const handleCommentOptions = () => {
-    setCommentOptions(!commentOptions);
+  const [commentCrudView, setCommentCrudView] = useState(null);
+  console.log("commentCrudView", commentCrudView);
+  const handleDeleteComment = (commentId) => {
+    let UpdateData = {
+      id: commentId,
+      type: "DELETE_COMMENT",
+    };
+    console.log("UpdateData", UpdateData);
+    try {
+      fetcher.submit(UpdateData, {
+        method: "DELETE",
+        encType: "application/json",
+      });
+     setCommentCrudView(null)
+
+    } catch (error) {
+      console.log(error, "which error");
+    }
   };
   return (
     <div className="bg-[#f8fafc] mt-4">
@@ -47,7 +64,8 @@ const CommentsView = ({ comments }) => {
                     id="menu-button"
                     aria-expanded="true"
                     aria-haspopup="true"
-                    onClick={handleCommentOptions}
+                    inputRef
+                    onClick={() => setCommentCrudView(comment.id)}
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -65,7 +83,23 @@ const CommentsView = ({ comments }) => {
                     </svg>
                   </button>
                 </div>
-                {commentOptions && (
+                <div>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    class="w-6 h-6"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M6.633 10.25c.806 0 1.533-.446 2.031-1.08a9.041 9.041 0 0 1 2.861-2.4c.723-.384 1.35-.956 1.653-1.715a4.498 4.498 0 0 0 .322-1.672V2.75a.75.75 0 0 1 .75-.75 2.25 2.25 0 0 1 2.25 2.25c0 1.152-.26 2.243-.723 3.218-.266.558.107 1.282.725 1.282m0 0h3.126c1.026 0 1.945.694 2.054 1.715.045.422.068.85.068 1.285a11.95 11.95 0 0 1-2.649 7.521c-.388.482-.987.729-1.605.729H13.48c-.483 0-.964-.078-1.423-.23l-3.114-1.04a4.501 4.501 0 0 0-1.423-.23H5.904m10.598-9.75H14.25M5.904 18.5c.083.205.173.405.27.602.197.4-.078.898-.523.898h-.908c-.889 0-1.713-.518-1.972-1.368a12 12 0 0 1-.521-3.507c0-1.553.295-3.036.831-4.398C3.387 9.953 4.167 9.5 5 9.5h1.053c.472 0 .745.556.5.96a8.958 8.958 0 0 0-1.302 4.665c0 1.194.232 2.333.654 3.375Z"
+                    />
+                  </svg>
+                </div>
+                {commentCrudView === comment.id && (
                   <div
                     class="absolute right-0 z-10 mt-2 w-32 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
                     role="menu"
@@ -74,36 +108,7 @@ const CommentsView = ({ comments }) => {
                     tabindex="-1"
                   >
                     <div class="py-1" role="none">
-                      <a
-                        href="#"
-                        class="text-gray-700  px-4 py-2 text-sm flex gap-5"
-                        role="menuitem"
-                        tabindex="-1"
-                        id="menu-item-0"
-                      >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke-width="1.5"
-                          stroke="currentColor"
-                          class="w-6 h-6"
-                        >
-                          <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            d="M6.633 10.25c.806 0 1.533-.446 2.031-1.08a9.041 9.041 0 0 1 2.861-2.4c.723-.384 1.35-.956 1.653-1.715a4.498 4.498 0 0 0 .322-1.672V2.75a.75.75 0 0 1 .75-.75 2.25 2.25 0 0 1 2.25 2.25c0 1.152-.26 2.243-.723 3.218-.266.558.107 1.282.725 1.282m0 0h3.126c1.026 0 1.945.694 2.054 1.715.045.422.068.85.068 1.285a11.95 11.95 0 0 1-2.649 7.521c-.388.482-.987.729-1.605.729H13.48c-.483 0-.964-.078-1.423-.23l-3.114-1.04a4.501 4.501 0 0 0-1.423-.23H5.904m10.598-9.75H14.25M5.904 18.5c.083.205.173.405.27.602.197.4-.078.898-.523.898h-.908c-.889 0-1.713-.518-1.972-1.368a12 12 0 0 1-.521-3.507c0-1.553.295-3.036.831-4.398C3.387 9.953 4.167 9.5 5 9.5h1.053c.472 0 .745.556.5.96a8.958 8.958 0 0 0-1.302 4.665c0 1.194.232 2.333.654 3.375Z"
-                          />
-                        </svg>
-                        Like
-                      </a>
-                      <a
-                        href="#"
-                        class="text-gray-700  px-4 py-2 text-sm flex gap-5"
-                        role="menuitem"
-                        tabindex="-1"
-                        id="menu-item-1"
-                      >
+                      <p>
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           fill="none"
@@ -119,13 +124,15 @@ const CommentsView = ({ comments }) => {
                           />
                         </svg>
                         Edit
-                      </a>
-                      <a
-                        href="#"
-                        class="text-gray-700  px-4 py-2 text-sm flex gap-5"
-                        role="menuitem"
-                        tabindex="-1"
-                        id="menu-item-2"
+                      </p>
+                      <p
+                      // href="#"
+                      // class="text-gray-700  px-4 py-2 text-sm flex gap-5"
+                      // role="menuitem"
+                      // tabindex="-1"
+                      // id="menu-item-2"
+                      onClick={()=>handleDeleteComment(comment.id)}
+
                       >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -142,7 +149,7 @@ const CommentsView = ({ comments }) => {
                           />
                         </svg>
                         Delete
-                      </a>
+                      </p>
                     </div>
                   </div>
                 )}
