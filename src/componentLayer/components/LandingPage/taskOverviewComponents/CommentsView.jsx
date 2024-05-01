@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { useState } from "react";
 import { useFetcher } from "react-router-dom";
 
@@ -11,7 +11,10 @@ const CommentsView = ({ comments }) => {
     margin: "10px",
   };
   const [commentCrudView, setCommentCrudView] = useState(null);
-  console.log("commentCrudView", commentCrudView);
+
+  const handleCommentCrudView = (id) => {
+    setCommentCrudView(id === commentCrudView ? null : id);
+  };
   const handleDeleteComment = (commentId) => {
     let UpdateData = {
       id: commentId,
@@ -28,6 +31,20 @@ const CommentsView = ({ comments }) => {
       console.log(error, "which error");
     }
   };
+
+  const menuRef = useRef(null);
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (menuRef.current && !menuRef.current.contains(event.target)) {
+        setCommentCrudView(null);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
   return (
     <div className="bg-[#f8fafc] mt-4">
       <p className=" p-3"> Comments</p>
@@ -81,8 +98,7 @@ const CommentsView = ({ comments }) => {
                       id="menu-button"
                       aria-expanded="true"
                       aria-haspopup="true"
-                      inputRef
-                      onClick={() => setCommentCrudView(comment.id)}
+                      onClick={() => handleCommentCrudView(comment.id)}
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -101,6 +117,7 @@ const CommentsView = ({ comments }) => {
                     </button>
                     {commentCrudView === comment.id && (
                       <div
+                        ref={menuRef}
                         class="absolute right-0 z-10 mt-2 w-28 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
                         role="menu"
                         aria-orientation="vertical"
