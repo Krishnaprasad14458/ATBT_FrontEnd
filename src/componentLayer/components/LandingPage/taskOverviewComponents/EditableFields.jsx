@@ -48,7 +48,6 @@ const EditableFields = ({
           </label>
           <Select
             options={members}
-            // placeholder="Custom Placeholder Text"
             styles={{
               control: (provided, state) => ({
                 ...provided,

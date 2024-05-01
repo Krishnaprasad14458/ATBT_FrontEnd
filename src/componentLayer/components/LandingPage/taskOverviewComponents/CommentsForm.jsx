@@ -96,6 +96,8 @@ const CommentsForm = ({ taskID,displayOverviewTask }) => {
           </div>
         </div>
       </form>
+      
+       
     </div>
   );
 };

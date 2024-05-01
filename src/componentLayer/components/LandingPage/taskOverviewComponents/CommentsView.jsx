@@ -94,7 +94,7 @@ const CommentsView = ({ comments }) => {
                   <div>
                     <button
                       type="button"
-                      class="inline-flex w-full justify-center gap-x-1.5  text-sm font-semibold text-gray-900  "
+                      class="inline-flex w-full justify-center items-center gap-x-1.5  text-sm font-semibold text-gray-900  "
                       id="menu-button"
                       aria-expanded="true"
                       aria-haspopup="true"
