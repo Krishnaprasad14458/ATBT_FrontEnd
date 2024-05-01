@@ -55,9 +55,10 @@ const CommentsView = ({ comments }) => {
         comments?.map((comment, index) => (
           <div className=" pe-5 md:pe-3  py-3 grid grid-cols-11 sm:grid-cols-11 md:grid-cols-11 xl:grid-cols-11 lg:grid-ols-11  items-start">
             <div className="md:col-span-1 text-center mt-1 flex justify-center">
-              <p className="hidden md:block bg-orange-500 p-2 w-9 h-9 rounded-full ">
+              <p className="hidden md:block  p-2 w-9 h-9 rounded-full ">
                 <span className="flex justify-center text-white text-sm">
-                  B
+                  <img 
+                  src={comment.senderImage}/>
                 </span>
               </p>
             </div>
@@ -65,7 +66,7 @@ const CommentsView = ({ comments }) => {
             <div key={index} className="col-span-9 ">
               <div>
                 <span className="font-semibold block md:inline">
-                  Bhavitha &nbsp;
+                {comment.senderName} &nbsp;
                 </span>
                 <span className="text-sm text-gray-500">
                   April 25th, 2024 at 5:00 PM
