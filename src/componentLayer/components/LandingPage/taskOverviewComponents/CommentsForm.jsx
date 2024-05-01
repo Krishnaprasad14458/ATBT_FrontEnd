@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useFetcher } from "react-router-dom";
 import Dropzone from "react-dropzone";
-const CommentsForm = ({ taskID,displayOverviewTask }) => {
+const CommentsForm = ({ taskID,displayOverviewTask ,scrollToBottom}) => {
   let fetcher = useFetcher();
   let loggedInUser = JSON.parse(localStorage.getItem("data")).user;
   console.log("loggedInUser",loggedInUser)
@@ -35,6 +35,7 @@ const CommentsForm = ({ taskID,displayOverviewTask }) => {
         method: "POST",
         encType: "application/json",
       });
+      scrollToBottom()
       setNewComment({ message: "", file: "", senderId: "" });
     } catch (error) {
       console.log(error, "which error");

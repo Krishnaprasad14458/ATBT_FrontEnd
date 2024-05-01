@@ -2,9 +2,8 @@ import React, { useEffect, useRef } from "react";
 import { useState } from "react";
 import { useFetcher } from "react-router-dom";
 
-const CommentsView = ({ comments }) => {
+const CommentsView = ({ comments, messagesEndRef }) => {
   let fetcher = useFetcher();
-
   const attachmentStyle = {
     maxWidth: "200px",
     maxHeight: "200px",
@@ -185,6 +184,7 @@ const CommentsView = ({ comments }) => {
                 />
               ))}
             </div> */}
+      <div ref={messagesEndRef} />
     </div>
   );
 };
