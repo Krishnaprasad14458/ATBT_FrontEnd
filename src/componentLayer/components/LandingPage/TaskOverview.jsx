@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import NonEditableFields from "./taskOverviewComponents/NonEditableFields";
 import EditableFields from "./taskOverviewComponents/EditableFields";
 import SubTasksList from "./taskOverviewComponents/SubTasksList";
@@ -49,9 +49,19 @@ const TaskOverview = ({
     { value: "user", label: "user" },
     { value: "entity", label: "entity" },
   ];
-  useEffect(() => {
-    console.log("ttaskask", task);
-  }, [task]);
+
+  const messagesEndRef = useRef(null);
+
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  // useEffect(() => {
+  //   if (!firstLoad) {
+  //     // Scroll to bottom after successful GET request, but not on initial load
+  //     scrollToBottom();
+  //   }
+  // }, [comments, firstLoad]); // Trigger on messages change and firstLoad change
 
   return (
     <div
@@ -124,8 +134,7 @@ const TaskOverview = ({
           </div>
           {displayOverviewTask && (
             <SubTasksList
-            members={members}
-
+              members={members}
               task={task}
               handleAddSubTask={handleAddSubTask}
               subTasks={subTasks}
@@ -144,16 +153,18 @@ const TaskOverview = ({
             />
           )}
           <CommentsView
+            messagesEndRef={messagesEndRef}
             comments={displayOverviewTask ? task?.comments : subTask?.comments}
           />
         </div>
         <hr />
-        <CommentsForm 
-        displayOverviewTask={displayOverviewTask}
-        taskID={displayOverviewTask ? task?.id : subTask?.id} />
+        <CommentsForm
+          scrollToBottom={scrollToBottom}
+          displayOverviewTask={displayOverviewTask}
+          taskID={displayOverviewTask ? task?.id : subTask?.id}
+        />
 
-        <Collaborators 
-         members={members}/>
+        <Collaborators members={members} />
       </div>
     </div>
   );
