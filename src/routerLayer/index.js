@@ -25,7 +25,7 @@ export const router = createBrowserRouter([
             ...dashboardRouter,
             ...resourceRouter,
             {
-                path: ':users',
+                path: ':moduleName',
                 children: [
                     ...userRouter,
                 ],
