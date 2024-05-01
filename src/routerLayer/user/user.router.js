@@ -3,23 +3,13 @@ import UserForm, {
 } from "../../componentLayer/pages/users/createUserForm/UserForm";
 import { Link } from "react-router-dom";
 import AllTasks from "../../componentLayer/components/LandingPage/AllTasks";
-import Boardmeeting, {
-  action as entityMeetingAction,
-  loader as entityMeetingLoader,
-} from "../../componentLayer/components/LandingPage/Boardmeeting";
+import Boardmeeting, {action as entityMeetingAction,loader as entityMeetingLoader,} from "../../componentLayer/components/LandingPage/Boardmeeting";
 import Documents from "../../componentLayer/components/LandingPage/Documents";
 import { userLandingLoader } from "../../componentLayer/pages/users/userLandingPage/UserOverview";
 import UserLandingPage from "../../componentLayer/pages/users/userLandingPage/UserLandingPage";
-
 import UserOverview from "../../componentLayer/pages/users/userLandingPage/UserOverview";
-import Users, {
-  action as userAction,
-  loader as userLoader,
-} from "../../componentLayer/pages/users/usersList/Users";
-import MeetingWiseTask, {
-  MeetingWiseTasksActions,
-  tasksLoader,
-} from "../../componentLayer/components/LandingPage/MeetingWiseTask";
+import Users, {action as userAction,loader as userLoader,} from "../../componentLayer/pages/users/usersList/Users";
+import MeetingWiseTask, {MeetingWiseTasksActions,tasksLoader,} from "../../componentLayer/components/LandingPage/MeetingWiseTask";
 
 export const userRouter = [
   {
