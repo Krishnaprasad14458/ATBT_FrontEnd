@@ -56,8 +56,7 @@ const CommentsView = ({ comments, messagesEndRef }) => {
             <div className="md:col-span-1 text-center mt-1 flex justify-center">
               <p className="hidden md:block  p-2 w-9 h-9 rounded-full ">
                 <span className="flex justify-center text-white text-sm">
-                  <img 
-                  src={comment.senderImage}/>
+                  <img src={comment.senderImage} />
                 </span>
               </p>
             </div>
@@ -65,10 +64,71 @@ const CommentsView = ({ comments, messagesEndRef }) => {
             <div key={index} className="col-span-9 ">
               <div>
                 <span className="font-semibold block md:inline">
-                {comment.senderName} &nbsp;
+                  {comment.senderName} &nbsp;
                 </span>
                 <span className="text-sm text-gray-500">
-                  April 25th, 2024 at 5:00 PM
+                 
+                  {comment.createdAt &&
+                    (() => {
+                      let date = new Date(comment.createdAt);
+                      const day = date.getUTCDate();
+                      const monthIndex = date.getUTCMonth();
+                      const year = date.getUTCFullYear();
+                      const ISTOffset = 330; // 5 hours 30 minutes in minutes
+                      const indianDateTime = new Date(
+                        date.getTime() + ISTOffset * 60000
+                      );
+
+                      const hours = indianDateTime.getUTCHours();
+                      const minutes = indianDateTime.getUTCMinutes();
+                      const seconds = indianDateTime.getUTCSeconds();
+                      const monthAbbreviations = [
+                        "January",
+                        "February",
+                        "March",
+                        "April",
+                        "May",
+                        "June",
+                        "July",
+                        "August",
+                        "September",
+                        "October",
+                        "November",
+                        "December",
+                      ];
+
+                      let ordinalsText = "";
+                      if (day == 1 || day == 21 || day == 31) {
+                        ordinalsText = "st";
+                      } else if (day == 2 || day == 22) {
+                        ordinalsText = "nd";
+                      } else if (day == 3 || day == 23) {
+                        ordinalsText = "rd";
+                      } else {
+                        ordinalsText = "th";
+                      }
+                      // Formatting the date
+                      date = ` ${monthAbbreviations[monthIndex]} ${
+                        day < 10 ? "0" : ""
+                      }${day}${ordinalsText}, ${year}`;
+
+                      const amPM = hours >= 12 ? "PM" : "AM";
+                      const hour12Format = hours % 12 || 12; // Convert midnight (0) to 12
+
+                      const time = `${hour12Format}:${
+                        minutes < 10 ? "0" : ""
+                      }${minutes}:${seconds < 10 ? "0" : ""}${seconds} ${amPM}`;
+
+                      return (
+                        <span
+                          className="w-full truncate text-sm"
+                          title={date ? date : "No Date"}
+                        >
+                          {" "}
+                          {date ? date : "No Date"} at {time ? time : "No Time"}
+                        </span>
+                      );
+                    })()}
                 </span>
               </div>
               <p className="text-sm">{comment.message}</p>
