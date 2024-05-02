@@ -35,7 +35,9 @@ const CommentsForm = ({ taskID,displayOverviewTask ,scrollToBottom}) => {
           method: "POST",
           encType: "application/json",
         });
-        scrollToBottom()
+        setTimeout(()=>{
+          scrollToBottom()
+        },1000)  
         setNewComment({ message: "", file: "", senderId: "" });
       } catch (error) {
         console.log(error, "which error");
