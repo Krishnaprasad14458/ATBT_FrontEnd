@@ -52,14 +52,15 @@ const CommentsView = ({
     };
   }, []);
   return (
-    <div className="bg-[#f8fafc]">
+  <div >
+      <div className="bg-[#f8fafc] ">
       <p className="p-3"> Comments</p>
       <hr />
 
       {Array.isArray(comments) &&
         comments.length > 0 &&
         comments?.map((comment, index) => (
-          <div className=" pe-5 md:pe-3  pt-3 grid grid-cols-11 sm:grid-cols-11 md:grid-cols-11 xl:grid-cols-11 lg:grid-ols-11  items-start">
+          <div className=" pe-5 md:pe-3  py-2 grid grid-cols-11 sm:grid-cols-11 md:grid-cols-11 xl:grid-cols-11 lg:grid-ols-11  items-start">
             <div className="md:col-span-1 text-center  flex justify-center">
               <p className="hidden md:block  w-9 h-9 rounded-full ">
                 <span className="flex justify-center text-white text-sm">
@@ -267,6 +268,8 @@ const CommentsView = ({
             </div> */}
       <div ref={messagesEndRef} />
     </div>
+  </div>
+  
   );
 };
 
