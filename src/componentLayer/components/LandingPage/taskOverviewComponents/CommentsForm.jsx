@@ -4,7 +4,7 @@ import Dropzone from "react-dropzone";
 const CommentsForm = ({ taskID,displayOverviewTask ,scrollToBottom}) => {
   let fetcher = useFetcher();
   let loggedInUser = JSON.parse(localStorage.getItem("data")).user;
-  console.log("loggedInUser",loggedInUser)
+  
  
   const [newComment, setNewComment] = useState({
     message: "",
