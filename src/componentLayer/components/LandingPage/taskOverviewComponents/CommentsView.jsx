@@ -47,7 +47,8 @@ const CommentsView = ({ comments, messagesEndRef }) => {
     };
   }, []);
   return (
-    <div className="bg-[#f8fafc]">
+  <div >
+      <div className="bg-[#f8fafc] ">
       <p className="p-3"> Comments</p>
       <hr />
 
@@ -254,6 +255,8 @@ const CommentsView = ({ comments, messagesEndRef }) => {
             </div> */}
       <div ref={messagesEndRef} />
     </div>
+  </div>
+  
   );
 };
 
