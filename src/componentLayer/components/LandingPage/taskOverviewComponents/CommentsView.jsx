@@ -47,16 +47,16 @@ const CommentsView = ({ comments, messagesEndRef }) => {
     };
   }, []);
   return (
-    <div className="bg-[#f8fafc] mt-4">
-      <p className=" p-3"> Comments</p>
+    <div className="bg-[#f8fafc]">
+      <p className="p-3"> Comments</p>
       <hr />
 
       {Array.isArray(comments) &&
         comments.length > 0 &&
         comments?.map((comment, index) => (
-          <div className=" pe-5 md:pe-3  py-3 grid grid-cols-11 sm:grid-cols-11 md:grid-cols-11 xl:grid-cols-11 lg:grid-ols-11  items-start">
-            <div className="md:col-span-1 text-center mt-1 flex justify-center">
-              <p className="hidden md:block  p-2 w-9 h-9 rounded-full ">
+          <div className=" pe-5 md:pe-3  pt-3 grid grid-cols-11 sm:grid-cols-11 md:grid-cols-11 xl:grid-cols-11 lg:grid-ols-11  items-start">
+            <div className="md:col-span-1 text-center  flex justify-center">
+              <p className="hidden md:block  w-9 h-9 rounded-full ">
                 <span className="flex justify-center text-white text-sm">
                   <img src={comment.senderImage} />
                 </span>
@@ -64,7 +64,7 @@ const CommentsView = ({ comments, messagesEndRef }) => {
             </div>
 
             <div key={index} className="col-span-9 ">
-              <div>
+              <div >
                 <span className="font-semibold block md:inline">
                   {comment.senderName} &nbsp;
                 </span>
@@ -156,7 +156,7 @@ const CommentsView = ({ comments, messagesEndRef }) => {
                     />
                   </svg>
                 </div> */}
-                <div class="relative inline-block text-left">
+                <div class="relative inline-block text-left bottom-0">
                   <div>
                   {parseInt(loggedInUser.id) === parseInt(comment.senderId) &&  <button
                       type="button"
@@ -184,14 +184,15 @@ const CommentsView = ({ comments, messagesEndRef }) => {
                     {commentCrudView === comment.id && (
                       <div
                         ref={menuRef}
-                        class="absolute right-0 z-10 mt-2 w-28 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+                        class="absolute right-0  z-10 mt-2 w-28 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
                         role="menu"
                         aria-orientation="vertical"
                         aria-labelledby="menu-button"
+                       
                         tabindex="-1"
                       >
                         <div class="py-1" role="none">
-                          <p class="text-gray-700  px-3 py-1.5 text-sm flex gap-3 cursor-pointer">
+                          <p class="text-gray-700  px-3 py-1.5 text-sm flex gap-3 cursor-pointer hover:bg-gray-200">
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
                               fill="none"
@@ -209,7 +210,7 @@ const CommentsView = ({ comments, messagesEndRef }) => {
                             Edit
                           </p>
                           <p
-                            className="text-gray-700  px-3 py-1.5 text-sm flex gap-3 cursor-pointer"
+                            className="text-gray-700  px-3 py-1.5 text-sm flex gap-3 cursor-pointer hover:bg-gray-200"
                             onClick={() => handleDeleteComment(comment.id)}
                           >
                             <svg
