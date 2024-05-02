@@ -116,10 +116,12 @@ const CommentsView = ({ comments, messagesEndRef }) => {
 
                       const amPM = hours >= 12 ? "PM" : "AM";
                       const hour12Format = hours % 12 || 12; // Convert midnight (0) to 12
-
                       const time = `${hour12Format}:${
                         minutes < 10 ? "0" : ""
-                      }${minutes}:${seconds < 10 ? "0" : ""}${seconds} ${amPM}`;
+                      }${minutes} ${amPM}`;
+                      // const time = `${hour12Format}:${
+                      //   minutes < 10 ? "0" : ""
+                      // }${minutes}:${seconds < 10 ? "0" : ""}${seconds} ${amPM}`;
 
                       return (
                         <span

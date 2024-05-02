@@ -20,26 +20,28 @@ const CommentsForm = ({ taskID,displayOverviewTask ,scrollToBottom}) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    
-    let postComment = newComment;
-    postComment.senderId = loggedInUser.id;
-   
-    let UpdateData = {
-      id: taskID,
-      data: postComment,
-      type: displayOverviewTask ? "ADD_TASK_COMMENT" :"ADD_SUBTASK_COMMENT",
-    };
-    console.log("UpdateData", UpdateData);
-    try {
-      fetcher.submit(UpdateData, {
-        method: "POST",
-        encType: "application/json",
-      });
-      scrollToBottom()
-      setNewComment({ message: "", file: "", senderId: "" });
-    } catch (error) {
-      console.log(error, "which error");
-    }
+  
+      let postComment = newComment;
+      postComment.senderId = loggedInUser.id;
+     
+      let UpdateData = {
+        id: taskID,
+        data: postComment,
+        type: displayOverviewTask ? "ADD_TASK_COMMENT" :"ADD_SUBTASK_COMMENT",
+      };
+      console.log("UpdateData", UpdateData);
+      try {
+        fetcher.submit(UpdateData, {
+          method: "POST",
+          encType: "application/json",
+        });
+        scrollToBottom()
+        setNewComment({ message: "", file: "", senderId: "" });
+      } catch (error) {
+        console.log(error, "which error");
+      }
+ 
+  
   };
 
   return (
@@ -78,7 +80,7 @@ const CommentsForm = ({ taskID,displayOverviewTask ,scrollToBottom}) => {
             </Dropzone>
           </div>
           <div className="col-span-1 flex justify-center items-center">
-            <button type="submit">
+            <button type="submit" disabled={newComment.message.length < 3} className={newComment.message.length >= 3 ? '' : 'text-gray-300'}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
