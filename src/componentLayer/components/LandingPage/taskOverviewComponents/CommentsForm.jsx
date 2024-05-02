@@ -45,17 +45,17 @@ const CommentsForm = ({ taskID,displayOverviewTask ,scrollToBottom}) => {
   };
 
   return (
-    <div className="p-3">
+    <div className="p-3 bg-[#f8fafc]">
       <form onSubmit={handleSubmit}>
         <div className="grid grid-cols-11 md:grid-cols-11 lg:grid-cols-11 xl:grid-cols-11 justify-center gap-3">
-          <div className="col-span-10  flex items-end border-2  border-back rounded-md h-16">
+          <div className="col-span-10  flex items-end border-2  border-back rounded-md h-15">
             <textarea
               value={newComment.message}
               onChange={(e) =>
                 setNewComment((prev) => ({ ...prev, message: e.target.value }))
               }
               placeholder="Type your comment..."
-              className={`p-2 text-sm w-full  resize-none   shadow-sm rounded-md  outline-none `}
+              className={`p-2 text-sm w-full  resize-none   shadow-sm rounded-md  outline-none bg-[#f8fafc] `}
             />
             <Dropzone onDrop={handleDrop}>
               {({ getRootProps, getInputProps }) => (
@@ -80,7 +80,7 @@ const CommentsForm = ({ taskID,displayOverviewTask ,scrollToBottom}) => {
             </Dropzone>
           </div>
           <div className="col-span-1 flex justify-center items-center">
-            <button type="submit" disabled={newComment.message.length < 3} className={newComment.message.length >= 3 ? '' : 'text-gray-300'}>
+            <button type="submit" disabled={newComment.message.length < 3} className={newComment.message.length >= 3 ? '' : 'text-gray-300 cursor-not-allowed'}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"

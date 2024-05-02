@@ -56,9 +56,9 @@ const SubTasksList = ({
         </button>
       </div>
       <div>
-        <table>
+        <table className="w-full">
           <thead></thead>
-          <tbody className="">
+          <tbody  >
             {subTasks &&
               subTasks.map((task, index) => {
                 const decisionHeight =
