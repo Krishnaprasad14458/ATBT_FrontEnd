@@ -119,6 +119,12 @@ export async function MeetingWiseTasksActions({ request, params }) {
             requestBody.data
           );
         }
+        if (requestBody.type === "EDIT_COMMENT") {
+          return await atbtApi.patch(
+            `task/patchComments/${requestBody.id}`,
+            requestBody.data
+          );
+        }
       }
       break;
     case "DELETE": {

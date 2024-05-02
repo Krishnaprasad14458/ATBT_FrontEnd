@@ -1,33 +1,35 @@
 import React, { useState } from "react";
 import { useFetcher } from "react-router-dom";
 import Dropzone from "react-dropzone";
-const CommentsForm = ({ taskID,displayOverviewTask ,scrollToBottom}) => {
+const CommentsForm = ({
+  taskID,
+  displayOverviewTask,
+  scrollToBottom,
+  newComment,
+  setNewComment,
+  isCommentEditing,setIsCommentEditing
+}) => {
   let fetcher = useFetcher();
   let loggedInUser = JSON.parse(localStorage.getItem("data")).user;
-  
- 
-  const [newComment, setNewComment] = useState({
-    message: "",
-    file: "",
-    senderId: "",
-  });
+
   const handleDrop = (acceptedFiles) => {
     setNewComment((prev) => ({
       ...prev,
       file: [...prev.file, ...acceptedFiles],
     }));
   };
+ 
 
   const handleSubmit = (e) => {
     e.preventDefault();
-  
+    if (!isCommentEditing) {
       let postComment = newComment;
       postComment.senderId = loggedInUser.id;
-     
+
       let UpdateData = {
         id: taskID,
         data: postComment,
-        type: displayOverviewTask ? "ADD_TASK_COMMENT" :"ADD_SUBTASK_COMMENT",
+        type: displayOverviewTask ? "ADD_TASK_COMMENT" : "ADD_SUBTASK_COMMENT",
       };
       console.log("UpdateData", UpdateData);
       try {
@@ -35,15 +37,32 @@ const CommentsForm = ({ taskID,displayOverviewTask ,scrollToBottom}) => {
           method: "POST",
           encType: "application/json",
         });
-        setTimeout(()=>{
-          scrollToBottom()
-        },1000)  
+        setTimeout(() => {
+          scrollToBottom();
+        }, 1000);
         setNewComment({ message: "", file: "", senderId: "" });
       } catch (error) {
         console.log(error, "which error");
       }
- 
-  
+    }
+    if(isCommentEditing){
+      let postComment = newComment;
+      let UpdateData = {
+        id: postComment.id,
+        data: postComment,
+        type:  "EDIT_COMMENT",
+      };
+      try {
+        fetcher.submit(UpdateData, {
+          method: "PATCH",
+          encType: "application/json",
+        });
+        setIsCommentEditing(false)
+        setNewComment({ message: "", file: "", senderId: "" });
+      } catch (error) {
+        console.log(error, "which error");
+      }
+    }
   };
 
   return (
@@ -82,7 +101,15 @@ const CommentsForm = ({ taskID,displayOverviewTask ,scrollToBottom}) => {
             </Dropzone>
           </div>
           <div className="col-span-1 flex justify-center items-center">
-            <button type="submit" disabled={newComment.message.length < 3} className={newComment.message.length >= 3 ? '' : 'text-gray-300 '}>
+            <button
+              type="submit"
+              disabled={newComment.message.length < 3}
+              className={
+                newComment.message.length >= 3
+                  ? ""
+                  : "text-gray-300 cursor-not-allowed"
+              }
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -101,8 +128,6 @@ const CommentsForm = ({ taskID,displayOverviewTask ,scrollToBottom}) => {
           </div>
         </div>
       </form>
-      
-       
     </div>
   );
 };
