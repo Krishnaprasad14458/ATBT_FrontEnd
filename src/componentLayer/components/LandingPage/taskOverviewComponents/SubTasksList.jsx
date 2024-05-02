@@ -57,7 +57,7 @@ const SubTasksList = ({
           Add Subtask
         </button>
       </div>
-    <div className="overflow-x-auto">
+    <div >
     <table >
         <thead></thead>
         <tbody className="">
@@ -317,6 +317,177 @@ const SubTasksList = ({
         </tbody>
       </table>
     </div>
+
+
+    {subTasks &&
+            subTasks.map((task, index) => {
+              const decisionHeight =
+                task?.decision === null || task?.decision === "" ? "2rem" : "";
+              return (
+                <div key={task.id} >
+ <div className="grid grid-cols-12 md:grid-cols-12 lg:grid-cols12 xl:grid-cols-12 divide-x-2 border  ">
+      <div className=" col-span-4">
+      <div className="flex items-center">
+                      {isInputActiveID === task.id && (
+                        <input
+                          className="border border-[#d1d5db] text-black px-1.5 py-1.5 rounded-md  bg-[#f9fafb] focus:outline-none text-sm focus:border-orange-400 "
+                          // style={{ width: "15rem" }}
+                          type="text"
+                          placeholder="Type here"
+                          value={task?.decision}
+                          onChange={(e) =>
+                            handleTaskChange(index, "decision", e.target.value)
+                          }
+                          onBlur={(e) =>
+                            handleSubmit(task?.id, "decision", e.target.value)
+                          }
+                          autoFocus={autoFocusID === task.id ? true : false}
+                        />
+                      )}
+
+                      {(isInputActiveID !== task.id ||
+                        isInputActiveID === null) && (
+                        <p
+                          className="text-sm"
+                          onClick={() => {
+                            setIsInputActive(task.id);
+                            setAutoFocusID(task.id);
+                          }}
+                          style={{
+                            // width: "15rem",
+                            height: decisionHeight,
+                            cursor: "pointer",
+                          }}
+                        >
+                          {task.decision}
+                        </p>
+                      )}
+                      <span
+                        className="ml-2 cursor-pointer"
+                        onClick={() => {
+                          setDisplayOverviewTask(!displayOverviewTask);
+                          setDisplayOverviewSubTask(!displayOverviewSubTask);
+                          setQParams((prev) => ({
+                            ...prev,
+                            subTaskID: task?.id,
+                          }));
+                        }}
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                          className="w-4 h-4 hover:border hover:border-gray-500 hover:rounded-sm hover:bg-gray-100"
+                        >
+                          <path
+                            fillRule="evenodd"
+                            d="M8.22 5.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 0 1-1.06-1.06L11.94 10 8.22 6.28a.75.75 0 0 1 0-1.06Z"
+                            clipRule="evenodd"
+                          />
+                        </svg>
+                      </span>
+                    </div>
+      </div>
+      <div className="col-span-3">
+
+      <Select
+                    // menuPortalTarget={document.body}
+                      options={members}
+                      styles={{
+                        control: (provided, state) => ({
+                          ...provided,
+
+                          backgroundColor: "#white-50",
+                          borderWidth: "1px",
+                          borderColor: state.isFocused
+                            ? "#orange-400"
+                            : "transparent", // Changed borderColor
+                          boxShadow: state.isFocused
+                            ? "none"
+                            : provided.boxShadow,
+                          fontSize: "16px",
+                          height: "36px", // Adjust the height here
+                          "&:hover": {
+                            borderColor: state.isFocused
+                              ? "#fb923c"
+                              : "transparent",
+                          },
+                          "&:focus": {
+                            borderColor: "#fb923c",
+                          },
+                          "&:focus-within": {
+                            borderColor: "#fb923c",
+                          },
+                          width: "8rem"
+                        }),
+                        option: (provided, state) => ({
+                          ...provided,
+                          color: state.isFocused ? "#fff" : "#000000",
+                          backgroundColor: state.isFocused
+                            ? "#ea580c"
+                            : "transparent",
+                          "&:hover": {
+                            color: "#fff",
+                            backgroundColor: "#ea580c",
+                          },
+                        }),
+                        indicatorSeparator: (provided, state) => ({
+                          ...provided,
+                          display: state.isFocused ? "visible" : "none",
+                        }),
+                        dropdownIndicator: (provided, state) => ({
+                          ...provided,
+                          display: state.isFocused ? "visible" : "none",
+                        }),
+                        placeholder: (provided) => ({
+                          ...provided,
+                          fontSize: "12px", // Set the font size of the placeholder
+                        }),
+                      }}
+                      theme={(theme) => ({
+                        ...theme,
+                        borderRadius: 5,
+                        colors: {
+                          ...theme.colors,
+                          primary: "#fb923c",
+                        },
+                      })}
+                      onChange={(selectedOption) => {
+                        handleSubmit(task?.id, "members", selectedOption.value);
+                        handleTaskChange(
+                          index,
+                          "members",
+                          selectedOption.value
+                        );
+                      }}
+                       value={
+                        task?.members === null || task?.members === "" || task?.members === undefined
+                        ? ''
+                        : members?.find(person => person.value === task?.members)
+                    }
+
+                      menuPlacement="auto"
+                    />
+      </div>
+      <div className="col-span-2">
+      <input
+                      style={{ width: "8rem" }}
+                      className=" border border-transparent text-black px-1.5 py-2 rounded-md  bg-white-50 focus:outline-none text-sm focus:border-orange-400  date_type"
+                      type="date"
+                      value={task?.dueDate}
+                      onChange={(e) => {
+                        handleSubmit(task?.id, "dueDate", e.target.value);
+                        handleTaskChange(index, "dueDate", e.target.value);
+                      }}
+                    />
+      </div>
+
+      
+
+    </div>
+                </div>
+   
+              )})}
     </div>
   );
 };
