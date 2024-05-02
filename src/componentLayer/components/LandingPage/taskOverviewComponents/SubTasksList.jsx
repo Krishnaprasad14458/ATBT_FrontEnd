@@ -38,7 +38,7 @@ const SubTasksList = ({
     }
   };
   return (
-    <div className="">
+    <div className="pb-3">
       <div className="flex justify-end pe-3">
         <button
           onClick={() => handleAddSubTask(task?.id)}

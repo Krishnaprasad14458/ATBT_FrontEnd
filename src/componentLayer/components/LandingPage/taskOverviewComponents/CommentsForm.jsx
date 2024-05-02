@@ -82,7 +82,7 @@ const CommentsForm = ({ taskID,displayOverviewTask ,scrollToBottom}) => {
             </Dropzone>
           </div>
           <div className="col-span-1 flex justify-center items-center">
-            <button type="submit" disabled={newComment.message.length < 3} className={newComment.message.length >= 3 ? '' : 'text-gray-300 cursor-not-allowed'}>
+            <button type="submit" disabled={newComment.message.length < 3} className={newComment.message.length >= 3 ? '' : 'text-gray-300 '}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
