@@ -99,10 +99,11 @@ const TaskOverview = ({
         />
         <hr />
         <div
-          className="overflow-y-scroll content relative"
+          className="overflow-y-scroll content relative bg-[#f8fafc]"
           style={{ maxHeight: "calc(100vh - 12rem)" }}
         >
-          <div className=" ms-2 p-2 ">
+          <div className="bg-white">
+          <div className=" p-3 ">
             <NonEditableFields
               task={task}
               age={displayOverviewTask ? task?.age : subTask?.age}
@@ -125,6 +126,7 @@ const TaskOverview = ({
               setDisplayOverviewSubTask={setDisplayOverviewSubTask}
               displayOverviewSubTask={displayOverviewSubTask}
             />
+   
           </div>
           {displayOverviewTask && (
             <SubTasksList
@@ -146,13 +148,17 @@ const TaskOverview = ({
               status={status}
             />
           )}
+          </div>
+          <div className="bg-white">
           <CommentsView
             messagesEndRef={messagesEndRef}
             comments={displayOverviewTask ? task?.comments : subTask?.comments}
+            
           />
+            </div>
         </div>
         <hr />
-        <CommentsForm
+        <CommentsForm 
           scrollToBottom={scrollToBottom}
           displayOverviewTask={displayOverviewTask}
           taskID={displayOverviewTask ? task?.id : subTask?.id}
