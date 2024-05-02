@@ -2,7 +2,12 @@ import React, { useEffect, useRef } from "react";
 import { useState } from "react";
 import { useFetcher } from "react-router-dom";
 
-const CommentsView = ({ comments, messagesEndRef }) => {
+const CommentsView = ({
+  comments,
+  messagesEndRef,
+  setIsCommentEditing,
+  setNewComment,
+}) => {
   let loggedInUser = JSON.parse(localStorage.getItem("data")).user;
 
   let fetcher = useFetcher();
@@ -64,12 +69,11 @@ const CommentsView = ({ comments, messagesEndRef }) => {
             </div>
 
             <div key={index} className="col-span-9 ">
-              <div >
+              <div>
                 <span className="font-semibold block md:inline">
                   {comment.senderName} &nbsp;
                 </span>
                 <span className="text-sm text-gray-500">
-                 
                   {comment.createdAt &&
                     (() => {
                       let date = new Date(comment.createdAt);
@@ -158,29 +162,32 @@ const CommentsView = ({ comments, messagesEndRef }) => {
                 </div> */}
                 <div class="relative inline-block text-left bottom-0">
                   <div>
-                  {parseInt(loggedInUser.id) === parseInt(comment.senderId) &&  <button
-                      type="button"
-                      class="inline-flex w-full justify-center items-center gap-x-1.5  text-sm font-semibold text-gray-900  "
-                      id="menu-button"
-                      aria-expanded="true"
-                      aria-haspopup="true"
-                      onClick={() => handleCommentCrudView(comment.id)}
-                    >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke-width="1.5"
-                        stroke="currentColor"
-                        class="w-4 h-4"
+                    {parseInt(loggedInUser.id) ===
+                      parseInt(comment.senderId) && (
+                      <button
+                        type="button"
+                        class="inline-flex w-full justify-center items-center gap-x-1.5  text-sm font-semibold text-gray-900  "
+                        id="menu-button"
+                        aria-expanded="true"
+                        aria-haspopup="true"
+                        onClick={() => handleCommentCrudView(comment.id)}
                       >
-                        <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          d="m19.5 8.25-7.5 7.5-7.5-7.5"
-                        />
-                      </svg>
-                    </button>}
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke-width="1.5"
+                          stroke="currentColor"
+                          class="w-4 h-4"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            d="m19.5 8.25-7.5 7.5-7.5-7.5"
+                          />
+                        </svg>
+                      </button>
+                    )}
                     {commentCrudView === comment.id && (
                       <div
                         ref={menuRef}
@@ -188,11 +195,17 @@ const CommentsView = ({ comments, messagesEndRef }) => {
                         role="menu"
                         aria-orientation="vertical"
                         aria-labelledby="menu-button"
-                       
                         tabindex="-1"
                       >
                         <div class="py-1" role="none">
-                          <p class="text-gray-700  px-3 py-1.5 text-sm flex gap-3 cursor-pointer hover:bg-gray-200">
+                          <p
+                            class="text-gray-700  px-3 py-1.5 text-sm flex gap-3 cursor-pointer hover:bg-gray-200"
+                            onClick={() => {
+                              setIsCommentEditing(true);
+                              setNewComment(comment);
+                              setCommentCrudView(null);
+                            }}
+                          >
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
                               fill="none"

@@ -49,7 +49,12 @@ const TaskOverview = ({
     { value: "user", label: "user" },
     { value: "entity", label: "entity" },
   ];
-
+const [isCommentEditing,setIsCommentEditing] = useState(false)
+const [newComment, setNewComment] = useState({
+  message: "",
+  file: "",
+  senderId: "",
+});
   const messagesEndRef = useRef(null);
 
   const scrollToBottom = () => {
@@ -151,6 +156,9 @@ const TaskOverview = ({
           </div>
           <div className="bg-white">
           <CommentsView
+          setIsCommentEditing={setIsCommentEditing}
+         setNewComment={setNewComment}
+
             messagesEndRef={messagesEndRef}
             comments={displayOverviewTask ? task?.comments : subTask?.comments}
             
@@ -159,6 +167,11 @@ const TaskOverview = ({
         </div>
         <hr />
         <CommentsForm 
+        isCommentEditing={isCommentEditing}
+        setIsCommentEditing={setIsCommentEditing}
+
+        newComment={newComment}
+         setNewComment={setNewComment}
           scrollToBottom={scrollToBottom}
           displayOverviewTask={displayOverviewTask}
           taskID={displayOverviewTask ? task?.id : subTask?.id}
