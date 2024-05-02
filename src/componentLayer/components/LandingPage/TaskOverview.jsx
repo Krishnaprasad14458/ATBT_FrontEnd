@@ -56,12 +56,6 @@ const TaskOverview = ({
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
-  // useEffect(() => {
-  //   if (!firstLoad) {
-  //     // Scroll to bottom after successful GET request, but not on initial load
-  //     scrollToBottom();
-  //   }
-  // }, [comments, firstLoad]); // Trigger on messages change and firstLoad change
 
   return (
     <div
