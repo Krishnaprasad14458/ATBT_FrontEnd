@@ -3,6 +3,8 @@ import { useState } from "react";
 import { useFetcher } from "react-router-dom";
 
 const CommentsView = ({ comments, messagesEndRef }) => {
+  let loggedInUser = JSON.parse(localStorage.getItem("data")).user;
+
   let fetcher = useFetcher();
   const attachmentStyle = {
     maxWidth: "200px",
@@ -154,7 +156,7 @@ const CommentsView = ({ comments, messagesEndRef }) => {
                 </div>
                 <div class="relative inline-block text-left">
                   <div>
-                    <button
+                  {parseInt(loggedInUser.id) === parseInt(comment.senderId) &&  <button
                       type="button"
                       class="inline-flex w-full justify-center items-center gap-x-1.5  text-sm font-semibold text-gray-900  "
                       id="menu-button"
@@ -176,7 +178,7 @@ const CommentsView = ({ comments, messagesEndRef }) => {
                           d="m19.5 8.25-7.5 7.5-7.5-7.5"
                         />
                       </svg>
-                    </button>
+                    </button>}
                     {commentCrudView === comment.id && (
                       <div
                         ref={menuRef}
