@@ -267,3 +267,8 @@ input[type='date']:after {
   padding: 0.25rem; /* Adjust padding as needed */
 }
 
+.arrow_breadcrumbs::after{
+  content: ">";
+  color: #334155;
+  
+}

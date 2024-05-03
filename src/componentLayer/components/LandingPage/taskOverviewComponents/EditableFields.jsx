@@ -17,22 +17,29 @@ const EditableFields = ({
     <>
       <div className="mb-2">
         {displayOverviewSubTask && (
-          <>
-            <span
-              onClick={() => {
-                setSubTask({
-                  decision: "",
-                  members: "",
-                  dueDate: "",
-                  status: "",
-                });
-                setDisplayOverviewSubTask(false);
-                setDisplayOverviewTask(true);
-              }}
-            >
-              {taskDecision}
-            </span>- {task?.decision}
-          </>
+       <div className="flex items-center">
+       <span
+         className="text-xs text-orange-500 hover:underline cursor-pointer"
+         onClick={() => {
+           setSubTask({
+             decision: "",
+             members: "",
+             dueDate: "",
+             status: "",
+           });
+           setDisplayOverviewSubTask(false);
+           setDisplayOverviewTask(true);
+         }}
+       >
+         Back to Main Task Overview
+       </span>
+       <span className="mx-2 arrow_breadcrumbs"></span> 
+       <span className="text-xs text-orange-500 ">
+         Sub Task
+       </span>
+     </div>
+     
+      
         )}
         <label className="block text-xs font-medium leading-6 my-1 text-[1e1f21]">
           Decision Taken
