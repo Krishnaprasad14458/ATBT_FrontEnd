@@ -101,9 +101,9 @@ const CommentsForm = ({
           <div className="col-span-1 flex justify-center items-center">
             <button
               type="submit"
-              disabled={newComment.message.length < 3}
+              disabled={newComment.message.length < 2}
               className={
-                newComment.message.length >= 3
+                newComment.message.length >= 2
                   ? ""
                   : "text-gray-300 cursor-not-allowed"
               }
