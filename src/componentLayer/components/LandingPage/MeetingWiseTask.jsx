@@ -11,7 +11,7 @@ import atbtApi from "../../../serviceLayer/interceptor";
 import { debounce } from "../../../utils/utils";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-let members 
+let members;
 let status = [
   { label: "In-Progress", value: "In-Progress" },
   { label: "Close", value: "Close" },
@@ -22,18 +22,19 @@ export async function tasksLoader({ request, params }) {
     const url = new URL(request.url);
     const taskID = url.searchParams.get("taskID");
     const subTaskID = url.searchParams.get("subTaskID");
-    const [tasks, task, subTasks, subTask,personResponsible] = await Promise.all([
-      atbtApi.get(`task/list/${params.BMid} `),
-      taskID ? atbtApi.get(`task/listbyid/${taskID}`) : null,
-      taskID ? atbtApi.get(`task/subList/${taskID}`) : null,
-      subTaskID ? atbtApi.get(`task/subtaskbyid/${subTaskID}`) : null,
-      atbtApi.get(`/boardmeeting/groupUser/${params.BMid}`) 
-      // Api For Get boardmeeting members 
- 
-      // get('/groupEntiy/:id')                Meeting.ListEntiyGroup
-      // get('/groupTeam/:id',)            Meeting.ListTeamGroup)
-      // get('/groupUser/:id')              Meeting.ListUserGroup)
-    ]);
+    const [tasks, task, subTasks, subTask, personResponsible] =
+      await Promise.all([
+        atbtApi.get(`task/list/${params.BMid} `),
+        taskID ? atbtApi.get(`task/listbyid/${taskID}`) : null,
+        taskID ? atbtApi.get(`task/subList/${taskID}`) : null,
+        subTaskID ? atbtApi.get(`task/subtaskbyid/${subTaskID}`) : null,
+        atbtApi.get(`/boardmeeting/groupUser/${params.BMid}`),
+        // Api For Get boardmeeting members
+
+        // get('/groupEntiy/:id')                Meeting.ListEntiyGroup
+        // get('/groupTeam/:id',)            Meeting.ListTeamGroup)
+        // get('/groupUser/:id')              Meeting.ListUserGroup)
+      ]);
     let updatedTask = task?.data[0];
     let updatedSubTask = subTask?.data[0];
     let taskAge = null;
@@ -59,7 +60,10 @@ export async function tasksLoader({ request, params }) {
       task: updatedTask,
       subTasks: subTasks?.data?.Task,
       subTask: updatedSubTask,
-      personResponsible:personResponsible?.data?.User?.map((user) => ({ label: user.name, value: user.id })),
+      personResponsible: personResponsible?.data?.User?.map((user) => ({
+        label: user.name,
+        value: user.id,
+      })),
       threadName: `${tasks?.data[0]?.meetingnumber}`,
       threadPath: `/users/${params.id}/boardmeetings/${params.BMid}`,
     };
@@ -127,21 +131,22 @@ export async function MeetingWiseTasksActions({ request, params }) {
         }
       }
       break;
-    case "DELETE": {
-      const requestBody = (await request.json()) || null;
-      console.log(requestBody, "request");
+    case "DELETE":
+      {
+        const requestBody = (await request.json()) || null;
+        console.log(requestBody, "request");
 
-      if (requestBody.type === "DELETE_TASK") {
-        return await atbtApi.delete(`task/delete/${requestBody.id}`);
+        if (requestBody.type === "DELETE_TASK") {
+          return await atbtApi.delete(`task/delete/${requestBody.id}`);
+        }
+        if (requestBody.type === "DELETE_SUB_TASK") {
+          return await atbtApi.delete(`task/subtaskdelete/${requestBody.id}`);
+        }
+        if (requestBody.type === "DELETE_COMMENT") {
+          return await atbtApi.delete(`task/delComments/${requestBody.id}`);
+        }
       }
-      if (requestBody.type === "DELETE_SUB_TASK") {
-        return await atbtApi.delete(`task/subtaskdelete/${requestBody.id}`);
-      }
-      if (requestBody.type === "DELETE_COMMENT") {
-        return await atbtApi.delete(`task/delComments/${requestBody.id}`);
-      }
-    }
-    break
+      break;
     default: {
       throw new Response("", { status: 405 });
     }
@@ -154,7 +159,7 @@ const MeetingWiseTask = () => {
   let [task, setTask] = useState({});
   let [subTasks, setSubTasks] = useState();
   let [subTask, setSubTask] = useState();
-  members = data?.personResponsible
+  members = data?.personResponsible;
   useEffect(() => {
     setTasks(data?.tasks);
     setTask(data?.task);
@@ -346,7 +351,8 @@ const MeetingWiseTask = () => {
               <th
                 className="py-2 px-2  text-sm text-white bg-orange-600    border border-collapse border-[#e5e7eb]  text-left
                whitespace-nowrap"
-               style={{ width: "8rem" }}>
+                style={{ width: "8rem" }}
+              >
                 Status
               </th>
               <th
@@ -457,10 +463,8 @@ const MeetingWiseTask = () => {
                           "&:focus-within": {
                             borderColor: "#fb923c",
                           },
-                       
                         }),
-                        
-                       
+
                         option: (provided, state) => ({
                           ...provided,
                           color: state.isFocused ? "#fff" : "#000000",
@@ -484,13 +488,12 @@ const MeetingWiseTask = () => {
                           ...provided,
                           zIndex: 9999, // Ensure the dropdown menu appears above other elements
                         }),
-                        
+
                         placeholder: (provided) => ({
                           ...provided,
                           fontSize: "12px", // Set the font size of the placeholder
                         }),
                       }}
-                      
                       theme={(theme) => ({
                         ...theme,
                         borderRadius: 5,
@@ -508,10 +511,14 @@ const MeetingWiseTask = () => {
                         );
                       }}
                       value={
-                        task?.members === null || task?.members === "" || task?.members === undefined
-                        ? ''
-                        : members?.find(person => person.value === task?.members)
-                    }
+                        task?.members === null ||
+                        task?.members === "" ||
+                        task?.members === undefined
+                          ? ""
+                          : members?.find(
+                              (person) => person.value === task?.members
+                            )
+                      }
                       menuPlacement="auto"
                     />
                   </td>
@@ -526,9 +533,11 @@ const MeetingWiseTask = () => {
                       }}
                     />
                   </td>
-                  <td className="border py-1.5 px-3 "
+                  <td
+                    className="border py-1.5 px-3 "
                     title={task?.status}
-                    style={{ width: "8rem" }}>
+                    style={{ width: "8rem" }}
+                  >
                     <Select
                       options={status}
                       menuPortalTarget={document.body}
@@ -556,7 +565,7 @@ const MeetingWiseTask = () => {
                           "&:focus-within": {
                             borderColor: "#fb923c",
                           },
-                          width: "8rem"
+                          width: "8rem",
                         }),
                         option: (provided, state) => ({
                           ...provided,

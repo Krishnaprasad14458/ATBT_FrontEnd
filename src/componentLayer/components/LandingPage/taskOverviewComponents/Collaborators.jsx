@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import Select from "react-select";
-
 const Collaborators = ({ members }) => {
   let [collaborators, setCollaborators] = useState([]);
   let [isCollaboratorsEditing, setIsCollaboratorsEditing] = useState(false);
@@ -16,10 +15,7 @@ const Collaborators = ({ members }) => {
     <div className="px-3 py-1">
       <div className="me-2 flex items-center gap-2">
         <p className="text-sm ">Collaborators</p>
-        
-
-
-        {collaborators.length > 0 &&
+{collaborators.length > 0 &&
           collaborators.map((collaborator) => (
             <div className="collaborator-container bg-orange-500 text-white py-1.5 w-8 h-8 rounded-full relative">
               <span className="flex justify-center items-center text-sm">

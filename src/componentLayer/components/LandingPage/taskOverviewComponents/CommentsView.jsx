@@ -9,7 +9,6 @@ const CommentsView = ({
   setNewComment,
 }) => {
   let loggedInUser = JSON.parse(localStorage.getItem("data")).user;
-
   let fetcher = useFetcher();
   const attachmentStyle = {
     maxWidth: "200px",

@@ -6,7 +6,6 @@ import {
   useNavigation,
   useParams,
   useSubmit,
-
 } from "react-router-dom";
 import atbtApi from "../../../serviceLayer/interceptor";
 import CustomColumn from "../../../componentLayer/components/tableCustomization/CustomColumn";
