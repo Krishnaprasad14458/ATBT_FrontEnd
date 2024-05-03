@@ -1,12 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
-import {
-  Link,
-  useFetcher,
-  useLoaderData,
-  useNavigation,
-  useParams,
-  useSubmit,
-} from "react-router-dom";
+import {Link,useFetcher,useLoaderData,useNavigation,useParams,useSubmit} from "react-router-dom";
 import atbtApi from "../../../serviceLayer/interceptor";
 import CustomColumn from "../../../componentLayer/components/tableCustomization/CustomColumn";
 import CustomFilter from "../../../componentLayer/components/tableCustomization/CustomFilter";
@@ -110,14 +103,12 @@ function Boardmeeting() {
       pageSize: selectedValue,
     });
   };
-
-  useEffect(() => {
+useEffect(() => {
     if (fetcher.state === "idle" && !fetcher.data) {
       fetcher.load(".");
     }
   }, [fetcher, navigation]);
-
-  const handleDeleteUser = async (id) => {
+const handleDeleteUser = async (id) => {
     const confirmDelete = await Swal.fire({
       title: "Are you sure?",
       text: "Once deleted, you will not be able to recover this Board Meeting!",
