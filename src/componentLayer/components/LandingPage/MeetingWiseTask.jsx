@@ -446,12 +446,12 @@ const MeetingWiseTask = () => {
                           borderWidth: "1px",
                           borderColor: state.isFocused
                             ? "#orange-400"
-                            : "transparent", // Changed borderColor
+                            : "transparent", 
                           boxShadow: state.isFocused
                             ? "none"
                             : provided.boxShadow,
                           fontSize: "16px",
-                          height: "36px", // Adjust the height here
+                          height: "36px", 
                           "&:hover": {
                             borderColor: state.isFocused
                               ? "#fb923c"
@@ -486,12 +486,12 @@ const MeetingWiseTask = () => {
                         }),
                         menu: (provided) => ({
                           ...provided,
-                          zIndex: 9999, // Ensure the dropdown menu appears above other elements
+                          zIndex: 9999,
                         }),
 
                         placeholder: (provided) => ({
                           ...provided,
-                          fontSize: "12px", // Set the font size of the placeholder
+                          fontSize: "12px", 
                         }),
                       }}
                       theme={(theme) => ({

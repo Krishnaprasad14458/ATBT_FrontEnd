@@ -80,8 +80,7 @@ const MeetingWiseTask = () => {
     }, 500),
     []
   );
-
-  const [overViewTask, setOverViewTask] = useState(false);
+const [overViewTask, setOverViewTask] = useState(false);
   const handleOverViewTask = (task) => {
     setOverViewTask(!overViewTask);
     setQParams((prev) => ({ ...prev, taskID: task.id }));
@@ -93,7 +92,6 @@ const MeetingWiseTask = () => {
       console.log(error, "which error");
     }
   };
-  // const [taskDupFieldId, SetTaskDupFieldId] = useState();
   const [taskDupFieldName, SetTaskDupFieldName] = useState();
   const [taskDupFieldvalue, SetTaskDupFieldvalue] = useState();
   const [isEditing, setIsEditing] = useState(false);
@@ -107,7 +105,6 @@ const MeetingWiseTask = () => {
     };
 
     document.addEventListener("mousedown", handleClickOutside);
-
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
@@ -321,7 +318,6 @@ const MeetingWiseTask = () => {
                     <p className="px-2 text-sm" title={task.dueDate}>
                       {task.dueDate}
                     </p>
-                    // <span title={task.dueDate}>{task.dueDate}</span>
                   )}
                 </td>
                 <td

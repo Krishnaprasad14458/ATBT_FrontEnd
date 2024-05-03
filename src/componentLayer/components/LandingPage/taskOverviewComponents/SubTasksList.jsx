@@ -21,13 +21,11 @@ const SubTasksList = ({
   status,
 }) => {
   let fetcher = useFetcher();
-
   const handleDeleteSubTask = (subtaskID) => {
     let UpdateData = {
       id: subtaskID,
       type: "DELETE_SUB_TASK",
     };
-
     try {
       fetcher.submit(UpdateData, {
         method: "DELETE",

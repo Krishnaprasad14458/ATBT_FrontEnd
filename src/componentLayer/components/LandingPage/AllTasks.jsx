@@ -113,7 +113,6 @@ const AllTasks = () => {
               </th>
             </tr>
           </thead>
-
           <tbody className="">
             {tasks?.map((task, index) => (
               <tr key={index}>
