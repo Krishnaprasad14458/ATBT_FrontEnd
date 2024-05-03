@@ -7,10 +7,7 @@ const NonEditableFields = ({ task, age }) => {
         <label className="block text-xs font-medium leading-6 my-1 text-[1e1f21]">
           Date
         </label>
-        <p
-          className=" border border-[#d1d5db] text-black h-10 w-full truncate px-3 flex items-center rounded-md text-sm   bg-white-50
-                "
-        >
+        <p className=" border border-[#d1d5db] text-black h-10 w-full truncate px-3 flex items-center rounded-md text-sm   bg-white-50">
           {task &&
             (() => {
               let date = new Date(task?.date);
@@ -32,7 +29,6 @@ const NonEditableFields = ({ task, age }) => {
                 "November",
                 "December",
               ];
-
               let ordinalsText = "";
               if (day == 1 || day == 21 || day == 31) {
                 ordinalsText = "st";
@@ -53,7 +49,6 @@ const NonEditableFields = ({ task, age }) => {
                   className="w-full truncate text-sm"
                   title={date ? date : "No Date"}
                 >
-                  {" "}
                   {date ? date : "No Date"}
                 </span>
               );

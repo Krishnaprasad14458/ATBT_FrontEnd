@@ -1,7 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import { useState } from "react";
 import { useFetcher } from "react-router-dom";
-
 const CommentsView = ({
   comments,
   messagesEndRef,
@@ -16,7 +15,6 @@ const CommentsView = ({
     margin: "10px",
   };
   const [commentCrudView, setCommentCrudView] = useState(null);
-
   const handleCommentCrudView = (id) => {
     setCommentCrudView(id === commentCrudView ? null : id);
   };
@@ -36,7 +34,6 @@ const CommentsView = ({
       console.log(error, "which error");
     }
   };
-
   const menuRef = useRef(null);
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -61,7 +58,6 @@ const CommentsView = ({
       <div className="bg-[#f8fafc] ">
         <p className="p-3"> Comments</p>
         <hr />
-
         {comments?.length > 5 && (
           <p onClick={() => setDisplayAllComments((prev) => !prev)}>
             {displayAllComments
@@ -82,7 +78,6 @@ const CommentsView = ({
                       </span>
                     </p>
                   </div>
-
                   <div key={index} className="col-span-9 ">
                     <div>
                       <span className="font-semibold block md:inline">

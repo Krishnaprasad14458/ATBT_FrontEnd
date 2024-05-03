@@ -31,11 +31,9 @@ const EditableFields = ({
               }}
             >
               {taskDecision}
-            </span>{" "}
-            - {task?.decision}
+            </span>- {task?.decision}
           </>
         )}
-
         <label className="block text-xs font-medium leading-6 my-1 text-[1e1f21]">
           Decision Taken
         </label>
@@ -47,7 +45,6 @@ const EditableFields = ({
           onBlur={(e) => handleSubmit(task?.id, "decision", e.target.value)}
         />
       </div>
-
       <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3 xl:grid-col-3 items-center mb-3 gap-3">
         <div className="col-span-1">
           <label className="block text-xs font-medium leading-6 my-1 text-[1e1f21]">
