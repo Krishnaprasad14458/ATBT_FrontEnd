@@ -6,7 +6,6 @@ import Collaborators from "./taskOverviewComponents/Collaborators";
 import TaskOverViewHeader from "./taskOverviewComponents/TaskOverViewHeader";
 import CommentsView from "./taskOverviewComponents/CommentsView";
 import CommentsForm from "./taskOverviewComponents/CommentsForm";
-
 const TaskOverview = ({
   setAutoFocussubTaskID,
   isSubTaskInputActiveID,
@@ -49,18 +48,17 @@ const TaskOverview = ({
     { value: "user", label: "user" },
     { value: "entity", label: "entity" },
   ];
-const [isCommentEditing,setIsCommentEditing] = useState(false)
-const [newComment, setNewComment] = useState({
-  message: "",
-  file: "",
-  senderId: "",
-});
+  const [isCommentEditing, setIsCommentEditing] = useState(false);
+  const [newComment, setNewComment] = useState({
+    message: "",
+    file: "",
+    senderId: "",
+  });
   const messagesEndRef = useRef(null);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
-
 
   return (
     <div
@@ -108,76 +106,73 @@ const [newComment, setNewComment] = useState({
           style={{ maxHeight: "calc(100vh - 12rem)" }}
         >
           <div className="bg-white">
-          <div className=" p-3 ">
-            <NonEditableFields
-              task={task}
-              age={displayOverviewTask ? task?.age : subTask?.age}
-            />
-            <EditableFields
-              taskDecision={displayOverviewSubTask ? task?.decision : null}
-              task={displayOverviewTask ? task : subTask}
-              handleOverviewTaskChange={
-                displayOverviewTask
-                  ? handleOverviewTaskChange
-                  : handleOverviewSubTaskChange
-              }
-              handleSubmit={
-                displayOverviewTask ? handleSubmit : handleSubTaskSubmit
-              }
-              members={members}
-              priority={priority}
-              setSubTask={setSubTask}
-              setDisplayOverviewTask={setDisplayOverviewTask}
-              setDisplayOverviewSubTask={setDisplayOverviewSubTask}
-              displayOverviewSubTask={displayOverviewSubTask}
-            />
-   
-          </div>
-          {displayOverviewTask && (
-            <SubTasksList
-              members={members}
-              task={task}
-              handleAddSubTask={handleAddSubTask}
-              subTasks={subTasks}
-              setQParams={setQParams}
-              displayOverviewTask={displayOverviewTask}
-              displayOverviewSubTask={displayOverviewSubTask}
-              setDisplayOverviewTask={setDisplayOverviewTask}
-              setDisplayOverviewSubTask={setDisplayOverviewSubTask}
-              isInputActiveID={isSubTaskInputActiveID}
-              handleTaskChange={handleSubTaskChange}
-              handleSubmit={handleSubTaskSubmit}
-              autoFocusID={autoFocusSubTaskID}
-              setIsInputActive={setIsSubTaskInputActive}
-              setAutoFocusID={setAutoFocussubTaskID}
-              status={status}
-            />
-          )}
+            <div className=" p-3 ">
+              <NonEditableFields
+                task={task}
+                age={displayOverviewTask ? task?.age : subTask?.age}
+              />
+              <EditableFields
+                taskDecision={displayOverviewSubTask ? task?.decision : null}
+                task={displayOverviewTask ? task : subTask}
+                handleOverviewTaskChange={
+                  displayOverviewTask
+                    ? handleOverviewTaskChange
+                    : handleOverviewSubTaskChange
+                }
+                handleSubmit={
+                  displayOverviewTask ? handleSubmit : handleSubTaskSubmit
+                }
+                members={members}
+                priority={priority}
+                setSubTask={setSubTask}
+                setDisplayOverviewTask={setDisplayOverviewTask}
+                setDisplayOverviewSubTask={setDisplayOverviewSubTask}
+                displayOverviewSubTask={displayOverviewSubTask}
+              />
+            </div>
+            {displayOverviewTask && (
+              <SubTasksList
+                members={members}
+                task={task}
+                handleAddSubTask={handleAddSubTask}
+                subTasks={subTasks}
+                setQParams={setQParams}
+                displayOverviewTask={displayOverviewTask}
+                displayOverviewSubTask={displayOverviewSubTask}
+                setDisplayOverviewTask={setDisplayOverviewTask}
+                setDisplayOverviewSubTask={setDisplayOverviewSubTask}
+                isInputActiveID={isSubTaskInputActiveID}
+                handleTaskChange={handleSubTaskChange}
+                handleSubmit={handleSubTaskSubmit}
+                autoFocusID={autoFocusSubTaskID}
+                setIsInputActive={setIsSubTaskInputActive}
+                setAutoFocusID={setAutoFocussubTaskID}
+                status={status}
+              />
+            )}
           </div>
           <div className="bg-white">
-          <CommentsView
-          setIsCommentEditing={setIsCommentEditing}
-         setNewComment={setNewComment}
-
-            messagesEndRef={messagesEndRef}
-            comments={displayOverviewTask ? task?.comments : subTask?.comments}
-            
-          />
-            </div>
+            <CommentsView
+              setIsCommentEditing={setIsCommentEditing}
+              setNewComment={setNewComment}
+              messagesEndRef={messagesEndRef}
+              comments={
+                displayOverviewTask ? task?.comments : subTask?.comments
+              }
+            />
+          </div>
         </div>
         <hr />
-        <CommentsForm 
-        isCommentEditing={isCommentEditing}
-        setIsCommentEditing={setIsCommentEditing}
-
-        newComment={newComment}
-         setNewComment={setNewComment}
+        <CommentsForm
+          isCommentEditing={isCommentEditing}
+          setIsCommentEditing={setIsCommentEditing}
+          newComment={newComment}
+          setNewComment={setNewComment}
           scrollToBottom={scrollToBottom}
           displayOverviewTask={displayOverviewTask}
           taskID={displayOverviewTask ? task?.id : subTask?.id}
         />
-
-        <Collaborators members={members} />
+<Collaborators members={members} />
       </div>
     </div>
   );

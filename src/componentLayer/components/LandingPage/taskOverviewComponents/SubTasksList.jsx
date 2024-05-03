@@ -58,7 +58,7 @@ const SubTasksList = ({
       <div>
         <table className="w-full">
           <thead></thead>
-          <tbody  >
+          <tbody>
             {subTasks &&
               subTasks.map((task, index) => {
                 const decisionHeight =
@@ -339,8 +339,6 @@ const SubTasksList = ({
           </tbody>
         </table>
       </div>
-
-    
     </div>
   );
 };

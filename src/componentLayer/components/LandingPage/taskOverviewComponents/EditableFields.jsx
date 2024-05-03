@@ -1,6 +1,5 @@
 import React from "react";
 import Select from "react-select";
-
 const EditableFields = ({
   task,
   handleOverviewTaskChange,
@@ -11,24 +10,32 @@ const EditableFields = ({
   setSubTask,
   setDisplayOverviewTask,
   setDisplayOverviewSubTask,
-  displayOverviewSubTask
+  displayOverviewSubTask,
 }) => {
   console.log("taskDecision", taskDecision);
   return (
     <>
       <div className="mb-2">
-        {displayOverviewSubTask && 
-        <>
-          <span
-          onClick={() => {
-            setSubTask({ decision: "", members: "", dueDate: "", status: "" });
-              setDisplayOverviewSubTask(false);
-              setDisplayOverviewTask(true);
-          }}
-        >
-          {taskDecision}
-        </span> - {task?.decision}</>}
-      
+        {displayOverviewSubTask && (
+          <>
+            <span
+              onClick={() => {
+                setSubTask({
+                  decision: "",
+                  members: "",
+                  dueDate: "",
+                  status: "",
+                });
+                setDisplayOverviewSubTask(false);
+                setDisplayOverviewTask(true);
+              }}
+            >
+              {taskDecision}
+            </span>{" "}
+            - {task?.decision}
+          </>
+        )}
+
         <label className="block text-xs font-medium leading-6 my-1 text-[1e1f21]">
           Decision Taken
         </label>
@@ -93,13 +100,13 @@ const EditableFields = ({
               handleSubmit(task?.id, "members", selectedOption.value);
             }}
             value={
-              task?.members === null || task?.members === "" || task?.members === undefined
-              ? ''
-              : members?.find(person => person.value === task?.members)
-          }
-          // value={members?.find(person => person.value === task?.members)}
-
-          
+              task?.members === null ||
+              task?.members === "" ||
+              task?.members === undefined
+                ? ""
+                : members?.find((person) => person.value === task?.members)
+            }
+            // value={members?.find(person => person.value === task?.members)}
 
             className="date_type"
           />
