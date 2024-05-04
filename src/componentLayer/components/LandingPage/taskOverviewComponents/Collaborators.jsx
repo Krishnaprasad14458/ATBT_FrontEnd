@@ -16,44 +16,61 @@ const Collaborators = ({ members , collaborators }) => {
     <div className="px-3 py-1">
       <div className="me-2 flex items-center gap-2">
         <p className="text-sm ">Collaborators</p>
-{collaborators?.length > 0 &&
-          collaborators.map((collaborator) => (
-            <div className="collaborator-container bg-orange-500 text-white py-1.5 w-8 h-8 rounded-full relative">
-              <span className="flex justify-center items-center text-sm">
-                {collaborator}
-              </span>
-              <span className="absolute top-0 left-4 p-1 hidden group-hover:flex items-center">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke-width="1.5"
-                  stroke="currentColor"
-                  class="w-6 h-6 text-white hover:bg-black"
-                  // onClick={() => handleRemoveCollaborator(collaborator)}
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    d="M6 18 18 6M6 6l12 12"
-                  />
-                </svg>
+        {collaborators?.length > 0 &&
+  collaborators.map((collaborator) => (
+    <div key={collaborator.id} className="relative group">
+      {/* Collaborator */}
+      <div className="collaborator-container bg-orange-600 text-white py-1.5 w-8 h-8 rounded-full relative hover:bg-orange-700">
+        <span className="flex justify-center items-center text-sm">
+          {collaborator.name.split("")[0]}
+        </span>
 
-                {/* <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-4 w-4 "
-                viewBox="0 0 20 20"
-                fill="currentColor"
-                // onClick={() => handleRemoveCollaborator(collaborator)}
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M9.95 10L.707.757A1 1 0 0 1 2.12-.657L10 7.122 17.879-.757a1 1 0 1 1 1.415 1.415L11.95 10l8.343 8.243a1 1 0 1 1-1.415 1.414L10 11.95l-7.879 7.707a1 1 0 1 1-1.415-1.414L8.05 10 .707 1.757A1 1 0 1 1 2.12.343L10 8.122l7.879-7.707a1 1 0 0 1 1.415 1.414L11.95 10z"
-                />
-              </svg> */}
-              </span>
-            </div>
-          ))}
+        {/* Remove icon */}
+        <span className="absolute top-0 left-4 p-1 hidden group-hover:flex items-center">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth="1.5"
+            stroke="currentColor"
+            className="w-6 h-6 text-white hover:bg-black"
+            // onClick={() => handleRemoveCollaborator(collaborator)}
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M6 18 18 6M6 6l12 12"
+            />
+          </svg>
+        </span>
+      </div>
+
+      {/* Card */}
+    {/* Card */}
+{/* Card */}
+<div className="absolute top-0 bottom-10 right-4 ml-4 mt-2 w-52 h-60 p-2 bg-white border border-gray-200 shadow-lg rounded-lg opacity-0 pointer-events-none transition-opacity duration-300 ease-in-out transform translate-x-1/2 -translate-y-full group-hover:opacity-100 group-hover:-translate-y-full z-10 text-black">
+  {/* Image */}
+  <img
+    src="https://img.freepik.com/premium-photo/headshot-photos-indian-women-dynamic-professions-occassions-indian-girl_978786-292.jpg"
+    alt={collaborator.name}
+    className="w-full h-40 rounded-t-lg object-cover"
+  />
+
+  {/* Details */}
+  <div className="inline-block p-2">
+    {/* Name */}
+    <p className="font-semibold">{collaborator.name}</p>
+    
+    {/* Email */}
+    <p className="text-sm text-gray-600">{collaborator.email}</p>
+  </div>
+</div>
+
+
+
+    </div>
+  ))}
+
 
         {isCollaboratorsEditing && (
           <Select
