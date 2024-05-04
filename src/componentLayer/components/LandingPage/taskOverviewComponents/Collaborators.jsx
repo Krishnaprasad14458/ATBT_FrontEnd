@@ -7,11 +7,11 @@ const Collaborators = ({
   handleSubmit,
 }) => {
   let [isCollaboratorsEditing, setIsCollaboratorsEditing] = useState(false);
-  let idsOfCollaborators = task?.collaborators.map(
+  let idsOfCollaborators = task?.collaborators?.map(
     (collaborat) => collaborat.id
   );
 
-  members = members?.filter((item) => !idsOfCollaborators.includes(item.value));
+  members = members?.filter((item) => !idsOfCollaborators?.includes(item.value));
 
 
   const handleRemoveCollaborator = (collaboratorId) => {
