@@ -176,13 +176,8 @@ console.log("newCOmment",newComment)
           displayOverviewTask={displayOverviewTask}
           taskID={displayOverviewTask ? task?.id : subTask?.id}
         />
-
-
-        {/* <Collaborators 
-              collaborators={task?.collaborators}
-
-         members={members} /> */}
-
+<Collaborators members={members}
+collaborators={displayOverviewTask ? task?.collaborators : subTask?.collaborators} />
       </div>
     </div>
   );
