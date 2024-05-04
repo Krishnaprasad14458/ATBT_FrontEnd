@@ -105,7 +105,7 @@ const TaskOverview = ({
         />
         <hr />
         <div
-          className="overflow-y-scroll content relative bg-[#f8fafc]"
+          className="overflow-y-scroll content  bg-[#f8fafc]"
           style={{ maxHeight: "calc(100vh - 12rem)" }}
         >
           <div className="bg-white">
