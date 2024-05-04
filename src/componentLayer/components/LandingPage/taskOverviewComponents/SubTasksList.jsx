@@ -21,13 +21,11 @@ const SubTasksList = ({
   status,
 }) => {
   let fetcher = useFetcher();
-
   const handleDeleteSubTask = (subtaskID) => {
     let UpdateData = {
       id: subtaskID,
       type: "DELETE_SUB_TASK",
     };
-
     try {
       fetcher.submit(UpdateData, {
         method: "DELETE",
@@ -58,7 +56,7 @@ const SubTasksList = ({
       <div>
         <table className="w-full">
           <thead></thead>
-          <tbody  >
+          <tbody>
             {subTasks &&
               subTasks.map((task, index) => {
                 const decisionHeight =
@@ -339,8 +337,6 @@ const SubTasksList = ({
           </tbody>
         </table>
       </div>
-
-    
     </div>
   );
 };

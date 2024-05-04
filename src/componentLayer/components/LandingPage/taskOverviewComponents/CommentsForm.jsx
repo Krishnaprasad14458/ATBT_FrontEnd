@@ -7,7 +7,8 @@ const CommentsForm = ({
   scrollToBottom,
   newComment,
   setNewComment,
-  isCommentEditing,setIsCommentEditing
+  isCommentEditing,
+  setIsCommentEditing,
 }) => {
   let fetcher = useFetcher();
   let loggedInUser = JSON.parse(localStorage.getItem("data")).user;
@@ -18,8 +19,6 @@ const CommentsForm = ({
       file: [...prev.file, ...acceptedFiles],
     }));
   };
- 
-
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!isCommentEditing) {
@@ -45,27 +44,26 @@ const CommentsForm = ({
         console.log(error, "which error");
       }
     }
-    if(isCommentEditing){
+    if (isCommentEditing) {
       let postComment = newComment;
       let UpdateData = {
         id: postComment.id,
         data: postComment,
-        type:  "EDIT_COMMENT",
+        type: "EDIT_COMMENT",
       };
       try {
         fetcher.submit(UpdateData, {
           method: "PATCH",
           encType: "application/json",
         });
-        setIsCommentEditing(false)
+        setIsCommentEditing(false);
         setNewComment({ message: "", file: "", senderId: "" });
       } catch (error) {
         console.log(error, "which error");
       }
     }
   };
-
-  return (
+ return (
     <div className="p-3 ">
       <form onSubmit={handleSubmit}>
         <div className="grid grid-cols-11 md:grid-cols-11 lg:grid-cols-11 xl:grid-cols-11 justify-center gap-3">
@@ -103,9 +101,9 @@ const CommentsForm = ({
           <div className="col-span-1 flex justify-center items-center">
             <button
               type="submit"
-              disabled={newComment.message.length < 3}
+              disabled={newComment.message.length < 2}
               className={
-                newComment.message.length >= 3
+                newComment.message.length >= 2
                   ? ""
                   : "text-gray-300 cursor-not-allowed"
               }

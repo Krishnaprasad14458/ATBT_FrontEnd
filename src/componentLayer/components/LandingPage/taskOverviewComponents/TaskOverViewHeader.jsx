@@ -1,6 +1,5 @@
 import React from "react";
 import Select from "react-select";
-import { useMediaQuery } from 'react-responsive';
 const TaskOverViewHeader = ({
   handleSubmit,
   handleOverviewTaskChange,
@@ -30,7 +29,7 @@ const TaskOverViewHeader = ({
               borderWidth: "1px",
               borderColor: state.isFocused ? "#orange-400" : "#d1d5db",
               boxShadow: state.isFocused ? "none" : provided.boxShadow,
-              width:"10rem",
+              width: "10rem",
             }),
             placeholder: (provided) => ({
               ...provided,

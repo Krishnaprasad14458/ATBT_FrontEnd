@@ -1,6 +1,5 @@
 import React from "react";
 import Select from "react-select";
-
 const EditableFields = ({
   task,
   handleOverviewTaskChange,
@@ -11,24 +10,37 @@ const EditableFields = ({
   setSubTask,
   setDisplayOverviewTask,
   setDisplayOverviewSubTask,
-  displayOverviewSubTask
+  displayOverviewSubTask,
 }) => {
   console.log("taskDecision", taskDecision);
   return (
     <>
       <div className="mb-2">
-        {displayOverviewSubTask && 
-        <>
-          <span
-          onClick={() => {
-            setSubTask({ decision: "", members: "", dueDate: "", status: "" });
-              setDisplayOverviewSubTask(false);
-              setDisplayOverviewTask(true);
-          }}
-        >
-          {taskDecision}
-        </span> - {task?.decision}</>}
+        {displayOverviewSubTask && (
+       <div className="flex items-center">
+       <span
+         className="text-xs text-orange-500 hover:underline cursor-pointer"
+         onClick={() => {
+           setSubTask({
+             decision: "",
+             members: "",
+             dueDate: "",
+             status: "",
+           });
+           setDisplayOverviewSubTask(false);
+           setDisplayOverviewTask(true);
+         }}
+       >
+         Back to Main Task Overview
+       </span>
+       <span className="mx-2 arrow_breadcrumbs"></span> 
+       <span className="text-xs text-orange-500 ">
+         Sub Task
+       </span>
+     </div>
+     
       
+        )}
         <label className="block text-xs font-medium leading-6 my-1 text-[1e1f21]">
           Decision Taken
         </label>
@@ -40,7 +52,6 @@ const EditableFields = ({
           onBlur={(e) => handleSubmit(task?.id, "decision", e.target.value)}
         />
       </div>
-
       <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3 xl:grid-col-3 items-center mb-3 gap-3">
         <div className="col-span-1">
           <label className="block text-xs font-medium leading-6 my-1 text-[1e1f21]">
@@ -93,13 +104,13 @@ const EditableFields = ({
               handleSubmit(task?.id, "members", selectedOption.value);
             }}
             value={
-              task?.members === null || task?.members === "" || task?.members === undefined
-              ? ''
-              : members?.find(person => person.value === task?.members)
-          }
-          // value={members?.find(person => person.value === task?.members)}
-
-          
+              task?.members === null ||
+              task?.members === "" ||
+              task?.members === undefined
+                ? ""
+                : members?.find((person) => person.value === task?.members)
+            }
+            // value={members?.find(person => person.value === task?.members)}
 
             className="date_type"
           />

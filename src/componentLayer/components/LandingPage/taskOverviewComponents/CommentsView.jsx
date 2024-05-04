@@ -1,7 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import { useState } from "react";
 import { useFetcher } from "react-router-dom";
-
 const CommentsView = ({
   comments,
   messagesEndRef,
@@ -9,7 +8,6 @@ const CommentsView = ({
   setNewComment,
 }) => {
   let loggedInUser = JSON.parse(localStorage.getItem("data")).user;
-
   let fetcher = useFetcher();
   const attachmentStyle = {
     maxWidth: "200px",
@@ -17,7 +15,6 @@ const CommentsView = ({
     margin: "10px",
   };
   const [commentCrudView, setCommentCrudView] = useState(null);
-
   const handleCommentCrudView = (id) => {
     setCommentCrudView(id === commentCrudView ? null : id);
   };
@@ -37,7 +34,6 @@ const CommentsView = ({
       console.log(error, "which error");
     }
   };
-
   const menuRef = useRef(null);
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -62,14 +58,27 @@ const CommentsView = ({
       <div className="bg-[#f8fafc] ">
         <p className="p-3"> Comments</p>
         <hr />
+        {/* {comments?.length > 5 && (
+          <p
+            onClick={() => setDisplayAllComments((prev) => !prev)}
+            className="text-sm p-3 text-end text-blue-500 hover:underline"
+          > */}
+            {/* {displayAllComments
+              ? "Hide earlier comments"
+              : comments.length - 5 + " more comments"} */}
+{comments?.length > 5 && (
+  <p
+    onClick={() => setDisplayAllComments((prev) => !prev)}
+    className="text-sm p-3 text-end text-blue-500 hover:underline"
+  >
+    {displayAllComments
+      ? "Hide earlier comments"
+      : comments.length === 6
+        ? "One more comment"
+        : comments.length - 5 + " more comments"}
+  </p>
+)}
 
-        {comments?.length > 5 && (
-          <p onClick={() => setDisplayAllComments((prev) => !prev)}>
-            {displayAllComments
-              ? "hide comments"
-              : comments.length - 5 + " more comments"}
-          </p>
-        )}
         {Array.isArray(comments) &&
           comments.length > 0 &&
           comments?.map((comment, index) => (
@@ -83,10 +92,9 @@ const CommentsView = ({
                       </span>
                     </p>
                   </div>
-
                   <div key={index} className="col-span-9 ">
                     <div>
-                      <span className="font-semibold block md:inline">
+                      <span className="font-semibold block md:inline text-sm">
                         {comment.senderName} &nbsp;
                       </span>
                       <span className="text-sm text-gray-500">
