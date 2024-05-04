@@ -1,21 +1,22 @@
 import React, { useState } from "react";
 import Select from "react-select";
-const Collaborators = ({ members }) => {
-  let [collaborators, setCollaborators] = useState([]);
+const Collaborators = ({ members , collaborators }) => {
+  // let [collaborators, setCollaborators] = useState([]);
   let [isCollaboratorsEditing, setIsCollaboratorsEditing] = useState(false);
-  const handleRemoveCollaborator = (collaborator) => {
-    let updatedCollaborators = [...collaborators];
-    updatedCollaborators = updatedCollaborators.filter(
-      (e) => e != collaborator
-    );
-    setCollaborators(updatedCollaborators);
-  };
-  console.log("mem", collaborators);
+  console.log("collaborators" , collaborators)
+  // const handleRemoveCollaborator = (collaborator) => {
+  //   let updatedCollaborators = [...collaborators];
+  //   updatedCollaborators = updatedCollaborators.filter(
+  //     (e) => e != collaborator
+  //   );
+  //   setCollaborators(updatedCollaborators);
+  // };
+  // console.log("mem", collaborators);
   return (
     <div className="px-3 py-1">
       <div className="me-2 flex items-center gap-2">
         <p className="text-sm ">Collaborators</p>
-{collaborators.length > 0 &&
+{collaborators?.length > 0 &&
           collaborators.map((collaborator) => (
             <div className="collaborator-container bg-orange-500 text-white py-1.5 w-8 h-8 rounded-full relative">
               <span className="flex justify-center items-center text-sm">
@@ -29,7 +30,7 @@ const Collaborators = ({ members }) => {
                   stroke-width="1.5"
                   stroke="currentColor"
                   class="w-6 h-6 text-white hover:bg-black"
-                  onClick={() => handleRemoveCollaborator(collaborator)}
+                  // onClick={() => handleRemoveCollaborator(collaborator)}
                 >
                   <path
                     stroke-linecap="round"
@@ -107,7 +108,7 @@ const Collaborators = ({ members }) => {
             //     : members?.find(person => person.value === task?.members)
             // }
             onChange={(selectedOption) => {
-              setCollaborators((prev) => [...prev, selectedOption.value]);
+              // setCollaborators((prev) => [...prev, selectedOption.value]);
               setIsCollaboratorsEditing(!isCollaboratorsEditing);
             }}
             menuPlacement="auto"

@@ -76,7 +76,7 @@ input[type="checkbox"]:checked::before {
 /* for hidden button in small screen */
 @media (max-width: 640px) {
   .create-btn {
-      display: none;
+    display: none;
   }
 }
 /* for hidden button in small screen */
@@ -103,54 +103,48 @@ input::-webkit-inner-spin-button {
 /* all customforms CSS end*/
 
 /* for breadcrumbs */
-.breadcrumbs{
-  max-width:1200px ;
+.breadcrumbs {
+  max-width: 1200px;
   margin-left: 2px;
 
   font-size: 1.25rem;
-
 }
 
-.breadcrumbs > *{
+.breadcrumbs > * {
   display: inline-block;
   margin-right: 5px;
-  
+
   font-size: 1rem;
-
 }
 
-.breadcrumbs .crumb:after{
-  content: '>';
+.breadcrumbs .crumb:after {
+  content: ">";
   margin-left: 7px;
-  
-  
 }
-.breadcrumbs .crumb:last-child::after{
+.breadcrumbs .crumb:last-child::after {
   display: none;
 }
-.breadcrumbs .crumb a{
+.breadcrumbs .crumb a {
   color: #334155;
   font-weight: 600;
 }
-.breadcrumbs .crumb a:hover{
-  color:#ea580c ;
+.breadcrumbs .crumb a:hover {
+  color: #ea580c;
   border-bottom: 1px solid #fb923c;
 }
 
 /* for breadcrumbs end */
 
-
 /* for input select new end*/
 
-.css-1dimb5e-singleValue{
+.css-1dimb5e-singleValue {
   font-size: 14px !important;
 }
-
 
 /* dont delete this code ask bhavi before delete */
 /* 
 /* for defult  date input dd/mm/yyy its working in all expect boardmeeting form dont remove */
- /* input[type="date"]:in-range::-webkit-datetime-edit-year-field,
+/* input[type="date"]:in-range::-webkit-datetime-edit-year-field,
 input[type="date"]:in-range::-webkit-datetime-edit-month-field,
 input[type="date"]:in-range::-webkit-datetime-edit-day-field,
 input[type="date"]:in-range::-webkit-datetime-edit-text {
@@ -162,12 +156,10 @@ input[type="date"]:in-range::-webkit-datetime-edit-text {
 .date_type:not(:focus):in-range::-webkit-datetime-edit-year-field,
 .date_type:not(:focus):in-range::-webkit-datetime-edit-month-field,
 .date_type:not(:focus):in-range::-webkit-datetime-edit-day-field,
-.date_type:not(:focus):in-range::-webkit-datetime-edit-text 
-{
-   opacity: 0;
+.date_type:not(:focus):in-range::-webkit-datetime-edit-text {
+  opacity: 0;
   filter: invert(40%);
-  
-} 
+}
 /* .date_type:not(:focus)::-webkit-calendar-picker-indicator {
   filter: grayscale(100%);
 } */
@@ -175,16 +167,14 @@ input[type="date"]:in-range::-webkit-datetime-edit-text {
   filter:brightness(50%);
 } */
 
-
-
-.date_type{
+.date_type {
   position: relative;
 }
 .date_type::-webkit-calendar-picker-indicator {
   cursor: pointer;
   border-radius: 4px;
   margin-right: 2px;
-  opacity: 0.6; 
+  opacity: 0.6;
   /* filter: invert(0.6);
   
   /* background: transparent;
@@ -197,10 +187,8 @@ input[type="date"]:in-range::-webkit-datetime-edit-text {
   right: 0;
   top: 0;
   width: auto; */
-  }
+}
 
- 
- 
 /* .date_type:before {
   color: lightgrey;
   content: attr(placeholder) !important;
@@ -214,23 +202,18 @@ input[type="date"]:in-range::-webkit-datetime-edit-text {
   opacity: 1
 } */
 
-
- /* input[type='date']:before {
+/* input[type='date']:before {
   content: attr(placeholder)
 }
 input[type='date']:after {
   content:''
 }  
 /* dont delete this code ask bhavi before delete  end*/
-@media (max-width:425px) {
-  .teams_img{
+@media (max-width: 425px) {
+  .teams_img {
     flex-direction: column-reverse;
   }
-} 
-
-
-
-
+}
 
 /* Styling for the collaborator container */
 .collaborator-container {
@@ -243,10 +226,9 @@ input[type='date']:after {
   height: 0.8rem;
   cursor: pointer;
   padding: 1px;
- background-color: #64748b;
+  background-color: #64748b;
   position: absolute;
   border-radius: 50%;
-
 }
 
 /* Hide the close icon by default */
@@ -267,8 +249,7 @@ input[type='date']:after {
   padding: 0.25rem; /* Adjust padding as needed */
 }
 
-.arrow_breadcrumbs::after{
+.arrow_breadcrumbs::after {
   content: ">";
   color: #334155;
-  
 }
