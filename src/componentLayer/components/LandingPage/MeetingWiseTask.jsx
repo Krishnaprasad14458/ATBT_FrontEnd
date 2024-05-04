@@ -142,7 +142,6 @@ export async function MeetingWiseTasksActions({ request, params }) {
       {
         const requestBody = (await request.json()) || null;
         console.log(requestBody, "request");
-
         if (requestBody.type === "DELETE_TASK") {
           return await atbtApi.delete(`task/delete/${requestBody.id}`);
         }

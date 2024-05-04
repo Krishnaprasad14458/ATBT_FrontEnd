@@ -1,76 +1,83 @@
 import React, { useState } from "react";
 import Select from "react-select";
-const Collaborators = ({ members , collaborators }) => {
-  // let [collaborators, setCollaborators] = useState([]);
+const Collaborators = ({
+  members,
+  task,
+  handleOverviewTaskChange,
+  handleSubmit,
+}) => {
   let [isCollaboratorsEditing, setIsCollaboratorsEditing] = useState(false);
-  console.log("collaborators" , collaborators)
-  // const handleRemoveCollaborator = (collaborator) => {
-  //   let updatedCollaborators = [...collaborators];
-  //   updatedCollaborators = updatedCollaborators.filter(
-  //     (e) => e != collaborator
-  //   );
-  //   setCollaborators(updatedCollaborators);
-  // };
-  // console.log("mem", collaborators);
+  let idsOfCollaborators = task?.collaborators?.map(
+    (collaborat) => collaborat.id
+  );
+
+  members = members?.filter((item) => !idsOfCollaborators?.includes(item.value));
+
+
+  const handleRemoveCollaborator = (collaboratorId) => {
+    let updatedCollaborators = task?.collaborators.map(
+      (collaborat) => collaborat.id
+    );
+    updatedCollaborators = updatedCollaborators.filter(
+      (e) => e != collaboratorId
+    );
+   
+    handleSubmit(task?.id, "collaborators", updatedCollaborators);
+  };
   return (
     <div className="px-3 py-1">
       <div className="me-2 flex items-center gap-2">
         <p className="text-sm ">Collaborators</p>
-        {collaborators?.length > 0 &&
-  collaborators.map((collaborator) => (
-    <div key={collaborator.id} className="relative group">
-      {/* Collaborator */}
-      <div className="collaborator-container bg-orange-600 text-white py-1.5 w-8 h-8 rounded-full relative hover:bg-orange-700">
-        <span className="flex justify-center items-center text-sm">
-          {collaborator.name.split("")[0]}
-        </span>
+        {task?.collaborators?.length > 0 &&
+          task?.collaborators.map((collaborator) => (
+            <div key={collaborator.id} className="relative group">
+              {/* Collaborator */}
+              <div className="collaborator-container bg-orange-600 text-white py-1.5 w-8 h-8 rounded-full relative hover:bg-orange-700">
+                <span className="flex justify-center items-center text-sm">
+                  {collaborator.name.split("")[0]}
+                </span>
 
-        {/* Remove icon */}
-        <span className="absolute top-0 left-4 p-1 hidden group-hover:flex items-center">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth="1.5"
-            stroke="currentColor"
-            className="w-6 h-6 text-white hover:bg-black"
-            // onClick={() => handleRemoveCollaborator(collaborator)}
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M6 18 18 6M6 6l12 12"
-            />
-          </svg>
-        </span>
-      </div>
+                {/* Remove icon */}
+                <span className="absolute top-0 left-4 p-1 hidden group-hover:flex items-center">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth="1.5"
+                    stroke="currentColor"
+                    className="w-6 h-6 text-white hover:bg-black"
+                    onClick={() => handleRemoveCollaborator(collaborator.id)}
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M6 18 18 6M6 6l12 12"
+                    />
+                  </svg>
+                </span>
+              </div>
 
-      {/* Card */}
-    {/* Card */}
-{/* Card */}
-<div className="absolute top-0 bottom-10 right-4 ml-4 mt-2 w-52 h-60 p-2 bg-white border border-gray-200 shadow-lg rounded-lg opacity-0 pointer-events-none transition-opacity duration-300 ease-in-out transform translate-x-1/2 -translate-y-full group-hover:opacity-100 group-hover:-translate-y-full z-10 text-black">
-  {/* Image */}
-  <img
-    src="https://img.freepik.com/premium-photo/headshot-photos-indian-women-dynamic-professions-occassions-indian-girl_978786-292.jpg"
-    alt={collaborator.name}
-    className="w-full h-40 rounded-t-lg object-cover"
-  />
+              <div className="absolute -top-5 bottom-0 right-4 ml-4 mt-2 w-52 h-60 p-2 bg-white border border-gray-200 shadow-lg rounded-lg opacity-0 pointer-events-none transition-opacity duration-300 ease-in-out transform translate-x-1/2 -translate-y-full group-hover:opacity-100 group-hover:-translate-y-full z-10 text-black">
+                {/* Image */}
+                <img
+                  src="https://img.freepik.com/premium-photo/headshot-photos-indian-women-dynamic-professions-occassions-indian-girl_978786-292.jpg"
+                  alt={collaborator.name}
+                  className="w-full h-40 rounded-t-lg object-cover"
+                />
 
-  {/* Details */}
-  <div className="inline-block p-2">
-    {/* Name */}
-    <p className="font-semibold">{collaborator.name}</p>
-    
-    {/* Email */}
-    <p className="text-sm text-gray-600">{collaborator.email}</p>
-  </div>
-</div>
+                {/* Details */}
+                <div className="inline-block p-2">
+                  {/* Name */}
+                  <p className="font-semibold">{collaborator.name}</p>
 
-
-
-    </div>
-  ))}
-
+                  {/* Email */}
+                  <p className="text-sm text-gray-600 pt-1">
+                    {collaborator.email}
+                  </p>
+                </div>
+              </div>
+            </div>
+          ))}
 
         {isCollaboratorsEditing && (
           <Select
@@ -115,18 +122,17 @@ const Collaborators = ({ members , collaborators }) => {
                 primary: "#fb923c",
               },
             })}
-            //   onChange={(selectedOption) => {
-            //     handleOverviewTaskChange("members", selectedOption.value);
-            //     handleSubmit(task?.id, "members", selectedOption.value);
-            //   }}
-            //   value={
-            //     task?.members === null || task?.members === "" || task?.members === undefined
-            //     ? ''
-            //     : members?.find(person => person.value === task?.members)
-            // }
             onChange={(selectedOption) => {
-              // setCollaborators((prev) => [...prev, selectedOption.value]);
-              setIsCollaboratorsEditing(!isCollaboratorsEditing);
+              let updatedCollaborators = task?.collaborators.map(
+                (collaborat) => collaborat.id
+              );
+              updatedCollaborators = [
+                ...updatedCollaborators,
+                selectedOption.value,
+              ];
+              handleSubmit(task?.id, "collaborators", updatedCollaborators);
+
+              setIsCollaboratorsEditing(false);
             }}
             menuPlacement="auto"
             className="date_type"
