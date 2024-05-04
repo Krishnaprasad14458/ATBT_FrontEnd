@@ -20,6 +20,7 @@ let status = [
 export async function tasksLoader({ request, params }) {
   try {
     const url = new URL(request.url);
+
     const taskID = url.searchParams.get("taskID");
     const subTaskID = url.searchParams.get("subTaskID");
     const [tasks, task, subTasks, subTask, personResponsible] =
@@ -35,6 +36,7 @@ export async function tasksLoader({ request, params }) {
         // get('/groupTeam/:id',)            Meeting.ListTeamGroup)
         // get('/groupUser/:id')              Meeting.ListUserGroup)
       ]);
+
     let updatedTask = task?.data[0];
     let updatedSubTask = subTask?.data[0];
     let taskAge = null;
@@ -87,7 +89,10 @@ export async function MeetingWiseTasksActions({ request, params }) {
         const requestBody = (await request.json()) || null;
         console.log(requestBody, "request");
         if (requestBody.type === "ADD_NEW_TASK") {
-          return await atbtApi.post(`task/add/${params.BMid}`);
+          return await atbtApi.post(`task/add/${params.BMid}`, {
+            taskCreatedBy: { name: params.moduleName, id: params.id },
+            collaborators: [parseInt(JSON.parse(localStorage.getItem("data")).user.id)],
+          });
         }
         if (requestBody.type === "ADD_SUB_TASK") {
           return await atbtApi.post(`task/subtaskAdd/${requestBody.id}`);
