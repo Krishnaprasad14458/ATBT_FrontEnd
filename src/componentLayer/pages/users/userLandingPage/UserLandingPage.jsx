@@ -1,12 +1,19 @@
 import React, { useState, useContext } from "react";
-import {NavLink,redirect,useLoaderData,useParams,useLocation,Outlet} from "react-router-dom";
+import {
+  NavLink,
+  redirect,
+  useLoaderData,
+  useParams,
+  useLocation,
+  Outlet,
+} from "react-router-dom";
 import { UserDataContext } from "../../../../contexts/usersDataContext/usersDataContext";
 import { getUserById } from "../../../../contexts/usersDataContext/utils/usersApis";
 import BreadCrumbs from "../../../components/breadcrumbs/BreadCrumbs";
 
 const UserLandingPage = () => {
-  const moduleName = "user"
-  const { id } = useParams();
+  const moduleName = "user";
+  const { id, BMid } = useParams();
   const data = useLoaderData();
   console.log(data?.user?.customFieldsData, "rrd");
   const customFormField = data?.user?.customFieldsData;
@@ -55,9 +62,9 @@ const UserLandingPage = () => {
   return (
     <div className=" p-4 bg-[#f8fafc]">
       <div className="flex justify-between my-2">
-        {/* <p className="text-xl font-semibold">User Landing Page</p> */}<BreadCrumbs/>
+        {/* <p className="text-xl font-semibold">User Landing Page</p> */}
+        <BreadCrumbs />
         <div className="flex justify-end gap-3 ">
-         
           <NavLink to="/users">
             <button
               type="submit"
@@ -70,19 +77,41 @@ const UserLandingPage = () => {
       </div>
 
       <div className="flex overflow-x-auto">
-        <NavLink
-          to="boardmeetings"
-          end
-          className={({ isActive, isPending, isTransitioning }) =>
-            isPending
-              ? "cursor-pointer px-4 py-1 text-sm  text-[#0c0a09]"
-              : isActive
-              ? "border-b-2 border-orange-600 text-[#0c0a09] cursor-pointer px-4 py-1 text-sm font-[500]"
-              : "cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09]"
-          }
-        >
-          Board Meetings
-        </NavLink>
+        {!BMid && (
+          <NavLink
+            to="boardmeetings"
+            end
+            className={({ isActive, isPending, isTransitioning }) =>
+              isPending
+                ? "cursor-pointer px-4 py-1 text-sm  text-[#0c0a09]"
+                : isActive
+                ? "border-b-2 border-orange-600 text-[#0c0a09] cursor-pointer px-4 py-1 text-sm font-[500]"
+                : "cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09]"
+            }
+          >
+            Board Meetings
+          </NavLink>
+        )}
+        {BMid && (
+          <NavLink
+            to={`boardmeetings/${BMid}`}
+            end
+            isActive={(match, location) =>
+              match ||
+              location.pathname.startsWith(`/users/${id}/boardmeetings`)
+            }
+            className={({ isActive, isPending, isTransitioning }) =>
+              isPending
+                ? "cursor-pointer px-4 py-1 text-sm text-[#0c0a09]"
+                : isActive
+                ? "border-b-2 border-orange-600 text-[#0c0a09] cursor-pointer px-4 py-1 text-sm font-[500]"
+                : "cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09]"
+            }
+          >
+            Board Meetings
+          </NavLink>
+        )}
+
         <NavLink
           to="tasks"
           end
@@ -125,7 +154,7 @@ const UserLandingPage = () => {
         </NavLink>
       </div>
       <hr />
-      <Outlet context = {moduleName}/>
+      <Outlet context={moduleName} />
     </div>
   );
 };

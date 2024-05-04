@@ -48,12 +48,16 @@ const TaskOverview = ({
     { value: "user", label: "user" },
     { value: "entity", label: "entity" },
   ];
-  const [isCommentEditing, setIsCommentEditing] = useState(false);
-  const [newComment, setNewComment] = useState({
-    message: "",
-    file: "",
-    senderId: "",
-  });
+
+const [isCommentEditing,setIsCommentEditing] = useState(false)
+const [newComment, setNewComment] = useState({
+  message: "",
+  file: "",
+  senderId: "",
+});
+console.log("newCOmment",newComment)
+
+ 
   const messagesEndRef = useRef(null);
 
   const scrollToBottom = () => {
@@ -172,7 +176,13 @@ const TaskOverview = ({
           displayOverviewTask={displayOverviewTask}
           taskID={displayOverviewTask ? task?.id : subTask?.id}
         />
-<Collaborators members={members} />
+
+
+        {/* <Collaborators 
+              collaborators={task?.collaborators}
+
+         members={members} /> */}
+
       </div>
     </div>
   );
