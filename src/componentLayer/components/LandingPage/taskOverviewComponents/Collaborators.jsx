@@ -7,16 +7,22 @@ const Collaborators = ({
   handleSubmit,
 }) => {
   let [isCollaboratorsEditing, setIsCollaboratorsEditing] = useState(false);
+  let idsOfCollaborators = task?.collaborators.map(
+    (collaborat) => collaborat.id
+  );
+
+  members = members?.filter((item) => !idsOfCollaborators.includes(item.value));
+
+
   const handleRemoveCollaborator = (collaboratorId) => {
     let updatedCollaborators = task?.collaborators.map(
       (collaborat) => collaborat.id
     );
-        updatedCollaborators = updatedCollaborators.filter(
+    updatedCollaborators = updatedCollaborators.filter(
       (e) => e != collaboratorId
     );
-    console.log("mem", updatedCollaborators);
+   
     handleSubmit(task?.id, "collaborators", updatedCollaborators);
- 
   };
   return (
     <div className="px-3 py-1">
@@ -65,7 +71,9 @@ const Collaborators = ({
                   <p className="font-semibold">{collaborator.name}</p>
 
                   {/* Email */}
-                  <p className="text-sm text-gray-600 pt-1">{collaborator.email}</p>
+                  <p className="text-sm text-gray-600 pt-1">
+                    {collaborator.email}
+                  </p>
                 </div>
               </div>
             </div>
@@ -122,8 +130,6 @@ const Collaborators = ({
                 ...updatedCollaborators,
                 selectedOption.value,
               ];
-              console.log("asdf", updatedCollaborators);
-              // handleOverviewTaskChange("collaborators", updatedCollaborators);
               handleSubmit(task?.id, "collaborators", updatedCollaborators);
 
               setIsCollaboratorsEditing(false);
