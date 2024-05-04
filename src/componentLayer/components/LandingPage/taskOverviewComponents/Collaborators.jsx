@@ -66,12 +66,12 @@ const Collaborators = ({
                 />
 
                 {/* Details */}
-                <div className="inline-block p-2">
+                <div className="inline-block p-1">
                   {/* Name */}
-                  <p className="font-semibold">{collaborator.name}</p>
+                  <p className="font-semibold w-48 truncate">{collaborator.name}</p>
 
                   {/* Email */}
-                  <p className="text-sm text-gray-600 pt-1">
+                  <p className="text-sm text-gray-600 pt-1 w-48 truncate">
                     {collaborator.email}
                   </p>
                 </div>
