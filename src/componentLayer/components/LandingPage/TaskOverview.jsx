@@ -49,15 +49,14 @@ const TaskOverview = ({
     { value: "entity", label: "entity" },
   ];
 
-const [isCommentEditing,setIsCommentEditing] = useState(false)
-const [newComment, setNewComment] = useState({
-  message: "",
-  file: "",
-  senderId: "",
-});
-console.log("newCOmment",newComment)
+  const [isCommentEditing, setIsCommentEditing] = useState(false);
+  const [newComment, setNewComment] = useState({
+    message: "",
+    file: "",
+    senderId: "",
+  });
+  console.log("newCOmment", newComment);
 
- 
   const messagesEndRef = useRef(null);
 
   const scrollToBottom = () => {
@@ -176,8 +175,20 @@ console.log("newCOmment",newComment)
           displayOverviewTask={displayOverviewTask}
           taskID={displayOverviewTask ? task?.id : subTask?.id}
         />
-<Collaborators members={members}
-collaborators={displayOverviewTask ? task?.collaborators : subTask?.collaborators} />
+        <Collaborators
+        handleOverviewTaskChange={
+          displayOverviewTask
+            ? handleOverviewTaskChange
+            : handleOverviewSubTaskChange
+        }
+        handleSubmit={
+          displayOverviewTask ? handleSubmit : handleSubTaskSubmit
+        }
+          members={members}
+          task={
+            displayOverviewTask ? task : subTask
+          }
+        />
       </div>
     </div>
   );
