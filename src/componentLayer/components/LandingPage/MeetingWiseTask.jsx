@@ -9,7 +9,7 @@ import Select from "react-select";
 import TaskOverview from "./TaskOverview";
 import atbtApi from "../../../serviceLayer/interceptor";
 import { debounce } from "../../../utils/utils";
-import DatePicker from "react-datepicker";
+import subtask_icon from "../../../assets/Images/Subtask_icon.svg";
 import "react-datepicker/dist/react-datepicker.css";
 let members;
 let status = [
@@ -91,7 +91,9 @@ export async function MeetingWiseTasksActions({ request, params }) {
         if (requestBody.type === "ADD_NEW_TASK") {
           return await atbtApi.post(`task/add/${params.BMid}`, {
             taskCreatedBy: { name: params.moduleName, id: params.id },
-            collaborators: [parseInt(JSON.parse(localStorage.getItem("data")).user.id)],
+            collaborators: [
+              parseInt(JSON.parse(localStorage.getItem("data")).user.id),
+            ],
           });
         }
         if (requestBody.type === "ADD_SUB_TASK") {
@@ -416,23 +418,50 @@ const MeetingWiseTask = () => {
                           {task.decision}
                         </p>
                       )}
-                      <span
-                        className="ml-2 cursor-pointer"
-                        onClick={() => handleOverViewTask(task?.id)}
+                      <div className="flex">
+                        {/* <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke-width="1.5"
+                        stroke="currentColor"
+                        class="w-6 h-6"
                       >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          d="M6 6.878V6a2.25 2.25 0 0 1 2.25-2.25h7.5A2.25 2.25 0 0 1 18 6v.878m-12 0c.235-.083.487-.128.75-.128h10.5c.263 0 .515.045.75.128m-12 0A2.25 2.25 0 0 0 4.5 9v.878m13.5-3A2.25 2.25 0 0 1 19.5 9v.878m0 0a2.246 2.246 0 0 0-.75-.128H5.25c-.263 0-.515.045-.75.128m15 0A2.25 2.25 0 0 1 21 12v6a2.25 2.25 0 0 1-2.25 2.25H5.25A2.25 2.25 0 0 1 3 18v-6c0-.98.626-1.813 1.5-2.122"
+                        />
+                      </svg> */}
+                       
                         <svg
+                          viewBox="0 0 32 32"
                           xmlns="http://www.w3.org/2000/svg"
-                          viewBox="0 0 20 20"
-                          fill="currentColor"
-                          className="w-4 h-4 hover:border hover:border-gray-500 hover:rounded-sm hover:bg-gray-100"
+                          id="fi_14915913"
+                          class="w-4 h-4  cursor-pointer"
                         >
-                          <path
-                            fillRule="evenodd"
-                            d="M8.22 5.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 0 1-1.06-1.06L11.94 10 8.22 6.28a.75.75 0 0 1 0-1.06Z"
-                            clipRule="evenodd"
-                          />
+                          <g id="Layer_2" data-name="Layer 2">
+                            <path d="m15 18h10a2 2 0 0 0 2-2v-4a2 2 0 0 0 -2-2h-10a2 2 0 0 0 -2 2v1h-4v-9h2a1 1 0 0 0 0-2h-6a1 1 0 0 0 0 2h2v20a3 3 0 0 0 3 3h3v1a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-4a2 2 0 0 0 -2-2h-10a2 2 0 0 0 -2 2v1h-3a1 1 0 0 1 -1-1v-9h4v1a2 2 0 0 0 2 2z"></path>
+                          </g>
                         </svg>
-                      </span>
+                        <span
+                          className="ml-2 cursor-pointer"
+                          onClick={() => handleOverViewTask(task?.id)}
+                        >
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 20 20"
+                            fill="currentColor"
+                            className="w-4 h-4 hover:border hover:border-gray-500 hover:rounded-sm hover:bg-gray-100"
+                          >
+                            <path
+                              fillRule="evenodd"
+                              d="M8.22 5.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 0 1-1.06-1.06L11.94 10 8.22 6.28a.75.75 0 0 1 0-1.06Z"
+                              clipRule="evenodd"
+                            />
+                          </svg>
+                        </span>
+                      </div>
                     </div>
                   </td>
                   <td
@@ -450,12 +479,12 @@ const MeetingWiseTask = () => {
                           borderWidth: "1px",
                           borderColor: state.isFocused
                             ? "#orange-400"
-                            : "transparent", 
+                            : "transparent",
                           boxShadow: state.isFocused
                             ? "none"
                             : provided.boxShadow,
                           fontSize: "16px",
-                          height: "36px", 
+                          height: "36px",
                           "&:hover": {
                             borderColor: state.isFocused
                               ? "#fb923c"
@@ -495,7 +524,7 @@ const MeetingWiseTask = () => {
 
                         placeholder: (provided) => ({
                           ...provided,
-                          fontSize: "12px", 
+                          fontSize: "12px",
                         }),
                       }}
                       theme={(theme) => ({
