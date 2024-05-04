@@ -55,6 +55,7 @@ const [newComment, setNewComment] = useState({
   file: "",
   senderId: "",
 });
+console.log("newCOmment",newComment)
   const messagesEndRef = useRef(null);
 
   const scrollToBottom = () => {
@@ -177,7 +178,10 @@ const [newComment, setNewComment] = useState({
           taskID={displayOverviewTask ? task?.id : subTask?.id}
         />
 
-        <Collaborators members={members} />
+        {/* <Collaborators 
+              collaborators={task?.collaborators}
+
+         members={members} /> */}
       </div>
     </div>
   );

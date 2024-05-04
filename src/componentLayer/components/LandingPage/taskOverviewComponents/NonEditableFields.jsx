@@ -88,7 +88,7 @@ const NonEditableFields = ({task , age}) => {
                   Entity
                 </label>
                 <p className=" border border-[#d1d5db] text-black h-10 w-full truncate px-3 flex items-center rounded-md text-sm  bg-white-50">
-                  Infoz
+              {task?.taskCreateby}
                 </p>
               </div>
             </div>
