@@ -149,7 +149,8 @@ function Boardmeeting() {
   return (
     <div className="overflow-x-auto p-3">
       {/* search & filter */}
-      <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-3 xl:grid-col-3 gap-2 mt-2">
+      <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3 xl:grid-col-3 gap-2 mt-2">
+       <span className="col-span-1"> </span>
         <div className="col-span-1 text-start">
           <label
             for="default-search"
@@ -186,7 +187,7 @@ function Boardmeeting() {
             />
           </div>
         </div>
-        <div className="col-span-2 text-end flex justify-end filter_pagination divide-x-2 ">
+        <div className="col-span-1 text-end flex justify-end filter_pagination divide-x-2 ">
           <CustomColumn
             tableView={tableView}
             setTableView={setTableView}
