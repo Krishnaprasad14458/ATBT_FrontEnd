@@ -2,10 +2,16 @@ import React, { useState, useContext, useEffect } from "react";
 import axios from "axios";
 import defprop from "../../../../assets/Images/Avatar_new_02.svg";
 import { UserDataContext } from "../../../../contexts/usersDataContext/usersDataContext";
-import { EntitiesDataContext } from "../../../../contexts/entitiesDataContext/entitiesDataContext";
 import $ from "jquery";
+
+import atbtApi from "../../../../serviceLayer/interceptor";
 import linesimage from "../../../../assets/Images/lines_10.svg";
-import {useSubmit,useNavigate,useLoaderData,useParams,} from "react-router-dom";
+import {
+  useSubmit,
+  useNavigate,
+  useLoaderData,
+  useParams,
+} from "react-router-dom";
 const userData = JSON.parse(localStorage.getItem("data"));
 const loggedInUser = userData?.user?.id;
 const token = userData?.token;
@@ -13,6 +19,27 @@ export async function userFormLoader({ params }) {
   try {
     const formApi = "https://atbtbeta.infozit.com/form/list?name=userform";
     const userApi = `https://atbtbeta.infozit.com/user/list/${params.id}`;
+    let fieldsDropDownData = {};
+    let fieldsDropDownDataRoleResponse = await axios.get(
+      "https://atbtbeta.infozit.com/rbac/getroles"
+    );
+
+    fieldsDropDownData.role =
+      fieldsDropDownDataRoleResponse?.data?.roles?.map((item) => ({
+        name: item?.name || "",
+        id: item?.id || "",
+      })) || [];
+
+    let fieldsDropDownDataEntityResponse = await axios.post(
+      `https://atbtbeta.infozit.com/public/list/entity`
+    );
+
+    fieldsDropDownData.entityname =
+      fieldsDropDownDataEntityResponse?.data?.Entites?.map((item) => ({
+        name: item?.name || "",
+        id: item?.id || "",
+      })) || [];
+
     let userData = null;
     if (params && params.id) {
       const userResponse = await axios.get(userApi, {
@@ -21,22 +48,17 @@ export async function userFormLoader({ params }) {
         },
       });
       userData = userResponse?.data?.user;
-      console.log("bahvvuu", userData);
+      console.log("userData", userData);
     }
     const formResponse = await axios.get(formApi);
     const formData = formResponse.data.Data;
-    if(userData){
-      let threadName = userData?.name
-      let threadPath = `/Users/${params.id}/edit`
-    return { userData, formData,threadName,threadPath};
-
+    if (userData) {
+      let threadName = userData?.name;
+      let threadPath = `/Users/${params.id}/edit`;
+      return { userData, formData, threadName, threadPath, fieldsDropDownData };
+    } else {
+      return { userData, formData, fieldsDropDownData };
     }
-    else{
-    return { userData, formData};
-
-    }
-
-  
   } catch (error) {
     console.log(error, "which error");
     if (error.response) {
@@ -48,25 +70,88 @@ export async function userFormLoader({ params }) {
     }
   }
 }
+export async function UserFormActions({ request, params }) {
+  switch (request.method) {
+    case "POST":
+      {
+        const requestBody = (await request.json()) || null;
+        console.log(requestBody, "request");
+        let moduleName
+          if(params.boardmeetings==="userboardmeetings"){
+            moduleName = "users"
+          }
+        if (requestBody.type === "ADD_NEW_TASK") {
+          return await atbtApi.post(`task/add/${params.BMid}`,
+          
+          {
+            taskCreatedBy: { name: moduleName, id: params.id },
+            collaborators: [
+              parseInt(JSON.parse(localStorage.getItem("data")).user.id),
+            ],
+          });
+        }
+        // if (requestBody.type === "ADD_SUB_TASK") {
+        //   return await atbtApi.post(`task/subtaskAdd/${requestBody.id}`);
+        // }
+        // if (requestBody.type === "ADD_TASK_COMMENT") {
+        //   return await atbtApi.post(
+        //     `task/addComments?task=${requestBody.id}`,
+        //     requestBody.data
+        //   );
+        // }
+        // if (requestBody.type === "ADD_SUBTASK_COMMENT") {
+        //   return await atbtApi.post(
+        //     `task/addComments?subtask=${requestBody.id}`,
+        //     requestBody.data
+        //   );
+        // }
+      }
+      break;
+    case "PATCH":
+      {
+        const requestBody = (await request.json()) || null;
+        console.log(requestBody, "request");
+
+        if (requestBody.type === "UPDATE_TASK") {
+          return await atbtApi.patch(
+            `task/update/${requestBody.id}`,
+            requestBody.data
+          );
+        }
+        if (requestBody.type === "UPDATE_SUB_TASK") {
+          return await atbtApi.patch(
+            `task/subtaskUpdate/${requestBody.id}`,
+            requestBody.data
+          );
+        }
+        if (requestBody.type === "EDIT_COMMENT") {
+          return await atbtApi.patch(
+            `task/patchComments/${requestBody.id}`,
+            requestBody.data
+          );
+        }
+      }
+      break;
+    default: {
+      throw new Response("", { status: 405 });
+    }
+  }
+}
 function UserForm() {
   const [showPassword, setShowPassword] = useState(false);
-  const {
-    entitiesState: { entitiesList },
-  } = useContext(EntitiesDataContext);
-
   document.title = "ATBT | User";
   let { id } = useParams();
-
   const userData = JSON.parse(localStorage.getItem("data"));
   let createdBy = userData.user.id;
-  const token = userData?.token;
+  // const token = userData?.token;
   const navigate = useNavigate();
-  const user = useLoaderData();
+  const data = useLoaderData();
+  console.log("datadata", data);
   let submit = useSubmit();
   function setInitialForm() {
-    let response = user?.formData;
-    if (!!id && !!user?.userData) {
-      let userData = user?.userData;
+    let response = data?.formData;
+    if (!!id && !!data?.userData) {
+      let userData = data?.userData;
       response.forEach((input) => {
         if (userData.hasOwnProperty(input.inputname)) {
           if (userData[input.inputname] !== null) {
@@ -90,42 +175,6 @@ function UserForm() {
   useEffect(() => {
     setCustomFormFields(setInitialForm());
   }, [id]);
-  let [fieldsDropDownData, setFieldsDropDownData] = useState({
-    role: [],
-    entityname: [],
-  });
-  useEffect(() => {
-    axios
-      .get(`https://atbtbeta.infozit.com/rbac/getroles`)
-      .then((response) => {
-        setFieldsDropDownData((prevState) => ({
-          ...prevState,
-          role: response?.data?.roles?.map((item) => item?.name),
-        }));
-      })
-      .catch((error) => {
-        // Handle errors
-        console.error("Error fetching data:", error);
-      });
-    axios
-      .post(`https://atbtbeta.infozit.com/public/list/entity`)
-      .then((response) => {
-        console.log("responseresponse", response);
-        setFieldsDropDownData((prevState) => ({
-          ...prevState,
-          // entityname: response?.data?.Entites.map((item) => item?.name),
-          entityname:
-            response?.data?.Entites?.map((item) => ({
-              name: item?.name || "",
-              id: item?.id || "",
-            })) || [],
-        }));
-      })
-      .catch((error) => {
-        // Handle errors
-        console.error("Error fetching data:", error);
-      });
-  }, []);
 
   const handleOpenOptions = (name) => {
     if (openOptions == name) {
@@ -453,13 +502,16 @@ function UserForm() {
       // Log form data
       console.log(formDataObj, "foj");
       let response;
-      if (!!id && !!user?.userData) {
+      if (!!id && !!data?.userData) {
         // formData.set('role', user?.userData?.role);
         // formData.set('email', user?.userData?.email);
         console.log("updating");
         response = await updateUser(formData, id);
       } else {
         console.log("creating");
+
+
+        
         response = await createUser(formData);
       }
       response?.status === 201 && navigate(`/users/${response.data}`);
@@ -502,7 +554,7 @@ function UserForm() {
   }
 
   // end the time function
-  
+
   return (
     <div className=" p-4 bg-[#f8fafc]">
       {/* <p className="font-lg font-semibold p-3">Entity Form</p> */}
@@ -612,8 +664,8 @@ function UserForm() {
                             Please select
                           </option>
                           {item.options.value &&
-                            fieldsDropDownData.entityname &&
-                            fieldsDropDownData.entityname.map(
+                            data?.fieldsDropDownData?.entityname &&
+                            data?.fieldsDropDownData?.entityname.map(
                               (option, index) => (
                                 <option key={index} value={option.id}>
                                   {option.name}
@@ -654,9 +706,9 @@ function UserForm() {
                           value={customFormFields[index].value || ""}
                           style={{ fontSize: "0.8rem" }}
                           onChange={(e) => handleChange(index, e.target.value)}
-                          disabled={!!id && !!user?.userData ? true : false}
+                          disabled={!!id && !!data?.userData ? true : false}
                           className={` ${
-                            !!id && !!user?.userData
+                            !!id && !!data?.userData
                               ? "text-[#d4d4d8] bg-gray-50 cursor-not-allowed"
                               : "bg-gray-50 text-gray-900"
                           } px-2 py-2 text-sm block w-full rounded-md bg-gray-50 border border-gray-300  focus:outline-none  focus:border-orange-400 placeholder:text-xs `}
@@ -772,13 +824,9 @@ function UserForm() {
                         <select
                           id={item.inputname}
                           name={item.inputname}
-                          // className={` ${!!id && !!user?.userData
-                          //   ? 'text-[##d4d4d8] bg-gray-50 '
-                          //   : 'bg-gray-50 text-gray-900 '
-                          //   } px-2 py-2 text-sm block w-full rounded-md bg-gray-50 border border-gray-300  focus:outline-none  focus:border-orange-400 placeholder:text-xs `}
                           className={` ${
                             !!id &&
-                            !!user?.userData &&
+                            !!data?.userData &&
                             parseInt(id) === loggedInUser
                               ? "text-[##d4d4d8] bg-gray-50 cursor-not-allowed"
                               : "bg-gray-50 text-gray-900 "
@@ -788,7 +836,7 @@ function UserForm() {
                           style={{ fontSize: "0.8rem" }}
                           disabled={
                             id &&
-                            user?.userData &&
+                            data?.userData &&
                             parseInt(id) === loggedInUser
                               ? true
                               : false
@@ -797,11 +845,16 @@ function UserForm() {
                           <option value="" disabled defaultValue>
                             Please select
                           </option>
+
                           {item.options.value &&
-                            fieldsDropDownData.role &&
-                            fieldsDropDownData.role.map((option, index) => (
-                              <option value={option}>{option}</option>
-                            ))}
+                            data?.fieldsDropDownData?.role &&
+                            data?.fieldsDropDownData?.role.map(
+                              (option, index) => (
+                                <option key={index} value={option.id}>
+                                  {option.name}
+                                </option>
+                              )
+                            )}
                         </select>
                         <div className="h-2 text-[#dc2626]">
                           {errors[item.inputname] && (
@@ -1409,7 +1462,11 @@ function UserForm() {
                                   className="absolute top-20 mt-8 text-sm antialiased  leading-snug tracking-normal text-blue-gray-90 w-3/6 truncate md:w-5/6 text-center"
                                   title={item.value}
                                 >
-                                  {item.value}
+                                  {
+                                    data?.fieldsDropDownData?.entityname?.find(
+                                      (i) => i.id === parseInt(item.value)
+                                    )?.name
+                                  }
                                 </p>
                               ) : (
                                 <p className="absolute top-20 mt-8 text-sm antialiased  leading-snug tracking-normal text-blue-gray-900">

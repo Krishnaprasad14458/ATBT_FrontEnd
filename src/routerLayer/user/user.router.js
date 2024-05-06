@@ -1,4 +1,5 @@
 import UserForm, {
+  UserFormActions,
   userFormLoader,
 } from "../../componentLayer/pages/users/createUserForm/UserForm";
 import { Link } from "react-router-dom";
@@ -21,6 +22,7 @@ export const userRouter = [
   {
     path: "new",
     loader: userFormLoader,
+    action:UserFormActions,
     element: <UserForm />,
     handle: {
       crumb: () => <Link to="/users/new">New User</Link>,
@@ -32,6 +34,8 @@ export const userRouter = [
       {
         path: "edit",
         loader: userFormLoader,
+    action:UserFormActions,
+
         element: <UserForm />,
         handle: {
           crumb: (data) => <Link to={data.threadPath}>{data.threadName}</Link>,
