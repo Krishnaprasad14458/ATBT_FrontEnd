@@ -18,7 +18,7 @@ let moduleName;
 export async function loader({ request, params }) {
   try {
     url = new URL(request.url);
-    if (params.moduleName === "users") {
+    if (params.boardmeetings === "userboardmeetings") {
       moduleName = "user";
     }
     const [meetings, entityList, roleList, meetingFormData] = await Promise.all(
