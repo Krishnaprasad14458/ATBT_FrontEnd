@@ -12,7 +12,6 @@ import atbtApi from "../../../../serviceLayer/interceptor";
 import BreadCrumbs from "../../../components/breadcrumbs/BreadCrumbs";
 const userData = JSON.parse(localStorage.getItem("data"));
 const userId = userData?.user?.id;
-console.log("userdata", userData);
 const role = userData?.role?.name;
 export async function loader({ request, params }) {
   try {
@@ -333,7 +332,7 @@ function Users() {
                                 permission.canRead
                               }
                             >
-                              <Link to={`${row.id}/boardmeetings`}>
+                              <Link to={`${row.id}/userboardmeetings`}>
                                 <p className="truncate text-xs"> {caseLetter(value)}</p>
                                
                               </Link>

@@ -79,7 +79,7 @@ const UserLandingPage = () => {
       <div className="flex overflow-x-auto">
         {!BMid && (
           <NavLink
-            to="boardmeetings"
+            to="userboardmeetings"
             end
             className={({ isActive, isPending, isTransitioning }) =>
               isPending
@@ -94,7 +94,7 @@ const UserLandingPage = () => {
         )}
         {BMid && (
           <NavLink
-            to={`boardmeetings/${BMid}`}
+            to={`userboardmeetings/${BMid}`}
             end
             isActive={(match, location) =>
               match ||

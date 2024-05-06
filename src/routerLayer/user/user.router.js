@@ -61,7 +61,7 @@ export const userRouter = [
             },
           },
           {
-            path: "boardmeetings",
+            path: ":boardmeetings",
             loader: entityMeetingLoader,
 
             handle: {
