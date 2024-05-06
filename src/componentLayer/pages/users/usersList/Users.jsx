@@ -26,8 +26,14 @@ export async function loader({ request, params }) {
     const combinedResponse = {
       users: users?.data,
       fieldsDropDownData: {
-        role: roleList?.data?.roles?.map((item) => item.name),
-        entityname: entityList?.data?.Entites?.map((item) => item.name),
+        role: roleList?.data?.roles?.map((item) => ({
+          name: item?.name || "",
+          id: item?.id || "",
+        })) || [],
+        entityname: entityList?.data?.Entites?.map((item) => ({
+          name: item?.name || "",
+          id: item?.id || "",
+        })) || []
       },
       tableViewData: meetingFormData?.data?.Tableview,
       customForm: meetingFormData?.data?.Data,
@@ -337,6 +343,38 @@ function Users() {
                                
                               </Link>
                             </GateKeeper>
+                          </td>
+                        );
+                      }
+                     else if (key === "entityname") {
+                        return (
+                          <td
+                            key={key}
+                            className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  hover:text-orange-500 overflow-hidden`}
+                            style={{ maxWidth: "160px" }}
+                            title={row[key]}
+                          >
+                               {
+                                    fieldsDropDownData?.entityname?.find(
+                                      (i) => i.id === parseInt(value)
+                                    )?.name
+                                  }
+                          </td>
+                        );
+                      }
+                      else if (key === "role") {
+                        return (
+                          <td
+                            key={key}
+                            className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  hover:text-orange-500 overflow-hidden`}
+                            style={{ maxWidth: "160px" }}
+                            title={row[key]}
+                          >
+                               {
+                                    fieldsDropDownData?.role?.find(
+                                      (i) => i.id === parseInt(value)
+                                    )?.name
+                                  }
                           </td>
                         );
                       } else {
