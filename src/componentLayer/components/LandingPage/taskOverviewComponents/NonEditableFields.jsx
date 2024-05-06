@@ -7,7 +7,7 @@ const NonEditableFields = ({ task, age }) => {
         <label className="block text-xs font-medium leading-6 my-1 text-[1e1f21]">
           Date
         </label>
-        <p className=" border border-[#d1d5db] text-black h-10 w-full truncate px-3 flex items-center rounded-md text-sm   bg-white-50">
+        <p className=" border border-[#d1d5db] text-black h-10 w-full truncate px-3 flex items-center rounded-md bg-white-50">
           {task &&
             (() => {
               let date = new Date(task?.date);
@@ -83,8 +83,9 @@ const NonEditableFields = ({ task, age }) => {
           {" "}
           Entity
         </label>
-        <p className=" border border-[#d1d5db] text-black h-10 w-full truncate px-3 flex items-center rounded-md text-sm  bg-white-50">
-        {task?.taskCreateby}
+        <p className=" border border-[#d1d5db] text-black h-10 w-full truncate px-3 flex items-center rounded-md  bg-white-50
+        " title={task?.taskCreateby}>
+       <span className="w-full truncate text-sm">{task?.taskCreateby}</span>
         </p>
       </div>
     </div>

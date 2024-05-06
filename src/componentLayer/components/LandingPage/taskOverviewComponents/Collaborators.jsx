@@ -26,14 +26,14 @@ const Collaborators = ({
   };
   return (
     <div className="px-3 py-1">
-      <div className="me-2 flex items-center gap-2">
+      <div className="me-2 flex gap-2">
         <p className="text-sm ">Collaborators</p>
         {task?.collaborators?.length > 0 &&
           task?.collaborators.map((collaborator) => (
             <div key={collaborator.id} className="relative group">
               {/* Collaborator */}
               <div className="collaborator-container bg-orange-600 text-white py-1.5 w-8 h-8 rounded-full relative hover:bg-orange-700">
-                <span className="flex justify-center items-center text-sm">
+                <span className="flex justify-center  text-sm">
                   {collaborator.name.split("")[0]}
                 </span>
 
@@ -90,6 +90,7 @@ const Collaborators = ({
                 borderColor: state.isFocused ? "#orange-400" : "#d1d5db", // Change border color when focused
                 boxShadow: state.isFocused ? "none" : provided.boxShadow, // Optionally remove box shadow when focused
                 cursor: "pointer",
+
               }),
               placeholder: (provided) => ({
                 ...provided,
@@ -146,7 +147,7 @@ const Collaborators = ({
             viewBox="0 0 24 24"
             strokeWidth={1.5}
             stroke="currentColor"
-            className="w-4 h-4 "
+            className="w-4 h-4"
             onClick={() => setIsCollaboratorsEditing(!isCollaboratorsEditing)}
           >
             <path
