@@ -3,13 +3,24 @@ import defprop from "../../../../assets/Images/defprof.svg";
 import {Link,redirect,useLoaderData,useParams,useLocation} from "react-router-dom";
 import { UserDataContext } from "../../../../contexts/usersDataContext/usersDataContext";
 import { getUserById } from "../../../../contexts/usersDataContext/utils/usersApis";
+import axios from "axios";
 export const userLandingLoader = async ({ params }) => {
   try {
     let { data } = await getUserById(params?.id);
+    let entityList;
+    let entityListresponse = await axios.post(
+      `https://atbtbeta.infozit.com/public/list/entity`
+    );
+
+    entityList =
+      entityListresponse?.data?.Entites?.map((item) => ({
+        name: item?.name || "",
+        id: item?.id || "",
+      })) || [];
     console.log(data, "id data");
  data.threadName= data?.user?.name
     data.threadPath= `/users/${params.id}`
-    return data;
+    return {data,entityList};
   } catch (error) {
     console.error("Error loading dashboard:", error);
     throw redirect(`/${error?.response?.status ?? "500"}`);
@@ -19,8 +30,8 @@ const UserOverview = () => {
   const { id } = useParams();
   const data = useLoaderData();
 
-  const customFormField = data.user.customFieldsData;
-  console.log(customFormField, "rdd");
+  const customFormField = data.data.user.customFieldsData;
+  console.log(data, "rdd");
   const {
     usersState: { users },
     getUser,
@@ -125,7 +136,11 @@ const UserOverview = () => {
                         className="absolute  bottom-3 text-sm antialiased leading-snug tracking-normal text-blue-gray-900 w-3/6 truncate md:w-5/6 "
                         title={item.value.toUpperCase()}
                       >
-                        {item.value}
+                         {
+                                    data?.entityList?.find(
+                                      (i) => i.id === parseInt(item.value)
+                                    )?.name
+                                  }
                       </p>
                     </div>
                   )}
