@@ -88,9 +88,15 @@ export async function MeetingWiseTasksActions({ request, params }) {
       {
         const requestBody = (await request.json()) || null;
         console.log(requestBody, "request");
+        let moduleName
+          if(params.boardmeetings==="userboardmeetings"){
+            moduleName = "users"
+          }
         if (requestBody.type === "ADD_NEW_TASK") {
-          return await atbtApi.post(`task/add/${params.BMid}`, {
-            taskCreatedBy: { name: params.moduleName, id: params.id },
+          return await atbtApi.post(`task/add/${params.BMid}`,
+          
+          {
+            taskCreatedBy: { name: moduleName, id: params.id },
             collaborators: [
               parseInt(JSON.parse(localStorage.getItem("data")).user.id),
             ],
