@@ -64,16 +64,6 @@ const UserLandingPage = () => {
       <div className="flex justify-between my-2">
         {/* <p className="text-xl font-semibold">User Landing Page</p> */}
         <BreadCrumbs />
-        <div className="flex justify-end gap-3 ">
-          <NavLink to="/users">
-            <button
-              type="submit"
-              className="create-btn px-4 py-2 inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white gap-1"
-            >
-              Back
-            </button>
-          </NavLink>
-        </div>
       </div>
 
       <div className="flex overflow-x-auto">
@@ -108,7 +98,7 @@ const UserLandingPage = () => {
                 : "cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09]"
             }
           >
-            Board Meetings
+            Board Meetings - Tasks
           </NavLink>
         )}
 

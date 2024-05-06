@@ -50,9 +50,45 @@ const AllTasks = () => {
     setActiveInputIndex(index);
     setActiveInputName(name);
   };
+  const [activeTab, setActiveTab] = useState(1);
+
+  const handleTabClick = (tabNumber) => {
+    setActiveTab(tabNumber);
+  };
   return (
     <div className="mt-4">
-      <div className="overflow-x-auto">
+
+<div className="flex overflow-x-auto mb-2">
+          <div
+            className={`cursor-pointer px-4 py-1 text-sm  ${
+              activeTab === 1 ? "border-b-2 border-orange-600 text-black" : ""
+            }`}
+            onClick={() => handleTabClick(1)}
+          >
+            Active
+          </div>
+
+          <div
+            className={`cursor-pointer px-4 py-1 text-sm   ${
+              activeTab === 2 ? "border-b-2 border-orange-600 text-black" : ""
+            }`}
+            onClick={() => handleTabClick(2)}
+          >
+            Due
+          </div>
+          <div
+            className={`cursor-pointer px-4 py-1 text-sm  ${
+              activeTab === 3 ? "border-b-2 border-orange-600 text-black" : ""
+            }`}
+            onClick={() => handleTabClick(3)}
+          >
+            Completed
+          </div>
+       
+        </div>
+        {activeTab === 1 && (
+<>
+<div className="overflow-x-auto">
         <table className="w-full  mt-1 table-auto">
           <thead>
             <tr>
@@ -474,7 +510,14 @@ const AllTasks = () => {
           </div>
         </div>
         {/* drawer end */}
-      </div>
+      </div></>
+
+        )}
+
+
+
+
+      
     </div>
   );
 };
