@@ -178,11 +178,20 @@ function CustomFilter({
                             filter.options.value &&
                             fieldsDropDownData[filter.options.value]?.map(
                               (option, index) => (
-                                <option key={index} value={option}>
-                                  {option}
+                                <option key={index} value={option.id}>
+                                  {option.name}
                                 </option>
                               )
                             )}
+                             {/* {item.options.value &&
+                            data?.fieldsDropDownData?.role &&
+                            data?.fieldsDropDownData?.role.map(
+                              (option, index) => (
+                                <option key={index} value={option.id}>
+                                  {option.name}
+                                </option>
+                              )
+                            )} */}
                         </select>
                       </div>
                     )}
