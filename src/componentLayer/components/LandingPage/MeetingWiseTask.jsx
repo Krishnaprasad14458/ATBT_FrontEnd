@@ -13,9 +13,9 @@ import subtask_icon from "../../../assets/Images/Subtask_icon.svg";
 import "react-datepicker/dist/react-datepicker.css";
 let members;
 let status = [
+  { label: "To-Do", value: "To-Do" },
   { label: "In-Progress", value: "In-Progress" },
-  { label: "Close", value: "Close" },
-  { label: "Resolve", value: "Resolve" },
+  { label: "Completed", value: "Completed" },
 ];
 export async function tasksLoader({ request, params }) {
   try {

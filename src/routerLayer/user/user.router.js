@@ -4,13 +4,22 @@ import UserForm, {
 } from "../../componentLayer/pages/users/createUserForm/UserForm";
 import { Link } from "react-router-dom";
 import AllTasks from "../../componentLayer/components/LandingPage/AllTasks";
-import Boardmeeting, {action as entityMeetingAction,loader as entityMeetingLoader,} from "../../componentLayer/components/LandingPage/Boardmeeting";
+import Boardmeeting, {
+  action as entityMeetingAction,
+  loader as entityMeetingLoader,
+} from "../../componentLayer/components/LandingPage/Boardmeeting";
 import Documents from "../../componentLayer/components/LandingPage/Documents";
 import { userLandingLoader } from "../../componentLayer/pages/users/userLandingPage/UserOverview";
 import UserLandingPage from "../../componentLayer/pages/users/userLandingPage/UserLandingPage";
 import UserOverview from "../../componentLayer/pages/users/userLandingPage/UserOverview";
-import Users, {action as userAction,loader as userLoader,} from "../../componentLayer/pages/users/usersList/Users";
-import MeetingWiseTask, {MeetingWiseTasksActions,tasksLoader,} from "../../componentLayer/components/LandingPage/MeetingWiseTask";
+import Users, {
+  action as userAction,
+  loader as userLoader,
+} from "../../componentLayer/pages/users/usersList/Users";
+import MeetingWiseTask, {
+  MeetingWiseTasksActions,
+  tasksLoader,
+} from "../../componentLayer/components/LandingPage/MeetingWiseTask";
 
 export const userRouter = [
   {
@@ -22,7 +31,7 @@ export const userRouter = [
   {
     path: "new",
     loader: userFormLoader,
-    action:UserFormActions,
+    action: UserFormActions,
     element: <UserForm />,
     handle: {
       crumb: () => <Link to="/users/new">New User</Link>,
@@ -34,8 +43,7 @@ export const userRouter = [
       {
         path: "edit",
         loader: userFormLoader,
-    action:UserFormActions,
-
+        action: UserFormActions,
         element: <UserForm />,
         handle: {
           crumb: (data) => <Link to={data.threadPath}>{data.threadName}</Link>,
@@ -44,9 +52,8 @@ export const userRouter = [
       {
         element: <UserLandingPage />,
         loader: userLandingLoader,
-
         handle: {
-          crumb: (data) => <Link to={data.threadPath}>{data.threadName}</Link>,
+          crumb: (data) => <Link to={data?.data?.threadPath}>{data?.data?.threadName}</Link>,
         },
         children: [
           {
@@ -56,6 +63,7 @@ export const userRouter = [
             // handle: {
             //   crumb: () => <Link to="">Overview</Link>,
             // },
+           
           },
           {
             path: "tasks",

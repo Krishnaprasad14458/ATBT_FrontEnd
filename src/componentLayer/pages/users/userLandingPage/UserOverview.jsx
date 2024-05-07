@@ -1,6 +1,12 @@
 import React, { useState, useContext } from "react";
 import defprop from "../../../../assets/Images/defprof.svg";
-import {Link,redirect,useLoaderData,useParams,useLocation} from "react-router-dom";
+import {
+  Link,
+  redirect,
+  useLoaderData,
+  useParams,
+  useLocation,
+} from "react-router-dom";
 import { UserDataContext } from "../../../../contexts/usersDataContext/usersDataContext";
 import { getUserById } from "../../../../contexts/usersDataContext/utils/usersApis";
 import axios from "axios";
@@ -18,9 +24,9 @@ export const userLandingLoader = async ({ params }) => {
         id: item?.id || "",
       })) || [];
     console.log(data, "id data");
- data.threadName= data?.user?.name
-    data.threadPath= `/users/${params.id}`
-    return {data,entityList};
+    data.threadName = data?.user?.name;
+    data.threadPath = `/users/${params.id}`;
+    return { data, entityList };
   } catch (error) {
     console.error("Error loading dashboard:", error);
     throw redirect(`/${error?.response?.status ?? "500"}`);
@@ -99,7 +105,9 @@ const UserOverview = () => {
                     item.field === "predefined" && (
                       <div>
                         {console.log(item.value, "item.value")}
-                        {/* {item.value ? (
+                        {console.log(  data?.user?.image, "  {data?.user?.image}")}
+
+                        {item.value ? (
                           <img
                             src={data?.user?.image}
                             name="EntityPhoto"
@@ -112,8 +120,10 @@ const UserOverview = () => {
                             src={defprop}
                             alt="photo"
                           />
-                        )} */}
-                        {item.value ? (
+                        )}
+                  
+
+                        {/* {item.value ? (
                                   <img
                                     src={
                                       typeof item.value === "string"
@@ -130,7 +140,28 @@ const UserOverview = () => {
                                     src={defprop}
                                     alt="photo"
                                   />
-                                )}
+                                )} */}
+                        {/* {item.value ? (
+                          <img
+                            src={
+                              typeof item.value === "string"
+                                ? item.value
+                                : item.value instanceof File ||
+                                  item.value instanceof Blob
+                                ? URL.createObjectURL(item.value)
+                                : ""
+                            }
+                            name="UserPhoto"
+                            alt="User Photo"
+                            className="h-36 w-36 relative mx-auto bottom-20 rounded-md border-2 border-gray-200 shadow-md"
+                          />
+                        ) : (
+                          <img
+                            className="h-36 w-36 relative mx-auto bottom-20 rounded-md border-2 border-gray-200 shadow-md"
+                            src={defprop}
+                            alt="photo"
+                          />
+                        )} */}
                       </div>
                     )}
                 </div>
@@ -154,11 +185,11 @@ const UserOverview = () => {
                         className="absolute  bottom-3 text-sm antialiased leading-snug tracking-normal text-blue-gray-900 w-3/6 truncate md:w-5/6 "
                         title={item.value.toUpperCase()}
                       >
-                         {
-                                    data?.entityList?.find(
-                                      (i) => i.id === parseInt(item.value)
-                                    )?.name
-                                  }
+                        {
+                          data?.entityList?.find(
+                            (i) => i.id === parseInt(item.value)
+                          )?.name
+                        }
                       </p>
                     </div>
                   )}
