@@ -33,9 +33,9 @@ export const router = createBrowserRouter([
       {
         path: "entities",
         children: [...entityRouter],
-        handle: {
-          crumb: () => <Link to="/entities">Entities</Link>,
-        },
+        // handle: {
+        //   crumb: () => <Link to="/entities">Entities</Link>,
+        // },
       },
       {
         path: "teams",

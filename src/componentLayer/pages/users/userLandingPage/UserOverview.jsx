@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React from "react";
 import defprop from "../../../../assets/Images/defprof.svg";
 import {
   Link,
@@ -7,17 +7,16 @@ import {
   useParams,
   useLocation,
 } from "react-router-dom";
-import { UserDataContext } from "../../../../contexts/usersDataContext/usersDataContext";
-import { getUserById } from "../../../../contexts/usersDataContext/utils/usersApis";
-import axios from "axios";
+import atbtApi from "../../../../serviceLayer/interceptor";
 export const userLandingLoader = async ({ params }) => {
   try {
-    let { data } = await getUserById(params?.id);
-    let entityList;
-    let entityListresponse = await axios.post(
-      `https://atbtbeta.infozit.com/public/list/entity`
-    );
+    const [data, entityListresponse] = await Promise.all([
+      atbtApi.get(`/user/list/${params?.id}`),
 
+      atbtApi.post(`public/list/entity`),
+    ]);
+
+    let entityList;
     entityList =
       entityListresponse?.data?.Entites?.map((item) => ({
         name: item?.name || "",
@@ -37,25 +36,12 @@ const UserOverview = () => {
   const data = useLoaderData();
 
   const customFormField = data.data.user.customFieldsData;
-  console.log(data, "rdd");
-  const {
-    usersState: { users },
-    getUser,
-  } = useContext(UserDataContext);
+
   // for the active tabs
   const location = useLocation();
   const currentURL = location.pathname.split("/");
   console.log("currentURL", currentURL);
 
-  // ----
-  const [isOpen, setIsOpen] = useState(false);
-
-  const toggleDrawer = () => {
-    setIsOpen(!isOpen);
-  };
-  // full screen
-  const [expand, setExpand] = useState(false);
-  // to set the time in 12hours
   function formatTime(timeString) {
     // Splitting the timeString to extract hours and minutes
     const [hourStr, minuteStr] = timeString.split(":");
@@ -105,7 +91,10 @@ const UserOverview = () => {
                     item.field === "predefined" && (
                       <div>
                         {console.log(item.value, "item.value")}
-                        {console.log(  data?.user?.image, "  {data?.user?.image}")}
+                        {console.log(
+                          data?.user?.image,
+                          "  {data?.user?.image}"
+                        )}
 
                         {item.value ? (
                           <img
@@ -121,7 +110,6 @@ const UserOverview = () => {
                             alt="photo"
                           />
                         )}
-                  
 
                         {/* {item.value ? (
                                   <img
