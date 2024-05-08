@@ -7,14 +7,19 @@ import Boardmeeting, {
 } from "../../componentLayer/components/LandingPageComponents/Boardmeeting";
 import Documents from "../../componentLayer/components/LandingPageComponents/Documents";
 import EntityLandingPage from "../../componentLayer/pages/entities/entityLandingPage/EntityLandingPage";
-import EntityOverview from "../../componentLayer/pages/entities/entityLandingPage/EntityOverview";
+import EntityOverview, {
+  entityLandingLoader,
+} from "../../componentLayer/pages/entities/entityLandingPage/EntityOverview";
 import Entities, {
   action as entityAction,
   loader as entityLoader,
 } from "../../componentLayer/pages/entities/entitiesList/Entities";
 
 import { Link } from "react-router-dom";
-import Tasks, { TasksActions, tasksLoader } from "../../componentLayer/components/LandingPageComponents/Tasks";
+import Tasks, {
+  TasksActions,
+  tasksLoader,
+} from "../../componentLayer/components/LandingPageComponents/Tasks";
 
 export const entityRouter = [
   {
@@ -27,9 +32,9 @@ export const entityRouter = [
     path: "new",
     loader: entityFormLoader,
     element: <EntityForm />,
-    handle: {
-      crumb: () => <Link to="/entities/new">New User</Link>,
-    },
+    // handle: {
+    //   crumb: () => <Link to="/entities/new">New User</Link>,
+    // },
   },
   {
     path: ":id",
@@ -38,34 +43,43 @@ export const entityRouter = [
         path: "edit",
         loader: entityFormLoader,
         element: <EntityForm />,
-        handle: {
-          crumb: (data) => <Link to={data.threadPath}>{data.threadName}</Link>,
-        },
+        // handle: {
+        //   crumb: (data) => <Link to={data.threadPath}>{data.threadName}</Link>,
+        // },
       },
       {
         element: <EntityLandingPage />,
-        handle: {
-          crumb: (data) => (
-            <Link to={data?.data?.threadPath}>{data?.data?.threadName}</Link>
-          ),
-        },
+        loader: entityLandingLoader,
+        // handle: {
+        //   crumb: (data) => (
+        //     <Link to={data?.data?.threadPath}>{data?.data?.threadName}</Link>
+        //   ),
+        // },
         children: [
-          { index: true, element: <EntityOverview /> },
+          {
+            index: true,
 
-          { path: "tasks",    element: <Tasks /> , handle: {
-            crumb: () => <Link to="">Tasks</Link>,
-          },},
+            loader: entityLandingLoader,
+            element: <EntityOverview />,
+          },
 
+          {
+            path: "tasks",
+            element: <Tasks />,
+            // handle: {
+            //   crumb: () => <Link to="">Tasks</Link>,
+            // },
+          },
 
           {
             path: ":boardmeetings",
             loader: entityMeetingLoader,
             action: entityMeetingAction,
-            handle: {
-              crumb: (data) => (
-                <Link to={data.threadPath}>{data.threadName}</Link>
-              ),
-            },
+            // handle: {
+            //   crumb: (data) => (
+            //     <Link to={data.threadPath}>{data.threadName}</Link>
+            //   ),
+            // },
             children: [
               {
                 index: true,
@@ -78,19 +92,22 @@ export const entityRouter = [
                 loader: tasksLoader,
                 action: TasksActions,
                 element: <Tasks />,
-                handle: {
-                  crumb: (data) => (
-                    <Link to={data.threadPath}>{data.threadName}</Link>
-                  ),
-                },
+                // handle: {
+                //   crumb: (data) => (
+                //     <Link to={data.threadPath}>{data.threadName}</Link>
+                //   ),
+                // },
               },
             ],
           },
 
-
-          { path: "documents", element: <Documents /> ,  handle: {
-            crumb: () => <Link to="">Documents</Link>,
-          },},
+          {
+            path: "documents",
+            element: <Documents />,
+            // handle: {
+            //   crumb: () => <Link to="">Documents</Link>,
+            // },
+          },
         ],
       },
     ],
