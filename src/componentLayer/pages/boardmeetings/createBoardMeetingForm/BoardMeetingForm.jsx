@@ -6,30 +6,30 @@ import { UserDataContext } from "../../../../contexts/usersDataContext/usersData
 import { BoardMeetingsDataContext } from "../../../../contexts/boardmeetingsDataContext/boardmeetingsDataContext";
 import $ from "jquery";
 import { useNavigate, useLoaderData, useParams } from "react-router-dom";
+import atbtApi from "../../../../serviceLayer/interceptor";
+
 const userData = JSON.parse(localStorage.getItem("data"));
 let createdBy = userData?.user?.id;
 const token = userData?.token;
 const role = userData?.role?.name;
 export async function boardmeetingFormLoader({ params }) {
   try {
-    const formApi =
-      "https://atbtbeta.infozit.com/form/list?name=boardmeetingform";
-    const boardmeetingApi = `https://atbtbeta.infozit.com/boardmeeting/list/${params.id}`;
+    const [formResponse, boardmeetingResponse, usersList] = await Promise.all([
+      atbtApi.get(`form/list?name=boardmeetingform`),
+      params.id ? atbtApi.get(`boardmeeting/list/${params.id}`) : null, //Api for edit
+      atbtApi.post(`public/list/user`),
+    ]);
     let boardmeetingData = null;
     if (params && params.id) {
-      const boardmeetingResponse = await axios.get(boardmeetingApi, {
-        headers: {
-          Authorization: token,
-        },
-      });
+    
       console.log(boardmeetingResponse, "loader boardmeeting data");
       boardmeetingData = boardmeetingResponse?.data;
     }
-    const formResponse = await axios.get(formApi);
+
     const formData = formResponse.data.Data;
     console.log("formData", formData, "boardmeetingData", boardmeetingData);
 
-    return { boardmeetingData, formData };
+    return { boardmeetingData, formData,usersList };
   } catch (error) {
     if (error.response) {
       throw new Error(`Failed to fetch data: ${error.response.status}`);
@@ -77,7 +77,7 @@ function BoardMeetingForm() {
   const { createBoardMeeting, updateBoardMeeting } = useContext(
     BoardMeetingsDataContext
   );
-  const usersEmails = dashboard.paginatedUsers;
+  const usersEmails = boardmeeting.usersList.data.users
   const { debouncedSetPage, debouncedSetSearch } = useDebounce(usersDispatch);
   let [openOptions, setopenOptions] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
