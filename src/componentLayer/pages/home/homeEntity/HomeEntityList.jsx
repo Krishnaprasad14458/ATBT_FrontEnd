@@ -1,6 +1,6 @@
 import React from "react";
-import { caseLetter } from "../../../utils/utils";
-function EntityList({ entity }) {
+import { caseLetter } from "../../../../utils/utils";
+function HomeEntityList({ entity }) {
   return (
     <div className="flex items-center">
       <div className="flex-shrink-0">
@@ -34,4 +34,4 @@ function EntityList({ entity }) {
   );
 }
 
-export default EntityList;
+export default HomeEntityList;

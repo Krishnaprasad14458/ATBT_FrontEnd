@@ -3,7 +3,7 @@ import RequireAuth from "../componentLayer/pages/layout/RequireAuth";
 import { createBrowserRouter, redirect, Link } from "react-router-dom";
 import { authRoutes } from "./auth/auth.router";
 import { httpInterceptors } from "./httpInts/httpInts.router";
-import { dashboardRouter } from "./dashboard/dashboard.router";
+import { homeRouter } from "./home/home.router";
 import { reportRouter } from "./report/report.router";
 import { settingRouter } from "./setting/setting.router";
 import { meetingRouter } from "./meeting/meeting.router";
@@ -21,7 +21,7 @@ export const router = createBrowserRouter([
     element: <RequireAuth />,
     ErrorBoundary: ErrorBoundary,
     children: [
-      ...dashboardRouter,
+      ...homeRouter,
       ...resourceRouter,
       {
         path: "users",

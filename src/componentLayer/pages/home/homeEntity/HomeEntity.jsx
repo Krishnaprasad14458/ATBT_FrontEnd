@@ -1,15 +1,15 @@
+import { Link, useFetcher, useSubmit } from "react-router-dom";
 import React, { useCallback, useContext, useEffect, useState } from "react";
-import {Link,useFetcher,useNavigation,useSearchParams} from "react-router-dom";
-import DashboardList from "../../../components/dashboardList/DashboardList";
+import HomeEntityList from "../../../pages/home/homeEntity/HomeEntityList";
+import useDebounce from "../../../../hooks/debounce/useDebounce";
+import { EntitiesDataContext } from "../../../../contexts/entitiesDataContext/entitiesDataContext";
+import { useSearchParams } from "react-router-dom";
 import GateKeeper from "../../../../rbac/GateKeeper";
 import { debounce } from "../../../../utils/utils";
-function UserDashboard() {
-  let [searchParams, setSearchParams] = useSearchParams();
-  console.log(searchParams.toString(), "sp");
+function HomeEntity() {
   const fetcher = useFetcher();
   const data = fetcher?.data?.data ?? [];
-  const navigation = useNavigation();
-  console.log(navigation, "dparam", fetcher);
+  console.log(data, "entity data");
   const [Qparams, setQParams] = useState({
     search: "",
     page: 1,
@@ -19,7 +19,7 @@ function UserDashboard() {
     debounce((param) => {
       fetcher.submit(param, {
         method: "get",
-        action: "resource/dashboard/user",
+        action: "resource/dashboard/entity",
       });
     }, 500),
     []
@@ -34,7 +34,6 @@ function UserDashboard() {
       search: event.target.value,
     });
   };
-
   function handlePage(page) {
     setQParams({
       ...Qparams,
@@ -47,15 +46,15 @@ function UserDashboard() {
         <div className="p-3 sm:px-6 sm:pt-2">
           <div className="flex items-center justify-between mb-2">
             <h5 className="text-lg font-semibold leading-none text-gray-800 dark:text-white">
-              Users {fetcher?.state === "loading" ? "..." : null}
+              Entities {fetcher.state === "loading" ? "..." : null}
             </h5>
             <GateKeeper
               permissionCheck={(permission) =>
-                permission.module === "user" && permission.canCreate
+                permission.module === "entity" && permission.canCreate
               }
             >
               <Link
-                to="/users/new"
+                to="/entities/new"
                 className="text-sm font-medium text-white-600 hover:underline dark:text-white-500"
               >
                 <button className="inline-flex px-3 py-2 items-center justify-center whitespace-nowrap rounded-full text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 text-primary-foreground shadow hover:bg-primary/90 shrink-0 bg-orange-600 text-white gap-1">
@@ -72,7 +71,6 @@ function UserDashboard() {
               </Link>
             </GateKeeper>
           </div>
-          {/* input module */}
           <div className="flex gap-4">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -86,38 +84,36 @@ function UserDashboard() {
                 clip-rule="evenodd"
               />
             </svg>
-
             <input
+              onChange={handleSearchChange}
               type="search"
               id="gsearch"
               name="gsearch"
-              className="bg-slate-50  w-80  border-none focus:outline-none appearance-none focus:border-none"
+              className="bg-slate-50 w-80 border-none focus:outline-none appearance-none focus:border-none"
               placeholder="Search here...."
-              onChange={handleSearchChange}
             />
           </div>
           <hr className="w-96 my-1" />
         </div>
         <hr />
-        {/* list module */}
         <div className="flow-root md:p-0 px-2 ">
           <ul
             role="list"
-            className="divide-y divide-[#e3e3e3] dark:divide-gray-700 "
+            className="divide-y divide-[#e3e3e3] dark:divide-gray-700"
           >
-            {!data?.users || data?.users?.length === 0 ? (
-              <li className="py-2 px-2">
+            {!data?.Entities || data?.Entities?.length === 0 ? (
+              <li className="p-2">
                 <p>No user found</p>
               </li>
             ) : (
-              data?.users?.map((user) => (
+              data?.Entities?.map((entity) => (
                 <li
-                  className="py-2 md:px-5  hover:bg-slate-100 "
-                  title={user.name}
-                  key={user.id}
+                  className="py-2 md:px-5  hover:bg-slate-100"
+                  title={entity.name}
+                  key={entity.id}
                 >
-                  <Link to={`/users/${user.id}`}>
-                    <DashboardList user={user} className="" />
+                  <Link to={`/entities/${entity.id}`}>
+                    <HomeEntityList   entity={entity} />
                   </Link>
                 </li>
               ))
@@ -126,9 +122,7 @@ function UserDashboard() {
         </div>
         <hr />
       </div>
-      {/* dashboard module */}
       <div className="flex items-center justify-between  px-4 py-3  sm:px-6 absolute inset-x-0 right-0 bottom-0">
-        {/* hidden dashboard only for mobile */}
         <div className="flex flex-1 justify-between sm:hidden">
           <a
             href="#"
@@ -143,44 +137,39 @@ function UserDashboard() {
             Next
           </a>
         </div>
-        {/*only for big screen dashboard */}
         <div className="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
-          {/* dashboard data */}
           <div>
-            {!data?.users || data?.users?.length === 0 ? (
+            {!data?.Entities || data?.Entities?.length === 0 ? (
               "no data to show"
-            ) : fetcher?.state === "loading" ? (
+            ) : fetcher.state === "loading" ? (
               "Loading..."
             ) : (
               <p className="text-sm text-gray-700">
-                Showing <span className="font-medium">{data?.startUser}</span>{" "}
-                to
-                <span className="font-medium"> {data?.endUser}</span> of{" "}
-                {data?.totalUsers} users
+                Showing {data.startEntity} to {data.endEntity} of{" "}
+                <span className="font-medium">{data.totalEntities}</span>
+                <span className="font-medium"> </span> results
               </p>
             )}
           </div>
-          {/* prev and next for big screens */}
           <div>
             <section
-              className="isolate inline-flex -px rounded-md shadow-sm"
+              className="isolate inline-flex -space-x-px rounded-md shadow-sm"
               aria-label="dashboard"
             >
-              {/* previos button */}
               <button
                 disabled={
-                  fetcher?.state === "loading"
+                  fetcher.state === "loading"
                     ? true
-                    : false || data?.currentPage === 1
+                    : false || data.currentPage === 1
                 }
-                onClick={() => handlePage(data.currentPage - 1)}
                 className={`relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${
-                  fetcher?.state === "loading"
+                  fetcher.state === "loading"
                     ? "cursor-wait"
-                    : data?.currentPage === 1
+                    : data.currentPage === 1
                     ? "cursor-not-allowed"
                     : "cursor-auto"
                 }`}
+                onClick={() => handlePage(data.currentPage - 1)}
               >
                 <span className="sr-only">Previous</span>
                 <svg
@@ -197,18 +186,17 @@ function UserDashboard() {
                   />
                 </svg>
               </button>
-              {/* next button */}
               <button
                 disabled={
-                  fetcher?.state === "loading"
+                  fetcher.state === "loading"
                     ? true
-                    : false || data?.currentPage === data?.totalPages
+                    : false || data.currentPage === data.totalPages
                 }
                 onClick={() => handlePage(data.currentPage + 1)}
                 className={`relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${
-                  fetcher?.state === "loading"
+                  fetcher.state === "loading"
                     ? "cursor-wait"
-                    : data?.currentPage === data?.totalPages
+                    : data.currentPage === data.totalPages
                     ? "cursor-not-allowed"
                     : "cursor-auto"
                 }`}
@@ -236,4 +224,4 @@ function UserDashboard() {
   );
 }
 
-export default UserDashboard;
+export default HomeEntity;

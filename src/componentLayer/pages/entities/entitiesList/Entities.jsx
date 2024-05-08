@@ -14,14 +14,20 @@ export async function loader({ request, params }) {
       atbtApi.post(`/entity/list${url?.search ? url?.search : ''}`, {}),
       atbtApi.post(`/public/list/entity`),
       atbtApi.post(`/public/list/role`),
-      atbtApi.get(`https://atbtbeta.infozit.com/form/list?name=entityform`),
+      atbtApi.get(`form/list?name=entityform`),
     ]);
     console.log(entityList, roleList, 'entityList, roleList,');
     const combinedResponse = {
       entities: entities?.data,
       fieldsDropDownData: {
-        role: roleList?.data?.roles?.map((item) => item.name),
-        entityname: entityList?.data?.Entites?.map((item) => item.name),
+        role: roleList?.data?.roles?.map((item) => ({
+          name: item?.name || "",
+          id: item?.id || "",
+        })) || [],
+        entityname: entityList?.data?.Entites?.map((item) => ({
+          name: item?.name || "",
+          id: item?.id || "",
+        })) || []
       },
       tableViewData: userFormData?.data?.Tableview,
       customForm: userFormData?.data?.Data,
@@ -292,7 +298,7 @@ function Entities() {
                                 permission.canRead
                               }
                             >
-                              <Link to={`${row.id}/entity/boardmeetings`}>
+                              <Link to={`${row.id}/entityboardmeetings`}>
                                 <p className='truncate text-xs'> {caseLetter(value)}</p>
                               </Link>
                             </GateKeeper>

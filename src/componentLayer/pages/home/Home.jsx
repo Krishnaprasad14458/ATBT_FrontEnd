@@ -1,14 +1,11 @@
 import React, { useEffect, useState } from "react";
-import "./Dashboard.css";
+import "./Home.css";
 import { getDate } from "../../../utils/utils";
-import UserDashboard from "./userDashboard/UserDashboard";
-import EntityDashboard from "./entityDashboard/EntityDashboard";
+import HomeUser from "./homeUser/HomeUser";
+import HomeEntity from "./homeEntity/HomeEntity";
 import GateKeeper from "../../../rbac/GateKeeper";
 import atbtApi from "../../../serviceLayer/interceptor";
 import { useActionData, useFetcher, useFetchers } from "react-router-dom";
-function classNames(...classes) {
-  return classes.filter(Boolean).join(" ");
-}
 export async function loader({ request, params }) {
   try {
     let url = new URL(request.url);
@@ -104,7 +101,7 @@ export async function action({ request, params }) {
   }
 }
 
-function Dashboard() {
+function Home() {
   document.title = "ATBT | Home";
   const fetchers = useFetchers();
   const fetcher = useFetcher();
@@ -178,7 +175,7 @@ function Dashboard() {
               permission.module === "entity" && permission.canRead
             }
           >
-            <EntityDashboard
+            <HomeEntity
               data={actionData?.entityList ?? fetcher?.data?.entityList ?? []}
               params={queryParams}
             />
@@ -188,7 +185,7 @@ function Dashboard() {
               permission.module === "user" && permission.canRead
             }
           >
-            <UserDashboard
+            <HomeUser
               data={actionData?.userList ?? fetcher?.data?.userList ?? []}
               params={queryParams}
             />
@@ -199,4 +196,4 @@ function Dashboard() {
   );
 }
 
-export default Dashboard;
+export default Home;

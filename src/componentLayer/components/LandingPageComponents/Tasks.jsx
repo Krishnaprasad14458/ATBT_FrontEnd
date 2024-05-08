@@ -26,13 +26,13 @@ export async function tasksLoader({ request, params }) {
     const [tasks, task, subTasks, subTask, personResponsible] =
       await Promise.all([
         atbtApi.get(`task/list/${params.BMid} `),
+        // atbtApi.get(`task/listAll?user=${params.id}`),
         taskID ? atbtApi.get(`task/listbyid/${taskID}`) : null,
         taskID ? atbtApi.get(`task/subList/${taskID}`) : null,
         subTaskID ? atbtApi.get(`task/subtaskbyid/${subTaskID}`) : null,
-        atbtApi.get(`/boardmeeting/groupUser/${params.BMid}`),
+        // atbtApi.get(`/boardmeeting/groupUser/${params.BMid}`),
         // atbtApi.get(`task/listAll?user=103`)
         // Api For Get boardmeeting members
-
         // get('/groupEntiy/:id')                Meeting.ListEntiyGroup
         // get('/groupTeam/:id',)            Meeting.ListTeamGroup)
         // get('/groupUser/:id')              Meeting.ListUserGroup)
@@ -83,25 +83,33 @@ export async function tasksLoader({ request, params }) {
     }
   }
 }
-export async function MeetingWiseTasksActions({ request, params }) {
+export async function TasksActions({ request, params }) {
   switch (request.method) {
     case "POST":
       {
         const requestBody = (await request.json()) || null;
         console.log(requestBody, "request");
-        let moduleName
-          if(params.boardmeetings==="userboardmeetings"){
-            moduleName = "users"
-          }
+        let moduleName;
+        if (params.boardmeetings === "userboardmeetings") {
+          moduleName = "users";
+        }
+        if (params.boardmeetings === "entityboardmeetings") {
+          moduleName = "entity";
+        }
+        if (params.boardmeetings === "entityboardmeetings") {
+          moduleName = "team";
+        }
         if (requestBody.type === "ADD_NEW_TASK") {
-          return await atbtApi.post(`task/add/${params.BMid}`,
-          
-          {
-            taskCreatedBy: { name: moduleName, id: params.id },
-            collaborators: [
-              parseInt(JSON.parse(localStorage.getItem("data")).user.id),
-            ],
-          });
+          return await atbtApi.post(
+            `task/add/${params.BMid}`,
+
+            {
+              taskCreatedBy: { name: moduleName, id: params.id },
+              collaborators: [
+                parseInt(JSON.parse(localStorage.getItem("data")).user.id),
+              ],
+            }
+          );
         }
         if (requestBody.type === "ADD_SUB_TASK") {
           return await atbtApi.post(`task/subtaskAdd/${requestBody.id}`);
@@ -165,7 +173,7 @@ export async function MeetingWiseTasksActions({ request, params }) {
     }
   }
 }
-const MeetingWiseTask = () => {
+const Tasks = () => {
   let submit = useSubmit();
   const data = useLoaderData();
   let [tasks, setTasks] = useState([]);
@@ -440,7 +448,7 @@ const MeetingWiseTask = () => {
                           d="M6 6.878V6a2.25 2.25 0 0 1 2.25-2.25h7.5A2.25 2.25 0 0 1 18 6v.878m-12 0c.235-.083.487-.128.75-.128h10.5c.263 0 .515.045.75.128m-12 0A2.25 2.25 0 0 0 4.5 9v.878m13.5-3A2.25 2.25 0 0 1 19.5 9v.878m0 0a2.246 2.246 0 0 0-.75-.128H5.25c-.263 0-.515.045-.75.128m15 0A2.25 2.25 0 0 1 21 12v6a2.25 2.25 0 0 1-2.25 2.25H5.25A2.25 2.25 0 0 1 3 18v-6c0-.98.626-1.813 1.5-2.122"
                         />
                       </svg> */}
-                       
+                        {task.subtaskCount}
                         <svg
                           viewBox="0 0 32 32"
                           xmlns="http://www.w3.org/2000/svg"
@@ -703,4 +711,4 @@ const MeetingWiseTask = () => {
     </div>
   );
 };
-export default MeetingWiseTask;
+export default Tasks;

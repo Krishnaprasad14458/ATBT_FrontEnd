@@ -8,13 +8,14 @@ import {
 } from "react-router-dom";
 import { EntitiesDataContext } from "../../../../contexts/entitiesDataContext/entitiesDataContext";
 import axios from "axios";
+import BreadCrumbs from "../../../components/breadcrumbs/BreadCrumbs";
 const EntityLandingPage = () => {
-  const moduleName = "entity";
+  
   const {
     getEntitybyId,
     entitiesState: { entities },
   } = useContext(EntitiesDataContext);
-  const { id } = useParams();
+  const { id,BMid  } = useParams();
   // console.log()
   const [singleProduct, setSingleProduct] = useState({});
   // For tabs active
@@ -48,11 +49,6 @@ const EntityLandingPage = () => {
   };
   //  for active tabs close
 
-  // ----toggleDrawer-------
-  const [isOpen, setIsOpen] = useState(false);
-  const toggleDrawer = () => {
-    setIsOpen(!isOpen);
-  };
   // -------full screen----
 
   let [customFormField, setCustomFormField] = useState();
@@ -85,46 +81,70 @@ const EntityLandingPage = () => {
   return (
     <div className=" p-4 bg-[#f8fafc]">
       <div className="flex justify-between my-2">
-        <p className="text-xl font-semibold">Entity Landing Page</p>
+        {/* <p className="text-xl font-semibold">User Landing Page</p> */}
+        <BreadCrumbs />
       </div>
 
       <div className="flex overflow-auto">
-        <NavLink
-          to="entity/boardmeetings"
-          end
-          className={({ isActive, isPending, isTransitioning }) =>
-            isPending
-              ? "cursor-pointer px-4 py-1 text-md font-semibold"
-              : isActive
-              ? "border-b-2 border-orange-600 text-black cursor-pointer px-4 py-1 text-md font-semibold"
-              : "cursor-pointer px-4 py-1 text-md font-semibold"
-          }
-        >
-          Board Meetings
-        </NavLink>
-        <NavLink
+    
+       
+        {!BMid && (
+          <NavLink
+            to="entityboardmeetings"
+            end
+            className={({ isActive, isPending, isTransitioning }) =>
+              isPending
+                ? "cursor-pointer px-4 py-1 text-sm  text-[#0c0a09]"
+                : isActive
+                ? "border-b-2 border-orange-600 text-[#0c0a09] cursor-pointer px-4 py-1 text-sm font-[500]"
+                : "cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09]"
+            }
+          >
+            Board Meetings
+          </NavLink>
+        )}
+        {BMid && (
+          <NavLink
+            to={`entityboardmeetings/${BMid}`}
+            end
+            isActive={(match, location) =>
+              match ||
+              location.pathname.startsWith(`/users/${id}/boardmeetings`)
+            }
+            className={({ isActive, isPending, isTransitioning }) =>
+              isPending
+                ? "cursor-pointer px-4 py-1 text-sm text-[#0c0a09]"
+                : isActive
+                ? "border-b-2 border-orange-600 text-[#0c0a09] cursor-pointer px-4 py-1 text-sm font-[500]"
+                : "cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09]"
+            }
+          >
+            Board Meetings - Tasks
+          </NavLink>
+        )}
+
+<NavLink
           to="tasks"
           end
           className={({ isActive, isPending, isTransitioning }) =>
             isPending
-              ? "cursor-pointer px-4 py-1 text-md font-semibold"
+              ? "cursor-pointer px-4 py-1 text-sm  text-[#0c0a09]"
               : isActive
-              ? "border-b-2 border-orange-600 text-black cursor-pointer px-4 py-1 text-md font-semibold"
-              : "cursor-pointer px-4 py-1 text-md font-semibold"
+              ? "border-b-2 border-orange-600 text-[#0c0a09] cursor-pointer px-4 py-1 text-sm font-[500]"
+              : "cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09]"
           }
         >
           Tasks
         </NavLink>
-
         <NavLink
           to="documents"
           end
           className={({ isActive, isPending, isTransitioning }) =>
             isPending
-              ? "cursor-pointer px-4 py-1 text-md font-semibold"
+              ? "cursor-pointer px-4 py-1 text-sm  text-[#0c0a09]"
               : isActive
-              ? "border-b-2 border-orange-600 text-black cursor-pointer px-4 py-1 text-md font-semibold"
-              : "cursor-p px-4 py-1 text-md font-semibold"
+              ? "border-b-2 border-orange-600 text-[#0c0a09] cursor-pointer px-4 py-1 text-sm font-[500]"
+              : "cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09]"
           }
         >
           Documents
@@ -135,17 +155,17 @@ const EntityLandingPage = () => {
           end
           className={({ isActive, isPending, isTransitioning }) =>
             isPending
-              ? "cursor-pointer px-4 py-1 text-md font-semibold"
+              ? "cursor-pointer px-4 py-1 text-sm  text-[#0c0a09]"
               : isActive
-              ? "border-b-2 border-orange-600 text-black cursor-pointer px-4 py-1 text-md font-semibold"
-              : "cursor-pointer px-4 py-1 text-md font-semibold"
+              ? "border-b-2 border-orange-600 text-[#0c0a09] cursor-pointer px-4 py-1 text-sm font-[500]"
+              : "cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09]"
           }
         >
           Overview
         </NavLink>
       </div>
       <hr />
-      <Outlet context={moduleName} />
+      <Outlet  />
     </div>
   );
 };
