@@ -8,27 +8,7 @@ const Documents = () => {
     entitiesState: { entities },
   } = useContext(EntitiesDataContext);
   const { id } = useParams();
-  const [singleProduct, setSingleProduct] = useState({});
-  // For tabs active
-  const getSingleProduct = async () => {
-    try {
-      const entityById = entities?.Entites?.find(
-        (element) => element.id === +id
-      );
-      if (!entityById) {
-        const product = await getEntitybyId(id);
-        setSingleProduct(product?.data?.Entites);
-      } else {
-        setSingleProduct(entityById);
-      }
-    } catch (e) {
-      console.error(e);
-      throw e;
-    }
-  };
-  useEffect(() => {
-    getSingleProduct();
-  }, [id]);
+  
   let [customFormField, setCustomFormField] = useState();
   const userData = JSON.parse(localStorage.getItem("data"));
   const token = userData?.token;
