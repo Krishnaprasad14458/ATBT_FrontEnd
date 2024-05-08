@@ -564,7 +564,7 @@ function UserForm() {
                         </div>
                       </div>
                     )}
-                    {/* {item.type === "select" &&
+                    {item.type === "select" &&
   item.inputname === "entityname" &&
   item.field === "predefined" && (
     <div>
@@ -581,27 +581,28 @@ function UserForm() {
         )}
       </label>
       <div className="relative">
-        <select
+      <select
           id={item.inputname}
           name={item.inputname}
-          className="px-4 py-2 text-sm block w-full rounded-md bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder:text-xs appearance-none"
+          className="px-2 py-2 text-sm block w-full rounded-md bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder:text-gray-400 appearance-none"
           onChange={(e) => handleChange(index, e.target.value)}
           value={customFormFields[index].value || ""}
-          style={{ fontSize: "0.9rem", color: customFormFields[index].value ? 'green' : 'blue' }}
+          style={{ fontSize: "0.8rem", color: customFormFields[index].value ? '#111827' : '#a1a1aa' }}
         >
-          <option value="" disabled defaultValue style={{ color: 'blue' }}>
-            Please select
+          <option value="" disabled defaultValue>
+            Select {/* Use the label as the placeholder */}
           </option>
           {item.options.value &&
             data?.fieldsDropDownData?.entityname &&
             data?.fieldsDropDownData?.entityname.map(
               (option, index) => (
-                <option key={index} value={option.id}>
+                <option key={index} value={option.id} style={{color:"#111827"}} >
                   {option.name}
                 </option>
               )
             )}
         </select>
+
         <svg
           className="w-4 h-4 text-gray-700 absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none"
           fill="none"
@@ -625,9 +626,9 @@ function UserForm() {
         )}
       </div>
     </div>
-  )} */}
+  )}
 
-                  {item.type === "select" &&
+                  {/* {item.type === "select" &&
                     item.inputname === "entityname" &&
                     item.field === "predefined" && (
                       <div>
@@ -651,9 +652,9 @@ function UserForm() {
                           border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder:text-xs appearance-none"
                           onChange={(e) => handleChange(index, e.target.value)}
                           value={customFormFields[index].value || ""}
-                          style={{ fontSize: "0.8rem", color: customFormFields[index].value ? 'green' : 'blue' }}
+                          style={{ fontSize: "0.8rem", color: customFormFields[index].value ? 'text-gray-900' : 'text-gray-300' }}
                         >
-                          <option value="" disabled defaultValue style={{ color: 'blue' }}>
+                          <option value="" disabled defaultValue style={{ color: 'text-gray-300' }}>
                             Please select
                           </option>
                           {item.options.value &&
@@ -689,7 +690,7 @@ function UserForm() {
                           )}
                         </div>
                       </div>
-                    )}
+                    )} */}
 
 
 

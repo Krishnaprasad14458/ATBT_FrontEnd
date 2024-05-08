@@ -208,6 +208,12 @@ input[type="date"]:in-range::-webkit-datetime-edit-text {
 input[type='date']:after {
   content:''
 }  
+
+
+
+
+
+
 /* dont delete this code ask bhavi before delete  end*/
 @media (max-width: 425px) {
   .teams_img {
@@ -253,3 +259,5 @@ input[type='date']:after {
   content: ">";
   color: #334155;
 }
+
+
