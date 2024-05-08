@@ -12,7 +12,7 @@ export const entityLandingLoader = async ({ params }) => {
     ]);
     // data.threadName = data?.user?.name;
     // data.threadPath = `/users/${params.id}`;
-   
+   console.log("combined data",data,UsersList)
     return { data, UsersList };
   } catch (error) {
     console.error("Error loading dashboard:", error);
@@ -23,13 +23,13 @@ export const entityLandingLoader = async ({ params }) => {
 const EntityOverview = () => {
   const { id } = useParams();
   const data = useLoaderData();
-  let UsersList = data.UsersList.data
+  let UsersList = data?.UsersList?.data
 
 
-  const customFormField = data.data.data.customFieldsData;
+  const customFormField = data?.data?.data?.customFieldsData;
  
   const userData = JSON.parse(localStorage.getItem("data"));
-  let predefinedImage = data.data.data.image;
+  let predefinedImage = data?.data?.data?.image;
   function formatTime(timeString) {
     // Splitting the timeString to extract hours and minutes
     const [hourStr, minuteStr] = timeString.split(":");
