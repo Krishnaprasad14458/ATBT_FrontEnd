@@ -23,7 +23,7 @@ export const userLandingLoader = async ({ params }) => {
         id: item?.id || "",
       })) || [];
     console.log(data, "id data");
-    data.threadName = data?.user?.name;
+    data.threadName = data?.data?.user?.name;
     data.threadPath = `/users/${params.id}`;
     return { data, entityList };
   } catch (error) {
