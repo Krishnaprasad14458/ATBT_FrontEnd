@@ -564,7 +564,69 @@ function UserForm() {
                         </div>
                       </div>
                     )}
-                  {item.type === "select" &&
+                    {item.type === "select" &&
+  item.inputname === "entityname" &&
+  item.field === "predefined" && (
+    <div>
+      <label
+        htmlFor={item.label}
+        className="block text-sm font-medium leading-6 mt-2 text-gray-900"
+      >
+        {item.label.charAt(0).toUpperCase() +
+          item.label.slice(1)}
+        {item.mandatory ? (
+          <span className="text-red-600">*</span>
+        ) : (
+          <span> </span>
+        )}
+      </label>
+      <div className="relative">
+        <select
+          id={item.inputname}
+          name={item.inputname}
+          className="px-4 py-2 text-sm block w-full rounded-md bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder:text-xs appearance-none"
+          onChange={(e) => handleChange(index, e.target.value)}
+          value={customFormFields[index].value || ""}
+          style={{ fontSize: "0.9rem" }}
+        >
+          <option value="" disabled defaultValue>
+            Please select
+          </option>
+          {item.options.value &&
+            data?.fieldsDropDownData?.entityname &&
+            data?.fieldsDropDownData?.entityname.map(
+              (option, index) => (
+                <option key={index} value={option.id}>
+                  {option.name}
+                </option>
+              )
+            )}
+        </select>
+        <svg
+          className="w-4 h-4 text-gray-700 absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="2"
+            d="M19 9l-7 7-7-7"
+          />
+        </svg>
+      </div>
+      <div className="h-2 text-red-500">
+        {errors[item.inputname] && (
+          <span className="text-xs">
+            {errors[item.inputname]}
+          </span>
+        )}
+      </div>
+    </div>
+  )}
+                  {/* {item.type === "select" &&
                     item.inputname === "entityname" &&
                     item.field === "predefined" && (
                       <div>
@@ -609,7 +671,10 @@ function UserForm() {
                           )}
                         </div>
                       </div>
-                    )}
+                    )} */}
+
+
+
                   {item.type === "email" &&
                     item.inputname == "email" &&
                     item.field == "predefined" && (
