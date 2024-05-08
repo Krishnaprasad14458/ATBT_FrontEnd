@@ -34,9 +34,8 @@ export const userLandingLoader = async ({ params }) => {
 const UserOverview = () => {
   const { id } = useParams();
   const data = useLoaderData();
-
-  const customFormField = data.data.user.customFieldsData;
-
+  const customFormField = data?.data?.data?.user?.customFieldsData;
+console.log("customFormField",customFormField)
   // for the active tabs
   const location = useLocation();
   const currentURL = location.pathname.split("/");
