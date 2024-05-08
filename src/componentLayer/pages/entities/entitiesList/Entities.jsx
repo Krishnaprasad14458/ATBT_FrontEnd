@@ -217,30 +217,7 @@ function Entities() {
                     {tableView[key].label}
                   </th>
                 ))}
-                <th
-                  scope='col'
-                  className='sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200'
-                >
-                  Total Tasks
-                </th>
-                <th
-                  scope='col'
-                  className='sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200'
-                >
-                  Completed Tasks
-                </th>
-                <th
-                  scope='col'
-                  className='sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200'
-                >
-                  Upcoming Tasks
-                </th>
-                <th
-                  scope='col'
-                  className='sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200'
-                >
-                  Overdue Tasks
-                </th>
+              
                 <th
                   scope='col'
                   className='sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200'
@@ -317,34 +294,7 @@ function Entities() {
                         );
                       }
                     })}
-                    <td
-                      className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden`}
-                      style={{ maxWidth: '160px' }}
-                      title=''
-                    >
-                      <p className='truncate text-xs'> 5000</p>
-                    </td>
-                    <td
-                      className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden`}
-                      style={{ maxWidth: '160px' }}
-                      title=''
-                    >
-                      <p className='truncate text-xs'> 2000</p>
-                    </td>
-                    <td
-                      className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden`}
-                      style={{ maxWidth: '160px' }}
-                      title=''
-                    >
-                      <p className='truncate text-xs'> 1000</p>
-                    </td>
-                    <td
-                      className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden`}
-                      style={{ maxWidth: '160px' }}
-                      title=''
-                    >
-                      <p className='truncate text-xs'> 500</p>
-                    </td>
+                   
                     <td
                       className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden`}
                       style={{ maxWidth: '160px' }}

@@ -5,26 +5,23 @@ import useDebounce from "../../../../hooks/debounce/useDebounce";
 import { UserDataContext } from "../../../../contexts/usersDataContext/usersDataContext";
 import { EntitiesDataContext } from "../../../../contexts/entitiesDataContext/entitiesDataContext";
 import $ from "jquery";
-import {useNavigate,useLoaderData,useParams} from "react-router-dom";
+import atbtApi from "../../../../serviceLayer/interceptor";
+import { useNavigate, useLoaderData, useParams } from "react-router-dom";
 const userData = JSON.parse(localStorage.getItem("data"));
 let createdBy = userData?.user?.id;
 const token = userData?.token;
 const role = userData?.role?.name;
 export async function entityFormLoader({ params }) {
   try {
-    const formApi = "https://atbtbeta.infozit.com/form/list?name=entityform";
-    const entityApi = `https://atbtbeta.infozit.com/entity/list/${params.id}`;
+    const [formResponse, entityResponse] = await Promise.all([
+      atbtApi.get(`form/list?name=entityform`),
+      params.id ? atbtApi.get(`entity/list/${params.id}`) : null, //Api for edit
+    ]);
     let entityData = null;
     if (params && params.id) {
-      const entityResponse = await axios.get(entityApi, {
-        headers: {
-          Authorization: token,
-        },
-      });
       console.log(entityResponse, "loader entity data");
       entityData = entityResponse?.data;
     }
-    const formResponse = await axios.get(formApi);
     const formData = formResponse.data.Data;
     console.log("formData", formData, "entityData", entityData);
     return { entityData, formData };
