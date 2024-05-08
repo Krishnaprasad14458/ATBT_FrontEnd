@@ -3,7 +3,6 @@ import axios from "axios";
 import defprop from "../../../../assets/Images/Avatar_new_02.svg";
 import { UserDataContext } from "../../../../contexts/usersDataContext/usersDataContext";
 import $ from "jquery";
-
 import atbtApi from "../../../../serviceLayer/interceptor";
 import linesimage from "../../../../assets/Images/lines_10.svg";
 import {
@@ -17,22 +16,25 @@ const loggedInUser = userData?.user?.id;
 const token = userData?.token;
 export async function userFormLoader({ params }) {
   try {
-    const formApi = "https://atbtbeta.infozit.com/form/list?name=userform";
-    const userApi = `https://atbtbeta.infozit.com/user/list/${params.id}`;
+    const [
+      formResponse,
+      userResponse,
+      fieldsDropDownDataRoleResponse,
+      fieldsDropDownDataEntityResponse,
+    ] = await Promise.all([
+      atbtApi.get(`form/list?name=userform`),
+      params.id ? atbtApi.get(`user/list/${params.id}`) : null, //Api for edit
+      atbtApi.get(`rbac/getroles`),
+      atbtApi.post(`public/list/entity`),
+    ]);
+
     let fieldsDropDownData = {};
-    let fieldsDropDownDataRoleResponse = await axios.get(
-      "https://atbtbeta.infozit.com/rbac/getroles"
-    );
 
     fieldsDropDownData.role =
       fieldsDropDownDataRoleResponse?.data?.roles?.map((item) => ({
         name: item?.name || "",
         id: item?.id || "",
       })) || [];
-
-    let fieldsDropDownDataEntityResponse = await axios.post(
-      `https://atbtbeta.infozit.com/public/list/entity`
-    );
 
     fieldsDropDownData.entityname =
       fieldsDropDownDataEntityResponse?.data?.Entites?.map((item) => ({
@@ -42,15 +44,9 @@ export async function userFormLoader({ params }) {
 
     let userData = null;
     if (params && params.id) {
-      const userResponse = await axios.get(userApi, {
-        headers: {
-          Authorization: token,
-        },
-      });
       userData = userResponse?.data?.user;
       console.log("userData", userData);
     }
-    const formResponse = await axios.get(formApi);
     const formData = formResponse.data.Data;
     if (userData) {
       let threadName = userData?.name;
@@ -444,8 +440,6 @@ function UserForm() {
       } else {
         console.log("creating");
 
-
-        
         response = await createUser(formData);
       }
       response?.status === 201 && navigate(`/users/${response.data}`);
