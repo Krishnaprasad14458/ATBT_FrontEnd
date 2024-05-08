@@ -70,73 +70,7 @@ export async function userFormLoader({ params }) {
     }
   }
 }
-export async function UserFormActions({ request, params }) {
-  switch (request.method) {
-    case "POST":
-      {
-        const requestBody = (await request.json()) || null;
-        console.log(requestBody, "request");
-        let moduleName
-          if(params.boardmeetings==="userboardmeetings"){
-            moduleName = "users"
-          }
-        if (requestBody.type === "ADD_NEW_TASK") {
-          return await atbtApi.post(`task/add/${params.BMid}`,
-          
-          {
-            taskCreatedBy: { name: moduleName, id: params.id },
-            collaborators: [
-              parseInt(JSON.parse(localStorage.getItem("data")).user.id),
-            ],
-          });
-        }
-        // if (requestBody.type === "ADD_SUB_TASK") {
-        //   return await atbtApi.post(`task/subtaskAdd/${requestBody.id}`);
-        // }
-        // if (requestBody.type === "ADD_TASK_COMMENT") {
-        //   return await atbtApi.post(
-        //     `task/addComments?task=${requestBody.id}`,
-        //     requestBody.data
-        //   );
-        // }
-        // if (requestBody.type === "ADD_SUBTASK_COMMENT") {
-        //   return await atbtApi.post(
-        //     `task/addComments?subtask=${requestBody.id}`,
-        //     requestBody.data
-        //   );
-        // }
-      }
-      break;
-    case "PATCH":
-      {
-        const requestBody = (await request.json()) || null;
-        console.log(requestBody, "request");
 
-        if (requestBody.type === "UPDATE_TASK") {
-          return await atbtApi.patch(
-            `task/update/${requestBody.id}`,
-            requestBody.data
-          );
-        }
-        if (requestBody.type === "UPDATE_SUB_TASK") {
-          return await atbtApi.patch(
-            `task/subtaskUpdate/${requestBody.id}`,
-            requestBody.data
-          );
-        }
-        if (requestBody.type === "EDIT_COMMENT") {
-          return await atbtApi.patch(
-            `task/patchComments/${requestBody.id}`,
-            requestBody.data
-          );
-        }
-      }
-      break;
-    default: {
-      throw new Response("", { status: 405 });
-    }
-  }
-}
 function UserForm() {
   const [showPassword, setShowPassword] = useState(false);
   document.title = "ATBT | User";

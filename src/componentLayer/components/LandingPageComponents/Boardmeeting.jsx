@@ -21,6 +21,9 @@ export async function loader({ request, params }) {
     if (params.boardmeetings === "userboardmeetings") {
       moduleName = "user";
     }
+    if (params.boardmeetings === "entityboardmeetings") {
+      moduleName = "entity";
+    }
     const [meetings, entityList, roleList, meetingFormData] = await Promise.all(
       [
         atbtApi.get(

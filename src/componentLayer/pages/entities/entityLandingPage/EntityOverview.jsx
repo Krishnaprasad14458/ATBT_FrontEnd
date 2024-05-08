@@ -3,7 +3,7 @@ import defprop from "../../../../assets/Images/defprof.svg";
 import { Link, Outlet, useParams } from "react-router-dom";
 import { EntitiesDataContext } from "../../../../contexts/entitiesDataContext/entitiesDataContext";
 import axios from "axios";
-const Overview = () => {
+const EntityOverview = () => {
   const {
     getEntitybyId,
     entitiesState: { entities },
@@ -517,4 +517,4 @@ const Overview = () => {
   );
 };
 
-export default Overview;
+export default EntityOverview;

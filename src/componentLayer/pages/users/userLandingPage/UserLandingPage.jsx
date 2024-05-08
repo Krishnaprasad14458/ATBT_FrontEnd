@@ -12,12 +12,10 @@ import { getUserById } from "../../../../contexts/usersDataContext/utils/usersAp
 import BreadCrumbs from "../../../components/breadcrumbs/BreadCrumbs";
 
 const UserLandingPage = () => {
-  const moduleName = "user";
+ 
   const { id, BMid } = useParams();
   const data = useLoaderData();
-  console.log(data?.user?.customFieldsData, "rrd");
-  const customFormField = data?.user?.customFieldsData;
-  console.log(customFormField, "rdd");
+  
   const {
     usersState: { users },
     getUser,
@@ -27,38 +25,7 @@ const UserLandingPage = () => {
   const currentURL = location.pathname.split("/");
   console.log("currentURL", currentURL);
 
-  // ----
-  const [isOpen, setIsOpen] = useState(false);
-
-  const toggleDrawer = () => {
-    setIsOpen(!isOpen);
-  };
-  // full screen
-  const [expand, setExpand] = useState(false);
-
-  // to set the time in 12hours
-  function formatTime(timeString) {
-    // Splitting the timeString to extract hours and minutes
-    const [hourStr, minuteStr] = timeString.split(":");
-
-    // Parsing hours and minutes as integers
-    const hours = parseInt(hourStr, 10);
-    const minutes = parseInt(minuteStr, 10);
-
-    // Checking if hours and minutes are valid numbers
-    if (isNaN(hours) || isNaN(minutes)) {
-      return "Invalid time";
-    }
-
-    // Converting hours to 12-hour format and determining AM/PM
-    const ampm = hours >= 12 ? "PM" : "AM";
-    const formattedHours = hours % 12 || 12; // Handles midnight
-    const formattedMinutes = minutes < 10 ? "0" + minutes : minutes; // Ensures minutes are two digits
-
-    // Constructing the formatted time string
-    const formattedTime = `${formattedHours}:${formattedMinutes} ${ampm}`;
-    return formattedTime;
-  }
+ 
   return (
     <div className=" p-4 bg-[#f8fafc]">
       <div className="flex justify-between my-2">
@@ -144,7 +111,7 @@ const UserLandingPage = () => {
         </NavLink>
       </div>
       <hr />
-      <Outlet context={moduleName} />
+      <Outlet />
     </div>
   );
 };

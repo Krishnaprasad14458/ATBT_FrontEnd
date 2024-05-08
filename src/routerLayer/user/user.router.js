@@ -1,14 +1,12 @@
 import UserForm, {
-  UserFormActions,
   userFormLoader,
 } from "../../componentLayer/pages/users/createUserForm/UserForm";
 import { Link } from "react-router-dom";
-import AllTasks from "../../componentLayer/components/LandingPage/AllTasks";
 import Boardmeeting, {
   action as entityMeetingAction,
   loader as entityMeetingLoader,
-} from "../../componentLayer/components/LandingPage/Boardmeeting";
-import Documents from "../../componentLayer/components/LandingPage/Documents";
+} from "../../componentLayer/components/LandingPageComponents/Boardmeeting";
+import Documents from "../../componentLayer/components/LandingPageComponents/Documents";
 import { userLandingLoader } from "../../componentLayer/pages/users/userLandingPage/UserOverview";
 import UserLandingPage from "../../componentLayer/pages/users/userLandingPage/UserLandingPage";
 import UserOverview from "../../componentLayer/pages/users/userLandingPage/UserOverview";
@@ -16,10 +14,10 @@ import Users, {
   action as userAction,
   loader as userLoader,
 } from "../../componentLayer/pages/users/usersList/Users";
-import MeetingWiseTask, {
-  MeetingWiseTasksActions,
+import Tasks, {
+  TasksActions,
   tasksLoader,
-} from "../../componentLayer/components/LandingPage/MeetingWiseTask";
+} from "../../componentLayer/components/LandingPageComponents/Tasks";
 
 export const userRouter = [
   {
@@ -31,7 +29,7 @@ export const userRouter = [
   {
     path: "new",
     loader: userFormLoader,
-    action: UserFormActions,
+
     element: <UserForm />,
     handle: {
       crumb: () => <Link to="/users/new">New User</Link>,
@@ -43,7 +41,6 @@ export const userRouter = [
       {
         path: "edit",
         loader: userFormLoader,
-        action: UserFormActions,
         element: <UserForm />,
         handle: {
           crumb: (data) => <Link to={data.threadPath}>{data.threadName}</Link>,
@@ -53,7 +50,9 @@ export const userRouter = [
         element: <UserLandingPage />,
         loader: userLandingLoader,
         handle: {
-          crumb: (data) => <Link to={data?.data?.threadPath}>{data?.data?.threadName}</Link>,
+          crumb: (data) => (
+            <Link to={data?.data?.threadPath}>{data?.data?.threadName}</Link>
+          ),
         },
         children: [
           {
@@ -63,19 +62,20 @@ export const userRouter = [
             // handle: {
             //   crumb: () => <Link to="">Overview</Link>,
             // },
-           
           },
           {
             path: "tasks",
-            element: <AllTasks />,
+            loader: tasksLoader,
+            action: TasksActions,
+            element: <Tasks />,
             handle: {
               crumb: () => <Link to="">Tasks</Link>,
             },
           },
+
           {
             path: ":boardmeetings",
             loader: entityMeetingLoader,
-
             handle: {
               crumb: (data) => (
                 <Link to={data.threadPath}>{data.threadName}</Link>
@@ -91,8 +91,8 @@ export const userRouter = [
               {
                 path: ":BMid",
                 loader: tasksLoader,
-                action: MeetingWiseTasksActions,
-                element: <MeetingWiseTask />,
+                action: TasksActions,
+                element: <Tasks />,
                 handle: {
                   crumb: (data) => (
                     <Link to={data.threadPath}>{data.threadName}</Link>

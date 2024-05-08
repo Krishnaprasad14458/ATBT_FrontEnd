@@ -1,7 +1,6 @@
 import React from "react";
-import defprop from "../../../assets/Images/defprof.svg";
-import { caseLetter } from "../../../utils/utils";
-function DashboardList({ user }) {
+import { caseLetter } from "../../../../utils/utils";
+function HomeUsersList({ user }) {
   return (
     <div className="flex items-center">
       <div className="flex-shrink-0">
@@ -38,4 +37,4 @@ function DashboardList({ user }) {
   );
 }
 
-export default DashboardList;
+export default HomeUsersList;
