@@ -25,7 +25,7 @@ export async function tasksLoader({ request, params }) {
     const subTaskID = url.searchParams.get("subTaskID");
     const [tasks, task, subTasks, subTask, personResponsible] =
       await Promise.all([
-        atbtApi.get(`task/list/${params.BMid} `),
+        params.BMid ? atbtApi.get(`task/list?meetingId=${params.BMid}`) :  atbtApi.get(`task/list?userId=${params.id}`),
         // atbtApi.get(`task/listAll?user=${params.id}`),
         taskID ? atbtApi.get(`task/listbyid/${taskID}`) : null,
         taskID ? atbtApi.get(`task/subList/${taskID}`) : null,
