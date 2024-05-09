@@ -12,6 +12,7 @@ import {
   useLoaderData,
   useParams,
 } from "react-router-dom";
+import BreadCrumbs from "../../../components/breadcrumbs/BreadCrumbs";
 const userData = JSON.parse(localStorage.getItem("data"));
 const loggedInUser = userData?.user?.id;
 const token = userData?.token;
@@ -51,7 +52,7 @@ export async function userFormLoader({ params }) {
     const formData = formResponse.data.Data;
     if (userData) {
       let threadName = userData?.name;
-      let threadPath = `/Users/${params.id}/edit`;
+      let threadPath = `/users/${params.id}/edit`;
       return { userData, formData, threadName, threadPath, fieldsDropDownData };
     } else {
       return { userData, formData, fieldsDropDownData };
@@ -489,7 +490,7 @@ function UserForm() {
       {/* <p className="font-lg font-semibold p-3">Entity Form</p> */}
       <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-3 xl:grid-cols-3  gap-4 mt-2 ">
         <div className="col-span-1 ">
-          <p className="text-lg font-semibold">User Form</p>
+          <p className="text-lg font-semibold"><BreadCrumbs/></p>
           <form className="" method="POST" onSubmit={handleFormSubmit}>
             {customFormFields &&
               customFormFields.length > 0 &&
