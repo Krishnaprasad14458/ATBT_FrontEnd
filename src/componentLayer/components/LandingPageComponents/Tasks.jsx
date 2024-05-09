@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useCallback } from "react";
 import {
+  NavLink,
   useParams,
   useLoaderData,
   useFetcher,
@@ -352,11 +353,93 @@ const Tasks = () => {
         )}
       </div>
       <div>
-        <span>active </p>{" "}
-        <p>to do  </p>{" "}
-        <p>Overdue </p>{" "}
-        <p>completed </p>{" "}
-        <p>master </p>{" "}
+
+
+      <div className="flex overflow-x-auto">
+        {!BMid && (
+          <NavLink
+            to="userboardmeetings"
+            end
+            className={({ isActive, isPending, isTransitioning }) =>
+              isPending
+                ? "cursor-pointer px-4 py-1 text-sm  text-[#0c0a09]"
+                : isActive
+                ? "border-b-2 border-orange-600 text-[#0c0a09] cursor-pointer px-4 py-1 text-sm font-[500]"
+                : "cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09]"
+            }
+          >
+          to do 
+          </NavLink>
+        )}
+        {!BMid && (
+          <NavLink
+            to={`userboardmeetings/${BMid}/tasks`}
+            end
+            isActive={(match, location) =>
+              match ||
+              location.pathname.startsWith(`/users/${id}/boardmeetings`)
+            }
+            className={({ isActive, isPending, isTransitioning }) =>
+              isPending
+                ? "cursor-pointer px-4 py-1 text-sm text-[#0c0a09]"
+                : isActive
+                ? "border-b-2 border-orange-600 text-[#0c0a09] cursor-pointer px-4 py-1 text-sm font-[500]"
+                : "cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09]"
+            }
+          >
+           In-Progress
+          </NavLink>
+        )}
+
+        {!BMid && (
+          <NavLink
+            to="tasks"
+            end
+            className={({ isActive, isPending, isTransitioning }) =>
+              isPending
+                ? "cursor-pointer px-4 py-1 text-sm  text-[#0c0a09]"
+                : isActive
+                ? "border-b-2 border-orange-600 text-[#0c0a09] cursor-pointer px-4 py-1 text-sm font-[500]"
+                : "cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09]"
+            }
+          >
+           OverDue
+          </NavLink>
+        )}
+        {!BMid && (
+          <NavLink
+            to="documents"
+            end
+            className={({ isActive, isPending, isTransitioning }) =>
+              isPending
+                ? "cursor-pointer px-4 py-1 text-sm  text-[#0c0a09]"
+                : isActive
+                ? "border-b-2 border-orange-600 text-[#0c0a09] cursor-pointer px-4 py-1 text-sm font-[500]"
+                : "cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09]"
+            }
+          >
+         Completed
+          </NavLink>
+        )}
+        {!BMid && (
+          <NavLink
+            to={`userboardmeetings/${BMid}/documents`}
+            end
+            className={({ isActive, isPending, isTransitioning }) =>
+              isPending
+                ? "cursor-pointer px-4 py-1 text-sm  text-[#0c0a09]"
+                : isActive
+                ? "border-b-2 border-orange-600 text-[#0c0a09] cursor-pointer px-4 py-1 text-sm font-[500]"
+                : "cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09]"
+            }
+          >
+          Master
+          </NavLink>
+        )}
+
+    
+      </div>
+       
 
       </div>
       <div className=" mt-2 overflow-x-auto">
@@ -449,7 +532,7 @@ const Tasks = () => {
                         {task.subtaskCount > 0 && (
                           <span className="flex items-center ml-2 px-0.5 cursor-pointer border border-[#f8fafc] hover:border hover:border-gray-500 hover:rounded-sm hover:bg-gray-100">
                             <span className="text-sm">
-                              {task.subtaskCount}{" "}
+                              {task.subtaskCount}
                             </span>
                             <svg
                               viewBox="0 0 32 32"
