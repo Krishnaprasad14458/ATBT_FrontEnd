@@ -8,7 +8,8 @@ import Boardmeeting, {
 import Documents from "../../componentLayer/components/LandingPageComponents/Documents";
 import EntityLandingPage from "../../componentLayer/pages/entities/entityLandingPage/EntityLandingPage";
 import EntityOverview, {
-  entityLandingLoader,
+
+  entityOverviewLoader,
 } from "../../componentLayer/pages/entities/entityLandingPage/EntityOverview";
 import Entities, {
   action as entityAction,
@@ -49,7 +50,7 @@ export const entityRouter = [
       },
       {
         element: <EntityLandingPage />,
-        loader: entityLandingLoader,
+        // loader: entityLandingLoader,
         // handle: {
         //   crumb: (data) => (
         //     <Link to={data?.data?.threadPath}>{data?.data?.threadName}</Link>
@@ -59,7 +60,7 @@ export const entityRouter = [
           {
             index: true,
 
-            loader: entityLandingLoader,
+            loader: entityOverviewLoader,
             element: <EntityOverview />,
           },
 
