@@ -69,7 +69,11 @@ const UserLandingPage = () => {
 
         {!BMid && (
           <NavLink
-            to="tasks"
+            // to="tasks"
+            to={{
+              pathname: "tasks",
+              search: `?status=To-Do`,
+            }}
             end
             className={({ isActive, isPending, isTransitioning }) =>
               isPending

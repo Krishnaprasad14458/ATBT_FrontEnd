@@ -18,17 +18,20 @@ let status = [
   { label: "In-Progress", value: "In-Progress" },
   { label: "Completed", value: "Completed" },
 ];
+
 export async function tasksLoader({ request, params }) {
   try {
     const url = new URL(request.url);
 
     const taskID = url.searchParams.get("taskID");
     const subTaskID = url.searchParams.get("subTaskID");
+    const statusType = url.searchParams.get("status");
+console.log("statusType",statusType)
     const [tasks, task, subTasks, subTask, personResponsible] =
       await Promise.all([
         params.BMid
           ? atbtApi.get(`task/list?meetingId=${params.BMid}`)
-          : atbtApi.get(`task/list?userId=${params.id}`),
+          : statusType !== null ? atbtApi.get(`task/list?userId=${params.id}&status=${statusType}`) : atbtApi.get(`task/list?userId=${params.id}`),
         // atbtApi.get(`task/listAll?user=${params.id}`),
         taskID ? atbtApi.get(`task/listbyid/${taskID}`) : null,
         taskID ? atbtApi.get(`task/subList/${taskID}`) : null,
@@ -195,6 +198,7 @@ const Tasks = () => {
   const { id, BMid} = useParams();
   const [Qparams, setQParams] = useState({
     //  taskID:null
+    status:"To-Do"
   });
   useEffect(() => {
     debouncedParams(Qparams);
@@ -332,6 +336,16 @@ const Tasks = () => {
   const [isSubTaskInputActiveID, setIsSubTaskInputActive] = useState(null);
   const [autoFocusID, setAutoFocusID] = useState(null);
   const [autoFocusSubTaskID, setAutoFocussubTaskID] = useState(null);
+
+
+
+  const [activeLink, setActiveLink] = useState("toDo");
+
+  // Function to handle click and set active link
+  const handleNavLinkClick = (link) => {
+    setActiveLink(link);
+  };
+
   return (
     <div className="">
       <div className="flex justify-end">
@@ -350,98 +364,92 @@ const Tasks = () => {
             </svg>
             Add Task
           </button>
-        )}
+        }
       </div>
       <div>
 
 
       <div className="flex overflow-x-auto">
         {!BMid && (
-          <NavLink
-            to="userboardmeetings"
+            <NavLink
+            to="/users/160/tasks?status=To-Do"
             end
-            className={({ isActive, isPending, isTransitioning }) =>
-              isPending
-                ? "cursor-pointer px-4 py-1 text-sm  text-[#0c0a09]"
-                : isActive
-                ? "border-b-2 border-orange-600 text-[#0c0a09] cursor-pointer px-4 py-1 text-sm font-[500]"
-                : "cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09]"
-            }
+            className={`cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09] ${
+              activeLink === "toDo"
+                ? "border-b-2 border-orange-600"
+                : ""
+            }`}
+            onClick={() => handleNavLinkClick("toDo")}
           >
-          to do 
+            To do
           </NavLink>
         )}
         {!BMid && (
           <NavLink
-            to={`userboardmeetings/${BMid}/tasks`}
-            end
-            isActive={(match, location) =>
-              match ||
-              location.pathname.startsWith(`/users/${id}/boardmeetings`)
-            }
-            className={({ isActive, isPending, isTransitioning }) =>
-              isPending
-                ? "cursor-pointer px-4 py-1 text-sm text-[#0c0a09]"
-                : isActive
-                ? "border-b-2 border-orange-600 text-[#0c0a09] cursor-pointer px-4 py-1 text-sm font-[500]"
-                : "cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09]"
-            }
-          >
-           In-Progress
-          </NavLink>
+          to="/users/160/tasks?status=In-progress"
+          end
+          className={`cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09] ${
+            activeLink === "inProgress"
+              ? "border-b-2 border-orange-600"
+              : ""
+          }`}
+          onClick={() => handleNavLinkClick("inProgress")}
+        >
+          In-progress
+        </NavLink>
         )}
 
         {!BMid && (
           <NavLink
-            to="tasks"
-            end
-            className={({ isActive, isPending, isTransitioning }) =>
-              isPending
-                ? "cursor-pointer px-4 py-1 text-sm  text-[#0c0a09]"
-                : isActive
-                ? "border-b-2 border-orange-600 text-[#0c0a09] cursor-pointer px-4 py-1 text-sm font-[500]"
-                : "cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09]"
-            }
-          >
-           OverDue
-          </NavLink>
+          to="/users/160/tasks?status=overdue"
+          end
+          className={`cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09] ${
+            activeLink === "OverDue"
+              ? "border-b-2 border-orange-600"
+              : ""
+          }`}
+          onClick={() => handleNavLinkClick("OverDue")}
+        >
+      OverDue
+        </NavLink>
+         
         )}
         {!BMid && (
-          <NavLink
-            to="documents"
-            end
-            className={({ isActive, isPending, isTransitioning }) =>
-              isPending
-                ? "cursor-pointer px-4 py-1 text-sm  text-[#0c0a09]"
-                : isActive
-                ? "border-b-2 border-orange-600 text-[#0c0a09] cursor-pointer px-4 py-1 text-sm font-[500]"
-                : "cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09]"
-            }
-          >
-         Completed
-          </NavLink>
+           <NavLink
+           to="/users/160/tasks?status=Completed"
+           end
+           className={`cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09] ${
+             activeLink === "Completed"
+               ? "border-b-2 border-orange-600"
+               : ""
+           }`}
+           onClick={() => handleNavLinkClick("Completed")}
+         >
+       Completed
+         </NavLink>
+        
         )}
         {!BMid && (
-          <NavLink
-            to={`userboardmeetings/${BMid}/documents`}
-            end
-            className={({ isActive, isPending, isTransitioning }) =>
-              isPending
-                ? "cursor-pointer px-4 py-1 text-sm  text-[#0c0a09]"
-                : isActive
-                ? "border-b-2 border-orange-600 text-[#0c0a09] cursor-pointer px-4 py-1 text-sm font-[500]"
-                : "cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09]"
-            }
-          >
-          Master
-          </NavLink>
+         
+           <NavLink
+           to="/users/160/tasks"
+           end
+           className={`cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09] ${
+             activeLink === "Master"
+               ? "border-b-2 border-orange-600"
+               : ""
+           }`}
+           onClick={() => handleNavLinkClick("Master")}
+         >
+      Master
+         </NavLink>
         )}
 
     
       </div>
        
 
-
+<hr/>
       </div>
       <div className=" mt-2 overflow-x-auto">
         <table className="w-full divide-y divide-gray-200 dark:divide-gray-700 rounded-md">
