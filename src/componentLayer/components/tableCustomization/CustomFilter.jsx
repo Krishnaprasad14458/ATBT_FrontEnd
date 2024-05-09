@@ -122,7 +122,7 @@ function CustomFilter({
             className="overflow-y-auto px-2 py-2.5 content relative"
             style={{ maxHeight: "calc(100vh - 7rem)" }}
           >
-            <div className="text-start p-3 ">
+            <div className="text-start px-3 ">
               {/* {filter.label} */}
               {filterableInputsInBox?.map((filter, index) => (
                 <div key={index} className="">
@@ -149,41 +149,61 @@ function CustomFilter({
                     (filter.type === "multiselect" ||
                       filter.type === "select") && (
                       <div>
-                        <label className="mb-4 text-sm text-[#878a99] font-medium">
+                        <label className="block text-sm font-medium leading-6 mt-2 text-gray-900">
                           {filter.label.charAt(0).toUpperCase() +
                             filter.label.slice(1)}
                         </label>
-                        <select
-                          id={filter.inputname}
-                          name={filter.inputname}
-                          className="px-3 py-2 my-2 text-xs block w-full bg-gray-50 rounded-md text-gray-900 border border-1 border-[#e9ebec] placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-xs sm:leading-6"
-                          onChange={(e) =>
-                            handleFilterChange(filter.inputname, e.target.value)
-                          }
-                          value={selectedFilters[filter.inputname] || ""}
-                        >
-                          <option value="" disabled defaultValue>
-                            Please select
-                          </option>
-                          {filter.options &&
-                            filter.options.type === "custom" &&
-                            filter.options.value &&
-                            filter.options.value.map((option, index) => (
-                              <option key={index} value={option}>
-                                {option}
-                              </option>
-                            ))}
-                          {filter.options &&
-                            filter.options.type === "predefined" &&
-                            filter.options.value &&
-                            fieldsDropDownData[filter.options.value]?.map(
-                              (option, index) => (
-                                <option key={index} value={option.id}>
-                                  {option.name}
-                                </option>
+
+                        <div className="relative">
+                          <select
+                            id={filter.inputname}
+                            name={filter.inputname}
+                            className="px-2 py-2 text-sm block w-full rounded-md bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder:text-gray-400 appearance-none"
+                            // px-2 py-2 my-2 text-sm w-full bg-gray-50 rounded-md text-gray-900 border border-1 border-[#e9ebec] placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-xs sm:leading-6 
+                            onChange={(e) =>
+                              handleFilterChange(
+                                filter.inputname,
+                                e.target.value
                               )
-                            )}
-                             {/* {item.options.value &&
+                            }
+                            value={selectedFilters[filter.inputname] || ""}
+                            style={{
+                              fontSize: "0.8rem",
+                              color: selectedFilters[filter.inputname]
+                                ? "#111827"
+                                : "#a1a1aa",
+                            }}
+                          >
+                            <option value="" disabled defaultValue>
+                              Select
+                            </option>
+                            {filter.options &&
+                              filter.options.type === "custom" &&
+                              filter.options.value &&
+                              filter.options.value.map((option, index) => (
+                                <option
+                                  key={index}
+                                  value={option}
+                                  style={{ color: "#111827" }}
+                                >
+                                  {option}
+                                </option>
+                              ))}
+                            {filter.options &&
+                              filter.options.type === "predefined" &&
+                              filter.options.value &&
+                              fieldsDropDownData[filter.options.value]?.map(
+                                (option, index) => (
+                                  <option
+                                    key={index}
+                                    value={option.id}
+                                    style={{ color: "#111827" }}
+                                  >
+                                    {option.name}
+                                  </option>
+                                )
+                              )}
+                            {/* {item.options.value &&
                             data?.fieldsDropDownData?.role &&
                             data?.fieldsDropDownData?.role.map(
                               (option, index) => (
@@ -192,7 +212,23 @@ function CustomFilter({
                                 </option>
                               )
                             )} */}
-                        </select>
+                          </select>
+
+                          <svg
+                            className="w-4 h-4 text-gray-700 absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth="2"
+                              d="M19 9l-7 7-7-7"
+                            />
+                          </svg>
+                        </div>
                       </div>
                     )}
                 </div>

@@ -27,8 +27,12 @@ export const formatDate = (createdAt) => {
 };
 
 export function caseLetter(string) {
+  // Check if the string is defined and has a value
+  if (typeof string !== 'string' || string.trim() === '') {
+      return ''; // Return an empty string if the input is invalid
+  }
+
   return string.split(" ")
-      .map(string => string.charAt(0).toUpperCase() + string.slice(1))
+      .map(word => word.charAt(0).toUpperCase() + word.slice(1))
       .join(" ");
 }
-
