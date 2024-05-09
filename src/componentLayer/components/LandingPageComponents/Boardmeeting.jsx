@@ -153,7 +153,7 @@ function Boardmeeting() {
     <div className="overflow-x-auto p-3">
       {/* search & filter */}
       <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3 xl:grid-col-3 gap-2 mt-2">
-       <span className="col-span-1"> </span>
+        <span className="col-span-1"> </span>
         <div className="col-span-1 text-start">
           <label
             for="default-search"
@@ -417,7 +417,12 @@ function Boardmeeting() {
                             type="button"
                             className="inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
                           >
-                            <Link to={`/boardmeetings/${row.id}/edit`}>
+                            <Link
+                              to={{
+                                pathname: `/boardmeetings/${row.id}/edit`,
+                                search: `?boardmeetingFor=${moduleName}&boardmeetingForID=${id}`,
+                              }}
+                            >
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 viewBox="0 0 20 20"

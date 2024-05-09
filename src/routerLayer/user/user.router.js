@@ -19,6 +19,7 @@ import Tasks, {
   tasksLoader,
 } from "../../componentLayer/components/LandingPageComponents/Tasks";
 import BoardMeetingOverview, { boardMeetingOverviewLoader } from "../../componentLayer/pages/boardmeetings/boardMeetingLandingPage/BoardMeetingOverview";
+import BoardMeetingForm, { boardmeetingFormLoader } from "../../componentLayer/pages/boardmeetings/createBoardMeetingForm/BoardMeetingForm";
 
 export const userRouter = [
   //   /users     <users/>
@@ -134,6 +135,7 @@ export const userRouter = [
                   },
                 ],
               },
+            
             ],
           },
           // /users/:id/documents                     documents

@@ -16,7 +16,7 @@ export async function boardmeetingFormLoader({ params }) {
   try {
     const [formResponse, boardmeetingResponse, usersList] = await Promise.all([
       atbtApi.get(`form/list?name=boardmeetingform`),
-      params.id ? atbtApi.get(`boardmeeting/list/${params.id}`) : null, //Api for edit
+      params.id ? atbtApi.get(`boardmeeting/getByid/${params.id}`) : null, //Api for edit
       atbtApi.post(`public/list/user`),
     ]);
     let boardmeetingData = null;
@@ -457,7 +457,11 @@ let response;
       console.log("jsonData submitted", response);
       if (response?.status === 201) {
         console.log("data is 201");
-        navigate(`/boardmeetings/${response.data}`);
+        if(boardmeetingFor ==="user"){
+    
+       navigate(`/users/${boardmeetingForID}/userboardmeetings/${response.data}`);
+
+        }
       }
     }
   }
