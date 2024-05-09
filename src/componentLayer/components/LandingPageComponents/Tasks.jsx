@@ -352,11 +352,11 @@ const Tasks = () => {
         )}
       </div>
       <div>
-        <span>active </p>{" "}
-        <p>to do  </p>{" "}
-        <p>Overdue </p>{" "}
-        <p>completed </p>{" "}
-        <p>master </p>{" "}
+        <span>active </p>
+        <p>to do  </p>
+        <p>Overdue </p>
+        <p>completed </p>
+        <p>master </p>
 
       </div>
       <div className=" mt-2 overflow-x-auto">
