@@ -40,7 +40,7 @@ const UserLandingPage = () => {
               isPending
                 ? "cursor-pointer px-4 py-1 text-sm  text-[#0c0a09]"
                 : isActive
-                ? "border-b-2 border-orange-600 text-[#0c0a09] cursor-pointer px-4 py-1 text-sm font-[500]"
+                ? "border-b-2 border-orange-500 text-orange-600 cursor-pointer px-4 py-1 text-sm font-[500]"
                 : "cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09]"
             }
           >
@@ -59,7 +59,7 @@ const UserLandingPage = () => {
               isPending
                 ? "cursor-pointer px-4 py-1 text-sm text-[#0c0a09]"
                 : isActive
-                ? "border-b-2 border-orange-600 text-[#0c0a09] cursor-pointer px-4 py-1 text-sm font-[500]"
+                ? "border-b-2 border-orange-500 text-orange-600 cursor-pointer px-4 py-1 text-sm font-[500]"
                 : "cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09]"
             }
           >
@@ -79,7 +79,7 @@ const UserLandingPage = () => {
               isPending
                 ? "cursor-pointer px-4 py-1 text-sm  text-[#0c0a09]"
                 : isActive
-                ? "border-b-2 border-orange-600 text-[#0c0a09] cursor-pointer px-4 py-1 text-sm font-[500]"
+                ? "border-b-2 border-orange-500 text-orange-600 cursor-pointer px-4 py-1 text-sm font-[500]"
                 : "cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09]"
             }
           >
@@ -94,7 +94,7 @@ const UserLandingPage = () => {
               isPending
                 ? "cursor-pointer px-4 py-1 text-sm  text-[#0c0a09]"
                 : isActive
-                ? "border-b-2 border-orange-600 text-[#0c0a09] cursor-pointer px-4 py-1 text-sm font-[500]"
+                ? "border-b-2 border-orange-500 text-orange-600 cursor-pointer px-4 py-1 text-sm font-[500]"
                 : "cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09]"
             }
           >
@@ -109,7 +109,7 @@ const UserLandingPage = () => {
               isPending
                 ? "cursor-pointer px-4 py-1 text-sm  text-[#0c0a09]"
                 : isActive
-                ? "border-b-2 border-orange-600 text-[#0c0a09] cursor-pointer px-4 py-1 text-sm font-[500]"
+                ? "border-b-2 border-orange-500 text-orange-600 cursor-pointer px-4 py-1 text-sm font-[500]"
                 : "cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09]"
             }
           >
@@ -125,7 +125,7 @@ const UserLandingPage = () => {
               isPending
                 ? "cursor-pointer px-4 py-1 text-sm  text-[#0c0a09]"
                 : isActive
-                ? "border-b-2 border-orange-600 text-[#0c0a09] cursor-pointer px-4 py-1 text-sm font-[500]"
+                ? "border-b-2 border-orange-500 text-orange-600 cursor-pointer px-4 py-1 text-sm font-[500]"
                 : "cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09]"
             }
           >
@@ -140,7 +140,7 @@ const UserLandingPage = () => {
               isPending
                 ? "cursor-pointer px-4 py-1 text-sm  text-[#0c0a09]"
                 : isActive
-                ? "border-b-2 border-orange-600 text-[#0c0a09] cursor-pointer px-4 py-1 text-sm font-[500]"
+                ? "border-b-2 border-orange-500 text-orange-600 cursor-pointer px-4 py-1 text-sm font-[500]"
                 : "cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09]"
             }
           >

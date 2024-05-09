@@ -289,7 +289,11 @@ function Users() {
                 users?.users?.map((row) => (
                   <tr
                     key={row.id}
-                    className="hover:bg-slate-100 dark:hover:bg-gray-700"
+                    // className="hover:bg-slate-100 dark:hover:bg-gray-700"
+                    className={`hover:bg-slate-100 dark:hover:bg-gray-700 ${
+                      row.userstatus ? '' : 'bg-[#f3f4f6] hover:bg-[#f3f4f6] text-gray-400'
+                  }`}
+            
                   >
                     {visibleColumns.map((key) => {
                       let value = row[key];
@@ -436,7 +440,8 @@ function Users() {
                           <button
                             type="button"
                             title="Edit"
-                            className=" inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
+                            // disabled={row.userstatus == false}
+                            className={`inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg  hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600 ` }
                           >
                             <Link to={`${row.id}/edit`}>
                               <svg
@@ -494,7 +499,7 @@ function Users() {
                                 userId == row.id
                                   ? "text-gray-500 bg-gray-50 cursor-not-allowed"
                                   : "bg-gray-50 text-[#475569] hover:text-orange-500"
-                              } items-center  text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50  dark:text-blue-500 dark:hover:text-blue-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600 `}
+                              } items-center  text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50  dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600 `}
                             >
                               {row.userstatus !== undefined && (
                                 <label
@@ -513,7 +518,7 @@ function Users() {
                                 >
                                   <div
                                     className={`w-6 h-3 rounded-full shadow-inner ${
-                                      row.userstatus
+                                      row.userstatus 
                                         ? " bg-[#ea580c]"
                                         : "bg-[#c3c6ca]"
                                     }`}
@@ -600,7 +605,9 @@ function Users() {
                   <div className="w-full flex justify-end ">
                     <button
                       onClick={(e) => handleUserStatus()}
-                      className="mr-3 px-3 py-2 inline-flex  whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white"
+                      className={`mr-3 px-3 py-2 inline-flex  whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white
+                       
+                      `}
                     >
                       {user_status ? "Deactivate" : "Activate"}
                     </button>
