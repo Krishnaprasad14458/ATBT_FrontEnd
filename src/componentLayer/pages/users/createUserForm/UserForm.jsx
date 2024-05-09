@@ -1392,7 +1392,7 @@ function UserForm() {
             <div className="">
               <button
                 type="submit"
-                className="mt-4 flex w-full justify-center rounded-md bg-orange-600 px-3 py-2.5 text-sm font-medium leading-6 text-white shadow-sm  focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600"
+                className="mt-3 flex w-full justify-center rounded-md bg-orange-600 px-3 py-2.5 text-sm font-medium leading-6 text-white shadow-sm  focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600"
               >
                 {id ? "Update User" : "Create User"}
               </button>
@@ -1569,7 +1569,7 @@ function UserForm() {
                                   <span className="  flex gap-2 w-4/6">
                                     <span> : </span>{" "}
                                     <span className="text-md font-[600] ">
-                                      {item.value}
+                                      {caseLetter(item.value)}
                                     </span>
                                   </span>
                                 </p>
@@ -1724,26 +1724,35 @@ function UserForm() {
                           const day = date.getUTCDate();
                           const monthIndex = date.getUTCMonth();
                           const year = date.getUTCFullYear();
-
                           const monthAbbreviations = [
-                            "Jan",
-                            "Feb",
-                            "Mar",
-                            "Apr",
+                            "January",
+                            "February",
+                            "March",
+                            "April",
                             "May",
-                            "Jun",
-                            "Jul",
-                            "Aug",
-                            "Sep",
-                            "Oct",
-                            "Nov",
-                            "Dec",
+                            "June",
+                            "July",
+                            "August",
+                            "September",
+                            "October",
+                            "November",
+                            "December",
                           ];
-
-                          // Formatting the date
-                          date = `${day < 10 ? "0" : ""}${day}-${
-                            monthAbbreviations[monthIndex]
-                          }-${year}`;
+                          let ordinalsText = "";
+                          if (day == 1 || day == 21 || day == 31) {
+                            ordinalsText = "st";
+                          } else if (day == 2 || day == 22) {
+                            ordinalsText = "nd";
+                          } else if (day == 3 || day == 23) {
+                            ordinalsText = "rd";
+                          } else {
+                            ordinalsText = "th";
+                          }
+      
+                           // Formatting the date
+                    date = ` ${monthAbbreviations[monthIndex]} ${
+                      day < 10 ? "0" : ""
+                    }${day}${ordinalsText}, ${year}`;
 
                           return (
                             <div className="">

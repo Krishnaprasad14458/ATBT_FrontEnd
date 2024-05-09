@@ -1282,10 +1282,72 @@ let response;
                           )}
                       </span>
                       <span>
-                        {item.type === "date" &&
+
+
+                      {item.type === "date" &&
+                          item.inputname === "date" &&
+                          item.field === "predefined" &&
+                  (() => {
+                    let date = new Date(item.value);
+                    const day = date.getUTCDate();
+                    const monthIndex = date.getUTCMonth();
+                    const year = date.getUTCFullYear();
+
+                    const monthAbbreviations = [
+                      "January",
+                      "February",
+                      "March",
+                      "April",
+                      "May",
+                      "June",
+                      "July",
+                      "August",
+                      "September",
+                      "October",
+                      "November",
+                      "December",
+                    ];
+                    let ordinalsText = "";
+                    if (day == 1 || day == 21 || day == 31) {
+                      ordinalsText = "st";
+                    } else if (day == 2 || day == 22) {
+                      ordinalsText = "nd";
+                    } else if (day == 3 || day == 23) {
+                      ordinalsText = "rd";
+                    } else {
+                      ordinalsText = "th";
+                    }
+
+                     // Formatting the date
+              date = ` ${monthAbbreviations[monthIndex]} ${
+                day < 10 ? "0" : ""
+              }${day}${ordinalsText}, ${year}`;
+                    return (
+                      <div>
+
+
+                      {item.value ? (
+                        <p className="text-sm absolute bottom-2 right-2">
+                       Date : {date ? date : "No Date"}
+                        </p>
+                      ) : (
+                        <p className="text-sm text-gray-400 absolute bottom-2 right-2">
+                          Date:month date, year
+                        </p>
+                      )}
+                    </div>
+                  )
+                  })()}
+
+
+
+
+                        {/* {item.type === "date" &&
                           item.inputname === "date" &&
                           item.field === "predefined" && (
                             <div>
+
+
                               {item.value ? (
                                 <p className="text-sm absolute bottom-4 right-2">
                                   {" "}
@@ -1297,7 +1359,7 @@ let response;
                                 </p>
                               )}
                             </div>
-                          )}
+                          )} */}
                       </span>
                     </div>
                     {item.type === "textarea" &&
