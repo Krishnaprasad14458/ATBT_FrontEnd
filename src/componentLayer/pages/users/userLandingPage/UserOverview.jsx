@@ -35,7 +35,7 @@ const UserOverview = () => {
   const { id } = useParams();
   const data = useLoaderData();
   const customFormField = data?.data?.data?.user?.customFieldsData;
-console.log("customFormField",customFormField)
+  console.log("customFormField", customFormField);
   // for the active tabs
   const location = useLocation();
   const currentURL = location.pathname.split("/");
@@ -172,13 +172,13 @@ console.log("customFormField",customFormField)
                         className="absolute  bottom-3 text-sm antialiased leading-snug tracking-normal text-blue-gray-900 w-3/6 truncate md:w-5/6 "
                         title={item.value.toUpperCase()}
                       >
-                       {data?.entityList?.find(
+                        {
+                          data?.entityList?.find(
                             (i) => i.id === parseInt(item.value)
-                          )?.name}
+                          )?.name
+                        }
                       </p>
-
                     </div>
-
                   )}
 
                 {item.type === "email" &&
@@ -387,7 +387,6 @@ console.log("customFormField",customFormField)
                     const monthIndex = date.getUTCMonth();
                     const year = date.getUTCFullYear();
 
-                  
                     const monthAbbreviations = [
                       "January",
                       "February",
@@ -413,10 +412,10 @@ console.log("customFormField",customFormField)
                       ordinalsText = "th";
                     }
 
-                     // Formatting the date
-              date = ` ${monthAbbreviations[monthIndex]} ${
-                day < 10 ? "0" : ""
-              }${day}${ordinalsText}, ${year}`;
+                    // Formatting the date
+                    date = ` ${monthAbbreviations[monthIndex]} ${
+                      day < 10 ? "0" : ""
+                    }${day}${ordinalsText}, ${year}`;
                     return (
                       <div className="my-3 mx-5">
                         {item.value && item.value.length > 0 && (
