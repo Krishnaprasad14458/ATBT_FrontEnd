@@ -52,6 +52,10 @@ export async function action({ request, params }) {
       console.log(id, "json", id);
       return await atbtApi.delete(`user/delete/${id}`);
     }
+    case "PUT" :{
+      const requestData = (await request.json()) || null;
+      return await atbtApi.put(`toggle/${requestData.id}`,{requestData});
+    }
     default: {
       throw new Response("", { status: 405 });
     }
