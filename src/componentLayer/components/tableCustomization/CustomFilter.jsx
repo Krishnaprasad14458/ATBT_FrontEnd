@@ -159,7 +159,7 @@ function CustomFilter({
                             id={filter.inputname}
                             name={filter.inputname}
                             className="px-2 py-2 text-sm block w-full rounded-md bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder:text-gray-400 appearance-none"
-                            // px-2 py-2 my-2 text-sm w-full bg-gray-50 rounded-md text-gray-900 border border-1 border-[#e9ebec] placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-xs sm:leading-6 
+                            // px-2 py-2 my-2 text-sm w-full bg-gray-50 rounded-md text-gray-900 border border-1 border-[#e9ebec] placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-xs sm:leading-6
                             onChange={(e) =>
                               handleFilterChange(
                                 filter.inputname,
