@@ -271,8 +271,7 @@ function Users() {
                 {visibleColumns.map((key) => (
                   <th
                     key={key}
-                    className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200 "
-                  >
+                    className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200">
                     {tableView[key].label}
                   </th>
                 ))}
@@ -330,7 +329,7 @@ function Users() {
                             key={key}
                             className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  hover:text-orange-500 overflow-hidden`}
                             style={{ maxWidth: "160px" }}
-                            title={row[key]}
+                            title={caseLetter(row[key])}
                           >
                             <GateKeeper
                               permissionCheck={(permission) =>
@@ -347,34 +346,32 @@ function Users() {
                         );
                       }
                      else if (key === "entityname") {
+                      let entity_name =  fieldsDropDownData?.entityname?.find(
+                        (i) => i.id === parseInt(value)
+                      )?.name
                         return (
                           <td
                             key={key}
                             className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  hover:text-orange-500 overflow-hidden`}
                             style={{ maxWidth: "160px" }}
-                            title={row[key]}
+                            title={caseLetter(entity_name)}
                           >
-                               {
-                                    fieldsDropDownData?.entityname?.find(
-                                      (i) => i.id === parseInt(value)
-                                    )?.name
-                                  }
+                             {caseLetter(entity_name)}
                           </td>
                         );
                       }
                       else if (key === "role") {
+                        let role_name = fieldsDropDownData?.role?.find(
+                          (i) => i.id === parseInt(value)
+                        )?.name
                         return (
                           <td
                             key={key}
                             className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  hover:text-orange-500 overflow-hidden`}
                             style={{ maxWidth: "160px" }}
-                            title={row[key]}
+                            title= {caseLetter( role_name)}
                           >
-                               {
-                                    fieldsDropDownData?.role?.find(
-                                      (i) => i.id === parseInt(value)
-                                    )?.name
-                                  }
+                               {caseLetter( role_name)}
                           </td>
                         );
                       } else {
