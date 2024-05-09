@@ -177,8 +177,7 @@ console.log("customFormField",customFormField)
                             (i) => i.id === parseInt(item.value)
                           )?.name}
                       </p>
-                      hh
-                    </div>
+                     </div>
                   )}
 
                 {item.type === "email" &&
@@ -387,25 +386,36 @@ console.log("customFormField",customFormField)
                     const monthIndex = date.getUTCMonth();
                     const year = date.getUTCFullYear();
 
+                  
                     const monthAbbreviations = [
-                      "Jan",
-                      "Feb",
-                      "Mar",
-                      "Apr",
+                      "January",
+                      "February",
+                      "March",
+                      "April",
                       "May",
-                      "Jun",
-                      "Jul",
-                      "Aug",
-                      "Sep",
-                      "Oct",
-                      "Nov",
-                      "Dec",
+                      "June",
+                      "July",
+                      "August",
+                      "September",
+                      "October",
+                      "November",
+                      "December",
                     ];
+                    let ordinalsText = "";
+                    if (day == 1 || day == 21 || day == 31) {
+                      ordinalsText = "st";
+                    } else if (day == 2 || day == 22) {
+                      ordinalsText = "nd";
+                    } else if (day == 3 || day == 23) {
+                      ordinalsText = "rd";
+                    } else {
+                      ordinalsText = "th";
+                    }
 
-                    // Formatting the date
-                    date = `${day < 10 ? "0" : ""}${day}-${
-                      monthAbbreviations[monthIndex]
-                    }-${year}`;
+                     // Formatting the date
+              date = ` ${monthAbbreviations[monthIndex]} ${
+                day < 10 ? "0" : ""
+              }${day}${ordinalsText}, ${year}`;
                     return (
                       <div className="my-3 mx-5">
                         {item.value && item.value.length > 0 && (
