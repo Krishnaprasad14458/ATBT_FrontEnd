@@ -33,19 +33,19 @@ export const meetingRouter = [
         loader: boardmeetingFormLoader,
         element: <BoardMeetingForm />,
       },
-      {
-        element: <BoardMeetingLandingPage />,
-        children: [
-          { index: true, element: <BoardMeetingOverview /> },
-          {
-            path: "task",
-            loader: tasksLoader,
-            action: TasksActions,
-            element: <Tasks />,
-          },
-          { path: "documents", element: <Documents /> },
-        ],
-      },
+      // {
+      //   element: <BoardMeetingLandingPage />,
+      //   children: [
+      //     { index: true, element: <BoardMeetingOverview /> },
+      //     {
+      //       path: "task",
+      //       loader: tasksLoader,
+      //       action: TasksActions,
+      //       element: <Tasks />,
+      //     },
+      //     { path: "documents", element: <Documents /> },
+      //   ],
+      // },
     ],
   },
 ];

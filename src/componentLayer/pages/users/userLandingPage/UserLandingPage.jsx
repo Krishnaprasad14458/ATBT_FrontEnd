@@ -12,10 +12,9 @@ import { getUserById } from "../../../../contexts/usersDataContext/utils/usersAp
 import BreadCrumbs from "../../../components/breadcrumbs/BreadCrumbs";
 
 const UserLandingPage = () => {
- 
   const { id, BMid } = useParams();
   const data = useLoaderData();
-  
+
   const {
     usersState: { users },
     getUser,
@@ -25,7 +24,6 @@ const UserLandingPage = () => {
   const currentURL = location.pathname.split("/");
   console.log("currentURL", currentURL);
 
- 
   return (
     <div className=" p-4 bg-[#f8fafc]">
       <div className="flex justify-between my-2">
@@ -46,12 +44,12 @@ const UserLandingPage = () => {
                 : "cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09]"
             }
           >
-            Board Meetings
+          User Board Meetings
           </NavLink>
         )}
         {BMid && (
           <NavLink
-            to={`userboardmeetings/${BMid}`}
+            to={`userboardmeetings/${BMid}/tasks`}
             end
             isActive={(match, location) =>
               match ||
@@ -65,50 +63,86 @@ const UserLandingPage = () => {
                 : "cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09]"
             }
           >
-            Board Meetings - Tasks
+            Board Meetings Tasks
           </NavLink>
         )}
 
-        <NavLink
-          to="tasks"
-          end
-          className={({ isActive, isPending, isTransitioning }) =>
-            isPending
-              ? "cursor-pointer px-4 py-1 text-sm  text-[#0c0a09]"
-              : isActive
-              ? "border-b-2 border-orange-600 text-[#0c0a09] cursor-pointer px-4 py-1 text-sm font-[500]"
-              : "cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09]"
-          }
-        >
-          Tasks
-        </NavLink>
-        <NavLink
-          to="documents"
-          end
-          className={({ isActive, isPending, isTransitioning }) =>
-            isPending
-              ? "cursor-pointer px-4 py-1 text-sm  text-[#0c0a09]"
-              : isActive
-              ? "border-b-2 border-orange-600 text-[#0c0a09] cursor-pointer px-4 py-1 text-sm font-[500]"
-              : "cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09]"
-          }
-        >
-          Documents
-        </NavLink>
+        {!BMid && (
+          <NavLink
+            to="tasks"
+            end
+            className={({ isActive, isPending, isTransitioning }) =>
+              isPending
+                ? "cursor-pointer px-4 py-1 text-sm  text-[#0c0a09]"
+                : isActive
+                ? "border-b-2 border-orange-600 text-[#0c0a09] cursor-pointer px-4 py-1 text-sm font-[500]"
+                : "cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09]"
+            }
+          >
+           User Tasks
+          </NavLink>
+        )}
+        {!BMid && (
+          <NavLink
+            to="documents"
+            end
+            className={({ isActive, isPending, isTransitioning }) =>
+              isPending
+                ? "cursor-pointer px-4 py-1 text-sm  text-[#0c0a09]"
+                : isActive
+                ? "border-b-2 border-orange-600 text-[#0c0a09] cursor-pointer px-4 py-1 text-sm font-[500]"
+                : "cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09]"
+            }
+          >
+          User  Documents
+          </NavLink>
+        )}
+        {BMid && (
+          <NavLink
+            to={`userboardmeetings/${BMid}/documents`}
+            end
+            className={({ isActive, isPending, isTransitioning }) =>
+              isPending
+                ? "cursor-pointer px-4 py-1 text-sm  text-[#0c0a09]"
+                : isActive
+                ? "border-b-2 border-orange-600 text-[#0c0a09] cursor-pointer px-4 py-1 text-sm font-[500]"
+                : "cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09]"
+            }
+          >
+          Board Meeting  Documents
+          </NavLink>
+        )}
 
-        <NavLink
-          to="."
-          end
-          className={({ isActive, isPending, isTransitioning }) =>
-            isPending
-              ? "cursor-pointer px-4 py-1 text-sm  text-[#0c0a09]"
-              : isActive
-              ? "border-b-2 border-orange-600 text-[#0c0a09] cursor-pointer px-4 py-1 text-sm font-[500]"
-              : "cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09]"
-          }
-        >
-          Overview
-        </NavLink>
+        {!BMid && (
+          <NavLink
+            to="."
+            end
+            className={({ isActive, isPending, isTransitioning }) =>
+              isPending
+                ? "cursor-pointer px-4 py-1 text-sm  text-[#0c0a09]"
+                : isActive
+                ? "border-b-2 border-orange-600 text-[#0c0a09] cursor-pointer px-4 py-1 text-sm font-[500]"
+                : "cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09]"
+            }
+          >
+          User  Overview
+          </NavLink>
+        )}
+        {BMid && (
+          <NavLink
+            to={`userboardmeetings/${BMid}`}
+            end
+            className={({ isActive, isPending, isTransitioning }) =>
+              isPending
+                ? "cursor-pointer px-4 py-1 text-sm  text-[#0c0a09]"
+                : isActive
+                ? "border-b-2 border-orange-600 text-[#0c0a09] cursor-pointer px-4 py-1 text-sm font-[500]"
+                : "cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09]"
+            }
+          >
+          Board Meeting  Overview
+          </NavLink>
+        )}
       </div>
       <hr />
       <Outlet />

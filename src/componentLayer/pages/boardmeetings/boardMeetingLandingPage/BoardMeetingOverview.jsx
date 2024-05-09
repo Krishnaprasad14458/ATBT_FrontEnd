@@ -1,75 +1,29 @@
-import React, {useState,useEffect,useContext,} from "react";
-import { Link, Outlet, useParams } from "react-router-dom";
-import { BoardMeetingsDataContext } from "../../../../contexts/boardmeetingsDataContext/boardmeetingsDataContext";
+import React, { useState, useEffect, useContext } from "react";
+import { Link, Outlet, useLoaderData, useParams } from "react-router-dom";
 import axios from "axios";
+import atbtApi from "../../../../serviceLayer/interceptor";
+export const boardMeetingOverviewLoader = async ({ params }) => {
+  try {
+    const [data] = await Promise.all([
+      atbtApi.get(`boardmeeting/getByid/${params?.BMid}`),
+      // atbtApi.post(`entity/User/list/${params?.id}`),
+    ]);
+    // data.threadName = data?.user?.name;
+    // data.threadPath = `/users/${params.id}`;
+    console.log("bm overview combined data", data);
+    return { data };
+  } catch (error) {
+    console.error("Error loading dashboard:", error);
+    return null;
+    // throw redirect(`/${error?.response?.status ?? "500"}`);
+  }
+};
 const BoardMeetingOverview = () => {
-  const {
-    getBoardMeetingbyId,
-    boardmeetingsState: { boardmeetings },
-  } = useContext(BoardMeetingsDataContext);
   const { id } = useParams();
-  const [singleProduct, setSingleProduct] = useState({});
-
-  // For tabs active
-  const getSingleProduct = async () => {
-    try {
-      const boardmeetingById = boardmeetings?.BoardMeetings?.find(
-        (element) => element.id === +id
-      );
-      if (!boardmeetingById) {
-        const product = await getBoardMeetingbyId(id);
-        setSingleProduct(product?.data?.BoardMeetings);
-      } else {
-        setSingleProduct(boardmeetingById);
-      }
-    } catch (e) {
-      console.error(e);
-      throw e;
-    }
-  };
-  useEffect(() => {
-    getSingleProduct();
-  }, [id]);
-
-  // for calendar
-
-  // ----
-  const [isOpen, setIsOpen] = useState(false);
-
-  const toggleDrawer = () => {
-    setIsOpen(!isOpen);
-  };
-  // ---full screen
-
-  let [customFormField, setCustomFormField] = useState();
+  let data = useLoaderData();
+  let customFormField = data?.data?.data?.customFieldsData;
 
   const userData = JSON.parse(localStorage.getItem("data"));
-  const token = userData?.token;
-  let response;
-  let [predefinedImage, setPredefinedImage] = useState("");
-  useEffect(() => {
-    axios
-      .get(`https://atbtbeta.infozit.com/boardmeeting/list/${id}`, {
-        headers: {
-          authorization: token,
-        },
-      })
-      .then((res) => {
-        // Handle the successful response
-        response = res;
-        console.log("response", response.data.image);
-        setPredefinedImage(response.data.image);
-        setCustomFormField(response.data.customFieldsData);
-      })
-      .catch((error) => {
-        // Handle errors
-        console.error("Error fetching data:", error);
-      });
-  }, []);
-  useEffect(() => {
-    console.log("customFormField", customFormField);
-  }, [customFormField]);
-
   // to set the time in 12hours
   function formatTime(timeString) {
     // Splitting the timeString to extract hours and minutes
@@ -96,31 +50,31 @@ const BoardMeetingOverview = () => {
 
   return (
     <div className=" p-4 bg-[#f8fafc]">
-<div className="flex justify-end gap-3">
-<Link
-        to={`../${id}/edit`}
-        relative="path"
-        className="text-sm font-medium transition-colors  focus-visible:ring-1 focus-visible:ring-ring  text-gray-900 pt-2 hover:text-orange-600"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 20 20"
-          fill="currentColor"
-          className="w-5 h-5 text-gray-900"
+      <div className="flex justify-end gap-3">
+      
+        <Link
+          to={`../${id}/edit`}
+          relative="path"
+          className="text-sm font-medium transition-colors  focus-visible:ring-1 focus-visible:ring-ring  text-gray-900 pt-2 hover:text-orange-600"
         >
-          <path d="m2.695 14.762-1.262 3.155a.5.5 0 0 0 .65.65l3.155-1.262a4 4 0 0 0 1.343-.886L17.5 5.501a2.121 2.121 0 0 0-3-3L3.58 13.419a4 4 0 0 0-.885 1.343Z" />
-        </svg>
-      </Link>
-   <Link  to={`/boardmeetings/${id}/task`}>
-   <button
-                type="submit"
-                className=" flex  justify-center rounded-md bg-orange-600 px-3 py-2 text-sm font-medium leading-6 text-white shadow-sm  focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600"
-              >
-                Create Task
-              </button>
-              </Link>
-  
-</div>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+            className="w-5 h-5 text-gray-900"
+          >
+            <path d="m2.695 14.762-1.262 3.155a.5.5 0 0 0 .65.65l3.155-1.262a4 4 0 0 0 1.343-.886L17.5 5.501a2.121 2.121 0 0 0-3-3L3.58 13.419a4 4 0 0 0-.885 1.343Z" />
+          </svg>
+        </Link>
+        <Link to={`/boardmeetings/${id}/task`}>
+          <button
+            type="submit"
+            className=" flex  justify-center rounded-md bg-orange-600 px-3 py-2 text-sm font-medium leading-6 text-white shadow-sm  focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600"
+          >
+            Create Task
+          </button>
+        </Link>
+      </div>
       <div className="mt-3 flex justify-center">
         <div className=" w-full md:w-full  lg:w-11/12 xl:11/12 shadow-md border-2 rounded-md  px-4 pb-4 pt-1">
           <div className="flex justify-end "></div>
@@ -134,9 +88,10 @@ const BoardMeetingOverview = () => {
                     {item.type === "number" &&
                       item.inputname === "meetingnumber" &&
                       item.field === "predefined" && (
-                
-                          <p className="text-md w-5/6 truncate"> Meeting Id : {item.value}</p>
-                        
+                        <p className="text-md w-5/6 truncate">
+                          {" "}
+                          Meeting Id : {item.value}
+                        </p>
                       )}
 
                     {item.type === "date" &&

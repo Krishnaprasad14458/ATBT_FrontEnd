@@ -14,28 +14,28 @@ const Documents = () => {
   const token = userData?.token;
   let response;
   let [predefinedImage, setPredefinedImage] = useState("");
-  useEffect(() => {
-    axios
-      .get(`https://atbtbeta.infozit.com/entity/list/${id}`, {
-        headers: {
-          authorization: token,
-        },
-      })
-      .then((res) => {
-        // Handle the successful response
-        response = res;
-        console.log("response", response.data.image);
-        setPredefinedImage(response.data.image);
-        setCustomFormField(response.data.customFieldsData);
-      })
-      .catch((error) => {
-        // Handle errors
-        console.error("Error fetching data:", error);
-      });
-  }, []);
-  useEffect(() => {
-    console.log("customFormField", customFormField);
-  }, [customFormField]);
+  // useEffect(() => {
+  //   axios
+  //     .get(`https://atbtbeta.infozit.com/entity/list/${id}`, {
+  //       headers: {
+  //         authorization: token,
+  //       },
+  //     })
+  //     .then((res) => {
+  //       // Handle the successful response
+  //       response = res;
+  //       console.log("response", response.data.image);
+  //       setPredefinedImage(response.data.image);
+  //       setCustomFormField(response.data.customFieldsData);
+  //     })
+  //     .catch((error) => {
+  //       // Handle errors
+  //       console.error("Error fetching data:", error);
+  //     });
+  // }, []);
+  // useEffect(() => {
+  //   console.log("customFormField", customFormField);
+  // }, [customFormField]);
   return (
     <div>
       <div className="mt-4">

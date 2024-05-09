@@ -4,7 +4,7 @@ import { Link, Outlet, useParams,useLoaderData ,redirect } from "react-router-do
 import { EntitiesDataContext } from "../../../../contexts/entitiesDataContext/entitiesDataContext";
 import axios from "axios";
 import atbtApi from "../../../../serviceLayer/interceptor";
-export const entityLandingLoader = async ({ params }) => {
+export const entityOverviewLoader = async ({ params }) => {
   try {
     const [data, UsersList] = await Promise.all([
       atbtApi.get(`/entity/list/${params?.id}`),
