@@ -19,6 +19,7 @@ import Tasks, {
   tasksLoader,
 } from "../../componentLayer/components/LandingPageComponents/Tasks";
 import BoardMeetingOverview, { boardMeetingOverviewLoader } from "../../componentLayer/pages/boardmeetings/boardMeetingLandingPage/BoardMeetingOverview";
+import BoardMeetingForm, { boardmeetingFormLoader } from "../../componentLayer/pages/boardmeetings/createBoardMeetingForm/BoardMeetingForm";
 
 export const userRouter = [
   //   /users     <users/>
@@ -33,7 +34,6 @@ export const userRouter = [
   {
     path: "new",
     loader: userFormLoader,
-
     element: <UserForm />,
     handle: {
       crumb: () => <Link to="/users/new">New User</Link>,
@@ -134,6 +134,7 @@ export const userRouter = [
                   },
                 ],
               },
+            
             ],
           },
           // /users/:id/documents                     documents

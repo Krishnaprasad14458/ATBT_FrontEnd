@@ -5,7 +5,7 @@ import { Fragment } from "react";
 // import { caseLetter } from '../../../utils/utils';
 import { Dialog, Menu, Transition } from "@headlessui/react";
 import GateKeeper from "../../../../rbac/GateKeeper";
-import { debounce , caseLetter  } from "../../../../utils/utils";
+import { debounce   } from "../../../../utils/utils";
 import CustomColumn from "../../../../componentLayer/components/tableCustomization/CustomColumn";
 import CustomFilter from "../../../../componentLayer/components/tableCustomization/CustomFilter";
 import atbtApi from "../../../../serviceLayer/interceptor";
@@ -51,6 +51,10 @@ export async function action({ request, params }) {
       const id = (await request.json()) || null;
       console.log(id, "json", id);
       return await atbtApi.delete(`user/delete/${id}`);
+    }
+    case "PUT" :{
+      const requestData = (await request.json()) || null;
+      return await atbtApi.put(`toggle/${requestData.id}`,{requestData});
     }
     default: {
       throw new Response("", { status: 405 });
@@ -329,7 +333,7 @@ function Users() {
                             key={key}
                             className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  hover:text-orange-500 overflow-hidden`}
                             style={{ maxWidth: "160px" }}
-                            title={caseLetter(row[key])}
+                            title={(row[key])}
                           >
                             <GateKeeper
                               permissionCheck={(permission) =>
@@ -338,7 +342,7 @@ function Users() {
                               }
                             >
                               <Link to={`${row.id}/userboardmeetings`}>
-                                <p className="truncate text-xs"> {caseLetter(value)}</p>
+                                <p className="truncate text-xs"> {(value)}</p>
                                
                               </Link>
                             </GateKeeper>
@@ -354,9 +358,9 @@ function Users() {
                             key={key}
                             className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  hover:text-orange-500 overflow-hidden`}
                             style={{ maxWidth: "160px" }}
-                            title={caseLetter(entity_name)}
+                            title={(entity_name)}
                           >
-                             {caseLetter(entity_name)}
+                             {(entity_name)}
                           </td>
                         );
                       }
@@ -369,9 +373,9 @@ function Users() {
                             key={key}
                             className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  hover:text-orange-500 overflow-hidden`}
                             style={{ maxWidth: "160px" }}
-                            title= {caseLetter( role_name)}
+                            title= {( role_name)}
                           >
-                               {caseLetter( role_name)}
+                               {( role_name)}
                           </td>
                         );
                       } else {
