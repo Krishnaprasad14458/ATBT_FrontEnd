@@ -5,6 +5,7 @@ import { UserDataContext } from "../../../../contexts/usersDataContext/usersData
 import $ from "jquery";
 import atbtApi from "../../../../serviceLayer/interceptor";
 import linesimage from "../../../../assets/Images/lines_10.svg";
+import { caseLetter } from "../../../../utils/utils";
 import {
   useSubmit,
   useNavigate,
@@ -564,71 +565,7 @@ function UserForm() {
                         </div>
                       </div>
                     )}
-                    {item.type === "select" &&
-  item.inputname === "entityname" &&
-  item.field === "predefined" && (
-    <div>
-      <label
-        htmlFor={item.label}
-        className="block text-sm font-medium leading-6 mt-2 text-gray-900"
-      >
-        {item.label.charAt(0).toUpperCase() +
-          item.label.slice(1)}
-        {item.mandatory ? (
-          <span className="text-red-600">*</span>
-        ) : (
-          <span> </span>
-        )}
-      </label>
-      <div className="relative">
-      <select
-          id={item.inputname}
-          name={item.inputname}
-          className="px-2 py-2 text-sm block w-full rounded-md bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder:text-gray-400 appearance-none"
-          onChange={(e) => handleChange(index, e.target.value)}
-          value={customFormFields[index].value || ""}
-          style={{ fontSize: "0.8rem", color: customFormFields[index].value ? '#111827' : '#a1a1aa' }}
-        >
-          <option value="" disabled defaultValue>
-            Select {/* Use the label as the placeholder */}
-          </option>
-          {item.options.value &&
-            data?.fieldsDropDownData?.entityname &&
-            data?.fieldsDropDownData?.entityname.map(
-              (option, index) => (
-                <option key={index} value={option.id} style={{color:"#111827"}} >
-                  {option.name}
-                </option>
-              )
-            )}
-        </select>
-
-        <svg
-          className="w-4 h-4 text-gray-700 absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="2"
-            d="M19 9l-7 7-7-7"
-          />
-        </svg>
-      </div>
-      <div className="h-2 text-red-500">
-        {errors[item.inputname] && (
-          <span className="text-xs">
-            {errors[item.inputname]}
-          </span>
-        )}
-      </div>
-    </div>
-  )}
-
-                  {/* {item.type === "select" &&
+                  {item.type === "select" &&
                     item.inputname === "entityname" &&
                     item.field === "predefined" && (
                       <div>
@@ -644,44 +581,56 @@ function UserForm() {
                             <span> </span>
                           )}
                         </label>
-                  <div className="relative">
-                  <select
-                          id={item.inputname}
-                          name={item.inputname}
-                          className="px-2 py-2 text-sm block w-full rounded-md bg-gray-50 
-                          border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder:text-xs appearance-none"
-                          onChange={(e) => handleChange(index, e.target.value)}
-                          value={customFormFields[index].value || ""}
-                          style={{ fontSize: "0.8rem", color: customFormFields[index].value ? 'text-gray-900' : 'text-gray-300' }}
-                        >
-                          <option value="" disabled defaultValue style={{ color: 'text-gray-300' }}>
-                            Please select
-                          </option>
-                          {item.options.value &&
-                            data?.fieldsDropDownData?.entityname &&
-                            data?.fieldsDropDownData?.entityname.map(
-                              (option, index) => (
-                                <option key={index} value={option.id}>
-                                  {option.name}
-                                </option>
-                              )
-                            )}
-                        </select>
-                        <svg
-          className="w-4 h-4 text-gray-700 absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="2"
-            d="M19 9l-7 7-7-7"
-          />
-        </svg>
-                  </div>
+                        <div className="relative">
+                          <select
+                            id={item.inputname}
+                            name={item.inputname}
+                            className="px-2 py-2 text-sm block w-full rounded-md bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder:text-gray-400 appearance-none"
+                            onChange={(e) =>
+                              handleChange(index, e.target.value)
+                            }
+                            value={customFormFields[index].value || ""}
+                            style={{
+                              fontSize: "0.8rem",
+                              color: customFormFields[index].value
+                                ? "#111827"
+                                : "#a1a1aa",
+                            }}
+                          >
+                            <option value="" disabled defaultValue>
+                              Select {/* Use the label as the placeholder */}
+                            </option>
+                            {item.options.value &&
+                              data?.fieldsDropDownData?.entityname &&
+                              data?.fieldsDropDownData?.entityname.map(
+                                (option, index) => (
+                                  <option
+                                    key={index}
+                                    value={option.id}
+                                    style={{ color: "#111827" }}
+                                  >
+                                    {caseLetter(option.name)}
+                                    
+                                  </option>
+                                )
+                              )}
+                          </select>
+
+                          <svg
+                            className="w-4 h-4 text-gray-700 absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth="2"
+                              d="M19 9l-7 7-7-7"
+                            />
+                          </svg>
+                        </div>
                         <div className="h-2 text-red-500">
                           {errors[item.inputname] && (
                             <span className="text-xs">
@@ -690,10 +639,7 @@ function UserForm() {
                           )}
                         </div>
                       </div>
-                    )} */}
-
-
-
+                    )}
                   {item.type === "email" &&
                     item.inputname == "email" &&
                     item.field == "predefined" && (
@@ -777,7 +723,7 @@ function UserForm() {
                   {item.type === "select" &&
                     item.inputname == "designation" &&
                     item.field == "predefined" && (
-                      <div>
+                      <div className="relative">
                         <label
                           htmlFor={item.label}
                           className="block text-sm font-medium leading-6 mt-2 text-gray-900"
@@ -790,24 +736,52 @@ function UserForm() {
                             <span> </span>
                           )}
                         </label>
-                        <select
-                          id={item.inputname}
-                          name={item.inputname}
-                          className="p-2 text-sm block w-full rounded-md bg-gray-50 border custom-select border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder:text-xs"
-                          onChange={(e) => handleChange(index, e.target.value)}
-                          value={customFormFields[index].value || ""}
-                          style={{ fontSize: "0.8rem" }}
-                        >
-                          <option value="" disabled defaultValue>
-                            Please select
-                          </option>
-                          {item.options &&
-                            item.options.value &&
-                            item.options.value.length > 0 &&
-                            item.options.value.map((option, index) => (
-                              <option value={option}>{option}</option>
-                            ))}
-                        </select>
+                        <div className="relative">
+                          <select
+                            id={item.inputname}
+                            name={item.inputname}
+                            className="px-2 py-2 text-sm block w-full rounded-md bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder:text-gray-400 appearance-none"
+                            onChange={(e) =>
+                              handleChange(index, e.target.value)
+                            }
+                            value={customFormFields[index].value || ""}
+                            style={{
+                              fontSize: "0.8rem",
+                              color: customFormFields[index].value
+                                ? "#111827"
+                                : "#a1a1aa",
+                            }}
+                          >
+                            <option value="" disabled defaultValue>
+                              Select
+                            </option>
+                            {item.options &&
+                              item.options.value &&
+                              item.options.value.length > 0 &&
+                              item.options.value.map((option, index) => (
+                                <option
+                                  value={option}
+                                  style={{ color: "#111827" }}
+                                >
+                                  {caseLetter(option)}
+                                </option>
+                              ))}
+                          </select>
+                          <svg
+                            className="w-4 h-4 text-gray-700 absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth="2"
+                              d="M19 9l-7 7-7-7"
+                            />
+                          </svg>
+                        </div>
                         <div className="h-2 text-[#dc2626]">
                           {errors[item.inputname] && (
                             <span className="text-xs">
@@ -833,6 +807,7 @@ function UserForm() {
                             <span> </span>
                           )}
                         </label>
+                        <div className="relative">
                         <select
                           id={item.inputname}
                           name={item.inputname}
@@ -842,10 +817,15 @@ function UserForm() {
                             parseInt(id) === loggedInUser
                               ? "text-[##d4d4d8] bg-gray-50 cursor-not-allowed"
                               : "bg-gray-50 text-gray-900 "
-                          } px-2 py-2 text-sm block w-full rounded-md bg-gray-50 border border-gray-300  focus:outline-none  focus:border-orange-400 placeholder:text-xs `}
+                          } px-2 py-2 text-sm block w-full rounded-md bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder:text-gray-400 appearance-none`}
                           onChange={(e) => handleChange(index, e.target.value)}
                           value={customFormFields[index].value || ""}
-                          style={{ fontSize: "0.8rem" }}
+                          style={{
+                            fontSize: "0.8rem",
+                            color: customFormFields[index].value
+                              ? "#111827"
+                              : "#a1a1aa",
+                          }}
                           disabled={
                             id &&
                             data?.userData &&
@@ -855,19 +835,34 @@ function UserForm() {
                           }
                         >
                           <option value="" disabled defaultValue>
-                            Please select
+                           Select
                           </option>
 
                           {item.options.value &&
                             data?.fieldsDropDownData?.role &&
                             data?.fieldsDropDownData?.role.map(
                               (option, index) => (
-                                <option key={index} value={option.id}>
-                                  {option.name}
+                                <option key={index} value={option.id} style={{ color: "#111827" }}>
+                                  {caseLetter(option.name)}
                                 </option>
                               )
                             )}
                         </select>
+                        <svg
+                            className="w-4 h-4 text-gray-700 absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth="2"
+                              d="M19 9l-7 7-7-7"
+                            />
+                          </svg>
+                        </div>
                         <div className="h-2 text-[#dc2626]">
                           {errors[item.inputname] && (
                             <span className="text-xs">
@@ -1474,11 +1469,9 @@ function UserForm() {
                                   className="absolute top-20 mt-8 text-sm antialiased  leading-snug tracking-normal text-blue-gray-90 w-3/6 truncate md:w-5/6 text-center"
                                   title={item.value}
                                 >
-                                  {
-                                    data?.fieldsDropDownData?.entityname?.find(
+                                  {caseLetter(data?.fieldsDropDownData?.entityname?.find(
                                       (i) => i.id === parseInt(item.value)
-                                    )?.name
-                                  }
+                                    )?.name)}
                                 </p>
                               ) : (
                                 <p className="absolute top-20 mt-8 text-sm antialiased  leading-snug tracking-normal text-blue-gray-900">

@@ -8,6 +8,7 @@ import {
   useLocation,
 } from "react-router-dom";
 import atbtApi from "../../../../serviceLayer/interceptor";
+import { caseLetter } from "../../../../utils/utils";
 export const userLandingLoader = async ({ params }) => {
   try {
     const [data, entityListresponse] = await Promise.all([
@@ -172,12 +173,11 @@ console.log("customFormField",customFormField)
                         className="absolute  bottom-3 text-sm antialiased leading-snug tracking-normal text-blue-gray-900 w-3/6 truncate md:w-5/6 "
                         title={item.value.toUpperCase()}
                       >
-                        {
-                          data?.entityList?.find(
+                       {data?.entityList?.find(
                             (i) => i.id === parseInt(item.value)
-                          )?.name
-                        }
+                          )?.name}
                       </p>
+                      hh
                     </div>
                   )}
 
