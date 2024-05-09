@@ -25,7 +25,9 @@ export async function tasksLoader({ request, params }) {
     const subTaskID = url.searchParams.get("subTaskID");
     const [tasks, task, subTasks, subTask, personResponsible] =
       await Promise.all([
-        params.BMid ? atbtApi.get(`task/list?meetingId=${params.BMid}`) :  atbtApi.get(`task/list?userId=${params.id}`),
+        params.BMid
+          ? atbtApi.get(`task/list?meetingId=${params.BMid}`)
+          : atbtApi.get(`task/list?userId=${params.id}`),
         // atbtApi.get(`task/listAll?user=${params.id}`),
         taskID ? atbtApi.get(`task/listbyid/${taskID}`) : null,
         taskID ? atbtApi.get(`task/subList/${taskID}`) : null,
@@ -398,11 +400,11 @@ const Tasks = () => {
               return (
                 <tr key={task.id} className="border-b border-gray-200">
                   <td className="border py-1.5 px-3">
-                    <div className="flex items-center">
+                    <div className="flex items-center justify-between">
                       {isInputActiveID === task.id && (
                         <input
                           className="border border-[#d1d5db] text-black px-1.5 py-1.5 rounded-md  bg-[#f9fafb] focus:outline-none text-sm focus:border-orange-400 "
-                          style={{ width: "22rem" }}
+                          style={{ width: "21rem" }}
                           type="text"
                           placeholder="Type here"
                           value={task?.decision}
@@ -425,7 +427,7 @@ const Tasks = () => {
                             setAutoFocusID(task.id);
                           }}
                           style={{
-                            width: "22rem",
+                            width: "21rem",
                             height: decisionHeight,
                             cursor: "pointer",
                           }}
@@ -434,31 +436,24 @@ const Tasks = () => {
                         </p>
                       )}
                       <div className="flex">
-                        {/* <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke-width="1.5"
-                        stroke="currentColor"
-                        class="w-6 h-6"
-                      >
-                        <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          d="M6 6.878V6a2.25 2.25 0 0 1 2.25-2.25h7.5A2.25 2.25 0 0 1 18 6v.878m-12 0c.235-.083.487-.128.75-.128h10.5c.263 0 .515.045.75.128m-12 0A2.25 2.25 0 0 0 4.5 9v.878m13.5-3A2.25 2.25 0 0 1 19.5 9v.878m0 0a2.246 2.246 0 0 0-.75-.128H5.25c-.263 0-.515.045-.75.128m15 0A2.25 2.25 0 0 1 21 12v6a2.25 2.25 0 0 1-2.25 2.25H5.25A2.25 2.25 0 0 1 3 18v-6c0-.98.626-1.813 1.5-2.122"
-                        />
-                      </svg> */}
-                        {task.subtaskCount}
-                        <svg
-                          viewBox="0 0 32 32"
-                          xmlns="http://www.w3.org/2000/svg"
-                          id="fi_14915913"
-                          class="w-4 h-4  cursor-pointer"
-                        >
-                          <g id="Layer_2" data-name="Layer 2">
-                            <path d="m15 18h10a2 2 0 0 0 2-2v-4a2 2 0 0 0 -2-2h-10a2 2 0 0 0 -2 2v1h-4v-9h2a1 1 0 0 0 0-2h-6a1 1 0 0 0 0 2h2v20a3 3 0 0 0 3 3h3v1a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-4a2 2 0 0 0 -2-2h-10a2 2 0 0 0 -2 2v1h-3a1 1 0 0 1 -1-1v-9h4v1a2 2 0 0 0 2 2z"></path>
-                          </g>
-                        </svg>
+                        {task.subtaskCount > 0 && (
+                          <span className="flex items-center ml-2 px-0.5 cursor-pointer border border-[#f8fafc] hover:border hover:border-gray-500 hover:rounded-sm hover:bg-gray-100">
+                            <span className="text-sm">
+                              {task.subtaskCount}{" "}
+                            </span>
+                            <svg
+                              viewBox="0 0 32 32"
+                              xmlns="http://www.w3.org/2000/svg"
+                              id="fi_14915913"
+                              className="w-3 h-3"
+                            >
+                              <g id="Layer_2" data-name="Layer 2">
+                                <path d="m15 18h10a2 2 0 0 0 2-2v-4a2 2 0 0 0 -2-2h-10a2 2 0 0 0 -2 2v1h-4v-9h2a1 1 0 0 0 0-2h-6a1 1 0 0 0 0 2h2v20a3 3 0 0 0 3 3h3v1a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-4a2 2 0 0 0 -2-2h-10a2 2 0 0 0 -2 2v1h-3a1 1 0 0 1 -1-1v-9h4v1a2 2 0 0 0 2 2z"></path>
+                              </g>
+                            </svg>
+                          </span>
+                        )}
+
                         <span
                           className="ml-2 cursor-pointer"
                           onClick={() => handleOverViewTask(task?.id)}
