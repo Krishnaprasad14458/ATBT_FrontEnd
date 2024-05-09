@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useCallback } from "react";
 import {
+  NavLink,
   useParams,
   useLoaderData,
   useFetcher,
@@ -338,16 +339,109 @@ const Tasks = () => {
           className=" ms-2  mt-1 inline-flex items-center  whitespace-nowrap rounded-2xl text-sm font-medium  transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50  text-orange-foreground shadow hover:bg-orange/90 h-9 px-3 py-1 shrink-0 bg-orange-600 text-white gap-1"
           onClick={handleAddNewTask}
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-            className="w-5 h-5"
+       
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+              className="w-5 h-5"
+            >
+              <path d="M10.75 4.75a.75.75 0 0 0-1.5 0v4.5h-4.5a.75.75 0 0 0 0 1.5h4.5v4.5a.75.75 0 0 0 1.5 0v-4.5h4.5a.75.75 0 0 0 0-1.5h-4.5v-4.5Z" />
+            </svg>
+            Add Task
+          </button>
+        )}
+      </div>
+      <div>
+
+
+      <div className="flex overflow-x-auto">
+        {!BMid && (
+          <NavLink
+            to="userboardmeetings"
+            end
+            className={({ isActive, isPending, isTransitioning }) =>
+              isPending
+                ? "cursor-pointer px-4 py-1 text-sm  text-[#0c0a09]"
+                : isActive
+                ? "border-b-2 border-orange-600 text-[#0c0a09] cursor-pointer px-4 py-1 text-sm font-[500]"
+                : "cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09]"
+            }
           >
-            <path d="M10.75 4.75a.75.75 0 0 0-1.5 0v4.5h-4.5a.75.75 0 0 0 0 1.5h4.5v4.5a.75.75 0 0 0 1.5 0v-4.5h4.5a.75.75 0 0 0 0-1.5h-4.5v-4.5Z" />
-          </svg>
-          Add Task
-        </button>}
+          to do 
+          </NavLink>
+        )}
+        {!BMid && (
+          <NavLink
+            to={`userboardmeetings/${BMid}/tasks`}
+            end
+            isActive={(match, location) =>
+              match ||
+              location.pathname.startsWith(`/users/${id}/boardmeetings`)
+            }
+            className={({ isActive, isPending, isTransitioning }) =>
+              isPending
+                ? "cursor-pointer px-4 py-1 text-sm text-[#0c0a09]"
+                : isActive
+                ? "border-b-2 border-orange-600 text-[#0c0a09] cursor-pointer px-4 py-1 text-sm font-[500]"
+                : "cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09]"
+            }
+          >
+           In-Progress
+          </NavLink>
+        )}
+
+        {!BMid && (
+          <NavLink
+            to="tasks"
+            end
+            className={({ isActive, isPending, isTransitioning }) =>
+              isPending
+                ? "cursor-pointer px-4 py-1 text-sm  text-[#0c0a09]"
+                : isActive
+                ? "border-b-2 border-orange-600 text-[#0c0a09] cursor-pointer px-4 py-1 text-sm font-[500]"
+                : "cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09]"
+            }
+          >
+           OverDue
+          </NavLink>
+        )}
+        {!BMid && (
+          <NavLink
+            to="documents"
+            end
+            className={({ isActive, isPending, isTransitioning }) =>
+              isPending
+                ? "cursor-pointer px-4 py-1 text-sm  text-[#0c0a09]"
+                : isActive
+                ? "border-b-2 border-orange-600 text-[#0c0a09] cursor-pointer px-4 py-1 text-sm font-[500]"
+                : "cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09]"
+            }
+          >
+         Completed
+          </NavLink>
+        )}
+        {!BMid && (
+          <NavLink
+            to={`userboardmeetings/${BMid}/documents`}
+            end
+            className={({ isActive, isPending, isTransitioning }) =>
+              isPending
+                ? "cursor-pointer px-4 py-1 text-sm  text-[#0c0a09]"
+                : isActive
+                ? "border-b-2 border-orange-600 text-[#0c0a09] cursor-pointer px-4 py-1 text-sm font-[500]"
+                : "cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09]"
+            }
+          >
+          Master
+          </NavLink>
+        )}
+
+    
+      </div>
+       
+
+
       </div>
       <div className=" mt-2 overflow-x-auto">
         <table className="w-full divide-y divide-gray-200 dark:divide-gray-700 rounded-md">
@@ -439,7 +533,7 @@ const Tasks = () => {
                         {task.subtaskCount > 0 && (
                           <span className="flex items-center ml-2 px-0.5 cursor-pointer border border-[#f8fafc] hover:border hover:border-gray-500 hover:rounded-sm hover:bg-gray-100">
                             <span className="text-sm">
-                              {task.subtaskCount}{" "}
+                              {task.subtaskCount}
                             </span>
                             <svg
                               viewBox="0 0 32 32"
