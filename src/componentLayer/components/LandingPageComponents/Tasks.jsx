@@ -70,7 +70,7 @@ export async function tasksLoader({ request, params }) {
         value: user.id,
       })),
       threadName: `${tasks?.data[0]?.meetingnumber}`,
-      threadPath: `/users/${params.id}/boardmeetings/${params.BMid}`,
+      threadPath: `/users/${params.id}/userboardmeetings/${params.BMid}/tasks`,
     };
     console.log("combinedResponse", combinedResponse);
     return combinedResponse;
