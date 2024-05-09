@@ -1569,7 +1569,7 @@ function UserForm() {
                                   <span className="  flex gap-2 w-4/6">
                                     <span> : </span>{" "}
                                     <span className="text-md font-[600] ">
-                                      {item.value}
+                                      {caseLetter(item.value)}
                                     </span>
                                   </span>
                                 </p>
@@ -1724,26 +1724,35 @@ function UserForm() {
                           const day = date.getUTCDate();
                           const monthIndex = date.getUTCMonth();
                           const year = date.getUTCFullYear();
-
                           const monthAbbreviations = [
-                            "Jan",
-                            "Feb",
-                            "Mar",
-                            "Apr",
+                            "January",
+                            "February",
+                            "March",
+                            "April",
                             "May",
-                            "Jun",
-                            "Jul",
-                            "Aug",
-                            "Sep",
-                            "Oct",
-                            "Nov",
-                            "Dec",
+                            "June",
+                            "July",
+                            "August",
+                            "September",
+                            "October",
+                            "November",
+                            "December",
                           ];
-
-                          // Formatting the date
-                          date = `${day < 10 ? "0" : ""}${day}-${
-                            monthAbbreviations[monthIndex]
-                          }-${year}`;
+                          let ordinalsText = "";
+                          if (day == 1 || day == 21 || day == 31) {
+                            ordinalsText = "st";
+                          } else if (day == 2 || day == 22) {
+                            ordinalsText = "nd";
+                          } else if (day == 3 || day == 23) {
+                            ordinalsText = "rd";
+                          } else {
+                            ordinalsText = "th";
+                          }
+      
+                           // Formatting the date
+                    date = ` ${monthAbbreviations[monthIndex]} ${
+                      day < 10 ? "0" : ""
+                    }${day}${ordinalsText}, ${year}`;
 
                           return (
                             <div className="">
