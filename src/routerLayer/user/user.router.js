@@ -34,7 +34,6 @@ export const userRouter = [
   {
     path: "new",
     loader: userFormLoader,
-
     element: <UserForm />,
     handle: {
       crumb: () => <Link to="/users/new">New User</Link>,
