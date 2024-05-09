@@ -582,7 +582,7 @@ const CustomFormStructure = () => {
                         </div>
                       </div>
                     </div>
-                  <div className="flex flex-wrap mb-4 sm:gap-0 md:gap-10">
+                    <div className="flex flex-wrap mb-4 sm:gap-0 md:gap-10">
                       <div className="w-1/5 hidden sm:block"></div>
                       <div className="flex flex-wrap pt-5  gap-1">
                         <svg
@@ -730,14 +730,14 @@ const CustomFormStructure = () => {
                     </span>
                   </span>
                   <form>
-                    <div className="flex">
+                    <div className="flex mb-3 items-start">
                       <label
                         htmlFor="name"
-                        className="inline-flex text-sm font-medium leading-6 mt-3 mb-2 mx-2 text-gray-900"
+                        className="inline-flex text-sm font-medium leading-6 mt-2 text-gray-900"
                       >
                         Label<span className="text-[#dc2626]"> * </span>
                       </label>
-                      <span className="mt-3 ms-2">:</span>
+                      <span className="mt-2 mx-2.5">:</span>
                       <input
                         id="name"
                         name="label"
@@ -746,7 +746,7 @@ const CustomFormStructure = () => {
                         required
                         value={newInputField.label}
                         onChange={handleInputChange}
-                        className="p-2 m-2 text-xs w-full md:w-72 lg:w-72 xl:w-72 bg-gray-50 rounded-md border-2 border-gray-200  text-gray-900 appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400"
+                        className="px-2 py-2 text-sm block w-full md:w-72 lg:w-72 xl:w-72 rounded-md bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder:text-gray-400 appearance-none "
                       />
                     </div>
                     <span className=" text-[#dc2626]">
@@ -758,30 +758,61 @@ const CustomFormStructure = () => {
                     </span>
                     {
                       <div>
-                        <div className="flex">
+                        <div className="flex items-start mb-3">
                           <label
-                            htmlFor="venue"
-                            className="inline-flex text-sm font-medium leading-6 mt-3 mb-2  mx-2 text-gray-900 "
+                            
+                            className="inline-flex text-sm font-medium leading-6 mt-2 text-gray-900"
                           >
                             Type <span className="text-[#dc2626]"> * </span>
                           </label>
-                          <span className="mt-3 ms-3">:</span>
-                          <select
-                            name="type"
-                            className={`p-2 mx-2  py-1.5 my-2 text-xs w-full md:w-72 lg:w-72 xl:w-72 bg-gray-50 rounded-md border-2  border-gray-200  text-gray-900 shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-xs  custom-scroll " ${
-                              editIndex == null
-                                ? ""
-                                : "pointer-events-none opacity-30"
-                            }`}
-                            value={newInputField.type}
-                            onChange={handleInputChange}
-                          >
-                            <option value="">--select type--</option>
-                            {inputType &&
-                              inputType.map((type, index) => (
-                                <option value={type.value}>{type.label}</option>
-                              ))}
-                          </select>
+                          <span className="mt-2 mx-3">:</span>
+
+                          <div className="relative">
+                            {/* p-2 mx-2  py-1.5 my-2 text-xs w-full md:w-72 lg:w-72 xl:w-72 bg-gray-50 rounded-md border-2  border-gray-200  text-gray-900 shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-xs  custom-scroll */}
+                            <select
+                              name="type"
+                              className={`px-2 py-2 text-sm block w-full md:w-72 lg:w-72 xl:w-72 rounded-md bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder:text-gray-400 appearance-none " ${
+                                editIndex == null
+                                  ? ""
+                                  : "pointer-events-none opacity-30"
+                              }`}
+                              value={newInputField.type}
+                              onChange={handleInputChange}
+                              style={{
+                                fontSize: "0.8rem",
+                                color: newInputField.type
+                                  ? "#111827"
+                                  : "#a1a1aa",
+                              }}
+                            >
+                              <option value="" disabled defaultValue>
+                                Select
+                              </option>
+                              {inputType &&
+                                inputType.map((type, index) => (
+                                  <option
+                                    value={type.value}
+                                    style={{ color: "#111827" }}
+                                  >
+                                    {type.label}
+                                  </option>
+                                ))}
+                            </select>
+                            <svg
+                              className="w-4 h-4 text-gray-700 absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none"
+                              fill="none"
+                              stroke="currentColor"
+                              viewBox="0 0 24 24"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth="2"
+                                d="M19 9l-7 7-7-7"
+                              />
+                            </svg>
+                          </div>
                         </div>
                         <div className=" text-[#dc2626]">
                           {addInputerrors.type && (
