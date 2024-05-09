@@ -192,7 +192,7 @@ const Tasks = () => {
   }, [data]);
 
   let fetcher = useFetcher();
-  const { id, BMid } = useParams();
+  const { id, BMid} = useParams();
   const [Qparams, setQParams] = useState({
     //  taskID:null
   });
@@ -335,11 +335,11 @@ const Tasks = () => {
   return (
     <div className="">
       <div className="flex justify-end">
-        {BMid && (
-          <button
-            className=" ms-2  mt-1 inline-flex items-center  whitespace-nowrap rounded-2xl text-sm font-medium  transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50  text-orange-foreground shadow hover:bg-orange/90 h-9 px-3 py-1 shrink-0 bg-orange-600 text-white gap-1"
-            onClick={handleAddNewTask}
-          >
+       {BMid && <button
+          className=" ms-2  mt-1 inline-flex items-center  whitespace-nowrap rounded-2xl text-sm font-medium  transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50  text-orange-foreground shadow hover:bg-orange/90 h-9 px-3 py-1 shrink-0 bg-orange-600 text-white gap-1"
+          onClick={handleAddNewTask}
+        >
+       
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 20 20"
@@ -440,6 +440,7 @@ const Tasks = () => {
     
       </div>
        
+
 
       </div>
       <div className=" mt-2 overflow-x-auto">
