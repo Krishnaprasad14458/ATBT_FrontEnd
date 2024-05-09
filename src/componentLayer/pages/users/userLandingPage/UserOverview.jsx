@@ -13,7 +13,6 @@ export const userLandingLoader = async ({ params }) => {
   try {
     const [data, entityListresponse] = await Promise.all([
       atbtApi.get(`/user/list/${params?.id}`),
-
       atbtApi.post(`public/list/entity`),
     ]);
 
@@ -177,7 +176,6 @@ console.log("customFormField",customFormField)
                             (i) => i.id === parseInt(item.value)
                           )?.name}
                       </p>
-                      hh
                     </div>
                   )}
 

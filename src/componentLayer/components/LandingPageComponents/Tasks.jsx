@@ -30,7 +30,7 @@ export async function tasksLoader({ request, params }) {
         taskID ? atbtApi.get(`task/listbyid/${taskID}`) : null,
         taskID ? atbtApi.get(`task/subList/${taskID}`) : null,
         subTaskID ? atbtApi.get(`task/subtaskbyid/${subTaskID}`) : null,
-        // atbtApi.get(`/boardmeeting/groupUser/${params.BMid}`),
+        atbtApi.get(`/boardmeeting/groupUser/${params.BMid}`),
         // atbtApi.get(`task/listAll?user=103`)
         // Api For Get boardmeeting members
         // get('/groupEntiy/:id')                Meeting.ListEntiyGroup
@@ -63,7 +63,7 @@ export async function tasksLoader({ request, params }) {
       task: updatedTask,
       subTasks: subTasks?.data?.Task,
       subTask: updatedSubTask,
-      personResponsible: personResponsible?.data?.User?.map((user) => ({
+      personResponsible: personResponsible?.data?.map((user) => ({
         label: user.name,
         value: user.id,
       })),
