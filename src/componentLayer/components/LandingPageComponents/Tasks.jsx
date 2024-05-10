@@ -18,9 +18,17 @@ let status = [
   { label: "In-Progress", value: "In-Progress" },
   { label: "Completed", value: "Completed" },
 ];
-
+let moduleName;
+let parentPath
 export async function tasksLoader({ request, params }) {
   try {
+    if (params.boardmeetings === "userboardmeetings") {
+      moduleName = "user";
+      parentPath = "users"
+    }
+    if (params.boardmeetings === "entityboardmeetings") {
+      moduleName = "entity";
+    }
     const url = new URL(request.url);
 
     const taskID = url.searchParams.get("taskID");
@@ -76,7 +84,7 @@ export async function tasksLoader({ request, params }) {
         value: user.id,
       })),
       threadName: `${tasks?.data[0]?.meetingnumber}`,
-      threadPath: `/users/${params.id}/userboardmeetings/${params.BMid}/tasks`,
+      threadPath: `/${parentPath}/${params.id}/${params.boardmeetings}/${params.BMid}/tasks`,
     };
     console.log("combinedResponse", combinedResponse);
     return combinedResponse;
