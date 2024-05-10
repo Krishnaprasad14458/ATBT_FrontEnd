@@ -7,6 +7,8 @@ import { EntitiesDataContext } from "../../../../contexts/entitiesDataContext/en
 import $ from "jquery";
 import atbtApi from "../../../../serviceLayer/interceptor";
 import { useNavigate, useLoaderData, useParams } from "react-router-dom";
+import BreadCrumbs from "../../../components/breadcrumbs/BreadCrumbs";
+
 const userData = JSON.parse(localStorage.getItem("data"));
 let createdBy = userData?.user?.id;
 const token = userData?.token;
@@ -23,6 +25,11 @@ export async function entityFormLoader({ params }) {
       entityData = entityResponse?.data;
     }
     const formData = formResponse.data.Data;
+    if(entityData){
+      let threadName = entityData?.name;
+      let threadPath = `/entities/${params.id}/edit`;
+      return { entityData, formData, threadName, threadPath };
+    }
     console.log("formData", formData, "entityData", entityData);
     return { entityData, formData };
   } catch (error) {
@@ -491,7 +498,7 @@ function EntityForm() {
 
   return (
     <div className="container p-4 bg-[#f8fafc]">
-      <p className="text-lg font-semibold">Entity Form</p>
+      <p className="text-lg font-semibold"><BreadCrumbs/></p>
       <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-3 xl:grid-cols-3  gap-4 mt-2 ">
         <div className="col-span-1">
           <form className=" " method="POST" onSubmit={handleFormSubmit}>

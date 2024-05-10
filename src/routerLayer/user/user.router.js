@@ -3,8 +3,8 @@ import UserForm, {
 } from "../../componentLayer/pages/users/createUserForm/UserForm";
 import { Link } from "react-router-dom";
 import Boardmeeting, {
-  action as entityMeetingAction,
-  loader as entityMeetingLoader,
+  action as MeetingAction,
+  loader as MeetingLoader,
 } from "../../componentLayer/components/LandingPageComponents/Boardmeeting";
 import Documents from "../../componentLayer/components/LandingPageComponents/Documents";
 import { userLandingLoader } from "../../componentLayer/pages/users/userLandingPage/UserOverview";
@@ -67,7 +67,6 @@ export const userRouter = [
         },
         children: [
           // /users/:id          overview
-
           {
             index: true,
             loader: userLandingLoader,
@@ -89,7 +88,7 @@ export const userRouter = [
 
           {
             path: ":boardmeetings",
-            loader: entityMeetingLoader,
+            loader: MeetingLoader,
             handle: {
               crumb: (data) => (
                 <Link to={data.threadPath}>{data.threadName}</Link>
@@ -99,8 +98,8 @@ export const userRouter = [
               // /users/:id/:boardmeetings                     bmeetings list
               {
                 index: true,
-                loader: entityMeetingLoader,
-                action: entityMeetingAction,
+                loader: MeetingLoader,
+                action: MeetingAction,
                 element: <Boardmeeting />,
               },
               // /users/:id/:boardmeetings/:BMid        tasks of :BMid  bmeetings

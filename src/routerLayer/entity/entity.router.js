@@ -2,8 +2,8 @@ import EntityForm, {
   entityFormLoader,
 } from "../../componentLayer/pages/entities/createEntityForm/EntityForm";
 import Boardmeeting, {
-  action as entityMeetingAction,
-  loader as entityMeetingLoader,
+  action as MeetingAction,
+  loader as MeetingLoader,
 } from "../../componentLayer/components/LandingPageComponents/Boardmeeting";
 import Documents from "../../componentLayer/components/LandingPageComponents/Documents";
 import EntityLandingPage from "../../componentLayer/pages/entities/entityLandingPage/EntityLandingPage";
@@ -21,6 +21,7 @@ import Tasks, {
   TasksActions,
   tasksLoader,
 } from "../../componentLayer/components/LandingPageComponents/Tasks";
+import BoardMeetingOverview, { boardMeetingOverviewLoader } from "../../componentLayer/pages/boardmeetings/boardMeetingLandingPage/BoardMeetingOverview";
 
 export const entityRouter = [
   {
@@ -33,9 +34,9 @@ export const entityRouter = [
     path: "new",
     loader: entityFormLoader,
     element: <EntityForm />,
-    // handle: {
-    //   crumb: () => <Link to="/entities/new">New User</Link>,
-    // },
+    handle: {
+      crumb: () => <Link to="/entities/new">New User</Link>,
+    },
   },
   {
     path: ":id",
@@ -44,60 +45,89 @@ export const entityRouter = [
         path: "edit",
         loader: entityFormLoader,
         element: <EntityForm />,
-        // handle: {
-        //   crumb: (data) => <Link to={data.threadPath}>{data.threadName}</Link>,
-        // },
+        handle: {
+          crumb: (data) => <Link to={data.threadPath}>{data.threadName}</Link>,
+        },
       },
       {
         element: <EntityLandingPage />,
-        // loader: entityLandingLoader,
-        // handle: {
-        //   crumb: (data) => (
-        //     <Link to={data?.data?.threadPath}>{data?.data?.threadName}</Link>
-        //   ),
-        // },
+        loader: entityOverviewLoader,
+        handle: {
+          crumb: (data) => (
+            <Link to={data?.data?.threadPath}>{data?.data?.threadName}</Link>
+          ),
+        },
         children: [
           {
             index: true,
-
             loader: entityOverviewLoader,
             element: <EntityOverview />,
           },
 
           {
             path: "tasks",
+            loader: tasksLoader,
+            action: TasksActions,
             element: <Tasks />,
-            // handle: {
-            //   crumb: () => <Link to="">Tasks</Link>,
-            // },
+            handle: {
+              crumb: (data) => (
+                <Link to={data?.threadPath}>{data?.threadName}</Link>
+              ),
+            },
           },
 
           {
             path: ":boardmeetings",
-            loader: entityMeetingLoader,
-            action: entityMeetingAction,
-            // handle: {
-            //   crumb: (data) => (
-            //     <Link to={data.threadPath}>{data.threadName}</Link>
-            //   ),
-            // },
+            loader: MeetingLoader,
+            handle: {
+              crumb: (data) => (
+                <Link to={data.threadPath}>{data.threadName}</Link>
+              ),
+            },
             children: [
               {
                 index: true,
-                loader: entityMeetingLoader,
-                action: entityMeetingAction,
+                loader: MeetingLoader,
+                action: MeetingAction,
                 element: <Boardmeeting />,
               },
               {
                 path: ":BMid",
-                loader: tasksLoader,
-                action: TasksActions,
-                element: <Tasks />,
-                // handle: {
-                //   crumb: (data) => (
-                //     <Link to={data.threadPath}>{data.threadName}</Link>
-                //   ),
-                // },
+                loader: boardMeetingOverviewLoader,
+                // element: <BoardMeetingOverview />,
+                handle: {
+                  crumb: (data) => (
+                    <Link to={data.threadPath}>{data.threadName}</Link>
+                  ),
+                },
+                children: [
+                  {
+                    index: true,
+                    loader: boardMeetingOverviewLoader,
+                    element: <BoardMeetingOverview />,
+                   
+                  },
+                  {
+                    path: "tasks",
+                    loader: tasksLoader,
+                    action: TasksActions,
+                    element: <Tasks />,
+                    handle: {
+                      crumb: (data) => (
+                        <Link to={data?.threadPath}>{data?.threadName}</Link>
+                      ),
+                    },
+                  },
+                  {
+                    path: "documents",
+                    element: <Documents />,
+                    handle: {
+                      crumb: (data) => (
+                        <Link to=".">Documents</Link>
+                      ),
+                    },
+                  },
+                ],
               },
             ],
           },
@@ -105,9 +135,9 @@ export const entityRouter = [
           {
             path: "documents",
             element: <Documents />,
-            // handle: {
-            //   crumb: () => <Link to="">Documents</Link>,
-            // },
+            handle: {
+              crumb: () => <Link to=".">User Documents</Link>,
+            },
           },
         ],
       },
