@@ -83,8 +83,8 @@ export async function tasksLoader({ request, params }) {
         label: user.name,
         value: user.id,
       })),
-      threadName: `${tasks?.data[0]?.meetingnumber}`,
-      threadPath: `/${parentPath}/${params.id}/${params.boardmeetings}/${params.BMid}/tasks`,
+      threadName: params.BMid ? ` Board Meetings Tasks` : "User Tasks",
+      threadPath: params.BMid ? `/${parentPath}/${params.id}/${params.boardmeetings}/${params.BMid}/tasks` : `/${parentPath}/${params.id}/tasks` ,
     };
     console.log("combinedResponse", combinedResponse);
     return combinedResponse;
