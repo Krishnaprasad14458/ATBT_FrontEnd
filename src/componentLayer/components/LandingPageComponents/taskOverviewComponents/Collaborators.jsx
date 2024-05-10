@@ -27,7 +27,7 @@ const Collaborators = ({
   return (
     <div className="px-3 py-1">
       <div className="me-2 flex gap-2">
-        <p className="text-sm ">Collaborators</p>
+        <p className="text-sm mt-2">Collaborators</p>
         {task?.collaborators?.length > 0 &&
           task?.collaborators.map((collaborator) => (
             <div key={collaborator.id} className="relative group">
@@ -147,7 +147,7 @@ const Collaborators = ({
             viewBox="0 0 24 24"
             strokeWidth={1.5}
             stroke="currentColor"
-            className="w-4 h-4"
+            className="w-4 h-4 mt-2"
             onClick={() => setIsCollaboratorsEditing(!isCollaboratorsEditing)}
           >
             <path
