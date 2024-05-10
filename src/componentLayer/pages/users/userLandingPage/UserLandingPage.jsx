@@ -44,7 +44,7 @@ const UserLandingPage = () => {
                 : "cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09]"
             }
           >
-          User Board Meetings
+         Board Meetings
           </NavLink>
         )}
         {BMid && (

@@ -80,7 +80,9 @@ export const userRouter = [
             action: TasksActions,
             element: <Tasks />,
             handle: {
-              crumb: () => <Link to="">Tasks</Link>,
+              crumb: (data) => (
+                <Link to={data?.threadPath}>{data?.threadName}</Link>
+              ),
             },
           },
           // /users/:id/:boardmeetings                     bmeetings
@@ -104,17 +106,19 @@ export const userRouter = [
               // /users/:id/:boardmeetings/:BMid        tasks of :BMid  bmeetings
               {
                 path: ":BMid",
-
+                loader: boardMeetingOverviewLoader,
+                // element: <BoardMeetingOverview />,
+                handle: {
+                  crumb: (data) => (
+                    <Link to={data.threadPath}>{data.threadName}</Link>
+                  ),
+                },
                 children: [
                   {
                     index: true,
                     loader: boardMeetingOverviewLoader,
                     element: <BoardMeetingOverview />,
-                    handle: {
-                      crumb: (data) => (
-                        <Link to={data.threadPath}>{data.threadName}</Link>
-                      ),
-                    },
+                   
                   },
                   {
                     path: "tasks",
@@ -123,13 +127,18 @@ export const userRouter = [
                     element: <Tasks />,
                     handle: {
                       crumb: (data) => (
-                        <Link to={data.threadPath}>{data.threadName}</Link>
+                        <Link to={data?.threadPath}>{data?.threadName}</Link>
                       ),
                     },
                   },
                   {
                     path: "documents",
                     element: <Documents />,
+                    handle: {
+                      crumb: (data) => (
+                        <Link to=".">Documents</Link>
+                      ),
+                    },
                   },
                 ],
               },
@@ -140,7 +149,7 @@ export const userRouter = [
             path: "documents",
             element: <Documents />,
             handle: {
-              crumb: () => <Link to="">Documents</Link>,
+              crumb: () => <Link to=".">User Documents</Link>,
             },
           },
         ],

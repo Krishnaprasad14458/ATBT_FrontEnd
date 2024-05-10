@@ -2,8 +2,17 @@ import React, { useState, useEffect, useContext } from "react";
 import { Link, Outlet, useLoaderData, useParams } from "react-router-dom";
 import axios from "axios";
 import atbtApi from "../../../../serviceLayer/interceptor";
+let moduleName;
+let parentPath
 export const boardMeetingOverviewLoader = async ({ params }) => {
   try {
+    if (params.boardmeetings === "userboardmeetings") {
+      moduleName = "user";
+      parentPath = "users"
+    }
+    if (params.boardmeetings === "entityboardmeetings") {
+      moduleName = "entity";
+    }
     const [data] = await Promise.all([
       atbtApi.get(`boardmeeting/getByid/${params?.BMid}`),
       // atbtApi.post(`entity/User/list/${params?.id}`),
@@ -11,7 +20,9 @@ export const boardMeetingOverviewLoader = async ({ params }) => {
     // data.threadName = data?.user?.name;
     // data.threadPath = `/users/${params.id}`;
     console.log("bm overview combined data", data);
-    return { data };
+    let threadName = data?.data?.meetingnumber ;
+    let threadPath = `/${parentPath}/${params.id}/${params.boardmeetings}/${params.BMid}` ;
+    return { data,threadName,threadPath };
   } catch (error) {
     console.error("Error loading dashboard:", error);
     return null;
@@ -51,7 +62,6 @@ const BoardMeetingOverview = () => {
   return (
     <div className=" p-4 bg-[#f8fafc]">
       <div className="flex justify-end gap-3">
-      
         <Link
           to={`../${id}/edit`}
           relative="path"
