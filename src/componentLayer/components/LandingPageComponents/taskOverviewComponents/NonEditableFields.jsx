@@ -5,7 +5,7 @@ const NonEditableFields = ({ task, age }) => {
     <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-col-4 items-center mb-3 gap-5 bg-white">
       <div className="col-span-1">
         <label className="block text-xs font-medium leading-6 my-1 text-[1e1f21]">
-          Date
+         Meeting Date
         </label>
         <p className=" border border-[#d1d5db] text-black h-10 w-full truncate px-3 flex items-center rounded-md bg-white-50">
           {task &&

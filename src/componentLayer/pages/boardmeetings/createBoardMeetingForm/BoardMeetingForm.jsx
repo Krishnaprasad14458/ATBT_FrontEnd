@@ -21,7 +21,6 @@ export async function boardmeetingFormLoader({ params }) {
     ]);
     let boardmeetingData = null;
     if (params && params.id) {
-    
       console.log(boardmeetingResponse, "loader boardmeeting data");
       boardmeetingData = boardmeetingResponse?.data;
     }
@@ -29,7 +28,7 @@ export async function boardmeetingFormLoader({ params }) {
     const formData = formResponse.data.Data;
     console.log("formData", formData, "boardmeetingData", boardmeetingData);
 
-    return { boardmeetingData, formData,usersList };
+    return { boardmeetingData, formData, usersList };
   } catch (error) {
     if (error.response) {
       throw new Error(`Failed to fetch data: ${error.response.status}`);
@@ -77,7 +76,7 @@ function BoardMeetingForm() {
   const { createBoardMeeting, updateBoardMeeting } = useContext(
     BoardMeetingsDataContext
   );
-  const usersEmails = boardmeeting.usersList.data.users
+  const usersEmails = boardmeeting.usersList.data.users;
   const { debouncedSetPage, debouncedSetSearch } = useDebounce(usersDispatch);
   let [openOptions, setopenOptions] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
@@ -139,7 +138,7 @@ function BoardMeetingForm() {
     updatedFormData[index].value = updatedMembers;
     setCustomFormFields(updatedFormData);
   };
-const handleChange = (index, newValue) => {
+  const handleChange = (index, newValue) => {
     const updatedFormData = [...customFormFields];
     if (updatedFormData[index].type != "multiselect") {
       updatedFormData[index].value = newValue;
@@ -436,13 +435,13 @@ const handleChange = (index, newValue) => {
           );
         }
       }
-     formData.set("customFieldsData", JSON.stringify(customFormFields));
+      formData.set("customFieldsData", JSON.stringify(customFormFields));
       formData.set("createdBy", createdBy);
       const formDataObj = {};
       formData.forEach((value, key) => {
         formDataObj[key] = value;
       });
-let response;
+      let response;
       if (!!id && !!boardmeeting?.boardmeetingData) {
         console.log("updating");
         response = await updateBoardMeeting(formData, id);
@@ -457,10 +456,10 @@ let response;
       console.log("jsonData submitted", response);
       if (response?.status === 201) {
         console.log("data is 201");
-        if(boardmeetingFor ==="user"){
-    
-       navigate(`/users/${boardmeetingForID}/userboardmeetings/${response.data}`);
-
+        if (boardmeetingFor === "user") {
+          navigate(
+            `/users/${boardmeetingForID}/userboardmeetings/${response.data}`
+          );
         }
       }
     }
@@ -1282,84 +1281,58 @@ let response;
                           )}
                       </span>
                       <span>
-
-
-                      {item.type === "date" &&
+                        {item.type === "date" &&
                           item.inputname === "date" &&
                           item.field === "predefined" &&
-                  (() => {
-                    let date = new Date(item.value);
-                    const day = date.getUTCDate();
-                    const monthIndex = date.getUTCMonth();
-                    const year = date.getUTCFullYear();
+                          (() => {
+                            let date = new Date(item.value);
+                            const day = date.getUTCDate();
+                            const monthIndex = date.getUTCMonth();
+                            const year = date.getUTCFullYear();
 
-                    const monthAbbreviations = [
-                      "January",
-                      "February",
-                      "March",
-                      "April",
-                      "May",
-                      "June",
-                      "July",
-                      "August",
-                      "September",
-                      "October",
-                      "November",
-                      "December",
-                    ];
-                    let ordinalsText = "";
-                    if (day == 1 || day == 21 || day == 31) {
-                      ordinalsText = "st";
-                    } else if (day == 2 || day == 22) {
-                      ordinalsText = "nd";
-                    } else if (day == 3 || day == 23) {
-                      ordinalsText = "rd";
-                    } else {
-                      ordinalsText = "th";
-                    }
+                            const monthAbbreviations = [
+                              "January",
+                              "February",
+                              "March",
+                              "April",
+                              "May",
+                              "June",
+                              "July",
+                              "August",
+                              "September",
+                              "October",
+                              "November",
+                              "December",
+                            ];
+                            let ordinalsText = "";
+                            if (day == 1 || day == 21 || day == 31) {
+                              ordinalsText = "st";
+                            } else if (day == 2 || day == 22) {
+                              ordinalsText = "nd";
+                            } else if (day == 3 || day == 23) {
+                              ordinalsText = "rd";
+                            } else {
+                              ordinalsText = "th";
+                            }
 
-                     // Formatting the date
-              date = ` ${monthAbbreviations[monthIndex]} ${
-                day < 10 ? "0" : ""
-              }${day}${ordinalsText}, ${year}`;
-                    return (
-                      <div>
-
-
-                      {item.value ? (
-                        <p className="text-sm absolute bottom-2 right-2">
-                       Date : {date ? date : "No Date"}
-                        </p>
-                      ) : (
-                        <p className="text-sm text-gray-400 absolute bottom-2 right-2">
-                          Date:month date, year
-                        </p>
-                      )}
-                    </div>
-                  )
-                  })()}
-
-
-
-
-                        {/* {item.type === "date" &&
-                          item.inputname === "date" &&
-                          item.field === "predefined" && (
-                            <div>
-
-
-                              {item.value ? (
-                                <p className="text-sm absolute bottom-4 right-2">
-                                  {" "}
-                                  Date : {item.value}
-                                </p>
-                              ) : (
-                                <p className="text-sm text-gray-400 absolute bottom-4 right-2">
-                                  Date:dd/mm/yyy
-                                </p>
-                              )}
-                            </div>
-                          )} */}
+                            // Formatting the date
+                            date = ` ${monthAbbreviations[monthIndex]} ${
+                              day < 10 ? "0" : ""
+                            }${day}${ordinalsText}, ${year}`;
+                            return (
+                              <div>
+                                {item.value ? (
+                                  <p className="text-sm absolute bottom-2 right-2">
+                                    Date : {date ? date : "No Date"}
+                                  </p>
+                                ) : (
+                                  <p className="text-sm text-gray-400 absolute bottom-2 right-2">
+                                    Date : month date, year
+                                  </p>
+                                )}
+                              </div>
+                            );
+                          })()}
                       </span>
                     </div>
                     {item.type === "textarea" &&
