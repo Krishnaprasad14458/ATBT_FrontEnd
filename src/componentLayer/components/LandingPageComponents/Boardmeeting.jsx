@@ -15,11 +15,13 @@ import { debounce } from "../../../utils/utils";
 import Swal from "sweetalert2";
 let url;
 let moduleName;
+let parentPath
 export async function loader({ request, params }) {
   try {
     url = new URL(request.url);
     if (params.boardmeetings === "userboardmeetings") {
       moduleName = "user";
+      parentPath = "users"
     }
     if (params.boardmeetings === "entityboardmeetings") {
       moduleName = "entity";
@@ -46,7 +48,7 @@ export async function loader({ request, params }) {
       tableViewData: meetingFormData?.data?.Tableview,
       customForm: meetingFormData?.data?.Data,
       threadName: "BoardMeetings",
-      threadPath: `/users/${params.id}/boardmeetings`,
+      threadPath: `/${parentPath}/${params.id}/${params.boardmeetings}`,
     };
     console.log(combinedResponse, "entities response", request, params);
     return combinedResponse;

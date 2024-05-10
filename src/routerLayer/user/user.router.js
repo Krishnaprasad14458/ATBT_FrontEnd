@@ -18,8 +18,12 @@ import Tasks, {
   TasksActions,
   tasksLoader,
 } from "../../componentLayer/components/LandingPageComponents/Tasks";
-import BoardMeetingOverview, { boardMeetingOverviewLoader } from "../../componentLayer/pages/boardmeetings/boardMeetingLandingPage/BoardMeetingOverview";
-import BoardMeetingForm, { boardmeetingFormLoader } from "../../componentLayer/pages/boardmeetings/createBoardMeetingForm/BoardMeetingForm";
+import BoardMeetingOverview, {
+  boardMeetingOverviewLoader,
+} from "../../componentLayer/pages/boardmeetings/boardMeetingLandingPage/BoardMeetingOverview";
+import BoardMeetingForm, {
+  boardmeetingFormLoader,
+} from "../../componentLayer/pages/boardmeetings/createBoardMeetingForm/BoardMeetingForm";
 
 export const userRouter = [
   //   /users     <users/>
@@ -96,28 +100,36 @@ export const userRouter = [
                 loader: entityMeetingLoader,
                 action: entityMeetingAction,
                 element: <Boardmeeting />,
-                
               },
               // /users/:id/:boardmeetings/:BMid        tasks of :BMid  bmeetings
               {
                 path: ":BMid",
-               
+
                 children: [
                   {
                     index: true,
-                    loader : boardMeetingOverviewLoader,
+                    loader: boardMeetingOverviewLoader,
                     element: <BoardMeetingOverview />,
+                    handle: {
+                      crumb: (data) => (
+                        <Link to={data.threadPath}>{data.threadName}</Link>
+                      ),
+                    },
                   },
                   {
                     path: "tasks",
                     loader: tasksLoader,
                     action: TasksActions,
                     element: <Tasks />,
+                    handle: {
+                      crumb: (data) => (
+                        <Link to={data.threadPath}>{data.threadName}</Link>
+                      ),
+                    },
                   },
                   {
                     path: "documents",
                     element: <Documents />,
-
                   },
                 ],
               },
