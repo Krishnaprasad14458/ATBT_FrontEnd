@@ -88,7 +88,7 @@ const CommentsView = ({
                   <div className="md:col-span-1 text-center  flex justify-center">
                     <p className="hidden md:block  w-9 h-9 rounded-full ">
                       <span className="flex justify-center text-white text-sm">
-                        <img src={comment.senderImage} />
+                        <img src={comment.senderImage} className="mt-3" />
                       </span>
                     </p>
                   </div>
