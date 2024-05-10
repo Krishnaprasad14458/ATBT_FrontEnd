@@ -3,12 +3,12 @@ import { Link, Outlet, useLoaderData, useParams } from "react-router-dom";
 import axios from "axios";
 import atbtApi from "../../../../serviceLayer/interceptor";
 let moduleName;
-let parentPath
+let parentPath;
 export const boardMeetingOverviewLoader = async ({ params }) => {
   try {
     if (params.boardmeetings === "userboardmeetings") {
       moduleName = "user";
-      parentPath = "users"
+      parentPath = "users";
     }
     if (params.boardmeetings === "entityboardmeetings") {
       moduleName = "entity";
@@ -17,12 +17,10 @@ export const boardMeetingOverviewLoader = async ({ params }) => {
       atbtApi.get(`boardmeeting/getByid/${params?.BMid}`),
       // atbtApi.post(`entity/User/list/${params?.id}`),
     ]);
-    // data.threadName = data?.user?.name;
-    // data.threadPath = `/users/${params.id}`;
     console.log("bm overview combined data", data);
-    let threadName = data?.data?.meetingnumber ;
-    let threadPath = `/${parentPath}/${params.id}/${params.boardmeetings}/${params.BMid}` ;
-    return { data,threadName,threadPath };
+    let threadName = data?.data?.meetingnumber;
+    let threadPath = `/${parentPath}/${params.id}/${params.boardmeetings}/${params.BMid}`;
+    return { data, threadName, threadPath };
   } catch (error) {
     console.error("Error loading dashboard:", error);
     return null;
@@ -30,7 +28,7 @@ export const boardMeetingOverviewLoader = async ({ params }) => {
   }
 };
 const BoardMeetingOverview = () => {
-  const { id } = useParams();
+  const { id, BMid, boardmeetings } = useParams();
   let data = useLoaderData();
   let customFormField = data?.data?.data?.customFieldsData;
 
@@ -63,7 +61,10 @@ const BoardMeetingOverview = () => {
     <div className=" p-4 bg-[#f8fafc]">
       <div className="flex justify-end gap-3">
         <Link
-          to={`../${id}/edit`}
+          to={{
+            pathname: `/boardmeetings/${BMid}/edit`,
+            search: `?boardmeetingFor=${moduleName}&boardmeetingForID=${id}`,
+          }}
           relative="path"
           className="text-sm font-medium transition-colors  focus-visible:ring-1 focus-visible:ring-ring  text-gray-900 pt-2 hover:text-orange-600"
         >
@@ -76,7 +77,11 @@ const BoardMeetingOverview = () => {
             <path d="m2.695 14.762-1.262 3.155a.5.5 0 0 0 .65.65l3.155-1.262a4 4 0 0 0 1.343-.886L17.5 5.501a2.121 2.121 0 0 0-3-3L3.58 13.419a4 4 0 0 0-.885 1.343Z" />
           </svg>
         </Link>
-        <Link to={`/boardmeetings/${id}/task`}>
+        <Link
+          to={`/${
+            boardmeetings === "userboardmeetings" ? "users" : ""
+          }/${id}/${boardmeetings}/${BMid}/tasks`}
+        >
           <button
             type="submit"
             className=" flex  justify-center rounded-md bg-orange-600 px-3 py-2 text-sm font-medium leading-6 text-white shadow-sm  focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600"

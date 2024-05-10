@@ -10,8 +10,8 @@ export const entityOverviewLoader = async ({ params }) => {
       atbtApi.get(`/entity/list/${params?.id}`),
       atbtApi.post(`entity/User/list/${params?.id}`),
     ]);
-    // data.threadName = data?.user?.name;
-    // data.threadPath = `/users/${params.id}`;
+    data.threadName = data?.data?.name;
+    data.threadPath = `/entities/${params.id}`;
    console.log("combined data",data,UsersList)
     return { data, UsersList };
   } catch (error) {
