@@ -78,7 +78,7 @@ const UserOverview = () => {
               <path d="m2.695 14.762-1.262 3.155a.5.5 0 0 0 .65.65l3.155-1.262a4 4 0 0 0 1.343-.886L17.5 5.501a2.121 2.121 0 0 0-3-3L3.58 13.419a4 4 0 0 0-.885 1.343Z" />
             </svg>
           </Link>
-        </div>
+        </div> 
         {customFormField &&
           customFormField.length > 0 &&
           customFormField.map((item) => {
@@ -89,15 +89,15 @@ const UserOverview = () => {
                     item.inputname == "image" &&
                     item.field === "predefined" && (
                       <div>
-                        {console.log(item.value, "item.value")}
+                    
                         {console.log(
-                          data?.user?.image,
-                          "  {data?.user?.image}"
+                          data?.data?.data?.user?.image,
+                          "{data?.user?.image}"
                         )}
 
                         {item.value ? (
                           <img
-                            src={data?.user?.image}
+                            src={data?.data?.data?.user?.image}
                             name="EntityPhoto"
                             alt="User Photo"
                             className=" h-36 w-36 relative mx-auto bottom-20 rounded-md border-2 border-gray-200 shadow-md"
@@ -109,8 +109,9 @@ const UserOverview = () => {
                             alt="photo"
                           />
                         )}
-
-                        {/* {item.value ? (
+{/* 
+<div>
+                                {item.value ? (
                                   <img
                                     src={
                                       typeof item.value === "string"
@@ -127,28 +128,9 @@ const UserOverview = () => {
                                     src={defprop}
                                     alt="photo"
                                   />
-                                )} */}
-                        {/* {item.value ? (
-                          <img
-                            src={
-                              typeof item.value === "string"
-                                ? item.value
-                                : item.value instanceof File ||
-                                  item.value instanceof Blob
-                                ? URL.createObjectURL(item.value)
-                                : ""
-                            }
-                            name="UserPhoto"
-                            alt="User Photo"
-                            className="h-36 w-36 relative mx-auto bottom-20 rounded-md border-2 border-gray-200 shadow-md"
-                          />
-                        ) : (
-                          <img
-                            className="h-36 w-36 relative mx-auto bottom-20 rounded-md border-2 border-gray-200 shadow-md"
-                            src={defprop}
-                            alt="photo"
-                          />
-                        )} */}
+                                )}
+                              </div> */}
+                  
                       </div>
                     )}
                 </div>
