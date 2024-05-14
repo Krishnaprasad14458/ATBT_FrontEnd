@@ -110,45 +110,7 @@ const UserOverview = () => {
                           />
                         )}
 
-                        {/* {item.value ? (
-                                  <img
-                                    src={
-                                      typeof item.value === "string"
-                                        ? item.value
-                                        : URL.createObjectURL(item.value)
-                                    }
-                                    name="UserPhoto"
-                                    alt="User Photo"
-                                    className=" h-36 w-36 relative mx-auto bottom-20 rounded-md border-2 border-gray-200 shadow-md"
-                                  />
-                                ) : (
-                                  <img
-                                    className=" h-36 w-36 relative mx-auto bottom-20 rounded-md border-2 border-gray-200 shadow-md"
-                                    src={defprop}
-                                    alt="photo"
-                                  />
-                                )} */}
-                        {/* {item.value ? (
-                          <img
-                            src={
-                              typeof item.value === "string"
-                                ? item.value
-                                : item.value instanceof File ||
-                                  item.value instanceof Blob
-                                ? URL.createObjectURL(item.value)
-                                : ""
-                            }
-                            name="UserPhoto"
-                            alt="User Photo"
-                            className="h-36 w-36 relative mx-auto bottom-20 rounded-md border-2 border-gray-200 shadow-md"
-                          />
-                        ) : (
-                          <img
-                            className="h-36 w-36 relative mx-auto bottom-20 rounded-md border-2 border-gray-200 shadow-md"
-                            src={defprop}
-                            alt="photo"
-                          />
-                        )} */}
+                    
                       </div>
                     )}
                 </div>
