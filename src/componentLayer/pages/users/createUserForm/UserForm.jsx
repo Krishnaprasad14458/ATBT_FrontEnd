@@ -592,13 +592,13 @@ function UserForm() {
                             }
                             value={customFormFields[index].value || ""}
                             style={{
-                              fontSize: "0.8rem",
+                              fontSize:  customFormFields[index].value ?"0.8rem": "0.75rem",
                               color: customFormFields[index].value
                                 ? "#111827"
                                 : "#a1a1aa",
                             }}
                           >
-                            <option value="" disabled defaultValue>
+                            <option value="" disabled defaultValue className="text-sm">
                               Select {/* Use the label as the placeholder */}
                             </option>
                             {item.options.value &&
@@ -618,7 +618,7 @@ function UserForm() {
                           </select>
 
                           <svg
-                            className="w-4 h-4 text-gray-700 absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none"
+                            className="w- h-3 text-gray-700 absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none"
                             fill="none"
                             stroke="currentColor"
                             viewBox="0 0 24 24"
@@ -747,7 +747,7 @@ function UserForm() {
                             }
                             value={customFormFields[index].value || ""}
                             style={{
-                              fontSize: "0.8rem",
+                              fontSize:  customFormFields[index].value ?"0.8rem": "0.75rem",
                               color: customFormFields[index].value
                                 ? "#111827"
                                 : "#a1a1aa",
@@ -769,7 +769,7 @@ function UserForm() {
                               ))}
                           </select>
                           <svg
-                            className="w-4 h-4 text-gray-700 absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none"
+                            className="w-3 h-3 text-gray-700 absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none"
                             fill="none"
                             stroke="currentColor"
                             viewBox="0 0 24 24"
@@ -822,7 +822,7 @@ function UserForm() {
                           onChange={(e) => handleChange(index, e.target.value)}
                           value={customFormFields[index].value || ""}
                           style={{
-                            fontSize: "0.8rem",
+                            fontSize:  customFormFields[index].value ?"0.8rem": "0.75rem",
                             color: customFormFields[index].value
                               ? "#111827"
                               : "#a1a1aa",
@@ -850,7 +850,7 @@ function UserForm() {
                             )}
                         </select>
                         <svg
-                            className="w-4 h-4 text-gray-700 absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none"
+                            className="w-3 h-3 text-gray-700 absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none"
                             fill="none"
                             stroke="currentColor"
                             viewBox="0 0 24 24"
