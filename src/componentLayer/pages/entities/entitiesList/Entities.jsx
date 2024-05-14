@@ -7,6 +7,7 @@ import GateKeeper from '../../../../rbac/GateKeeper';
 import atbtApi from '../../../../serviceLayer/interceptor';
 import CustomColumn from '../../../components/tableCustomization/CustomColumn';
 import CustomFilter from '../../../components/tableCustomization/CustomFilter';
+import BreadCrumbs from '../../../components/breadcrumbs/BreadCrumbs';
 export async function loader({ request, params }) {
   try {
     let url = new URL(request.url);
@@ -152,7 +153,8 @@ function Entities() {
     <div className='overflow-x-auto p-3'>
       {/* search & filter */}
       <div className='grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-3 xl:grid-col-3 gap-2 mt-2'>
-        <h1 className='font-semibold text-lg grid1-item'>Entities</h1>
+        <h1 className='font-semibold text-lg grid1-item'> <BreadCrumbs/></h1>
+       
         <div className='grid1-item mx-3 text-start'>
           <label
             for='default-search'

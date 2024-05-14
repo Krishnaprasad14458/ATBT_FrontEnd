@@ -19,6 +19,7 @@ let parentPath
 export async function loader({ request, params }) {
   try {
     url = new URL(request.url);
+    console.log("url",url)
     if (params.boardmeetings === "userboardmeetings") {
       moduleName = "user";
       parentPath = "users"
@@ -28,10 +29,9 @@ export async function loader({ request, params }) {
     }
     const [meetings, entityList, roleList, meetingFormData] = await Promise.all(
       [
+       
         atbtApi.get(
-          `boardmeeting/list?${moduleName}=${params.id}${
-            url?.search ? url?.search : ""
-          }`
+          `boardmeeting/list?${moduleName}=${params.id}${url && url.search ? '&' + url.search.substring(1) : ""}`
         ),
         atbtApi.post(`public/list/entity`),
         atbtApi.post(`public/list/role`),
@@ -82,6 +82,7 @@ function Boardmeeting() {
     search: "",
     page: 1,
     pageSize: 10,
+  
   });
   useEffect(() => {
     debouncedParams(Qparams);
@@ -211,6 +212,7 @@ function Boardmeeting() {
               search: `?boardmeetingFor=${moduleName}&boardmeetingForID=${id}`,
             }}
           >
+            
             <button className=" px-1 inline-flex items-center justify-center  rounded-full  font-medium  gap-1 ">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -222,6 +224,9 @@ function Boardmeeting() {
               </svg>
               <span className="text-sm"> Create</span>
             </button>
+
+
+
           </Link>
         </div>
       </div>
