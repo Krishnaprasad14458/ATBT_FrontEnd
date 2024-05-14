@@ -7,14 +7,19 @@ import { BoardMeetingsDataContext } from "../../../../contexts/boardmeetingsData
 import $ from "jquery";
 import { useNavigate, useLoaderData, useParams } from "react-router-dom";
 import atbtApi from "../../../../serviceLayer/interceptor";
+import Select from "react-select";
 
 const userData = JSON.parse(localStorage.getItem("data"));
 let createdBy = userData?.user?.id;
 const token = userData?.token;
 const role = userData?.role?.name;
-export async function boardmeetingFormLoader({ params }) {
+export async function boardmeetingFormLoader({ params ,request}) {
+  const url = new URL(request.url);
+  const boardmeetingFor = url.searchParams.get("boardmeetingFor");
+  const boardmeetingForID = parseInt(url.searchParams.get("boardmeetingForID"));
+
   try {
-    const [formResponse, boardmeetingResponse, usersList] = await Promise.all([
+    let [formResponse, boardmeetingResponse, usersList] = await Promise.all([
       atbtApi.get(`form/list?name=boardmeetingform`),
       params.id ? atbtApi.get(`boardmeeting/getByid/${params.id}`) : null, //Api for edit
       atbtApi.post(`public/list/user`),
@@ -24,7 +29,15 @@ export async function boardmeetingFormLoader({ params }) {
       console.log(boardmeetingResponse, "loader boardmeeting data");
       boardmeetingData = boardmeetingResponse?.data;
     }
-
+    usersList = usersList?.data?.users?.map((item) => ({
+      value: item.id,
+      label: item.email,
+      image : item.image,
+      name : item.name
+    }));
+    if(boardmeetingFor ==="user" && boardmeetingForID) {
+      usersList =usersList.filter(user => user.value !== boardmeetingForID);
+    }
     const formData = formResponse.data.Data;
     console.log("formData", formData, "boardmeetingData", boardmeetingData);
 
@@ -76,11 +89,24 @@ function BoardMeetingForm() {
   const { createBoardMeeting, updateBoardMeeting } = useContext(
     BoardMeetingsDataContext
   );
-  const usersEmails = boardmeeting.usersList.data.users;
+  const [selected, setSelected] = useState([]);
+
+  const [usersEmails, setUsersEmails] = useState(boardmeeting.usersList);
+
+  useEffect(() => {
+    const filteredEmails = boardmeeting.usersList.filter(
+      (mainObj) =>
+        !selected.some(
+          (selectedObj) =>
+            selectedObj.value === mainObj.value
+        )
+    );
+    setUsersEmails(filteredEmails);
+  }, [selected, boardmeeting.usersList]);
+
   const { debouncedSetPage, debouncedSetSearch } = useDebounce(usersDispatch);
   let [openOptions, setopenOptions] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
-  const [selected, setSelected] = useState([]);
   const [showUsers, setShowUsers] = useState(false);
   let [customFormFields, setCustomFormFields] = useState(() =>
     setInitialForm()
@@ -92,8 +118,10 @@ function BoardMeetingForm() {
     }
   }, [id]);
   useEffect(() => {
-    console.log(customFormFields, "cfff");
+    console.log(selected, "selected");
     console.log("errors", errors);
+    console.log("customFormFields", customFormFields);
+
   });
   const handleInputChange = (e) => {
     setShowUsers(true);
@@ -112,10 +140,19 @@ function BoardMeetingForm() {
     }
   };
   const handleClick = (value, index) => {
-    setSelected((e) => [...e, value]);
+    console.log("value",value)
+    setSelected(value)
+    // setSelected((e) => [...e, value[0]]);
     const updatedFormData = [...customFormFields];
-    let members = updatedFormData[index].value;
-    members.push(value);
+    let members = value;
+    console.log("members",members)
+    // members.push(value);
+    members = members?.map((item) => ({
+      name: item.name,
+      id: item.value,
+      image : item.image,
+      email : item.label
+    }));
     updatedFormData[index].value = members;
     setCustomFormFields(updatedFormData);
     setSearchTerm("");
@@ -441,6 +478,8 @@ function BoardMeetingForm() {
       formData.forEach((value, key) => {
         formDataObj[key] = value;
       });
+    
+
       let response;
       if (!!id && !!boardmeeting?.boardmeetingData) {
         console.log("updating");
@@ -632,6 +671,61 @@ function BoardMeetingForm() {
                     item.inputname == "members" &&
                     item.field == "predefined" && (
                       <div className="relative">
+                        <Select
+                          styles={{
+                            control: (provided, state) => ({
+                              ...provided,
+                              backgroundColor: "#f9fafb", // Change the background color of the select input
+                              borderWidth: state.isFocused ? "1px" : "1px", // Decrease border width when focused
+                              borderColor: state.isFocused
+                                ? "#orange-400"
+                                : "#d1d5db", // Change border color when focused
+                              boxShadow: state.isFocused
+                                ? "none"
+                                : provided.boxShadow, // Optionally remove box shadow when focused
+                            }),
+                            placeholder: (provided) => ({
+                              ...provided,
+                              fontSize: "small", // Adjust the font size of the placeholder text
+                            }),
+                            option: (provided, state) => ({
+                              ...provided,
+                              color: state.isFocused ? "#fff" : "#000000",
+                              backgroundColor: state.isFocused
+                                ? "#ea580c"
+                                : "transparent",
+
+                              "&:hover": {
+                                color: "#fff",
+                                backgroundColor: "#ea580c",
+                              },
+                            }),
+                          }}
+                          theme={(theme) => ({
+                            ...theme,
+                            borderRadius: 5,
+                            colors: {
+                              ...theme.colors,
+
+                              primary: "#fb923c",
+                            },
+                          })}
+                          isMulti
+                          // name="colors"
+                          options={usersEmails}
+                          className="basic-multi-select "
+                          classNamePrefix="select"
+                          value={selected}
+                          // onChange={handleShareDataOf}
+
+                          // onChange={() => handleClick(user, index)}
+
+                          onChange={(selectedOption) => {
+                            handleClick(selectedOption, index);
+                          }}
+
+                          // onInputChange={handleInputChange}
+                        />
                         <label
                           htmlFor="email"
                           className="block text-sm  font-medium leading-6 mt-2 text-gray-900"
@@ -647,7 +741,7 @@ function BoardMeetingForm() {
                           className=" 
                        flex flex-wrap gap-1 px-2 py-2 text-sm  w-full  bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 selected-users-container relative  rounded-md"
                         >
-                          {selected &&
+                          {/* {selected &&
                             selected.length > 0 &&
                             selected.map((result, selectedIndex) => {
                               let mail = result.email.split("@")[0];
@@ -685,8 +779,10 @@ function BoardMeetingForm() {
                                   </svg>
                                 </span>
                               );
-                            })}
-                          <input
+                            })} */}
+
+
+                          {/* <input
                             type="text"
                             placeholder="Type email id"
                             tabindex="0"
@@ -696,10 +792,10 @@ function BoardMeetingForm() {
                             className="bg-[#f8fafc]   focus:outline-none  placeholder:text-xs"
                             value={searchTerm}
                             onChange={handleInputChange}
-                          />
+                          /> */}
                         </div>
 
-                        {showUsers && searchTerm.length > 0 && (
+                        {/* {showUsers && searchTerm.length > 0 && (
                           <ul className="user-list z-10 absolute top-full left-0 bg-gray-50 border border-1 border-gray-200 w-full">
                             {usersEmails
                               .filter(
@@ -719,7 +815,7 @@ function BoardMeetingForm() {
                                 </li>
                               ))}
                           </ul>
-                        )}
+                        )} */}
 
                         <div className="h-2 text-[#dc2626]">
                           {errors[item.inputname] && (
