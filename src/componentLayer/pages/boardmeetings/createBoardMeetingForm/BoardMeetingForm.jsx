@@ -13,7 +13,7 @@ const userData = JSON.parse(localStorage.getItem("data"));
 let createdBy = userData?.user?.id;
 const token = userData?.token;
 const role = userData?.role?.name;
-export async function boardmeetingFormLoader({ params ,request}) {
+export async function boardmeetingFormLoader({ params, request }) {
   const url = new URL(request.url);
   const boardmeetingFor = url.searchParams.get("boardmeetingFor");
   const boardmeetingForID = parseInt(url.searchParams.get("boardmeetingForID"));
@@ -32,11 +32,11 @@ export async function boardmeetingFormLoader({ params ,request}) {
     usersList = usersList?.data?.users?.map((item) => ({
       value: item.id,
       label: item.email,
-      image : item.image,
-      name : item.name
+      image: item.image,
+      name: item.name,
     }));
-    if(boardmeetingFor ==="user" && boardmeetingForID) {
-      usersList =usersList.filter(user => user.value !== boardmeetingForID);
+    if (boardmeetingFor === "user" && boardmeetingForID) {
+      usersList = usersList.filter((user) => user.value !== boardmeetingForID);
     }
     const formData = formResponse.data.Data;
     console.log("formData", formData, "boardmeetingData", boardmeetingData);
@@ -96,10 +96,7 @@ function BoardMeetingForm() {
   useEffect(() => {
     const filteredEmails = boardmeeting.usersList.filter(
       (mainObj) =>
-        !selected.some(
-          (selectedObj) =>
-            selectedObj.value === mainObj.value
-        )
+        !selected.some((selectedObj) => selectedObj.value === mainObj.value)
     );
     setUsersEmails(filteredEmails);
   }, [selected, boardmeeting.usersList]);
@@ -121,7 +118,6 @@ function BoardMeetingForm() {
     console.log(selected, "selected");
     console.log("errors", errors);
     console.log("customFormFields", customFormFields);
-
   });
   const handleInputChange = (e) => {
     setShowUsers(true);
@@ -140,18 +136,18 @@ function BoardMeetingForm() {
     }
   };
   const handleClick = (value, index) => {
-    console.log("value",value)
-    setSelected(value)
+    console.log("value", value);
+    setSelected(value);
     // setSelected((e) => [...e, value[0]]);
     const updatedFormData = [...customFormFields];
     let members = value;
-    console.log("members",members)
+    console.log("members", members);
     // members.push(value);
     members = members?.map((item) => ({
       name: item.name,
       id: item.value,
-      image : item.image,
-      email : item.label
+      image: item.image,
+      email: item.label,
     }));
     updatedFormData[index].value = members;
     setCustomFormFields(updatedFormData);
@@ -478,7 +474,6 @@ function BoardMeetingForm() {
       formData.forEach((value, key) => {
         formDataObj[key] = value;
       });
-    
 
       let response;
       if (!!id && !!boardmeeting?.boardmeetingData) {
@@ -671,6 +666,17 @@ function BoardMeetingForm() {
                     item.inputname == "members" &&
                     item.field == "predefined" && (
                       <div className="relative">
+                        <label
+                          htmlFor="email"
+                          className="block text-sm  font-medium leading-6  text-gray-900"
+                        >
+                          {item.label}
+                          {item.mandatory ? (
+                            <span className="text-red-600">*</span>
+                          ) : (
+                            <span> </span>
+                          )}
+                        </label>
                         <Select
                           styles={{
                             control: (provided, state) => ({
@@ -683,6 +689,8 @@ function BoardMeetingForm() {
                               boxShadow: state.isFocused
                                 ? "none"
                                 : provided.boxShadow, // Optionally remove box shadow when focused
+                              maxHeight: "150px",
+                              overflowY: "auto",
                             }),
                             placeholder: (provided) => ({
                               ...provided,
@@ -713,110 +721,26 @@ function BoardMeetingForm() {
                           isMulti
                           // name="colors"
                           options={usersEmails}
+                          getOptionLabel={(option) => (
+                            <div className="flex items-center">
+                              <img
+                                src={option.image} // Assuming each option object has an 'image' property
+                                alt={`Image of ${option.label}`} // Provide alt text for accessibility
+                                className="w-3 h-3 mr-2 rounded-full"
+                              />
+                              <span className="text-[0.6rem]">
+                                {option.label}
+                              </span>
+                            </div>
+                          )}
+                          getOptionValue={(option) => option.value} // Assuming each option object has a 'value' property
                           className="basic-multi-select "
                           classNamePrefix="select"
                           value={selected}
-                          // onChange={handleShareDataOf}
-
-                          // onChange={() => handleClick(user, index)}
-
                           onChange={(selectedOption) => {
                             handleClick(selectedOption, index);
                           }}
-
-                          // onInputChange={handleInputChange}
                         />
-                        <label
-                          htmlFor="email"
-                          className="block text-sm  font-medium leading-6 mt-2 text-gray-900"
-                        >
-                          {item.label}
-                          {item.mandatory ? (
-                            <span className="text-red-600">*</span>
-                          ) : (
-                            <span> </span>
-                          )}
-                        </label>
-                        <div
-                          className=" 
-                       flex flex-wrap gap-1 px-2 py-2 text-sm  w-full  bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 selected-users-container relative  rounded-md"
-                        >
-                          {/* {selected &&
-                            selected.length > 0 &&
-                            selected.map((result, selectedIndex) => {
-                              let mail = result.email.split("@")[0];
-                              return (
-                                <span className="flex gap-1 text-xs mt-1 border-2 border-gray-200 rounded-md  focus:border-orange-600">
-                                  {result.image ? (
-                                    <img
-                                      src={
-                                        typeof result.image === "string"
-                                          ? result.image
-                                          : URL.createObjectURL(result.image)
-                                      }
-                                      name="EntityPhoto"
-                                      alt="Entity Photo"
-                                      className="rounded-lg w-4 h-4 "
-                                    />
-                                  ) : (
-                                    <img
-                                      className="w-4 h-4 rounded-lg "
-                                      src={defprop}
-                                      alt="default image"
-                                    />
-                                  )}
-                                  {mail}
-                                  <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    viewBox="0 0 16 16"
-                                    fill="currentColor"
-                                    className="w-4 h-4 "
-                                    onClick={() =>
-                                      handleRemove(selectedIndex, index)
-                                    }
-                                  >
-                                    <path d="M5.28 4.22a.75.75 0 0 0-1.06 1.06L6.94 8l-2.72 2.72a.75.75 0 1 0 1.06 1.06L8 9.06l2.72 2.72a.75.75 0 1 0 1.06-1.06L9.06 8l2.72-2.72a.75.75 0 0 0-1.06-1.06L8 6.94 5.28 4.22Z" />
-                                  </svg>
-                                </span>
-                              );
-                            })} */}
-
-
-                          {/* <input
-                            type="text"
-                            placeholder="Type email id"
-                            tabindex="0"
-                            aria-describedby="lui_5891"
-                            aria-invalid="false"
-                            style={{ border: "none" }}
-                            className="bg-[#f8fafc]   focus:outline-none  placeholder:text-xs"
-                            value={searchTerm}
-                            onChange={handleInputChange}
-                          /> */}
-                        </div>
-
-                        {/* {showUsers && searchTerm.length > 0 && (
-                          <ul className="user-list z-10 absolute top-full left-0 bg-gray-50 border border-1 border-gray-200 w-full">
-                            {usersEmails
-                              .filter(
-                                (mainObj) =>
-                                  !selected.some(
-                                    (selectedObj) =>
-                                      selectedObj.id === mainObj.id
-                                  )
-                              )
-                              .map((user, ind) => (
-                                <li
-                                  key={ind}
-                                  className="px-3 py-1 text-sm hover:bg-gray-200"
-                                  onClick={() => handleClick(user, index)}
-                                >
-                                  {user.email}
-                                </li>
-                              ))}
-                          </ul>
-                        )} */}
-
                         <div className="h-2 text-[#dc2626]">
                           {errors[item.inputname] && (
                             <span className="text-xs">
