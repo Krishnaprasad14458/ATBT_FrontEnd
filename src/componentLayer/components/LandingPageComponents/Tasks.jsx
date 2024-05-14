@@ -53,7 +53,7 @@ export async function tasksLoader({ request, params }) {
         // get('/groupTeam/:id',)            Meeting.ListTeamGroup)
         // get('/groupUser/:id')              Meeting.ListUserGroup)
       ]);
-
+console.log("personResponsible",personResponsible)
     let updatedTask = task?.data[0];
     let updatedSubTask = subTask?.data[0];
     let taskAge = null;
@@ -378,7 +378,7 @@ const Tasks = () => {
         <div className="flex overflow-x-auto my-2">
           {!BMid && (
             <NavLink
-              to="/users/160/tasks?status=To-Do"
+              to={`/users/${id}/tasks?status=To-Do`}
               end
               className={`cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09] ${
                 activeLink === "toDo" ? "border-b-2 border-orange-500 text-orange-600" : ""
@@ -390,7 +390,9 @@ const Tasks = () => {
           )}
           {!BMid && (
             <NavLink
-              to="/users/160/tasks?status=In-progress"
+            
+              to={`/users/${id}/tasks?status=In-progress`}
+
               end
               className={`cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09] ${
                 activeLink === "inProgress"
@@ -405,7 +407,9 @@ const Tasks = () => {
 
           {!BMid && (
             <NavLink
-              to="/users/160/tasks?status=overdue"
+            to={`/users/${id}/tasks?status=Over-Due`}
+
+            
               end
               className={`cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09] ${
                 activeLink === "OverDue" ? "border-b-2 border-orange-500 text-orange-600" : ""
@@ -417,7 +421,9 @@ const Tasks = () => {
           )}
           {!BMid && (
             <NavLink
-              to="/users/160/tasks?status=Completed"
+            to={`/users/${id}/tasks?status=Completed`}
+
+           
               end
               className={`cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09] ${
                 activeLink === "Completed" ? "border-b-2 border-orange-500 text-orange-600" : ""
@@ -429,7 +435,7 @@ const Tasks = () => {
           )}
           {!BMid && (
             <NavLink
-              to="/users/160/tasks"
+            to={`/users/${id}/tasks`}
               end
               className={`cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09] ${
                 activeLink === "Master" ? "border-b-2 border-orange-600" : ""
