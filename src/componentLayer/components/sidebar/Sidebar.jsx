@@ -173,17 +173,17 @@ const Sidebar = () => {
 
   return (
     <div className="sidebar">
-      <main className="bg-white">
+      <main className={`bg-white ${
+            open ? "w-52" : "w-16"
+          }   duration-500`}>
         <div
-          className={`bg-white min-h-screen ${
-            open ? "w-60" : "w-16"
-          } duration-500 text-gray-100 px-2 relative`}
+          className={` min-h-screen duration-500 text-gray-100 px-2 relative`}
         >
           <div className="pt-3 flex justify-between">
             <img
               src={logo}
               alt="Infoz IT"
-              className={`w-28 h-10 ms-8 p-0 ${open ? "" : "hidden"}`}
+              className={`w-28 h-10 ms-6 p-0 ${open ? "" : "hidden"}`}
             />
             <svg
               xmlns="http://www.w3.org/2000/svg"

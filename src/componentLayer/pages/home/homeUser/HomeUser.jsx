@@ -158,10 +158,8 @@ function HomeUser() {
               "Loading..."
             ) : (
               <p className="text-sm text-gray-700">
-                Showing <span className="font-medium">{data?.startUser}</span>{" "}
-                to
-                <span className="font-medium"> {data?.endUser}</span> of{" "}
-                {data?.totalUsers} users
+                Showing {data?.startUser} to {data?.endUser} of
+                <span className="text-sm "> {data?.totalUsers}</span> users
               </p>
             )}
           </div>

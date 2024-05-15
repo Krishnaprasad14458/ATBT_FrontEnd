@@ -213,7 +213,7 @@ function Boardmeeting() {
             }}
           >
             
-            <button className=" px-1 inline-flex items-center justify-center  rounded-full  font-medium  gap-1 ">
+            <button className=" px-1 py-2 inline-flex items-center justify-center  rounded-full  font-medium  gap-1 ">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 20 20"
