@@ -195,7 +195,7 @@ export async function TasksActions({ request, params }) {
     }
   }
 }
-const Tasks = () => {
+const Tasks = ({NameModule}) => {
   let submit = useSubmit();
   const data = useLoaderData();
   let [tasks, setTasks] = useState([]);
@@ -384,7 +384,7 @@ const Tasks = () => {
         <div className="flex overflow-x-auto my-2">
           {!BMid && (
             <NavLink
-            to={`/users/${id}/tasks?status=To-Do`}
+            to={`/${NameModule}/${id}/tasks?status=To-Do`}
             end
               className={`cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09] ${
                 activeLink === "toDo" ? "border-b-2 border-orange-500 text-orange-600" : ""
@@ -397,7 +397,7 @@ const Tasks = () => {
           {!BMid && (
             <NavLink
             
-              to={`/users/${id}/tasks?status=In-Progress`}
+              to={`/${NameModule}/${id}/tasks?status=In-Progress`}
 
               end
               className={`cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09] ${
@@ -413,7 +413,7 @@ const Tasks = () => {
 
           {!BMid && (
             <NavLink
-            to={`/users/${id}/tasks?status=Over-Due`}
+            to={`/${NameModule}/${id}/tasks?status=Over-Due`}
 
             
               end
@@ -427,7 +427,7 @@ const Tasks = () => {
           )}
           {!BMid && (
             <NavLink
-            to={`/users/${id}/tasks?status=Completed`}
+            to={`/${NameModule}/${id}/tasks?status=Completed`}
 
            
               end
@@ -441,7 +441,7 @@ const Tasks = () => {
           )}
           {!BMid && (
             <NavLink
-            to={`/users/${id}/tasks`}
+            to={`/${NameModule}/${id}/tasks`}
               end
               className={`cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09] ${
                 activeLink === "Master" ? "border-b-2 border-orange-600" : ""

@@ -68,7 +68,7 @@ export const entityRouter = [
             path: "tasks",
             loader: tasksLoader,
             action: TasksActions,
-            element: <Tasks />,
+            element: <Tasks NameModule="entities" />,
             handle: {
               crumb: (data) => (
                 <Link to={data?.threadPath}>{data?.threadName}</Link>
