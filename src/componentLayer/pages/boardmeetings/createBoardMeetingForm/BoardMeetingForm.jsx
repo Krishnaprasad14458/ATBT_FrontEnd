@@ -691,6 +691,7 @@ function BoardMeetingForm() {
                                 : provided.boxShadow, // Optionally remove box shadow when focused
                               maxHeight: "150px",
                               overflowY: "auto",
+                              fontSize:"0.7rem"
                             }),
                             placeholder: (provided) => ({
                               ...provided,
@@ -707,6 +708,7 @@ function BoardMeetingForm() {
                                 color: "#fff",
                                 backgroundColor: "#ea580c",
                               },
+                              fontSize:"0.7rem"
                             }),
                           }}
                           theme={(theme) => ({
@@ -721,19 +723,7 @@ function BoardMeetingForm() {
                           isMulti
                           // name="colors"
                           options={usersEmails}
-                          getOptionLabel={(option) => (
-                            <div className="flex items-center">
-                              <img
-                                src={option.image} // Assuming each option object has an 'image' property
-                                alt={`Image of ${option.label}`} // Provide alt text for accessibility
-                                className="w-3 h-3 mr-2 rounded-full"
-                              />
-                              <span className="text-[0.6rem]">
-                                {option.label}
-                              </span>
-                            </div>
-                          )}
-                          getOptionValue={(option) => option.value} // Assuming each option object has a 'value' property
+                  
                           className="basic-multi-select "
                           classNamePrefix="select"
                           value={selected}
