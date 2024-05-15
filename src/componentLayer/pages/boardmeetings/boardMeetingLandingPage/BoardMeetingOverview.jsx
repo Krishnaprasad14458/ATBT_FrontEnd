@@ -90,7 +90,6 @@ const BoardMeetingOverview = () => {
         </Link>
         <Link
           to={`/${
-
             boardmeetings === "userboardmeetings" ? "users" : boardmeetings === "entityboardmeetings" ? "entities": ""
           }/${id}/${boardmeetings}/${BMid}/tasks`}
         >

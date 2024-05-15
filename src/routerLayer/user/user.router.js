@@ -77,7 +77,7 @@ export const userRouter = [
             path: "tasks",
             loader: tasksLoader,
             action: TasksActions,
-            element: <Tasks />,
+            element: <Tasks NameModule="users"/>,
             handle: {
               crumb: (data) => (
                 <Link to={data?.threadPath}>{data?.threadName}</Link>
