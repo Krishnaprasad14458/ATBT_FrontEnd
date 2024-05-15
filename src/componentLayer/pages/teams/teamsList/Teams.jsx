@@ -135,21 +135,15 @@ function Teams() {
   return (
     <div className="overflow-x-auto p-3">
       {/* search & filter */}
-      <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-3 xl:grid-col-3 gap-2 mt-2">
+      <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-3 xl:grid-col-3 gap-2 mt-2 items-center">
         <h1 className="font-semibold text-lg grid1-item">
           Teams {teams.loading ? "..." : null}
         </h1>
-        <div className="grid1-item mx-3 text-start">
-          <label
-            for="default-search"
-            className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white"
-          >
-            Search
-          </label>
+        <div className="grid1-item text-start">
           <div className="relative">
-            <div className="absolute inset-y-0 start-0 flex items-center p-2 pointer-events-none">
+            <div className="absolute inset-y-0 start-0 flex items-center p-3 pointer-events-none">
               <svg
-                className="w-4 h-4 text-gray-500 dark:text-gray-400"
+                className="w-3 h-3 text-gray-500 dark:text-gray-400"
                 aria-hidden="true"
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -169,7 +163,7 @@ function Teams() {
               value={Qparams?.search}
               type="search"
               id="default-search"
-              className="block w-full px-4 py-2 ps-10 text-sm border-2 border-gray-200  rounded-2xl bg-gray-50  focus:outline-none "
+              className="block w-full px-4 py-2 ps-8 text-sm border-2 border-gray-200  rounded-2xl bg-gray-50  focus:outline-none placeholder:text-sm"
               placeholder="Search here..."
               required
             />
@@ -311,38 +305,38 @@ function Teams() {
                     })}
                     <td
                       className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden`}
-                      style={{ maxWidth: "160px" }}
+                      style={{ width: "9rem" }}
                       title=""
                     >
                       <p className="truncate text-xs"> 5000</p>
                     </td>
                     <td
                       className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden`}
-                      style={{ maxWidth: "160px" }}
+                      style={{ width: "10rem" }}
                       title=""
                     >
                       <p className="truncate text-xs"> 2000</p>
                     </td>
                     <td
                       className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden`}
-                      style={{ maxWidth: "160px" }}
+                      style={{ width: "9rem" }}
                       title=""
                     >
                       <p className="truncate text-xs"> 1000</p>
                     </td>
                     <td
                       className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden`}
-                      style={{ maxWidth: "160px" }}
+                      style={{ width: "9rem" }}
                       title=""
                     >
                       <p className="truncate text-xs"> 500</p>
                     </td>
                     <td
                       className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden`}
-                      style={{ maxWidth: "160px" }}
+                      style={{ width: "8.375rem" }}
                       title=""
                     >
-                      <div className="flex justify-start gap-3">
+                      <div className="flex justify-start gap-4">
                         <GateKeeper
                           permissionCheck={(permission) =>
                             permission.module === "team" && permission.canRead
@@ -434,8 +428,7 @@ function Teams() {
             ) : (
               <p className="text-sm text-gray-700">
                 Showing {teams.startTeam} to {teams.endTeam} of{" "}
-                <span className="font-medium">{teams.totalTeams}</span>
-                <span className="font-medium"> </span> results
+                <span className="text-sm">{teams.totalTeams}</span> teams
               </p>
             )}
           </div>
@@ -463,7 +456,7 @@ function Teams() {
                   ? "cursor-wait"
                   : teams.currentPage === 1
                   ? "cursor-not-allowed"
-                  : "cursor-auto"
+                  : "cursor-pointer"
               }`}
             >
               <span className="sr-only">Previous</span>
@@ -481,9 +474,9 @@ function Teams() {
                 />
               </svg>
             </button>
-            <button className="border w-8 border-gray-300">
+            {/* <button className="border w-8 border-gray-300">
               {teams.currentPage}
-            </button>
+            </button> */}
             <button
               disabled={teams.currentPage === teams.totalPages}
               onClick={() => handlePage(teams?.currentPage + 1)}
@@ -492,7 +485,7 @@ function Teams() {
                   ? "cursor-wait"
                   : teams.currentPage === teams.totalPages
                   ? "cursor-not-allowed"
-                  : "cursor-auto"
+                  : "cursor-pointer"
               }`}
             >
               <span className="sr-only">Next</span>
