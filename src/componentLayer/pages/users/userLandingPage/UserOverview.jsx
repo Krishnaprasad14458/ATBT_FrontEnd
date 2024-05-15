@@ -153,7 +153,11 @@ const UserOverview = () => {
                     <div className="flex justify-center border-t-2 border-gray-300 relative text-center">
                       <p
                         className="absolute  bottom-3 text-sm antialiased leading-snug tracking-normal text-blue-gray-900 w-3/6 truncate md:w-5/6 "
-                        title={item.value.toUpperCase()}
+                        title= {
+                          data?.entityList?.find(
+                            (i) => i.id === parseInt(item.value)
+                          )?.name
+                        }
                       >
                         {
                           data?.entityList?.find(
