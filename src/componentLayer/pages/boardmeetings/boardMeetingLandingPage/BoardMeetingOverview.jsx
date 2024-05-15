@@ -13,14 +13,16 @@ export const boardMeetingOverviewLoader = async ({ params }) => {
     if (params.boardmeetings === "entityboardmeetings") {
       moduleName = "entity";
     }
-    const [data] = await Promise.all([
+    const [data , usersGroup] = await Promise.all([
       atbtApi.get(`boardmeeting/getByid/${params?.BMid}`),
+      atbtApi.get(`/boardmeeting/groupUser/${params.BMid}`),
       // atbtApi.post(`entity/User/list/${params?.id}`),
     ]);
+    console.log("usersGroup",usersGroup?.data)
     console.log("bm overview combined data", data);
     let threadName = data?.data?.meetingnumber;
     let threadPath = `/${parentPath}/${params.id}/${params.boardmeetings}/${params.BMid}`;
-    return { data, threadName, threadPath };
+    return { data,usersGroup, threadName, threadPath };
   } catch (error) {
     console.error("Error loading dashboard:", error);
     return null;
@@ -31,7 +33,7 @@ const BoardMeetingOverview = () => {
   const { id, BMid, boardmeetings } = useParams();
   let data = useLoaderData();
   let customFormField = data?.data?.data?.customFieldsData;
-
+ let usersGroupData = data?.usersGroup?.data
   const userData = JSON.parse(localStorage.getItem("data"));
   // to set the time in 12hours
   function formatTime(timeString) {
@@ -129,15 +131,15 @@ const BoardMeetingOverview = () => {
                     item.inputname == "members" &&
                     item.field == "predefined" && (
                       <div className=" grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-2 mt-5">
-                        {item.value &&
+                        {item.value && usersGroupData &&
                           Array.from({ length: 12 }).map((_, index) => {
                             let first = "";
                             let second = "";
                             let firstLetter;
                             let secondLetter;
                             let mail = "";
-                            if (index < item.value.length) {
-                              mail = item.value[index].email.split("@")[0];
+                            if (index < usersGroupData.length) {
+                              mail = usersGroupData[index].email.split("@")[0];
                               if (mail.includes(".")) {
                                 first = mail.split(".")[0];
                                 second = mail.split(".")[1];
@@ -175,27 +177,27 @@ const BoardMeetingOverview = () => {
                                 className="col-span-1 flex justify-start gap-3"
                                 key={index}
                               >
-                                {index + 1 <= item.value.length && (
+                                {index + 1 <= usersGroupData.length && (
                                   <>
                                     <h5
                                       style={{
-                                        backgroundColor: item.value[index].image
+                                        backgroundColor: usersGroupData[index].image
                                           ? "transparent"
                                           : getRandomColor(firstLetter),
                                       }}
                                       className=" rounded-full w-10 h-10  md:h-8 xl:h-10 flex justify-center  text-xs items-center text-white"
                                     >
-                                      {(item.value[index].image &&
+                                      {(usersGroupData[index].image &&
                                         index < 11) ||
                                       (index === 11 &&
-                                        item.value.length === 12) ? (
+                                        usersGroupData.length === 12) ? (
                                         <img
                                           src={
-                                            typeof item.value[index].image ===
+                                            typeof usersGroupData[index].image ===
                                             "string"
-                                              ? item.value[index].image
+                                              ? usersGroupData[index].image
                                               : URL.createObjectURL(
-                                                  item.value[index].image
+                                                usersGroupData[index].image
                                                 )
                                           }
                                           name="EntityPhoto"
@@ -210,7 +212,7 @@ const BoardMeetingOverview = () => {
                                         </span>
                                       )}
                                       {index == 11 &&
-                                        item.value.length > 12 && (
+                                        usersGroupData.length > 12 && (
                                           <span>
                                             <svg
                                               xmlns="http://www.w3.org/2000/svg"
@@ -239,19 +241,19 @@ const BoardMeetingOverview = () => {
                                       >
                                         {index < 11 && mail}
                                         {index == 11 &&
-                                          item.value.length == 12 &&
+                                          usersGroupData.length == 12 &&
                                           mail}
                                         {index == 11 &&
-                                          item.value.length > 12 && (
+                                          usersGroupData.length > 12 && (
                                             <span>
-                                              +{item.value.length - 11} more
+                                              +{usersGroupData.length - 11} more
                                             </span>
                                           )}
                                       </div>
                                     </div>
                                   </>
                                 )}
-                                {index + 1 > item.value.length && (
+                                {index + 1 > usersGroupData.length && (
                                   <>
                                     <h5 className="bg-[#e5e7eb] rounded-full w-10 h-10  flex justify-center text-xs items-center text-white"></h5>
                                     <div className=" flex items-center">

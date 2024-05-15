@@ -27,7 +27,11 @@ export async function boardmeetingFormLoader({ params, request }) {
     let boardmeetingData = null;
     if (params && params.id) {
       console.log(boardmeetingResponse, "loader boardmeeting data");
+      
+     
       boardmeetingData = boardmeetingResponse?.data;
+      console.log(boardmeetingResponse, "loader boardmeeting data updated");
+
     }
     usersList = usersList?.data?.users?.map((item) => ({
       value: item.id,
@@ -63,7 +67,14 @@ function BoardMeetingForm() {
   console.log(boardmeeting, "cmp loader data");
   useEffect(() => {
     if (id && boardmeeting?.boardmeetingData?.members) {
-      setSelected(boardmeeting.boardmeetingData.members);
+      const updatedMembersForSelect = boardmeeting.boardmeetingData.members.map((member) => ({
+        value: member.id,
+        label: member.email,
+        image: member.image,
+        name: member.name,
+      }));
+  
+      setSelected(updatedMembersForSelect);
     }
   }, [id, boardmeeting]);
   function setInitialForm() {

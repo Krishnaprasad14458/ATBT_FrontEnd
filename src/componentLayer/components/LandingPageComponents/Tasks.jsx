@@ -53,7 +53,7 @@ export async function tasksLoader({ request, params }) {
         // get('/groupTeam/:id',)            Meeting.ListTeamGroup)
         // get('/groupUser/:id')              Meeting.ListUserGroup)
       ]);
-console.log("personResponsible",personResponsible)
+console.log("personResponsiblee",personResponsible)
     let updatedTask = task?.data[0];
     let updatedSubTask = subTask?.data[0];
     let taskAge = null;
