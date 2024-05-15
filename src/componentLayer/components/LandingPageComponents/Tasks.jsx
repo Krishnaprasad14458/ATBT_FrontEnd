@@ -118,7 +118,7 @@ export async function TasksActions({ request, params }) {
         if (params.boardmeetings === "entityboardmeetings") {
           moduleName = "entity";
         }
-        if (params.boardmeetings === "entityboardmeetings") {
+        if (params.boardmeetings === "teamboardmeetings") {
           moduleName = "team";
         }
         if (requestBody.type === "ADD_NEW_TASK") {
