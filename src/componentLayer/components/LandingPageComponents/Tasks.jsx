@@ -49,7 +49,7 @@ export async function tasksLoader({ request, params }) {
         atbtApi.get(`/boardmeeting/groupUser/${params.BMid}`),
         // atbtApi.get(`task/listAll?user=103`)
         // Api For Get boardmeeting members
-        // get('/groupEntiy/:id')                Meeting.ListEntiyGroup
+        // get('/groupEntity/:id')                Meeting.ListEntiyGroup
         // get('/groupTeam/:id',)            Meeting.ListTeamGroup)
         // get('/groupUser/:id')              Meeting.ListUserGroup)
       ]);
@@ -391,7 +391,7 @@ const Tasks = () => {
           {!BMid && (
             <NavLink
             
-              to={`/users/${id}/tasks?status=In-progress`}
+              to={`/users/${id}/tasks?status=In-Progress`}
 
               end
               className={`cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09] ${
