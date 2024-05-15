@@ -132,9 +132,21 @@ input::-webkit-inner-spin-button {
   color: #ea580c;
   border-bottom: 1px solid #fb923c;
 }
-
 /* for breadcrumbs end */
 
+@media (max-width: 640px) {
+  .filter_pagination {
+    text-align: start;
+    padding-left: 10px;
+  }
+}
+
+@media (max-width: 768px) {
+  .filter_pagination {
+    text-align: start;
+    padding-left: 10px;
+  }
+}
 /* for input select new end*/
 
 .css-1dimb5e-singleValue {
