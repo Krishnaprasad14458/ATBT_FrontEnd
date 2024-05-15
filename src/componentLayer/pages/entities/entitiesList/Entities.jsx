@@ -6,7 +6,7 @@ import {
   useNavigation,
   useSubmit,
 } from "react-router-dom";
-import "./Entities.css";
+
 import Swal from "sweetalert2";
 import { debounce, caseLetter } from "../../../../utils/utils";
 import GateKeeper from "../../../../rbac/GateKeeper";
