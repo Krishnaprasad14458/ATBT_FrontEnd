@@ -1,8 +1,14 @@
 import React, { useEffect, useState, useCallback } from "react";
-import {Link,useFetcher,useLoaderData,useNavigation,useSubmit} from "react-router-dom";
+import {
+  Link,
+  useFetcher,
+  useLoaderData,
+  useNavigation,
+  useSubmit,
+} from "react-router-dom";
 import Swal from "sweetalert2";
 import GateKeeper from "../../../../rbac/GateKeeper";
-import { debounce , caseLetter} from "../../../../utils/utils";
+import { debounce, caseLetter } from "../../../../utils/utils";
 import CustomColumn from "../../../../componentLayer/components/tableCustomization/CustomColumn";
 import CustomFilter from "../../../../componentLayer/components/tableCustomization/CustomFilter";
 import atbtApi from "../../../../serviceLayer/interceptor";
@@ -299,7 +305,9 @@ function Teams() {
                           style={{ maxWidth: "160px" }}
                           title={row[key]}
                         >
-                          <p className="truncate text-xs">{caseLetter(value)}</p>
+                          <p className="truncate text-xs">
+                            {caseLetter(value)}
+                          </p>
                         </td>
                       );
                     })}
