@@ -1,27 +1,275 @@
-import React from 'react'
-import { useNavigate } from "react-router-dom";
+import React from "react";
+import { useNavigate, Link } from "react-router-dom";
+import CustomColumn from "../../../componentLayer/components/tableCustomization/CustomColumn";
+import CustomFilter from "../../../componentLayer/components/tableCustomization/CustomFilter";
 function Reports() {
-  document.title = 'ATBT | Report';
+  document.title = "ATBT | Report";
   const navigate = useNavigate();
   document.title = "Page Not Found";
   return (
-    <div>
-      <div className="not-found h-96 flex flex-col justify-center items-center mt-14">
-        <div className=" border-2 border-gray-100 px-64   py-10 shadow-lg  mt-40">
-          <div className="flex justify-center">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-20 h-20 text-orange-600">
-              <path fill-rule="evenodd" d="M9.401 3.003c1.155-2 4.043-2 5.197 0l7.355 12.748c1.154 2-.29 4.5-2.599 4.5H4.645c-2.309 0-3.752-2.5-2.598-4.5L9.4 3.003ZM12 8.25a.75.75 0 0 1 .75.75v3.75a.75.75 0 0 1-1.5 0V9a.75.75 0 0 1 .75-.75Zm0 8.25a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Z" clip-rule="evenodd" />
-            </svg>
-          </div>
-          <div className="text-8xl text-center text-orange-600  font-light mt-5">404</div>
-          <div className="text-2xl text-center text-orange-600 mt-5" >  Page Not Found</div>
-          <div className="flex justify-center">
-            <button className="border border-1 border-gray-100 mt-10 p-3 bg-orange-600 text-white rounded-md " onClick={() => navigate("/")}>Back to Home</button>
+    <div className="overflow-x-auto p-3">
+      <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-3 xl:grid-col-3 items-center gap-2 mt-2">
+        <h1 className="font-semibold text-lg grid1-item">Reports</h1>
+        <div className="grid1-item text-start">
+          <label
+            for="default-search"
+            className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white"
+          >
+            Search
+          </label>
+          <div className="relative">
+            <div className="absolute inset-y-0 start-0 flex items-center p-2 pointer-events-none">
+              <svg
+                className="w-4 h-4 text-gray-500 dark:text-gray-400"
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 20 20"
+              >
+                <path
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
+                />
+              </svg>
+            </div>
+            <input
+              // onChange={handleSearch}
+              // value={Qparams?.search}
+              type="search"
+              id="default-search"
+              className="block w-full px-4 py-2 ps-10 text-sm border-2 border-gray-200  rounded-2xl bg-gray-50  focus:outline-none "
+              placeholder="Search here..."
+              required
+            />
           </div>
         </div>
+        <div className="grid1-item text-end flex justify-end filter_pagination divide-x-2 h-7 mt-2">
+          {/* <CustomColumn
+            tableView={tableView}
+            setTableView={setTableView}
+            form="userform"
+          />
+          <CustomFilter
+            fieldsDropDownData={fieldsDropDownData}
+            Qparams={Qparams}
+            setQParams={setQParams}
+            customForm={customForm}
+          /> */}
+
+          {/* for filter open */}
+        </div>
       </div>
+      {/* table */}
+      <div className="max-h-[510px] overflow-y-scroll mt-5">
+        <table className="w-full divide-y divide-gray-200 dark:divide-gray-700 rounded-md">
+          <thead>
+            <tr>
+              <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200">
+                hi
+              </th>
+              <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200">
+                hi
+              </th>
+
+              <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200">
+                Actions
+              </th>
+            </tr>
+          </thead>
+          <tbody className=" divide-gray-200 dark:divide-gray-700">
+            <tr className={`hover:bg-slate-100 dark:hover:bg-gray-700 `}>
+              <td
+                className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  hover:text-orange-500 overflow-hidden`}
+                style={{ maxWidth: "160px" }}
+              >
+               
+                heloo
+              </td>
+              <td
+                className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  hover:text-orange-500 overflow-hidden`}
+                style={{ maxWidth: "160px" }}
+              >
+                uiu
+              </td>
+              <td
+                      className={`px-2 py-2  border border-[#e5e7eb] text-xs font-medium text-center`}
+                      style={{ maxWidth: "160px" }}
+                    >
+                      <div className="flex justify-start gap-5">
+                     
+                          <button
+                            type="button"
+                            title="View"
+                            className=" inline-flex items-center gap-x-1 text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
+                          >
+                            <Link to='#'>
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 20 20"
+                                fill="currentColor"
+                                className="w-4 h-4"
+                              >
+                                <path d="M10 12.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z" />
+                                <path
+                                  fill-rule="evenodd"
+                                  d="M.664 10.59a1.651 1.651 0 0 1 0-1.186A10.004 10.004 0 0 1 10 3c4.257 0 7.893 2.66 9.336 6.41.147.381.146.804 0 1.186A10.004 10.004 0 0 1 10 17c-4.257 0-7.893-2.66-9.336-6.41ZM14 10a4 4 0 1 1-8 0 4 4 0 0 1 8 0Z"
+                                  clip-rule="evenodd"
+                                />
+                              </svg>
+                            </Link>
+                          </button>
+               
+                        
+                          <button
+                            type="button"
+                            title="Edit"
+                            className={`inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg  hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600 ` }
+                          >
+                            <Link to='#'>
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 20 20"
+                                fill="currentColor"
+                                className="w-4 h-4"
+                              >
+                                <path d="m2.695 14.762-1.262 3.155a.5.5 0 0 0 .65.65l3.155-1.262a4 4 0 0 0 1.343-.886L17.5 5.501a2.121 2.121 0 0 0-3-3L3.58 13.419a4 4 0 0 0-.885 1.343Z" />
+                              </svg>
+                            </Link>
+                          </button>
+                      
+                        
+                            <button
+                              type="button"
+                              title="Delete"
+                           
+                              className={` inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg  text-[#475569] disabled:opacity-50   dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600 `}
+                            >
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 20 20"
+                                fill="currentColor"
+                                className="w-4 h-4"
+                              >
+                                <path
+                                  fill-rule="evenodd"
+                                  d="M8.75 1A2.75 2.75 0 0 0 6 3.75v.443c-.795.077-1.584.176-2.365.298a.75.75 0 1 0 .23 1.482l.149-.022.841 10.518A2.75 2.75 0 0 0 7.596 19h4.807a2.75 2.75 0 0 0 2.742-2.53l.841-10.52.149.023a.75.75 0 0 0 .23-1.482A41.03 41.03 0 0 0 14 4.193V3.75A2.75 2.75 0 0 0 11.25 1h-2.5ZM10 4c.84 0 1.673.025 2.5.075V3.75c0-.69-.56-1.25-1.25-1.25h-2.5c-.69 0-1.25.56-1.25 1.25v.325C8.327 4.025 9.16 4 10 4ZM8.58 7.72a.75.75 0 0 0-1.5.06l.3 7.5a.75.75 0 1 0 1.5-.06l-.3-7.5Zm4.34.06a.75.75 0 1 0-1.5-.06l-.3 7.5a.75.75 0 1 0 1.5.06l.3-7.5Z"
+                                  clip-rule="evenodd"
+                                />
+                              </svg>
+                            </button>
+                        
+                      
+                      </div>
+                    </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      {/* pagination */}
+      {/* <div className="inset-x-0 bottom-0 mt-5">
+        <div className="md:flex md:justify-between block text-end">
+          <div className="">
+            {!users?.users || users?.users?.length === 0 ? (
+              "no data to show"
+            ) : users.loading ? (
+              "Loading..."
+            ) : (
+              <p className="text-sm text-gray-700">
+                Showing {users.startUser} to {users.endUser} of{" "}
+                <span className="font-medium">{users.totalUsers}</span>
+                <span className="font-medium"> </span> results
+              </p>
+            )}
+          </div>
+
+          <section
+            className="isolate inline-flex rounded-md  ms-4 mt-2 md:mt-0"
+            aria-label="Pagination"
+          >
+            <select
+              value={Qparams?.pageSize}
+              onChange={handlePerPageChange}
+              className="focus:outline-none me-3 rounded-md bg-[#f8fafc]  px-1 py-1.5 text-sm font-semibold  ring-1 ring-inset ring-gray-300 hover:bg-gray-50 shadow-sm  text-gray-500"
+            >
+              <option value="10">10</option>
+              <option value="25">25</option>
+              <option value="50">50</option>
+              <option value="100">100</option>
+              <option value="250">250</option>
+              <option value="500">500</option>
+            </select>
+ 
+            <button
+              disabled={
+                navigation?.state === "loading"
+                  ? true
+                  : false || users.currentPage === 1
+              }
+              onClick={() => handlePage(users.currentPage - 1)}
+              href="#"
+              className={`relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${
+                navigation?.state === "loading"
+                  ? "cursor-wait"
+                  : users.currentPage === 1
+                  ? "cursor-not-allowed"
+                  : "cursor-auto"
+              }`}
+            >
+              <span className="sr-only">Previous</span>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+                className="w-5 h-5"
+                aria-hidden="true"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M11.78 5.22a.75.75 0 0 1 0 1.06L8.06 10l3.72 3.72a.75.75 0 1 1-1.06 1.06l-4.25-4.25a.75.75 0 0 1 0-1.06l4.25-4.25a.75.75 0 0 1 1.06 0Z"
+                  clip-rule="evenodd"
+                />
+              </svg>
+            </button>
+   
+            <button
+              disabled={
+                navigation?.state === "loading"
+                  ? true
+                  : false || users.currentPage === users.totalPages
+              }
+              onClick={() => handlePage(users.currentPage + 1)}
+              className={`relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${
+                navigation?.state === "loading"
+                  ? "cursor-wait"
+                  : users.currentPage === users.totalPages
+                  ? "cursor-not-allowed"
+                  : "cursor-auto"
+              }`}
+            >
+              <span className="sr-only">Next</span>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+                className="w-5 h-5"
+                aria-hidden="true"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M8.22 5.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 0 1-1.06-1.06L11.94 10 8.22 6.28a.75.75 0 0 1 0-1.06Z"
+                  clip-rule="evenodd"
+                />
+              </svg>
+            </button>
+          </section>
+        </div>
+      </div> */}
     </div>
-  )
+  );
 }
 
-export default Reports
+export default Reports;

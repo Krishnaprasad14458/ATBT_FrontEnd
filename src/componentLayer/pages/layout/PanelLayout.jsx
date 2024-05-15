@@ -33,7 +33,7 @@ const Layout = () => {
     <div className='app'>
       <Sidebar />
       <main
-        className='content h-screen bg-[#f8fafc]'
+        className='content h-screen bg-[#f8fafc] '
         style={{ overflow: 'auto' }}
       >
         <TopBar />
