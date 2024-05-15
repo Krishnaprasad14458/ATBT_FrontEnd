@@ -506,6 +506,11 @@ function BoardMeetingForm() {
             `/users/${boardmeetingForID}/userboardmeetings/${response.data}`
           );
         }
+        if (boardmeetingFor === "entity") {
+          navigate(
+            `/entities/${boardmeetingForID}/entityboardmeetings/${response.data}`
+          );
+        }
       }
     }
   }

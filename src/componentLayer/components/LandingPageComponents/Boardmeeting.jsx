@@ -26,10 +26,10 @@ export async function loader({ request, params }) {
     }
     if (params.boardmeetings === "entityboardmeetings") {
       moduleName = "entity";
+      parentPath = "entities"
     }
     const [meetings, entityList, roleList, meetingFormData] = await Promise.all(
       [
-       
         atbtApi.get(
           `boardmeeting/list?${moduleName}=${params.id}${url && url.search ? '&' + url.search.substring(1) : ""}`
         ),
@@ -78,6 +78,7 @@ function Boardmeeting() {
   let fetcher = useFetcher();
   const data = useLoaderData();
   const { meetings, tableViewData, fieldsDropDownData, customForm } = data;
+ 
   const [Qparams, setQParams] = useState({
     search: "",
     page: 1,

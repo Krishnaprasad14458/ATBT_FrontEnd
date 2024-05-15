@@ -4,24 +4,29 @@ import axios from "axios";
 import atbtApi from "../../../../serviceLayer/interceptor";
 let moduleName;
 let parentPath;
+let groupName;
 export const boardMeetingOverviewLoader = async ({ params }) => {
   try {
     if (params.boardmeetings === "userboardmeetings") {
       moduleName = "user";
       parentPath = "users";
+      groupName = "groupUser"
     }
     if (params.boardmeetings === "entityboardmeetings") {
       moduleName = "entity";
+      parentPath = "entities"
+      groupName = "groupEntity"
     }
     const [data , usersGroup] = await Promise.all([
       atbtApi.get(`boardmeeting/getByid/${params?.BMid}`),
-      atbtApi.get(`/boardmeeting/groupUser/${params.BMid}`),
+      atbtApi.get(`/boardmeeting/${groupName}/${params.BMid}`),
       // atbtApi.post(`entity/User/list/${params?.id}`),
     ]);
     console.log("usersGroup",usersGroup?.data)
     console.log("bm overview combined data", data);
     let threadName = data?.data?.meetingnumber;
     let threadPath = `/${parentPath}/${params.id}/${params.boardmeetings}/${params.BMid}`;
+    console.log("threadPaththread",threadPath)
     return { data,usersGroup, threadName, threadPath };
   } catch (error) {
     console.error("Error loading dashboard:", error);
