@@ -21,6 +21,7 @@ export async function loader({ request, params }) {
         label: item.name,
       })),
     };
+    console.log("combinedResponse add data share",combinedResponse)
     return combinedResponse;
   } catch (error) {
     console.error("Error occurred:", error);
@@ -33,15 +34,17 @@ const AddDataShare = () => {
   const [dataShareName, setDataShareName] = useState("");
   const [dataShareDescription, setDataShareDescription] = useState("");
   let moduleOptions = [
-    { value: "User", label: "user" },
-    { value: "Entity", label: "entity" },
+    { value: "user", label: "user" },
+    { value: "entity", label: "entity" },
   ];
   const [module, setModule] = useState("");
+  console.log("module",module)
 
   const handleModuleChange = (selected) => {
     setModule(selected);
   };
 const [shareDataofOptions, setShareDataOfOptions] = useState([]);
+console.log("shareDataofOptions",shareDataofOptions)
   useEffect(() => {
     if (module?.value === "user") {
       setShareDataOfOptions(data.users);
