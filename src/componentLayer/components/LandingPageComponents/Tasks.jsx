@@ -579,7 +579,7 @@ const Tasks = () => {
                   <td
                     className="border py-1.5 px-3 "
                     title={task?.members}
-                    style={{ width: "15rem" }}
+                    style={{ width: "14rem" }}
                   >
                     <Select
                       options={members}
@@ -667,7 +667,7 @@ const Tasks = () => {
                       menuPlacement="auto"
                     />
                   </td>
-                  <td className="border py-1.5 px-3" style={{ width: "11rem" }}>
+                  <td className="border py-1.5 px-3" style={{ width: "10rem" }}>
                     <input
                       className=" border border-transparent text-black px-1.5 py-2 rounded-md  bg-[#f9fafb] focus:outline-none text-sm focus:border-orange-400  date_type"
                       type="date"
@@ -681,7 +681,7 @@ const Tasks = () => {
                   <td
                     className="border py-1.5 px-3 "
                     title={task?.status}
-                    style={{ width: "8rem" }}
+                    style={{ width: "6.5rem" }}
                   >
                     <Select
                       options={status}
@@ -710,7 +710,7 @@ const Tasks = () => {
                           "&:focus-within": {
                             borderColor: "#fb923c",
                           },
-                          width: "8rem",
+                          width: "6.5rem",
                         }),
                         option: (provided, state) => ({
                           ...provided,
@@ -755,7 +755,7 @@ const Tasks = () => {
                   <td className="border py-1.5 px-3 text-sm text-gray-600">
                     Updated By Admin
                   </td>
-                  <td className="border py-1.5 px-3 text-sm text-gray-600">
+                  <td className="border py-1.5 px-3 text-sm text-gray-600" style={{width :"3rem"}}>
                     <svg
                       onClick={() => handleDeleteTask(task.id)}
                       xmlns="http://www.w3.org/2000/svg"
