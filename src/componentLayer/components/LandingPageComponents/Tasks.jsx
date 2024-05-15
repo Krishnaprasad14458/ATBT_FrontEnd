@@ -20,14 +20,20 @@ let status = [
 ];
 let moduleName;
 let parentPath
+let groupName;
+
 export async function tasksLoader({ request, params }) {
   try {
     if (params.boardmeetings === "userboardmeetings") {
       moduleName = "user";
       parentPath = "users"
+      groupName = "groupUser"
     }
     if (params.boardmeetings === "entityboardmeetings") {
       moduleName = "entity";
+      parentPath = "entities"
+      groupName = "groupEntity"
+
     }
     const url = new URL(request.url);
 
@@ -46,7 +52,7 @@ export async function tasksLoader({ request, params }) {
         taskID ? atbtApi.get(`task/listbyid/${taskID}`) : null,
         taskID ? atbtApi.get(`task/subList/${taskID}`) : null,
         subTaskID ? atbtApi.get(`task/subtaskbyid/${subTaskID}`) : null,
-        atbtApi.get(`/boardmeeting/groupUser/${params.BMid}`),
+        groupName ?  atbtApi.get(`/boardmeeting/${groupName}/${params.BMid}`) : {}
         // atbtApi.get(`task/listAll?user=103`)
         // Api For Get boardmeeting members
         // get('/groupEntity/:id')                Meeting.ListEntiyGroup
@@ -378,8 +384,8 @@ const Tasks = () => {
         <div className="flex overflow-x-auto my-2">
           {!BMid && (
             <NavLink
-              to={`/users/${id}/tasks?status=To-Do`}
-              end
+            to={`/users/${id}/tasks?status=To-Do`}
+            end
               className={`cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09] ${
                 activeLink === "toDo" ? "border-b-2 border-orange-500 text-orange-600" : ""
               }`}
