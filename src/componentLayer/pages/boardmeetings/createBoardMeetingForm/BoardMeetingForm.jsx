@@ -27,11 +27,8 @@ export async function boardmeetingFormLoader({ params, request }) {
     let boardmeetingData = null;
     if (params && params.id) {
       console.log(boardmeetingResponse, "loader boardmeeting data");
-      
-     
       boardmeetingData = boardmeetingResponse?.data;
       console.log(boardmeetingResponse, "loader boardmeeting data updated");
-
     }
     usersList = usersList?.data?.users?.map((item) => ({
       value: item.id,
@@ -41,6 +38,13 @@ export async function boardmeetingFormLoader({ params, request }) {
     }));
     if (boardmeetingFor === "user" && boardmeetingForID) {
       usersList = usersList.filter((user) => user.value !== boardmeetingForID);
+    }
+    if (boardmeetingFor === "entity" && boardmeetingForID) {
+      const [EntityUsersList] = await Promise.all([
+        atbtApi.post(`entity/User/list/${boardmeetingForID}`),
+      ]);
+      const entityIds = EntityUsersList?.data.map((entity) => entity.id);
+      usersList = usersList.filter((user) => !entityIds.includes(user.value));
     }
     const formData = formResponse.data.Data;
     console.log("formData", formData, "boardmeetingData", boardmeetingData);
@@ -67,13 +71,15 @@ function BoardMeetingForm() {
   console.log(boardmeeting, "cmp loader data");
   useEffect(() => {
     if (id && boardmeeting?.boardmeetingData?.members) {
-      const updatedMembersForSelect = boardmeeting.boardmeetingData.members.map((member) => ({
-        value: member.id,
-        label: member.email,
-        image: member.image,
-        name: member.name,
-      }));
-  
+      const updatedMembersForSelect = boardmeeting.boardmeetingData.members.map(
+        (member) => ({
+          value: member.id,
+          label: member.email,
+          image: member.image,
+          name: member.name,
+        })
+      );
+
       setSelected(updatedMembersForSelect);
     }
   }, [id, boardmeeting]);
@@ -707,7 +713,7 @@ function BoardMeetingForm() {
                                 : provided.boxShadow, // Optionally remove box shadow when focused
                               maxHeight: "150px",
                               overflowY: "auto",
-                              fontSize:"0.7rem"
+                              fontSize: "0.7rem",
                             }),
                             placeholder: (provided) => ({
                               ...provided,
@@ -724,7 +730,7 @@ function BoardMeetingForm() {
                                 color: "#fff",
                                 backgroundColor: "#ea580c",
                               },
-                              fontSize:"0.7rem"
+                              fontSize: "0.7rem",
                             }),
                           }}
                           theme={(theme) => ({
@@ -739,7 +745,6 @@ function BoardMeetingForm() {
                           isMulti
                           // name="colors"
                           options={usersEmails}
-                  
                           className="basic-multi-select "
                           classNamePrefix="select"
                           value={selected}
