@@ -72,17 +72,21 @@ const BoardMeetingOverview = () => {
             pathname: `/boardmeetings/${BMid}/edit`,
             search: `?boardmeetingFor=${moduleName}&boardmeetingForID=${id}`,
           }}
-          relative="path"
-          className="text-sm font-medium transition-colors  focus-visible:ring-1 focus-visible:ring-ring  text-gray-900 pt-2 hover:text-orange-600"
         >
-          <svg
+          <button
+            type="submit"
+            className=" flex  justify-center rounded-md bg-orange-600 px-3 py-2 text-sm font-medium leading-6 text-white shadow-sm  focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600"
+          >
+            Edit
+          </button>
+          {/* <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 20 20"
             fill="currentColor"
             className="w-5 h-5 text-gray-900"
           >
             <path d="m2.695 14.762-1.262 3.155a.5.5 0 0 0 .65.65l3.155-1.262a4 4 0 0 0 1.343-.886L17.5 5.501a2.121 2.121 0 0 0-3-3L3.58 13.419a4 4 0 0 0-.885 1.343Z" />
-          </svg>
+          </svg> */}
         </Link>
         <Link
           to={`/${
@@ -118,11 +122,55 @@ const BoardMeetingOverview = () => {
 
                     {item.type === "date" &&
                       item.inputname === "date" &&
-                      item.field === "predefined" && (
-                        <p className="text-sm md:absolute md:bottom-3 right-2">
-                          Date: {item.value}
-                        </p>
-                      )}
+                      item.field === "predefined" &&   (() => {
+                        let date = new Date(item.value);
+                        const day = date.getUTCDate();
+                        const monthIndex = date.getUTCMonth();
+                        const year = date.getUTCFullYear();
+
+                        const monthAbbreviations = [
+                          "January",
+                          "February",
+                          "March",
+                          "April",
+                          "May",
+                          "June",
+                          "July",
+                          "August",
+                          "September",
+                          "October",
+                          "November",
+                          "December",
+                        ];
+                        let ordinalsText = "";
+                        if (day == 1 || day == 21 || day == 31) {
+                          ordinalsText = "st";
+                        } else if (day == 2 || day == 22) {
+                          ordinalsText = "nd";
+                        } else if (day == 3 || day == 23) {
+                          ordinalsText = "rd";
+                        } else {
+                          ordinalsText = "th";
+                        }
+
+                        // Formatting the date
+                        date = ` ${monthAbbreviations[monthIndex]} ${
+                          day < 10 ? "0" : ""
+                        }${day}${ordinalsText}, ${year}`;
+                        return (
+                          <div>
+                            {item.value ? (
+                              <p className="text-sm absolute bottom-2 right-2">
+                                Date : {date ? date : "No Date"}
+                              </p>
+                            ) : (
+                              <p className="text-sm text-gray-400 absolute bottom-2 right-2">
+                                Date : month date, year
+                              </p>
+                            )}
+                          </div>
+                        );
+                      })()}
                   </div>
 
                   {item.type === "textarea" &&

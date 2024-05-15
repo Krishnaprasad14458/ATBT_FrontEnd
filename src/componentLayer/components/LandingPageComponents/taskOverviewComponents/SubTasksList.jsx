@@ -316,7 +316,7 @@ const SubTasksList = ({
                         menuPlacement="auto"
                       />
                     </td>
-                    <td className="border py-1.5 px-2 text-sm  text-gray-600">
+                    <td className="border py-1.5 px-2 text-sm  text-gray-600" >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 20 20"
