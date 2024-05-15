@@ -14,6 +14,7 @@ export default function TopBar() {
   const toggleAddTaskDrawer = () => {
     setAddTask(!addTask);
   };
+  console.log("authState" , authState )
   return (
     <div className="topbar w-full">
       <nav className="bg-white shadow-md ">
@@ -21,36 +22,36 @@ export default function TopBar() {
           <div className="flex h-16 items-center justify-between">
             <div className="flex flex-1 items-center justify-between sm:items-stretch sm:justify-start">
               <div className="flex flex-shrink-0 items-center">
-              <Menu as="div" className="relative inline-block text-left">
-  <div>
-    <Menu.Button className="inline-flex w-full justify-center gap-x-1.5 rounded-full">
-      <button className="px-3 py-2 inline-flex items-center justify-center whitespace-nowrap rounded-full text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white gap-1">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 20 20"
-          fill="currentColor"
-          className="w-5 h-5"
-        >
-          <path d="M10.75 4.75a.75.75 0 0 0-1.5 0v4.5h-4.5a.75.75 0 0 0 0 1.5h4.5v4.5a.75.75 0 0 0 1.5 0v-4.5h4.5a.75.75 0 0 0 0-1.5h-4.5v-4.5Z" />
-        </svg>
-        Create
-      </button>
-    </Menu.Button>
-  </div>
-  <Transition
-    as={Fragment}
-    enter="transition ease-out duration-100"
-    enterFrom="transform opacity-0 scale-95"
-    enterTo="transform opacity-100 scale-100"
-    leave="transition ease-in duration-75"
-    leaveFrom="transform opacity-100 scale-100"
-    leaveTo="transform opacity-0 scale-95"
-  >
-    <Menu.Items
-      className="absolute mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none
+                <Menu as="div" className="relative inline-block text-left">
+                  <div>
+                    <Menu.Button className="inline-flex w-full justify-center gap-x-1.5 rounded-full">
+                      <button className="px-3 py-2 inline-flex items-center justify-center whitespace-nowrap rounded-full text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white gap-1">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                          className="w-5 h-5"
+                        >
+                          <path d="M10.75 4.75a.75.75 0 0 0-1.5 0v4.5h-4.5a.75.75 0 0 0 0 1.5h4.5v4.5a.75.75 0 0 0 1.5 0v-4.5h4.5a.75.75 0 0 0 0-1.5h-4.5v-4.5Z" />
+                        </svg>
+                        Create
+                      </button>
+                    </Menu.Button>
+                  </div>
+                  <Transition
+                    as={Fragment}
+                    enter="transition ease-out duration-100"
+                    enterFrom="transform opacity-0 scale-95"
+                    enterTo="transform opacity-100 scale-100"
+                    leave="transition ease-in duration-75"
+                    leaveFrom="transform opacity-100 scale-100"
+                    leaveTo="transform opacity-0 scale-95"
+                  >
+                    <Menu.Items
+                      className="absolute mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none
       md:ml-28 md:top-0 md:left-0 md:mt-1"
-    >
-          <div className="py-1">
+                    >
+                      <div className="py-1">
                         <GateKeeper
                           permissionCheck={(permission) =>
                             permission.module === "user" && permission.canCreate
@@ -134,9 +135,7 @@ export default function TopBar() {
                         >
                           <Menu.Item>
                             {({ active }) => (
-                              <div
-                             
-                              >
+                              <div>
                                 <Menu
                                   as="div"
                                   className="relative inline-block text-left"
@@ -354,11 +353,202 @@ export default function TopBar() {
                           }
                         ></GateKeeper>
                       </div>
-    </Menu.Items>
-  </Transition>
-</Menu>
+                    </Menu.Items>
+                  </Transition>
+                </Menu>
+                </div>
+            </div>
+            <div className="absolute inset-y-0 right-0 flex items-center gap-2 me-3 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+              {/* <button
+                type="button"
+                className="relative rounded-full  bg-[#475569] p-1 text-white hover:text-white focus:outline-none "
+              >
+                <span className="absolute -inset-1.5"></span>
+                <span className="sr-only">View notifications</span>
+                <svg
+                  className="h-6 w-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                  aria-hidden="true"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0"
+                  />
+                </svg>
+              </button> */}
+           
+              <Menu as="div" className="relative inline-block text-left">
+                <div>
+                  <Menu.Button className="inline-flex w-full justify-center gap-x-1.5 rounded">
+                    <img
+                      className="h-8 w-8 rounded-full"
+                      src={authState?.user?.image}
+                      alt=""
+                      aria-hidden="true"
+                    />
+                 
+                  </Menu.Button>
+                </div>
 
-{/* 
+                <Transition
+                  as={Fragment}
+                  enter="transition ease-out duration-100"
+                  enterFrom="transform opacity-0 scale-95"
+                  enterTo="transform opacity-100 scale-100"
+                  leave="transition ease-in duration-75"
+                  leaveFrom="transform opacity-100 scale-100"
+                  leaveTo="transform opacity-0 scale-95"
+                >
+                  {/* for profile */}
+                  <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                    <div className="py-1">
+                      <Menu.Item>
+                        {({ active }) => (
+                          <Link
+                            to={`/users/${authState?.user?.id}`}
+                            className={classNames(
+                              active
+                                ? "bg-gray-200 text-gray-900"
+                                : "text-gray-700",
+                              "block px-4 py-2 text-sm"
+                            )}
+                          >
+                            <div className="flex-row flex">
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke-width="1.5"
+                                stroke="currentColor"
+                                class="w-5 h-5 mt-1"
+                              >
+                                <path
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
+                                />
+                              </svg>
+                              <p className="ms-2 mt-1 text-sm">Profile</p>
+                            </div>
+                          </Link>
+                        )}
+                      </Menu.Item>
+                      <Menu.Item>
+                        {({ active }) => (
+                          <Link
+                            to="/changepassword"
+                            className={classNames(
+                              active
+                                ? "bg-gray-200 text-gray-900"
+                                : "text-gray-700",
+                              "block px-4 py-2 text-sm"
+                            )}
+                          >
+                            <div className="flex-row flex">
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke-width="1.5"
+                                stroke="currentColor"
+                                class="w-5 h-5 mt-1"
+                              >
+                                <path
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  d="M15.75 5.25a3 3 0 0 1 3 3m3 0a6 6 0 0 1-7.029 5.912c-.563-.097-1.159.026-1.563.43L10.5 17.25H8.25v2.25H6v2.25H2.25v-2.818c0-.597.237-1.17.659-1.591l6.499-6.499c.404-.404.527-1 .43-1.563A6 6 0 1 1 21.75 8.25Z"
+                                />
+                              </svg>
+                              <p className="ms-2 mt-1 text-sm">
+                                Reset Password
+                              </p>
+                            </div>
+                          </Link>
+                        )}
+                      </Menu.Item>
+                      <form method="POST" action="#">
+                        <Menu.Item>
+                          {({ active }) => (
+                            <button
+                              onClick={() => userLogout()}
+                              type="submit"
+                              className={classNames(
+                                active
+                                  ? "bg-gray-200 text-gray-900"
+                                  : "text-gray-700",
+                                "block w-full px-4 py-2 text-left text-sm"
+                              )}
+                            >
+                              <div className="flex-row flex">
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  fill="none"
+                                  viewBox="0 0 24 24"
+                                  stroke-width="1.5"
+                                  stroke="currentColor"
+                                  class="w-5 h-5 mt-1"
+                                >
+                                  <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    d="M8.25 9V5.25A2.25 2.25 0 0 1 10.5 3h6a2.25 2.25 0 0 1 2.25 2.25v13.5A2.25 2.25 0 0 1 16.5 21h-6a2.25 2.25 0 0 1-2.25-2.25V15M12 9l3 3m0 0-3 3m3-3H2.25"
+                                  />
+                                </svg>
+                                <p className="ms-2 mt-1 text-sm">Sign out</p>
+                              </div>
+                            </button>
+                          )}
+                        </Menu.Item>
+                      </form>
+                    </div>
+                  </Menu.Items>
+                </Transition>
+              </Menu>
+              <div
+                className={`fixed inset-0 transition-all duration-500 bg-gray-800 bg-opacity-50 z-50 ${
+                  addTask ? "" : "hidden"
+                }`}
+              >
+                <div className=" fixed inset-y-0 right-3 w-2/6 h-2/3 top-4/2 bg-white shadow-lg transform translate-y-1/2 transition-transform duration-300 ease-in-out">
+                  <div className="flex justify-between p-4">
+                    <p className="text-sm text-gray-500">New Task</p>
+                    <button onClick={toggleAddTaskDrawer} className="">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        fill="currentColor"
+                        className="w-5 h-5 text-gray-500"
+                      >
+                        <path
+                          fillRule="evenodd"
+                          d="M5.47 5.47a.75.75 0 0 1 1.06 0L12 10.94l5.47-5.47a.75.75 0 1 1 1.06 1.06L13.06 12l5.47 5.47a.75.75 0 1 1-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 0 1-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 0 1 0-1.06Z"
+                          clipRule="evenodd"
+                        />
+                      </svg>
+                    </button>
+                  </div>
+                  <hr />
+                  <input
+                    type="text"
+                    placeholder="Task Name"
+                    className="p-2 text-sm block w-full  rounded-md mt-2 text-gray-900 appearance-none  placeholder:text-[#6d6e6f] placeholder:text-lg focus:outline-none  sm:text-xs sm:leading-6"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </div>
+  );
+}
+
+
+                {/* 
 <Menu as="div" className="relative inline-block text-left">
                   <div>
                     <Menu.Button className="inline-flex w-full justify-center gap-x-1.5 rounded-full">
@@ -700,196 +890,4 @@ export default function TopBar() {
                     </Menu.Items>
                   </Transition>
                 </Menu> */}
-
-
-              </div>
-            </div>
-            <div className="absolute inset-y-0 right-0 flex items-center gap-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-              <button
-                type="button"
-                className="relative rounded-full  bg-[#475569] p-1 text-white hover:text-white focus:outline-none "
-              >
-                <span className="absolute -inset-1.5"></span>
-                <span className="sr-only">View notifications</span>
-                <svg
-                  className="h-6 w-6"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke-width="1.5"
-                  stroke="currentColor"
-                  aria-hidden="true"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0"
-                  />
-                </svg>
-              </button>
-              <Menu as="div" className="relative inline-block text-left">
-                <div>
-                  <Menu.Button className="inline-flex w-full justify-center gap-x-1.5 rounded">
-                    <img
-                      className="h-8 w-8 rounded-full"
-                      src={authState?.user?.image}
-                      alt=""
-                    />
-                    <ChevronDownIcon
-                      className="mt-2 h-5 w-5 text-gray-400"
-                      aria-hidden="true"
-                    />
-                  </Menu.Button>
-                </div>
-
-                <Transition
-                  as={Fragment}
-                  enter="transition ease-out duration-100"
-                  enterFrom="transform opacity-0 scale-95"
-                  enterTo="transform opacity-100 scale-100"
-                  leave="transition ease-in duration-75"
-                  leaveFrom="transform opacity-100 scale-100"
-                  leaveTo="transform opacity-0 scale-95"
-                >
-                  {/* for profile */}
-                  <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                    <div className="py-1">
-                      <Menu.Item>
-                        {({ active }) => (
-                          <Link
-                            to={`/users/${authState?.user?.id}`}
-                            className={classNames(
-                              active
-                                ? "bg-gray-200 text-gray-900"
-                                : "text-gray-700",
-                              "block px-4 py-2 text-sm"
-                            )}
-                          >
-                            <div className="flex-row flex">
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke-width="1.5"
-                                stroke="currentColor"
-                                class="w-5 h-5 mt-1"
-                              >
-                                <path
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
-                                />
-                              </svg>
-                              <p className="ms-2 mt-1 text-sm">Profile</p>
-                            </div>
-                          </Link>
-                        )}
-                      </Menu.Item>
-                      <Menu.Item>
-                        {({ active }) => (
-                          <Link
-                            to="/changepassword"
-                            className={classNames(
-                              active
-                                ? "bg-gray-200 text-gray-900"
-                                : "text-gray-700",
-                              "block px-4 py-2 text-sm"
-                            )}
-                          >
-                            <div className="flex-row flex">
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke-width="1.5"
-                                stroke="currentColor"
-                                class="w-5 h-5 mt-1"
-                              >
-                                <path
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  d="M15.75 5.25a3 3 0 0 1 3 3m3 0a6 6 0 0 1-7.029 5.912c-.563-.097-1.159.026-1.563.43L10.5 17.25H8.25v2.25H6v2.25H2.25v-2.818c0-.597.237-1.17.659-1.591l6.499-6.499c.404-.404.527-1 .43-1.563A6 6 0 1 1 21.75 8.25Z"
-                                />
-                              </svg>
-                              <p className="ms-2 mt-1 text-sm">
-                                Reset Password
-                              </p>
-                            </div>
-                          </Link>
-                        )}
-                      </Menu.Item>
-                      <form method="POST" action="#">
-                        <Menu.Item>
-                          {({ active }) => (
-                            <button
-                              onClick={() => userLogout()}
-                              type="submit"
-                              className={classNames(
-                                active
-                                  ? "bg-gray-200 text-gray-900"
-                                  : "text-gray-700",
-                                "block w-full px-4 py-2 text-left text-sm"
-                              )}
-                            >
-                              <div className="flex-row flex">
-                                <svg
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  fill="none"
-                                  viewBox="0 0 24 24"
-                                  stroke-width="1.5"
-                                  stroke="currentColor"
-                                  class="w-5 h-5 mt-1"
-                                >
-                                  <path
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    d="M8.25 9V5.25A2.25 2.25 0 0 1 10.5 3h6a2.25 2.25 0 0 1 2.25 2.25v13.5A2.25 2.25 0 0 1 16.5 21h-6a2.25 2.25 0 0 1-2.25-2.25V15M12 9l3 3m0 0-3 3m3-3H2.25"
-                                  />
-                                </svg>
-                                <p className="ms-2 mt-1 text-sm">Sign out</p>
-                              </div>
-                            </button>
-                          )}
-                        </Menu.Item>
-                      </form>
-                    </div>
-                  </Menu.Items>
-                </Transition>
-              </Menu>
-              <div
-                className={`fixed inset-0 transition-all duration-500 bg-gray-800 bg-opacity-50 z-50 ${
-                  addTask ? "" : "hidden"
-                }`}
-              >
-                <div className=" fixed inset-y-0 right-3 w-2/6 h-2/3 top-4/2 bg-white shadow-lg transform translate-y-1/2 transition-transform duration-300 ease-in-out">
-                  <div className="flex justify-between p-4">
-                    <p className="text-sm text-gray-500">New Task</p>
-                    <button onClick={toggleAddTaskDrawer} className="">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24"
-                        fill="currentColor"
-                        className="w-5 h-5 text-gray-500"
-                      >
-                        <path
-                          fillRule="evenodd"
-                          d="M5.47 5.47a.75.75 0 0 1 1.06 0L12 10.94l5.47-5.47a.75.75 0 1 1 1.06 1.06L13.06 12l5.47 5.47a.75.75 0 1 1-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 0 1-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 0 1 0-1.06Z"
-                          clipRule="evenodd"
-                        />
-                      </svg>
-                    </button>
-                  </div>
-                  <hr />
-                  <input
-                    type="text"
-                    placeholder="Task Name"
-                    className="p-2 text-sm block w-full  rounded-md mt-2 text-gray-900 appearance-none  placeholder:text-[#6d6e6f] placeholder:text-lg focus:outline-none  sm:text-xs sm:leading-6"
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </nav>
-    </div>
-  );
-}
+             

@@ -54,7 +54,7 @@ function CustomColumn({ tableView, setTableView, form }) {
     <>
       <button
         onClick={columnsDrawer}
-        className=" focus:outline-none gap-x-1 pe-4  text-sm font-[500] text-gray-500 hover:text-orange-600"
+        className=" focus:outline-none gap-x-1 px-4  text-sm font-[500] text-gray-500 hover:text-orange-600"
         title="Columns"
       >
         <svg

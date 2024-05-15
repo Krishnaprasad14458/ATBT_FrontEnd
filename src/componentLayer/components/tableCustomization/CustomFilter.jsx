@@ -102,7 +102,7 @@ function CustomFilter({
         >
           <div className=" bg-gray-100 px-5 py-4 flex justify-between z-[3] ">
             <h5 className="font-[500] "> Filters</h5>
-            <button onClick={filterDrawer} className="">
+            <button onClick={filterDrawer} >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
@@ -215,7 +215,7 @@ function CustomFilter({
                           </select>
 
                           <svg
-                            className="w-4 h-4 text-gray-700 absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none"
+                            className="w-3 h-3 text-gray-700 absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none"
                             fill="none"
                             stroke="currentColor"
                             viewBox="0 0 24 24"
