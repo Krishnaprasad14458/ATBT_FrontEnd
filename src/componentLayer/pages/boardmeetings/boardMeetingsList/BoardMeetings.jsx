@@ -405,13 +405,13 @@ function BoardMeetings() {
                           <button
                             type="button"
                             onClick={() => handleDeleteUser(row.id)}
-                            className="inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600 delete-button"
+                            className="inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600 delete-button cursor-pointer "
                           >
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
                               viewBox="0 0 20 20"
                               fill="currentColor"
-                              className="w-4 h-4"
+                              className="w-4 h-4 "
                             >
                               <path
                                 fill-rule="evenodd"

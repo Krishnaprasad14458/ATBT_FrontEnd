@@ -1305,7 +1305,7 @@ function BoardMeetingForm() {
                                 <p className="text-lg">{item.value}</p>
                               ) : (
                                 <p className="text-lg text-gray-400">
-                                  Board Meeting Number
+                                   Meeting ID
                                 </p>
                               )}
                             </div>

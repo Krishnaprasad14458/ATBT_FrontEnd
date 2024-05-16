@@ -58,7 +58,7 @@ const NonEditableFields = ({ task, age }) => {
       </div>
       <div className="col-span-1">
         <label className="block text-xs font-medium leading-6 my-1 text-[1e1f21]">
-          Meeting Id
+          Meeting ID
         </label>
         <p
           className=" border border-[#d1d5db] text-black h-10 w-full truncate px-3 flex items-center rounded-md text-sm  bg-white-50"

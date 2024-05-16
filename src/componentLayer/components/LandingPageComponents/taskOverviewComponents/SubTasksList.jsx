@@ -53,7 +53,7 @@ const SubTasksList = ({
           Add Subtask
         </button>
       </div>
-      <div className="overflow-auto">
+      <div className="">
         <table className="w-full">
           <thead></thead>
           <tbody>
