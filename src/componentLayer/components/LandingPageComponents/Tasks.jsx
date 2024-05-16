@@ -19,24 +19,24 @@ let status = [
   { label: "Completed", value: "Completed" },
 ];
 let moduleName;
-let parentPath
+let parentPath;
 let groupName;
-
+let idOF;
 export async function tasksLoader({ request, params }) {
   try {
     if (params.boardmeetings === "userboardmeetings") {
       moduleName = "user";
-      parentPath = "users"
-      groupName = "groupUser"
+      parentPath = "users";
+      groupName = "groupUser";
+      idOF = "userId";
     }
     if (params.boardmeetings === "entityboardmeetings") {
       moduleName = "entity";
-      parentPath = "entities"
-      groupName = "groupEntity"
-
+      parentPath = "entities";
+      groupName = "groupEntity";
+      idOF = "entityId";
     }
     const url = new URL(request.url);
-
     const taskID = url.searchParams.get("taskID");
     const subTaskID = url.searchParams.get("subTaskID");
     const statusType = url.searchParams.get("status");
@@ -46,20 +46,22 @@ export async function tasksLoader({ request, params }) {
         params.BMid
           ? atbtApi.get(`task/list?meetingId=${params.BMid}`)
           : statusType !== null
-          ? atbtApi.get(`task/list?userId=${params.id}&status=${statusType}`)
-          : atbtApi.get(`task/list?userId=${params.id}`),
+          ? atbtApi.get(`task/list?${idOF}=${params.id}&status=${statusType}`)
+          : atbtApi.get(`task/list?${idOF}=${params.id}`),
         // atbtApi.get(`task/listAll?user=${params.id}`),
         taskID ? atbtApi.get(`task/listbyid/${taskID}`) : null,
         taskID ? atbtApi.get(`task/subList/${taskID}`) : null,
         subTaskID ? atbtApi.get(`task/subtaskbyid/${subTaskID}`) : null,
-        groupName ?  atbtApi.get(`/boardmeeting/${groupName}/${params.BMid}`) : {}
+        groupName && params.BMid
+          ? atbtApi.get(`/boardmeeting/${groupName}/${params.BMid}`)
+          : {},
         // atbtApi.get(`task/listAll?user=103`)
         // Api For Get boardmeeting members
         // get('/groupEntity/:id')                Meeting.ListEntiyGroup
         // get('/groupTeam/:id',)            Meeting.ListTeamGroup)
         // get('/groupUser/:id')              Meeting.ListUserGroup)
       ]);
-console.log("personResponsiblee",personResponsible)
+    console.log("personResponsiblee", personResponsible);
     let updatedTask = task?.data[0];
     let updatedSubTask = subTask?.data[0];
     let taskAge = null;
@@ -90,7 +92,9 @@ console.log("personResponsiblee",personResponsible)
         value: user.id,
       })),
       threadName: params.BMid ? ` Board Meetings Tasks` : "User Tasks",
-      threadPath: params.BMid ? `/${parentPath}/${params.id}/${params.boardmeetings}/${params.BMid}/tasks` : `/${parentPath}/${params.id}/tasks` ,
+      threadPath: params.BMid
+        ? `/${parentPath}/${params.id}/${params.boardmeetings}/${params.BMid}/tasks`
+        : `/${parentPath}/${params.id}/tasks`,
     };
     console.log("combinedResponse", combinedResponse);
     return combinedResponse;
@@ -195,7 +199,7 @@ export async function TasksActions({ request, params }) {
     }
   }
 }
-const Tasks = ({NameModule}) => {
+const Tasks = ({ NameModule, tasksWithBm }) => {
   let submit = useSubmit();
   const data = useLoaderData();
   let [tasks, setTasks] = useState([]);
@@ -384,10 +388,12 @@ const Tasks = ({NameModule}) => {
         <div className="flex overflow-x-auto my-2">
           {!BMid && (
             <NavLink
-            to={`/${NameModule}/${id}/tasks?status=To-Do`}
-            end
+              to={`/${NameModule}/${id}/tasks?status=To-Do`}
+              end
               className={`cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09] ${
-                activeLink === "toDo" ? "border-b-2 border-orange-500 text-orange-600" : ""
+                activeLink === "toDo"
+                  ? "border-b-2 border-orange-500 text-orange-600"
+                  : ""
               }`}
               onClick={() => handleNavLinkClick("toDo")}
             >
@@ -396,9 +402,7 @@ const Tasks = ({NameModule}) => {
           )}
           {!BMid && (
             <NavLink
-            
               to={`/${NameModule}/${id}/tasks?status=In-Progress`}
-
               end
               className={`cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09] ${
                 activeLink === "inProgress"
@@ -413,12 +417,12 @@ const Tasks = ({NameModule}) => {
 
           {!BMid && (
             <NavLink
-            to={`/${NameModule}/${id}/tasks?status=Over-Due`}
-
-            
+              to={`/${NameModule}/${id}/tasks?status=Over-Due`}
               end
               className={`cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09] ${
-                activeLink === "OverDue" ? "border-b-2 border-orange-500 text-orange-600" : ""
+                activeLink === "OverDue"
+                  ? "border-b-2 border-orange-500 text-orange-600"
+                  : ""
               }`}
               onClick={() => handleNavLinkClick("OverDue")}
             >
@@ -427,12 +431,12 @@ const Tasks = ({NameModule}) => {
           )}
           {!BMid && (
             <NavLink
-            to={`/${NameModule}/${id}/tasks?status=Completed`}
-
-           
+              to={`/${NameModule}/${id}/tasks?status=Completed`}
               end
               className={`cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09] ${
-                activeLink === "Completed" ? "border-b-2 border-orange-500 text-orange-600" : ""
+                activeLink === "Completed"
+                  ? "border-b-2 border-orange-500 text-orange-600"
+                  : ""
               }`}
               onClick={() => handleNavLinkClick("Completed")}
             >
@@ -441,7 +445,7 @@ const Tasks = ({NameModule}) => {
           )}
           {!BMid && (
             <NavLink
-            to={`/${NameModule}/${id}/tasks`}
+              to={`/${NameModule}/${id}/tasks`}
               end
               className={`cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09] ${
                 activeLink === "Master" ? "border-b-2 border-orange-600" : ""
@@ -655,6 +659,7 @@ const Tasks = ({NameModule}) => {
                           selectedOption.value
                         );
                       }}
+                     
                       value={
                         task?.members === null ||
                         task?.members === "" ||
