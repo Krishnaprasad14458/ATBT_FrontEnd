@@ -578,7 +578,7 @@ const Tasks = ({NameModule}) => {
                   </td>
                   <td
                     className="border py-1.5 px-3 "
-                    title={task?.members}
+                    // title={task?.members}
                     style={{ width: "14rem" }}
                   >
                     <Select
@@ -755,13 +755,13 @@ const Tasks = ({NameModule}) => {
                   <td className="border py-1.5 px-3 text-sm text-gray-600">
                     Updated By Admin
                   </td>
-                  <td className="border py-1.5 px-3 text-sm text-gray-600" style={{width :"3rem"}}>
+                  <td className="border py-1.5 px-3 text-sm text-gray-600 cursor-pointer" style={{width :"3rem"}} >
                     <svg
                       onClick={() => handleDeleteTask(task.id)}
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 20 20"
                       fill="currentColor"
-                      class="w-5 h-5"
+                      class="w-5 h-5 "
                     >
                       <path
                         fill-rule="evenodd"

@@ -83,7 +83,7 @@ const CommentsForm = ({
               placeholder="Type your comment..."
               className={`p-2 text-sm w-full  resize-none   shadow-sm rounded-md  outline-none `}
             />
-            <div>
+            {/* <div>
               {newComment.file.name}
               <label htmlFor="fileInput" className="cursor-pointer">
                 <svg
@@ -106,9 +106,9 @@ const CommentsForm = ({
                 type="file"
                 className="hidden"
                 onChange={handleFileChange}
-                accept="*/*"
+                
               />
-            </div>
+            </div> */}
           </div>
           <div className="col-span-1 flex justify-center items-center">
             <button
