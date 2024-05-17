@@ -575,7 +575,6 @@ function BoardMeetingForm() {
               customFormFields.map((item, index) => (
                 <div key={index}>
                   {/* predefined fields */}
-
                   {item.type === "number" &&
                     item.inputname == "meetingnumber" &&
                     item.field == "predefined" && (
@@ -633,13 +632,14 @@ function BoardMeetingForm() {
                           type="date"
                           name={item.inputname}
                           id={item.inputname}
-                          style={{ fontSize: "0.8rem" ,  WebkitAppearance: 'none'}}
+                          style={{
+                            fontSize: "0.8rem",
+                            WebkitAppearance: "none",
+                          }}
                           min={id ? "" : getCurrentDate()}
-                          // placeholder="bhavi"
                           className="px-2 py-2 text-sm block w-full rounded-md bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder:text-xs"
                           value={customFormFields[index].value || ""}
                           onChange={(e) => handleChange(index, e.target.value)}
-                        
                         />
                         <div className="h-2 text-[#dc2626]">
                           {errors[item.inputname] && (
@@ -1306,7 +1306,7 @@ function BoardMeetingForm() {
                                 <p className="text-lg">{item.value}</p>
                               ) : (
                                 <p className="text-lg text-gray-400">
-                                   Meeting ID
+                                  Meeting ID
                                 </p>
                               )}
                             </div>
