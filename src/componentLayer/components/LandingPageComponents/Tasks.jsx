@@ -230,6 +230,7 @@ const Tasks = ({ NameModule, tasksWithBm }) => {
     }, 500),
     []
   );
+
   const [overViewTask, setOverViewTask] = useState(false);
   const [displayOverviewTask, setDisplayOverviewTask] = useState(false);
   const [displayOverviewSubTask, setDisplayOverviewSubTask] = useState(false);
@@ -457,57 +458,46 @@ const Tasks = ({ NameModule, tasksWithBm }) => {
           )}
         </div>
       </div>
-      <div className=" mt-3 overflow-x-auto">
+      <div className=" max-h-[410px] overflow-y-auto">
         <table className="w-full divide-y divide-gray-200 dark:divide-gray-700 rounded-md">
           <thead>
             <tr>
               <th
-                className="py-2 px-2  text-sm text-white bg-orange-600 border border-collapse border-[#e5e7eb] whitespace-nowrap text-left"
-                style={{ width: "22rem" }}
+                className="sticky top-0 bg-orange-600 text-white text-sm text-left px-2 py-2 border-l-2 border-gray-200"
+                style={{ width: "20rem" }}
               >
                 Decision Taken
               </th>
-              <th
-                className="py-2 px-2  text-sm text-white bg-orange-600 border border-collapse border-[#e5e7eb] text-left
-                 whitespace-nowrap"
-              >
+              <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-2 py-2 border-l-2 border-gray-200 z-10">
                 Person Responsible
               </th>
               <th
-                className="py-2 px-2  text-sm text-white bg-orange-600 border border-collapse border-[#e5e7eb]  text-left
-                whitespace-nowrap"
+                className="sticky top-0 bg-orange-600 text-white text-sm text-left px-2 py-2 border-l-2 border-gray-200 z-10"
+                style={{ width: "6rem" }}
               >
                 Due Date
               </th>
-              <th
-                className="py-2 px-2  text-sm text-white bg-orange-600    border border-collapse border-[#e5e7eb]  text-left
-               whitespace-nowrap"
-                style={{ width: "8rem" }}
-              >
+              <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-2 py-2 border-l-2 border-gray-200 z-10">
                 Status
               </th>
-              <th
-                className="py-2  px-2  text-sm text-white bg-orange-600    border border-collapse border-[#e5e7eb] text-left
-                whitespace-nowrap"
-              >
+              <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-2 py-2 border-l-2 border-gray-200 ">
                 Updated By User
               </th>
-              <th className="py-2 px-2  text-sm text-white bg-orange-600   border border-collapse border-[#e5e7eb] whitespace-nowrap text-left">
+              <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2 border-l-2 border-gray-200">
                 Updated by Admin
               </th>
-              <th className="py-2 px-2  text-sm text-white bg-orange-600   border border-collapse border-[#e5e7eb] whitespace-nowrap text-left">
+              {/* <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2 border-l-2 border-gray-200">
                 Actions
-              </th>
+              </th> */}
             </tr>
           </thead>
           <tbody className="">
             {tasks?.map((task, index) => {
               const decisionHeight =
                 task?.decision === null || task?.decision === "" ? "2rem" : "";
-
               return (
                 <tr key={task.id} className="border-b border-gray-200">
-                  <td className="border py-1.5 px-3">
+                  <td className="border py-1.5 px-2">
                     <div className="flex items-center justify-between">
                       {isInputActiveID === task.id && (
                         <input
@@ -580,11 +570,8 @@ const Tasks = ({ NameModule, tasksWithBm }) => {
                       </div>
                     </div>
                   </td>
-                  <td
-                    className="border py-1.5 px-3 "
-                    // title={task?.members}
-                    style={{ width: "14rem" }}
-                  >
+
+                  <td className="border py-1.5 px-2">
                     <Select
                       options={members}
                       menuPortalTarget={document.body}
@@ -625,6 +612,7 @@ const Tasks = ({ NameModule, tasksWithBm }) => {
                             backgroundColor: "#ea580c",
                           },
                         }),
+
                         indicatorSeparator: (provided, state) => ({
                           ...provided,
                           display: state.isFocused ? "visible" : "none",
@@ -635,7 +623,6 @@ const Tasks = ({ NameModule, tasksWithBm }) => {
                         }),
                         menu: (provided) => ({
                           ...provided,
-                          zIndex: 9999,
                         }),
 
                         placeholder: (provided) => ({
@@ -659,7 +646,6 @@ const Tasks = ({ NameModule, tasksWithBm }) => {
                           selectedOption.value
                         );
                       }}
-                     
                       value={
                         task?.members === null ||
                         task?.members === "" ||
@@ -672,7 +658,7 @@ const Tasks = ({ NameModule, tasksWithBm }) => {
                       menuPlacement="auto"
                     />
                   </td>
-                  <td className="border py-1.5 px-3" style={{ width: "10rem" }}>
+                  <td className="border py-1.5 px-2">
                     <input
                       className=" border border-transparent text-black px-1.5 py-2 rounded-md  bg-[#f9fafb] focus:outline-none text-sm focus:border-orange-400  date_type"
                       type="date"
@@ -684,7 +670,7 @@ const Tasks = ({ NameModule, tasksWithBm }) => {
                     />
                   </td>
                   <td
-                    className="border py-1.5 px-3 "
+                    className="border py-1.5 px-2"
                     title={task?.status}
                     style={{ width: "6.5rem" }}
                   >
@@ -754,13 +740,13 @@ const Tasks = ({ NameModule, tasksWithBm }) => {
                       menuPlacement="auto"
                     />
                   </td>
-                  <td className="border py-1.5 px-3 text-sm text-gray-600">
+                  <td className="border py-1.5 px-2 text-sm text-gray-600">
                     Updated By User
                   </td>
-                  <td className="border py-1.5 px-3 text-sm text-gray-600">
+                  <td className="border py-1.5 px-2 text-sm text-gray-600">
                     Updated By Admin
                   </td>
-                  <td className="border py-1.5 px-3 text-sm text-gray-600 cursor-pointer" style={{width :"3rem"}} >
+                  {/* <td className="border py-1.5 px-3 text-sm text-gray-600 cursor-pointer" style={{width :"3rem"}} >
                     <svg
                       onClick={() => handleDeleteTask(task.id)}
                       xmlns="http://www.w3.org/2000/svg"
@@ -774,7 +760,7 @@ const Tasks = ({ NameModule, tasksWithBm }) => {
                         clip-rule="evenodd"
                       />
                     </svg>
-                  </td>
+                  </td> */}
                 </tr>
               );
             })}

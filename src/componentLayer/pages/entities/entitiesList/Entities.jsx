@@ -224,7 +224,30 @@ function Entities() {
                     {tableView[key].label}
                   </th>
                 ))}
-
+                <th
+                  scope="col"
+                  className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200"
+                >
+                  Total Tasks
+                </th>
+                <th
+                  scope="col"
+                  className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200"
+                >
+                  Completed Tasks
+                </th>
+                <th
+                  scope="col"
+                  className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200"
+                >
+                  Upcoming Tasks
+                </th>
+                <th
+                  scope="col"
+                  className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200"
+                >
+                  Overdue Tasks
+                </th>
                 <th
                   scope="col"
                   className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200"
@@ -307,6 +330,26 @@ function Entities() {
                         );
                       }
                     })}
+                    <td
+                      className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium hover:text-orange-500  overflow-hidden`}
+                    >
+                      200
+                    </td>
+                    <td
+                      className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium hover:text-orange-500  overflow-hidden`}
+                    >
+                      100
+                    </td>
+                    <td
+                      className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium hover:text-orange-500  overflow-hidden`}
+                    >
+                      50
+                    </td>
+                    <td
+                      className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium hover:text-orange-500  overflow-hidden`}
+                    >
+                      50
+                    </td>
 
                     <td
                       className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden`}
@@ -319,28 +362,27 @@ function Entities() {
                             permission.module === "entity" && permission.canRead
                           }
                         >
-                            <button
-                              type="button"
-                              className=" inline-flex items-center gap-x-1 text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
-                              title="view"
-                            >
-                              <Link to={`${row.id}`}>
-                                <svg
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  viewBox="0 0 20 20"
-                                  fill="currentColor"
-                                  className="w-4 h-4"
-                                >
-                                  <path d="M10 12.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z" />
-                                  <path
-                                    fill-rule="evenodd"
-                                    d="M.664 10.59a1.651 1.651 0 0 1 0-1.186A10.004 10.004 0 0 1 10 3c4.257 0 7.893 2.66 9.336 6.41.147.381.146.804 0 1.186A10.004 10.004 0 0 1 10 17c-4.257 0-7.893-2.66-9.336-6.41ZM14 10a4 4 0 1 1-8 0 4 4 0 0 1 8 0Z"
-                                    clip-rule="evenodd"
-                                  />
-                                </svg>
-                              </Link>
-                            </button>
-                          
+                          <button
+                            type="button"
+                            className=" inline-flex items-center gap-x-1 text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
+                            title="view"
+                          >
+                            <Link to={`${row.id}`}>
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 20 20"
+                                fill="currentColor"
+                                className="w-4 h-4"
+                              >
+                                <path d="M10 12.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z" />
+                                <path
+                                  fill-rule="evenodd"
+                                  d="M.664 10.59a1.651 1.651 0 0 1 0-1.186A10.004 10.004 0 0 1 10 3c4.257 0 7.893 2.66 9.336 6.41.147.381.146.804 0 1.186A10.004 10.004 0 0 1 10 17c-4.257 0-7.893-2.66-9.336-6.41ZM14 10a4 4 0 1 1-8 0 4 4 0 0 1 8 0Z"
+                                  clip-rule="evenodd"
+                                />
+                              </svg>
+                            </Link>
+                          </button>
                         </GateKeeper>
                         <GateKeeper
                           permissionCheck={(permission) =>
@@ -376,7 +418,6 @@ function Entities() {
                             title="Delete"
                             onClick={() => handleDeleteUser(row.id)}
                             className=" inline-flex items-center gap-x-2 delete-button"
-                            
                           >
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
@@ -411,7 +452,8 @@ function Entities() {
             ) : (
               <p className="text-sm text-gray-700">
                 Showing {entities.startEntity} to {entities.endEntity} of{" "}
-                <span className="text-sm">{entities.totalEntities}</span> entites
+                <span className="text-sm">{entities.totalEntities}</span>{" "}
+                entites
               </p>
             )}
           </div>

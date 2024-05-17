@@ -101,7 +101,7 @@ const BoardMeetingOverview = () => {
           </button>
         </Link>
       </div>
-      <div className="mt-3 flex justify-center">
+      <div className="mt-3 flex justify-center ">
         <div className=" w-full md:w-full  lg:w-11/12 xl:11/12 shadow-md border-2 rounded-md  px-4 pb-4 pt-1">
           <div className="flex justify-end "></div>
           {customFormField &&
@@ -110,11 +110,11 @@ const BoardMeetingOverview = () => {
               return (
                 <div className="relative">
                   {/* predefined */}
-                  <div className="md:flex md:justify-between my-2 ">
+                  <div className=" block md:flex md:justify-between my-2 ">
                     {item.type === "number" &&
                       item.inputname === "meetingnumber" &&
                       item.field === "predefined" && (
-                        <p className="text-md w-5/6 truncate">
+                        <p className="text-md md:w-5/6 md:truncate">
                           {" "}
                           Meeting Id : {item.value}
                         </p>
@@ -160,11 +160,11 @@ const BoardMeetingOverview = () => {
                         return (
                           <div>
                             {item.value ? (
-                              <p className="text-sm absolute bottom-2 right-2">
+                              <p className="text-sm md:absolute md:bottom-2 md:right-2">
                                 Date : {date ? date : "No Date"}
                               </p>
                             ) : (
-                              <p className="text-sm text-gray-400 absolute bottom-2 right-2">
+                              <p className="text-sm text-gray-400 md:absolute md:bottom-2 md:right-2">
                                 Date : month date, year
                               </p>
                             )}
