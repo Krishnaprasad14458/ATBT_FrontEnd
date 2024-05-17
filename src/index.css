@@ -2,6 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
+
 .content {
   height: 100%;
   width: 100%;
@@ -160,18 +161,18 @@ input::-webkit-inner-spin-button {
 input[type="date"]:in-range::-webkit-datetime-edit-month-field,
 input[type="date"]:in-range::-webkit-datetime-edit-day-field,
 input[type="date"]:in-range::-webkit-datetime-edit-text {
-  color: transparent;
+  color: yellow;
 }  */
 /* for defult  date input dd/mm/yyy its working in all expect boardmeeting form  end */
 
 /* this one also working  dont remove */
-.date_type:not(:focus):in-range::-webkit-datetime-edit-year-field,
+/* .date_type:not(:focus):in-range::-webkit-datetime-edit-year-field,
 .date_type:not(:focus):in-range::-webkit-datetime-edit-month-field,
 .date_type:not(:focus):in-range::-webkit-datetime-edit-day-field,
 .date_type:not(:focus):in-range::-webkit-datetime-edit-text {
   opacity: 0;
   filter: invert(40%);
-}
+} */
 /* .date_type:not(:focus)::-webkit-calendar-picker-indicator {
   filter: grayscale(100%);
 } */
@@ -179,7 +180,7 @@ input[type="date"]:in-range::-webkit-datetime-edit-text {
   filter:brightness(50%);
 } */
 
-.date_type {
+/* .date_type {
   position: relative;
 }
 .date_type::-webkit-calendar-picker-indicator {
@@ -187,19 +188,8 @@ input[type="date"]:in-range::-webkit-datetime-edit-text {
   border-radius: 4px;
   margin-right: 2px;
   opacity: 0.6;
-  /* filter: invert(0.6);
-  
-  /* background: transparent;
-  bottom: 0;
-  color: transparent;
 
-  
-  left: 0;
-  position: absolute;
-  right: 0;
-  top: 0;
-  width: auto; */
-}
+} */
 
 /* .date_type:before {
   color: lightgrey;
@@ -270,4 +260,30 @@ input[type='date']:after {
 .arrow_breadcrumbs::after {
   content: ">";
   color: #334155;
+}
+input[type="date"] {
+  position: relative;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+  background: transparent;
+  bottom: 0;
+  cursor: pointer;
+  height: auto;
+  right: 0;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: auto;
+}
+input[type="date"] {
+  justify-content: space-between;
+  display: flex;
+}
+input[type="date"]:after {
+  font-family: "Font Awesome 5 Free";
+  font-weight: 600;
+  content: "\f073";
+  color: gray;
+  padding: 0 1px;
 }

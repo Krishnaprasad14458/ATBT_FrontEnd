@@ -1,6 +1,8 @@
 import React from "react";
 import Select from "react-select";
 import { useFetcher } from "react-router-dom";
+import CommentsView from "./CommentsView";
+import { useEffect } from "react";
 
 const SubTasksList = ({
   members,
@@ -35,8 +37,9 @@ const SubTasksList = ({
       console.log(error, "which error");
     }
   };
+
   return (
-    <div className="pb-3 ">
+    <div className=" ">
       <div className="flex justify-end pe-3">
         <button
           onClick={() => handleAddSubTask(task?.id)}
@@ -53,8 +56,9 @@ const SubTasksList = ({
           Add Subtask
         </button>
       </div>
+   
       <div className="">
-        <table className="w-full">
+        <table className="w-full divide-y divide-gray-200 dark:divide-gray-700 rounded-md ">
           <thead></thead>
           <tbody>
             {subTasks &&
@@ -64,7 +68,7 @@ const SubTasksList = ({
                     ? "2rem"
                     : "";
                 return (
-                  <tr key={task.id} className="border-b border-gray-200 w-full">
+                  <tr key={task.id} className="border-b border-gray-200 ">
                     <td className="border py-1.5 px-2">
                       <div className="flex items-center">
                         {isInputActiveID === task.id && (
@@ -134,10 +138,10 @@ const SubTasksList = ({
                     <td
                       className="border py-1.5 px-2"
                       title={task?.members}
-                      style={{ width: "16rem" }}
+                 
                     >
                       <Select
-                        // menuPortalTarget={document.body}
+                       
                         options={members}
                         styles={{
                           control: (provided, state) => ({
@@ -176,6 +180,7 @@ const SubTasksList = ({
                               color: "#fff",
                               backgroundColor: "#ea580c",
                             },
+                        
                           }),
                           indicatorSeparator: (provided, state) => ({
                             ...provided,
@@ -219,12 +224,12 @@ const SubTasksList = ({
                                 (person) => person.value === task?.members
                               )
                         }
-                        menuPlacement="auto"
+                       menuPlacement="auto"
                       />
                     </td>
                     <td className="border py-1.5 px-2">
                       <input
-                        style={{ width: "8rem" }}
+                        
                         className=" border border-transparent text-black px-1.5 py-2 rounded-md  bg-white-50 focus:outline-none text-sm focus:border-orange-400  date_type"
                         type="date"
                         value={task?.dueDate}
@@ -236,9 +241,11 @@ const SubTasksList = ({
                     </td>
                     <td
                       className="border py-1.5 px-2"
-                      style={{ width: "14rem" }}
+                    
                     >
                       <Select
+                   
+                      
                         options={status}
                         styles={{
                           control: (provided, state) => ({
@@ -313,10 +320,10 @@ const SubTasksList = ({
                         className="basic-multi-select"
                         classNamePrefix="select"
                         value={{ label: task?.status, value: task?.status }}
-                        menuPlacement="auto"
+                        
                       />
                     </td>
-                    <td className="border py-1.5 px-2 text-sm  text-gray-600" >
+                    {/* <td className="border py-1.5 px-2 text-sm  text-gray-600" >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 20 20"
@@ -330,7 +337,7 @@ const SubTasksList = ({
                           clip-rule="evenodd"
                         />
                       </svg>
-                    </td>
+                    </td> */}
                   </tr>
                 );
               })}
