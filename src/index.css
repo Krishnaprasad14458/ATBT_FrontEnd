@@ -287,3 +287,15 @@ input[type="date"]:after {
   color: gray;
   padding: 0 1px;
 }
+
+
+input[type="date"] {
+
+  /* Hide arrow */
+  &::-webkit-inner-spin-button,
+  &::-webkit-calendar-picker-indicator {
+    display: none;
+    -webkit-appearance: none;
+  }
+
+}
