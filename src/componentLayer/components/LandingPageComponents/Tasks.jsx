@@ -364,6 +364,18 @@ const Tasks = ({ NameModule, tasksWithBm }) => {
   const handleNavLinkClick = (link) => {
     setActiveLink(link);
   };
+    // for previous dates defult
+    const getCurrentDate = () => {
+      const today = new Date();
+      const year = today.getFullYear();
+      let month = today.getMonth() + 1;
+      let day = today.getDate();
+  
+      month = month < 10 ? `0${month}` : month;
+      day = day < 10 ? `0${day}` : day;
+  
+      return `${year}-${month}-${day}`;
+    };
 
   return (
     <div className="">
@@ -587,7 +599,7 @@ const Tasks = ({ NameModule, tasksWithBm }) => {
                             ? "none"
                             : provided.boxShadow,
                           fontSize: "16px",
-                          height: "36px",
+                          height: "36px", // Adjust the height here
                           "&:hover": {
                             borderColor: state.isFocused
                               ? "#fb923c"
@@ -663,7 +675,11 @@ const Tasks = ({ NameModule, tasksWithBm }) => {
                       className=" border border-transparent text-black px-1.5 py-2 rounded-md  bg-[#f9fafb] focus:outline-none text-sm focus:border-orange-400  date_type"
                       type="date"
                       value={task?.dueDate}
-                      
+                      style={{
+                        fontSize: "0.8rem",
+                        WebkitAppearance: "none",
+                      }}
+                      min={ getCurrentDate()}
                       onChange={(e) => {
                         handleSubmit(task?.id, "dueDate", e.target.value);
                         handleTaskChange(index, "dueDate", e.target.value);
