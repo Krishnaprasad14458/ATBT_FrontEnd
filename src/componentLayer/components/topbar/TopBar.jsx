@@ -1,20 +1,43 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Fragment } from "react";
 import { Menu, Transition } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
-import { Link } from "react-router-dom";
+import { Link, redirect } from "react-router-dom";
 import { AuthContext } from "../../../contexts/authContext/authContext";
 import GateKeeper from "../../../rbac/GateKeeper";
+import defprop from "../../../assets/Images/defprof.svg";
+import atbtApi from "../../../serviceLayer/interceptor";
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
+
 export default function TopBar() {
   const { userLogout, authState } = useContext(AuthContext);
+  const [logInUserDetails , setLogInUserDetails]= useState()
+  console.log(logInUserDetails, "logInUserDetails")
   const [addTask, setAddTask] = useState(false);
   const toggleAddTaskDrawer = () => {
     setAddTask(!addTask);
   };
-  console.log("authState" , authState )
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        if (authState?.user?.id) {
+       
+          const { data } = await atbtApi.get(`/user/list/${authState.user.id}`);
+          setLogInUserDetails(data.user)
+       
+        }
+      } catch (error) {
+        console.error("Error loading dashboard:", error);
+        // Redirect or handle error appropriately
+      }
+    };
+  
+    fetchData();
+  
+  }, [authState]);
   return (
     <div className="topbar w-full">
       <nav className="bg-white shadow-md ">
@@ -356,7 +379,7 @@ export default function TopBar() {
                     </Menu.Items>
                   </Transition>
                 </Menu>
-                </div>
+              </div>
             </div>
             <div className="absolute inset-y-0 right-0 flex items-center gap-2 me-3 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
               {/* <button
@@ -380,17 +403,25 @@ export default function TopBar() {
                   />
                 </svg>
               </button> */}
-           
+
               <Menu as="div" className="relative inline-block text-left">
                 <div>
                   <Menu.Button className="inline-flex w-full justify-center gap-x-1.5 rounded">
-                    <img
-                      className="h-8 w-8 rounded-full"
-                      src={authState?.user?.image}
-                      alt=""
-                      aria-hidden="true"
-                    />
-                 
+                    {logInUserDetails?.image ? (
+                      <img
+                        className="h-8 w-8 rounded-full"
+                        src={logInUserDetails?.image}
+                        alt=""
+                        aria-hidden="true"
+                      />
+                    ) : (
+                      <img
+                        className="h-8 w-8 rounded-full"
+                        src={defprop}
+                        alt=""
+                        aria-hidden="true"
+                      />
+                    )}
                   </Menu.Button>
                 </div>
 
@@ -547,8 +578,8 @@ export default function TopBar() {
   );
 }
 
-
-                {/* 
+{
+  /* 
 <Menu as="div" className="relative inline-block text-left">
                   <div>
                     <Menu.Button className="inline-flex w-full justify-center gap-x-1.5 rounded-full">
@@ -889,5 +920,5 @@ export default function TopBar() {
                       </div>
                     </Menu.Items>
                   </Transition>
-                </Menu> */}
-             
+                </Menu> */
+}
