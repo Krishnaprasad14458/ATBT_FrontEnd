@@ -663,6 +663,10 @@ const Tasks = ({ NameModule, tasksWithBm }) => {
                       className=" border border-transparent text-black px-1.5 py-2 rounded-md  bg-[#f9fafb] focus:outline-none text-sm focus:border-orange-400  date_type"
                       type="date"
                       value={task?.dueDate}
+                      style={{
+                        
+                        WebkitAppearance: "none",
+                      }}
                       onChange={(e) => {
                         handleSubmit(task?.id, "dueDate", e.target.value);
                         handleTaskChange(index, "dueDate", e.target.value);

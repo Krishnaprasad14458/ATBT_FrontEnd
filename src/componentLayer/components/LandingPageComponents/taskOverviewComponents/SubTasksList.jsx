@@ -232,6 +232,10 @@ const SubTasksList = ({
                         
                         className=" border border-transparent text-black px-1.5 py-2 rounded-md  bg-white-50 focus:outline-none text-sm focus:border-orange-400  date_type"
                         type="date"
+                        style={{
+                        
+                          WebkitAppearance: "none",
+                        }}
                         value={task?.dueDate}
                         onChange={(e) => {
                           handleSubmit(task?.id, "dueDate", e.target.value);
