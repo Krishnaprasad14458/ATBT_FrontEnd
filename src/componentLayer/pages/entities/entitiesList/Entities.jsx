@@ -104,6 +104,7 @@ function Entities() {
     console.log(selectedValue, "sv");
     setQParams({
       ...Qparams,
+      page:1,
       pageSize: selectedValue,
     });
   };
@@ -308,7 +309,13 @@ function Entities() {
                                 permission.canRead
                               }
                             >
-                              <Link to={`${row.id}/entityboardmeetings`}>
+                              <Link
+                              to={{
+                                pathname: `${row.id}/entityboardmeetings`,
+                                search: `?search=&page=1&pageSize=10`,
+                              }}
+                        
+                              >
                                 <p className="truncate text-xs">
                                   {" "}
                                   {caseLetter(value)}

@@ -78,7 +78,6 @@ function Boardmeeting() {
   let fetcher = useFetcher();
   const data = useLoaderData();
   const { meetings, tableViewData, fieldsDropDownData, customForm } = data;
- 
   const [Qparams, setQParams] = useState({
     search: "",
     page: 1,
@@ -113,6 +112,7 @@ function Boardmeeting() {
     console.log(selectedValue, "sv");
     setQParams({
       ...Qparams,
+      page : 1,
       pageSize: selectedValue,
     });
   };

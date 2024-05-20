@@ -18,7 +18,11 @@ const EntityLandingPage = () => {
       <div className="flex overflow-auto">
         {!BMid && (
           <NavLink
-            to="entityboardmeetings"
+     
+            to={{
+              pathname: `entityboardmeetings`,
+              search:  `?search=&page=1&pageSize=10`,
+            }}
             end
             className={({ isActive, isPending, isTransitioning }) =>
               isPending
