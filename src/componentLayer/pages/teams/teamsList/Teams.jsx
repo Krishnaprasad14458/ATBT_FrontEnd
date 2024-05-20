@@ -84,6 +84,7 @@ function Teams() {
     console.log(selectedValue, "sv");
     setQParams({
       ...Qparams,
+      page:1,
       pageSize: selectedValue,
     });
   };

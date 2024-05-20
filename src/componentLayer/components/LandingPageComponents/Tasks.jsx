@@ -18,20 +18,18 @@ let status = [
   { label: "In-Progress", value: "In-Progress" },
   { label: "Completed", value: "Completed" },
 ];
-let moduleName;
+
 let parentPath;
 let groupName;
 let idOF;
 export async function tasksLoader({ request, params }) {
   try {
     if (params.boardmeetings === "userboardmeetings") {
-      moduleName = "user";
       parentPath = "users";
       groupName = "groupUser";
       idOF = "userId";
     }
     if (params.boardmeetings === "entityboardmeetings") {
-      moduleName = "entity";
       parentPath = "entities";
       groupName = "groupEntity";
       idOF = "entityId";
@@ -91,7 +89,7 @@ export async function tasksLoader({ request, params }) {
         label: user.name,
         value: user.id,
       })),
-      threadName: params.BMid ? ` Board Meetings Tasks` : "User Tasks",
+      threadName: params.BMid ? ` Board Meetings Tasks` :`Tasks`,
       threadPath: params.BMid
         ? `/${parentPath}/${params.id}/${params.boardmeetings}/${params.BMid}/tasks`
         : `/${parentPath}/${params.id}/tasks`,
@@ -115,22 +113,13 @@ export async function TasksActions({ request, params }) {
       {
         const requestBody = (await request.json()) || null;
         console.log(requestBody, "request");
-        let moduleName;
-        if (params.boardmeetings === "userboardmeetings") {
-          moduleName = "users";
-        }
-        if (params.boardmeetings === "entityboardmeetings") {
-          moduleName = "entity";
-        }
-        if (params.boardmeetings === "teamboardmeetings") {
-          moduleName = "team";
-        }
+       
         if (requestBody.type === "ADD_NEW_TASK") {
           return await atbtApi.post(
             `task/add/${params.BMid}`,
 
             {
-              taskCreatedBy: { name: moduleName, id: params.id },
+              taskCreatedBy: { name: parentPath, id: params.id },
               collaborators: [
                 parseInt(JSON.parse(localStorage.getItem("data")).user.id),
               ],
@@ -200,6 +189,7 @@ export async function TasksActions({ request, params }) {
   }
 }
 const Tasks = ({ NameModule, tasksWithBm }) => {
+  parentPath= NameModule
   let submit = useSubmit();
   const data = useLoaderData();
   let [tasks, setTasks] = useState([]);
@@ -216,9 +206,13 @@ const Tasks = ({ NameModule, tasksWithBm }) => {
 
   let fetcher = useFetcher();
   const { id, BMid } = useParams();
-  const [Qparams, setQParams] = useState({
-    //  taskID:null
-    status: "To-Do",
+  const [Qparams, setQParams] = useState(() => {
+    // Initialize the state object conditionally
+    const initialState = {};
+    if (!BMid) {
+      initialState.status = "To-Do";
+    }
+    return initialState;
   });
   useEffect(() => {
     debouncedParams(Qparams);
