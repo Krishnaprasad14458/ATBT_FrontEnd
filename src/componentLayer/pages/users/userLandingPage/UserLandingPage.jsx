@@ -12,8 +12,6 @@ import BreadCrumbs from "../../../components/breadcrumbs/BreadCrumbs";
 
 const UserLandingPage = () => {
   const { id, BMid } = useParams();
- 
-
   return (
     <div className=" p-4 bg-[#f8fafc]">
       <div className="flex justify-between my-2">
@@ -23,7 +21,10 @@ const UserLandingPage = () => {
       <div className="flex overflow-x-auto">
         {!BMid && (
           <NavLink
-            to="userboardmeetings"
+          to={{
+            pathname: `userboardmeetings`,
+            search:  `?search=&page=1&pageSize=10`,
+          }}
             end
             className={({ isActive, isPending, isTransitioning }) =>
               isPending
