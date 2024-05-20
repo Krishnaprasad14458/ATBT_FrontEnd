@@ -8,7 +8,7 @@ const Documents = () => {
     entitiesState: { entities },
   } = useContext(EntitiesDataContext);
   const { id } = useParams();
-  
+
   let [customFormField, setCustomFormField] = useState();
   const userData = JSON.parse(localStorage.getItem("data"));
   const token = userData?.token;
@@ -37,41 +37,73 @@ const Documents = () => {
   //   console.log("customFormField", customFormField);
   // }, [customFormField]);
   return (
-    <div>
-      <div className="mt-4">
-        <div class="flex items-center justify-center w-full">
-          <label
-            for="dropzone-file"
-            class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
-          >
-            <div class="flex flex-col items-center justify-center pt-5 pb-6">
+    <div className="mt-4">
+      <table className="w-full divide-y divide-gray-200 dark:divide-gray-700 rounded-md">
+        <thead>
+          <tr>
+            <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200">
+              Meeting Id
+            </th>
+            <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200">
+              Date
+            </th>
+            <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200">
+              Decision Taken
+            </th>
+            <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200">
+              Person Responsibile
+            </th>
+            <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200">
+              Download Attachment
+            </th>
+          </tr>
+        </thead>
+        <tbody className=" divide-gray-200 dark:divide-gray-700">
+          <tr className={`hover:bg-slate-100 dark:hover:bg-gray-700 `}>
+            <td
+              className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  hover:text-orange-500 overflow-hidden`}
+            >
+              1
+            </td>
+
+            <td
+              className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  hover:text-orange-500 overflow-hidden`}
+            >
+              20-05-2024
+            </td>
+
+            <td
+              className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  hover:text-orange-500 overflow-hidden`}
+            >
+              Something
+            </td>
+            <td
+              className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  hover:text-orange-500 overflow-hidden`}
+            >
+              bhavitha
+            </td>
+
+            <td
+              className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  hover:text-orange-500 overflow-hidden`}
+            >
               <svg
-                class="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400"
-                aria-hidden="true"
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
-                viewBox="0 0 20 16"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                class="w-6 h-6"
               >
                 <path
-                  stroke="currentColor"
                   stroke-linecap="round"
                   stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
+                  d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3"
                 />
               </svg>
-              <p class="mb-2 text-sm text-gray-500 dark:text-gray-400">
-                <span class="font-semibold">Click to upload</span> or drag and
-                drop
-              </p>
-              <p class="text-xs text-gray-500 dark:text-gray-400">
-                SVG, PNG, JPG or GIF (MAX. 800x400px)
-              </p>
-            </div>
-            <input id="dropzone-file" type="file" class="hidden" />
-          </label>
-        </div>
-      </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   );
 };
