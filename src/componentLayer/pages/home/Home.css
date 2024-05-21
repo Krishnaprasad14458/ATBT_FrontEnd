@@ -1,13 +1,15 @@
 
 @media (max-width: 640px) {
   .tota_tasks,
+  .todo_tasks,
+  .in_progress_tasks,
   .completed_tasks,
-  .upcoming_tasks,
   .overdue_tasks {
     padding: 0;
 background-color: #f8fafc;
     border-radius: none;
     border: none;
+    text-align: center;
   }
 .dashboard-main {
     padding: 0;
@@ -22,8 +24,9 @@ background-color: #f8fafc;
 }
 @media (max-width: 768px) {
   .tota_tasks,
-  .completed_tasks,
-  .upcoming_tasks {
+  .todo_tasks,
+  .in_progress_tasks,
+  .completed_tasks{
     background-color: #f8fafc;
     border-radius: none;
   }

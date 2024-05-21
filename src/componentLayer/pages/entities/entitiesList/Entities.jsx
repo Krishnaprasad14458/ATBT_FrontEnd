@@ -235,19 +235,25 @@ function Entities() {
                   scope="col"
                   className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200"
                 >
-                  Completed Tasks
+                  To-Do Tasks
                 </th>
                 <th
                   scope="col"
                   className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200"
                 >
-                  Upcoming Tasks
+                  In-Progress Tasks
                 </th>
                 <th
                   scope="col"
                   className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200"
                 >
                   Overdue Tasks
+                </th>
+                <th
+                  scope="col"
+                  className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200"
+                >
+                  Completed Tasks
                 </th>
                 <th
                   scope="col"
@@ -346,6 +352,11 @@ function Entities() {
                       className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium hover:text-orange-500  overflow-hidden`}
                     >
                       100
+                    </td>
+                    <td
+                      className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium hover:text-orange-500  overflow-hidden`}
+                    >
+                      50
                     </td>
                     <td
                       className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium hover:text-orange-500  overflow-hidden`}

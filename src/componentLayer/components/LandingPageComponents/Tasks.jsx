@@ -433,7 +433,7 @@ const Tasks = ({ NameModule, tasksWithBm }) => {
               }`}
               onClick={() => handleNavLinkClick("OverDue")}
             >
-              OverDue
+              Overdue
             </NavLink>
           )}
           {!BMid && (
@@ -484,13 +484,13 @@ const Tasks = ({ NameModule, tasksWithBm }) => {
                 Due Date
               </th>
               <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-2 py-2 border-l-2 border-gray-200 z-10">
-                Status
+               Decision Status
               </th>
               <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-2 py-2 border-l-2 border-gray-200 ">
-                Updated By User
+               Decision Updated of User
               </th>
               <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2 border-l-2 border-gray-200">
-                Updated by Admin
+              Decision Updated of Admin
               </th>
               {/* <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2 border-l-2 border-gray-200">
                 Actions
