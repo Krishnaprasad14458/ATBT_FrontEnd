@@ -515,7 +515,7 @@ function UserForm() {
                         </label>
                         <input
                           type="text"
-                          placeholder="Enter name"
+                          placeholder="Enter Full Name"
                           name={item.inputname}
                           id={item.inputname}
                           value={customFormFields[index].value || ""}
@@ -599,7 +599,7 @@ function UserForm() {
                             }}
                           >
                             <option value="" disabled defaultValue className="text-sm">
-                              Select {/* Use the label as the placeholder */}
+                              Select Entity Name {/* Use the label as the placeholder */}
                             </option>
                             {item.options.value &&
                               data?.fieldsDropDownData?.entityname &&
@@ -661,7 +661,7 @@ function UserForm() {
                           type="email"
                           name={item.inputname}
                           id={item.inputname}
-                          placeholder="Enter email"
+                          placeholder="Enter Email Id"
                           value={customFormFields[index].value || ""}
                           style={{ fontSize: "0.8rem" }}
                           onChange={(e) => handleChange(index, e.target.value)}
@@ -701,7 +701,7 @@ function UserForm() {
                           type="number"
                           name={item.inputname}
                           onKeyDown={handleKeyDown}
-                          placeholder="Enter number"
+                          placeholder="Enter Phone Number"
                           id={item.inputname}
                           style={{ fontSize: "0.8rem" }}
                           value={customFormFields[index].value || ""}
@@ -754,7 +754,7 @@ function UserForm() {
                             }}
                           >
                             <option value="" disabled defaultValue>
-                              Select
+                              Select Designation
                             </option>
                             {item.options &&
                               item.options.value &&
@@ -836,7 +836,7 @@ function UserForm() {
                           }
                         >
                           <option value="" disabled defaultValue>
-                           Select
+                           Select Role
                           </option>
 
                           {item.options.value &&

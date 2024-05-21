@@ -145,8 +145,8 @@ function HomeEntity() {
               "Loading..."
             ) : (
               <p className="text-sm text-gray-700">
-                Showing {data.startEntity} to {data.endEntity} of{" "}
-                <span className="text-sm">{data.totalEntities}</span> entities
+                Showing {data.startEntity} to {data.endEntity} of
+                <span className="text-sm"> {data.totalEntities}</span> 
               </p>
             )}
           </div>

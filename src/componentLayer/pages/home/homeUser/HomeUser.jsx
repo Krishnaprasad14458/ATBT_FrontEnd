@@ -159,7 +159,7 @@ function HomeUser() {
             ) : (
               <p className="text-sm text-gray-700">
                 Showing {data?.startUser} to {data?.endUser} of
-                <span className="text-sm "> {data?.totalUsers}</span> users
+                <span className="text-sm "> {data?.totalUsers}</span> 
               </p>
             )}
           </div>

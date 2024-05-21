@@ -15,23 +15,25 @@ import { debounce } from "../../../utils/utils";
 import Swal from "sweetalert2";
 let url;
 let moduleName;
-let parentPath
+let parentPath;
 export async function loader({ request, params }) {
   try {
     url = new URL(request.url);
-    console.log("url",url)
+    console.log("url", url);
     if (params.boardmeetings === "userboardmeetings") {
       moduleName = "user";
-      parentPath = "users"
+      parentPath = "users";
     }
     if (params.boardmeetings === "entityboardmeetings") {
       moduleName = "entity";
-      parentPath = "entities"
+      parentPath = "entities";
     }
     const [meetings, entityList, roleList, meetingFormData] = await Promise.all(
       [
         atbtApi.get(
-          `boardmeeting/list?${moduleName}=${params.id}${url && url.search ? '&' + url.search.substring(1) : ""}`
+          `boardmeeting/list?${moduleName}=${params.id}${
+            url && url.search ? "&" + url.search.substring(1) : ""
+          }`
         ),
         atbtApi.post(`public/list/entity`),
         atbtApi.post(`public/list/role`),
@@ -82,7 +84,6 @@ function Boardmeeting() {
     search: "",
     page: 1,
     pageSize: 10,
-  
   });
   useEffect(() => {
     debouncedParams(Qparams);
@@ -112,7 +113,7 @@ function Boardmeeting() {
     console.log(selectedValue, "sv");
     setQParams({
       ...Qparams,
-      page : 1,
+      page: 1,
       pageSize: selectedValue,
     });
   };
@@ -207,7 +208,6 @@ function Boardmeeting() {
               search: `?boardmeetingFor=${moduleName}&boardmeetingForID=${id}`,
             }}
           >
-            
             <button className=" px-1 py-2 inline-flex items-center justify-center  rounded-full  font-medium  gap-1 ">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -246,13 +246,7 @@ function Boardmeeting() {
                   scope="col"
                   className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200"
                 >
-                  Completed Tasks
-                </th>
-                <th
-                  scope="col"
-                  className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200"
-                >
-                To-Do Tasks
+                  To-Do Tasks
                 </th>
                 <th
                   scope="col"
@@ -265,6 +259,12 @@ function Boardmeeting() {
                   className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200"
                 >
                   Overdue Tasks
+                </th>
+                <th
+                  scope="col"
+                  className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200"
+                >
+                   Completed Tasks
                 </th>
                 <th
                   scope="col"
@@ -356,36 +356,46 @@ function Boardmeeting() {
                       style={{ maxWidth: "160px" }}
                       title=""
                     >
-             
-                      <p className="truncate text-xs">          {row.taskCounts.totalTaskCount}</p>
+                      <p className="truncate text-xs">
+                        {row.taskCounts.totalTaskCount}
+                      </p>
                     </td>
                     <td
                       className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden`}
                       style={{ maxWidth: "160px" }}
                       title=""
                     >
-                      <p className="truncate text-xs">          {row.taskCounts.completedCount}</p>
+                      <p className="truncate text-xs">
+                        {row.taskCounts.toDoCount}
+                      </p>
                     </td>
                     <td
                       className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden`}
                       style={{ maxWidth: "160px" }}
                       title=""
                     >
-                      <p className="truncate text-xs">          {row.taskCounts.toDoCount}</p>
+                      <p className="truncate text-xs">
+                        {row.taskCounts.inProgressCount}
+                      </p>
                     </td>
                     <td
                       className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden`}
                       style={{ maxWidth: "160px" }}
                       title=""
                     >
-                      <p className="truncate text-xs">          {row.taskCounts.inProgressCount}</p>
+                      <p className="truncate text-xs">
+                      {row.taskCounts.overDueCount}
+                      </p>
                     </td>
                     <td
                       className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden`}
                       style={{ maxWidth: "160px" }}
                       title=""
                     >
-                      <p className="truncate text-xs">          {row.taskCounts.overDueCount}</p>
+                      <p className="truncate text-xs">
+                       
+                        {row.taskCounts.completedCount}
+                      </p>
                     </td>
                     <td
                       className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden`}
@@ -490,10 +500,8 @@ function Boardmeeting() {
               "Loading..."
             ) : (
               <p className="text-sm text-gray-700">
-                Showing {meetings?.startMeeting} to {meetings?.endMeeting} of{" "}
-                <span className="text-sm"> {meetings?.totalMeetings} </span>
-               results
-              </p>
+                Showing {meetings?.startMeeting} to {meetings?.endMeeting} of
+                <span className="text-sm"> {meetings?.totalMeetings} </span></p>
             )}
           </div>
           <section
