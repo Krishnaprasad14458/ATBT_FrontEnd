@@ -32,7 +32,7 @@ const EntityLandingPage = () => {
                 : "cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09]"
             }
           >
-            Board Meetings
+           Entity Meetings
           </NavLink>
         )}
         {BMid && (
@@ -51,7 +51,7 @@ const EntityLandingPage = () => {
                 : "cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09]"
             }
           >
-            Board Meetings Tasks
+            Meeting Tasks
           </NavLink>
         )}
     {!BMid && (
@@ -99,7 +99,7 @@ const EntityLandingPage = () => {
                 : "cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09]"
             }
           >
-          Board Meeting  Documents
+          Meeting  Documents
           </NavLink>
         )}
         {!BMid && (
@@ -129,7 +129,7 @@ const EntityLandingPage = () => {
                 : "cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09]"
             }
           >
-          Board Meeting  Overview
+           Meeting  Overview
           </NavLink>
         )}
 

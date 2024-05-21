@@ -258,13 +258,13 @@ function Boardmeeting() {
                   scope="col"
                   className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200"
                 >
-                  Completed Tasks
+                  Overdue Tasks
                 </th>
                 <th
                   scope="col"
                   className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200"
                 >
-                  Overdue Tasks
+                   Completed Tasks
                 </th>
                 <th
                   scope="col"
@@ -384,7 +384,7 @@ function Boardmeeting() {
                       title=""
                     >
                       <p className="truncate text-xs">
-                        {row.taskCounts.completedCount}
+                      {row.taskCounts.overDueCount}
                       </p>
                     </td>
                     <td
@@ -393,7 +393,8 @@ function Boardmeeting() {
                       title=""
                     >
                       <p className="truncate text-xs">
-                        {row.taskCounts.overDueCount}
+                       
+                        {row.taskCounts.completedCount}
                       </p>
                     </td>
                     <td
@@ -500,9 +501,7 @@ function Boardmeeting() {
             ) : (
               <p className="text-sm text-gray-700">
                 Showing {meetings?.startMeeting} to {meetings?.endMeeting} of
-                <span className="text-sm"> {meetings?.totalMeetings} </span>
-                results
-              </p>
+                <span className="text-sm"> {meetings?.totalMeetings} </span></p>
             )}
           </div>
           <section

@@ -160,15 +160,15 @@ function Home() {
             </p>
             <p className="mr-4 lg:ml-4 px-2 font-semibold">0</p>
           </div>
-          <div className=" completed_tasks border-r-2 border-black-100 bg-gray-100 p-2">
+          <div className="  overdue_tasks border-r-2 border-black-100 bg-gray-100 p-2">
             <p className="mr-4 lg:ml-4 px-2 pt-1 text-xs text-[#929297]">
-              Completed Tasks
+                Overdue Tasks
             </p>
             <p className="mr-4 lg:ml-4 px-2 font-semibold">0</p>
           </div>
-          <div className=" overdue_tasks border-black-100 bg-gray-100 p-2 rounded-e-full">
+          <div className=" completed_tasks border-black-100 bg-gray-100 p-2 rounded-e-full">
             <p className="mr-4 lg:ml-4 px-2 pt-1 text-xs text-[#929297]">
-              Overdue Tasks
+            Completed Tasks
             </p>
             <p className="mr-4 lg:ml-4 px-2 font-semibold">0</p>
           </div>

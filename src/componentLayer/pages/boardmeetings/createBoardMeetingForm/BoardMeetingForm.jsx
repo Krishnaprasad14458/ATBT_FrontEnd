@@ -595,7 +595,7 @@ function BoardMeetingForm() {
                         <input
                           type="number"
                           name={item.inputname}
-                          placeholder="Enter number"
+                          placeholder="Enter Meeting Id"
                           id={item.inputname}
                           style={{ fontSize: "0.8rem" }}
                           value={customFormFields[index].value || ""}
@@ -1307,7 +1307,7 @@ function BoardMeetingForm() {
                                 <p className="text-lg">{item.value}</p>
                               ) : (
                                 <p className="text-lg text-gray-400">
-                                  Meeting ID
+                                  Meeting Id
                                 </p>
                               )}
                             </div>

@@ -70,11 +70,11 @@ const SubTasksList = ({
                 return (
                   <tr key={task.id} className="border-b border-gray-200 ">
                     <td className="border py-1.5 px-2">
-                      <div className="flex items-center">
+                      <div className="flex items-center justify-between">
                         {isInputActiveID === task.id && (
                           <input
                             className="border border-[#d1d5db] text-black px-1.5 py-1.5 rounded-md  bg-[#f9fafb] focus:outline-none text-sm focus:border-orange-400 "
-                            style={{ width: "15rem" }}
+                            
                             type="text"
                             placeholder="Type here"
                             value={task?.decision}
@@ -138,7 +138,7 @@ const SubTasksList = ({
                     <td
                       className="border py-1.5 px-2"
                       title={task?.members}
-                 
+                      style={{width:"12rem"}}
                     >
                       <Select
                        
@@ -168,7 +168,7 @@ const SubTasksList = ({
                             "&:focus-within": {
                               borderColor: "#fb923c",
                             },
-                            width: "8rem",
+                          
                           }),
                           option: (provided, state) => ({
                             ...provided,
@@ -227,7 +227,8 @@ const SubTasksList = ({
                        menuPlacement="auto"
                       />
                     </td>
-                    <td className="border py-1.5 px-2">
+                    <td style={{width:"7rem"}} className="border py-1.5 px-2">
+
                       <input
                         
                         className=" border border-transparent text-black px-1.5 py-2 rounded-md  bg-white-50 focus:outline-none text-sm focus:border-orange-400  date_type"
@@ -245,7 +246,7 @@ const SubTasksList = ({
                     </td>
                     <td
                       className="border py-1.5 px-2"
-                    
+                    style={{width:"8rem"}}
                     >
                       <Select
                    
@@ -275,7 +276,7 @@ const SubTasksList = ({
                             "&:focus-within": {
                               borderColor: "#fb923c",
                             },
-                            width: "8rem",
+                          width:"8rem"
                           }),
                           option: (provided, state) => ({
                             ...provided,

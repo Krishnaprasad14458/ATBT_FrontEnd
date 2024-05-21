@@ -26,11 +26,11 @@ background-color: #f8fafc;
   .tota_tasks,
   .todo_tasks,
   .in_progress_tasks,
-  .completed_tasks{
+  .overdue_tasks  {
     background-color: #f8fafc;
     border-radius: none;
   }
-.overdue_tasks {
+.completed_tasks{
     border: none;
     background-color: #f8fafc;
     border-radius: none;

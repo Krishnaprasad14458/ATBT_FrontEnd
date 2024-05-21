@@ -46,7 +46,7 @@ const EditableFields = ({
         </label>
         <textarea
           className="px-2 py-2 text-sm block w-full resize-none h-24 overflow-auto rounded-md bg-white-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder:text-[13px] placeholder:text-[#A0AEC0]"
-          placeholder="Enter Decision"
+          placeholder="Type Decision Taken"
           value={task?.decision === null ? "" : task?.decision}
           onChange={(e) => handleOverviewTaskChange("decision", e.target.value)}
           onBlur={(e) => handleSubmit(task?.id, "decision", e.target.value)}
@@ -131,7 +131,7 @@ const EditableFields = ({
         </div>
         <div className="col-span-1">
           <label className="block text-sm font-medium leading-6 my-1 text-gray-900">
-            priority
+            Priority
           </label>
           <Select
             options={priority}
