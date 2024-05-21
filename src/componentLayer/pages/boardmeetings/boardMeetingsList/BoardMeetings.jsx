@@ -209,13 +209,13 @@ function BoardMeetings() {
                   scope="col"
                   className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200"
                 >
-                  Completed Tasks
+                  To-Do Tasks
                 </th>
                 <th
                   scope="col"
                   className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200"
                 >
-                  Upcoming Tasks
+                  In-Progress Tasks
                 </th>
                 <th
                   scope="col"
@@ -226,6 +226,13 @@ function BoardMeetings() {
                 <th
                   scope="col"
                   className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200"
+                >
+                  Completed Tasks
+                </th>
+                <th
+                  scope="col"
+                  className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200"
+                  style={{ width: "7rem" }}
                 >
                   Actions
                 </th>
@@ -315,35 +322,42 @@ function BoardMeetings() {
                     })}
                     <td
                       className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden hover:text-orange-500`}
-                      style={{ width: "9rem" }}
+                      
                       title=""
                     >
                       <p className="truncate text-xs"> 5000</p>
                     </td>
                     <td
                       className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden`}
-                      style={{ width: "10rem" }}
+                      
                       title=""
                     >
                       <p className="truncate text-xs"> 2000</p>
                     </td>
                     <td
                       className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden`}
-                      style={{ width: "9rem" }}
+                      
                       title=""
                     >
                       <p className="truncate text-xs"> 1000</p>
                     </td>
                     <td
                       className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden`}
-                      style={{ width: "9rem" }}
+                     
                       title=""
                     >
                       <p className="truncate text-xs"> 500</p>
                     </td>
                     <td
                       className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden`}
-                      style={{ width: "8.375rem" }}
+                    
+                      title=""
+                    >
+                      <p className="truncate text-xs"> 500</p>
+                    </td>
+                    <td
+                      className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden`}
+                      
                       title=""
                     >
                       <div className="flex justify-start gap-4">
@@ -440,7 +454,7 @@ function BoardMeetings() {
             ) : (
               <p className="text-sm text-gray-700">
                 Showing {meetings.startMeeting} to {meetings.endMeeting}  of
-                <span className="text-sm"> {meetings.totalMeetings}</span> board meetings
+                <span className="text-sm"> {meetings.totalMeetings}</span>
               </p>
             )}
           </div>

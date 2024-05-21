@@ -85,7 +85,7 @@ const Sidebar = () => {
       module: "team",
     },
     {
-      name: "Board Meetings",
+      name: "Meetings",
       link: "/boardmeetings",
       icon: (
         <svg

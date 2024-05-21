@@ -34,7 +34,7 @@ const UserLandingPage = () => {
                 : "cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09]"
             }
           >
-         Board Meetings
+        User Meetings
           </NavLink>
         )}
         {BMid && (
@@ -53,7 +53,7 @@ const UserLandingPage = () => {
                 : "cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09]"
             } 
           >
-            Board Meetings Tasks
+            Meeting Tasks
           </NavLink>
         )}
 
@@ -88,7 +88,7 @@ const UserLandingPage = () => {
                 : "cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09]"
             }
           >
-          User  Documents
+          User  Attachments
           </NavLink>
         )}
         {BMid && (
@@ -103,7 +103,7 @@ const UserLandingPage = () => {
                 : "cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09]"
             }
           >
-          Board Meeting  Documents
+          Meeting  Attachments
           </NavLink>
         )}
 
@@ -134,7 +134,7 @@ const UserLandingPage = () => {
                 : "cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09]"
             }
           >
-          Board Meeting  Overview
+          Meeting  Overview
           </NavLink>
         )}
       </div>

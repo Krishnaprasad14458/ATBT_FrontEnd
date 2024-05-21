@@ -404,7 +404,7 @@ const Tasks = ({ NameModule, tasksWithBm }) => {
               }`}
               onClick={() => handleNavLinkClick("toDo")}
             >
-              To do
+              To-Do
             </NavLink>
           )}
           {!BMid && (
@@ -418,7 +418,7 @@ const Tasks = ({ NameModule, tasksWithBm }) => {
               }`}
               onClick={() => handleNavLinkClick("inProgress")}
             >
-              In-progress
+              In-Progress
             </NavLink>
           )}
 
@@ -687,7 +687,7 @@ const Tasks = ({ NameModule, tasksWithBm }) => {
                   <td
                     className="border py-1.5 px-2"
                     title={task?.status}
-                    style={{ width: "6.5rem" }}
+                  
                   >
                     <Select
                       options={status}
