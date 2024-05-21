@@ -1,41 +1,8 @@
-import React, { useState, useEffect, useContext } from "react";
+import React from "react";
 import { useParams } from "react-router-dom";
-import { EntitiesDataContext } from "../../../contexts/entitiesDataContext/entitiesDataContext";
-import axios from "axios";
-const Documents = () => {
-  const {
-    getEntitybyId,
-    entitiesState: { entities },
-  } = useContext(EntitiesDataContext);
-  const { id } = useParams();
 
-  let [customFormField, setCustomFormField] = useState();
-  const userData = JSON.parse(localStorage.getItem("data"));
-  const token = userData?.token;
-  let response;
-  let [predefinedImage, setPredefinedImage] = useState("");
-  // useEffect(() => {
-  //   axios
-  //     .get(`https://atbtbeta.infozit.com/entity/list/${id}`, {
-  //       headers: {
-  //         authorization: token,
-  //       },
-  //     })
-  //     .then((res) => {
-  //       // Handle the successful response
-  //       response = res;
-  //       console.log("response", response.data.image);
-  //       setPredefinedImage(response.data.image);
-  //       setCustomFormField(response.data.customFieldsData);
-  //     })
-  //     .catch((error) => {
-  //       // Handle errors
-  //       console.error("Error fetching data:", error);
-  //     });
-  // }, []);
-  // useEffect(() => {
-  //   console.log("customFormField", customFormField);
-  // }, [customFormField]);
+const Documents = () => {
+  const { id } = useParams();
   return (
     <div className="mt-4">
       <table className="w-full divide-y divide-gray-200 dark:divide-gray-700 rounded-md">
