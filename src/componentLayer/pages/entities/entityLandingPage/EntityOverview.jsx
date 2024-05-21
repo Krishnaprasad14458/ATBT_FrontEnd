@@ -1,6 +1,12 @@
 import React from "react";
 import defprop from "../../../../assets/Images/defprof.svg";
-import { Link, Outlet, useParams,useLoaderData ,redirect } from "react-router-dom";
+import {
+  Link,
+  Outlet,
+  useParams,
+  useLoaderData,
+  redirect,
+} from "react-router-dom";
 import { EntitiesDataContext } from "../../../../contexts/entitiesDataContext/entitiesDataContext";
 import axios from "axios";
 import atbtApi from "../../../../serviceLayer/interceptor";
@@ -12,22 +18,21 @@ export const entityOverviewLoader = async ({ params }) => {
     ]);
     data.threadName = data?.data?.name;
     data.threadPath = `/entities/${params.id}`;
-   console.log("combined data",data,UsersList)
+    console.log("combined data", data, UsersList);
     return { data, UsersList };
   } catch (error) {
     console.error("Error loading dashboard:", error);
-    return null
+    return null;
     // throw redirect(`/${error?.response?.status ?? "500"}`);
   }
 };
 const EntityOverview = () => {
   const { id } = useParams();
   const data = useLoaderData();
-  let UsersList = data?.UsersList?.data
-
+  let UsersList = data?.UsersList?.data;
 
   const customFormField = data?.data?.data?.customFieldsData;
- 
+
   const userData = JSON.parse(localStorage.getItem("data"));
   let predefinedImage = data?.data?.data?.image;
   function formatTime(timeString) {
@@ -110,7 +115,7 @@ const EntityOverview = () => {
                       {item.value}
                     </div>
                   )}
-             
+
                 {/* customfields */}
                 <div className="mt-2">
                   {item.type === "text" && item.field == "custom" && (
@@ -336,149 +341,134 @@ const EntityOverview = () => {
                       {item.value && <hr className="mt-2" />}{" "}
                     </div>
                   )}
-                </div>          
+                </div>
               </div>
             );
           })}
-            <div className=' grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-2 mt-5'>
-                                            {UsersList &&
-                                                Array.from({ length: 12 }).map((_, index) => {
-                                                    let first = '';
-                                                    let second = '';
-                                                    let firstLetter;
-                                                    let secondLetter;
-                                                    let mail = '';
-                                                    if (index < UsersList.length) {
-                                                        mail = UsersList[index].email.split('@')[0];
-                                                        if (mail.includes('.')) {
-                                                            first = mail.split('.')[0];
-                                                            second = mail.split('.')[1];
-                                                            firstLetter = first[0];
-                                                            secondLetter = second[0];
-                                                        } else {
-                                                            firstLetter = mail[0];
-                                                        }
-                                                    }
-                                                    if (mail.includes('.')) {
-                                                        first = mail.split('.')[0];
-                                                        second = mail.split('.')[1];
-                                                        firstLetter = first[0];
-                                                        secondLetter = second[0];
-                                                    } else {
-                                                        firstLetter = mail[0];
-                                                    }
-                                                    const colors = [
-                                                        '#818cf8',
-                                                        '#fb923c',
-                                                        '#f87171',
-                                                        '#0891b2',
-                                                        '#db2777',
-                                                        '#f87171',
-                                                        '#854d0e',
-                                                        '#166534',
-                                                    ];
-                                                    const getRandomColor = (firstLetter) => {
-                                                        const randomIndex =
-                                                            firstLetter?.charCodeAt(0) % colors.length;
-                                                        return colors[randomIndex];
-                                                    };
-                                                    return (
-                                                        <div
-                                                            className='col-span-1 flex justify-start gap-3'
-                                                            key={index}
-                                                        >
-                                                            {index + 1 <= UsersList.length && (
-                                                                <>
-                                                                    <h5
-                                                                        style={{
-                                                                            backgroundColor: UsersList[index]
-                                                                                .image
-                                                                                ? 'transparent'
-                                                                                : getRandomColor(firstLetter),
-                                                                        }}
-                                                                        className=' rounded-full w-10 h-10  md:h-8 xl:h-10 flex justify-center  text-xs items-center text-white'
-                                                                    >
-                                                                        {(UsersList[index].image &&
-                                                                            index < 11) ||
-                                                                            (index === 11 &&
-                                                                              UsersList.length === 12) ? (
-                                                                            <img
-                                                                                src={
-                                                                                    typeof UsersList[index].image ===
-                                                                                        'string'
-                                                                                        ? UsersList[index].image
-                                                                                        : URL.createObjectURL(
-                                                                                          UsersList[index].image
-                                                                                        )
-                                                                                }
-                                                                                name='EntityPhoto'
-                                                                                alt='Entity Photo'
-                                                                                className=' rounded-full w-10 h-10   flex justify-center  text-xs items-center text-white'
-                                                                            />
-                                                                        ) : (
-                                                                            <span>
-                                                                                {firstLetter?.toUpperCase()}
-                                                                                {secondLetter &&
-                                                                                    secondLetter?.toUpperCase()}
-                                                                            </span>
-                                                                        )}
- 
-                                                                        {index == 11 &&
-                                                                            UsersList.length > 12 && (
-                                                                                <span>
-                                                                                    <svg
-                                                                                        xmlns='http://www.w3.org/2000/svg'
-                                                                                        fill='none'
-                                                                                        viewBox='0 0 24 24'
-                                                                                        stroke-width='1.5'
-                                                                                        stroke='currentColor'
-                                                                                        className='w-6 h-6'
-                                                                                    >
-                                                                                        <path
-                                                                                            stroke-linecap='round'
-                                                                                            stroke-linejoin='round'
-                                                                                            d='M18 18.72a9.094 9.094 0 0 0 3.741-.479 3 3 0 0 0-4.682-2.72m.94 3.198.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0 1 12 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 0 1 6 18.719m12 0a5.971 5.971 0 0 0-.941-3.197m0 0A5.995 5.995 0 0 0 12 12.75a5.995 5.995 0 0 0-5.058 2.772m0 0a3 3 0 0 0-4.681 2.72 8.986 8.986 0 0 0 3.74.477m.94-3.197a5.971 5.971 0 0 0-.94 3.197M15 6.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm6 3a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Zm-13.5 0a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Z'
-                                                                                        />
-                                                                                    </svg>
-                                                                                </span>
-                                                                            )}
-                                                                    </h5>
-                                                                    <div
-                                                                        className=' flex items-center md:items-start xl:items-center  overflow-hidden'
-                                                                        style={{ width: '150px' }}
-                                                                    >
-                                                                        <div
-                                                                            className=' md:w-28 lg:w-48  truncate'
-                                                                            title={mail}
-                                                                        >
-                                                                            {index < 11 && mail}
-                                                                            {index == 11 &&
-                                                                                UsersList.length == 12 &&
-                                                                                mail}
-                                                                            {index == 11 &&
-                                                                                UsersList.length > 12 && (
-                                                                                    <span>
-                                                                                        +{UsersList.length - 11} more
-                                                                                    </span>
-                                                                                )}
-                                                                        </div>
-                                                                    </div>
-                                                                </>
-                                                            )}
-                                                            {index + 1 > UsersList.length && (
-                                                                <>
-                                                                    <h5 className='bg-[#e5e7eb] rounded-full w-10 h-10  flex justify-center text-xs items-center text-white'></h5>
-                                                                    <div className=' flex items-center'>
-                                                                        <div className=' rounded-md  bg-[#e5e7eb] h-2 w-28'></div>
-                                                                    </div>
-                                                                </>
-                                                            )}
-                                                        </div>
-                                                    );
-                                                })}
-                                        </div>
+        <div className=" grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-2 mt-5">
+          {UsersList &&
+            Array.from({ length: 12 }).map((_, index) => {
+              let first = "";
+              let second = "";
+              let firstLetter;
+              let secondLetter;
+              let mail = "";
+              if (index < UsersList.length) {
+                mail = UsersList[index].email.split("@")[0];
+                if (mail.includes(".")) {
+                  first = mail.split(".")[0];
+                  second = mail.split(".")[1];
+                  firstLetter = first[0];
+                  secondLetter = second[0];
+                } else {
+                  firstLetter = mail[0];
+                }
+              }
+              if (mail.includes(".")) {
+                first = mail.split(".")[0];
+                second = mail.split(".")[1];
+                firstLetter = first[0];
+                secondLetter = second[0];
+              } else {
+                firstLetter = mail[0];
+              }
+              const colors = [
+                "#818cf8",
+                "#fb923c",
+                "#f87171",
+                "#0891b2",
+                "#db2777",
+                "#f87171",
+                "#854d0e",
+                "#166534",
+              ];
+              const getRandomColor = (firstLetter) => {
+                const randomIndex = firstLetter?.charCodeAt(0) % colors.length;
+                return colors[randomIndex];
+              };
+              return (
+                <div
+                  className="col-span-1 flex justify-start gap-3"
+                  key={index}
+                >
+                  {index + 1 <= UsersList.length && (
+                    <>
+                      <h5
+                        style={{
+                          backgroundColor: UsersList[index].image
+                            ? "transparent"
+                            : getRandomColor(firstLetter),
+                        }}
+                        className=" rounded-full w-10 h-10  md:h-8 xl:h-10 flex justify-center  text-xs items-center text-white"
+                      >
+                        {(UsersList[index].image && index < 11) ||
+                        (index === 11 && UsersList.length === 12) ? (
+                          <img
+                            src={
+                              typeof UsersList[index].image === "string"
+                                ? UsersList[index].image
+                                : URL.createObjectURL(UsersList[index].image)
+                            }
+                            name="EntityPhoto"
+                            alt="Entity Photo"
+                            className=" rounded-full w-10 h-10   flex justify-center  text-xs items-center text-white"
+                          />
+                        ) : (
+                          <span>
+                            {firstLetter?.toUpperCase()}
+                            {secondLetter && secondLetter?.toUpperCase()}
+                          </span>
+                        )}
+
+                        {index == 11 && UsersList.length > 12 && (
+                          <span>
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              stroke-width="1.5"
+                              stroke="currentColor"
+                              className="w-6 h-6"
+                            >
+                              <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="M18 18.72a9.094 9.094 0 0 0 3.741-.479 3 3 0 0 0-4.682-2.72m.94 3.198.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0 1 12 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 0 1 6 18.719m12 0a5.971 5.971 0 0 0-.941-3.197m0 0A5.995 5.995 0 0 0 12 12.75a5.995 5.995 0 0 0-5.058 2.772m0 0a3 3 0 0 0-4.681 2.72 8.986 8.986 0 0 0 3.74.477m.94-3.197a5.971 5.971 0 0 0-.94 3.197M15 6.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm6 3a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Zm-13.5 0a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Z"
+                              />
+                            </svg>
+                          </span>
+                        )}
+                      </h5>
+                      <div
+                        className=" flex items-center md:items-start xl:items-center  overflow-hidden"
+                        style={{ width: "150px" }}
+                      >
+                        <div
+                          className=" md:w-28 lg:w-48  truncate"
+                          title={mail}
+                        >
+                          {index < 11 && mail}
+                          {index == 11 && UsersList.length == 12 && mail}
+                          {index == 11 && UsersList.length > 12 && (
+                            <span>+{UsersList.length - 11} more</span>
+                          )}
+                        </div>
+                      </div>
+                    </>
+                  )}
+                  {index + 1 > UsersList.length && (
+                    <>
+                      <h5 className="bg-[#e5e7eb] rounded-full w-10 h-10  flex justify-center text-xs items-center text-white"></h5>
+                      <div className=" flex items-center">
+                        <div className=" rounded-md  bg-[#e5e7eb] h-2 w-28"></div>
+                      </div>
+                    </>
+                  )}
+                </div>
+              );
+            })}
+        </div>
       </div>
-    
     </div>
   );
 };

@@ -54,7 +54,14 @@ export const router = createBrowserRouter([
         path: "teams",
         children: [...teamRouter],
         handle: {
-          crumb: () => <Link to="/teams">Teams</Link>,
+          crumb: () => <Link  
+
+          to={{
+            pathname: "/teams",
+            search:`?search=&page=1&pageSize=10`,
+          }}
+          
+          >Teams</Link>,
         },
       },
       {

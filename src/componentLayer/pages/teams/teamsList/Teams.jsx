@@ -12,7 +12,8 @@ import { debounce, caseLetter } from "../../../../utils/utils";
 import CustomColumn from "../../../../componentLayer/components/tableCustomization/CustomColumn";
 import CustomFilter from "../../../../componentLayer/components/tableCustomization/CustomFilter";
 import atbtApi from "../../../../serviceLayer/interceptor";
-export async function loader({ request, params }) {
+import BreadCrumbs from "../../../components/breadcrumbs/BreadCrumbs";
+export async function TeamsLoader({ request, params }) {
   try {
     let url = new URL(request.url);
     const [teams, teamFormData] = await Promise.all([
@@ -32,7 +33,7 @@ export async function loader({ request, params }) {
     throw error;
   }
 }
-export async function action({ request, params }) {
+export async function TeamsAction({ request, params }) {
   switch (request.method) {
     case "DELETE": {
       const id = (await request.json()) || null;
@@ -144,7 +145,8 @@ function Teams() {
       {/* search & filter */}
       <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-3 xl:grid-col-3 gap-2 mt-2 items-center">
         <h1 className="font-semibold text-lg grid1-item">
-          Teams {teams.loading ? "..." : null}
+          {/* Teams {teams.loading ? "..." : null} */}
+          <BreadCrumbs />
         </h1>
         <div className="grid1-item text-start">
           <div className="relative">
@@ -292,7 +294,12 @@ function Teams() {
                                 permission.canRead
                               }
                             >
-                              <Link to={`${row.id}/team/boardmeetings`}>
+                              <Link 
+                               to={{
+                                pathname: `${row.id}/teamboardmeetings`,
+                                search: `?search=&page=1&pageSize=10`,
+                              }}
+                              >
                                 <p className="truncate text-xs"> {value}</p>
                               </Link>
                             </GateKeeper>{" "}

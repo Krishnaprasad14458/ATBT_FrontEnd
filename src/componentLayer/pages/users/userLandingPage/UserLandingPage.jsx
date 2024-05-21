@@ -1,10 +1,9 @@
-import React, { useState, useContext } from "react";
+import React  from "react";
 import {
   NavLink,
-  redirect,
-  useLoaderData,
+
   useParams,
-  useLocation,
+
   Outlet,
 } from "react-router-dom";
 
@@ -15,16 +14,18 @@ const UserLandingPage = () => {
   return (
     <div className=" p-4 bg-[#f8fafc]">
       <div className="flex justify-between my-2">
-        <p className="text-xl font-semibold"> <BreadCrumbs /></p>
-  
+        <p className="text-xl font-semibold">
+          {" "}
+          <BreadCrumbs />
+        </p>
       </div>
       <div className="flex overflow-x-auto">
         {!BMid && (
           <NavLink
-          to={{
-            pathname: `userboardmeetings`,
-            search:  `?search=&page=1&pageSize=10`,
-          }}
+            to={{
+              pathname: `userboardmeetings`,
+              search: `?search=&page=1&pageSize=10`,
+            }}
             end
             className={({ isActive, isPending, isTransitioning }) =>
               isPending
@@ -34,7 +35,9 @@ const UserLandingPage = () => {
                 : "cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09]"
             }
           >
+
         User Meetings
+
           </NavLink>
         )}
         {BMid && (
@@ -51,7 +54,7 @@ const UserLandingPage = () => {
                 : isActive
                 ? "border-b-2 border-orange-500 text-orange-600 cursor-pointer px-4 py-1 text-sm font-[500]"
                 : "cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09]"
-            } 
+            }
           >
             Meeting Tasks
           </NavLink>
@@ -59,7 +62,6 @@ const UserLandingPage = () => {
 
         {!BMid && (
           <NavLink
-         
             to={{
               pathname: "tasks",
               search: `?status=To-Do`,
@@ -73,7 +75,7 @@ const UserLandingPage = () => {
                 : "cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09]"
             }
           >
-           User Tasks
+            User Tasks
           </NavLink>
         )}
         {!BMid && (
@@ -88,7 +90,9 @@ const UserLandingPage = () => {
                 : "cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09]"
             }
           >
+
           User  Attachments
+
           </NavLink>
         )}
         {BMid && (
@@ -103,7 +107,9 @@ const UserLandingPage = () => {
                 : "cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09]"
             }
           >
+
           Meeting  Attachments
+
           </NavLink>
         )}
 
@@ -119,7 +125,7 @@ const UserLandingPage = () => {
                 : "cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09]"
             }
           >
-          User  Overview
+            User Overview
           </NavLink>
         )}
         {BMid && (
@@ -134,7 +140,9 @@ const UserLandingPage = () => {
                 : "cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09]"
             }
           >
+
           Meeting  Overview
+
           </NavLink>
         )}
       </div>
