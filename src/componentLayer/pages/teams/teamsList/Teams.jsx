@@ -207,7 +207,7 @@ function Teams() {
                     {tableView[key].label}
                   </th>
                 ))}
-                <th
+                 <th
                   scope="col"
                   className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200"
                 >
@@ -217,19 +217,25 @@ function Teams() {
                   scope="col"
                   className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200"
                 >
-                  Completed Tasks
+                  To-Do Tasks
                 </th>
                 <th
                   scope="col"
                   className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200"
                 >
-                  Upcoming Tasks
+                  In-Progress Tasks
                 </th>
                 <th
                   scope="col"
                   className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200"
                 >
                   Overdue Tasks
+                </th>
+                <th
+                  scope="col"
+                  className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200"
+                >
+                  Completed Tasks
                 </th>
                 <th
                   scope="col"
@@ -335,21 +341,28 @@ function Teams() {
                     </td>
                     <td
                       className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden`}
-                      style={{ width: "9rem" }}
+                      
                       title=""
                     >
                       <p className="truncate text-xs"> 1000</p>
                     </td>
                     <td
                       className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden`}
-                      style={{ width: "9rem" }}
+                      
                       title=""
                     >
                       <p className="truncate text-xs"> 500</p>
                     </td>
                     <td
                       className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden`}
-                      style={{ width: "8.375rem" }}
+                      
+                      title=""
+                    >
+                      <p className="truncate text-xs"> 500</p>
+                    </td>
+                    <td
+                      className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden`}
+                      style={{ width: "8rem" }}
                       title=""
                     >
                       <div className="flex justify-start gap-4">
