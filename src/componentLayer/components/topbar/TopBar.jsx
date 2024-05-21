@@ -151,7 +151,7 @@ export default function TopBar() {
                             )}
                           </Menu.Item>
                         </GateKeeper>
-                        <GateKeeper
+                        {/* <GateKeeper
                           permissionCheck={(permission) =>
                             permission.module === "task" && permission.canCreate
                           }
@@ -330,7 +330,7 @@ export default function TopBar() {
                               </div>
                             )}
                           </Menu.Item>
-                        </GateKeeper>
+                        </GateKeeper> */}
                         <GateKeeper
                           permissionCheck={(permission) =>
                             permission.module === "team" && permission.canCreate
@@ -363,7 +363,7 @@ export default function TopBar() {
                                     />
                                   </svg>
 
-                                  <p className="ms-2 mt-1 text-sm">Teams</p>
+                                  <p className="ms-2 mt-1 text-sm">Team</p>
                                 </div>
                               </Link>
                             )}
