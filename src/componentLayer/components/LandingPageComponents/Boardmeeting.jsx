@@ -28,6 +28,10 @@ export async function loader({ request, params }) {
       moduleName = "entity";
       parentPath = "entities";
     }
+    if (params.boardmeetings === "teamboardmeetings") {
+      moduleName = "team";
+      parentPath = "teams";
+    }
     const [meetings, entityList, roleList, meetingFormData] = await Promise.all(
       [
         atbtApi.get(
