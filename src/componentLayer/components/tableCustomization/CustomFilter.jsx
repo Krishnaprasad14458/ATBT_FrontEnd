@@ -54,6 +54,19 @@ function CustomFilter({
       [filterName]: selectedValue,
     }));
   };
+
+  const handleDateFilterChange = (filterName, selectedValue, dateRange) => {
+    setSelectedFilters((prevState) => ({
+      ...prevState,
+      [filterName]: {
+        ...prevState[filterName],
+        [dateRange]: selectedValue,
+      },
+    }));
+  };
+
+  console.log(selectedFilters, "selectedFilters");
+
   const handleFilterReset = () => {
     setSelectedFilters({});
     setQParams({
@@ -94,15 +107,15 @@ function CustomFilter({
         style={{ transition: "opacity 0.3s ease-in-out" }}
       >
         <div
-          className="fixed inset-y-0 right-0 w-full md:w-4/12 lg:w-1/5 xl:w-1/5 bg-white shadow-lg transform translate-x-full transition-transform duration-300 ease-in-out  "
-          style={{
-            transform: `translateX(${filterDrawerOpen ? "0%" : "100%"})`,
-            transition: "transform 0.3s ease-in-out",
+          className="fixed inset-y-0 right-0 w-full md:w-3/12 lg:w-2/12 xl:w-2/12 bg-white shadow-lg transform translate-x-full transition-transform duration-300 ease-in-out  "
+        style={{
+        transform: `translateX(${filterDrawerOpen ? "0%" :"100%"})`,
+        transition: "transform 0.3s ease-in-out",
           }}
         >
           <div className=" bg-gray-100 px-5 py-4 flex justify-between z-[3] ">
             <h5 className="font-[500] "> Filters</h5>
-            <button onClick={filterDrawer} >
+            <button onClick={filterDrawer}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
@@ -119,37 +132,89 @@ function CustomFilter({
           </div>
 
           <div
-            className="overflow-y-auto px-2 py-2.5 content relative"
+            className="overflow-y-auto px-0.5 py-2.5 content relative"
             style={{ maxHeight: "calc(100vh - 7rem)" }}
           >
             <div className="text-start px-3 ">
               {/* {filter.label} */}
               {filterableInputsInBox?.map((filter, index) => (
                 <div key={index} className="">
-                  {!filter.options &&
-                    (filter.type === "date" || filter.type === "time") && (
+                  {/* for date filter */}
+                  {!filter.options && filter.type === "date" && (
+                    <div>
                       <div>
-                        <label className="mb-4 text-sm text-[#878a99] font-medium">
+                        <label className="block text-sm font-medium leading-6 mt-2 text-[#878a99]">
                           {filter.label.charAt(0).toUpperCase() +
-                            filter.label.slice(1)}
+                            filter.label.slice(1)} :
                         </label>
-                        <input
+                        
+                        <div className="grid grid-cols-6 md:grid-cols-6 lg:grid-cols-6 xl:grid-cols-6 gap-2">
+
+                          <div className="col-span-3">
+                            <p className="block text-xs font-medium leading-6 mt-1 text-[#878a99]"> From</p>
+                            <input
                           type={filter.type}
                           id={filter.inputname}
                           name={filter.inputname}
-                          className="px-3 py-1 mb-2 text-xs block w-full bg-gray-50 rounded-md text-gray-900 border border-1 border-[#e9ebec] placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-xs sm:leading-6"
+                          className="px-2 py-2 text-xs block w-full rounded-md bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder:text-xs"
                           onChange={(e) =>
-                            handleFilterChange(filter.inputname, e.target.value)
+                            handleDateFilterChange(
+                              filter.inputname,
+                              e.target.value,
+                              "from"
+                            )
                           }
-                          value={selectedFilters[filter.inputname] || ""}
+                          value={selectedFilters[filter.inputname]?.from || ""}
                         />
+                          </div>
+                          <div className="col-span-3">
+                          <p className="block text-xs font-medium leading-6 mt-1 text-[#878a99]"> To</p>
+                          <input
+                          type={filter.type}
+                          id={filter.inputname}
+                          name={filter.inputname}
+                          className="px-2 py-2 text-xs block w-full rounded-md bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder:text-xs"
+                          onChange={(e) =>
+                            handleDateFilterChange(
+                              filter.inputname,
+                              e.target.value,
+                              "to"
+                            )
+                          }
+                          value={selectedFilters[filter.inputname]?.to || ""}
+                        />
+
+                          </div>
+                        </div>
+                       
                       </div>
-                    )}
+                   
+                    </div>
+                  )}
+                  {/* for time filter */}
+                  {!filter.options && filter.type === "time" && (
+                    <div>
+                      <label className="block text-sm font-medium leading-6 mt-2 text-[#878a99]">
+                        {filter.label.charAt(0).toUpperCase() +
+                          filter.label.slice(1)}
+                      </label>
+                      <input
+                        type={filter.type}
+                        id={filter.inputname}
+                        name={filter.inputname}
+                        className="px-2 py-2 text-xs block w-full rounded-md bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder:text-gray-400 appearance-none placeholder:text-xs"
+                        onChange={(e) =>
+                          handleFilterChange(filter.inputname, e.target.value)
+                        }
+                        value={selectedFilters[filter.inputname] || ""}
+                      />
+                    </div>
+                  )}
                   {filter.options &&
                     (filter.type === "multiselect" ||
                       filter.type === "select") && (
                       <div>
-                        <label className="block text-sm font-medium leading-6 mt-2 text-gray-900">
+                        <label className="block text-sm font-medium leading-6 mt-2 text-[#878a99]">
                           {filter.label.charAt(0).toUpperCase() +
                             filter.label.slice(1)}
                         </label>
@@ -158,7 +223,7 @@ function CustomFilter({
                           <select
                             id={filter.inputname}
                             name={filter.inputname}
-                            className="px-2 py-2 text-sm block w-full rounded-md bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder:text-gray-400 appearance-none"
+                            className="px-2 py-2 text-xs block w-full rounded-md bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder:text-gray-400 appearance-none"
                             // px-2 py-2 my-2 text-sm w-full bg-gray-50 rounded-md text-gray-900 border border-1 border-[#e9ebec] placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-xs sm:leading-6
                             onChange={(e) =>
                               handleFilterChange(

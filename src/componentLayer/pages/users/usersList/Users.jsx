@@ -3,6 +3,7 @@ import {
   Link,
   useFetcher,
   useLoaderData,
+  useLocation,
   useNavigation,
   useSubmit,
 } from "react-router-dom";
@@ -70,6 +71,8 @@ export async function action({ request, params }) {
   }
 }
 function Users() {
+  let location  = useLocation()
+  console.log("loctoion",location)
   document.title = "ATBT | User";
   const navigation = useNavigation();
   let submit = useSubmit();
