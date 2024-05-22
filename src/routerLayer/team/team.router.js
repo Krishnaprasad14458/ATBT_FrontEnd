@@ -16,8 +16,13 @@ import Teams, {
   TeamsAction,
   TeamsLoader,
 } from "../../componentLayer/pages/teams/teamsList/Teams";
-import Tasks, { TasksActions, tasksLoader } from "../../componentLayer/components/LandingPageComponents/Tasks";
-import BoardMeetingOverview, { boardMeetingOverviewLoader } from "../../componentLayer/pages/boardmeetings/boardMeetingLandingPage/BoardMeetingOverview";
+import Tasks, {
+  TasksActions,
+  tasksLoader,
+} from "../../componentLayer/components/LandingPageComponents/Tasks";
+import BoardMeetingOverview, {
+  boardMeetingOverviewLoader,
+} from "../../componentLayer/pages/boardmeetings/boardMeetingLandingPage/BoardMeetingOverview";
 export const teamRouter = [
   {
     index: true,
@@ -25,7 +30,6 @@ export const teamRouter = [
     action: TeamsAction,
     element: <Teams />,
   },
-
   {
     path: "new",
     loader: teamFormLoader,
@@ -34,7 +38,6 @@ export const teamRouter = [
       crumb: () => <Link to="/teams/new">New Team</Link>,
     },
   },
-
   {
     path: ":id",
     children: [
@@ -145,12 +148,12 @@ export const teamRouter = [
               },
             ],
           },
-     
+
           {
             path: "documents",
             element: <Documents />,
             handle: {
-              crumb: () => <Link to=".">User Documents</Link>,
+              crumb: () => <Link to=".">Team Documents</Link>,
             },
           },
         ],
@@ -158,6 +161,7 @@ export const teamRouter = [
     ],
   },
 ];
+
 
 // {
 //     path: ':id', children: [

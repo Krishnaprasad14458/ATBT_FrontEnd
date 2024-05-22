@@ -15,12 +15,12 @@ export const teamLandingLoader = async ({ params }) => {
   try {
     const [data, UsersList] = await Promise.all([
       atbtApi.get(`/team/list/${params?.id}`),
-      atbtApi.post(`entity/User/list/122`),
+      // atbtApi.post(`entity/User/list/122`),
+      {}
     ]);
-
-    console.log(data, "id data");
-    data.threadName = data?.data?.user?.name;
-    data.threadPath = `/users/${params.id}`;
+    console.log(data,UsersList, "team overview id data",);
+    data.threadName = data?.data?.name;
+    data.threadPath = `/teams/${params.id}`;
     return { data, UsersList };
   } catch (error) {
     console.error("Error loading dashboard:", error);
