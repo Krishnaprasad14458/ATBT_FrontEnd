@@ -759,10 +759,7 @@ const CustomFormStructure = () => {
                     {
                       <div>
                         <div className="flex items-start mb-3">
-                          <label
-                            
-                            className="inline-flex text-sm font-medium leading-6 mt-2 text-gray-900"
-                          >
+                          <label className="inline-flex text-sm font-medium leading-6 mt-2 text-gray-900">
                             Type <span className="text-[#dc2626]"> * </span>
                           </label>
                           <span className="mt-2 mx-3">:</span>
