@@ -17,6 +17,11 @@ export const boardMeetingOverviewLoader = async ({ params }) => {
       parentPath = "entities"
       groupName = "groupEntity"
     }
+    if (params.boardmeetings === "teamboardmeetings") {
+      moduleName = "team";
+      parentPath = "teams"
+      groupName = "groupTeam"
+    }
     const [data , usersGroup] = await Promise.all([
       atbtApi.get(`boardmeeting/getByid/${params?.BMid}`),
       atbtApi.get(`/boardmeeting/${groupName}/${params.BMid}`),
@@ -26,7 +31,7 @@ export const boardMeetingOverviewLoader = async ({ params }) => {
     console.log("bm overview combined data", data);
     let threadName = data?.data?.meetingnumber;
     let threadPath = `/${parentPath}/${params.id}/${params.boardmeetings}/${params.BMid}`;
-    console.log("threadPaththread",threadPath)
+  
     return { data,usersGroup, threadName, threadPath };
   } catch (error) {
     console.error("Error loading dashboard:", error);
@@ -39,8 +44,7 @@ const BoardMeetingOverview = () => {
   let data = useLoaderData();
   let customFormField = data?.data?.data?.customFieldsData;
  let usersGroupData = data?.usersGroup?.data
-  const userData = JSON.parse(localStorage.getItem("data"));
-  // to set the time in 12hours
+
   function formatTime(timeString) {
     // Splitting the timeString to extract hours and minutes
     const [hourStr, minuteStr] = timeString.split(":");
@@ -90,7 +94,7 @@ const BoardMeetingOverview = () => {
         </Link>
         <Link
           to={`/${
-            boardmeetings === "userboardmeetings" ? "users" : boardmeetings === "entityboardmeetings" ? "entities": ""
+            boardmeetings === "userboardmeetings" ? "users" : boardmeetings === "entityboardmeetings" ? "entities": boardmeetings === "teamboardmeetings" ? "teams" :""
           }/${id}/${boardmeetings}/${BMid}/tasks`}
         >
           <button

@@ -33,7 +33,7 @@ const TeamsLandingPage = () => {
                 : "cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09]"
             }
           >
-            Board Meetings
+            Team Meetings
           </NavLink>
         )}
         {BMid && (
@@ -52,7 +52,7 @@ const TeamsLandingPage = () => {
                 : "cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09]"
             }
           >
-            Board Meetings Tasks
+          Meetings Tasks
           </NavLink>
         )}{" "}
         {!BMid && (

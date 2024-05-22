@@ -19,7 +19,7 @@ const Sidebar = () => {
     } else if (updated[1] === "teams") {
       setActive("Teams");
     } else if (updated[1] === "boardmeetings") {
-      setActive("Board Meetings");
+      setActive("Meetings");
     } else if (updated[1] === "tasks") {
       setActive("Tasks");
     } else if (updated[1] === "reports") {

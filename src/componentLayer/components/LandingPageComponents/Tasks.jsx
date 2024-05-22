@@ -34,6 +34,11 @@ export async function tasksLoader({ request, params }) {
       groupName = "groupEntity";
       idOF = "entityId";
     }
+    if (params.boardmeetings === "entityboardmeetings") {
+      parentPath = "teams";
+      groupName = "groupTeam";
+      idOF = "teamId";
+    }
     const url = new URL(request.url);
     const taskID = url.searchParams.get("taskID");
     const subTaskID = url.searchParams.get("subTaskID");
