@@ -159,7 +159,7 @@ function Boardmeeting() {
   }, [tableView]);
   const [selectedFilters, setSelectedFilters] = useState({});
   return (
-    <div className="overflow-x-auto p-3">
+    <div className="overflow-x-auto p-3 w-full">
       {/* search & filter */}
       <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3 xl:grid-col-3 gap-2 mt-2">
         <span className="col-span-1"> </span>

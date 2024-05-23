@@ -93,11 +93,11 @@ const UserOverview = () => {
                             src={data?.data?.data?.user?.image}
                             name="EntityPhoto"
                             alt="User Photo"
-                            className=" h-36 w-36 relative mx-auto bottom-20 rounded-md border-2 border-gray-200 shadow-md"
+                            className=" h-36 w-36 relative mx-auto bottom-24 md:bottom-20 rounded-md border-2  border-gray-200 shadow-md"
                           />
                         ) : (
                           <img
-                            className=" h-36 w-36 relative mx-auto bottom-20 rounded-md border-2 border-gray-200 shadow-md"
+                            className=" h-36 w-36 relative mx-auto bottom-24 md:bottom-20 rounded-md border-2 border-gray-200 shadow-md"
                             src={defprop}
                             alt="photo"
                           />
@@ -113,7 +113,7 @@ const UserOverview = () => {
                   item.field === "predefined" && (
                     <div className="flex justify-center relative text-center">
                       <p
-                        className="absolute top-20 text-sm md:text-md antialiased font-semibold leading-snug tracking-normal text-blue-gray-900 mb-3 w-3/6 truncate md:w-5/6 text-center"
+                        className="absolute top-16 md:top-20 text-sm md:text-md antialiased font-semibold leading-snug tracking-normal text-blue-gray-900 mb-3  text-center"
                         title={item.value.toUpperCase()}
                       >
                         {item.value.toUpperCase()}
@@ -125,7 +125,7 @@ const UserOverview = () => {
                   item.field === "predefined" && (
                     <div className="flex justify-center border-t-2 border-gray-300 relative text-center">
                       <p
-                        className="absolute  bottom-3 text-sm antialiased leading-snug tracking-normal text-blue-gray-900 w-3/6 truncate md:w-5/6 "
+                        className="absolute  bottom-3 text-sm antialiased leading-snug tracking-normal text-blue-gray-900  "
                         title= {
                           data?.entityList?.find(
                             (i) => i.id === parseInt(item.value)
