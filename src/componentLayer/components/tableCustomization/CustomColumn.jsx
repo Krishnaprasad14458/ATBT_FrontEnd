@@ -103,16 +103,13 @@ function CustomColumn({ tableView, setTableView, form }) {
           >
             {dupTableView &&
               Object.keys(dupTableView).map((columnName) => (
-                <div
-                  key={columnName}
-                  className="flex items-center gap-2 text-start"
-                >
+                <div key={columnName} className=" text-start ">
                   <input
                     className={`${
                       dupTableView[columnName].value
                         ? "bg-gray-100 text-gray-700 hover:text-black"
                         : "text-gray-700 bg-gray-100 hover:text-black"
-                    } appearance-none border border-gray-300 hover:border-gray-900 checked:hover:border-white rounded-md checked:bg-orange-600 checked:border-transparent w-4 h-4 cursor-pointer hover:text-black absolute right-4`}
+                    } appearance-none border border-gray-300 hover:border-gray-900 checked:hover:border-white rounded-md checked:bg-orange-600 checked:border-transparent w-4 h-4 cursor-pointer hover:text-black absolute mt-1`}
                     type="checkbox"
                     id={columnName}
                     checked={dupTableView[columnName].value}
@@ -120,7 +117,7 @@ function CustomColumn({ tableView, setTableView, form }) {
                   />
                   <label
                     htmlFor={columnName}
-                    className="cursor-pointer text-md py-1 flex-1 w-3/6 truncate"
+                    className="cursor-pointer text-md py-1 ms-6 w-3/4 truncate "
                     title={dupTableView[columnName].label}
                   >
                     {dupTableView[columnName].label}
