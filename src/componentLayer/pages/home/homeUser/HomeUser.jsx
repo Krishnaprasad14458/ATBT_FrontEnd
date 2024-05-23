@@ -7,7 +7,8 @@ import {
 } from "react-router-dom";
 import HomeUsersList from "../../../pages/home/homeUser/HomeUsersList";
 import GateKeeper from "../../../../rbac/GateKeeper";
-import { debounce } from "../../../../utils/utils";
+import { debounce,caseLetter } from "../../../../utils/utils";
+
 function HomeUser() {
   let [searchParams, setSearchParams] = useSearchParams();
   console.log(searchParams.toString(), "sp");
@@ -118,7 +119,7 @@ function HomeUser() {
               data?.users?.map((user) => (
                 <li
                   className="py-2 md:px-5  hover:bg-slate-100 "
-                  title={user.name}
+                  title= {caseLetter(user.userName || user.name)}
                   key={user.id}
                 >
                   <Link to={`/users/${user.id}`}>
