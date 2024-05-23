@@ -34,7 +34,7 @@ export async function tasksLoader({ request, params }) {
       groupName = "groupEntity";
       idOF = "entityId";
     }
-    if (params.boardmeetings === "entityboardmeetings") {
+    if (params.boardmeetings === "teamboardmeetings") {
       parentPath = "teams";
       groupName = "groupTeam";
       idOF = "teamId";
@@ -94,7 +94,7 @@ export async function tasksLoader({ request, params }) {
         label: user.name,
         value: user.id,
       })),
-      threadName: params.BMid ? ` Board Meetings Tasks` :`Tasks`,
+      threadName: params.BMid ? ` Board Meetings Tasks` : `Tasks`,
       threadPath: params.BMid
         ? `/${parentPath}/${params.id}/${params.boardmeetings}/${params.BMid}/tasks`
         : `/${parentPath}/${params.id}/tasks`,
@@ -118,7 +118,7 @@ export async function TasksActions({ request, params }) {
       {
         const requestBody = (await request.json()) || null;
         console.log(requestBody, "request");
-       
+
         if (requestBody.type === "ADD_NEW_TASK") {
           return await atbtApi.post(
             `task/add/${params.BMid}`,
@@ -194,7 +194,7 @@ export async function TasksActions({ request, params }) {
   }
 }
 const Tasks = ({ NameModule, tasksWithBm }) => {
-  parentPath= NameModule
+  parentPath = NameModule;
   let submit = useSubmit();
   const data = useLoaderData();
   let [tasks, setTasks] = useState([]);
@@ -363,18 +363,18 @@ const Tasks = ({ NameModule, tasksWithBm }) => {
   const handleNavLinkClick = (link) => {
     setActiveLink(link);
   };
-    // for previous dates defult
-    const getCurrentDate = () => {
-      const today = new Date();
-      const year = today.getFullYear();
-      let month = today.getMonth() + 1;
-      let day = today.getDate();
-  
-      month = month < 10 ? `0${month}` : month;
-      day = day < 10 ? `0${day}` : day;
-  
-      return `${year}-${month}-${day}`;
-    };
+  // for previous dates defult
+  const getCurrentDate = () => {
+    const today = new Date();
+    const year = today.getFullYear();
+    let month = today.getMonth() + 1;
+    let day = today.getDate();
+
+    month = month < 10 ? `0${month}` : month;
+    day = day < 10 ? `0${day}` : day;
+
+    return `${year}-${month}-${day}`;
+  };
 
   return (
     <div className="">
@@ -479,7 +479,10 @@ const Tasks = ({ NameModule, tasksWithBm }) => {
               >
                 Decision Taken
               </th>
-              <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-2 py-2 border-l-2 border-gray-200 z-10">
+              <th
+                className="sticky top-0 bg-orange-600 text-white text-sm text-left px-2 py-2 border-l-2 border-gray-200 z-10"
+                style={{ width: "13rem" }}
+              >
                 Person Responsible
               </th>
               <th
@@ -489,13 +492,13 @@ const Tasks = ({ NameModule, tasksWithBm }) => {
                 Due Date
               </th>
               <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-2 py-2 border-l-2 border-gray-200 z-10">
-               Decision Status
+                Decision Status
               </th>
               <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-2 py-2 border-l-2 border-gray-200 ">
-               Decision Updated of User
+                Decision Updated of User
               </th>
               <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2 border-l-2 border-gray-200">
-              Decision Updated of Admin
+                Decision Updated of Admin
               </th>
               {/* <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2 border-l-2 border-gray-200">
                 Actions
@@ -506,12 +509,12 @@ const Tasks = ({ NameModule, tasksWithBm }) => {
             {tasks?.map((task, index) => {
               const decisionHeight =
                 task?.decision === null || task?.decision === "" ? "2rem" : "";
-              let   members = task?.group.map((user) => ({
-                  label: user.name,
-                  value: user.id,
-                }))
+              let members = task?.group.map((user) => ({
+                label: user.name,
+                value: user.id,
+              }));
               return (
-                <tr key={task.id} className="border-b border-gray-200">
+                <tr key={task.id} className="border-b border-gray-200 ">
                   <td className="border py-1.5 px-2">
                     <div className="flex items-center justify-between">
                       {isInputActiveID === task.id && (
@@ -590,6 +593,7 @@ const Tasks = ({ NameModule, tasksWithBm }) => {
                     <Select
                       options={members}
                       menuPortalTarget={document.body}
+                      
                       styles={{
                         control: (provided, state) => ({
                           ...provided,
@@ -614,6 +618,7 @@ const Tasks = ({ NameModule, tasksWithBm }) => {
                           "&:focus-within": {
                             borderColor: "#fb923c",
                           },
+                          width: "13rem",
                         }),
 
                         option: (provided, state) => ({
@@ -682,18 +687,14 @@ const Tasks = ({ NameModule, tasksWithBm }) => {
                         fontSize: "0.8rem",
                         WebkitAppearance: "none",
                       }}
-                      min={ getCurrentDate()}
+                      min={getCurrentDate()}
                       onChange={(e) => {
                         handleSubmit(task?.id, "dueDate", e.target.value);
                         handleTaskChange(index, "dueDate", e.target.value);
                       }}
                     />
                   </td>
-                  <td
-                    className="border py-1.5 px-2"
-                    title={task?.status}
-                  
-                  >
+                  <td className="border py-1.5 px-2" title={task?.status}>
                     <Select
                       options={status}
                       menuPortalTarget={document.body}
@@ -742,6 +743,7 @@ const Tasks = ({ NameModule, tasksWithBm }) => {
                           ...provided,
                           display: state.isFocused ? "visible" : "none",
                         }),
+                      
                       }}
                       theme={(theme) => ({
                         ...theme,
