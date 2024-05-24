@@ -6,6 +6,7 @@ import { EntitiesDataContext } from "../../../../contexts/entitiesDataContext/en
 import { useSearchParams } from "react-router-dom";
 import GateKeeper from "../../../../rbac/GateKeeper";
 import { debounce } from "../../../../utils/utils";
+import { caseLetter } from "../../../../utils/utils";
 function HomeEntity() {
   const fetcher = useFetcher();
   const data = fetcher?.data?.data ?? [];
@@ -109,7 +110,7 @@ function HomeEntity() {
               data?.Entities?.map((entity) => (
                 <li
                   className="py-2 md:px-5  hover:bg-slate-100"
-                  title={entity.name}
+                  title= {caseLetter(entity?.name ?? "none")}
                   key={entity.id}
                 >
                   <Link to={`/entities/${entity.id}`}>

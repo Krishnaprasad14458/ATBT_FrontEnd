@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 const Documents = () => {
   const { id } = useParams();
   return (
-    <div className="mt-4">
+    <div className="mt-4 overflow-y-auto">
       <table className="w-full divide-y divide-gray-200 dark:divide-gray-700 rounded-md">
         <thead>
           <tr>

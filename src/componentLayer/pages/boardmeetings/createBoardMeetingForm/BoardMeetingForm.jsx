@@ -668,7 +668,9 @@ function BoardMeetingForm() {
                             fontSize: "0.8rem",
                             WebkitAppearance: "none",
                           }}
-                          min={getCurrentDate()}
+
+                          min={(id===null || id=== undefined) && getCurrentDate()}
+
                           className="px-2 py-2 text-sm block w-full rounded-md bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder:text-xs"
                           value={customFormFields[index].value || ""}
                           onChange={(e) => handleChange(index, e.target.value)}

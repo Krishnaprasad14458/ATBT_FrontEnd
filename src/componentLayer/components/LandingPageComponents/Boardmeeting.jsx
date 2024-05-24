@@ -159,7 +159,7 @@ function Boardmeeting() {
   }, [tableView]);
   const [selectedFilters, setSelectedFilters] = useState({});
   return (
-    <div className="overflow-x-auto p-3">
+    <div className="overflow-x-auto p-3 w-full">
       {/* search & filter */}
       <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3 xl:grid-col-3 gap-2 mt-2">
         <span className="col-span-1"> </span>
@@ -235,44 +235,44 @@ function Boardmeeting() {
                 {visibleColumns.map((key) => (
                   <th
                     key={key}
-                    className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200"
+                    className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2 border-l-2 border-gray-200"
                   >
                     {tableView[key].label}
                   </th>
                 ))}
                 <th
                   scope="col"
-                  className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200"
+                  className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2 border-l-2 border-gray-200"
                 >
                   Total Tasks
                 </th>
                 <th
                   scope="col"
-                  className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200"
+                  className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2 border-l-2 border-gray-200"
                 >
                   To-Do Tasks
                 </th>
                 <th
                   scope="col"
-                  className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200"
+                  className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2 border-l-2 border-gray-200"
                 >
                   In-Progress Tasks
                 </th>
                 <th
                   scope="col"
-                  className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200"
+                  className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2 border-l-2 border-gray-200"
                 >
                   Overdue Tasks
                 </th>
                 <th
                   scope="col"
-                  className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200"
+                  className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2 border-l-2 border-gray-200"
                 >
                    Completed Tasks
                 </th>
                 <th
                   scope="col"
-                  className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200"
+                  className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2 border-l-2 border-gray-200"
                 >
                   Actions
                 </th>

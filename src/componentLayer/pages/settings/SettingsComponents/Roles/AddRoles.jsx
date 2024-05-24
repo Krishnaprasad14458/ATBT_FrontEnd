@@ -591,7 +591,7 @@ placeholder:text-xs`}
         </div>
       </div>
       <p className='text-md my-3 font-semibold'>Permissions</p>
-      <div className='max-h-[457px] overflow-y-scroll '>
+      <div className=''>
         <table className='w-full divide-y divide-gray-200 dark:divide-gray-700 rounded-md'>
           <thead className=''>
             <tr>
