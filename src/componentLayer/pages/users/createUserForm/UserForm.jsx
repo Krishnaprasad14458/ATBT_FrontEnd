@@ -1,5 +1,7 @@
 import React, { useState, useContext, useEffect } from "react";
 import axios from "axios";
+import Select from "react-select";
+
 import defprop from "../../../../assets/Images/Avatar_new_02.svg";
 import { UserDataContext } from "../../../../contexts/usersDataContext/usersDataContext";
 import $ from "jquery";
@@ -33,15 +35,15 @@ export async function userFormLoader({ params }) {
     let fieldsDropDownData = {};
 
     fieldsDropDownData.role =
-      fieldsDropDownDataRoleResponse?.data?.roles?.map((item) => ({
-        name: item?.name || "",
-        id: item?.id || "",
-      })) || [];
+    fieldsDropDownDataRoleResponse?.data?.roles?.map((item) => ({
+      label: item?.name || "",
+      value: item?.id || "",
+    })) || [];
 
     fieldsDropDownData.entityname =
       fieldsDropDownDataEntityResponse?.data?.Entites?.map((item) => ({
-        name: item?.name || "",
-        id: item?.id || "",
+        label: item?.name || "",
+        value: item?.id || "", 
       })) || [];
 
     let userData = null;
@@ -136,6 +138,36 @@ function UserForm() {
       setCustomFormFields(updatedFormData);
     }
   };
+  useEffect(()=>{
+    if(!!id && !!data?.userData.entityname){
+      setSelectedEntityvalue(parseInt(data.userData.entityname))
+      setSelectedRolevalue(parseInt(data.userData.role))
+    }
+  },[data])
+
+  let [selectedEntityValue, setSelectedEntityvalue] = useState();
+  const selectedEntityOption = data?.fieldsDropDownData?.entityname.find(option => option.value === selectedEntityValue);
+ console.log("selectedEntityOption",selectedEntityOption)
+
+  const handleEntityName = (value, index) => {
+    setSelectedEntityvalue(value ? value.value : null);
+    // setSelectedEntity(value)
+    const updatedFormData = [...customFormFields];
+    updatedFormData[index].value = value.value;
+    setCustomFormFields(updatedFormData);
+  };
+  
+  let [selectedRoleValue, setSelectedRolevalue] = useState();
+  const selectedRoleOption = data?.fieldsDropDownData?.role.find(option => option.value === selectedRoleValue);
+
+  const handleRoleName = (value, index) => {
+    setSelectedRolevalue(value ? value.value : null);
+    // setSelectedEntity(value)
+    const updatedFormData = [...customFormFields];
+    updatedFormData[index].value = value.value;
+    setCustomFormFields(updatedFormData);
+  };
+  const isDisabled = !!id && !!data?.userData && parseInt(id) === loggedInUser;
   const handleFileChange = (event, index) => {
     const file = event.target.files[0];
     if (file?.size > 1000000) {
@@ -490,7 +522,9 @@ function UserForm() {
       {/* <p className="font-lg font-semibold p-3">Entity Form</p> */}
       <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-3 xl:grid-cols-3  gap-4 mt-2 ">
         <div className="col-span-1 ">
-          <p className="text-lg font-semibold"><BreadCrumbs/></p>
+          <p className="text-lg font-semibold">
+            <BreadCrumbs />
+          </p>
           <form className="" method="POST" onSubmit={handleFormSubmit}>
             {customFormFields &&
               customFormFields.length > 0 &&
@@ -582,55 +616,54 @@ function UserForm() {
                             <span> </span>
                           )}
                         </label>
+                       
                         <div className="relative">
-                          <select
-                            id={item.inputname}
-                            name={item.inputname}
-                            className="px-2 py-2 text-sm block w-full rounded-md bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder:text-gray-400 appearance-none"
-                            onChange={(e) =>
-                              handleChange(index, e.target.value)
-                            }
-                            value={customFormFields[index].value || ""}
-                            style={{
-                              fontSize:  customFormFields[index].value ?"0.8rem": "0.75rem",
-                              color: customFormFields[index].value
-                                ? "#111827"
-                                : "#a1a1aa",
-                            }}
-                          >
-                            <option value="" disabled defaultValue className="text-sm">
-                              Select Entity Name {/* Use the label as the placeholder */}
-                            </option>
-                            {item.options.value &&
-                              data?.fieldsDropDownData?.entityname &&
-                              data?.fieldsDropDownData?.entityname.map(
-                                (option, index) => (
-                                  <option
-                                    key={index}
-                                    value={option.id}
-                                    style={{ color: "#111827" }}
-                                  >
-                                    {caseLetter(option.name)}
-                                    
-                                  </option>
-                                )
-                              )}
-                          </select>
+                        <Select
+                          name={item.inputname}
+                          options={data?.fieldsDropDownData?.entityname}
+                          styles={{
+                            control: (provided, state) => ({
+                              ...provided,
+                              backgroundColor: "#f9fafb", // Change the background color of the select input
+                              borderWidth: state.isFocused ? "1px" : "1px", // Decrease border width when focused
+                              borderColor: state.isFocused
+                                ? "#orange-400"
+                                : "#d1d5db", // Change border color when focused
+                              boxShadow: state.isFocused
+                                ? "none"
+                                : provided.boxShadow, // Optionally remove box shadow when focused
+                            }),
+                            placeholder: (provided) => ({
+                              ...provided,
+                              fontSize: "small", // Adjust the font size of the placeholder text
+                            }),
+                            option: (provided, state) => ({
+                              ...provided,
+                              color: state.isFocused ? "#fff" : "#000000",
+                              backgroundColor: state.isFocused
+                                ? "#ea580c"
+                                : "transparent",
 
-                          <svg
-                            className="w-3 h-3 text-gray-700 absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth="2"
-                              d="M19 9l-7 7-7-7"
-                            />
-                          </svg>
+                              "&:hover": {
+                                color: "#fff",
+                                backgroundColor: "#ea580c",
+                              },
+                            }),
+                          }}
+                          theme={(theme) => ({
+                            ...theme,
+                            borderRadius: 5,
+                            colors: {
+                              ...theme.colors,
+
+                              primary: "#fb923c",
+                            },
+                          })}
+                          value={selectedEntityOption}
+                          onChange={(selectedOption) => {
+                            handleEntityName(selectedOption, index);
+                          }}
+                        />
                         </div>
                         <div className="h-2 text-red-500">
                           {errors[item.inputname] && (
@@ -738,7 +771,69 @@ function UserForm() {
                           )}
                         </label>
                         <div className="relative">
-                          <select
+                        {item.options &&
+                              item.options.value &&
+                              item.options.value.length > 0 &&(
+                                (() => {
+                                  const options = item.options?.value?.map((option) => ({
+                                    label :option,value:option
+                                  }));
+                                  return    <Select
+                                  name={item.inputname}
+                                  options={options}
+                                  styles={{
+                                    control: (provided, state) => ({
+                                      ...provided,
+                                      backgroundColor: "#f9fafb", // Change the background color of the select input
+                                      borderWidth: state.isFocused ? "1px" : "1px", // Decrease border width when focused
+                                      borderColor: state.isFocused
+                                        ? "#orange-400"
+                                        : "#d1d5db", // Change border color when focused
+                                      boxShadow: state.isFocused
+                                        ? "none"
+                                        : provided.boxShadow, // Optionally remove box shadow when focused
+                                    }),
+                                    placeholder: (provided) => ({
+                                      ...provided,
+                                      fontSize: "small", // Adjust the font size of the placeholder text
+                                    }),
+                                    option: (provided, state) => ({
+                                      ...provided,
+                                      color: state.isFocused ? "#fff" : "#000000",
+                                      backgroundColor: state.isFocused
+                                        ? "#ea580c"
+                                        : "transparent",
+        
+                                      "&:hover": {
+                                        color: "#fff",
+                                        backgroundColor: "#ea580c",
+                                      },
+                                    }),
+                                  }}
+                                  theme={(theme) => ({
+                                    ...theme,
+                                    borderRadius: 5,
+                                    colors: {
+                                      ...theme.colors,
+        
+                                      primary: "#fb923c",
+                                    },
+                                  })}
+                                  value={{label:customFormFields[index].value,value:customFormFields[index].value}}
+                                  // onChange={(selectedOption) => {
+                                  //   handleEntityName(selectedOption, index);
+                                  // }}
+                                  onChange={(e) =>
+                                    handleChange(index, e.value)
+                                  }
+                                />; // Assuming you want to join the array elements with a comma
+                              })()
+                             
+                               
+                              )
+                        
+                              }
+                          {/* <select
                             id={item.inputname}
                             name={item.inputname}
                             className="px-2 py-2 text-sm block w-full rounded-md bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder:text-gray-400 appearance-none"
@@ -747,7 +842,9 @@ function UserForm() {
                             }
                             value={customFormFields[index].value || ""}
                             style={{
-                              fontSize:  customFormFields[index].value ?"0.8rem": "0.75rem",
+                              fontSize: customFormFields[index].value
+                                ? "0.8rem"
+                                : "0.75rem",
                               color: customFormFields[index].value
                                 ? "#111827"
                                 : "#a1a1aa",
@@ -767,7 +864,7 @@ function UserForm() {
                                   {caseLetter(option)}
                                 </option>
                               ))}
-                          </select>
+                          </select> */}
                           <svg
                             className="w-3 h-3 text-gray-700 absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none"
                             fill="none"
@@ -809,47 +906,131 @@ function UserForm() {
                           )}
                         </label>
                         <div className="relative">
-                        <select
+                        <Select
+                          
                           id={item.inputname}
                           name={item.inputname}
-                          className={` ${
+                          isDisabled={
                             !!id &&
                             !!data?.userData &&
-                            parseInt(id) === loggedInUser
-                              ? "text-[##d4d4d8] bg-gray-50 cursor-not-allowed"
-                              : "bg-gray-50 text-gray-900 "
-                          } px-2 py-2 text-sm block w-full rounded-md bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder:text-gray-400 appearance-none`}
-                          onChange={(e) => handleChange(index, e.target.value)}
-                          value={customFormFields[index].value || ""}
-                          style={{
-                            fontSize:  customFormFields[index].value ?"0.8rem": "0.75rem",
-                            color: customFormFields[index].value
-                              ? "#111827"
-                              : "#a1a1aa",
-                          }}
-                          disabled={
-                            id &&
-                            data?.userData &&
                             parseInt(id) === loggedInUser
                               ? true
                               : false
                           }
-                        >
-                          <option value="" disabled defaultValue>
-                           Select Role
-                          </option>
+                          options={data?.fieldsDropDownData?.role}
+                          styles={{
+                            control: (provided) => ({
+                              ...provided,
+                              fontSize: customFormFields[index].value ? '0.8rem' : '0.75rem',
+                              backgroundColor:   !!id &&
+                              !!data?.userData &&
+                              parseInt(id) === loggedInUser
+                                ? true
+                                : false ? '#d4d4d8' : 'bg-gray-50',
+                              borderColor: 'gray-300',
+                              color: customFormFields[index].value ? '#111827' : '#a1a1aa',
+                            }),
+                            placeholder: (provided) => ({
+                              ...provided,
+                              color: 'gray-400',
+                            }),
+                            singleValue: (provided) => ({
+                              ...provided,
+                              color: '#111827',
+                            }),
+                          }}
+                          // styles={{
+                          //   control: (provided, state) => ({
+                          //     ...provided,
+                          //     backgroundColor: "#f9fafb", // Change the background color of the select input
+                          //     borderWidth: state.isFocused ? "1px" : "1px", // Decrease border width when focused
+                          //     borderColor: state.isFocused
+                          //       ? "#orange-400"
+                          //       : "#d1d5db", // Change border color when focused
+                          //     boxShadow: state.isFocused
+                          //       ? "none"
+                          //       : provided.boxShadow, // Optionally remove box shadow when focused
+                          //   }),
+                          //   placeholder: (provided) => ({
+                          //     ...provided,
+                          //     fontSize: "small", // Adjust the font size of the placeholder text
+                          //   }),
+                          //   option: (provided, state) => ({
+                          //     ...provided,
+                          //     color: state.isFocused ? "#fff" : "#000000",
+                          //     backgroundColor: state.isFocused
+                          //       ? "#ea580c"
+                          //       : "transparent",
 
-                          {item.options.value &&
-                            data?.fieldsDropDownData?.role &&
-                            data?.fieldsDropDownData?.role.map(
-                              (option, index) => (
-                                <option key={index} value={option.id} style={{ color: "#111827" }}>
-                                  {caseLetter(option.name)}
-                                </option>
-                              )
-                            )}
-                        </select>
-                        <svg
+                          //     "&:hover": {
+                          //       color: "#fff",
+                          //       backgroundColor: "#ea580c",
+                          //     },
+                          //   }),
+                          // }}
+                          theme={(theme) => ({
+                            ...theme,
+                            borderRadius: 5,
+                            colors: {
+                              ...theme.colors,
+
+                              primary: "#fb923c",
+                            },
+                          })}
+                          value={selectedRoleOption}
+                          onChange={(selectedOption) => {
+                            handleRoleName(selectedOption, index);
+                          }}
+                        />
+                        {/* <select
+                            id={item.inputname}
+                            name={item.inputname}
+                            className={` ${
+                              !!id &&
+                              !!data?.userData &&
+                              parseInt(id) === loggedInUser
+                                ? "text-[##d4d4d8] bg-gray-50 cursor-not-allowed"
+                                : "bg-gray-50 text-gray-900 "
+                            } px-2 py-2 text-sm block w-full rounded-md bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder:text-gray-400 appearance-none`}
+                            onChange={(e) =>
+                              handleChange(index, e.target.value)
+                            }
+                            value={customFormFields[index].value || ""}
+                            style={{
+                              fontSize: customFormFields[index].value
+                                ? "0.8rem"
+                                : "0.75rem",
+                              color: customFormFields[index].value
+                                ? "#111827"
+                                : "#a1a1aa",
+                            }}
+                            disabled={
+                              id &&
+                              data?.userData &&
+                              parseInt(id) === loggedInUser
+                                ? true
+                                : false
+                            }
+                          >
+                            <option value="" disabled defaultValue>
+                              Select Role
+                            </option>
+
+                            {item.options.value &&
+                              data?.fieldsDropDownData?.role &&
+                              data?.fieldsDropDownData?.role.map(
+                                (option, index) => (
+                                  <option
+                                    key={index}
+                                    value={option.id}
+                                    style={{ color: "#111827" }}
+                                  >
+                                    {caseLetter(option.name)}
+                                  </option>
+                                )
+                              )}
+                          </select> */}
+                          <svg
                             className="w-3 h-3 text-gray-700 absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none"
                             fill="none"
                             stroke="currentColor"
@@ -1463,16 +1644,19 @@ function UserForm() {
                           )}
                         {item.type === "select" &&
                           item.inputname == "entityname" &&
-                          item.field == "predefined" && (
+                          item.field == "predefined" && selectedEntityOption && (
                             <div className="flex  justify-center   border-t-2 border-gray-300 ">
                               {item.value ? (
                                 <p
                                   className="absolute top-20 mt-8 text-sm antialiased  leading-snug tracking-normal text-blue-gray-90 w-3/6 truncate md:w-5/6 text-center"
                                   title={item.value}
                                 >
-                                  {caseLetter(data?.fieldsDropDownData?.entityname?.find(
+                                  {/* {caseLetter(
+                                    data?.fieldsDropDownData?.entityname?.find(
                                       (i) => i.id === parseInt(item.value)
-                                    )?.name)}
+                                    )?.name
+                                  )} */}
+                                  {caseLetter(selectedEntityOption.label)}
                                 </p>
                               ) : (
                                 <p className="absolute top-20 mt-8 text-sm antialiased  leading-snug tracking-normal text-blue-gray-900">
@@ -1749,11 +1933,11 @@ function UserForm() {
                           } else {
                             ordinalsText = "th";
                           }
-      
-                           // Formatting the date
-                    date = ` ${monthAbbreviations[monthIndex]} ${
-                      day < 10 ? "0" : ""
-                    }${day}${ordinalsText}, ${year}`;
+
+                          // Formatting the date
+                          date = ` ${monthAbbreviations[monthIndex]} ${
+                            day < 10 ? "0" : ""
+                          }${day}${ordinalsText}, ${year}`;
 
                           return (
                             <div className="">
