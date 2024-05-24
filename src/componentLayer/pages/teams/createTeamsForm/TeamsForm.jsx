@@ -7,14 +7,14 @@ import { TeamsDataContext } from "../../../../contexts/teamsDataContext/teamsDat
 import { useNavigate, useLoaderData, useParams } from "react-router-dom";
 import atbtApi from "../../../../serviceLayer/interceptor";
 import BreadCrumbs from "../../../components/breadcrumbs/BreadCrumbs";
-
+import Select from "react-select";
 const userData = JSON.parse(localStorage.getItem("data"));
 let createdBy = userData?.user?.id;
 const token = userData?.token;
 const role = userData?.role?.name;
 export async function teamFormLoader({ params }) {
   try {
-    const [formResponse, teamResponse, usersList] = await Promise.all([
+    let [formResponse, teamResponse, usersList] = await Promise.all([
       atbtApi.get(`form/list?name=teamform`),
       params.id ? atbtApi.get(`team/list/${params.id}`) : null, //Api for edit
       atbtApi.post(`public/list/user`),
@@ -24,6 +24,13 @@ export async function teamFormLoader({ params }) {
       console.log(teamResponse, "loader team data");
       teamData = teamResponse?.data;
     }
+    usersList = usersList?.data?.users?.map((item) => ({
+      value: item.id,
+      label: item.email,
+      image: item.image,
+      name: item.name,
+    }));
+   
     console.log(teamData,"teamData")
     const formData = formResponse.data.Data;
     if (userData) {
@@ -54,6 +61,20 @@ function TeamsForm() {
       setSelected(team.teamData.members);
     }
   }, [id, team]);
+  useEffect(() => {
+    if (id && team?.teamData?.members) {
+      const updatedMembersForSelect = team?.teamData?.members.map(
+        (member) => ({
+          value: member.id,
+          label: member.email,
+          image: member.image,
+          name: member.name,
+        })
+      );
+
+      setSelected(updatedMembersForSelect);
+    }
+  }, [id, team]);
   function setInitialForm() {
     console.log("teammmm", team);
     let response = team?.formData;
@@ -76,12 +97,19 @@ function TeamsForm() {
     usersDispatch,
   } = useContext(UserDataContext);
   const { createTeam, updateTeam } = useContext(TeamsDataContext);
-  const usersEmails = team.usersList.data.users;
+  const [selected, setSelected] = useState([]);
+  const [usersEmails, setUsersEmails] = useState(team.usersList);
+  useEffect(() => {
+    const filteredEmails = team.usersList.filter(
+      (mainObj) =>
+        !selected.some((selectedObj) => selectedObj.value === mainObj.value)
+    );
+    setUsersEmails(filteredEmails);
+  }, [selected, team.usersList]);
   const { debouncedSetPage, debouncedSetSearch } = useDebounce(usersDispatch);
   let [openOptions, setopenOptions] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
-  const [selected, setSelected] = useState([]);
-  const [showUsers, setShowUsers] = useState(false);
+  
   let [customFormFields, setCustomFormFields] = useState(() =>
     setInitialForm()
   );
@@ -91,12 +119,9 @@ function TeamsForm() {
       setSelected([]);
     }
   }, [id]);
-  useEffect(() => {
-    console.log(customFormFields, "customFormFields");
-    console.log("errors", errors);
-  });
+  
   const handleInputChange = (e) => {
-    setShowUsers(true);
+    // setShowUsers(true);
     setSearchTerm(e.target.value);
     debouncedSetSearch({
       context: "DASHBOARD",
@@ -112,14 +137,21 @@ function TeamsForm() {
     }
   };
   const handleClick = (value, index) => {
-    setSelected((e) => [...e, value]);
+    console.log("value", value);
+    setSelected(value);
     const updatedFormData = [...customFormFields];
-    let members = updatedFormData[index].value;
-    members.push(value);
+    let members = value;
+    console.log("members", members);
+    members = members?.map((item) => ({
+      name: item.name,
+      id: item.value,
+      image: item.image,
+      email: item.label,
+    }));
     updatedFormData[index].value = members;
     setCustomFormFields(updatedFormData);
     setSearchTerm("");
-    setShowUsers(false);
+    // setShowUsers(false);
   };
   useEffect(() => {
     console.log(searchTerm, "clear");
@@ -434,10 +466,24 @@ function TeamsForm() {
       const formData = new FormData(e.target);
       for (let i = 0; i < customFormFields.length; i++) {
         if (Array.isArray(customFormFields[i].value)) {
-          formData.set(
-            customFormFields[i].inputname,
-            JSON.stringify(customFormFields[i].value)
-          );
+          if (customFormFields[i].inputname === "members") {
+            let updatedMembers = [];
+            for (let z = 0; z < customFormFields[i].value.length; z++) {
+              let id = customFormFields[i].value[z].id;
+              updatedMembers.push(id);
+            }
+     
+            formData.set(
+              customFormFields[i].inputname,
+              JSON.stringify(updatedMembers)
+            );
+          } else {
+            formData.set(
+              customFormFields[i].inputname,
+              JSON.stringify(customFormFields[i].value)
+            );
+          }
+         
         }
       }
 
@@ -462,7 +508,7 @@ function TeamsForm() {
       console.log("jsonData submitted", response);
       if (response?.status === 201) {
         console.log("data is 201");
-        navigate(`/teams/${response.data}/overview`);
+        navigate(`/teams/${response.data}`);
       }
     }
   }
@@ -619,7 +665,62 @@ function TeamsForm() {
                             <span> </span>
                           )}
                         </label>
-                        <div
+                        <Select
+                          styles={{
+                            control: (provided, state) => ({
+                              ...provided,
+                              backgroundColor: "#f9fafb", // Change the background color of the select input
+                              borderWidth: state.isFocused ? "1px" : "1px", // Decrease border width when focused
+                              borderColor: state.isFocused
+                                ? "#orange-400"
+                                : "#d1d5db", // Change border color when focused
+                              boxShadow: state.isFocused
+                                ? "none"
+                                : provided.boxShadow, // Optionally remove box shadow when focused
+                              maxHeight: "150px",
+                              overflowY: "auto",
+                              fontSize: "0.7rem",
+                            }),
+                            placeholder: (provided) => ({
+                              ...provided,
+                              fontSize: "small", // Adjust the font size of the placeholder text
+                            }),
+                            option: (provided, state) => ({
+                              ...provided,
+                              color: state.isFocused ? "#fff" : "#000000",
+                              backgroundColor: state.isFocused
+                                ? "#ea580c"
+                                : "transparent",
+
+                              "&:hover": {
+                                color: "#fff",
+                                backgroundColor: "#ea580c",
+                              },
+                              fontSize: "0.7rem",
+                            }),
+                          }}
+                          theme={(theme) => ({
+                            ...theme,
+                            borderRadius: 5,
+                            colors: {
+                              ...theme.colors,
+
+                              primary: "#fb923c",
+                            },
+                          })}
+                          isMulti
+                          // name="colors"
+                          options={usersEmails}
+                          className="basic-multi-select "
+                          classNamePrefix="select"
+                          value={selected}
+                          onChange={(selectedOption) => {
+                            handleClick(selectedOption, index);
+                          }}
+                        />
+
+
+                        {/* <div
                           className=" 
                        flex flex-wrap gap-1 px-2 py-2 text-sm  w-full  bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 selected-users-container relative  rounded-md"
                         >
@@ -695,7 +796,7 @@ function TeamsForm() {
                                 </li>
                               ))}
                           </ul>
-                        )}
+                        )} */}
 
                         <div className="h-2 text-[#dc2626]">
                           {errors[item.inputname] && (
@@ -1291,7 +1392,7 @@ function TeamsForm() {
                           {item.value}
                         </div>
                       )}
-                    {item.type === "multiselect" &&
+                   {item.type === "multiselect" &&
                       item.inputname == "members" &&
                       item.field == "predefined" && (
                         <div className=" grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-2 my-5">
@@ -1431,7 +1532,7 @@ function TeamsForm() {
                               );
                             })}
                         </div>
-                      )}
+                      )} 
                     {/* custom fields*/}
                     {item.type === "text" && item.field == "custom" && (
                       <div className="my-2 mx-2 ">
