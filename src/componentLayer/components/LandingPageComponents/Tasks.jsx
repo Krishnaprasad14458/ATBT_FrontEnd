@@ -34,7 +34,7 @@ export async function tasksLoader({ request, params }) {
       groupName = "groupEntity";
       idOF = "entityId";
     }
-    if (params.boardmeetings === "entityboardmeetings") {
+    if (params.boardmeetings === "teamboardmeetings") {
       parentPath = "teams";
       groupName = "groupTeam";
       idOF = "teamId";
