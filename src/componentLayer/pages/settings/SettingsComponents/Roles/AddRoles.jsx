@@ -2,6 +2,7 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import {useLoaderData,useSubmit,useNavigation,useFetcher,Link,} from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { caseLetter } from '../../../../../utils/utils';
 const AddRoles = () => {
   const submit = useSubmit();
   const response = useLoaderData();
@@ -132,7 +133,9 @@ const AddRoles = () => {
     }
   };
   // submit({ key: 'value' });
+  
   const [permission, setPermission] = useState(() => getInitialState());
+  
   console.log(permission, 'yess perm');
   useEffect(() => {
     console.log('permissions', permission);
@@ -332,6 +335,7 @@ const AddRoles = () => {
   // };
 
   // for submenu opens
+
   const [selected, setSelected] = useState();
   const handleSubmenuOpen = (module) => {
     if (selected == module) {
@@ -434,6 +438,8 @@ const AddRoles = () => {
     }
 
     if (!response?.response.id) {
+      permission.role = caseLetter(permission.role)
+      console.log(permission , "perksdnfsdfds")
       const result = await toast.promise(
         axios.post(
           'https://atbtbeta.infozit.com/rbac/create-role',
@@ -471,6 +477,7 @@ const AddRoles = () => {
 
       fetcher.submit('added', { method: 'post' });
       console.log(result, 'added');
+     
       // You may want to handle form submission here as well
     }
     if (!!response?.response?.id) {
@@ -554,7 +561,15 @@ const AddRoles = () => {
                 } p-2 block w-full rounded-md  border-2 border-gray-200 py-1.5  appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6
 placeholder:text-xs`}
               />
-              {error.role && error.role.length > 0 && <span>{error.role}</span>}
+
+<div className="h-2 text-red-500">
+                          {error.role && error.role.length > 0 && (
+                            <span className="text-xs">
+                              {error.role}
+                            </span>
+                          )}
+                        </div>
+              {/* {error.role && error.role.length > 0 && <span className='text-red-500 text-xs'>{error.role}</span>} */}
             </div>
           </div>
         </div>
@@ -583,9 +598,16 @@ placeholder:text-xs`}
                 className=' p-2 block w-full rounded-md bg-gray-50 border-2 border-gray-200 py-1.5 text-gray-900 appearance-none shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-sm sm:leading-6
                 placeholder:text-xs '
               />
-              {error.description && error.description.length > 0 && (
+              <div className="h-2 text-red-500">
+                          {error.description && error.description.length > 0 && (
+                            <span className="text-xs">
+                             {error.description}
+                            </span>
+                          )}
+                        </div>
+              {/* {error.description && error.description.length > 0 && (
                 <span>{error.description}</span>
-              )}
+              )} */}
             </div>
           </div>
         </div>

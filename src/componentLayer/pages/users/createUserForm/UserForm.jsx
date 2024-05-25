@@ -35,15 +35,15 @@ export async function userFormLoader({ params }) {
     let fieldsDropDownData = {};
 
     fieldsDropDownData.role =
-    fieldsDropDownDataRoleResponse?.data?.roles?.map((item) => ({
-      label: item?.name || "",
-      value: item?.id || "",
-    })) || [];
+      fieldsDropDownDataRoleResponse?.data?.roles?.map((item) => ({
+        label: item?.name || "",
+        value: item?.id || "",
+      })) || [];
 
     fieldsDropDownData.entityname =
       fieldsDropDownDataEntityResponse?.data?.Entites?.map((item) => ({
         label: item?.name || "",
-        value: item?.id || "", 
+        value: item?.id || "",
       })) || [];
 
     let userData = null;
@@ -138,16 +138,18 @@ function UserForm() {
       setCustomFormFields(updatedFormData);
     }
   };
-  useEffect(()=>{
-    if(!!id && !!data?.userData.entityname){
-      setSelectedEntityvalue(parseInt(data.userData.entityname))
-      setSelectedRolevalue(parseInt(data.userData.role))
+  useEffect(() => {
+    if (!!id && !!data?.userData.entityname) {
+      setSelectedEntityvalue(parseInt(data.userData.entityname));
+      setSelectedRolevalue(parseInt(data.userData.role));
     }
-  },[data])
+  }, [data]);
 
   let [selectedEntityValue, setSelectedEntityvalue] = useState();
-  const selectedEntityOption = data?.fieldsDropDownData?.entityname.find(option => option.value === selectedEntityValue);
- console.log("selectedEntityOption",selectedEntityOption)
+  const selectedEntityOption = data?.fieldsDropDownData?.entityname.find(
+    (option) => option.value === selectedEntityValue
+  );
+  console.log("selectedEntityOption", selectedEntityOption);
 
   const handleEntityName = (value, index) => {
     setSelectedEntityvalue(value ? value.value : null);
@@ -156,9 +158,11 @@ function UserForm() {
     updatedFormData[index].value = value.value;
     setCustomFormFields(updatedFormData);
   };
-  
+
   let [selectedRoleValue, setSelectedRolevalue] = useState();
-  const selectedRoleOption = data?.fieldsDropDownData?.role.find(option => option.value === selectedRoleValue);
+  const selectedRoleOption = data?.fieldsDropDownData?.role.find(
+    (option) => option.value === selectedRoleValue
+  );
 
   const handleRoleName = (value, index) => {
     setSelectedRolevalue(value ? value.value : null);
@@ -555,7 +559,7 @@ function UserForm() {
                           value={customFormFields[index].value || ""}
                           className="px-2 py-2 text-sm block w-full rounded-md bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder:text-xs"
                           onChange={(e) => handleChange(index, e.target.value)}
-                          style={{ fontSize: "0.8rem" }}
+                         
                         />
                         <div className="h-2 text-red-500">
                           {errors[item.inputname] && (
@@ -616,54 +620,59 @@ function UserForm() {
                             <span> </span>
                           )}
                         </label>
-                       
+
                         <div className="relative">
-                        <Select
-                          name={item.inputname}
-                          options={data?.fieldsDropDownData?.entityname}
-                          styles={{
-                            control: (provided, state) => ({
-                              ...provided,
-                              backgroundColor: "#f9fafb", // Change the background color of the select input
-                              borderWidth: state.isFocused ? "1px" : "1px", // Decrease border width when focused
-                              borderColor: state.isFocused
-                                ? "#orange-400"
-                                : "#d1d5db", // Change border color when focused
-                              boxShadow: state.isFocused
-                                ? "none"
-                                : provided.boxShadow, // Optionally remove box shadow when focused
-                            }),
-                            placeholder: (provided) => ({
-                              ...provided,
-                              fontSize: "small", // Adjust the font size of the placeholder text
-                            }),
-                            option: (provided, state) => ({
-                              ...provided,
-                              color: state.isFocused ? "#fff" : "#000000",
-                              backgroundColor: state.isFocused
-                                ? "#ea580c"
-                                : "transparent",
+                          <Select
+                            className="text-sm"
+                            name={item.inputname}
+                            options={data?.fieldsDropDownData?.entityname}
+                            styles={{
+                              control: (provided, state) => ({
+                                ...provided,
+                                fontSize: "10px",
+                                backgroundColor: "#f9fafb", // Change the background color of the select input
+                                borderWidth: state.isFocused ? "1px" : "1px", // Decrease border width when focused
+                                borderColor: state.isFocused
+                                  ? "#orange-400"
+                                  : "#d1d5db", // Change border color when focused
+                                boxShadow: state.isFocused
+                                  ? "none"
+                                  : provided.boxShadow, // Optionally remove box shadow when focused
+                              }),
 
-                              "&:hover": {
-                                color: "#fff",
-                                backgroundColor: "#ea580c",
+                              placeholder: (provided) => ({
+                                ...provided,
+                                fontSize: "12px", // Adjust the font size of the placeholder text
+                                color: "#a9a9a9",
+                              }),
+                              option: (provided, state) => ({
+                                ...provided,
+                                color: state.isFocused ? "#fff" : "#000000",
+                                backgroundColor: state.isFocused
+                                  ? "#ea580c"
+                                  : "transparent",
+
+                                "&:hover": {
+                                  color: "#fff",
+                                  backgroundColor: "#ea580c",
+                                },
+                                fontSize: "14px",
+                              }),
+                            }}
+                            theme={(theme) => ({
+                              ...theme,
+                              borderRadius: 5,
+                              colors: {
+                                ...theme.colors,
+
+                                primary: "#fb923c",
                               },
-                            }),
-                          }}
-                          theme={(theme) => ({
-                            ...theme,
-                            borderRadius: 5,
-                            colors: {
-                              ...theme.colors,
-
-                              primary: "#fb923c",
-                            },
-                          })}
-                          value={selectedEntityOption}
-                          onChange={(selectedOption) => {
-                            handleEntityName(selectedOption, index);
-                          }}
-                        />
+                            })}
+                            value={selectedEntityOption}
+                            onChange={(selectedOption) => {
+                              handleEntityName(selectedOption, index);
+                            }}
+                          />
                         </div>
                         <div className="h-2 text-red-500">
                           {errors[item.inputname] && (
@@ -696,7 +705,7 @@ function UserForm() {
                           id={item.inputname}
                           placeholder="Enter Email Id"
                           value={customFormFields[index].value || ""}
-                          style={{ fontSize: "0.8rem" }}
+                         
                           onChange={(e) => handleChange(index, e.target.value)}
                           disabled={!!id && !!data?.userData ? true : false}
                           className={` ${
@@ -736,7 +745,7 @@ function UserForm() {
                           onKeyDown={handleKeyDown}
                           placeholder="Enter Phone Number"
                           id={item.inputname}
-                          style={{ fontSize: "0.8rem" }}
+                       
                           value={customFormFields[index].value || ""}
                           onChange={(e) => {
                             const value = e.target.value.slice(0, 10); // Limiting to maximum 10 digits
@@ -771,21 +780,27 @@ function UserForm() {
                           )}
                         </label>
                         <div className="relative">
-                        {item.options &&
-                              item.options.value &&
-                              item.options.value.length > 0 &&(
-                                (() => {
-                                  const options = item.options?.value?.map((option) => ({
-                                    label :option,value:option
-                                  }));
-                                  return    <Select
+                          {item.options &&
+                            item.options.value &&
+                            item.options.value.length > 0 &&
+                            (() => {
+                              const options = item.options?.value?.map(
+                                (option) => ({
+                                  label: option,
+                                  value: option,
+                                })
+                              );
+                              return (
+                                <Select
                                   name={item.inputname}
                                   options={options}
                                   styles={{
                                     control: (provided, state) => ({
                                       ...provided,
                                       backgroundColor: "#f9fafb", // Change the background color of the select input
-                                      borderWidth: state.isFocused ? "1px" : "1px", // Decrease border width when focused
+                                      borderWidth: state.isFocused
+                                        ? "1px"
+                                        : "1px", // Decrease border width when focused
                                       borderColor: state.isFocused
                                         ? "#orange-400"
                                         : "#d1d5db", // Change border color when focused
@@ -795,90 +810,46 @@ function UserForm() {
                                     }),
                                     placeholder: (provided) => ({
                                       ...provided,
-                                      fontSize: "small", // Adjust the font size of the placeholder text
+                                      fontSize: "12px", // Adjust the font size of the placeholder text
+                                      color: "#a9a9a9",
                                     }),
                                     option: (provided, state) => ({
                                       ...provided,
-                                      color: state.isFocused ? "#fff" : "#000000",
+                                      color: state.isFocused
+                                        ? "#fff"
+                                        : "#000000",
                                       backgroundColor: state.isFocused
                                         ? "#ea580c"
                                         : "transparent",
-        
+
                                       "&:hover": {
                                         color: "#fff",
                                         backgroundColor: "#ea580c",
                                       },
                                     }),
+                                    fontSize: "14px",
                                   }}
                                   theme={(theme) => ({
                                     ...theme,
                                     borderRadius: 5,
                                     colors: {
                                       ...theme.colors,
-        
+
                                       primary: "#fb923c",
                                     },
                                   })}
-                                  value={{label:customFormFields[index].value,value:customFormFields[index].value}}
-                                  // onChange={(selectedOption) => {
-                                  //   handleEntityName(selectedOption, index);
-                                  // }}
-                                  onChange={(e) =>
-                                    handleChange(index, e.value)
+                                  value={
+                                    customFormFields[index].value !== ""
+                                      ? {
+                                          label: customFormFields[index].value,
+                                          value: customFormFields[index].value,
+                                        }
+                                      : ""
                                   }
-                                />; // Assuming you want to join the array elements with a comma
-                              })()
-                             
-                               
-                              )
-                        
-                              }
-                          {/* <select
-                            id={item.inputname}
-                            name={item.inputname}
-                            className="px-2 py-2 text-sm block w-full rounded-md bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder:text-gray-400 appearance-none"
-                            onChange={(e) =>
-                              handleChange(index, e.target.value)
-                            }
-                            value={customFormFields[index].value || ""}
-                            style={{
-                              fontSize: customFormFields[index].value
-                                ? "0.8rem"
-                                : "0.75rem",
-                              color: customFormFields[index].value
-                                ? "#111827"
-                                : "#a1a1aa",
-                            }}
-                          >
-                            <option value="" disabled defaultValue>
-                              Select Designation
-                            </option>
-                            {item.options &&
-                              item.options.value &&
-                              item.options.value.length > 0 &&
-                              item.options.value.map((option, index) => (
-                                <option
-                                  value={option}
-                                  style={{ color: "#111827" }}
-                                >
-                                  {caseLetter(option)}
-                                </option>
-                              ))}
-                          </select> */}
-                          <svg
-                            className="w-3 h-3 text-gray-700 absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth="2"
-                              d="M19 9l-7 7-7-7"
-                            />
-                          </svg>
+                                  onChange={(e) => handleChange(index, e.value)}
+                                />
+                              );
+                            })()}
                         </div>
                         <div className="h-2 text-[#dc2626]">
                           {errors[item.inputname] && (
@@ -906,83 +877,63 @@ function UserForm() {
                           )}
                         </label>
                         <div className="relative">
-                        <Select
-                          
-                          id={item.inputname}
-                          name={item.inputname}
-                          isDisabled={
-                            !!id &&
-                            !!data?.userData &&
-                            parseInt(id) === loggedInUser
-                              ? true
-                              : false
-                          }
-                          options={data?.fieldsDropDownData?.role}
-                          styles={{
-                            control: (provided) => ({
-                              ...provided,
-                              fontSize: customFormFields[index].value ? '0.8rem' : '0.75rem',
-                              backgroundColor:   !!id &&
+                          <Select
+                            id={item.inputname}
+                            name={item.inputname}
+                            isDisabled={
+                              !!id &&
                               !!data?.userData &&
                               parseInt(id) === loggedInUser
                                 ? true
-                                : false ? '#d4d4d8' : 'bg-gray-50',
-                              borderColor: 'gray-300',
-                              color: customFormFields[index].value ? '#111827' : '#a1a1aa',
-                            }),
-                            placeholder: (provided) => ({
-                              ...provided,
-                              color: 'gray-400',
-                            }),
-                            singleValue: (provided) => ({
-                              ...provided,
-                              color: '#111827',
-                            }),
-                          }}
-                          // styles={{
-                          //   control: (provided, state) => ({
-                          //     ...provided,
-                          //     backgroundColor: "#f9fafb", // Change the background color of the select input
-                          //     borderWidth: state.isFocused ? "1px" : "1px", // Decrease border width when focused
-                          //     borderColor: state.isFocused
-                          //       ? "#orange-400"
-                          //       : "#d1d5db", // Change border color when focused
-                          //     boxShadow: state.isFocused
-                          //       ? "none"
-                          //       : provided.boxShadow, // Optionally remove box shadow when focused
-                          //   }),
-                          //   placeholder: (provided) => ({
-                          //     ...provided,
-                          //     fontSize: "small", // Adjust the font size of the placeholder text
-                          //   }),
-                          //   option: (provided, state) => ({
-                          //     ...provided,
-                          //     color: state.isFocused ? "#fff" : "#000000",
-                          //     backgroundColor: state.isFocused
-                          //       ? "#ea580c"
-                          //       : "transparent",
+                                : false
+                            }
+                            options={data?.fieldsDropDownData?.role}
+                            styles={{
+                              control: (provided, state) => ({
+                                ...provided,
+                                backgroundColor: "#f9fafb", // Change the background color of the select input
+                                borderWidth: state.isFocused ? "1px" : "1px", // Decrease border width when focused
+                                borderColor: state.isFocused
+                                  ? "#orange-400"
+                                  : "#d1d5db", // Change border color when focused
+                                boxShadow: state.isFocused
+                                  ? "none"
+                                  : provided.boxShadow, // Optionally remove box shadow when focused
+                              }),
+                              placeholder: (provided) => ({
+                                ...provided,
+                                fontSize: "12px", // Adjust the font size of the placeholder text
+                                color: "#a9a9a9",
+                              }),
+                              option: (provided, state) => ({
+                                ...provided,
+                                color: state.isFocused ? "#fff" : "#000000",
+                                backgroundColor: state.isFocused
+                                  ? "#ea580c"
+                                  : "transparent",
 
-                          //     "&:hover": {
-                          //       color: "#fff",
-                          //       backgroundColor: "#ea580c",
-                          //     },
-                          //   }),
-                          // }}
-                          theme={(theme) => ({
-                            ...theme,
-                            borderRadius: 5,
-                            colors: {
-                              ...theme.colors,
+                                "&:hover": {
+                                  color: "#fff",
+                                  backgroundColor: "#ea580c",
+                                },
+                              }),
+                              fontSize: "14px",
+                            }}
+                            theme={(theme) => ({
+                              ...theme,
+                              borderRadius: 5,
+                              colors: {
+                                ...theme.colors,
 
-                              primary: "#fb923c",
-                            },
-                          })}
-                          value={selectedRoleOption}
-                          onChange={(selectedOption) => {
-                            handleRoleName(selectedOption, index);
-                          }}
-                        />
-                        {/* <select
+                                primary: "#fb923c",
+                              },
+                            })}
+                            value={selectedRoleOption}
+                            onChange={(selectedOption) => {
+                              handleRoleName(selectedOption, index);
+                            }}
+                          />
+                          {/* <select
                             id={item.inputname}
                             name={item.inputname}
                             className={` ${
@@ -1030,20 +981,6 @@ function UserForm() {
                                 )
                               )}
                           </select> */}
-                          <svg
-                            className="w-3 h-3 text-gray-700 absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth="2"
-                              d="M19 9l-7 7-7-7"
-                            />
-                          </svg>
                         </div>
                         <div className="h-2 text-[#dc2626]">
                           {errors[item.inputname] && (
@@ -1574,7 +1511,7 @@ function UserForm() {
             <div className="">
               <button
                 type="submit"
-                className="mt-3                flex w-full justify-center rounded-md bg-orange-600 px-3 py-2.5 text-sm font-medium leading-6 text-white shadow-sm  focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600"
+                className="mt-3 flex w-full justify-center rounded-md bg-orange-600 px-3 py-2.5 text-sm font-medium leading-6 text-white shadow-sm  focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600"
               >
                 {id ? "Update User" : "Create User"}
               </button>
@@ -1644,7 +1581,7 @@ function UserForm() {
                           )}
                         {item.type === "select" &&
                           item.inputname == "entityname" &&
-                          item.field == "predefined" && selectedEntityOption && (
+                          item.field == "predefined" && (
                             <div className="flex  justify-center   border-t-2 border-gray-300 ">
                               {item.value ? (
                                 <p
@@ -1656,7 +1593,8 @@ function UserForm() {
                                       (i) => i.id === parseInt(item.value)
                                     )?.name
                                   )} */}
-                                  {caseLetter(selectedEntityOption.label)}
+                                  {selectedEntityOption &&
+                                    caseLetter(selectedEntityOption.label)}
                                 </p>
                               ) : (
                                 <p className="absolute top-20 mt-8 text-sm antialiased  leading-snug tracking-normal text-blue-gray-900">
