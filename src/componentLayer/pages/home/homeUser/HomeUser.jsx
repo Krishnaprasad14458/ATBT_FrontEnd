@@ -7,7 +7,7 @@ import {
 } from "react-router-dom";
 import HomeUsersList from "../../../pages/home/homeUser/HomeUsersList";
 import GateKeeper from "../../../../rbac/GateKeeper";
-import { debounce,caseLetter } from "../../../../utils/utils";
+import { debounce, caseLetter } from "../../../../utils/utils";
 
 function HomeUser() {
   let [searchParams, setSearchParams] = useSearchParams();
@@ -84,7 +84,7 @@ function HomeUser() {
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 20 20"
               fill="currentColor"
-              className="w-3 h-3"
+              className="w-3 h-3 cursor-pointer"
             >
               <path
                 fill-rule="evenodd"
@@ -119,7 +119,7 @@ function HomeUser() {
               data?.users?.map((user) => (
                 <li
                   className="py-2 md:px-5  hover:bg-slate-100 "
-                  title= {caseLetter(user.userName || user.name)}
+                  title={caseLetter(user.userName || user.name)}
                   key={user.id}
                 >
                   <Link to={`/users/${user.id}`}>
@@ -160,7 +160,7 @@ function HomeUser() {
             ) : (
               <p className="text-sm text-gray-700">
                 Showing {data?.startUser} to {data?.endUser} of
-                <span className="text-sm "> {data?.totalUsers}</span> 
+                <span className="text-sm "> {data?.totalUsers}</span>
               </p>
             )}
           </div>
