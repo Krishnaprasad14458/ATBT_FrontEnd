@@ -114,28 +114,48 @@ function Entities() {
     }
   }, [fetcher, navigation]);
   const handleDeleteUser = async (id) => {
-    const confirmDelete = await Swal.fire({
-      title: "Are you sure?",
-      text: "Once deleted, you will not be able to recover this Entity!",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#ea580c",
-      cancelButtonColor: "#fff",
-      confirmButtonText: "Delete",
-      customClass: {
-        popup: "custom-swal2-popup",
-        title: "custom-swal2-title",
-        content: "custom-swal2-content",
-      },
-    });
-    if (confirmDelete.isConfirmed) {
-      try {
-        // const result = await deleteEntitybyId(id);
-        fetcher.submit(id, { method: "DELETE", encType: "application/json" });
-      } catch (error) {
-        Swal.fire("Error", "Unable to delete entity 🤯", "error");
+    let entityUsers = await  atbtApi.post(`entity/User/list/${id}`);
+    if(entityUsers?.data.length === 0 ){
+      const confirmDelete = await Swal.fire({
+        title: "Are you sure?",
+        text: "Once deleted, you will not be able to recover this Entity!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#ea580c",
+        cancelButtonColor: "#fff",
+        confirmButtonText: "Delete",
+        customClass: {
+          popup: "custom-swal2-popup",
+          title: "custom-swal2-title",
+          content: "custom-swal2-content",
+        },
+      });
+      if (confirmDelete.isConfirmed) {
+        try {
+          // const result = await deleteEntitybyId(id);
+          fetcher.submit(id, { method: "DELETE", encType: "application/json" });
+        } catch (error) {
+          Swal.fire("Error", "Unable to delete entity 🤯", "error");
+        }
       }
     }
+    else{
+      const confirmDelete = await Swal.fire({
+        title: "Entity can't be deleted",
+        text: `You cannot delete entity because there are ${entityUsers?.data.length} users(${entityUsers?.data.map((user)=>user.name).join(", ")}) are present`,
+        icon: "warning",
+        showCancelButton: false,
+        confirmButtonColor: "#ea580c",
+        cancelButtonColor: "#fff",
+        confirmButtonText: "Ok",
+        customClass: {
+          popup: "custom-swal2-popup",
+          title: "custom-swal2-title",
+          content: "custom-swal2-content",
+        },
+      });
+    }
+  
   };
   const [tableView, setTableView] = useState(tableViewData);
   const [visibleColumns, setvisibleColumns] = useState();
