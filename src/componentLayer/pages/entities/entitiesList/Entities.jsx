@@ -14,6 +14,8 @@ import atbtApi from "../../../../serviceLayer/interceptor";
 import CustomColumn from "../../../components/tableCustomization/CustomColumn";
 import CustomFilter from "../../../components/tableCustomization/CustomFilter";
 import BreadCrumbs from "../../../components/breadcrumbs/BreadCrumbs";
+const userData = JSON.parse(localStorage.getItem("data"));
+let permissions = userData?.role?.Permissions
 export async function loader({ request, params }) {
   try {
     let url = new URL(request.url);
@@ -323,19 +325,21 @@ function Entities() {
                         }-${year}`;
                       }
                       if (key === "name") {
+                        let meetingPermission = permissions.find((permission=>permission.module ==="meeting"))
                         return (
                           <td
                             key={key}
-                            className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium hover:text-orange-500  overflow-hidden`}
+                            className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium   overflow-hidden`}
                             title={row[key]}
                           >
-                            <GateKeeper
+                          {meetingPermission?.canRead ?   <GateKeeper
                               permissionCheck={(permission) =>
-                                permission.module === "entity" &&
+                                permission.module === "meeting" &&
                                 permission.canRead
                               }
                             >
                               <Link
+                               className="hover:text-orange-500"
                               to={{
                                 pathname: `${row.id}/entityboardmeetings`,
                                 search: `?search=&page=1&pageSize=10`,
@@ -347,7 +351,7 @@ function Entities() {
                                   {caseLetter(value)}
                                 </p>
                               </Link>
-                            </GateKeeper>
+                            </GateKeeper>  :   <p className="truncate text-xs">  {caseLetter(value)}</p>}
                           </td>
                         );
                       } else {

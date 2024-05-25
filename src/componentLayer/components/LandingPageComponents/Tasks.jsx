@@ -12,6 +12,7 @@ import atbtApi from "../../../serviceLayer/interceptor";
 import { debounce } from "../../../utils/utils";
 import subtask_icon from "../../../assets/Images/Subtask_icon.svg";
 import "react-datepicker/dist/react-datepicker.css";
+import GateKeeper from "../../../rbac/GateKeeper";
 let members;
 let status = [
   { label: "To-Do", value: "To-Do" },
@@ -26,22 +27,22 @@ export async function tasksLoader({ request, params }) {
   try {
     const url = new URL(request.url);
 
-   if(url.pathname.split("/")[1] === "users"){
+    if (url.pathname.split("/")[1] === "users") {
       parentPath = "users";
       groupName = "groupUser";
       idOF = "userId";
     }
- if(url.pathname.split("/")[1] === "entities"){
+    if (url.pathname.split("/")[1] === "entities") {
       parentPath = "entities";
       groupName = "groupEntity";
       idOF = "entityId";
     }
-    if(url.pathname.split("/")[1] === "teams"){
+    if (url.pathname.split("/")[1] === "teams") {
       parentPath = "teams";
       groupName = "groupTeam";
       idOF = "teamId";
     }
-    console.log("url",url.pathname.split("/")[1])
+    console.log("url", url.pathname.split("/")[1]);
     const taskID = url.searchParams.get("taskID");
     const subTaskID = url.searchParams.get("subTaskID");
     const statusType = url.searchParams.get("status");
@@ -196,8 +197,6 @@ export async function TasksActions({ request, params }) {
   }
 }
 const Tasks = () => {
-
-  
   let submit = useSubmit();
   const data = useLoaderData();
   let [tasks, setTasks] = useState([]);
@@ -383,20 +382,26 @@ const Tasks = () => {
     <div className="">
       <div className="flex justify-end">
         {BMid && (
-          <button
-            className=" ms-2  mt-3 inline-flex items-center  whitespace-nowrap rounded-2xl text-sm font-medium  transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50  text-orange-foreground shadow hover:bg-orange/90 h-9 px-3 py-1 shrink-0 bg-orange-600 text-white gap-1"
-            onClick={handleAddNewTask}
+          <GateKeeper         
+             permissionCheck={(permission) =>
+              permission.module === "task" && permission.canCreate
+            }
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 20 20"
-              fill="currentColor"
-              className="w-5 h-5"
+            <button
+              className=" ms-2  mt-3 inline-flex items-center  whitespace-nowrap rounded-2xl text-sm font-medium  transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50  text-orange-foreground shadow hover:bg-orange/90 h-9 px-3 py-1 shrink-0 bg-orange-600 text-white gap-1"
+              onClick={handleAddNewTask}
             >
-              <path d="M10.75 4.75a.75.75 0 0 0-1.5 0v4.5h-4.5a.75.75 0 0 0 0 1.5h4.5v4.5a.75.75 0 0 0 1.5 0v-4.5h4.5a.75.75 0 0 0 0-1.5h-4.5v-4.5Z" />
-            </svg>
-            Add Task
-          </button>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+                className="w-5 h-5"
+              >
+                <path d="M10.75 4.75a.75.75 0 0 0-1.5 0v4.5h-4.5a.75.75 0 0 0 0 1.5h4.5v4.5a.75.75 0 0 0 1.5 0v-4.5h4.5a.75.75 0 0 0 0-1.5h-4.5v-4.5Z" />
+              </svg>
+              Add Task
+            </button>
+          </GateKeeper>
         )}
       </div>
       <div>
@@ -472,8 +477,8 @@ const Tasks = () => {
           )}
         </div>
       </div>
-      <div className=" max-h-[410px] overflow-y-auto">
-        <table className="w-full divide-y divide-gray-200 dark:divide-gray-700 rounded-md">
+      <div className=" max-h-[410px] overflow-y-auto ">
+        <table className="w-full divide-y divide-gray-200 dark:divide-gray-700 rounded-md table ">
           <thead>
             <tr>
               <th
@@ -596,14 +601,14 @@ const Tasks = () => {
                     <Select
                       options={members}
                       menuPortalTarget={document.body}
-                     
-                    //   closeMenuOnScroll={e => {
-                    //     if (e.target === refToYourScrolleableContainer) {
-                    //       return true
-                    //     } else {
-                    //       return false
-                    //     }
-                    //  }}
+                      closeMenuOnScroll={(e) => {
+                        // Check if the scroll event originated from within the table
+                        if (e.target.closest("table")) {
+                          return true; // Close the menu when scrolling the table
+                        } else {
+                          return false; // Don't close the menu for other scroll events
+                        }
+                      }}
                       styles={{
                         control: (provided, state) => ({
                           ...provided,
@@ -753,7 +758,6 @@ const Tasks = () => {
                           ...provided,
                           display: state.isFocused ? "visible" : "none",
                         }),
-                      
                       }}
                       theme={(theme) => ({
                         ...theme,
