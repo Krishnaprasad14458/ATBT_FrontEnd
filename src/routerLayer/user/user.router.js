@@ -79,9 +79,7 @@ export const userRouter = [
             action: TasksActions,
             element: (
               <Tasks
-                NameModule="users"
-                tasksWithBm="false"
-                groupName="groupUser"
+              
               />
             ),
             handle: {
@@ -142,7 +140,7 @@ export const userRouter = [
                     path: "tasks",
                     loader: tasksLoader,
                     action: TasksActions,
-                    element: <Tasks NameModule="users" tasksWithBm="true" />,
+                    element: <Tasks />,
                     handle: {
                       crumb: (data) => (
                         <Link to={data?.threadPath}>{data?.threadName}</Link>

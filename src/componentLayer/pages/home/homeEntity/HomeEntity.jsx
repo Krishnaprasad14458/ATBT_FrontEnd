@@ -77,7 +77,7 @@ function HomeEntity() {
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 20 20"
               fill="currentColor"
-              className="w-3 h-3"
+              className="w-3 h-3 "
             >
               <path
                 fill-rule="evenodd"
@@ -90,7 +90,7 @@ function HomeEntity() {
               type="search"
               id="gsearch"
               name="gsearch"
-              className="bg-slate-50 w-80 border-none focus:outline-none appearance-none focus:border-none placeholder:text-sm"
+              className="bg-slate-50 w-80 border-none focus:outline-none appearance-none focus:border-none placeholder:text-sm "
               placeholder="Search here..."
             />
           </div>
@@ -110,11 +110,11 @@ function HomeEntity() {
               data?.Entities?.map((entity) => (
                 <li
                   className="py-2 md:px-5  hover:bg-slate-100"
-                  title= {caseLetter(entity?.name ?? "none")}
+                  title={caseLetter(entity?.name ?? "none")}
                   key={entity.id}
                 >
                   <Link to={`/entities/${entity.id}`}>
-                    <HomeEntityList   entity={entity} />
+                    <HomeEntityList entity={entity} />
                   </Link>
                 </li>
               ))
@@ -147,7 +147,7 @@ function HomeEntity() {
             ) : (
               <p className="text-sm text-gray-700">
                 Showing {data.startEntity} to {data.endEntity} of
-                <span className="text-sm"> {data.totalEntities}</span> 
+                <span className="text-sm"> {data.totalEntities}</span>
               </p>
             )}
           </div>

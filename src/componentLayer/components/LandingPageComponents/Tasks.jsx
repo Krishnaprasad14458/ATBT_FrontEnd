@@ -24,22 +24,24 @@ let groupName;
 let idOF;
 export async function tasksLoader({ request, params }) {
   try {
-    if (params.boardmeetings === "userboardmeetings") {
+    const url = new URL(request.url);
+
+   if(url.pathname.split("/")[1] === "users"){
       parentPath = "users";
       groupName = "groupUser";
       idOF = "userId";
     }
-    if (params.boardmeetings === "entityboardmeetings") {
+ if(url.pathname.split("/")[1] === "entities"){
       parentPath = "entities";
       groupName = "groupEntity";
       idOF = "entityId";
     }
-    if (params.boardmeetings === "teamboardmeetings") {
+    if(url.pathname.split("/")[1] === "teams"){
       parentPath = "teams";
       groupName = "groupTeam";
       idOF = "teamId";
     }
-    const url = new URL(request.url);
+    console.log("url",url.pathname.split("/")[1])
     const taskID = url.searchParams.get("taskID");
     const subTaskID = url.searchParams.get("subTaskID");
     const statusType = url.searchParams.get("status");
@@ -193,8 +195,9 @@ export async function TasksActions({ request, params }) {
     }
   }
 }
-const Tasks = ({ NameModule, tasksWithBm }) => {
-  parentPath = NameModule;
+const Tasks = () => {
+
+  
   let submit = useSubmit();
   const data = useLoaderData();
   let [tasks, setTasks] = useState([]);
@@ -400,7 +403,7 @@ const Tasks = ({ NameModule, tasksWithBm }) => {
         <div className="flex overflow-x-auto my-2">
           {!BMid && (
             <NavLink
-              to={`/${NameModule}/${id}/tasks?status=To-Do`}
+              to={`/${parentPath}/${id}/tasks?status=To-Do`}
               end
               className={`cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09] ${
                 activeLink === "toDo"
@@ -414,7 +417,7 @@ const Tasks = ({ NameModule, tasksWithBm }) => {
           )}
           {!BMid && (
             <NavLink
-              to={`/${NameModule}/${id}/tasks?status=In-Progress`}
+              to={`/${parentPath}/${id}/tasks?status=In-Progress`}
               end
               className={`cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09] ${
                 activeLink === "inProgress"
@@ -429,7 +432,7 @@ const Tasks = ({ NameModule, tasksWithBm }) => {
 
           {!BMid && (
             <NavLink
-              to={`/${NameModule}/${id}/tasks?status=Over-Due`}
+              to={`/${parentPath}/${id}/tasks?status=Over-Due`}
               end
               className={`cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09] ${
                 activeLink === "OverDue"
@@ -443,7 +446,7 @@ const Tasks = ({ NameModule, tasksWithBm }) => {
           )}
           {!BMid && (
             <NavLink
-              to={`/${NameModule}/${id}/tasks?status=Completed`}
+              to={`/${parentPath}/${id}/tasks?status=Completed`}
               end
               className={`cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09] ${
                 activeLink === "Completed"
@@ -457,7 +460,7 @@ const Tasks = ({ NameModule, tasksWithBm }) => {
           )}
           {!BMid && (
             <NavLink
-              to={`/${NameModule}/${id}/tasks`}
+              to={`/${parentPath}/${id}/tasks`}
               end
               className={`cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09] ${
                 activeLink === "Master" ? "border-b-2 border-orange-600" : ""
