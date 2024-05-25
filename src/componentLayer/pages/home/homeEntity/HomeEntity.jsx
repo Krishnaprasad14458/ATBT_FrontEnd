@@ -90,7 +90,10 @@ function HomeEntity() {
               type="search"
               id="gsearch"
               name="gsearch"
-              className="bg-slate-50 w-80 border-none focus:outline-none appearance-none focus:border-none placeholder:text-sm "
+
+              className="bg-slate-50 w-80 border-none focus:outline-none 
+              appearance-none focus:border-none placeholder:text-sm text-sm"
+
               placeholder="Search here..."
             />
           </div>

@@ -232,7 +232,7 @@ function Entities() {
         </div>
       </div>
       {/* table */}
-      <div className="max-h-[457px] overflow-y-scroll mt-5">
+      <div className="max-h-[457px] overflow-y-auto mt-5">
         {visibleColumns && tableView && entities?.Entities && (
           <table className="w-full divide-y divide-gray-200 dark:divide-gray-700 rounded-md">
             <thead>

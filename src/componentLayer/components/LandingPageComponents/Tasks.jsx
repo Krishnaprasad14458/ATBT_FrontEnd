@@ -596,7 +596,14 @@ const Tasks = () => {
                     <Select
                       options={members}
                       menuPortalTarget={document.body}
-                      
+                     
+                    //   closeMenuOnScroll={e => {
+                    //     if (e.target === refToYourScrolleableContainer) {
+                    //       return true
+                    //     } else {
+                    //       return false
+                    //     }
+                    //  }}
                       styles={{
                         control: (provided, state) => ({
                           ...provided,
