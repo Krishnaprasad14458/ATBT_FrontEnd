@@ -1,7 +1,7 @@
 import Tasks from "../../componentLayer/components/LandingPageComponents/Tasks";
 
 export const taskRouter = [
-    { path: 'tasks', element: <Tasks /> },
+    { index :true, element: <Tasks /> },
     // { path: 'task', element: <Task /> },
 
 ]
