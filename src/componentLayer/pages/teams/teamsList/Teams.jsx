@@ -13,6 +13,8 @@ import CustomColumn from "../../../../componentLayer/components/tableCustomizati
 import CustomFilter from "../../../../componentLayer/components/tableCustomization/CustomFilter";
 import atbtApi from "../../../../serviceLayer/interceptor";
 import BreadCrumbs from "../../../components/breadcrumbs/BreadCrumbs";
+const userData = JSON.parse(localStorage.getItem("data"));
+let permissions = userData?.role?.Permissions
 export async function TeamsLoader({ request, params }) {
   try {
     let url = new URL(request.url);
@@ -287,20 +289,23 @@ function Teams() {
                         }-${year}`;
                       }
                       if (key === "name") {
+                                               
+let meetingPermission = permissions.find((permission=>permission.module ==="meeting"))
                         return (
                           <td
                             key={key}
-                            className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium hover:text-orange-500 overflow-hidden`}
+                            className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden`}
                             style={{ maxWidth: "160px" }}
                             title={row[key]}
                           >
-                            <GateKeeper
+                            {meetingPermission?.canRead ?  <GateKeeper
                               permissionCheck={(permission) =>
-                                permission.module === "team" &&
+                                permission.module === "meeting" &&
                                 permission.canRead
                               }
                             >
                               <Link
+                               className="hover:text-orange-500"
                                 to={{
                                   pathname: `${row.id}/teamboardmeetings`,
                                   search: `?search=&page=1&pageSize=10`,
@@ -308,7 +313,7 @@ function Teams() {
                               >
                                 <p className="truncate text-xs"> {value}</p>
                               </Link>
-                            </GateKeeper>{" "}
+                            </GateKeeper> :   <p className="truncate text-xs"> {value}</p> }
                           </td>
                         );
                       }
@@ -370,6 +375,7 @@ function Teams() {
                         >
                           <button
                             type="button"
+                            title="View"
                             className=" inline-flex items-center gap-x-1 text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
                           >
                             <Link to={`${row.id}`}>
@@ -396,6 +402,7 @@ function Teams() {
                         >
                           <button
                             type="button"
+                            title="Edit"
                             className="inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
                           >
                             <Link to={`${row.id}/edit`}>
@@ -417,6 +424,7 @@ function Teams() {
                         >
                           <button
                             type="button"
+                           title="Delete"
                             onClick={() => handleDeleteTeam(row.id)}
                             className=" inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600 delete-button"
                           >

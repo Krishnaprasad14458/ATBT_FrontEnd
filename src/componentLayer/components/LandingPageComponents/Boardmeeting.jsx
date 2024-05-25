@@ -205,25 +205,32 @@ function Boardmeeting() {
             setQParams={setQParams}
             customForm={customForm}
           />
-          <Link
-            className=" px-1 inline-flex items-center  whitespace-nowrap rounded-full  transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground  hover:bg-primary/90 shrink-0 text-white  "
-            to={{
-              pathname: "/boardmeetings/new",
-              search: `?boardmeetingFor=${moduleName}&boardmeetingForID=${id}`,
-            }}
+
+          <GateKeeper
+            permissionCheck={(permission) =>
+              permission.module === "meeting" && permission.canCreate
+            }
           >
-            <button className=" px-1 py-2 inline-flex items-center justify-center  rounded-full  font-medium  gap-1 ">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-                className="w-5 h-5 "
-              >
-                <path d="M10.75 4.75a.75.75 0 0 0-1.5 0v4.5h-4.5a.75.75 0 0 0 0 1.5h4.5v4.5a.75.75 0 0 0 1.5 0v-4.5h4.5a.75.75 0 0 0 0-1.5h-4.5v-4.5Z" />
-              </svg>
-              <span className="text-sm"> Create</span>
-            </button>
-          </Link>
+            <Link
+              className=" px-1 inline-flex items-center  whitespace-nowrap rounded-full  transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground  hover:bg-primary/90 shrink-0 text-white  "
+              to={{
+                pathname: "/boardmeetings/new",
+                search: `?boardmeetingFor=${moduleName}&boardmeetingForID=${id}`,
+              }}
+            >
+              <button className=" px-1 py-2 inline-flex items-center justify-center  rounded-full  font-medium  gap-1 ">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                  className="w-5 h-5 "
+                >
+                  <path d="M10.75 4.75a.75.75 0 0 0-1.5 0v4.5h-4.5a.75.75 0 0 0 0 1.5h4.5v4.5a.75.75 0 0 0 1.5 0v-4.5h4.5a.75.75 0 0 0 0-1.5h-4.5v-4.5Z" />
+                </svg>
+                <span className="text-sm"> Create</span>
+              </button>
+            </Link>
+          </GateKeeper>
         </div>
       </div>
       {/* table */}
@@ -268,7 +275,7 @@ function Boardmeeting() {
                   scope="col"
                   className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2 border-l-2 border-gray-200"
                 >
-                   Completed Tasks
+                  Completed Tasks
                 </th>
                 <th
                   scope="col"
@@ -332,7 +339,7 @@ function Boardmeeting() {
                           >
                             <GateKeeper
                               permissionCheck={(permission) =>
-                                permission.module === "meeting" &&
+                                permission.module === "task" &&
                                 permission.canRead
                               }
                             >
@@ -388,7 +395,7 @@ function Boardmeeting() {
                       title=""
                     >
                       <p className="truncate text-xs">
-                      {row.taskCounts.overDueCount}
+                        {row.taskCounts.overDueCount}
                       </p>
                     </td>
                     <td
@@ -397,7 +404,6 @@ function Boardmeeting() {
                       title=""
                     >
                       <p className="truncate text-xs">
-                       
                         {row.taskCounts.completedCount}
                       </p>
                     </td>
@@ -505,7 +511,8 @@ function Boardmeeting() {
             ) : (
               <p className="text-sm text-gray-700">
                 Showing {meetings?.startMeeting} to {meetings?.endMeeting} of
-                <span className="text-sm"> {meetings?.totalMeetings} </span></p>
+                <span className="text-sm"> {meetings?.totalMeetings} </span>
+              </p>
             )}
           </div>
           <section

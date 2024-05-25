@@ -18,6 +18,7 @@ import CustomFilter from "../../../../componentLayer/components/tableCustomizati
 import atbtApi from "../../../../serviceLayer/interceptor";
 import BreadCrumbs from "../../../components/breadcrumbs/BreadCrumbs";
 const userData = JSON.parse(localStorage.getItem("data"));
+let permissions = userData?.role?.Permissions
 const userId = userData?.user?.id;
 const role = userData?.role?.name;
 export async function loader({ request, params }) {
@@ -342,20 +343,24 @@ function Users() {
                       }
 
                       if (key === "name") {
+                       
+let meetingPermission = permissions.find((permission=>permission.module ==="meeting"))
+
                         return (
                           <td
                             key={key}
-                            className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  hover:text-orange-500 overflow-hidden`}
+                            className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium   overflow-hidden`}
                             style={{ maxWidth: "12rem" }}
                             title={row[key]}
                           >
-                            <GateKeeper
+                           {meetingPermission?.canRead ? <GateKeeper
                               permissionCheck={(permission) =>
-                                permission.module === "user" &&
+                                permission.module === "meeting" &&
                                 permission.canRead
                               }
                             >
                               <Link
+                              className="hover:text-orange-500"
                                 to={{
                                   pathname: `${row.id}/userboardmeetings`,
                                   search: `?search=&page=1&pageSize=10`,
@@ -363,7 +368,9 @@ function Users() {
                               >
                                 <p className="truncate text-xs"> {value}</p>
                               </Link>
-                            </GateKeeper>
+                            </GateKeeper> :   <p className="truncate text-xs"> {value}</p> }
+                           
+                            
                           </td>
                         );
                       } else if (key === "entityname") {
@@ -419,7 +426,7 @@ function Users() {
                       <div className="flex justify-center gap-4">
                         <GateKeeper
                           permissionCheck={(permission) =>
-                            permission.module === "user" && permission.canCreate
+                            permission.module === "user" && permission.canRead
                           }
                         >
                           <button
@@ -469,7 +476,7 @@ function Users() {
                         </GateKeeper>
                         <GateKeeper
                           permissionCheck={(permission) =>
-                            permission.module === "user" && permission.canUpdate
+                            permission.module === "user" && permission.canDelete
                           }
                         >
                           {
