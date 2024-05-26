@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import Select from "react-select";
 function CustomFilter({
   fieldsDropDownData = {},
   Qparams,
@@ -107,10 +108,10 @@ function CustomFilter({
         style={{ transition: "opacity 0.3s ease-in-out" }}
       >
         <div
-          className="fixed inset-y-0 right-0 w-full md:w-3/12 lg:w-2/12 xl:w-2/12 bg-white shadow-lg transform translate-x-full transition-transform duration-300 ease-in-out  "
-        style={{
-        transform: `translateX(${filterDrawerOpen ? "0%" :"100%"})`,
-        transition: "transform 0.3s ease-in-out",
+          className="fixed inset-y-0 right-0 w-full md:w-4/12 lg:w-1/5 xl:w-1/5 bg-white shadow-lg transform translate-x-full transition-transform duration-300 ease-in-out  "
+          style={{
+            transform: `translateX(${filterDrawerOpen ? "0%" : "100%"})`,
+            transition: "transform 0.3s ease-in-out",
           }}
         >
           <div className=" bg-gray-100 px-5 py-4 flex justify-between z-[3] ">
@@ -145,50 +146,57 @@ function CustomFilter({
                       <div>
                         <label className="block text-sm font-medium leading-6 mt-2 text-[#878a99]">
                           {filter.label.charAt(0).toUpperCase() +
-                            filter.label.slice(1)} :
+                            filter.label.slice(1)}{" "}
+                          :
                         </label>
-                        
-                        <div className="grid grid-cols-6 md:grid-cols-6 lg:grid-cols-6 xl:grid-cols-6 gap-2">
 
+                        <div className="grid grid-cols-6 md:grid-cols-6 lg:grid-cols-6 xl:grid-cols-6 gap-2">
                           <div className="col-span-3">
-                            <p className="block text-xs font-medium leading-6 mt-1 text-[#878a99]"> From</p>
+                            <p className="block text-xs font-medium leading-6 mt-1 text-[#878a99]">
+                              {" "}
+                              From
+                            </p>
                             <input
-                          type={filter.type}
-                          id={filter.inputname}
-                          name={filter.inputname}
-                          className="px-2 py-2 text-xs block w-full rounded-md bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder:text-xs"
-                          onChange={(e) =>
-                            handleDateFilterChange(
-                              filter.inputname,
-                              e.target.value,
-                              "from"
-                            )
-                          }
-                          value={selectedFilters[filter.inputname]?.from || ""}
-                        />
+                              type={filter.type}
+                              id={filter.inputname}
+                              name={filter.inputname}
+                              className="px-2 py-2 text-xs block w-full rounded-md bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder:text-xs"
+                              onChange={(e) =>
+                                handleDateFilterChange(
+                                  filter.inputname,
+                                  e.target.value,
+                                  "from"
+                                )
+                              }
+                              value={
+                                selectedFilters[filter.inputname]?.from || ""
+                              }
+                            />
                           </div>
                           <div className="col-span-3">
-                          <p className="block text-xs font-medium leading-6 mt-1 text-[#878a99]"> To</p>
-                          <input
-                          type={filter.type}
-                          id={filter.inputname}
-                          name={filter.inputname}
-                          className="px-2 py-2 text-xs block w-full rounded-md bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder:text-xs"
-                          onChange={(e) =>
-                            handleDateFilterChange(
-                              filter.inputname,
-                              e.target.value,
-                              "to"
-                            )
-                          }
-                          value={selectedFilters[filter.inputname]?.to || ""}
-                        />
-
+                            <p className="block text-xs font-medium leading-6 mt-1 text-[#878a99]">
+                              {" "}
+                              To
+                            </p>
+                            <input
+                              type={filter.type}
+                              id={filter.inputname}
+                              name={filter.inputname}
+                              className="px-2 py-2 text-xs block w-full rounded-md bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder:text-xs"
+                              onChange={(e) =>
+                                handleDateFilterChange(
+                                  filter.inputname,
+                                  e.target.value,
+                                  "to"
+                                )
+                              }
+                              value={
+                                selectedFilters[filter.inputname]?.to || ""
+                              }
+                            />
                           </div>
                         </div>
-                       
                       </div>
-                   
                     </div>
                   )}
                   {/* for time filter */}
@@ -220,10 +228,88 @@ function CustomFilter({
                         </label>
 
                         <div className="relative">
+                        {/* {filter.options &&
+                              filter.options.type === "predefined" &&
+                              filter.options.value &&
+                              fieldsDropDownData[filter.options.value]?.map( */}
+
+                          {/* {filter?.options &&
+                            filter?.options?.type === "predefined" &&
+                            filter.options.value && 
+                          
+                            (() => {
+                              const options = fieldsDropDownData[filter.options.value]?.map(
+                                (option) => ({
+                                  label: option,
+                                  value: option,
+                                })
+                              );
+                              return (
+                                <Select
+                                  id={filter.inputname}
+                                  name={filter.inputname}
+                                  options={options}
+                                  styles={{
+                                    control: (provided, state) => ({
+                                      ...provided,
+                                      backgroundColor: "#f9fafb", 
+                                      borderWidth: state.isFocused
+                                        ? "1px"
+                                        : "1px",
+                                      borderColor: state.isFocused
+                                        ? "#orange-400"
+                                        : "#d1d5db", 
+                                      boxShadow: state.isFocused
+                                        ? "none"
+                                        : provided.boxShadow, 
+                                    }),
+                                    placeholder: (provided) => ({
+                                      ...provided,
+                                      fontSize: "12px", 
+                                      color: "#a9a9a9",
+                                    }),
+                                    option: (provided, state) => ({
+                                      ...provided,
+                                      color: state.isFocused
+                                        ? "#fff"
+                                        : "#000000",
+                                      backgroundColor: state.isFocused
+                                        ? "#ea580c"
+                                        : "transparent",
+
+                                      "&:hover": {
+                                        color: "#fff",
+                                        backgroundColor: "#ea580c",
+                                      },
+                                    }),
+                                    fontSize: "14px",
+                                  }}
+                                  theme={(theme) => ({
+                                    ...theme,
+                                    borderRadius: 5,
+                                    colors: {
+                                      ...theme.colors,
+
+                                      primary: "#fb923c",
+                                    },
+                                  })}
+                                  value={
+                                    selectedFilters[filter.inputname] !== ""
+                                  }
+                                  onChange={(e) =>
+                                    handleFilterChange(
+                                      filter.inputname,
+                                      e.target.value
+                                    )
+                                  }
+                                />
+                              );
+                            })()} */}
+
                           <select
                             id={filter.inputname}
                             name={filter.inputname}
-                            className="px-2 py-2 text-xs block w-full rounded-md bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder:text-gray-400 appearance-none"
+                            className="px-2 py-2 text-xs block w-full rounded-md bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder:text-gray-400 appearance-none "
                             // px-2 py-2 my-2 text-sm w-full bg-gray-50 rounded-md text-gray-900 border border-1 border-[#e9ebec] placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-xs sm:leading-6
                             onChange={(e) =>
                               handleFilterChange(
@@ -250,6 +336,7 @@ function CustomFilter({
                                   key={index}
                                   value={option}
                                   style={{ color: "#111827" }}
+                                  className="flex-wrap"
                                 >
                                   {option}
                                 </option>
@@ -263,6 +350,7 @@ function CustomFilter({
                                     key={index}
                                     value={option.id}
                                     style={{ color: "#111827" }}
+                                    className="flex-wrap"
                                   >
                                     {option.name}
                                   </option>

@@ -660,7 +660,7 @@ let meetingPermission = permissions.find((permission=>permission.module ==="meet
             <select
               value={Qparams?.pageSize}
               onChange={handlePerPageChange}
-              className="focus:outline-none me-3 rounded-md bg-[#f8fafc]  px-1 py-1.5 text-sm font-semibold  ring-1 ring-inset ring-gray-300 hover:bg-gray-50 shadow-sm  text-gray-500"
+              className="focus:outline-none me-3 rounded-md bg-[#f8fafc]  px-1 py-1.5 text-sm font-semibold  ring-1 ring-inset ring-gray-300 hover:bg-gray-50 shadow-sm  text-gray-500 cursor-pointer"
             >
               <option value="10">10</option>
               <option value="25">25</option>
@@ -670,7 +670,7 @@ let meetingPermission = permissions.find((permission=>permission.module ==="meet
               <option value="500">500</option>
             </select>
             {/* previos button */}
-            <button
+            <button 
               disabled={
                 navigation?.state === "loading"
                   ? true
