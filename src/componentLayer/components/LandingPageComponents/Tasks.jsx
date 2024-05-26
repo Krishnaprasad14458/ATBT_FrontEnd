@@ -601,14 +601,7 @@ const Tasks = () => {
                     <Select
                       options={members}
                       menuPortalTarget={document.body}
-                      closeMenuOnScroll={(e) => {
-                        // Check if the scroll event originated from within the table
-                        if (e.target.closest("table")) {
-                          return true; // Close the menu when scrolling the table
-                        } else {
-                          return false; // Don't close the menu for other scroll events
-                        }
-                      }}
+                      closeMenuOnScroll={() => true}
                       styles={{
                         control: (provided, state) => ({
                           ...provided,
