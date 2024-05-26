@@ -473,7 +473,7 @@ let meetingPermission = permissions.find((permission=>permission.module ==="meet
             <select
               defaultValue="10"
               onChange={handlePerPageChange}
-              className="focus:outline-none me-3 gap-x-1.5 rounded-md bg-gray-50 px-1 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-200 hover:bg-gray-50"
+              className="focus:outline-none me-3 gap-x-1.5 rounded-md bg-gray-50 px-1 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-200 hover:bg-gray-50 cursor-pointer"
             >
               <option value="10">10</option>
               <option value="25">25</option>

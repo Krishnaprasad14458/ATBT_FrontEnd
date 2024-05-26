@@ -106,7 +106,7 @@ function UserForm() {
   let [customFormFields, setCustomFormFields] = useState(() =>
     setInitialForm()
   );
-  useEffect(() => {
+    useEffect(() => {
     setCustomFormFields(setInitialForm());
   }, [id]);
 
