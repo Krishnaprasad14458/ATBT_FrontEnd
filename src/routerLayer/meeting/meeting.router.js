@@ -20,32 +20,20 @@ export const meetingRouter = [
     action: meetingAction,
     element: <BoardMeetings />,
   },
-  {
-    path: "new",
-    loader: boardmeetingFormLoader,
-    element: <BoardMeetingForm />,
-  },
-  {
-    path: ":id",
-    children: [
-      {
-        path: "edit",
-        loader: boardmeetingFormLoader,
-        element: <BoardMeetingForm />,
-      },
-      // {
-      //   element: <BoardMeetingLandingPage />,
-      //   children: [
-      //     { index: true, element: <BoardMeetingOverview /> },
-      //     {
-      //       path: "task",
-      //       loader: tasksLoader,
-      //       action: TasksActions,
-      //       element: <Tasks />,
-      //     },
-      //     { path: "documents", element: <Documents /> },
-      //   ],
-      // },
-    ],
-  },
+  // {
+  //   path: "new",
+  //   loader: boardmeetingFormLoader,
+  //   element: <BoardMeetingForm />,
+  // },
+  // {
+  //   path: ":id",
+  //   children: [
+  //     {
+  //       path: "edit",
+  //       loader: boardmeetingFormLoader,
+  //       element: <BoardMeetingForm />,
+  //     },
+      
+  //   ],
+  // },
 ];
