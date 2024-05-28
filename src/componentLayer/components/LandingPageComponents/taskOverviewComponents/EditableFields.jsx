@@ -4,7 +4,7 @@ const EditableFields = ({
   task,
   handleOverviewTaskChange,
   handleSubmit,
-  members,
+
   priority,
   taskDecision,
   setSubTask,
@@ -12,6 +12,10 @@ const EditableFields = ({
   setDisplayOverviewSubTask,
   displayOverviewSubTask,
 }) => {
+  let members = task?.group?.map((user) => ({
+    label: user.name,
+    value: user.id,
+  }));
   console.log("taskDecision", taskDecision);
   return (
     <>
@@ -38,8 +42,6 @@ const EditableFields = ({
          Sub Task
        </span>
      </div>
-     
-      
         )}
         <label className="block text-xs font-medium leading-6 my-1 text-[1e1f21]">
           Decision Taken
