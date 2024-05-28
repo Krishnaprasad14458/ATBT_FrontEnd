@@ -4,8 +4,9 @@ import Reports,{
   } from "../../componentLayer/pages/reports/Reports";
 
 export const reportRouter = [
-    { path: "reports",
+   
+   
+    { index:true,
     loader:reportLoader,
     element: <Reports /> },
-    // { index:true, element: <Reports /> },
 ]
