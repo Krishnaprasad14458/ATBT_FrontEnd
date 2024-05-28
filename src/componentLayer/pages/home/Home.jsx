@@ -5,7 +5,12 @@ import HomeUser from "./homeUser/HomeUser";
 import HomeEntity from "./homeEntity/HomeEntity";
 import GateKeeper from "../../../rbac/GateKeeper";
 import atbtApi from "../../../serviceLayer/interceptor";
-import { useActionData, useFetcher, useFetchers } from "react-router-dom";
+import {
+  useActionData,
+  useFetcher,
+  useFetchers,
+  useLoaderData,
+} from "react-router-dom";
 export async function loader({ request, params }) {
   try {
     let url = new URL(request.url);
@@ -20,6 +25,7 @@ export async function loader({ request, params }) {
       atbtApi.post(`/entity/list?search=${entity}`, {}),
       atbtApi.post(`/team/list?search=${team}`, {}),
       atbtApi.post(`/boardmeeting/list?search=${meeting}`, {}),
+      atbtApi.get(`/task/taskcount`),
     ];
 
     const results = await Promise.allSettled(requests);
@@ -40,8 +46,15 @@ export async function loader({ request, params }) {
       }
     });
 
-    const [userList, entityList, teamList, meetingList] = successfulResults;
-    const combinedResponse = { userList, entityList, teamList, meetingList };
+    const [userList, entityList, teamList, meetingList, count] =
+      successfulResults;
+    const combinedResponse = {
+      userList,
+      entityList,
+      teamList,
+      meetingList,
+      count,
+    };
     console.log(combinedResponse, "allSettled");
     return combinedResponse;
   } catch (error) {
@@ -90,7 +103,7 @@ export async function action({ request, params }) {
 
     const [userList, entityList, teamList, meetingList] = successfulResults;
     const combinedResponse = { userList, entityList, teamList, meetingList };
-    console.log(combinedResponse, "allSettled");
+    console.log(combinedResponse, "allSettledt");
     return combinedResponse;
   } catch (error) {
     if (!error.response.status === 403) {
@@ -106,6 +119,8 @@ function Home() {
   const fetchers = useFetchers();
   const fetcher = useFetcher();
   let actionData = useActionData();
+  let data = useLoaderData();
+  console.log("data", data);
   const localStorageData = JSON.parse(localStorage.getItem("data"));
   useEffect(() => {
     if (fetcher.state === "idle" && !fetcher.data) {
@@ -146,31 +161,39 @@ function Home() {
             <p className="mr-4 lg:ml-4 px-2 pt-1 text-xs text-[#929297]">
               Total Tasks
             </p>
-            <p className="mr-4 lg:ml-4 px-2 font-semibold">0</p>
+            <p className="mr-4 lg:ml-4 px-2 font-semibold">
+              {data.count.allTasksCount}
+            </p>
           </div>
           <div className=" todo_tasks border-r-2 border-black-100 bg-gray-100 p-2">
             <p className="mr-4 lg:ml-4 px-2 pt-1 text-xs text-[#929297]">
               To-Do Tasks
             </p>
-            <p className="mr-4 lg:ml-4 px-2 font-semibold">0</p>
+            <p className="mr-4 lg:ml-4 px-2 font-semibold">{data.count.toDoCount}</p>
           </div>
           <div className=" in_progress_tasks border-r-2 border-black-100 bg-gray-100 p-2">
             <p className="mr-4 lg:ml-4 px-2 pt-1 text-xs text-[#929297]">
               In-Progress Tasks
             </p>
-            <p className="mr-4 lg:ml-4 px-2 font-semibold">0</p>
+            <p className="mr-4 lg:ml-4 px-2 font-semibold">
+              {data.count.inProgressCount}
+            </p>
           </div>
           <div className="  overdue_tasks border-r-2 border-black-100 bg-gray-100 p-2">
             <p className="mr-4 lg:ml-4 px-2 pt-1 text-xs text-[#929297]">
-                Overdue Tasks
+              Overdue Tasks
             </p>
-            <p className="mr-4 lg:ml-4 px-2 font-semibold">0</p>
+            <p className="mr-4 lg:ml-4 px-2 font-semibold">
+              {data.count.overdueCount}
+            </p>
           </div>
           <div className=" completed_tasks border-black-100 bg-gray-100 p-2 rounded-e-full">
             <p className="mr-4 lg:ml-4 px-2 pt-1 text-xs text-[#929297]">
-            Completed Tasks
+              Completed Tasks
             </p>
-            <p className="mr-4 lg:ml-4 px-2 font-semibold">0</p>
+            <p className="mr-4 lg:ml-4 px-2 font-semibold">
+              {data.count.completedCount}
+            </p>
           </div>
         </div>
       </div>

@@ -183,7 +183,7 @@ const TaskOverview = ({
         handleSubmit={
           displayOverviewTask ? handleSubmit : handleSubTaskSubmit
         }
-          members={members}
+          // members={members}
           task={
             displayOverviewTask ? task : subTask
           }
