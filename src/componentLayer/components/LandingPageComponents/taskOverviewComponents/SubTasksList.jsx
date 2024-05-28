@@ -1,9 +1,7 @@
 import React from "react";
 import Select from "react-select";
 import { useFetcher } from "react-router-dom";
-
 const SubTasksList = ({
-  members,
   task,
   handleAddSubTask,
   subTasks,
@@ -35,8 +33,9 @@ const SubTasksList = ({
       console.log(error, "which error");
     }
   };
+
   return (
-    <div className="pb-3 ">
+    <div className=" ">
       <div className="flex justify-end pe-3">
         <button
           onClick={() => handleAddSubTask(task?.id)}
@@ -53,8 +52,9 @@ const SubTasksList = ({
           Add Subtask
         </button>
       </div>
-      <div className="overflow-auto">
-        <table className="w-full">
+   
+      <div className="">
+        <table className="w-full divide-y divide-gray-200 dark:divide-gray-700 rounded-md ">
           <thead></thead>
           <tbody>
             {subTasks &&
@@ -63,14 +63,18 @@ const SubTasksList = ({
                   task?.decision === null || task?.decision === ""
                     ? "2rem"
                     : "";
+                    let members = task?.group?.map((user) => ({
+                      label: user.name,
+                      value: user.id,
+                    }));
                 return (
-                  <tr key={task.id} className="border-b border-gray-200 w-full">
+                  <tr key={task.id} className="border-b border-gray-200 ">
                     <td className="border py-1.5 px-2">
-                      <div className="flex items-center">
+                      <div className="flex items-center justify-between">
                         {isInputActiveID === task.id && (
                           <input
                             className="border border-[#d1d5db] text-black px-1.5 py-1.5 rounded-md  bg-[#f9fafb] focus:outline-none text-sm focus:border-orange-400 "
-                            style={{ width: "15rem" }}
+                            
                             type="text"
                             placeholder="Type here"
                             value={task?.decision}
@@ -134,10 +138,10 @@ const SubTasksList = ({
                     <td
                       className="border py-1.5 px-2"
                       title={task?.members}
-                      style={{ width: "16rem" }}
+                      style={{width:"12rem"}}
                     >
                       <Select
-                        // menuPortalTarget={document.body}
+                       
                         options={members}
                         styles={{
                           control: (provided, state) => ({
@@ -164,7 +168,7 @@ const SubTasksList = ({
                             "&:focus-within": {
                               borderColor: "#fb923c",
                             },
-                            width: "8rem",
+                          
                           }),
                           option: (provided, state) => ({
                             ...provided,
@@ -176,6 +180,7 @@ const SubTasksList = ({
                               color: "#fff",
                               backgroundColor: "#ea580c",
                             },
+                        
                           }),
                           indicatorSeparator: (provided, state) => ({
                             ...provided,
@@ -219,14 +224,19 @@ const SubTasksList = ({
                                 (person) => person.value === task?.members
                               )
                         }
-                        menuPlacement="auto"
+                       menuPlacement="auto"
                       />
                     </td>
-                    <td className="border py-1.5 px-2">
+                    <td style={{width:"7rem"}} className="border py-1.5 px-2">
+
                       <input
-                        style={{ width: "8rem" }}
+                        
                         className=" border border-transparent text-black px-1.5 py-2 rounded-md  bg-white-50 focus:outline-none text-sm focus:border-orange-400  date_type"
                         type="date"
+                        style={{
+                          fontSize: "0.8rem",
+                          WebkitAppearance: "none",
+                        }}
                         value={task?.dueDate}
                         onChange={(e) => {
                           handleSubmit(task?.id, "dueDate", e.target.value);
@@ -236,9 +246,11 @@ const SubTasksList = ({
                     </td>
                     <td
                       className="border py-1.5 px-2"
-                      style={{ width: "14rem" }}
+                    style={{width:"8rem"}}
                     >
                       <Select
+                   
+                      
                         options={status}
                         styles={{
                           control: (provided, state) => ({
@@ -264,7 +276,7 @@ const SubTasksList = ({
                             "&:focus-within": {
                               borderColor: "#fb923c",
                             },
-                            width: "8rem",
+                          width:"8rem"
                           }),
                           option: (provided, state) => ({
                             ...provided,
@@ -313,10 +325,10 @@ const SubTasksList = ({
                         className="basic-multi-select"
                         classNamePrefix="select"
                         value={{ label: task?.status, value: task?.status }}
-                        menuPlacement="auto"
+                        
                       />
                     </td>
-                    <td className="border py-1.5 px-2 text-sm  text-gray-600">
+                    {/* <td className="border py-1.5 px-2 text-sm  text-gray-600" >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 20 20"
@@ -330,7 +342,7 @@ const SubTasksList = ({
                           clip-rule="evenodd"
                         />
                       </svg>
-                    </td>
+                    </td> */}
                   </tr>
                 );
               })}

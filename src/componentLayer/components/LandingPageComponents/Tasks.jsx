@@ -12,48 +12,59 @@ import atbtApi from "../../../serviceLayer/interceptor";
 import { debounce } from "../../../utils/utils";
 import subtask_icon from "../../../assets/Images/Subtask_icon.svg";
 import "react-datepicker/dist/react-datepicker.css";
-let members;
+import GateKeeper from "../../../rbac/GateKeeper";
+
+
 let status = [
   { label: "To-Do", value: "To-Do" },
   { label: "In-Progress", value: "In-Progress" },
   { label: "Completed", value: "Completed" },
 ];
-let moduleName;
-let parentPath
+
+let parentPath;
+// let groupName;
+let idOF;
 export async function tasksLoader({ request, params }) {
   try {
-    if (params.boardmeetings === "userboardmeetings") {
-      moduleName = "user";
-      parentPath = "users"
-    }
-    if (params.boardmeetings === "entityboardmeetings") {
-      moduleName = "entity";
-    }
     const url = new URL(request.url);
 
+    if (url.pathname.split("/")[1] === "users") {
+      parentPath = "users";
+      // groupName = "groupUser";
+      idOF = "userId";
+    }
+    if (url.pathname.split("/")[1] === "entities") {
+      parentPath = "entities";
+      // groupName = "groupEntity";
+      idOF = "entityId";
+    }
+    if (url.pathname.split("/")[1] === "teams") {
+      parentPath = "teams";
+      // groupName = "groupTeam";
+      idOF = "teamId";
+    }
+    console.log("url", url.pathname.split("/")[1]);
     const taskID = url.searchParams.get("taskID");
     const subTaskID = url.searchParams.get("subTaskID");
     const statusType = url.searchParams.get("status");
     console.log("statusType", statusType);
-    const [tasks, task, subTasks, subTask, personResponsible] =
+    const [tasks, task, subTasks, subTask] =
       await Promise.all([
         params.BMid
           ? atbtApi.get(`task/list?meetingId=${params.BMid}`)
           : statusType !== null
-          ? atbtApi.get(`task/list?userId=${params.id}&status=${statusType}`)
-          : atbtApi.get(`task/list?userId=${params.id}`),
+          ? atbtApi.get(`task/list?${idOF}=${params.id}&status=${statusType}`)
+          : atbtApi.get(`task/list?${idOF}=${params.id}`),
         // atbtApi.get(`task/listAll?user=${params.id}`),
         taskID ? atbtApi.get(`task/listbyid/${taskID}`) : null,
         taskID ? atbtApi.get(`task/subList/${taskID}`) : null,
         subTaskID ? atbtApi.get(`task/subtaskbyid/${subTaskID}`) : null,
-        atbtApi.get(`/boardmeeting/groupUser/${params.BMid}`),
-        // atbtApi.get(`task/listAll?user=103`)
-        // Api For Get boardmeeting members
-        // get('/groupEntity/:id')                Meeting.ListEntiyGroup
-        // get('/groupTeam/:id',)            Meeting.ListTeamGroup)
-        // get('/groupUser/:id')              Meeting.ListUserGroup)
+        // groupName && params.BMid
+        //   ? atbtApi.get(`/boardmeeting/${groupName}/${params.BMid}`)
+        //   : {},
+       
       ]);
-console.log("personResponsiblee",personResponsible)
+    // console.log("personResponsiblee", personResponsible);
     let updatedTask = task?.data[0];
     let updatedSubTask = subTask?.data[0];
     let taskAge = null;
@@ -79,12 +90,14 @@ console.log("personResponsiblee",personResponsible)
       task: updatedTask,
       subTasks: subTasks?.data?.Task,
       subTask: updatedSubTask,
-      personResponsible: personResponsible?.data?.map((user) => ({
-        label: user.name,
-        value: user.id,
-      })),
-      threadName: params.BMid ? ` Board Meetings Tasks` : "User Tasks",
-      threadPath: params.BMid ? `/${parentPath}/${params.id}/${params.boardmeetings}/${params.BMid}/tasks` : `/${parentPath}/${params.id}/tasks` ,
+      // personResponsible: personResponsible?.data?.map((user) => ({
+      //   label: user.name,
+      //   value: user.id,
+      // })),
+      threadName: params.BMid ? ` Board Meetings Tasks` : `Tasks`,
+      threadPath: params.BMid
+        ? `/${parentPath}/${params.id}/${params.boardmeetings}/${params.BMid}/tasks`
+        : `/${parentPath}/${params.id}/tasks`,
     };
     console.log("combinedResponse", combinedResponse);
     return combinedResponse;
@@ -105,22 +118,13 @@ export async function TasksActions({ request, params }) {
       {
         const requestBody = (await request.json()) || null;
         console.log(requestBody, "request");
-        let moduleName;
-        if (params.boardmeetings === "userboardmeetings") {
-          moduleName = "users";
-        }
-        if (params.boardmeetings === "entityboardmeetings") {
-          moduleName = "entity";
-        }
-        if (params.boardmeetings === "entityboardmeetings") {
-          moduleName = "team";
-        }
+
         if (requestBody.type === "ADD_NEW_TASK") {
           return await atbtApi.post(
             `task/add/${params.BMid}`,
 
             {
-              taskCreatedBy: { name: moduleName, id: params.id },
+              taskCreatedBy: { name: parentPath, id: params.id },
               collaborators: [
                 parseInt(JSON.parse(localStorage.getItem("data")).user.id),
               ],
@@ -196,7 +200,7 @@ const Tasks = () => {
   let [task, setTask] = useState({});
   let [subTasks, setSubTasks] = useState();
   let [subTask, setSubTask] = useState();
-  members = data?.personResponsible;
+  // members = data?.personResponsible;
   useEffect(() => {
     setTasks(data?.tasks);
     setTask(data?.task);
@@ -206,9 +210,13 @@ const Tasks = () => {
 
   let fetcher = useFetcher();
   const { id, BMid } = useParams();
-  const [Qparams, setQParams] = useState({
-    //  taskID:null
-    status: "To-Do",
+  const [Qparams, setQParams] = useState(() => {
+    // Initialize the state object conditionally
+    const initialState = {};
+    if (!BMid) {
+      initialState.status = "To-Do";
+    }
+    return initialState;
   });
   useEffect(() => {
     debouncedParams(Qparams);
@@ -220,6 +228,7 @@ const Tasks = () => {
     }, 500),
     []
   );
+
   const [overViewTask, setOverViewTask] = useState(false);
   const [displayOverviewTask, setDisplayOverviewTask] = useState(false);
   const [displayOverviewSubTask, setDisplayOverviewSubTask] = useState(false);
@@ -353,46 +362,64 @@ const Tasks = () => {
   const handleNavLinkClick = (link) => {
     setActiveLink(link);
   };
+  // for previous dates defult
+  const getCurrentDate = () => {
+    const today = new Date();
+    const year = today.getFullYear();
+    let month = today.getMonth() + 1;
+    let day = today.getDate();
+
+    month = month < 10 ? `0${month}` : month;
+    day = day < 10 ? `0${day}` : day;
+
+    return `${year}-${month}-${day}`;
+  };
 
   return (
     <div className="">
       <div className="flex justify-end">
         {BMid && (
-          <button
-            className=" ms-2  mt-1 inline-flex items-center  whitespace-nowrap rounded-2xl text-sm font-medium  transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50  text-orange-foreground shadow hover:bg-orange/90 h-9 px-3 py-1 shrink-0 bg-orange-600 text-white gap-1"
-            onClick={handleAddNewTask}
+          <GateKeeper         
+             permissionCheck={(permission) =>
+              permission.module === "task" && permission.canCreate
+            }
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 20 20"
-              fill="currentColor"
-              className="w-5 h-5"
+            <button
+              className=" ms-2  mt-3 inline-flex items-center  whitespace-nowrap rounded-2xl text-sm font-medium  transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50  text-orange-foreground shadow hover:bg-orange/90 h-9 px-3 py-1 shrink-0 bg-orange-600 text-white gap-1"
+              onClick={handleAddNewTask}
             >
-              <path d="M10.75 4.75a.75.75 0 0 0-1.5 0v4.5h-4.5a.75.75 0 0 0 0 1.5h4.5v4.5a.75.75 0 0 0 1.5 0v-4.5h4.5a.75.75 0 0 0 0-1.5h-4.5v-4.5Z" />
-            </svg>
-            Add Task
-          </button>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+                className="w-5 h-5"
+              >
+                <path d="M10.75 4.75a.75.75 0 0 0-1.5 0v4.5h-4.5a.75.75 0 0 0 0 1.5h4.5v4.5a.75.75 0 0 0 1.5 0v-4.5h4.5a.75.75 0 0 0 0-1.5h-4.5v-4.5Z" />
+              </svg>
+              Add Task
+            </button>
+          </GateKeeper>
         )}
       </div>
       <div>
         <div className="flex overflow-x-auto my-2">
           {!BMid && (
             <NavLink
-              to={`/users/${id}/tasks?status=To-Do`}
+              to={`/${parentPath}/${id}/tasks?status=To-Do`}
               end
               className={`cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09] ${
-                activeLink === "toDo" ? "border-b-2 border-orange-500 text-orange-600" : ""
+                activeLink === "toDo"
+                  ? "border-b-2 border-orange-500 text-orange-600"
+                  : ""
               }`}
               onClick={() => handleNavLinkClick("toDo")}
             >
-              To do
+              To-Do
             </NavLink>
           )}
           {!BMid && (
             <NavLink
-            
-              to={`/users/${id}/tasks?status=In-Progress`}
-
+              to={`/${parentPath}/${id}/tasks?status=In-Progress`}
               end
               className={`cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09] ${
                 activeLink === "inProgress"
@@ -401,32 +428,32 @@ const Tasks = () => {
               }`}
               onClick={() => handleNavLinkClick("inProgress")}
             >
-              In-progress
+              In-Progress
             </NavLink>
           )}
 
           {!BMid && (
             <NavLink
-            to={`/users/${id}/tasks?status=Over-Due`}
-
-            
+              to={`/${parentPath}/${id}/tasks?status=Over-Due`}
               end
               className={`cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09] ${
-                activeLink === "OverDue" ? "border-b-2 border-orange-500 text-orange-600" : ""
+                activeLink === "OverDue"
+                  ? "border-b-2 border-orange-500 text-orange-600"
+                  : ""
               }`}
               onClick={() => handleNavLinkClick("OverDue")}
             >
-              OverDue
+              Overdue
             </NavLink>
           )}
           {!BMid && (
             <NavLink
-            to={`/users/${id}/tasks?status=Completed`}
-
-           
+              to={`/${parentPath}/${id}/tasks?status=Completed`}
               end
               className={`cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09] ${
-                activeLink === "Completed" ? "border-b-2 border-orange-500 text-orange-600" : ""
+                activeLink === "Completed"
+                  ? "border-b-2 border-orange-500 text-orange-600"
+                  : ""
               }`}
               onClick={() => handleNavLinkClick("Completed")}
             >
@@ -435,7 +462,7 @@ const Tasks = () => {
           )}
           {!BMid && (
             <NavLink
-            to={`/users/${id}/tasks`}
+              to={`/${parentPath}/${id}/tasks`}
               end
               className={`cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09] ${
                 activeLink === "Master" ? "border-b-2 border-orange-600" : ""
@@ -447,57 +474,53 @@ const Tasks = () => {
           )}
         </div>
       </div>
-      <div className=" mt-3 overflow-x-auto">
-        <table className="w-full divide-y divide-gray-200 dark:divide-gray-700 rounded-md">
+      <div className=" max-h-[410px] overflow-y-auto ">
+        <table className="w-full divide-y divide-gray-200 dark:divide-gray-700 rounded-md table ">
           <thead>
             <tr>
               <th
-                className="py-2 px-2  text-sm text-white bg-orange-600 border border-collapse border-[#e5e7eb] whitespace-nowrap text-left"
-                style={{ width: "22rem" }}
+                className="sticky top-0 bg-orange-600 text-white text-sm text-left px-2 py-2 border-l-2 border-gray-200"
+                style={{ width: "20rem" }}
               >
                 Decision Taken
               </th>
               <th
-                className="py-2 px-2  text-sm text-white bg-orange-600 border border-collapse border-[#e5e7eb] text-left
-                 whitespace-nowrap"
+                className="sticky top-0 bg-orange-600 text-white text-sm text-left px-2 py-2 border-l-2 border-gray-200 z-10"
+                style={{ width: "13rem" }}
               >
                 Person Responsible
               </th>
               <th
-                className="py-2 px-2  text-sm text-white bg-orange-600 border border-collapse border-[#e5e7eb]  text-left
-                whitespace-nowrap"
+                className="sticky top-0 bg-orange-600 text-white text-sm text-left px-2 py-2 border-l-2 border-gray-200 z-10"
+                style={{ width: "6rem" }}
               >
                 Due Date
               </th>
-              <th
-                className="py-2 px-2  text-sm text-white bg-orange-600    border border-collapse border-[#e5e7eb]  text-left
-               whitespace-nowrap"
-                style={{ width: "8rem" }}
-              >
-                Status
+              <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-2 py-2 border-l-2 border-gray-200 z-10">
+                Decision Status
               </th>
-              <th
-                className="py-2  px-2  text-sm text-white bg-orange-600    border border-collapse border-[#e5e7eb] text-left
-                whitespace-nowrap"
-              >
-                Updated By User
+              <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-2 py-2 border-l-2 border-gray-200 ">
+                Decision Updated of User
               </th>
-              <th className="py-2 px-2  text-sm text-white bg-orange-600   border border-collapse border-[#e5e7eb] whitespace-nowrap text-left">
-                Updated by Admin
+              <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2 border-l-2 border-gray-200">
+                Decision Updated of Admin
               </th>
-              <th className="py-2 px-2  text-sm text-white bg-orange-600   border border-collapse border-[#e5e7eb] whitespace-nowrap text-left">
+              {/* <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2 border-l-2 border-gray-200">
                 Actions
-              </th>
+              </th> */}
             </tr>
           </thead>
           <tbody className="">
             {tasks?.map((task, index) => {
               const decisionHeight =
                 task?.decision === null || task?.decision === "" ? "2rem" : "";
-
+              let members = task?.group.map((user) => ({
+                label: user.name,
+                value: user.id,
+              }));
               return (
-                <tr key={task.id} className="border-b border-gray-200">
-                  <td className="border py-1.5 px-3">
+                <tr key={task.id} className="border-b border-gray-200 ">
+                  <td className="border py-1.5 px-2">
                     <div className="flex items-center justify-between">
                       {isInputActiveID === task.id && (
                         <input
@@ -570,14 +593,12 @@ const Tasks = () => {
                       </div>
                     </div>
                   </td>
-                  <td
-                    className="border py-1.5 px-3 "
-                    title={task?.members}
-                    style={{ width: "15rem" }}
-                  >
+
+                  <td className="border py-1.5 px-2">
                     <Select
                       options={members}
                       menuPortalTarget={document.body}
+                      closeMenuOnScroll={() => true}
                       styles={{
                         control: (provided, state) => ({
                           ...provided,
@@ -590,7 +611,7 @@ const Tasks = () => {
                             ? "none"
                             : provided.boxShadow,
                           fontSize: "16px",
-                          height: "36px",
+                          height: "36px", // Adjust the height here
                           "&:hover": {
                             borderColor: state.isFocused
                               ? "#fb923c"
@@ -602,6 +623,7 @@ const Tasks = () => {
                           "&:focus-within": {
                             borderColor: "#fb923c",
                           },
+                          width: "13rem",
                         }),
 
                         option: (provided, state) => ({
@@ -615,6 +637,7 @@ const Tasks = () => {
                             backgroundColor: "#ea580c",
                           },
                         }),
+
                         indicatorSeparator: (provided, state) => ({
                           ...provided,
                           display: state.isFocused ? "visible" : "none",
@@ -625,7 +648,6 @@ const Tasks = () => {
                         }),
                         menu: (provided) => ({
                           ...provided,
-                          zIndex: 9999,
                         }),
 
                         placeholder: (provided) => ({
@@ -661,25 +683,28 @@ const Tasks = () => {
                       menuPlacement="auto"
                     />
                   </td>
-                  <td className="border py-1.5 px-3" style={{ width: "11rem" }}>
+                  <td className="border py-1.5 px-2">
                     <input
                       className=" border border-transparent text-black px-1.5 py-2 rounded-md  bg-[#f9fafb] focus:outline-none text-sm focus:border-orange-400  date_type"
                       type="date"
                       value={task?.dueDate}
+                      style={{
+                        fontSize: "0.8rem",
+                        WebkitAppearance: "none",
+                      }}
+                      min={getCurrentDate()}
                       onChange={(e) => {
                         handleSubmit(task?.id, "dueDate", e.target.value);
                         handleTaskChange(index, "dueDate", e.target.value);
                       }}
                     />
                   </td>
-                  <td
-                    className="border py-1.5 px-3 "
-                    title={task?.status}
-                    style={{ width: "8rem" }}
-                  >
+                  <td className="border py-1.5 px-2" title={task?.status}>
                     <Select
+                   
                       options={status}
                       menuPortalTarget={document.body}
+                      closeMenuOnScroll={() => true}
                       styles={{
                         control: (provided, state) => ({
                           ...provided,
@@ -704,7 +729,7 @@ const Tasks = () => {
                           "&:focus-within": {
                             borderColor: "#fb923c",
                           },
-                          width: "8rem",
+                          width: "6.5rem",
                         }),
                         option: (provided, state) => ({
                           ...provided,
@@ -743,13 +768,13 @@ const Tasks = () => {
                       menuPlacement="auto"
                     />
                   </td>
-                  <td className="border py-1.5 px-3 text-sm text-gray-600">
+                  <td className="border py-1.5 px-2 text-sm text-gray-600">
                     Updated By User
                   </td>
-                  <td className="border py-1.5 px-3 text-sm text-gray-600">
+                  <td className="border py-1.5 px-2 text-sm text-gray-600">
                     Updated By Admin
                   </td>
-                  <td className="border py-1.5 px-3 text-sm text-gray-600">
+                  {/* <td className="border py-1.5 px-3 text-sm text-gray-600 cursor-pointer" style={{width :"3rem"}} >
                     <svg
                       onClick={() => handleDeleteTask(task.id)}
                       xmlns="http://www.w3.org/2000/svg"
@@ -763,7 +788,7 @@ const Tasks = () => {
                         clip-rule="evenodd"
                       />
                     </svg>
-                  </td>
+                  </td> */}
                 </tr>
               );
             })}
@@ -773,6 +798,9 @@ const Tasks = () => {
 
       <TaskOverview
         task={task}
+        subTasks={subTasks}
+        subTask={subTask}
+
         setTask={setTask}
         Qparams={Qparams}
         setQParams={setQParams}
@@ -780,14 +808,12 @@ const Tasks = () => {
         handleOverviewTaskChange={handleOverviewTaskChange}
         overViewTask={overViewTask}
         handleSubmit={handleSubmit}
-        members={members}
+      
         status={status}
         handleAddSubTask={handleAddSubTask}
-        subTasks={subTasks}
         handleSubTaskChange={handleSubTaskChange}
         handleSubTaskSubmit={handleSubTaskSubmit}
         handleOverviewSubTaskChange={handleOverviewSubTaskChange}
-        subTask={subTask}
         displayOverviewTask={displayOverviewTask}
         displayOverviewSubTask={displayOverviewSubTask}
         setDisplayOverviewTask={setDisplayOverviewTask}

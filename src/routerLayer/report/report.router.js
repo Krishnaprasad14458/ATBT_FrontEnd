@@ -7,4 +7,5 @@ export const reportRouter = [
     { path: "reports",
     loader:reportLoader,
     element: <Reports /> },
+    // { index:true, element: <Reports /> },
 ]

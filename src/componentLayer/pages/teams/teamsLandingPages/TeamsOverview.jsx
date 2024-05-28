@@ -1,74 +1,33 @@
-import React, { useState, useEffect, useContext } from "react";
+import React from "react";
 import defprop from "../../../../assets/Images/defprof.svg";
-import { Link, useParams, useLocation } from "react-router-dom";
-import { TeamsDataContext } from "../../../../contexts/teamsDataContext/teamsDataContext";
-import axios from "axios";
+import {
+  Link,
+  useParams,
+
+  redirect,
+  useLoaderData,
+} from "react-router-dom";
+
+import atbtApi from "../../../../serviceLayer/interceptor";
+export const teamLandingLoader = async ({ params }) => {
+  try {
+    const [data] = await Promise.all([
+      atbtApi.get(`/team/list/${params?.id}`),
+    ]);
+    console.log(data, "team overview id data",);
+    data.threadName = data?.data?.name;
+    data.threadPath = `/teams/${params.id}`;
+    return { data  };
+  } catch (error) {
+    console.error("Error loading dashboard:", error);
+    throw redirect(`/${error?.response?.status ?? "500"}`);
+  }
+};
 const TeamsOverview = () => {
-  const {
-    getTeambyId,
-    teamsState: { teams },
-  } = useContext(TeamsDataContext);
   const { id } = useParams();
-  const [singleProduct, setSingleProduct] = useState({});
-  // For tabs active
-  const getSingleProduct = async () => {
-    try {
-      const teamById = teams?.Teams?.find((element) => element.id === +id);
-      if (!teamById) {
-        const product = await getTeambyId(id);
-        setSingleProduct(product?.data?.Teams);
-      } else {
-        setSingleProduct(teamById);
-      }
-    } catch (e) {
-      console.error(e);
-      throw e;
-    }
-  };
-  useEffect(() => {
-    getSingleProduct();
-  }, [id]);
-  // for active tabs
-  const location = useLocation();
-  const currentURL = location.pathname.split("/");
-  console.log("currentURL", currentURL);
-  //  for active tabs close
-  // ----toggleDrawer-------
-  const [isOpen, setIsOpen] = useState(false);
-
-  const toggleDrawer = () => {
-    setIsOpen(!isOpen);
-  };
-  // -------full screen----
-  const [expand, setExpand] = useState(false);
-
-  let [customFormField, setCustomFormField] = useState();
-  const userData = JSON.parse(localStorage.getItem("data"));
-  const token = userData?.token;
-  let response;
-  let [predefinedImage, setPredefinedImage] = useState("");
-  useEffect(() => {
-    axios
-      .get(`https://atbtbeta.infozit.com/team/list/${id}`, {
-        headers: {
-          authorization: token,
-        },
-      })
-      .then((res) => {
-        // Handle the successful response
-        response = res;
-        console.log("response", response.data.image);
-        setPredefinedImage(response.data.image);
-        setCustomFormField(response.data.customFieldsData);
-      })
-      .catch((error) => {
-        // Handle errors
-        console.error("Error fetching data:", error);
-      });
-  }, []);
-  useEffect(() => {
-    console.log("customFormField", customFormField);
-  }, [customFormField]);
+  const data = useLoaderData();
+  let UsersList = data?.data?.data.members;
+  let customFormField = data?.data?.data?.customFieldsData;
 
   // to set the time in 12hours
   function formatTime(timeString) {
@@ -148,7 +107,8 @@ const TeamsOverview = () => {
                     <div className=" h-10  hidden sm:block">
                       {item.value ? (
                         <img
-                          src={predefinedImage}
+                          // src={predefinedImage}
+                          src={data?.data?.data?.image}
                           name="EntityPhoto"
                           alt="Selected User Photo"
                           className="rounded-lg w-10 h-10 mr-4 "
@@ -176,28 +136,19 @@ const TeamsOverview = () => {
                       {item.value}
                     </div>
                   )}
-                {item.type === "multiselect" &&
+                   {item.type === "multiselect" &&
                   item.inputname == "members" &&
                   item.field == "predefined" && (
                     <div className=" grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-2 mt-5">
-                      {item.value &&
-                        Array.from({ length: 12 }).map((_, index) => {
-                          let first = "";
-                          let second = "";
-                          let firstLetter;
-                          let secondLetter;
-                          let mail = "";
-                          if (index < item.value.length) {
-                            mail = item.value[index].email.split("@")[0];
-                            if (mail.includes(".")) {
-                              first = mail.split(".")[0];
-                              second = mail.split(".")[1];
-                              firstLetter = first[0];
-                              secondLetter = second[0];
-                            } else {
-                              firstLetter = mail[0];
-                            }
-                          }
+                    {UsersList &&
+                      Array.from({ length: 12 }).map((_, index) => {
+                        let first = "";
+                        let second = "";
+                        let firstLetter;
+                        let secondLetter;
+                        let mail = "";
+                        if (index < UsersList.length) {
+                          mail = UsersList[index].email.split("@")[0];
                           if (mail.includes(".")) {
                             first = mail.split(".")[0];
                             second = mail.split(".")[1];
@@ -206,114 +157,113 @@ const TeamsOverview = () => {
                           } else {
                             firstLetter = mail[0];
                           }
-                          const colors = [
-                            "#818cf8",
-                            "#fb923c",
-                            "#f87171",
-                            "#0891b2",
-                            "#db2777",
-                            "#f87171",
-                            "#854d0e",
-                            "#166534",
-                          ];
-                          const getRandomColor = (firstLetter) => {
-                            const randomIndex =
-                              firstLetter?.charCodeAt(0) % colors.length;
-                            return colors[randomIndex];
-                          };
-                          return (
-                            <div
-                              className="col-span-1 flex justify-start gap-1"
-                              key={index}
-                            >
-                              {index + 1 <= item.value.length && (
-                                <>
-                                  <h5
-                                    style={{
-                                      backgroundColor: item.value[index].image
-                                        ? "transparent"
-                                        : getRandomColor(firstLetter),
-                                    }}
-                                    className=" rounded-full w-10 h-10  md:h-8 xl:h-10 flex justify-center  text-xs items-center text-white"
-                                  >
-                                    {(item.value[index].image && index < 11) ||
-                                    (index === 11 &&
-                                      item.value.length === 12) ? (
-                                      <img
-                                        src={
-                                          typeof item.value[index].image ===
-                                          "string"
-                                            ? item.value[index].image
-                                            : URL.createObjectURL(
-                                                item.value[index].image
-                                              )
-                                        }
-                                        name="EntityPhoto"
-                                        alt="Entity Photo"
-                                        className="rounded-lg w-10 h-10 mr-4"
-                                      />
-                                    ) : (
-                                      <span>
-                                        {firstLetter?.toUpperCase()}
-                                        {secondLetter &&
-                                          secondLetter?.toUpperCase()}
-                                      </span>
-                                    )}
-
-                                    {index == 11 && item.value.length > 12 && (
-                                      <span>
-                                        <svg
-                                          xmlns="http://www.w3.org/2000/svg"
-                                          fill="none"
-                                          viewBox="0 0 24 24"
-                                          stroke-width="1.5"
-                                          stroke="currentColor"
-                                          className="w-6 h-6"
-                                        >
-                                          <path
-                                            stroke-linecap="round"
-                                            stroke-linejoin="round"
-                                            d="M18 18.72a9.094 9.094 0 0 0 3.741-.479 3 3 0 0 0-4.682-2.72m.94 3.198.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0 1 12 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 0 1 6 18.719m12 0a5.971 5.971 0 0 0-.941-3.197m0 0A5.995 5.995 0 0 0 12 12.75a5.995 5.995 0 0 0-5.058 2.772m0 0a3 3 0 0 0-4.681 2.72 8.986 8.986 0 0 0 3.74.477m.94-3.197a5.971 5.971 0 0 0-.94 3.197M15 6.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm6 3a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Zm-13.5 0a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Z"
-                                          />
-                                        </svg>
-                                      </span>
-                                    )}
-                                  </h5>
+                        }
+                        if (mail.includes(".")) {
+                          first = mail.split(".")[0];
+                          second = mail.split(".")[1];
+                          firstLetter = first[0];
+                          secondLetter = second[0];
+                        } else {
+                          firstLetter = mail[0];
+                        }
+                        const colors = [
+                          "#818cf8",
+                          "#fb923c",
+                          "#f87171",
+                          "#0891b2",
+                          "#db2777",
+                          "#f87171",
+                          "#854d0e",
+                          "#166534",
+                        ];
+                        const getRandomColor = (firstLetter) => {
+                          const randomIndex = firstLetter?.charCodeAt(0) % colors.length;
+                          return colors[randomIndex];
+                        };
+                        return (
+                          <div
+                            className="col-span-1 flex justify-start gap-3"
+                            key={index}
+                          >
+                            {index + 1 <= UsersList.length && (
+                              <>
+                                <h5
+                                  style={{
+                                    backgroundColor: UsersList[index].image
+                                      ? "transparent"
+                                      : getRandomColor(firstLetter),
+                                  }}
+                                  className=" rounded-full w-10 h-10  md:h-8 xl:h-10 flex justify-center  text-xs items-center text-white"
+                                >
+                                  {(UsersList[index].image && index < 11) ||
+                                  (index === 11 && UsersList.length === 12) ? (
+                                    <img
+                                      src={
+                                        typeof UsersList[index].image === "string"
+                                          ? UsersList[index].image
+                                          : URL.createObjectURL(UsersList[index].image)
+                                      }
+                                      name="EntityPhoto"
+                                      alt="Entity Photo"
+                                      className=" rounded-full w-10 h-10   flex justify-center  text-xs items-center text-white"
+                                    />
+                                  ) : (
+                                    <span>
+                                      {firstLetter?.toUpperCase()}
+                                      {secondLetter && secondLetter?.toUpperCase()}
+                                    </span>
+                                  )}
+          
+                                  {index == 11 && UsersList.length > 12 && (
+                                    <span>
+                                      <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                        stroke-width="1.5"
+                                        stroke="currentColor"
+                                        className="w-6 h-6"
+                                      >
+                                        <path
+                                          stroke-linecap="round"
+                                          stroke-linejoin="round"
+                                          d="M18 18.72a9.094 9.094 0 0 0 3.741-.479 3 3 0 0 0-4.682-2.72m.94 3.198.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0 1 12 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 0 1 6 18.719m12 0a5.971 5.971 0 0 0-.941-3.197m0 0A5.995 5.995 0 0 0 12 12.75a5.995 5.995 0 0 0-5.058 2.772m0 0a3 3 0 0 0-4.681 2.72 8.986 8.986 0 0 0 3.74.477m.94-3.197a5.971 5.971 0 0 0-.94 3.197M15 6.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm6 3a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Zm-13.5 0a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Z"
+                                        />
+                                      </svg>
+                                    </span>
+                                  )}
+                                </h5>
+                                <div
+                                  className=" flex items-center md:items-start xl:items-center  overflow-hidden"
+                                  style={{ width: "150px" }}
+                                >
                                   <div
-                                    className=" flex items-center md:items-start xl:items-center  overflow-hidden"
-                                    style={{ width: "150px" }}
+                                    className=" md:w-28 lg:w-48  truncate"
+                                    title={mail}
                                   >
-                                    <div
-                                      className=" md:w-28 lg:w-48  truncate"
-                                      title={mail}
-                                    >
-                                      {index < 11 && mail}
-                                      {index == 11 &&
-                                        item.value.length == 12 &&
-                                        mail}
-                                      {index == 11 &&
-                                        item.value.length > 12 && (
-                                          <span>
-                                            +{item.value.length - 11} more
-                                          </span>
-                                        )}{" "}
-                                    </div>
+                                    {index < 11 && mail}
+                                    {index == 11 && UsersList.length == 12 && mail}
+                                    {index == 11 && UsersList.length > 12 && (
+                                      <span>+{UsersList.length - 11} more</span>
+                                    )}
                                   </div>
-                                </>
-                              )}
-                              {index + 1 > item.value.length && (
-                                <>
-                                  <h5 className="bg-[#e5e7eb] rounded-full w-10 h-10  md:h-8 xl:h-10 flex justify-center text-xs items-center text-white"></h5>
-                                  <div className=" flex items-center">
-                                    <div className=" rounded-md  bg-[#e5e7eb] h-2 w-28"></div>
-                                  </div>
-                                </>
-                              )}
-                            </div>
-                          );
-                        })}
-                    </div>
+                                </div>
+                              </>
+                            )}
+                            {index + 1 > UsersList.length && (
+                              <>
+                                <h5 className="bg-[#e5e7eb] rounded-full w-10 h-10  flex justify-center text-xs items-center text-white"></h5>
+                                <div className=" flex items-center">
+                                  <div className=" rounded-md  bg-[#e5e7eb] h-2 w-28"></div>
+                                </div>
+                              </>
+                            )}
+                          </div>
+                        );
+                      })}
+                  </div>
                   )}
+               
                 {/* customfields */}
                 <div className="mt-2">
                   {item.type === "text" && item.field == "custom" && (
@@ -502,6 +452,7 @@ const TeamsOverview = () => {
               </div>
             );
           })}
+    
       </div>
     </div>
   );

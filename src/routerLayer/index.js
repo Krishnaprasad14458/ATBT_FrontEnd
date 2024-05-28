@@ -25,30 +25,69 @@ export const router = createBrowserRouter([
       ...resourceRouter,
       {
         path: "users",
+        element: (
+          <RouteBlocker
+            permissionCheck={(permission) =>
+              permission.module === "user" && permission.canRead
+            }
+          />
+        ),
         children: [...userRouter],
         handle: {
-          crumb: () => <Link to="/users">Users</Link>,
+          crumb: () => <Link  
+          
+          to={{
+            pathname: "/users",
+            search:`?search=&page=1&pageSize=10`,
+          }}
+          
+          >Users</Link>,
         },
       },
       {
         path: "entities",
+        element: (
+          <RouteBlocker
+            permissionCheck={(permission) =>
+              permission.module === "entity" && permission.canRead
+            }
+          />
+        ),
         children: [...entityRouter],
         handle: {
-          crumb: () => <Link to="/entities">Entities</Link>,
+          crumb: () => <Link 
+          to={{
+            pathname: "/entities",
+            search:`?search=&page=1&pageSize=10`,
+          }}
+          >Entities</Link>,
         },
       },
       {
         path: "teams",
+        element: (
+          <RouteBlocker
+            permissionCheck={(permission) =>
+              permission.module === "team" && permission.canRead
+            }
+          />
+        ),
+       
         children: [...teamRouter],
         handle: {
-          crumb: () => <Link to="/teams">Teams</Link>,
+          crumb: () => <Link  
+
+          to={{
+            pathname: "/teams",
+            search:`?search=&page=1&pageSize=10`,
+          }}
+          
+          >Teams</Link>,
         },
       },
       {
         path: "boardmeetings",
         children: [...meetingRouter],
-      },
-      {
         element: (
           <RouteBlocker
             permissionCheck={(permission) =>
@@ -56,9 +95,12 @@ export const router = createBrowserRouter([
             }
           />
         ),
-        children: [...meetingRouter],
+        
       },
+      
+     
       {
+        path: "tasks",
         element: (
           <RouteBlocker
             permissionCheck={(permission) =>
@@ -68,16 +110,7 @@ export const router = createBrowserRouter([
         ),
         children: [...taskRouter],
       },
-      {
-        element: (
-          <RouteBlocker
-            permissionCheck={(permission) =>
-              permission.module === "team" && permission.canRead
-            }
-          />
-        ),
-        children: [...teamRouter],
-      },
+     
       {
         element: (
           <RouteBlocker
@@ -86,6 +119,7 @@ export const router = createBrowserRouter([
             }
           />
         ),
+        path: "reports",
         children: [...reportRouter],
       },
       {

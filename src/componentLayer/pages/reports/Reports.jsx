@@ -18,7 +18,7 @@ export async function loader({ request, params }) {
 
     const [reports] = await Promise.all([
       // statusName === "master" ? atbtApi.get(`task/list?userId=191`) : atbtApi.get(`task/list?userId=191&status=${statusName}`)
-      statusName === null || statusName === "master" ? atbtApi.get(`task/list?userId=${userId}`) : atbtApi.get(`task/list?userId=191&status=${statusName}`)
+      statusName === null || statusName === "master" ? atbtApi.get(`task/list?userId=229`) : atbtApi.get(`task/list?userId=229&status=${statusName}`)
     ]);
     console.log(reports.data, statusName, "jdskfsjf")
     const combinedResponse = {
@@ -44,15 +44,15 @@ function Reports() {
   console.log(reports, "dsfjdsgjdgf")
   const [reportData, setReportData] = useState();
 
-  console.log(reportData, "jhgvfdsffd")
+  console.log(reportData, "Reportdata")
   useEffect(() => {
-    
-      if (reports) {
-        setReportData(reports.map((report, index) => ({
-          ...report,
-          'S.NO': index + 1 // Generate serial number
-        })));
-      }
+
+    if (reports) {
+      setReportData(reports.map((report, index) => ({
+        ...report,
+        'S.NO': index + 1 // Generate serial number
+      })));
+    }
   }, [reports])
 
 
@@ -77,19 +77,27 @@ function Reports() {
   const headers = [
     //  { label: "COMPLETED DECISIONS - BVM & DAKSHIN", key: null, style: { bold: true, alignment: 'center' } },
     { label: 'S.NO', key: 'S.NO', style: { bold: true, alignment: 'center' } },
-    { label: "Date of Board meeting", key: "createdAt", style: { bold: true, alignment: 'center' } },
-    { label: 'Decision Taken', key: 'decision',  style: { bold: true, alignment: 'center' } },
-    { label: 'Person Responsible for implementation', key: 'taskCreateby',  style: { bold: true, alignment: 'center' } },
-    {label:"Date of Board Meeting in which the action is concluded" , key:"updatedAt",  style: { bold: true, alignment: 'center' }}
+    { label: "Date of Board meeting", key: "status", style: { bold: true, alignment: 'center' } },
+    { label: 'Decision Taken', key: 'decision', style: { bold: true, alignment: 'center' } },
+    { label: 'Person Responsible for implementation', key: 'taskCreateby', style: { bold: true, alignment: 'center' } },
+    { label: "Date of Board Meeting in which the action is concluded", key: "updatedAt", style: { bold: true, alignment: 'center' } }
   ];
 
 
-  const headerMaster =[
+  const headerMaster = [
     { label: 'S.NO', key: 'S.NO', style: { bold: true, alignment: 'center' } },
     { label: "Date of Board meeting", key: "createdAt", style: { bold: true, alignment: 'center' } },
-    { label: 'Decision Taken', key: 'decision',  style: { bold: true, alignment: 'center' } },
-    { label: 'Person Responsible for implementation', key: 'taskCreateby',  style: { bold: true, alignment: 'center' } },
-    {label:"Date of Board Meeting in which the action is concluded" , key:"updatedAt",  style: { bold: true, alignment: 'center' }}
+    { label: 'Decision Taken', key: 'decision', style: { bold: true, alignment: 'center' } },
+    { label: 'Person Responsible for implementation', key: 'taskCreateby', style: { bold: true, alignment: 'center' } },
+    { label: "Date of Board Meeting in which the action is concluded", key: "updatedAt", style: { bold: true, alignment: 'center' } }
+  ]
+
+  const headerATR = [
+    { label: 'S.NO', key: 'S.NO', style: { bold: true, alignment: 'center' } },
+    { label: "Date of Board meeting", key: "createdAt", style: { bold: true, alignment: 'center' } },
+    { label: 'Decision Taken', key: 'decision', style: { bold: true, alignment: 'center' } },
+    { label: 'Person Responsible for implementation', key: 'taskCreateby', style: { bold: true, alignment: 'center' } },
+    { label: "Date of Board Meeting in which the action is concluded", key: "updatedAt", style: { bold: true, alignment: 'center' } }
   ]
 
 
@@ -137,57 +145,69 @@ function Reports() {
             />
           </div>
         </div>
-        <div className="grid1-item text-end flex justify-end filter_pagination divide-x-2 h-7 mt-2">
-          {/* <CustomColumn
-            tableView={tableView}
-            setTableView={setTableView}
-            form="userform"
-          />
-          <CustomFilter
-            fieldsDropDownData={fieldsDropDownData}
-            Qparams={Qparams}
-            setQParams={setQParams}
-            customForm={customForm}
-          /> */}
-
-          {/* for filter open */}
-        </div>
+        <div className="grid1-item text-end flex justify-end filter_pagination divide-x-2 h-7 mt-2"></div>
       </div>
       {/* table */}
 
       <div className="max-h-[510px] overflow-y-scroll mt-5">
-        <table className="w-full divide-y divide-gray-200 dark:divide-gray-700 rounded-md">
+        <table className="w-full">
           <thead>
             <tr>
               <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200">
-                Reports
+                S.no
               </th>
               <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200">
-                Download Csv File
+                Report Name
               </th>
-
-              {/* <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200">
-                Actions
-              </th> */}
+              <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200">
+                Description
+              </th>
+              <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200">
+                Created By
+              </th>
+              <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200">
+                Created Date
+              </th>
+              <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200">
+                Action
+              </th>
             </tr>
           </thead>
           <tbody className=" divide-gray-200 dark:divide-gray-700">
             <tr className={`hover:bg-slate-100 dark:hover:bg-gray-700 `}>
               <td
                 className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  hover:text-orange-500 overflow-hidden`}
-                style={{ maxWidth: "160px" }}
               >
+                1
+              </td>
 
+              <td
+                className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  hover:text-orange-500 overflow-hidden`}
+              >
                 ATBT
+              </td>
+
+              <td
+                className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  hover:text-orange-500 overflow-hidden`}
+              >
+                Something
               </td>
               <td
                 className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  hover:text-orange-500 overflow-hidden`}
-                style={{ maxWidth: "160px" }}
               >
-
+                Something
+              </td>
+              <td
+                className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  hover:text-orange-500 overflow-hidden`}
+              >
+                Something
+              </td>
+              <td
+                className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  hover:text-orange-500 overflow-hidden`}
+              >
                 {
                   reportData?.length > 0 ? (
-                    <CSVLink data={reportData} headers={headers} filename="reports.csv">
+                    // <CSVLink data={reportData} headers={headers} filename="reports.csv">
                       <button
                         type="button"
                         title="CSV file"
@@ -199,18 +219,21 @@ function Reports() {
                           <path stroke-linecap="round" stroke-linejoin="round" d="m9 13.5 3 3m0 0 3-3m-3 3v-6m1.06-4.19-2.12-2.12a1.5 1.5 0 0 0-1.061-.44H4.5A2.25 2.25 0 0 0 2.25 6v12a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9a2.25 2.25 0 0 0-2.25-2.25h-5.379a1.5 1.5 0 0 1-1.06-.44Z" />
                         </svg>
                       </button>
-                    </CSVLink>
+                    // </CSVLink>
                   ) : (
                     "No Reports found"
                   )
                 }
-
-
-
               </td>
-
             </tr>
+
+
             <tr className={`hover:bg-slate-100 dark:hover:bg-gray-700 `}>
+              <td
+                className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  hover:text-orange-500 overflow-hidden`}
+              >
+                2
+              </td>
               <td
                 className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  hover:text-orange-500 overflow-hidden`}
                 style={{ maxWidth: "160px" }}
@@ -220,12 +243,27 @@ function Reports() {
               </td>
               <td
                 className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  hover:text-orange-500 overflow-hidden`}
+              >
+                Something
+              </td>
+              <td
+                className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  hover:text-orange-500 overflow-hidden`}
+              >
+                Something
+              </td>
+              <td
+                className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  hover:text-orange-500 overflow-hidden`}
+              >
+                Something
+              </td>
+              <td
+                className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  hover:text-orange-500 overflow-hidden`}
                 style={{ maxWidth: "160px" }}
               >
 
                 {
                   reportData?.length > 0 ? (
-                    <CSVLink data={reportData} headers={headers} filename="reports.csv">
+                    // <CSVLink data={reportData} headers={headers} filename="reports.csv">
                       <button
                         type="button"
                         title="CSV file"
@@ -236,7 +274,7 @@ function Reports() {
                           <path stroke-linecap="round" stroke-linejoin="round" d="m9 13.5 3 3m0 0 3-3m-3 3v-6m1.06-4.19-2.12-2.12a1.5 1.5 0 0 0-1.061-.44H4.5A2.25 2.25 0 0 0 2.25 6v12a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9a2.25 2.25 0 0 0-2.25-2.25h-5.379a1.5 1.5 0 0 1-1.06-.44Z" />
                         </svg>
                       </button>
-                    </CSVLink>
+                    // </CSVLink>
                   ) : (
                     "No Reports found"
                   )
@@ -245,12 +283,34 @@ function Reports() {
 
               </td>
             </tr>
+
+
             <tr className={`hover:bg-slate-100 dark:hover:bg-gray-700 `}>
+            <td
+                className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  hover:text-orange-500 overflow-hidden`}
+              >
+                3
+              </td>
               <td
                 className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  hover:text-orange-500 overflow-hidden`}
                 style={{ maxWidth: "160px" }}
               >
                 ATBT Master
+              </td>
+              <td
+                className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  hover:text-orange-500 overflow-hidden`}
+              >
+                Something
+              </td>
+              <td
+                className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  hover:text-orange-500 overflow-hidden`}
+              >
+                Something
+              </td>
+              <td
+                className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  hover:text-orange-500 overflow-hidden`}
+              >
+                Something
               </td>
 
               <td
@@ -259,7 +319,7 @@ function Reports() {
               >
                 {
                   reportData?.length > 0 ? (
-                    <CSVLink data={reportData} headers={headers} filename="reports.csv">
+                    // <CSVLink data={reportData} headers={headers} filename="reports.csv">
                       <button
                         type="button"
                         title="CSV file"
@@ -270,7 +330,7 @@ function Reports() {
                           <path stroke-linecap="round" stroke-linejoin="round" d="m9 13.5 3 3m0 0 3-3m-3 3v-6m1.06-4.19-2.12-2.12a1.5 1.5 0 0 0-1.061-.44H4.5A2.25 2.25 0 0 0 2.25 6v12a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9a2.25 2.25 0 0 0-2.25-2.25h-5.379a1.5 1.5 0 0 1-1.06-.44Z" />
                         </svg>
                       </button>
-                    </CSVLink>
+                    // </CSVLink>
                   ) : (
                     "No Reports found"
                   )
@@ -280,109 +340,11 @@ function Reports() {
               </td>
 
             </tr>
+
+
           </tbody>
         </table>
       </div>
-
-      {/* pagination */}
-      {/* <div className="inset-x-0 bottom-0 mt-5">
-        <div className="md:flex md:justify-between block text-end">
-          <div className="">
-            {!users?.users || users?.users?.length === 0 ? (
-              "no data to show"
-            ) : users.loading ? (
-              "Loading..."
-            ) : (
-              <p className="text-sm text-gray-700">
-                Showing {users.startUser} to {users.endUser} of{" "}
-                <span className="font-medium">{users.totalUsers}</span>
-                <span className="font-medium"> </span> results
-              </p>
-            )}
-          </div>
-
-          <section
-            className="isolate inline-flex rounded-md  ms-4 mt-2 md:mt-0"
-            aria-label="Pagination"
-          >
-            <select
-              value={Qparams?.pageSize}
-              onChange={handlePerPageChange}
-              className="focus:outline-none me-3 rounded-md bg-[#f8fafc]  px-1 py-1.5 text-sm font-semibold  ring-1 ring-inset ring-gray-300 hover:bg-gray-50 shadow-sm  text-gray-500"
-            >
-              <option value="10">10</option>
-              <option value="25">25</option>
-              <option value="50">50</option>
-              <option value="100">100</option>
-              <option value="250">250</option>
-              <option value="500">500</option>
-            </select>
- 
-            <button
-              disabled={
-                navigation?.state === "loading"
-                  ? true
-                  : false || users.currentPage === 1
-              }
-              onClick={() => handlePage(users.currentPage - 1)}
-              href="#"
-              className={`relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${
-                navigation?.state === "loading"
-                  ? "cursor-wait"
-                  : users.currentPage === 1
-                  ? "cursor-not-allowed"
-                  : "cursor-auto"
-              }`}
-            >
-              <span className="sr-only">Previous</span>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-                className="w-5 h-5"
-                aria-hidden="true"
-              >
-                <path
-                  fill-rule="evenodd"
-                  d="M11.78 5.22a.75.75 0 0 1 0 1.06L8.06 10l3.72 3.72a.75.75 0 1 1-1.06 1.06l-4.25-4.25a.75.75 0 0 1 0-1.06l4.25-4.25a.75.75 0 0 1 1.06 0Z"
-                  clip-rule="evenodd"
-                />
-              </svg>
-            </button>
-   
-            <button
-              disabled={
-                navigation?.state === "loading"
-                  ? true
-                  : false || users.currentPage === users.totalPages
-              }
-              onClick={() => handlePage(users.currentPage + 1)}
-              className={`relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${
-                navigation?.state === "loading"
-                  ? "cursor-wait"
-                  : users.currentPage === users.totalPages
-                  ? "cursor-not-allowed"
-                  : "cursor-auto"
-              }`}
-            >
-              <span className="sr-only">Next</span>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-                className="w-5 h-5"
-                aria-hidden="true"
-              >
-                <path
-                  fill-rule="evenodd"
-                  d="M8.22 5.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 0 1-1.06-1.06L11.94 10 8.22 6.28a.75.75 0 0 1 0-1.06Z"
-                  clip-rule="evenodd"
-                />
-              </svg>
-            </button>
-          </section>
-        </div>
-      </div> */}
     </div>
   );
 }

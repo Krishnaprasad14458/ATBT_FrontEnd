@@ -4,25 +4,35 @@ import axios from "axios";
 import atbtApi from "../../../../serviceLayer/interceptor";
 let moduleName;
 let parentPath;
+let groupName;
 export const boardMeetingOverviewLoader = async ({ params }) => {
   try {
     if (params.boardmeetings === "userboardmeetings") {
       moduleName = "user";
       parentPath = "users";
+      groupName = "groupUser"
     }
     if (params.boardmeetings === "entityboardmeetings") {
       moduleName = "entity";
+      parentPath = "entities"
+      groupName = "groupEntity"
     }
-    const [data , usersGroup] = await Promise.all([
+    if (params.boardmeetings === "teamboardmeetings") {
+      moduleName = "team";
+      parentPath = "teams"
+      groupName = "groupTeam"
+    }
+    const [data ] = await Promise.all([
       atbtApi.get(`boardmeeting/getByid/${params?.BMid}`),
-      atbtApi.get(`/boardmeeting/groupUser/${params.BMid}`),
+      // atbtApi.get(`/boardmeeting/${groupName}/${params.BMid}`),
       // atbtApi.post(`entity/User/list/${params?.id}`),
     ]);
-    console.log("usersGroup",usersGroup?.data)
+    // console.log("usersGroup",usersGroup?.data)
     console.log("bm overview combined data", data);
     let threadName = data?.data?.meetingnumber;
     let threadPath = `/${parentPath}/${params.id}/${params.boardmeetings}/${params.BMid}`;
-    return { data,usersGroup, threadName, threadPath };
+  
+    return { data, threadName, threadPath };
   } catch (error) {
     console.error("Error loading dashboard:", error);
     return null;
@@ -33,9 +43,8 @@ const BoardMeetingOverview = () => {
   const { id, BMid, boardmeetings } = useParams();
   let data = useLoaderData();
   let customFormField = data?.data?.data?.customFieldsData;
- let usersGroupData = data?.usersGroup?.data
-  const userData = JSON.parse(localStorage.getItem("data"));
-  // to set the time in 12hours
+ let usersGroupData = data?.data?.data?.allMembers
+
   function formatTime(timeString) {
     // Splitting the timeString to extract hours and minutes
     const [hourStr, minuteStr] = timeString.split(":");
@@ -67,21 +76,25 @@ const BoardMeetingOverview = () => {
             pathname: `/boardmeetings/${BMid}/edit`,
             search: `?boardmeetingFor=${moduleName}&boardmeetingForID=${id}`,
           }}
-          relative="path"
-          className="text-sm font-medium transition-colors  focus-visible:ring-1 focus-visible:ring-ring  text-gray-900 pt-2 hover:text-orange-600"
         >
-          <svg
+          <button
+            type="submit"
+            className=" flex  justify-center rounded-md bg-orange-600 px-3 py-2 text-sm font-medium leading-6 text-white shadow-sm  focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600"
+          >
+            Edit
+          </button>
+          {/* <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 20 20"
             fill="currentColor"
             className="w-5 h-5 text-gray-900"
           >
             <path d="m2.695 14.762-1.262 3.155a.5.5 0 0 0 .65.65l3.155-1.262a4 4 0 0 0 1.343-.886L17.5 5.501a2.121 2.121 0 0 0-3-3L3.58 13.419a4 4 0 0 0-.885 1.343Z" />
-          </svg>
+          </svg> */}
         </Link>
         <Link
           to={`/${
-            boardmeetings === "userboardmeetings" ? "users" : ""
+            boardmeetings === "userboardmeetings" ? "users" : boardmeetings === "entityboardmeetings" ? "entities": boardmeetings === "teamboardmeetings" ? "teams" :""
           }/${id}/${boardmeetings}/${BMid}/tasks`}
         >
           <button
@@ -92,7 +105,7 @@ const BoardMeetingOverview = () => {
           </button>
         </Link>
       </div>
-      <div className="mt-3 flex justify-center">
+      <div className="mt-3 flex justify-center ">
         <div className=" w-full md:w-full  lg:w-11/12 xl:11/12 shadow-md border-2 rounded-md  px-4 pb-4 pt-1">
           <div className="flex justify-end "></div>
           {customFormField &&
@@ -101,11 +114,11 @@ const BoardMeetingOverview = () => {
               return (
                 <div className="relative">
                   {/* predefined */}
-                  <div className="md:flex md:justify-between my-2 ">
+                  <div className=" block md:flex md:justify-between my-2 ">
                     {item.type === "number" &&
                       item.inputname === "meetingnumber" &&
                       item.field === "predefined" && (
-                        <p className="text-md w-5/6 truncate">
+                        <p className="text-md md:w-5/6 md:truncate">
                           {" "}
                           Meeting Id : {item.value}
                         </p>
@@ -113,11 +126,55 @@ const BoardMeetingOverview = () => {
 
                     {item.type === "date" &&
                       item.inputname === "date" &&
-                      item.field === "predefined" && (
-                        <p className="text-sm md:absolute md:bottom-3 right-2">
-                          Date: {item.value}
-                        </p>
-                      )}
+                      item.field === "predefined" &&   (() => {
+                        let date = new Date(item.value);
+                        const day = date.getUTCDate();
+                        const monthIndex = date.getUTCMonth();
+                        const year = date.getUTCFullYear();
+
+                        const monthAbbreviations = [
+                          "January",
+                          "February",
+                          "March",
+                          "April",
+                          "May",
+                          "June",
+                          "July",
+                          "August",
+                          "September",
+                          "October",
+                          "November",
+                          "December",
+                        ];
+                        let ordinalsText = "";
+                        if (day == 1 || day == 21 || day == 31) {
+                          ordinalsText = "st";
+                        } else if (day == 2 || day == 22) {
+                          ordinalsText = "nd";
+                        } else if (day == 3 || day == 23) {
+                          ordinalsText = "rd";
+                        } else {
+                          ordinalsText = "th";
+                        }
+
+                        // Formatting the date
+                        date = ` ${monthAbbreviations[monthIndex]} ${
+                          day < 10 ? "0" : ""
+                        }${day}${ordinalsText}, ${year}`;
+                        return (
+                          <div>
+                            {item.value ? (
+                              <p className="text-sm md:absolute md:bottom-2 md:right-2">
+                                Date : {date ? date : "No Date"}
+                              </p>
+                            ) : (
+                              <p className="text-sm text-gray-400 md:absolute md:bottom-2 md:right-2">
+                                Date : month date, year
+                              </p>
+                            )}
+                          </div>
+                        );
+                      })()}
                   </div>
 
                   {item.type === "textarea" &&

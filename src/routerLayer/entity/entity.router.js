@@ -35,7 +35,7 @@ export const entityRouter = [
     loader: entityFormLoader,
     element: <EntityForm />,
     handle: {
-      crumb: () => <Link to="/entities/new">New User</Link>,
+      crumb: () => <Link to="/entities/new">New Entity</Link>,
     },
   },
   {
@@ -68,10 +68,19 @@ export const entityRouter = [
             path: "tasks",
             loader: tasksLoader,
             action: TasksActions,
-            element: <Tasks />,
+          
+            element:  <Tasks NameModule="entities" tasksWithBm = "false" groupName="groupEntity" />,
             handle: {
               crumb: (data) => (
-                <Link to={data?.threadPath}>{data?.threadName}</Link>
+                <Link 
+                to={{
+                  pathname: data?.threadPath,
+                  search: `?status=To-Do`,
+                }}
+                
+                
+                
+                >{data?.threadName}</Link>
               ),
             },
           },
@@ -81,7 +90,13 @@ export const entityRouter = [
             loader: MeetingLoader,
             handle: {
               crumb: (data) => (
-                <Link to={data.threadPath}>{data.threadName}</Link>
+                <Link 
+                to={{
+                  pathname: data.threadPath,
+                  search: `?search=&page=1&pageSize=10`,
+                }}
+                
+                >{data.threadName}</Link>
               ),
             },
             children: [
@@ -111,7 +126,8 @@ export const entityRouter = [
                     path: "tasks",
                     loader: tasksLoader,
                     action: TasksActions,
-                    element: <Tasks />,
+      
+                    element:  <Tasks NameModule="entities" tasksWithBm = "true" />,
                     handle: {
                       crumb: (data) => (
                         <Link to={data?.threadPath}>{data?.threadName}</Link>
@@ -136,7 +152,7 @@ export const entityRouter = [
             path: "documents",
             element: <Documents />,
             handle: {
-              crumb: () => <Link to=".">User Documents</Link>,
+              crumb: () => <Link to=".">Entity Documents</Link>,
             },
           },
         ],

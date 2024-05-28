@@ -1,16 +1,24 @@
-import React , {useState,useEffect,useRef,useCallback} from "react";
-import {Link,useFetcher,useLoaderData,useNavigation,useSubmit,} from "react-router-dom";
+import React, { useState, useEffect, useRef, useCallback } from "react";
+import {
+  Link,
+  useFetcher,
+  useLoaderData,
+  useLocation,
+  useNavigation,
+  useSubmit,
+} from "react-router-dom";
 import Swal from "sweetalert2";
 import { Fragment } from "react";
 // import { caseLetter } from '../../../utils/utils';
 import { Dialog, Menu, Transition } from "@headlessui/react";
 import GateKeeper from "../../../../rbac/GateKeeper";
-import { debounce   } from "../../../../utils/utils";
+import { debounce } from "../../../../utils/utils";
 import CustomColumn from "../../../../componentLayer/components/tableCustomization/CustomColumn";
 import CustomFilter from "../../../../componentLayer/components/tableCustomization/CustomFilter";
 import atbtApi from "../../../../serviceLayer/interceptor";
 import BreadCrumbs from "../../../components/breadcrumbs/BreadCrumbs";
 const userData = JSON.parse(localStorage.getItem("data"));
+let permissions = userData?.role?.Permissions
 const userId = userData?.user?.id;
 const role = userData?.role?.name;
 export async function loader({ request, params }) {
@@ -26,14 +34,16 @@ export async function loader({ request, params }) {
     const combinedResponse = {
       users: users?.data,
       fieldsDropDownData: {
-        role: roleList?.data?.roles?.map((item) => ({
-          name: item?.name || "",
-          id: item?.id || "",
-        })) || [],
-        entityname: entityList?.data?.Entites?.map((item) => ({
-          name: item?.name || "",
-          id: item?.id || "",
-        })) || []
+        role:
+          roleList?.data?.roles?.map((item) => ({
+            name: item?.name || "",
+            id: item?.id || "",
+          })) || [],
+        entityname:
+          entityList?.data?.Entites?.map((item) => ({
+            name: item?.name || "",
+            id: item?.id || "",
+          })) || [],
       },
       tableViewData: meetingFormData?.data?.Tableview,
       customForm: meetingFormData?.data?.Data,
@@ -52,9 +62,9 @@ export async function action({ request, params }) {
       console.log(id, "json", id);
       return await atbtApi.delete(`user/delete/${id}`);
     }
-    case "PUT" :{
+    case "PUT": {
       const requestData = (await request.json()) || null;
-      return await atbtApi.put(`toggle/${requestData.id}`,{requestData});
+      return await atbtApi.put(`toggle/${requestData.id}`, { requestData });
     }
     default: {
       throw new Response("", { status: 405 });
@@ -62,6 +72,8 @@ export async function action({ request, params }) {
   }
 }
 function Users() {
+  let location  = useLocation()
+  console.log("loctoion",location)
   document.title = "ATBT | User";
   const navigation = useNavigation();
   let submit = useSubmit();
@@ -101,6 +113,7 @@ function Users() {
     console.log(selectedValue, "sv");
     setQParams({
       ...Qparams,
+      page:1,
       pageSize: selectedValue,
     });
   };
@@ -213,18 +226,14 @@ function Users() {
   return (
     <div className="overflow-x-auto p-3">
       <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-3 xl:grid-col-3 items-center gap-2 mt-2">
-        <h1 className="font-semibold text-lg grid1-item"><BreadCrumbs/></h1>
+        <h1 className="font-semibold text-lg grid1-item">
+          <BreadCrumbs />
+        </h1>
         <div className="grid1-item text-start">
-          <label
-            for="default-search"
-            className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white"
-          >
-            Search
-          </label>
           <div className="relative">
-            <div className="absolute inset-y-0 start-0 flex items-center p-2 pointer-events-none">
+            <div className="absolute inset-y-0 start-0 flex items-center p-3 pointer-events-none">
               <svg
-                className="w-4 h-4 text-gray-500 dark:text-gray-400"
+                className="w-3 h-3 text-gray-500 dark:text-gray-400"
                 aria-hidden="true"
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -244,7 +253,7 @@ function Users() {
               value={Qparams?.search}
               type="search"
               id="default-search"
-              className="block w-full px-4 py-2 ps-10 text-sm border-2 border-gray-200  rounded-2xl bg-gray-50  focus:outline-none "
+              className="block w-full px-4 py-2 ps-8 text-sm border-2 border-gray-200  rounded-2xl bg-gray-50  focus:outline-none placeholder:text-sm"
               placeholder="Search here..."
               required
             />
@@ -267,7 +276,7 @@ function Users() {
         </div>
       </div>
       {/* table */}
-      <div className="max-h-[510px] overflow-y-scroll mt-5">
+      <div className="max-h-[510px] overflow-y-auto mt-5">
         {visibleColumns && tableView && users?.users && (
           <table className="w-full divide-y divide-gray-200 dark:divide-gray-700 rounded-md">
             <thead>
@@ -275,7 +284,8 @@ function Users() {
                 {visibleColumns.map((key) => (
                   <th
                     key={key}
-                    className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200">
+                    className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200"
+                  >
                     {tableView[key].label}
                   </th>
                 ))}
@@ -291,9 +301,10 @@ function Users() {
                     key={row.id}
                     // className="hover:bg-slate-100 dark:hover:bg-gray-700"
                     className={`hover:bg-slate-100 dark:hover:bg-gray-700 ${
-                      row.userstatus ? '' : 'bg-[#f3f4f6] hover:bg-[#f3f4f6] text-gray-400'
-                  }`}
-            
+                      row.userstatus
+                        ? ""
+                        : "bg-[#f3f4f6] hover:bg-[#f3f4f6] text-gray-400"
+                    }`}
                   >
                     {visibleColumns.map((key) => {
                       let value = row[key];
@@ -332,62 +343,70 @@ function Users() {
                       }
 
                       if (key === "name") {
+                       
+let meetingPermission = permissions.find((permission=>permission.module ==="meeting"))
+
                         return (
                           <td
                             key={key}
-                            className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  hover:text-orange-500 overflow-hidden`}
-                            style={{ maxWidth: "160px" }}
-                            title={(row[key])}
+                            className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium   overflow-hidden`}
+                            style={{ maxWidth: "12rem" }}
+                            title={row[key]}
                           >
-                            <GateKeeper
+                           {meetingPermission?.canRead ? <GateKeeper
                               permissionCheck={(permission) =>
-                                permission.module === "user" &&
+                                permission.module === "meeting" &&
                                 permission.canRead
                               }
                             >
-                              <Link to={`${row.id}/userboardmeetings`}>
-                                <p className="truncate text-xs"> {(value)}</p>
-                               
+                              <Link
+                              className="hover:text-orange-500"
+                                to={{
+                                  pathname: `${row.id}/userboardmeetings`,
+                                  search: `?search=&page=1&pageSize=10`,
+                                }}
+                              >
+                                <p className="truncate text-xs"> {value}</p>
                               </Link>
-                            </GateKeeper>
+                            </GateKeeper> :   <p className="truncate text-xs"> {value}</p> }
+                           
+                            
                           </td>
                         );
-                      }
-                     else if (key === "entityname") {
-                      let entity_name =  fieldsDropDownData?.entityname?.find(
-                        (i) => i.id === parseInt(value)
-                      )?.name
+                      } else if (key === "entityname") {
+                        let entity_name = fieldsDropDownData?.entityname?.find(
+                          (i) => i.id === parseInt(value)
+                        )?.name;
                         return (
                           <td
                             key={key}
-                            className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  hover:text-orange-500 overflow-hidden`}
-                            style={{ maxWidth: "160px" }}
-                            title={(entity_name)}
+                            className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium truncate  hover:text-orange-500 overflow-hidden`}
+                            style={{ maxWidth: "10rem" }}
+                            title={entity_name}
                           >
-                             {(entity_name)}
+                            {entity_name}
                           </td>
                         );
-                      }
-                      else if (key === "role") {
+                      } else if (key === "role") {
                         let role_name = fieldsDropDownData?.role?.find(
                           (i) => i.id === parseInt(value)
-                        )?.name
+                        )?.name;
                         return (
                           <td
                             key={key}
-                            className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  hover:text-orange-500 overflow-hidden`}
-                            style={{ maxWidth: "160px" }}
-                            title= {( role_name)}
+                            className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium truncate  hover:text-orange-500 overflow-hidden`}
+                            style={{ maxWidth: "10rem" }}
+                            title={role_name}
                           >
-                               {( role_name)}
+                            {role_name}
                           </td>
                         );
                       } else {
                         return (
                           <td
                             key={key}
-                            className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden`}
-                            style={{ maxWidth: "160px" }}
+                            className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  truncate overflow-hidden`}
+                            style={{ maxWidth: "10rem" }}
                             title={row[key]}
                           >
                             <p className="truncate text-xs">{value}</p>
@@ -402,12 +421,12 @@ function Users() {
                           ? "text-gray-800 "
                           : "bg-gray-100 text-gray-300"
                       }`}
-                      style={{ maxWidth: "160px" }}
+                      style={{ width: "9.375rem" }}
                     >
-                      <div className="flex justify-start gap-5">
+                      <div className="flex justify-center gap-4">
                         <GateKeeper
                           permissionCheck={(permission) =>
-                            permission.module === "user" && permission.canCreate
+                            permission.module === "user" && permission.canRead
                           }
                         >
                           <button
@@ -441,7 +460,7 @@ function Users() {
                             type="button"
                             title="Edit"
                             // disabled={row.userstatus == false}
-                            className={`inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg  hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600 ` }
+                            className={`inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg  hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600 `}
                           >
                             <Link to={`${row.id}/edit`}>
                               <svg
@@ -457,7 +476,7 @@ function Users() {
                         </GateKeeper>
                         <GateKeeper
                           permissionCheck={(permission) =>
-                            permission.module === "user" && permission.canUpdate
+                            permission.module === "user" && permission.canDelete
                           }
                         >
                           {
@@ -518,7 +537,7 @@ function Users() {
                                 >
                                   <div
                                     className={`w-6 h-3 rounded-full shadow-inner ${
-                                      row.userstatus 
+                                      row.userstatus
                                         ? " bg-[#ea580c]"
                                         : "bg-[#c3c6ca]"
                                     }`}
@@ -629,8 +648,7 @@ function Users() {
             ) : (
               <p className="text-sm text-gray-700">
                 Showing {users.startUser} to {users.endUser} of{" "}
-                <span className="font-medium">{users.totalUsers}</span>
-                <span className="font-medium"> </span> results
+                <span className="text-sm">{users.totalUsers}</span> users
               </p>
             )}
           </div>
@@ -642,7 +660,7 @@ function Users() {
             <select
               value={Qparams?.pageSize}
               onChange={handlePerPageChange}
-              className="focus:outline-none me-3 rounded-md bg-[#f8fafc]  px-1 py-1.5 text-sm font-semibold  ring-1 ring-inset ring-gray-300 hover:bg-gray-50 shadow-sm  text-gray-500"
+              className="focus:outline-none me-3 rounded-md bg-[#f8fafc]  px-1 py-1.5 text-sm font-semibold  ring-1 ring-inset ring-gray-300 hover:bg-gray-50 shadow-sm  text-gray-500 cursor-pointer"
             >
               <option value="10">10</option>
               <option value="25">25</option>
@@ -652,7 +670,7 @@ function Users() {
               <option value="500">500</option>
             </select>
             {/* previos button */}
-            <button
+            <button 
               disabled={
                 navigation?.state === "loading"
                   ? true
@@ -665,7 +683,7 @@ function Users() {
                   ? "cursor-wait"
                   : users.currentPage === 1
                   ? "cursor-not-allowed"
-                  : "cursor-auto"
+                  : "cursor-pointer"
               }`}
             >
               <span className="sr-only">Previous</span>
@@ -696,7 +714,7 @@ function Users() {
                   ? "cursor-wait"
                   : users.currentPage === users.totalPages
                   ? "cursor-not-allowed"
-                  : "cursor-auto"
+                  : "cursor-pointer"
               }`}
             >
               <span className="sr-only">Next</span>
@@ -719,8 +737,6 @@ function Users() {
       </div>
     </div>
   );
-  
 }
 
 export default Users;
-

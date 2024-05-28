@@ -77,10 +77,21 @@ export const userRouter = [
             path: "tasks",
             loader: tasksLoader,
             action: TasksActions,
-            element: <Tasks />,
+            element: (
+              <Tasks
+              
+              />
+            ),
             handle: {
               crumb: (data) => (
-                <Link to={data?.threadPath}>{data?.threadName}</Link>
+                <Link
+                  to={{
+                    pathname: data?.threadPath,
+                    search: `?status=To-Do`,
+                  }}
+                >
+                  {data?.threadName}
+                </Link>
               ),
             },
           },
@@ -91,7 +102,14 @@ export const userRouter = [
             loader: MeetingLoader,
             handle: {
               crumb: (data) => (
-                <Link to={data.threadPath}>{data.threadName}</Link>
+                <Link
+                  to={{
+                    pathname: data.threadPath,
+                    search: `?search=&page=1&pageSize=10`,
+                  }}
+                >
+                  {data.threadName}
+                </Link>
               ),
             },
             children: [
@@ -117,7 +135,6 @@ export const userRouter = [
                     index: true,
                     loader: boardMeetingOverviewLoader,
                     element: <BoardMeetingOverview />,
-                   
                   },
                   {
                     path: "tasks",
@@ -134,9 +151,7 @@ export const userRouter = [
                     path: "documents",
                     element: <Documents />,
                     handle: {
-                      crumb: (data) => (
-                        <Link to=".">Documents</Link>
-                      ),
+                      crumb: (data) => <Link to=".">Documents</Link>,
                     },
                   },
                 ],

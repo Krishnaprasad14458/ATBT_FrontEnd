@@ -7,7 +7,8 @@ import {
 } from "react-router-dom";
 import HomeUsersList from "../../../pages/home/homeUser/HomeUsersList";
 import GateKeeper from "../../../../rbac/GateKeeper";
-import { debounce } from "../../../../utils/utils";
+import { debounce, caseLetter } from "../../../../utils/utils";
+
 function HomeUser() {
   let [searchParams, setSearchParams] = useSearchParams();
   console.log(searchParams.toString(), "sp");
@@ -78,12 +79,12 @@ function HomeUser() {
             </GateKeeper>
           </div>
           {/* input module */}
-          <div className="flex gap-4">
+          <div className="flex gap-2 items-center">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 20 20"
               fill="currentColor"
-              className="w-5 h-5"
+              className="w-3 h-3 cursor-pointer"
             >
               <path
                 fill-rule="evenodd"
@@ -96,8 +97,8 @@ function HomeUser() {
               type="search"
               id="gsearch"
               name="gsearch"
-              className="bg-slate-50  w-80  border-none focus:outline-none appearance-none focus:border-none"
-              placeholder="Search here...."
+              className="bg-slate-50  w-80  border-none focus:outline-none appearance-none focus:border-none placeholder:text-sm text-sm"
+              placeholder="Search here..."
               onChange={handleSearchChange}
             />
           </div>
@@ -118,7 +119,7 @@ function HomeUser() {
               data?.users?.map((user) => (
                 <li
                   className="py-2 md:px-5  hover:bg-slate-100 "
-                  title={user.name}
+                  title={caseLetter(user.userName || user.name)}
                   key={user.id}
                 >
                   <Link to={`/users/${user.id}`}>
@@ -159,7 +160,7 @@ function HomeUser() {
             ) : (
               <p className="text-sm text-gray-700">
                 Showing {data?.startUser} to {data?.endUser} of
-                <span className="text-sm "> {data?.totalUsers}</span> users
+                <span className="text-sm "> {data?.totalUsers}</span>
               </p>
             )}
           </div>
@@ -182,7 +183,7 @@ function HomeUser() {
                     ? "cursor-wait"
                     : data?.currentPage === 1
                     ? "cursor-not-allowed"
-                    : "cursor-auto"
+                    : "cursor-pointer"
                 }`}
               >
                 <span className="sr-only">Previous</span>
@@ -213,7 +214,7 @@ function HomeUser() {
                     ? "cursor-wait"
                     : data?.currentPage === data?.totalPages
                     ? "cursor-not-allowed"
-                    : "cursor-auto"
+                    : "cursor-pointer"
                 }`}
               >
                 <span className="sr-only">Next</span>

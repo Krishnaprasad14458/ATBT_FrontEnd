@@ -15,29 +15,35 @@ import { debounce } from "../../../utils/utils";
 import Swal from "sweetalert2";
 let url;
 let moduleName;
-let parentPath
+let parentPath;
 export async function loader({ request, params }) {
   try {
     url = new URL(request.url);
-    console.log("url",url)
+    console.log("url", url);
     if (params.boardmeetings === "userboardmeetings") {
       moduleName = "user";
-      parentPath = "users"
+      parentPath = "users";
     }
     if (params.boardmeetings === "entityboardmeetings") {
       moduleName = "entity";
+      parentPath = "entities";
+    }
+    if (params.boardmeetings === "teamboardmeetings") {
+      moduleName = "team";
+      parentPath = "teams";
     }
     const [meetings, entityList, roleList, meetingFormData] = await Promise.all(
       [
-       
         atbtApi.get(
-          `boardmeeting/list?${moduleName}=${params.id}${url && url.search ? '&' + url.search.substring(1) : ""}`
+          `boardmeeting/list?${moduleName}=${params.id}${
+            url && url.search ? "&" + url.search.substring(1) : ""
+          }`
         ),
         atbtApi.post(`public/list/entity`),
         atbtApi.post(`public/list/role`),
         atbtApi.get(`form/list?name=boardmeetingform`),
       ]
-    );
+    ); 
     console.log(meetings, "meetings loader");
     const combinedResponse = {
       meetings: meetings?.data,
@@ -50,7 +56,7 @@ export async function loader({ request, params }) {
       threadName: "BoardMeetings",
       threadPath: `/${parentPath}/${params.id}/${params.boardmeetings}`,
     };
-    console.log(combinedResponse, "entities response", request, params);
+    console.log(combinedResponse, "board meeting response");
     return combinedResponse;
   } catch (error) {
     console.error("Error occurred:", error);
@@ -82,7 +88,6 @@ function Boardmeeting() {
     search: "",
     page: 1,
     pageSize: 10,
-  
   });
   useEffect(() => {
     debouncedParams(Qparams);
@@ -112,6 +117,7 @@ function Boardmeeting() {
     console.log(selectedValue, "sv");
     setQParams({
       ...Qparams,
+      page: 1,
       pageSize: selectedValue,
     });
   };
@@ -153,21 +159,15 @@ function Boardmeeting() {
   }, [tableView]);
   const [selectedFilters, setSelectedFilters] = useState({});
   return (
-    <div className="overflow-x-auto p-3">
+    <div className="overflow-x-auto p-3 w-full">
       {/* search & filter */}
       <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3 xl:grid-col-3 gap-2 mt-2">
         <span className="col-span-1"> </span>
         <div className="col-span-1 text-start">
-          <label
-            for="default-search"
-            className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white"
-          >
-            Search
-          </label>
           <div className="relative">
-            <div className="absolute inset-y-0 start-0 flex items-center p-2 pointer-events-none">
+            <div className="absolute inset-y-0 start-0 flex items-center p-3 pointer-events-none">
               <svg
-                className="w-4 h-4 text-gray-500 dark:text-gray-400"
+                className="w-3 h-3 text-gray-500 dark:text-gray-400"
                 aria-hidden="true"
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -187,7 +187,7 @@ function Boardmeeting() {
               value={Qparams?.search}
               type="search"
               id="default-search"
-              className="block w-full px-4 py-2 ps-10 text-sm border-2 border-gray-200  rounded-2xl bg-gray-50  focus:outline-none "
+              className="block w-full px-4 py-2 ps-8 text-sm border-2 border-gray-200  rounded-2xl bg-gray-50  focus:outline-none placeholder:text-sm"
               placeholder="Search here..."
               required
             />
@@ -205,29 +205,32 @@ function Boardmeeting() {
             setQParams={setQParams}
             customForm={customForm}
           />
-          <Link
-            className=" px-1 inline-flex items-center  whitespace-nowrap rounded-full  transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground  hover:bg-primary/90 shrink-0 text-white  "
-            to={{
-              pathname: "/boardmeetings/new",
-              search: `?boardmeetingFor=${moduleName}&boardmeetingForID=${id}`,
-            }}
+
+          <GateKeeper
+            permissionCheck={(permission) =>
+              permission.module === "meeting" && permission.canCreate
+            }
           >
-            
-            <button className=" px-1 py-2 inline-flex items-center justify-center  rounded-full  font-medium  gap-1 ">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-                className="w-5 h-5 "
-              >
-                <path d="M10.75 4.75a.75.75 0 0 0-1.5 0v4.5h-4.5a.75.75 0 0 0 0 1.5h4.5v4.5a.75.75 0 0 0 1.5 0v-4.5h4.5a.75.75 0 0 0 0-1.5h-4.5v-4.5Z" />
-              </svg>
-              <span className="text-sm"> Create</span>
-            </button>
-
-
-
-          </Link>
+            <Link
+              className=" px-1 inline-flex items-center  whitespace-nowrap rounded-full  transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground  hover:bg-primary/90 shrink-0 text-white  "
+              to={{
+                pathname: "/boardmeetings/new",
+                search: `?boardmeetingFor=${moduleName}&boardmeetingForID=${id}`,
+              }}
+            >
+              <button className=" px-1 py-2 inline-flex items-center justify-center  rounded-full  font-medium  gap-1 ">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                  className="w-5 h-5 "
+                >
+                  <path d="M10.75 4.75a.75.75 0 0 0-1.5 0v4.5h-4.5a.75.75 0 0 0 0 1.5h4.5v4.5a.75.75 0 0 0 1.5 0v-4.5h4.5a.75.75 0 0 0 0-1.5h-4.5v-4.5Z" />
+                </svg>
+                <span className="text-sm"> Create</span>
+              </button>
+            </Link>
+          </GateKeeper>
         </div>
       </div>
       {/* table */}
@@ -239,38 +242,44 @@ function Boardmeeting() {
                 {visibleColumns.map((key) => (
                   <th
                     key={key}
-                    className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200"
+                    className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2 border-l-2 border-gray-200"
                   >
                     {tableView[key].label}
                   </th>
                 ))}
                 <th
                   scope="col"
-                  className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200"
+                  className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2 border-l-2 border-gray-200"
                 >
                   Total Tasks
                 </th>
                 <th
                   scope="col"
-                  className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200"
+                  className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2 border-l-2 border-gray-200"
                 >
-                  Completed Tasks
+                  To-Do Tasks
                 </th>
                 <th
                   scope="col"
-                  className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200"
+                  className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2 border-l-2 border-gray-200"
                 >
-                  Upcoming Tasks
+                  In-Progress Tasks
                 </th>
                 <th
                   scope="col"
-                  className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200"
+                  className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2 border-l-2 border-gray-200"
                 >
                   Overdue Tasks
                 </th>
                 <th
                   scope="col"
-                  className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200"
+                  className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2 border-l-2 border-gray-200"
+                >
+                  Completed Tasks
+                </th>
+                <th
+                  scope="col"
+                  className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2 border-l-2 border-gray-200"
                 >
                   Actions
                 </th>
@@ -330,7 +339,7 @@ function Boardmeeting() {
                           >
                             <GateKeeper
                               permissionCheck={(permission) =>
-                                permission.module === "meeting" &&
+                                permission.module === "task" &&
                                 permission.canRead
                               }
                             >
@@ -358,28 +367,45 @@ function Boardmeeting() {
                       style={{ maxWidth: "160px" }}
                       title=""
                     >
-                      <p className="truncate text-xs"> 5000</p>
+                      <p className="truncate text-xs">
+                        {row.taskCounts.totalTaskCount}
+                      </p>
                     </td>
                     <td
                       className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden`}
                       style={{ maxWidth: "160px" }}
                       title=""
                     >
-                      <p className="truncate text-xs"> 2000</p>
+                      <p className="truncate text-xs">
+                        {row.taskCounts.toDoCount}
+                      </p>
                     </td>
                     <td
                       className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden`}
                       style={{ maxWidth: "160px" }}
                       title=""
                     >
-                      <p className="truncate text-xs"> 1000</p>
+                      <p className="truncate text-xs">
+                        {row.taskCounts.inProgressCount}
+                      </p>
                     </td>
                     <td
                       className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden`}
                       style={{ maxWidth: "160px" }}
                       title=""
                     >
-                      <p className="truncate text-xs"> 500</p>
+                      <p className="truncate text-xs">
+                        {row.taskCounts.overDueCount}
+                      </p>
+                    </td>
+                    <td
+                      className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden`}
+                      style={{ maxWidth: "160px" }}
+                      title=""
+                    >
+                      <p className="truncate text-xs">
+                        {row.taskCounts.completedCount}
+                      </p>
                     </td>
                     <td
                       className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden`}
@@ -450,13 +476,13 @@ function Boardmeeting() {
                           <button
                             type="button"
                             onClick={() => handleDeleteUser(row.id)}
-                            className=" inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none  dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
+                            className=" inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none  dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600 cursor-pointer"
                           >
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
                               viewBox="0 0 20 20"
                               fill="currentColor"
-                              className="w-4 h-4"
+                              className="w-4 h-4 "
                             >
                               <path
                                 fill-rule="evenodd"
@@ -484,9 +510,8 @@ function Boardmeeting() {
               "Loading..."
             ) : (
               <p className="text-sm text-gray-700">
-                Showing {meetings?.startMeeting} to {meetings?.endMeeting} of{" "}
-                <span className="font-medium">{meetings?.totalMeetings}</span>
-                <span className="font-medium"> </span> results
+                Showing {meetings?.startMeeting} to {meetings?.endMeeting} of
+                <span className="text-sm"> {meetings?.totalMeetings} </span>
               </p>
             )}
           </div>
@@ -497,7 +522,7 @@ function Boardmeeting() {
             <select
               value={Qparams?.pageSize}
               onChange={handlePerPageChange}
-              className="focus:outline-none me-3 rounded-md bg-[#f8fafc]  px-1 py-1.5 text-sm font-semibold  ring-1 ring-inset ring-gray-300 hover:bg-gray-50 shadow-sm  text-gray-500"
+              className="focus:outline-none me-3 rounded-md bg-[#f8fafc]  px-1 py-1.5 text-sm font-semibold  ring-1 ring-inset ring-gray-300 hover:bg-gray-50 shadow-sm  text-gray-500 cursor-pointer"
             >
               <option value="10">10</option>
               <option value="25">25</option>
@@ -532,9 +557,9 @@ function Boardmeeting() {
                 />
               </svg>
             </button>
-            <button className="border w-8 border-gray-300">
+            {/* <button className="border w-8 border-gray-300">
               {meetings?.currentPage}
-            </button>
+            </button> */}
             <button
               disabled={meetings?.currentPage === meetings?.totalPages}
               onClick={() => handlePage(meetings?.currentPage + 1)}

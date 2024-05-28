@@ -1,162 +1,141 @@
-import React, { useState, useEffect, useContext } from "react";
-import {NavLink,Link,Outlet,useParams,useLocation} from "react-router-dom";
-import { TeamsDataContext } from "../../../../contexts/teamsDataContext/teamsDataContext";
-import axios from "axios";
+import React from "react";
+import {
+  NavLink,
+
+  Outlet,
+  useParams,
+
+} from "react-router-dom";
+
+import BreadCrumbs from "../../../components/breadcrumbs/BreadCrumbs";
 const TeamsLandingPage = () => {
-  const moduleName = "team";
-  const {
-    getTeambyId,
-    teamsState: { teams },
-  } = useContext(TeamsDataContext);
-  const { id } = useParams();
-  const [singleProduct, setSingleProduct] = useState({});
-  // For tabs active
-  const getSingleProduct = async () => {
-    try {
-      const teamById = teams?.Teams?.find((element) => element.id === +id);
-      if (!teamById) {
-        const product = await getTeambyId(id);
-        setSingleProduct(product?.data?.Teams);
-      } else {
-        setSingleProduct(teamById);
-      }
-    } catch (e) {
-      console.error(e);
-      throw e;
-    }
-  };
-  useEffect(() => {
-    getSingleProduct();
-  }, [id]);
-  // for active tabs
-  const location = useLocation();
-  const currentURL = location.pathname.split("/");
-  console.log("currentURL", currentURL);
-  const [activeTab, setActiveTab] = useState(currentURL[3]);
-
-  const handleTabClick = (tabName) => {
-    setActiveTab(tabName);
-  };
-  //  for active tabs close
-
-  // ----toggleDrawer-------
-  const [isOpen, setIsOpen] = useState(false);
-
-  const toggleDrawer = () => {
-    setIsOpen(!isOpen);
-  };
-  // -------full screen----
-  const [expand, setExpand] = useState(false);
-
-  let [customFormField, setCustomFormField] = useState();
-  const userData = JSON.parse(localStorage.getItem("data"));
-  const token = userData?.token;
-  let response;
-  let [predefinedImage, setPredefinedImage] = useState("");
-  useEffect(() => {
-    axios
-      .get(`https://atbtbeta.infozit.com/team/list/${id}`, {
-        headers: {
-          authorization: token,
-        },
-      })
-      .then((res) => {
-        // Handle the successful response
-        response = res;
-        console.log("response", response.data.image);
-        setPredefinedImage(response.data.image);
-        setCustomFormField(response.data.customFieldsData);
-      })
-      .catch((error) => {
-        // Handle errors
-        console.error("Error fetching data:", error);
-      });
-  }, []);
-  useEffect(() => {
-    console.log("customFormField", customFormField);
-  }, [customFormField]);
-  // to set the time in 12hours
-  function formatTime(timeString) {
-    // Splitting the timeString to extract hours and minutes
-    const [hourStr, minuteStr] = timeString.split(":");
-    // Parsing hours and minutes as integers
-    const hours = parseInt(hourStr, 10);
-    const minutes = parseInt(minuteStr, 10);
-    // Checking if hours and minutes are valid numbers
-    if (isNaN(hours) || isNaN(minutes)) {
-      return "Invalid time";
-    }
-    // Converting hours to 12-hour format and determining AM/PM
-    const ampm = hours >= 12 ? "PM" : "AM";
-    const formattedHours = hours % 12 || 12; // Handles midnight
-    const formattedMinutes = minutes < 10 ? "0" + minutes : minutes; // Ensures minutes are two digits
-    // Constructing the formatted time string
-    const formattedTime = `${formattedHours}:${formattedMinutes} ${ampm}`;
-    return formattedTime;
-  }
+  const { id, BMid } = useParams();
   return (
-    <div className="container p-4 bg-[#f8fafc]">
+    <div className=" p-4 bg-[#f8fafc]">
       <div className="flex justify-between my-2">
-        <p className="text-xl font-semibold">Teams Landing Page</p>
+        <p className="text-xl font-semibold">
+          <BreadCrumbs />
+        </p>
       </div>
       <div className="flex overflow-auto">
-      <NavLink
-          to="team/boardmeetings"
-          end
-          className={({ isActive, isPending, isTransitioning }) =>
-            isPending
-              ? "cursor-pointer px-4 py-1 text-md font-semibold"
-              : isActive
-              ? "border-b-2 border-orange-600 text-black cursor-pointer px-4 py-1 text-md font-semibold"
-              : "cursor-pointer px-4 py-1 text-md font-semibold"
-          }
-        >
-          Board Meetings
-        </NavLink>
-        <NavLink
-          to="tasks"
-          end
-          className={({ isActive, isPending, isTransitioning }) =>
-            isPending
-              ? "cursor-pointer px-4 py-1 text-md font-semibold"
-              : isActive
-              ? "border-b-2 border-orange-600 text-black cursor-pointer px-4 py-1 text-md font-semibold"
-              : "cursor-pointer px-4 py-1 text-md font-semibold"
-          }
-        >
-          Tasks
-        </NavLink>
-       
-        <NavLink
-          to="documents"
-          end
-          className={({ isActive, isPending, isTransitioning }) =>
-            isPending
-              ? "cursor-pointer px-4 py-1 text-md font-semibold"
-              : isActive
-              ? "border-b-2 border-orange-600 text-black cursor-pointer px-4 py-1 text-md font-semibold"
-              : "cursor-p px-4 py-1 text-md font-semibold"
-          }
-        >
-          Documents
-        </NavLink>
-
-        <NavLink
-          to="."
-          end
-          className={({ isActive, isPending, isTransitioning }) =>
-            isPending
-              ? "cursor-pointer px-4 py-1 text-md font-semibold"
-              : isActive
-              ? "border-b-2 border-orange-600 text-black cursor-pointer px-4 py-1 text-md font-semibold"
-              : "cursor-pointer px-4 py-1 text-md font-semibold"
-          }
-        >
-          Overview
-        </NavLink>
+        {!BMid && (
+          <NavLink
+            to={{
+              pathname: `teamboardmeetings`,
+              search: `?search=&page=1&pageSize=10`,
+            }}
+            end
+            className={({ isActive, isPending, isTransitioning }) =>
+              isPending
+                ? "cursor-pointer px-4 py-1 text-sm  text-[#0c0a09]"
+                : isActive
+                ? "border-b-2 border-orange-500 text-orange-600 cursor-pointer px-4 py-1 text-sm font-[500]"
+                : "cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09]"
+            }
+          >
+            Team Meetings
+          </NavLink>
+        )}
+        {BMid && (
+          <NavLink
+            to={`teamboardmeetings/${BMid}/tasks`}
+            end
+            isActive={(match, location) =>
+              match ||
+              location.pathname.startsWith(`/teams/${id}/teamboardmeetings`)
+            }
+            className={({ isActive, isPending, isTransitioning }) =>
+              isPending
+                ? "cursor-pointer px-4 py-1 text-sm text-[#0c0a09]"
+                : isActive
+                ? "border-b-2 border-orange-500 text-orange-600 cursor-pointer px-4 py-1 text-sm font-[500]"
+                : "cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09]"
+            }
+          >
+          Meetings Tasks
+          </NavLink>
+        )}{" "}
+        {!BMid && (
+          <NavLink
+            to={{
+              pathname: "tasks",
+              search: `?status=To-Do`,
+            }}
+            end
+            className={({ isActive, isPending, isTransitioning }) =>
+              isPending
+                ? "cursor-pointer px-4 py-1 text-sm  text-[#0c0a09]"
+                : isActive
+                ? "border-b-2 border-orange-500 text-orange-600 cursor-pointer px-4 py-1 text-sm font-[500]"
+                : "cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09]"
+            }
+          >
+            Team Tasks
+          </NavLink>
+        )}
+        {!BMid && (
+          <NavLink
+            to="documents"
+            end
+            className={({ isActive, isPending, isTransitioning }) =>
+              isPending
+                ? "cursor-pointer px-4 py-1 text-sm  text-[#0c0a09]"
+                : isActive
+                ? "border-b-2 border-orange-500 text-orange-600 cursor-pointer px-4 py-1 text-sm font-[500]"
+                : "cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09]"
+            }
+          >
+            Team Documents
+          </NavLink>
+        )}
+        {BMid && (
+          <NavLink
+            to={`teamboardmeetings/${BMid}/documents`}
+            end
+            className={({ isActive, isPending, isTransitioning }) =>
+              isPending
+                ? "cursor-pointer px-4 py-1 text-sm  text-[#0c0a09]"
+                : isActive
+                ? "border-b-2 border-orange-500 text-orange-600 cursor-pointer px-4 py-1 text-sm font-[500]"
+                : "cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09]"
+            }
+          >
+            Board Meeting Documents
+          </NavLink>
+        )}
+        {!BMid && (
+          <NavLink
+            to="."
+            end
+            className={({ isActive, isPending, isTransitioning }) =>
+              isPending
+                ? "cursor-pointer px-4 py-1 text-sm  text-[#0c0a09]"
+                : isActive
+                ? "border-b-2 border-orange-500 text-orange-600 cursor-pointer px-4 py-1 text-sm font-[500]"
+                : "cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09]"
+            }
+          >
+            Team Overview
+          </NavLink>
+        )}
+        {BMid && (
+          <NavLink
+            to={`teamboardmeetings/${BMid}`}
+            end
+            className={({ isActive, isPending, isTransitioning }) =>
+              isPending
+                ? "cursor-pointer px-4 py-1 text-sm  text-[#0c0a09]"
+                : isActive
+                ? "border-b-2 border-orange-500 text-orange-600 cursor-pointer px-4 py-1 text-sm font-[500]"
+                : "cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09]"
+            }
+          >
+            Board Meeting Overview
+          </NavLink>
+        )}
       </div>
       <hr />
-      <Outlet context={moduleName} />
+      <Outlet />
     </div>
   );
 };

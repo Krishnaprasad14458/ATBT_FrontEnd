@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import Select from "react-select";
 function CustomFilter({
   fieldsDropDownData = {},
   Qparams,
@@ -54,6 +55,19 @@ function CustomFilter({
       [filterName]: selectedValue,
     }));
   };
+
+  const handleDateFilterChange = (filterName, selectedValue, dateRange) => {
+    setSelectedFilters((prevState) => ({
+      ...prevState,
+      [filterName]: {
+        ...prevState[filterName],
+        [dateRange]: selectedValue,
+      },
+    }));
+  };
+
+  console.log(selectedFilters, "selectedFilters");
+
   const handleFilterReset = () => {
     setSelectedFilters({});
     setQParams({
@@ -67,7 +81,7 @@ function CustomFilter({
     setFilterDrawerOpen(!filterDrawerOpen);
   };
   return (
-    <>
+    <div>
       <button
         onClick={filterDrawer}
         className="focus:outline-none gap-x-1 px-4  text-sm font-[500] text-gray-500 hover:text-orange-600"
@@ -100,9 +114,9 @@ function CustomFilter({
             transition: "transform 0.3s ease-in-out",
           }}
         >
-          <div className=" bg-gray-100 px-5 py-4 flex justify-between z-[3] ">
+          <div className=" bg-gray-100 px-5 py-4 flex justify-between z-[3]">
             <h5 className="font-[500] "> Filters</h5>
-            <button onClick={filterDrawer} className="">
+            <button onClick={filterDrawer}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
@@ -119,53 +133,113 @@ function CustomFilter({
           </div>
 
           <div
-            className="overflow-y-auto px-2 py-2.5 content relative"
+            className="overflow-y-auto px-0.5 py-2.5 content relative"
             style={{ maxHeight: "calc(100vh - 7rem)" }}
           >
             <div className="text-start px-3 ">
               {/* {filter.label} */}
               {filterableInputsInBox?.map((filter, index) => (
                 <div key={index} className="">
-                  {!filter.options &&
-                    (filter.type === "date" || filter.type === "time") && (
+                  {/* for date filter */}
+                  {!filter.options && filter.type === "date" && (
+                    <div>
                       <div>
-                        <label className="mb-4 text-sm text-[#878a99] font-medium">
+                        <label className="block text-sm font-medium leading-6 mt-2 text-[#878a99]">
                           {filter.label.charAt(0).toUpperCase() +
-                            filter.label.slice(1)}
+                            filter.label.slice(1)}{" "}
+                          :
                         </label>
-                        <input
-                          type={filter.type}
-                          id={filter.inputname}
-                          name={filter.inputname}
-                          className="px-3 py-1 mb-2 text-xs block w-full bg-gray-50 rounded-md text-gray-900 border border-1 border-[#e9ebec] placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-xs sm:leading-6"
-                          onChange={(e) =>
-                            handleFilterChange(filter.inputname, e.target.value)
-                          }
-                          value={selectedFilters[filter.inputname] || ""}
-                        />
+
+                        <div className="grid grid-cols-6 md:grid-cols-6 lg:grid-cols-6 xl:grid-cols-6 gap-2">
+                          <div className="col-span-3">
+                            <p className="block text-xs font-medium leading-6 mt-1 text-[#878a99]">
+                              {" "}
+                              From
+                            </p>
+                            <input
+                              type={filter.type}
+                              id={filter.inputname}
+                              name={filter.inputname}
+                              className="px-2 py-2 text-xs block w-full rounded-md bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder:text-xs"
+                              onChange={(e) =>
+                                handleDateFilterChange(
+                                  filter.inputname,
+                                  e.target.value,
+                                  "from"
+                                )
+                              }
+                              value={
+                                selectedFilters[filter.inputname]?.from || ""
+                              }
+                            />
+                          </div>
+                          <div className="col-span-3">
+                            <p className="block text-xs font-medium leading-6 mt-1 text-[#878a99]">
+                              {" "}
+                              To
+                            </p>
+                            <input
+                              type={filter.type}
+                              id={filter.inputname}
+                              name={filter.inputname}
+                              className="px-2 py-2 text-xs block w-full rounded-md bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder:text-xs"
+                              onChange={(e) =>
+                                handleDateFilterChange(
+                                  filter.inputname,
+                                  e.target.value,
+                                  "to"
+                                )
+                              }
+                              value={
+                                selectedFilters[filter.inputname]?.to || ""
+                              }
+                            />
+                          </div>
+                        </div>
                       </div>
-                    )}
+                    </div>
+                  )}
+                  {/* for time filter */}
+                  {!filter.options && filter.type === "time" && (
+                    <div>
+                      <label className="block text-sm font-medium leading-6 mt-2 text-[#878a99]">
+                        {filter.label.charAt(0).toUpperCase() +
+                          filter.label.slice(1)}
+                      </label>
+                      <input
+                        type={filter.type}
+                        id={filter.inputname}
+                        name={filter.inputname}
+                        className="px-2 py-2 text-xs block w-full rounded-md bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder:text-gray-400 appearance-none placeholder:text-xs"
+                        onChange={(e) =>
+                          handleFilterChange(filter.inputname, e.target.value)
+                        }
+                        value={selectedFilters[filter.inputname] || ""}
+                      />
+                    </div>
+                  )}
                   {filter.options &&
                     (filter.type === "multiselect" ||
                       filter.type === "select") && (
-                      <div>
-                        <label className="block text-sm font-medium leading-6 mt-2 text-gray-900">
+                      <div className="">
+                        <label className="block text-sm font-medium leading-6 mt-2 text-[#878a99]">
                           {filter.label.charAt(0).toUpperCase() +
                             filter.label.slice(1)}
                         </label>
 
-                        <div className="relative">
+                        <div className="relative w-full">
                           <select
                             id={filter.inputname}
                             name={filter.inputname}
-                            className="px-2 py-2 text-sm block w-full rounded-md bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder:text-gray-400 appearance-none"
-                            // px-2 py-2 my-2 text-sm w-full bg-gray-50 rounded-md text-gray-900 border border-1 border-[#e9ebec] placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-xs sm:leading-6
+                            className="px-2 py-2 text-xs block w-full rounded-md bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder:text-gray-400 appearance-none  "
                             onChange={(e) =>
                               handleFilterChange(
                                 filter.inputname,
                                 e.target.value
                               )
                             }
+                            
+                            
                             value={selectedFilters[filter.inputname] || ""}
                             style={{
                               fontSize: "0.8rem",
@@ -174,7 +248,7 @@ function CustomFilter({
                                 : "#a1a1aa",
                             }}
                           >
-                            <option value="" disabled defaultValue>
+                            <option value="" disabled defaultValue  className="text-xs ">
                               Select
                             </option>
                             {filter.options &&
@@ -182,9 +256,14 @@ function CustomFilter({
                               filter.options.value &&
                               filter.options.value.map((option, index) => (
                                 <option
+                                autosize
+                                  onScroll={() => true}
                                   key={index}
                                   value={option}
-                                  style={{ color: "#111827" }}
+                                  style={{ color: "#111827"  }}
+                                  className="text-xs "
+                                  // maxHeight="10px"
+                                
                                 >
                                   {option}
                                 </option>
@@ -195,9 +274,12 @@ function CustomFilter({
                               fieldsDropDownData[filter.options.value]?.map(
                                 (option, index) => (
                                   <option
+                                    onScroll={() => true}
                                     key={index}
                                     value={option.id}
-                                    style={{ color: "#111827" }}
+                                    style={{ color: "#111827"}}
+                                    className="text-xs"
+                                    // maxHeight="10px"
                                   >
                                     {option.name}
                                   </option>
@@ -215,7 +297,7 @@ function CustomFilter({
                           </select>
 
                           <svg
-                            className="w-4 h-4 text-gray-700 absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none"
+                            className="w-3 h-3 text-gray-700 absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none"
                             fill="none"
                             stroke="currentColor"
                             viewBox="0 0 24 24"
@@ -251,7 +333,7 @@ function CustomFilter({
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }
 export default CustomFilter;

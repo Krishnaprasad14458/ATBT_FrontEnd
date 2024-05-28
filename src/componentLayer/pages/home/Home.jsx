@@ -143,26 +143,32 @@ function Home() {
         </h4>
         <div className="flex flex-wrap mt-2 justify-center">
           <div className="tota_tasks border-r-2 border-black-100 bg-gray-100 p-2 rounded-s-full">
-            <p className="mr-4 ml-4 px-2 pt-1 text-xs text-[#929297]">
-              Total Tasks
-            </p>
-            <p className="mr-4 ml-4 px-2 font-semibold">0</p>
-          </div>
-          <div className=" completed_tasks border-r-2 border-black-100 bg-gray-100 p-2">
-            <p className="mr-4 ml-4 px-2 pt-1 text-xs text-[#929297]">
-              Completed Tasks
-            </p>
-            <p className="mr-4 ml-4 px-2 font-semibold">0</p>
-          </div>
-          <div className=" upcoming_tasks border-r-2 border-black-100 bg-gray-100 p-2">
             <p className="mr-4 lg:ml-4 px-2 pt-1 text-xs text-[#929297]">
-              Upcoming Tasks
+              Total Tasks
             </p>
             <p className="mr-4 lg:ml-4 px-2 font-semibold">0</p>
           </div>
-          <div className=" overdue_tasks border-black-100 bg-gray-100 p-2 rounded-e-full">
+          <div className=" todo_tasks border-r-2 border-black-100 bg-gray-100 p-2">
             <p className="mr-4 lg:ml-4 px-2 pt-1 text-xs text-[#929297]">
-              Overdue Tasks
+              To-Do Tasks
+            </p>
+            <p className="mr-4 lg:ml-4 px-2 font-semibold">0</p>
+          </div>
+          <div className=" in_progress_tasks border-r-2 border-black-100 bg-gray-100 p-2">
+            <p className="mr-4 lg:ml-4 px-2 pt-1 text-xs text-[#929297]">
+              In-Progress Tasks
+            </p>
+            <p className="mr-4 lg:ml-4 px-2 font-semibold">0</p>
+          </div>
+          <div className="  overdue_tasks border-r-2 border-black-100 bg-gray-100 p-2">
+            <p className="mr-4 lg:ml-4 px-2 pt-1 text-xs text-[#929297]">
+                Overdue Tasks
+            </p>
+            <p className="mr-4 lg:ml-4 px-2 font-semibold">0</p>
+          </div>
+          <div className=" completed_tasks border-black-100 bg-gray-100 p-2 rounded-e-full">
+            <p className="mr-4 lg:ml-4 px-2 pt-1 text-xs text-[#929297]">
+            Completed Tasks
             </p>
             <p className="mr-4 lg:ml-4 px-2 font-semibold">0</p>
           </div>

@@ -6,6 +6,7 @@ import { EntitiesDataContext } from "../../../../contexts/entitiesDataContext/en
 import { useSearchParams } from "react-router-dom";
 import GateKeeper from "../../../../rbac/GateKeeper";
 import { debounce } from "../../../../utils/utils";
+import { caseLetter } from "../../../../utils/utils";
 function HomeEntity() {
   const fetcher = useFetcher();
   const data = fetcher?.data?.data ?? [];
@@ -71,12 +72,12 @@ function HomeEntity() {
               </Link>
             </GateKeeper>
           </div>
-          <div className="flex gap-4">
+          <div className="flex gap-2 items-center">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 20 20"
               fill="currentColor"
-              className="w-5 h-5"
+              className="w-3 h-3 "
             >
               <path
                 fill-rule="evenodd"
@@ -89,8 +90,11 @@ function HomeEntity() {
               type="search"
               id="gsearch"
               name="gsearch"
-              className="bg-slate-50 w-80 border-none focus:outline-none appearance-none focus:border-none"
-              placeholder="Search here...."
+
+              className="bg-slate-50 w-80 border-none focus:outline-none 
+              appearance-none focus:border-none placeholder:text-sm text-sm"
+
+              placeholder="Search here..."
             />
           </div>
           <hr className="w-96 my-1" />
@@ -109,11 +113,11 @@ function HomeEntity() {
               data?.Entities?.map((entity) => (
                 <li
                   className="py-2 md:px-5  hover:bg-slate-100"
-                  title={entity.name}
+                  title={caseLetter(entity?.name ?? "none")}
                   key={entity.id}
                 >
                   <Link to={`/entities/${entity.id}`}>
-                    <HomeEntityList   entity={entity} />
+                    <HomeEntityList entity={entity} />
                   </Link>
                 </li>
               ))
@@ -145,8 +149,8 @@ function HomeEntity() {
               "Loading..."
             ) : (
               <p className="text-sm text-gray-700">
-                Showing {data.startEntity} to {data.endEntity} of{" "}
-                <span className="text-sm">{data.totalEntities}</span> entities
+                Showing {data.startEntity} to {data.endEntity} of
+                <span className="text-sm"> {data.totalEntities}</span>
               </p>
             )}
           </div>
@@ -166,7 +170,7 @@ function HomeEntity() {
                     ? "cursor-wait"
                     : data.currentPage === 1
                     ? "cursor-not-allowed"
-                    : "cursor-auto"
+                    : "cursor-pointer"
                 }`}
                 onClick={() => handlePage(data.currentPage - 1)}
               >
@@ -197,7 +201,7 @@ function HomeEntity() {
                     ? "cursor-wait"
                     : data.currentPage === data.totalPages
                     ? "cursor-not-allowed"
-                    : "cursor-auto"
+                    : "cursor-pointer"
                 }`}
               >
                 <span className="sr-only">Next</span>
