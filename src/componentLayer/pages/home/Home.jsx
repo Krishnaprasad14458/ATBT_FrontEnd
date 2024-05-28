@@ -162,21 +162,21 @@ function Home() {
               Total Tasks
             </p>
             <p className="mr-4 lg:ml-4 px-2 font-semibold">
-              {data.count.allTasksCount}
+              {data?.count?.allTasksCount}
             </p>
           </div>
           <div className=" todo_tasks border-r-2 border-black-100 bg-gray-100 p-2">
             <p className="mr-4 lg:ml-4 px-2 pt-1 text-xs text-[#929297]">
               To-Do Tasks
             </p>
-            <p className="mr-4 lg:ml-4 px-2 font-semibold">{data.count.toDoCount}</p>
+            <p className="mr-4 lg:ml-4 px-2 font-semibold">{data?.count?.toDoCount}</p>
           </div>
           <div className=" in_progress_tasks border-r-2 border-black-100 bg-gray-100 p-2">
             <p className="mr-4 lg:ml-4 px-2 pt-1 text-xs text-[#929297]">
               In-Progress Tasks
             </p>
             <p className="mr-4 lg:ml-4 px-2 font-semibold">
-              {data.count.inProgressCount}
+              {data?.count?.inProgressCount}
             </p>
           </div>
           <div className="  overdue_tasks border-r-2 border-black-100 bg-gray-100 p-2">
@@ -184,7 +184,7 @@ function Home() {
               Overdue Tasks
             </p>
             <p className="mr-4 lg:ml-4 px-2 font-semibold">
-              {data.count.overdueCount}
+              {data?.count?.overdueCount}
             </p>
           </div>
           <div className=" completed_tasks border-black-100 bg-gray-100 p-2 rounded-e-full">
@@ -192,7 +192,7 @@ function Home() {
               Completed Tasks
             </p>
             <p className="mr-4 lg:ml-4 px-2 font-semibold">
-              {data.count.completedCount}
+              {data?.count?.completedCount}
             </p>
           </div>
         </div>
