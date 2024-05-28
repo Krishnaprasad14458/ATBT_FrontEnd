@@ -1,7 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
-import axios from "axios";
 import Select from "react-select";
-
 import defprop from "../../../../assets/Images/Avatar_new_02.svg";
 import { UserDataContext } from "../../../../contexts/usersDataContext/usersDataContext";
 import $ from "jquery";

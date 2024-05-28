@@ -1,11 +1,7 @@
 import React from "react";
 import Select from "react-select";
 import { useFetcher } from "react-router-dom";
-import CommentsView from "./CommentsView";
-import { useEffect } from "react";
-
 const SubTasksList = ({
-  members,
   task,
   handleAddSubTask,
   subTasks,
@@ -67,6 +63,10 @@ const SubTasksList = ({
                   task?.decision === null || task?.decision === ""
                     ? "2rem"
                     : "";
+                    let members = task?.group?.map((user) => ({
+                      label: user.name,
+                      value: user.id,
+                    }));
                 return (
                   <tr key={task.id} className="border-b border-gray-200 ">
                     <td className="border py-1.5 px-2">

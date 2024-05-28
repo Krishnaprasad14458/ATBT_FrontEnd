@@ -22,17 +22,17 @@ export const boardMeetingOverviewLoader = async ({ params }) => {
       parentPath = "teams"
       groupName = "groupTeam"
     }
-    const [data , usersGroup] = await Promise.all([
+    const [data ] = await Promise.all([
       atbtApi.get(`boardmeeting/getByid/${params?.BMid}`),
-      atbtApi.get(`/boardmeeting/${groupName}/${params.BMid}`),
+      // atbtApi.get(`/boardmeeting/${groupName}/${params.BMid}`),
       // atbtApi.post(`entity/User/list/${params?.id}`),
     ]);
-    console.log("usersGroup",usersGroup?.data)
+    // console.log("usersGroup",usersGroup?.data)
     console.log("bm overview combined data", data);
     let threadName = data?.data?.meetingnumber;
     let threadPath = `/${parentPath}/${params.id}/${params.boardmeetings}/${params.BMid}`;
   
-    return { data,usersGroup, threadName, threadPath };
+    return { data, threadName, threadPath };
   } catch (error) {
     console.error("Error loading dashboard:", error);
     return null;
