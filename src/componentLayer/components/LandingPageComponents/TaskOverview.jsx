@@ -17,7 +17,6 @@ const TaskOverview = ({
   handleSubmit,
   setOverViewTask,
   setQParams,
-  members,
   setTask,
   status,
   handleAddSubTask,
@@ -125,7 +124,7 @@ const TaskOverview = ({
                 handleSubmit={
                   displayOverviewTask ? handleSubmit : handleSubTaskSubmit
                 }
-                members={members}
+             
                 priority={priority}
                 setSubTask={setSubTask}
                 setDisplayOverviewTask={setDisplayOverviewTask}
@@ -135,7 +134,7 @@ const TaskOverview = ({
             </div>
             {displayOverviewTask && (
               <SubTasksList
-                members={members}
+              
                 task={task}
                 handleAddSubTask={handleAddSubTask}
                 subTasks={subTasks}

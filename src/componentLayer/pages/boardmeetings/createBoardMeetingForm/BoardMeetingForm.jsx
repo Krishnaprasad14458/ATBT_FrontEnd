@@ -61,9 +61,6 @@ export async function boardmeetingFormLoader({ params, request }) {
       console.log(boardmeetingResponse, "loader boardmeeting data updated");
     }
    
-
-    
-   
     const formData = formResponse.data.Data;
     console.log("formData", formData, "boardmeetingData", boardmeetingData);
 

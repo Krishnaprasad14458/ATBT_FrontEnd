@@ -13,7 +13,8 @@ import { debounce } from "../../../utils/utils";
 import subtask_icon from "../../../assets/Images/Subtask_icon.svg";
 import "react-datepicker/dist/react-datepicker.css";
 import GateKeeper from "../../../rbac/GateKeeper";
-let members;
+
+
 let status = [
   { label: "To-Do", value: "To-Do" },
   { label: "In-Progress", value: "In-Progress" },
@@ -21,7 +22,7 @@ let status = [
 ];
 
 let parentPath;
-let groupName;
+// let groupName;
 let idOF;
 export async function tasksLoader({ request, params }) {
   try {
@@ -29,17 +30,17 @@ export async function tasksLoader({ request, params }) {
 
     if (url.pathname.split("/")[1] === "users") {
       parentPath = "users";
-      groupName = "groupUser";
+      // groupName = "groupUser";
       idOF = "userId";
     }
     if (url.pathname.split("/")[1] === "entities") {
       parentPath = "entities";
-      groupName = "groupEntity";
+      // groupName = "groupEntity";
       idOF = "entityId";
     }
     if (url.pathname.split("/")[1] === "teams") {
       parentPath = "teams";
-      groupName = "groupTeam";
+      // groupName = "groupTeam";
       idOF = "teamId";
     }
     console.log("url", url.pathname.split("/")[1]);
@@ -47,7 +48,7 @@ export async function tasksLoader({ request, params }) {
     const subTaskID = url.searchParams.get("subTaskID");
     const statusType = url.searchParams.get("status");
     console.log("statusType", statusType);
-    const [tasks, task, subTasks, subTask, personResponsible] =
+    const [tasks, task, subTasks, subTask] =
       await Promise.all([
         params.BMid
           ? atbtApi.get(`task/list?meetingId=${params.BMid}`)
@@ -58,16 +59,12 @@ export async function tasksLoader({ request, params }) {
         taskID ? atbtApi.get(`task/listbyid/${taskID}`) : null,
         taskID ? atbtApi.get(`task/subList/${taskID}`) : null,
         subTaskID ? atbtApi.get(`task/subtaskbyid/${subTaskID}`) : null,
-        groupName && params.BMid
-          ? atbtApi.get(`/boardmeeting/${groupName}/${params.BMid}`)
-          : {},
-        // atbtApi.get(`task/listAll?user=103`)
-        // Api For Get boardmeeting members
-        // get('/groupEntity/:id')                Meeting.ListEntiyGroup
-        // get('/groupTeam/:id',)            Meeting.ListTeamGroup)
-        // get('/groupUser/:id')              Meeting.ListUserGroup)
+        // groupName && params.BMid
+        //   ? atbtApi.get(`/boardmeeting/${groupName}/${params.BMid}`)
+        //   : {},
+       
       ]);
-    console.log("personResponsiblee", personResponsible);
+    // console.log("personResponsiblee", personResponsible);
     let updatedTask = task?.data[0];
     let updatedSubTask = subTask?.data[0];
     let taskAge = null;
@@ -93,10 +90,10 @@ export async function tasksLoader({ request, params }) {
       task: updatedTask,
       subTasks: subTasks?.data?.Task,
       subTask: updatedSubTask,
-      personResponsible: personResponsible?.data?.map((user) => ({
-        label: user.name,
-        value: user.id,
-      })),
+      // personResponsible: personResponsible?.data?.map((user) => ({
+      //   label: user.name,
+      //   value: user.id,
+      // })),
       threadName: params.BMid ? ` Board Meetings Tasks` : `Tasks`,
       threadPath: params.BMid
         ? `/${parentPath}/${params.id}/${params.boardmeetings}/${params.BMid}/tasks`
@@ -203,7 +200,7 @@ const Tasks = () => {
   let [task, setTask] = useState({});
   let [subTasks, setSubTasks] = useState();
   let [subTask, setSubTask] = useState();
-  members = data?.personResponsible;
+  // members = data?.personResponsible;
   useEffect(() => {
     setTasks(data?.tasks);
     setTask(data?.task);
@@ -783,7 +780,7 @@ const Tasks = () => {
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 20 20"
                       fill="currentColor"
-                      class="w-5 h-5 "
+                      class="w-5 h-5"
                     >
                       <path
                         fill-rule="evenodd"
@@ -801,6 +798,9 @@ const Tasks = () => {
 
       <TaskOverview
         task={task}
+        subTasks={subTasks}
+        subTask={subTask}
+
         setTask={setTask}
         Qparams={Qparams}
         setQParams={setQParams}
@@ -808,14 +808,12 @@ const Tasks = () => {
         handleOverviewTaskChange={handleOverviewTaskChange}
         overViewTask={overViewTask}
         handleSubmit={handleSubmit}
-        members={members}
+      
         status={status}
         handleAddSubTask={handleAddSubTask}
-        subTasks={subTasks}
         handleSubTaskChange={handleSubTaskChange}
         handleSubTaskSubmit={handleSubTaskSubmit}
         handleOverviewSubTaskChange={handleOverviewSubTaskChange}
-        subTask={subTask}
         displayOverviewTask={displayOverviewTask}
         displayOverviewSubTask={displayOverviewSubTask}
         setDisplayOverviewTask={setDisplayOverviewTask}

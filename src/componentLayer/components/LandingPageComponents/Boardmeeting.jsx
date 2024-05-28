@@ -43,7 +43,7 @@ export async function loader({ request, params }) {
         atbtApi.post(`public/list/role`),
         atbtApi.get(`form/list?name=boardmeetingform`),
       ]
-    );
+    ); 
     console.log(meetings, "meetings loader");
     const combinedResponse = {
       meetings: meetings?.data,
