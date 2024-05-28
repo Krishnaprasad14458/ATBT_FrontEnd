@@ -1,5 +1,10 @@
-import Reports from "../../componentLayer/pages/reports/Reports";
+import Reports,{
+   
+    loader as reportLoader,
+  } from "../../componentLayer/pages/reports/Reports";
 
 export const reportRouter = [
-    { path: "reports", element: <Reports /> },
+    { path: "reports",
+    loader:reportLoader,
+    element: <Reports /> },
 ]
