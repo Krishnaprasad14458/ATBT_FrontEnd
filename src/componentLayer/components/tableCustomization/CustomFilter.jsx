@@ -81,7 +81,7 @@ function CustomFilter({
     setFilterDrawerOpen(!filterDrawerOpen);
   };
   return (
-    <>
+    <div>
       <button
         onClick={filterDrawer}
         className="focus:outline-none gap-x-1 px-4  text-sm font-[500] text-gray-500 hover:text-orange-600"
@@ -114,7 +114,7 @@ function CustomFilter({
             transition: "transform 0.3s ease-in-out",
           }}
         >
-          <div className=" bg-gray-100 px-5 py-4 flex justify-between z-[3] ">
+          <div className=" bg-gray-100 px-5 py-4 flex justify-between z-[3]">
             <h5 className="font-[500] "> Filters</h5>
             <button onClick={filterDrawer}>
               <svg
@@ -221,102 +221,25 @@ function CustomFilter({
                   {filter.options &&
                     (filter.type === "multiselect" ||
                       filter.type === "select") && (
-                      <div>
+                      <div className="">
                         <label className="block text-sm font-medium leading-6 mt-2 text-[#878a99]">
                           {filter.label.charAt(0).toUpperCase() +
                             filter.label.slice(1)}
                         </label>
 
-                        <div className="relative">
-                        {/* {filter.options &&
-                              filter.options.type === "predefined" &&
-                              filter.options.value &&
-                              fieldsDropDownData[filter.options.value]?.map( */}
-
-                          {/* {filter?.options &&
-                            filter?.options?.type === "predefined" &&
-                            filter.options.value && 
-                          
-                            (() => {
-                              const options = fieldsDropDownData[filter.options.value]?.map(
-                                (option) => ({
-                                  label: option,
-                                  value: option,
-                                })
-                              );
-                              return (
-                                <Select
-                                  id={filter.inputname}
-                                  name={filter.inputname}
-                                  options={options}
-                                  styles={{
-                                    control: (provided, state) => ({
-                                      ...provided,
-                                      backgroundColor: "#f9fafb", 
-                                      borderWidth: state.isFocused
-                                        ? "1px"
-                                        : "1px",
-                                      borderColor: state.isFocused
-                                        ? "#orange-400"
-                                        : "#d1d5db", 
-                                      boxShadow: state.isFocused
-                                        ? "none"
-                                        : provided.boxShadow, 
-                                    }),
-                                    placeholder: (provided) => ({
-                                      ...provided,
-                                      fontSize: "12px", 
-                                      color: "#a9a9a9",
-                                    }),
-                                    option: (provided, state) => ({
-                                      ...provided,
-                                      color: state.isFocused
-                                        ? "#fff"
-                                        : "#000000",
-                                      backgroundColor: state.isFocused
-                                        ? "#ea580c"
-                                        : "transparent",
-
-                                      "&:hover": {
-                                        color: "#fff",
-                                        backgroundColor: "#ea580c",
-                                      },
-                                    }),
-                                    fontSize: "14px",
-                                  }}
-                                  theme={(theme) => ({
-                                    ...theme,
-                                    borderRadius: 5,
-                                    colors: {
-                                      ...theme.colors,
-
-                                      primary: "#fb923c",
-                                    },
-                                  })}
-                                  value={
-                                    selectedFilters[filter.inputname] !== ""
-                                  }
-                                  onChange={(e) =>
-                                    handleFilterChange(
-                                      filter.inputname,
-                                      e.target.value
-                                    )
-                                  }
-                                />
-                              );
-                            })()} */}
-
+                        <div className="relative w-full">
                           <select
                             id={filter.inputname}
                             name={filter.inputname}
-                            className="px-2 py-2 text-xs block w-full rounded-md bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder:text-gray-400 appearance-none "
-                            // px-2 py-2 my-2 text-sm w-full bg-gray-50 rounded-md text-gray-900 border border-1 border-[#e9ebec] placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-xs sm:leading-6
+                            className="px-2 py-2 text-xs block w-full rounded-md bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder:text-gray-400 appearance-none  "
                             onChange={(e) =>
                               handleFilterChange(
                                 filter.inputname,
                                 e.target.value
                               )
                             }
+                            
+                            
                             value={selectedFilters[filter.inputname] || ""}
                             style={{
                               fontSize: "0.8rem",
@@ -325,7 +248,7 @@ function CustomFilter({
                                 : "#a1a1aa",
                             }}
                           >
-                            <option value="" disabled defaultValue>
+                            <option value="" disabled defaultValue  className="text-xs ">
                               Select
                             </option>
                             {filter.options &&
@@ -333,10 +256,14 @@ function CustomFilter({
                               filter.options.value &&
                               filter.options.value.map((option, index) => (
                                 <option
+                                autosize
+                                  onScroll={() => true}
                                   key={index}
                                   value={option}
-                                  style={{ color: "#111827" }}
-                                  className="flex-wrap"
+                                  style={{ color: "#111827"  }}
+                                  className="text-xs "
+                                  // maxHeight="10px"
+                                
                                 >
                                   {option}
                                 </option>
@@ -347,10 +274,12 @@ function CustomFilter({
                               fieldsDropDownData[filter.options.value]?.map(
                                 (option, index) => (
                                   <option
+                                    onScroll={() => true}
                                     key={index}
                                     value={option.id}
-                                    style={{ color: "#111827" }}
-                                    className="flex-wrap"
+                                    style={{ color: "#111827"}}
+                                    className="text-xs"
+                                    // maxHeight="10px"
                                   >
                                     {option.name}
                                   </option>
@@ -404,7 +333,7 @@ function CustomFilter({
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }
 export default CustomFilter;

@@ -704,8 +704,10 @@ const Tasks = () => {
                   </td>
                   <td className="border py-1.5 px-2" title={task?.status}>
                     <Select
+                   
                       options={status}
                       menuPortalTarget={document.body}
+                      closeMenuOnScroll={() => true}
                       styles={{
                         control: (provided, state) => ({
                           ...provided,
