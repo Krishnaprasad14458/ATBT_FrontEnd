@@ -72,7 +72,6 @@ export const router = createBrowserRouter([
             }
           />
         ),
-       
         children: [...teamRouter],
         handle: {
           crumb: () => <Link  
@@ -110,7 +109,6 @@ export const router = createBrowserRouter([
         ),
         children: [...taskRouter],
       },
-     
       {
         element: (
           <RouteBlocker
