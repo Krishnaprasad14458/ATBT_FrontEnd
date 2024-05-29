@@ -59,7 +59,7 @@ const DataShare = () => {
       <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3 xl:grid-col-3 gap-2 mt-2">
         <h1 className="font-semibold text-lg grid1-item">Data Share</h1>
         <div className="grid1-item  text-start">
-          <label
+          {/* <label
             for="default-search"
             className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white"
           >
@@ -90,7 +90,7 @@ const DataShare = () => {
               placeholder="Search here..."
               required
             />
-          </div>
+          </div> */}
         </div>
         <div className="grid1-item  sm:text-start md:text-end lg:text-end xl:text-end flex justify-end">
           <Link to="adddatashare">
@@ -130,7 +130,7 @@ const DataShare = () => {
                   Shared with
                 </th>
                 <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200 ">
-                  Actions{" "}
+                  Action
                 </th>
               </tr>
             </thead>
