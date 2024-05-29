@@ -30,13 +30,13 @@ export async function teamFormLoader({ params }) {
       image: item.image,
       name: item.name,
     }));
-   
-    console.log(teamData,"teamData")
+
+    console.log(teamData, "teamData");
     const formData = formResponse.data.Data;
     if (userData) {
       let threadName = teamData?.name;
       let threadPath = `/teams/${params.id}/edit`;
-      return { teamData, formData, usersList,threadName,threadPath };
+      return { teamData, formData, usersList, threadName, threadPath };
     } else {
       return { teamData, formData, usersList };
     }
@@ -63,14 +63,12 @@ function TeamsForm() {
   }, [id, team]);
   useEffect(() => {
     if (id && team?.teamData?.members) {
-      const updatedMembersForSelect = team?.teamData?.members.map(
-        (member) => ({
-          value: member.id,
-          label: member.email,
-          image: member.image,
-          name: member.name,
-        })
-      );
+      const updatedMembersForSelect = team?.teamData?.members.map((member) => ({
+        value: member.id,
+        label: member.email,
+        image: member.image,
+        name: member.name,
+      }));
 
       setSelected(updatedMembersForSelect);
     }
@@ -109,7 +107,7 @@ function TeamsForm() {
   const { debouncedSetPage, debouncedSetSearch } = useDebounce(usersDispatch);
   let [openOptions, setopenOptions] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
-  
+
   let [customFormFields, setCustomFormFields] = useState(() =>
     setInitialForm()
   );
@@ -119,7 +117,7 @@ function TeamsForm() {
       setSelected([]);
     }
   }, [id]);
-  
+
   const handleInputChange = (e) => {
     // setShowUsers(true);
     setSearchTerm(e.target.value);
@@ -472,7 +470,7 @@ function TeamsForm() {
               let id = customFormFields[i].value[z].id;
               updatedMembers.push(id);
             }
-     
+
             formData.set(
               customFormFields[i].inputname,
               JSON.stringify(updatedMembers)
@@ -483,7 +481,6 @@ function TeamsForm() {
               JSON.stringify(customFormFields[i].value)
             );
           }
-         
         }
       }
 
@@ -538,7 +535,9 @@ function TeamsForm() {
   // end the time function
   return (
     <div className="container p-4 bg-[#f8fafc]">
-    <p className="text-lg font-semibold"><BreadCrumbs/></p>
+      <p className="text-lg font-semibold">
+        <BreadCrumbs />
+      </p>
       <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-3 xl:grid-cols-3  gap-4 mt-2 ">
         <div className="col-span-1 ">
           <form className=" " method="POST" onSubmit={handleFormSubmit}>
@@ -567,7 +566,7 @@ function TeamsForm() {
                           type="text"
                           name={item.inputname}
                           id={item.inputname}
-                          placeholder="Enter Full Name"
+                          placeholder="Enter Team Name"
                           value={customFormFields[index].value || ""}
                           className="px-2 py-2 text-sm block w-full rounded-md bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder:text-xs"
                           onChange={(e) => handleChange(index, e.target.value)}
@@ -718,7 +717,6 @@ function TeamsForm() {
                             handleClick(selectedOption, index);
                           }}
                         />
-
 
                         {/* <div
                           className=" 
@@ -1392,7 +1390,7 @@ function TeamsForm() {
                           {item.value}
                         </div>
                       )}
-                   {item.type === "multiselect" &&
+                    {item.type === "multiselect" &&
                       item.inputname == "members" &&
                       item.field == "predefined" && (
                         <div className=" grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-2 my-5">
@@ -1532,7 +1530,7 @@ function TeamsForm() {
                               );
                             })}
                         </div>
-                      )} 
+                      )}
                     {/* custom fields*/}
                     {item.type === "text" && item.field == "custom" && (
                       <div className="my-2 mx-2 ">
