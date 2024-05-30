@@ -381,7 +381,7 @@ let meetingPermission = permissions.find((permission=>permission.module ==="meet
                         return (
                           <td
                             key={key}
-                            className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium truncate  hover:text-orange-500 overflow-hidden`}
+                            className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium truncate  overflow-hidden`}
                             style={{ maxWidth: "10rem" }}
                             title={entity_name}
                           >
@@ -395,7 +395,7 @@ let meetingPermission = permissions.find((permission=>permission.module ==="meet
                         return (
                           <td
                             key={key}
-                            className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium truncate  hover:text-orange-500 overflow-hidden`}
+                            className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium truncate   overflow-hidden`}
                             style={{ maxWidth: "10rem" }}
                             title={role_name}
                           >

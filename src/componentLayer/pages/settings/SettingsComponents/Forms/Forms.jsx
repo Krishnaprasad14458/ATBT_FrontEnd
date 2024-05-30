@@ -17,7 +17,7 @@ const formsData = [
             link: "entityform"
         },
         {
-            name: "Board Meeting Form",
+            name: " Meeting Form",
             icon: boardmeetingform,
             link: "boardmeetingform"
         },
