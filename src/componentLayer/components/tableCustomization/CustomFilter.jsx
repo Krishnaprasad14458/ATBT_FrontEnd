@@ -81,10 +81,10 @@ function CustomFilter({
     setFilterDrawerOpen(!filterDrawerOpen);
   };
   return (
-    <div>
+    <div className="mt-1">
       <button
         onClick={filterDrawer}
-        className="focus:outline-none gap-x-1 px-4  text-sm font-[500] text-gray-500 hover:text-orange-600"
+        className="focus:outline-none gap-x-1 px-4  text-sm font-[500] text-gray-500 hover:text-orange-600 "
         title="Filter"
       >
         <svg

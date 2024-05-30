@@ -28,7 +28,7 @@ const Documents = () => {
         <tbody className=" divide-gray-200 dark:divide-gray-700">
           <tr className={`hover:bg-slate-100 dark:hover:bg-gray-700 `}>
             <td
-              className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  hover:text-orange-500 overflow-hidden`}
+              className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium   overflow-hidden`}
             >
               1
             </td>

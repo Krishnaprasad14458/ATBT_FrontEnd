@@ -376,7 +376,7 @@ const Tasks = () => {
   };
 
   return (
-    <div className="">
+    <div className=" p-3">
       <div className="flex justify-end">
         {BMid && (
           <GateKeeper         
@@ -474,7 +474,7 @@ const Tasks = () => {
           )}
         </div>
       </div>
-      <div className=" max-h-[410px] overflow-y-auto ">
+      <div className=" max-h-[410px] ">
         <table className="w-full divide-y divide-gray-200 dark:divide-gray-700 rounded-md table ">
           <thead>
             <tr>
@@ -510,7 +510,7 @@ const Tasks = () => {
               </th> */}
             </tr>
           </thead>
-          <tbody className="">
+          <tbody className="overflow-auto">
             {tasks?.map((task, index) => {
               const decisionHeight =
                 task?.decision === null || task?.decision === "" ? "2rem" : "";
