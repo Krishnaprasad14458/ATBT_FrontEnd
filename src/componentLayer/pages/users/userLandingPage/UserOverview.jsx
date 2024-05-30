@@ -11,7 +11,7 @@ import {
 } from "react-router-dom";
 import atbtApi from "../../../../serviceLayer/interceptor";
 import { caseLetter } from "../../../../utils/utils";
-import GateKeeper from "../../../../rbac/GateKeeper";
+// import GateKeeper from "../../../../rbac/GateKeeper";
 export const userLandingLoader = async ({ params }) => {
   try {
     const [data, entityListresponse] = await Promise.all([
