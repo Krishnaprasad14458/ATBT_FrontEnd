@@ -92,7 +92,7 @@ const DataShare = () => {
             />
           </div> */}
         </div>
-        <div className="grid1-item  sm:text-start md:text-end lg:text-end xl:text-end flex justify-end">
+        <div className="grid1-item  sm:text-start md:text-end lg:text-end xl:text-end flex justify-end gap-3">
           <Link to="adddatashare">
             <button className="mt-1 px-3 py-2 inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white ">
               <svg
@@ -106,11 +106,16 @@ const DataShare = () => {
               Add
             </button>
           </Link>
+          <Link to="/settings">
+            <button className="mt-1 px-3 py-2 inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white ">
+          Back
+            </button>
+          </Link>
         </div>
       </div>
       {/* table */}
       <div className="mt-8">
-        <div className="max-h-[457px] overflow-y-scroll">
+        <div className="max-h-[457px] overflow-y-auto">
           <table className="w-full divide-y divide-gray-200 dark:divide-gray-700 rounded-md">
             <thead>
               <tr>

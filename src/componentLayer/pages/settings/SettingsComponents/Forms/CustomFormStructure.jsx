@@ -392,7 +392,7 @@ const CustomFormStructure = () => {
           )}
           {formName === "boardmeetingform" && (
             <span className="text-lg md:text-xl lg:text-xl xl:text-xl font-semibold">
-              Board Meeting Form
+               Meeting Form
             </span>
           )}
           {formName === "teamform" && (
