@@ -1,101 +1,74 @@
 import React, { useState, useEffect, useContext, } from 'react';
 import { NavLink, Link, Outlet, useParams, useLocation } from 'react-router-dom';
-import { BoardMeetingsDataContext } from '../../../../contexts/boardmeetingsDataContext/boardmeetingsDataContext';
-import axios from 'axios';
+// import { BoardMeetingsDataContext } from '../../../../contexts/boardmeetingsDataContext/boardmeetingsDataContext';
+// import axios from 'axios';
+import GateKeeper from '../../../../rbac/GateKeeper';
 const BoardMeetingLandingPage = () => {
-  const {
-    getBoardMeetingbyId,
-    boardmeetingsState: { boardmeetings },
-  } = useContext(BoardMeetingsDataContext);
-  const { id } = useParams();
-  const [singleProduct, setSingleProduct] = useState({});
-  // For tabs active
-  const getSingleProduct = async () => {
-    try {
-      const boardmeetingById = boardmeetings?.BoardMeetings?.find(
-        (element) => element.id === +id
-       );
-       if (!boardmeetingById){
-        const product = await getBoardMeetingbyId(id);
-        setSingleProduct(product?.data?.BoardMeetings);
-       } 
-       else {
-        setSingleProduct(boardmeetingById);
-       }
-     } catch (e) {
-      console.error(e);
-      throw e;
-     }
-  };
-  useEffect(() => {
-    getSingleProduct();
-  }, [id]);
-  // ---full screen
-  let [customFormField, setCustomFormField] = useState();
-  const userData = JSON.parse(localStorage.getItem('data'));
-  const token = userData?.token;
-  let response;
-  useEffect(() => {
-    axios
-      .get(`https://atbtbeta.infozit.com/boardmeeting/list/${id}`, {
-        headers: {
-          authorization: token,
-        },
-      })
-      .then((res) => {
-        // Handle the successful response
-        response = res;
-        console.log('response', response.data.image);
+  const { id, BMid } = useParams();
 
-        setCustomFormField(response.data.customFieldsData);
-      })
-      .catch((error) => {
-        // Handle errors
-        console.error('Error fetching data:', error);
-      });
-  }, []);
-  useEffect(() => {
-    console.log('customFormField', customFormField);
-  }, [customFormField]);
+ 
   return (
     <div className=' p-4 bg-[#f8fafc]'>
       <div className='flex justify-between my-2'>
-        <p className='text-xl font-semibold'>Board Meeting Landing Page</p>
+        {/* <p className='text-xl font-semibold'>Board Meeting Landing Page</p> */}
       </div>
       <div className='flex overflow-auto'>
+      <GateKeeper
+          permissionCheck={(permission) =>
+            permission.module === "task" && permission.canRead
+          }
+        >
+             <NavLink
+            to={`tasks`}
+            end
+            // isActive={(match, location) =>
+            //   match ||
+            //   location.pathname.startsWith(`/users/${id}/userboardmeetings`)
+            // }
+            className={({ isActive, isPending, isTransitioning }) =>
+              isPending
+                ? "cursor-pointer px-4 py-1 text-sm text-[#0c0a09]"
+                : isActive
+                ? "border-b-2 border-orange-500 text-orange-600 cursor-pointer px-4 py-1 text-sm font-[500]"
+                : "cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09]"
+            }
+          >
+            Meeting Tasks
+          </NavLink>
+        </GateKeeper>
         <NavLink
-          to='task'
-          end
-          className={({ isActive, isPending, isTransitioning }) =>
-            isPending
-              ? 'cursor-pointer px-4 py-1 text-md font-semibold'
-              : isActive
-                ? 'border-b-2 border-orange-600 text-black cursor-pointer px-4 py-1 text-md font-semibold'
-                : 'cursor-pointer px-4 py-1 text-md font-semibold'}>
-          Tasks
-        </NavLink>
-        <NavLink
-          to='documents'
-          end
-          className={({ isActive, isPending, isTransitioning }) =>
-            isPending
-              ? 'cursor-pointer px-4 py-1 text-md font-semibold'
-              : isActive
-                ? 'border-b-2 border-orange-600 text-black cursor-pointer px-4 py-1 text-md font-semibold'
-                : 'cursor-p px-4 py-1 text-md font-semibold'}>
-          Documents
-        </NavLink>
-        <NavLink
-          to='.'
-          end
-          className={({ isActive, isPending, isTransitioning }) =>
-            isPending
-              ? 'cursor-pointer px-4 py-1 text-md font-semibold'
-              : isActive
-                ? 'border-b-2 border-orange-600 text-black cursor-pointer px-4 py-1 text-md font-semibold'
-                : 'cursor-pointer px-4 py-1 text-md font-semibold'}>
-          Overview
-        </NavLink>
+            to={`documents`}
+            end
+            className={({ isActive, isPending, isTransitioning }) =>
+              isPending
+                ? "cursor-pointer px-4 py-1 text-sm  text-[#0c0a09]"
+                : isActive
+                ? "border-b-2 border-orange-500 text-orange-600 cursor-pointer px-4 py-1 text-sm font-[500]"
+                : "cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09]"
+            }
+          >
+            Meeting Attachments
+          </NavLink>
+          <GateKeeper
+              permissionCheck={(permission) =>
+                permission.module === "meeting" && permission.canRead
+              }
+            >
+               <NavLink
+            to={`.`}
+            
+            end
+            className={({ isActive, isPending, isTransitioning }) =>
+              isPending
+                ? "cursor-pointer px-4 py-1 text-sm  text-[#0c0a09]"
+                : isActive
+                ? "border-b-2 border-orange-500 text-orange-600 cursor-pointer px-4 py-1 text-sm font-[500]"
+                : "cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09]"
+            }
+          >
+            Meeting Overview
+          </NavLink>
+            </GateKeeper>
       </div>
       <hr />
       <Outlet />

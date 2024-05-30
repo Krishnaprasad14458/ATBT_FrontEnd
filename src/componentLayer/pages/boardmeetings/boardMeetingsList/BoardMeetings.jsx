@@ -301,7 +301,7 @@ function BoardMeetings() {
                                 permission.canRead
                               }
                             >
-                              <Link to={`${row.id}/task`}>
+                              <Link to={`${row.id}/tasks`}>
                                 <p className="truncate text-xs"> {value}</p>
                               </Link>
                             </GateKeeper>
@@ -336,28 +336,24 @@ function BoardMeetings() {
                     </td>
                     <td
                       className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden`}
-                      
                       title=""
                     >
                       <p className="truncate text-xs"> 1000</p>
                     </td>
                     <td
                       className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden`}
-                     
                       title=""
                     >
                       <p className="truncate text-xs"> 500</p>
                     </td>
                     <td
                       className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden`}
-                    
                       title=""
                     >
                       <p className="truncate text-xs"> 500</p>
                     </td>
                     <td
                       className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden`}
-                      
                       title=""
                     >
                       <div className="flex justify-start gap-4">
@@ -388,7 +384,7 @@ function BoardMeetings() {
                             </Link>
                           </button>
                         </GateKeeper>
-                        <GateKeeper
+                        {/* <GateKeeper
                           permissionCheck={(permission) =>
                             permission.module === "meeting" &&
                             permission.canUpdate
@@ -398,7 +394,12 @@ function BoardMeetings() {
                             type="button"
                             className="inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
                           >
-                            <Link to={`${row.id}/edit`}>
+                            <Link
+                              to={{
+                                pathname: `/boardmeetings/${row.id}/edit`,
+                                search: `?boardmeetingFor=${moduleName}&boardmeetingForID=${id}`,
+                              }}
+                            >
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 viewBox="0 0 20 20"
@@ -409,8 +410,8 @@ function BoardMeetings() {
                               </svg>
                             </Link>
                           </button>
-                        </GateKeeper>
-                        <GateKeeper
+                        </GateKeeper> */}
+                        {/* <GateKeeper
                           permissionCheck={(permission) =>
                             permission.module === "meeting" &&
                             permission.canDelete
@@ -434,7 +435,7 @@ function BoardMeetings() {
                               />
                             </svg>
                           </button>
-                        </GateKeeper>
+                        </GateKeeper> */}
                       </div>
                     </td>
                   </tr>

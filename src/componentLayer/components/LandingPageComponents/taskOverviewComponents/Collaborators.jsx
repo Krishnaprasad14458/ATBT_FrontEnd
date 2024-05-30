@@ -1,27 +1,28 @@
 import React, { useState } from "react";
 import Select from "react-select";
 const Collaborators = ({
-  members,
+
   task,
-  handleOverviewTaskChange,
   handleSubmit,
 }) => {
+  console.log("task", task,task?.collaborators);
+  // let members = task?.group.map((item,index)=>({value : item.id}))
+  let members = task?.group?.map((user) => ({
+    label: user.name,
+    value: user.id,
+  }));
   let [isCollaboratorsEditing, setIsCollaboratorsEditing] = useState(false);
-  let idsOfCollaborators = task?.collaborators?.map(
-    (collaborat) => collaborat.id
-  );
-
-  members = members?.filter((item) => !idsOfCollaborators?.includes(item.value));
-
-
+  // let idsOfCollaborators = task?.collaborators?.map(
+  //   (collaborat) => collaborat.id
+  // );
+  // members = members?.filter((item) => !idsOfCollaborators?.includes(item.value));
   const handleRemoveCollaborator = (collaboratorId) => {
     let updatedCollaborators = task?.collaborators.map(
       (collaborat) => collaborat.id
     );
     updatedCollaborators = updatedCollaborators.filter(
-      (e) => e != collaboratorId
+      (e) => e !== collaboratorId
     );
-   
     handleSubmit(task?.id, "collaborators", updatedCollaborators);
   };
   return (
@@ -34,9 +35,8 @@ const Collaborators = ({
               {/* Collaborator */}
               <div className="collaborator-container bg-orange-600 text-white py-1.5 w-8 h-8 rounded-full relative hover:bg-orange-700">
                 <span className="flex justify-center  text-sm">
-                  {collaborator.name.split("")[0]}
+                  {collaborator.name.split("")[0]} 
                 </span>
-
                 {/* Remove icon */}
                 <span className="absolute top-0 left-4 p-1 hidden group-hover:flex items-center">
                   <svg
@@ -64,11 +64,12 @@ const Collaborators = ({
                   alt={collaborator.name}
                   className="w-full h-40 rounded-t-lg object-cover"
                 />
-
                 {/* Details */}
                 <div className="inline-block p-1">
                   {/* Name */}
-                  <p className="font-semibold w-48 truncate">{collaborator.name}</p>
+                  <p className="font-semibold w-48 truncate">
+                    {collaborator.name}
+                  </p>
 
                   {/* Email */}
                   <p className="text-sm text-gray-600 pt-1 w-48 truncate">
@@ -90,7 +91,6 @@ const Collaborators = ({
                 borderColor: state.isFocused ? "#orange-400" : "#d1d5db", // Change border color when focused
                 boxShadow: state.isFocused ? "none" : provided.boxShadow, // Optionally remove box shadow when focused
                 cursor: "pointer",
-
               }),
               placeholder: (provided) => ({
                 ...provided,
@@ -119,20 +119,18 @@ const Collaborators = ({
               borderRadius: 5,
               colors: {
                 ...theme.colors,
-
                 primary: "#fb923c",
               },
             })}
             onChange={(selectedOption) => {
-              let updatedCollaborators = task?.collaborators.map(
-                (collaborat) => collaborat.id
-              );
-              updatedCollaborators = [
-                ...updatedCollaborators,
+              // let updatedCollaborators = task?.collaborators.map(
+              //   (collaborat) => collaborat.id
+              // );
+           let   updatedCollaborators = [
+                ...task?.collaborators,
                 selectedOption.value,
               ];
               handleSubmit(task?.id, "collaborators", updatedCollaborators);
-
               setIsCollaboratorsEditing(false);
             }}
             menuPlacement="auto"

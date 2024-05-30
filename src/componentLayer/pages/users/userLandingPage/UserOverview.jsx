@@ -9,6 +9,7 @@ import {
 } from "react-router-dom";
 import atbtApi from "../../../../serviceLayer/interceptor";
 import { caseLetter } from "../../../../utils/utils";
+import GateKeeper from "../../../../rbac/GateKeeper";
 export const userLandingLoader = async ({ params }) => {
   try {
     const [data, entityListresponse] = await Promise.all([
@@ -36,7 +37,7 @@ const UserOverview = () => {
   const data = useLoaderData();
   const customFormField = data?.data?.data?.user?.customFieldsData;
   console.log("customFormField", customFormField);
- 
+
   function formatTime(timeString) {
     // Splitting the timeString to extract hours and minutes
     const [hourStr, minuteStr] = timeString.split(":");
@@ -60,21 +61,27 @@ const UserOverview = () => {
     <div className="mt-28 flex justify-center  ">
       <div className="w-full md:w-full  lg:w-11/12 xl:11/12 shadow-md border-2 rounded-md bg-[#f8fafc] ">
         <div className="flex justify-end bg-[#fff7ed]">
-          <Link
-            to={`../${id}/edit`}
-            relative="path"
-            className=" px-4 py-2 text-sm font-medium transition-colors  focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50  text-gray-900 "
+          <GateKeeper
+            permissionCheck={(permission) =>
+              permission.module === "user" && permission.canUpdate
+            }
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 20 20"
-              fill="currentColor"
-              className="w-5 h-5 text-gray-900"
+            <Link
+              to={`../${id}/edit`}
+              relative="path"
+              className=" px-4 py-2 text-sm font-medium transition-colors  focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50  text-gray-900 "
             >
-              <path d="m2.695 14.762-1.262 3.155a.5.5 0 0 0 .65.65l3.155-1.262a4 4 0 0 0 1.343-.886L17.5 5.501a2.121 2.121 0 0 0-3-3L3.58 13.419a4 4 0 0 0-.885 1.343Z" />
-            </svg>
-          </Link>
-        </div> 
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+                className="w-5 h-5 text-gray-900"
+              >
+                <path d="m2.695 14.762-1.262 3.155a.5.5 0 0 0 .65.65l3.155-1.262a4 4 0 0 0 1.343-.886L17.5 5.501a2.121 2.121 0 0 0-3-3L3.58 13.419a4 4 0 0 0-.885 1.343Z" />
+              </svg>
+            </Link>
+          </GateKeeper>
+        </div>
         {customFormField &&
           customFormField.length > 0 &&
           customFormField.map((item) => {
@@ -85,9 +92,6 @@ const UserOverview = () => {
                     item.inputname == "image" &&
                     item.field === "predefined" && (
                       <div>
-                    
-                  
-
                         {item.value ? (
                           <img
                             src={data?.data?.data?.user?.image}
@@ -102,9 +106,6 @@ const UserOverview = () => {
                             alt="photo"
                           />
                         )}
-
-
-
                       </div>
                     )}
                 </div>
@@ -126,7 +127,7 @@ const UserOverview = () => {
                     <div className="flex justify-center border-t-2 border-gray-300 relative text-center">
                       <p
                         className="absolute  bottom-3 text-sm antialiased leading-snug tracking-normal text-blue-gray-900  "
-                        title= {
+                        title={
                           data?.entityList?.find(
                             (i) => i.id === parseInt(item.value)
                           )?.name
