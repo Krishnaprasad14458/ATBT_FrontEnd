@@ -53,7 +53,7 @@ export async function loader({ request, params }) {
       },
       tableViewData: meetingFormData?.data?.Tableview,
       customForm: meetingFormData?.data?.Data,
-      threadName: "BoardMeetings",
+      threadName: "Meetings",
       threadPath: `/${parentPath}/${params.id}/${params.boardmeetings}`,
     };
     console.log(combinedResponse, "board meeting response");
@@ -193,13 +193,14 @@ function Boardmeeting() {
             />
           </div>
         </div>
-        <div className="col-span-1 text-end flex justify-end filter_pagination divide-x-2 ">
+        <div className="col-span-1 text-end flex justify-end items-center filter_pagination divide-x-2 ">
           <CustomColumn
             tableView={tableView}
             setTableView={setTableView}
             form="boardmeetingform"
           />
           <CustomFilter
+          className="mt-2"
             fieldsDropDownData={fieldsDropDownData}
             Qparams={Qparams}
             setQParams={setQParams}
@@ -234,7 +235,7 @@ function Boardmeeting() {
         </div>
       </div>
       {/* table */}
-      <div className="max-h-[457px] overflow-y-scroll mt-5">
+      <div className="max-h-[457px] overflow-y-auto mt-5">
         {visibleColumns && tableView && meetings?.Meetings && (
           <table className="w-full divide-y divide-gray-200 dark:divide-gray-700 rounded-md">
             <thead>
