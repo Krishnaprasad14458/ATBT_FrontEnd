@@ -4,7 +4,10 @@ import CustomColumn from "../../../componentLayer/components/tableCustomization/
 import CustomFilter from "../../../componentLayer/components/tableCustomization/CustomFilter";
 import atbtApi from "../../../serviceLayer/interceptor";
 import { debounce } from "../../../utils/utils";
-import { CSVLink } from "react-csv";
+// import { CSVLink } from "react-csv";
+
+import * as XLSX from 'xlsx';
+
 
 const userData = JSON.parse(localStorage.getItem("data"));
 const userId = userData?.user?.id;
@@ -14,18 +17,31 @@ const userId = userData?.user?.id;
 export async function loader({ request, params }) {
   try {
     let url = new URL(request.url);
-    const statusName = url.searchParams.get("status");
 
-    const [reports] = await Promise.all([
-      // statusName === "master" ? atbtApi.get(`task/list?userId=191`) : atbtApi.get(`task/list?userId=191&status=${statusName}`)
-      statusName === null || statusName === "master" ? atbtApi.get(`task/list?userId=229`) : atbtApi.get(`task/list?userId=229&status=${statusName}`)
+    // const statusName = url.searchParams.get("status");
+    // const [reports] = await Promise.all([
+    //   // statusName === "master" ? atbtApi.get(`task/list?userId=191`) : atbtApi.get(`task/list?userId=191&status=${statusName}`)
+    //   statusName === null || statusName === "master" ? atbtApi.get(`task/list?userId=228`) : atbtApi.get(`task/list?userId=228&status=${statusName}`)
+    // ]);
+
+    const [ReportsMaster, ReportsAtbt, ReportsAtr] = await Promise.all([
+      atbtApi.get(`task/list?userId=228`),
+      atbtApi.get(`task/list?userId=228&status=To-Do`),
+      atbtApi.get(`task/list?userId=228&status=In-Progress`)
     ]);
-    console.log(reports.data, statusName, "jdskfsjf")
-    const combinedResponse = {
-      reports: reports.data,
+
+
+    const CombinedResponse = {
+      reportsMaster: ReportsMaster.data,
+      reportsAtbt: ReportsAtbt.data,
+      reportsAtr: ReportsAtr.data,
     }
-    console.log(combinedResponse, "reportsresponse", request, params);
-    return combinedResponse;
+
+    console.log(CombinedResponse, "jdskfsjf");
+    // const combinedResponse = {
+    //   reports: reports.data,
+    // }
+    return CombinedResponse;
   }
   catch (error) {
     console.error("Error occurred:", error);
@@ -39,71 +55,154 @@ function Reports() {
   const navigate = useNavigate();
   let submit = useSubmit();
   const data = useLoaderData();
-  const { reports } = data;
+  const { reportsMaster, reportsAtbt, reportsAtr } = data;
 
-  console.log(reports, "dsfjdsgjdgf")
-  const [reportData, setReportData] = useState();
+  const [masterData, setMasterData] = useState();
+  const [atbtData, setAtbtData] = useState();
+  const [atrData, setAtrData] = useState();
 
-  console.log(reportData, "Reportdata")
+  console.log(atrData, "atbtData")
+
   useEffect(() => {
-
-    if (reports) {
-      setReportData(reports.map((report, index) => ({
+    if (reportsMaster) {
+      setMasterData(reportsMaster.map((report, index) => ({
         ...report,
         'S.NO': index + 1 // Generate serial number
       })));
     }
-  }, [reports])
-
-
-
-  const handleSVGClick = async (newStatus) => {
-    setQParams({ status: newStatus })
-  };
-
-  const [Qparams, setQParams] = useState({});
-  const debouncedParams = useCallback(
-    debounce((param) => {
-      console.log(param);
-      submit(param, { method: "get", action: "." });
-    }, 500),
-    [submit]
-  );
+  }, [reportsMaster]);
 
   useEffect(() => {
-    debouncedParams(Qparams);
-  }, [Qparams, debouncedParams]);
+    if (reportsAtbt) {
+      setAtbtData(reportsAtbt.map((report, index) => ({
+        ...report,
+        'S.NO': index + 1 // Generate serial number
+      })));
+    }
+  }, [reportsAtbt]);
 
-  const headers = [
-    //  { label: "COMPLETED DECISIONS - BVM & DAKSHIN", key: null, style: { bold: true, alignment: 'center' } },
-    { label: 'S.NO', key: 'S.NO', style: { bold: true, alignment: 'center' } },
-    { label: "Date of Board meeting", key: "status", style: { bold: true, alignment: 'center' } },
-    { label: 'Decision Taken', key: 'decision', style: { bold: true, alignment: 'center' } },
-    { label: 'Person Responsible for implementation', key: 'taskCreateby', style: { bold: true, alignment: 'center' } },
-    { label: "Date of Board Meeting in which the action is concluded", key: "updatedAt", style: { bold: true, alignment: 'center' } }
+  useEffect(() => {
+    if (reportsAtr) {
+      setAtrData(reportsAtr.map((report, index) => ({
+        ...report,
+        'S.NO': index + 1 // Generate serial number
+      })));
+    }
+  }, [reportsAtr]);
+
+
+
+  // To-DO
+  const headersAtbt = [
+    { label: 'S.NO', key: 'S.NO' },
+    { label: 'Initial Decision Taken', key: 'decision' },
+    { label: 'Person Responsible for implementation', key: 'members' },
+    { label: "DueDate", key: "dueDate" },
+    { label: "Meeting ID", key: "meetingId" }
   ];
 
 
   const headerMaster = [
-    { label: 'S.NO', key: 'S.NO', style: { bold: true, alignment: 'center' } },
-    { label: "Date of Board meeting", key: "createdAt", style: { bold: true, alignment: 'center' } },
-    { label: 'Decision Taken', key: 'decision', style: { bold: true, alignment: 'center' } },
-    { label: 'Person Responsible for implementation', key: 'taskCreateby', style: { bold: true, alignment: 'center' } },
-    { label: "Date of Board Meeting in which the action is concluded", key: "updatedAt", style: { bold: true, alignment: 'center' } }
+    { label: 'S.NO', key: 'S.NO' },
+    { label: "Date of Board meeting", key: "date" },
+    { label: 'Decision Taken', key: 'decision' },
+    { label: 'Person Responsible for implementation' },
+    { label: "DueDate", key: "dueDate" },
+    { label: "Meeting ID", key: "meetingId" },
+    { label: "Updated Decision on Date", key: "updatedAt" },
+    { label: "Updated Person Responsible", key: "updatedAt" },
+    { label: "Updated Decision on Date", key: "updatedAt" },
+    { label: "Updated Person Responsible", key: "updatedAt" }
   ]
 
   const headerATR = [
-    { label: 'S.NO', key: 'S.NO', style: { bold: true, alignment: 'center' } },
-    { label: "Date of Board meeting", key: "createdAt", style: { bold: true, alignment: 'center' } },
-    { label: 'Decision Taken', key: 'decision', style: { bold: true, alignment: 'center' } },
-    { label: 'Person Responsible for implementation', key: 'taskCreateby', style: { bold: true, alignment: 'center' } },
-    { label: "Date of Board Meeting in which the action is concluded", key: "updatedAt", style: { bold: true, alignment: 'center' } }
+    { label: 'S.NO', key: 'S.NO' },
+    { label: "Date of Board meeting", key: "date" },
+    { label: 'Initial Decision Taken', key: 'decision' },
+    { label: 'Person Responsible for implementation', key: "members" },
+    { label: "DueDate", key: "dueDate" },
+    { label: "Meeting ID", key: "meetingId" },
+    { label: "Ageing of the Decision as per Latest Board Meeting", key: "meetingId" },
+    { label: "Updated Decision", key: "meetingId" },
+    { label: "Person Responsible", key: "meetingId" },
   ]
 
 
 
+  const getMaxColumnWidth = (data, header) => {
+    const headerLength = header.label.length;
+    return headerLength + 5;
+  };
+
+  const handleDownload = (data, headers) => {
+    const worksheetData = [
+      headers.map(header => header.label),
+      ...data.map(row => headers.map(header => row[header.key])),
+    ];
+    const worksheet = XLSX.utils.aoa_to_sheet(worksheetData);
+
+    // Apply styles to the header row
+    headers.forEach((header, index) => {
+      const cellAddress = XLSX.utils.encode_cell({ r: 0, c: index });
+      if (!worksheet[cellAddress]) {
+        worksheet[cellAddress] = { t: 's', v: header.label };
+      }
+      worksheet[cellAddress].s = {
+        font: { bold: true, sz: 20 },
+        alignment: { horizontal: 'center', wrapText: true }
+      };
+    });
+
+    const wscols = headers.map(header => ({ wch: getMaxColumnWidth(data, header) }));
+    worksheet['!cols'] = wscols;
+
+    const rowCount = worksheetData.length;
+    for (let r = 0; r < rowCount; r++) {
+      let maxCellHeight = 0;
+      for (let c = 0; c < headers.length; c++) {
+        const cellAddress = XLSX.utils.encode_cell({ r, c });
+        const cell = worksheet[cellAddress];
+        if (cell) {
+          const cellTextLength = cell.v ? cell.v.toString().length : 0;
+          const cellWidth = wscols[c].wch;
+          const lines = Math.ceil(cellTextLength / cellWidth);
+          const cellHeight = lines * 20; // Assume 20 pixels per line of text
+          maxCellHeight = Math.max(maxCellHeight, cellHeight);
+          cell.s = cell.s || {};
+          cell.s.alignment = cell.s.alignment || {};
+          cell.s.alignment.wrapText = true;
+          worksheet[cellAddress] = cell; // Ensure the cell with styles is saved back to the worksheet
+        }
+      }
+      worksheet['!rows'] = worksheet['!rows'] || [];
+      worksheet['!rows'][r] = { hpx: maxCellHeight };
+    }
+
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet1');
+    XLSX.writeFile(workbook, 'reports.xlsx');
+  };
 
 
+
+
+
+
+  // const handleSVGClick = async (newStatus) => {
+  //   setQParams({ status: newStatus })
+  // };
+  // const [Qparams, setQParams] = useState({});
+  // const debouncedParams = useCallback(
+  //   debounce((param) => {
+  //     console.log(param);
+  //     submit(param, { method: "get", action: "." });
+  //   }, 500),
+  //   [submit]
+  // );
+
+  // useEffect(() => {
+  //   debouncedParams(Qparams);
+  // }, [Qparams, debouncedParams]);
 
   return (
     <div className="overflow-x-auto p-3">
@@ -190,38 +289,33 @@ function Reports() {
               <td
                 className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  hover:text-orange-500 overflow-hidden`}
               >
-                Something
+                To-Do
               </td>
               <td
                 className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  hover:text-orange-500 overflow-hidden`}
               >
-                Something
+                Super Admin
               </td>
               <td
                 className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  hover:text-orange-500 overflow-hidden`}
               >
-                Something
+                29-05-2024
               </td>
               <td
                 className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  hover:text-orange-500 overflow-hidden`}
               >
                 {
-                  reportData?.length > 0 ? (
-                    // <CSVLink data={reportData} headers={headers} filename="reports.csv">
-                      <button
-                        type="button"
-                        title="CSV file"
-                        className=" inline-flex items-center gap-x-1 text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
-
-                        onClick={() => handleSVGClick("To-Do")}
-                      >
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                          <path stroke-linecap="round" stroke-linejoin="round" d="m9 13.5 3 3m0 0 3-3m-3 3v-6m1.06-4.19-2.12-2.12a1.5 1.5 0 0 0-1.061-.44H4.5A2.25 2.25 0 0 0 2.25 6v12a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9a2.25 2.25 0 0 0-2.25-2.25h-5.379a1.5 1.5 0 0 1-1.06-.44Z" />
-                        </svg>
-                      </button>
-                    // </CSVLink>
-                  ) : (
-                    "No Reports found"
+                  atbtData?.length > 0 && (
+                    <button
+                      type="button"
+                      title="CSV file"
+                      className=" inline-flex items-center gap-x-1 text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
+                      onClick={() => handleDownload(atbtData, headersAtbt)}
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="m9 13.5 3 3m0 0 3-3m-3 3v-6m1.06-4.19-2.12-2.12a1.5 1.5 0 0 0-1.061-.44H4.5A2.25 2.25 0 0 0 2.25 6v12a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9a2.25 2.25 0 0 0-2.25-2.25h-5.379a1.5 1.5 0 0 1-1.06-.44Z" />
+                      </svg>
+                    </button>
                   )
                 }
               </td>
@@ -244,49 +338,40 @@ function Reports() {
               <td
                 className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  hover:text-orange-500 overflow-hidden`}
               >
-                Something
+              In-Progress
               </td>
               <td
                 className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  hover:text-orange-500 overflow-hidden`}
               >
-                Something
+                 Super Admin
               </td>
               <td
                 className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  hover:text-orange-500 overflow-hidden`}
               >
-                Something
+               29-05-2024
               </td>
               <td
                 className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  hover:text-orange-500 overflow-hidden`}
                 style={{ maxWidth: "160px" }}
               >
-
                 {
-                  reportData?.length > 0 ? (
-                    // <CSVLink data={reportData} headers={headers} filename="reports.csv">
-                      <button
-                        type="button"
-                        title="CSV file"
-                        className=" inline-flex items-center gap-x-1 text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
-                        onClick={() => handleSVGClick("In-Progress")}
-                      >
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                          <path stroke-linecap="round" stroke-linejoin="round" d="m9 13.5 3 3m0 0 3-3m-3 3v-6m1.06-4.19-2.12-2.12a1.5 1.5 0 0 0-1.061-.44H4.5A2.25 2.25 0 0 0 2.25 6v12a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9a2.25 2.25 0 0 0-2.25-2.25h-5.379a1.5 1.5 0 0 1-1.06-.44Z" />
-                        </svg>
-                      </button>
-                    // </CSVLink>
-                  ) : (
-                    "No Reports found"
+                  atrData?.length > 0 && (
+                    <button
+                      type="button"
+                      title="CSV file"
+                      className=" inline-flex items-center gap-x-1 text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
+                      onClick={() => handleDownload(atrData, headerATR)}
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="m9 13.5 3 3m0 0 3-3m-3 3v-6m1.06-4.19-2.12-2.12a1.5 1.5 0 0 0-1.061-.44H4.5A2.25 2.25 0 0 0 2.25 6v12a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9a2.25 2.25 0 0 0-2.25-2.25h-5.379a1.5 1.5 0 0 1-1.06-.44Z" />
+                      </svg>
+                    </button>
                   )
                 }
-
-
               </td>
             </tr>
-
-
             <tr className={`hover:bg-slate-100 dark:hover:bg-gray-700 `}>
-            <td
+              <td
                 className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  hover:text-orange-500 overflow-hidden`}
               >
                 3
@@ -300,48 +385,38 @@ function Reports() {
               <td
                 className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  hover:text-orange-500 overflow-hidden`}
               >
-                Something
+                All
               </td>
               <td
                 className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  hover:text-orange-500 overflow-hidden`}
               >
-                Something
+                 Super Admin
               </td>
               <td
                 className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  hover:text-orange-500 overflow-hidden`}
               >
-                Something
+               29-05-2024
               </td>
-
               <td
                 className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  hover:text-orange-500 overflow-hidden`}
                 style={{ maxWidth: "160px" }}
               >
                 {
-                  reportData?.length > 0 ? (
-                    // <CSVLink data={reportData} headers={headers} filename="reports.csv">
-                      <button
-                        type="button"
-                        title="CSV file"
-                        className=" inline-flex items-center gap-x-1 text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
-                        onClick={() => handleSVGClick("master")}
-                      >
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                          <path stroke-linecap="round" stroke-linejoin="round" d="m9 13.5 3 3m0 0 3-3m-3 3v-6m1.06-4.19-2.12-2.12a1.5 1.5 0 0 0-1.061-.44H4.5A2.25 2.25 0 0 0 2.25 6v12a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9a2.25 2.25 0 0 0-2.25-2.25h-5.379a1.5 1.5 0 0 1-1.06-.44Z" />
-                        </svg>
-                      </button>
-                    // </CSVLink>
-                  ) : (
-                    "No Reports found"
+                  masterData?.length > 0 && (
+                    <button
+                      type="button"
+                      title="CSV file"
+                      className=" inline-flex items-center gap-x-1 text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
+                      onClick={() => handleDownload(masterData, headerMaster)}
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="m9 13.5 3 3m0 0 3-3m-3 3v-6m1.06-4.19-2.12-2.12a1.5 1.5 0 0 0-1.061-.44H4.5A2.25 2.25 0 0 0 2.25 6v12a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9a2.25 2.25 0 0 0-2.25-2.25h-5.379a1.5 1.5 0 0 1-1.06-.44Z" />
+                      </svg>
+                    </button>
                   )
                 }
-
-
               </td>
-
             </tr>
-
-
           </tbody>
         </table>
       </div>
@@ -357,70 +432,3 @@ export default Reports;
 
 
 
-
-{/* <td
-                className={`px-2 py-2  border border-[#e5e7eb] text-xs font-medium text-center`}
-                style={{ maxWidth: "160px" }}
-              >
-                <div className="flex justify-start gap-5">
-
-                  <button
-                    type="button"
-                    title="View"
-                    className=" inline-flex items-center gap-x-1 text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
-                  >
-                    <Link to='#'>
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 20 20"
-                        fill="currentColor"
-                        className="w-4 h-4"
-                      >
-                        <path d="M10 12.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z" />
-                        <path
-                          fill-rule="evenodd"
-                          d="M.664 10.59a1.651 1.651 0 0 1 0-1.186A10.004 10.004 0 0 1 10 3c4.257 0 7.893 2.66 9.336 6.41.147.381.146.804 0 1.186A10.004 10.004 0 0 1 10 17c-4.257 0-7.893-2.66-9.336-6.41ZM14 10a4 4 0 1 1-8 0 4 4 0 0 1 8 0Z"
-                          clip-rule="evenodd"
-                        />
-                      </svg>
-                    </Link>
-                  </button>
-
-                  <button
-                    type="button"
-                    title="Edit"
-                    className={`inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg  hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600 `}
-                  >
-                    <Link to='#'>
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 20 20"
-                        fill="currentColor"
-                        className="w-4 h-4"
-                      >
-                        <path d="m2.695 14.762-1.262 3.155a.5.5 0 0 0 .65.65l3.155-1.262a4 4 0 0 0 1.343-.886L17.5 5.501a2.121 2.121 0 0 0-3-3L3.58 13.419a4 4 0 0 0-.885 1.343Z" />
-                      </svg>
-                    </Link>
-                  </button>
-                  <button
-                    type="button"
-                    title="Delete"
-
-                    className={` inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg  text-[#475569] disabled:opacity-50   dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600 `}
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                      className="w-4 h-4"
-                    >
-                      <path
-                        fill-rule="evenodd"
-                        d="M8.75 1A2.75 2.75 0 0 0 6 3.75v.443c-.795.077-1.584.176-2.365.298a.75.75 0 1 0 .23 1.482l.149-.022.841 10.518A2.75 2.75 0 0 0 7.596 19h4.807a2.75 2.75 0 0 0 2.742-2.53l.841-10.52.149.023a.75.75 0 0 0 .23-1.482A41.03 41.03 0 0 0 14 4.193V3.75A2.75 2.75 0 0 0 11.25 1h-2.5ZM10 4c.84 0 1.673.025 2.5.075V3.75c0-.69-.56-1.25-1.25-1.25h-2.5c-.69 0-1.25.56-1.25 1.25v.325C8.327 4.025 9.16 4 10 4ZM8.58 7.72a.75.75 0 0 0-1.5.06l.3 7.5a.75.75 0 1 0 1.5-.06l-.3-7.5Zm4.34.06a.75.75 0 1 0-1.5-.06l-.3 7.5a.75.75 0 1 0 1.5.06l.3-7.5Z"
-                        clip-rule="evenodd"
-                      />
-                    </svg>
-                  </button>
-
-                </div>
-              </td> */}

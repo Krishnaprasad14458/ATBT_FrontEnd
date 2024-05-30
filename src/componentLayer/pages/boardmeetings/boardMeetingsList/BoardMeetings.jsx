@@ -171,13 +171,14 @@ function BoardMeetings() {
             />
           </div>
         </div>
-        <div className="grid1-item text-end flex justify-end filter_pagination divide-x-2 h-7 mt-2">
+        <div className="grid1-item text-end flex justify-end  items-center filter_pagination divide-x-2 h-7 mt-2">
           <CustomColumn
             tableView={tableView}
             setTableView={setTableView}
             form="boardmeetingform"
           />
           <CustomFilter
+          
             fieldsDropDownData={fieldsDropDownData}
             Qparams={Qparams}
             setQParams={setQParams}

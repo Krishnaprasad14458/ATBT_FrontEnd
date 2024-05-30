@@ -259,13 +259,14 @@ function Users() {
             />
           </div>
         </div>
-        <div className="grid1-item text-end flex justify-end filter_pagination divide-x-2 h-7 mt-2">
+        <div className="grid1-item text-end flex justify-end filter_pagination divide-x-2 ">
           <CustomColumn
             tableView={tableView}
             setTableView={setTableView}
             form="userform"
           />
           <CustomFilter
+            
             fieldsDropDownData={fieldsDropDownData}
             Qparams={Qparams}
             setQParams={setQParams}

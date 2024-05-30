@@ -1,5 +1,7 @@
 import React from "react";
 import defprop from "../../../../assets/Images/defprof.svg";
+import GateKeeper from "../../../../rbac/GateKeeper";
+
 import {
   Link,
   redirect,
@@ -61,7 +63,11 @@ const UserOverview = () => {
     <div className="mt-28 flex justify-center  ">
       <div className="w-full md:w-full  lg:w-11/12 xl:11/12 shadow-md border-2 rounded-md bg-[#f8fafc] ">
         <div className="flex justify-end bg-[#fff7ed]">
+
           <GateKeeper
+
+       
+
             permissionCheck={(permission) =>
               permission.module === "user" && permission.canUpdate
             }
@@ -81,7 +87,10 @@ const UserOverview = () => {
               </svg>
             </Link>
           </GateKeeper>
+
         </div>
+
+
         {customFormField &&
           customFormField.length > 0 &&
           customFormField.map((item) => {
