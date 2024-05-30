@@ -11,6 +11,7 @@ import {
 } from "react-router-dom";
 import atbtApi from "../../../../serviceLayer/interceptor";
 import { caseLetter } from "../../../../utils/utils";
+import GateKeeper from "../../../../rbac/GateKeeper";
 export const userLandingLoader = async ({ params }) => {
   try {
     const [data, entityListresponse] = await Promise.all([
@@ -38,7 +39,7 @@ const UserOverview = () => {
   const data = useLoaderData();
   const customFormField = data?.data?.data?.user?.customFieldsData;
   console.log("customFormField", customFormField);
- 
+
   function formatTime(timeString) {
     // Splitting the timeString to extract hours and minutes
     const [hourStr, minuteStr] = timeString.split(":");
@@ -62,8 +63,11 @@ const UserOverview = () => {
     <div className="mt-28 flex justify-center  ">
       <div className="w-full md:w-full  lg:w-11/12 xl:11/12 shadow-md border-2 rounded-md bg-[#f8fafc] ">
         <div className="flex justify-end bg-[#fff7ed]">
+
+          <GateKeeper
+
        
-  <GateKeeper
+
             permissionCheck={(permission) =>
               permission.module === "user" && permission.canUpdate
             }
@@ -83,7 +87,10 @@ const UserOverview = () => {
               </svg>
             </Link>
           </GateKeeper>
-        </div> 
+
+        </div>
+
+
         {customFormField &&
           customFormField.length > 0 &&
           customFormField.map((item) => {
@@ -94,9 +101,6 @@ const UserOverview = () => {
                     item.inputname == "image" &&
                     item.field === "predefined" && (
                       <div>
-                    
-                  
-
                         {item.value ? (
                           <img
                             src={data?.data?.data?.user?.image}
@@ -111,9 +115,6 @@ const UserOverview = () => {
                             alt="photo"
                           />
                         )}
-
-
-
                       </div>
                     )}
                 </div>
@@ -135,7 +136,7 @@ const UserOverview = () => {
                     <div className="flex justify-center border-t-2 border-gray-300 relative text-center">
                       <p
                         className="absolute  bottom-3 text-sm antialiased leading-snug tracking-normal text-blue-gray-900  "
-                        title= {
+                        title={
                           data?.entityList?.find(
                             (i) => i.id === parseInt(item.value)
                           )?.name

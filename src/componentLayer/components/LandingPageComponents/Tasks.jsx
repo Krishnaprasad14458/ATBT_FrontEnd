@@ -13,8 +13,6 @@ import { debounce } from "../../../utils/utils";
 import subtask_icon from "../../../assets/Images/Subtask_icon.svg";
 import "react-datepicker/dist/react-datepicker.css";
 import GateKeeper from "../../../rbac/GateKeeper";
-
-
 let status = [
   { label: "To-Do", value: "To-Do" },
   { label: "In-Progress", value: "In-Progress" },
@@ -27,7 +25,6 @@ let idOF;
 export async function tasksLoader({ request, params }) {
   try {
     const url = new URL(request.url);
-
     if (url.pathname.split("/")[1] === "users") {
       parentPath = "users";
       // groupName = "groupUser";
@@ -403,7 +400,7 @@ const Tasks = () => {
       </div>
       <div>
         <div className="flex overflow-x-auto my-2">
-          {!BMid && (
+          {!BMid && parentPath && (
             <NavLink
               to={`/${parentPath}/${id}/tasks?status=To-Do`}
               end
@@ -417,7 +414,21 @@ const Tasks = () => {
               To-Do
             </NavLink>
           )}
-          {!BMid && (
+             {!BMid && !parentPath && (
+            <NavLink
+              to={`/tasks?status=To-Do`}
+              end
+              className={`cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09] ${
+                activeLink === "toDo"
+                  ? "border-b-2 border-orange-500 text-orange-600"
+                  : ""
+              }`}
+              onClick={() => handleNavLinkClick("toDo")}
+            >
+              To-Do
+            </NavLink>
+          )}
+          {!BMid && parentPath &&(
             <NavLink
               to={`/${parentPath}/${id}/tasks?status=In-Progress`}
               end
@@ -431,8 +442,22 @@ const Tasks = () => {
               In-Progress
             </NavLink>
           )}
+              {!BMid &&  !parentPath && (
+            <NavLink
+              to={`/tasks?status=In-Progress`}
+              end
+              className={`cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09] ${
+                activeLink === "inProgress"
+                  ? "border-b-2 border-orange-500 text-orange-600"
+                  : ""
+              }`}
+              onClick={() => handleNavLinkClick("inProgress")}
+            >
+              In-Progress
+            </NavLink>
+          )}
 
-          {!BMid && (
+          {!BMid && parentPath && (
             <NavLink
               to={`/${parentPath}/${id}/tasks?status=Over-Due`}
               end
@@ -446,7 +471,21 @@ const Tasks = () => {
               Overdue
             </NavLink>
           )}
-          {!BMid && (
+          {!BMid && !parentPath && (
+            <NavLink
+              to={`/tasks?status=Over-Due`}
+              end
+              className={`cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09] ${
+                activeLink === "OverDue"
+                  ? "border-b-2 border-orange-500 text-orange-600"
+                  : ""
+              }`}
+              onClick={() => handleNavLinkClick("OverDue")}
+            >
+              Overdue
+            </NavLink>
+          )}
+          {!BMid && parentPath && (
             <NavLink
               to={`/${parentPath}/${id}/tasks?status=Completed`}
               end
@@ -460,9 +499,35 @@ const Tasks = () => {
               Completed
             </NavLink>
           )}
-          {!BMid && (
+             {!BMid && !parentPath && (
+            <NavLink
+              to={`/tasks?status=Completed`}
+              end
+              className={`cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09] ${
+                activeLink === "Completed"
+                  ? "border-b-2 border-orange-500 text-orange-600"
+                  : ""
+              }`}
+              onClick={() => handleNavLinkClick("Completed")}
+            >
+              Completed
+            </NavLink>
+          )}
+          {!BMid && parentPath &&(
             <NavLink
               to={`/${parentPath}/${id}/tasks`}
+              end
+              className={`cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09] ${
+                activeLink === "Master" ? "border-b-2 border-orange-600" : ""
+              }`}
+              onClick={() => handleNavLinkClick("Master")}
+            >
+              Master
+            </NavLink>
+          )}
+            {!BMid && !parentPath &&(
+            <NavLink
+              to={`/tasks`}
               end
               className={`cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09] ${
                 activeLink === "Master" ? "border-b-2 border-orange-600" : ""
