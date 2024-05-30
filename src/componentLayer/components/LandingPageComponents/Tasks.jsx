@@ -623,7 +623,7 @@ const Tasks = () => {
                       )}
                       <div className="flex">
                         {task.subtaskCount > 0 && (
-                          <span className="flex items-center ml-2 px-0.5 cursor-pointer border border-[#f8fafc] hover:border hover:border-gray-500 hover:rounded-sm hover:bg-gray-100">
+                          <span className="flex items-center ml-2 px-0.5 ">
                             <span className="text-sm">{task.subtaskCount}</span>
                             <svg
                               viewBox="0 0 32 32"
