@@ -52,7 +52,7 @@ return `Welcome ${name}`;
       );
       console.log(data, 'data');
       if (status === 200) {
-        // window.location.reload();
+        window.location.reload();
         localStorage.setItem(
           'data',
           JSON.stringify({
