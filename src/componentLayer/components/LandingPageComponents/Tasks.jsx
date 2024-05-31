@@ -916,7 +916,7 @@ const Tasks = () => {
                   </td>
                   <td className="border py-1.5 px-2 text-sm text-gray-600">
           
-             {task?.updatedbyuser  }
+             {task?.updatedbyuser}
                   </td>
                   {/* <td className="border py-1.5 px-2 text-sm text-gray-600">
                     Updated By Admin
