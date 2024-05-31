@@ -87,10 +87,6 @@ export async function tasksLoader({ request, params }) {
       task: updatedTask,
       subTasks: subTasks?.data?.Task,
       subTask: updatedSubTask,
-      // personResponsible: personResponsible?.data?.map((user) => ({
-      //   label: user.name,
-      //   value: user.id,
-      // })),
       threadName: params.BMid ? ` Board Meetings Tasks` : `Tasks`,
       threadPath: params.BMid
         ? `/${parentPath}/${params.id}/${params.boardmeetings}/${params.BMid}/tasks`
@@ -225,7 +221,6 @@ const Tasks = () => {
     }, 500),
     []
   );
-
   const [overViewTask, setOverViewTask] = useState(false);
   const [displayOverviewTask, setDisplayOverviewTask] = useState(false);
   const [displayOverviewSubTask, setDisplayOverviewSubTask] = useState(false);
@@ -352,7 +347,6 @@ const Tasks = () => {
   const [isSubTaskInputActiveID, setIsSubTaskInputActive] = useState(null);
   const [autoFocusID, setAutoFocusID] = useState(null);
   const [autoFocusSubTaskID, setAutoFocussubTaskID] = useState(null);
-
   const [activeLink, setActiveLink] = useState("toDo");
 
   // Function to handle click and set active link
@@ -374,6 +368,9 @@ const Tasks = () => {
 
   return (
     <div className=" p-3">
+       <p className="text-xl font-semibold">
+         Tasks
+        </p>
       <div className="flex justify-end">
         {BMid && (
           <GateKeeper         
@@ -539,7 +536,7 @@ const Tasks = () => {
           )}
         </div>
       </div>
-      <div className=" max-h-[410px] ">
+      <div className=" max-h-[410px] overflow-y-auto">
         <table className="w-full divide-y divide-gray-200 dark:divide-gray-700 rounded-md table ">
           <thead>
             <tr>
@@ -575,7 +572,7 @@ const Tasks = () => {
               </th> */}
             </tr>
           </thead>
-          <tbody className="overflow-auto">
+          <tbody className="">
             {tasks?.map((task, index) => {
               const decisionHeight =
                 task?.decision === null || task?.decision === "" ? "2rem" : "";
