@@ -7,7 +7,9 @@ import BoardMeetings, {
   action as meetingAction,
   loader as meetingLoader,
 } from "../../componentLayer/pages/boardmeetings/boardMeetingsList/BoardMeetings";
-import BoardMeetingOverview from "../../componentLayer/pages/boardmeetings/boardMeetingLandingPage/BoardMeetingOverview";
+import BoardMeetingOverview, {
+  boardMeetingOverviewLoader,
+} from "../../componentLayer/pages/boardmeetings/boardMeetingLandingPage/BoardMeetingOverview";
 import Tasks, {
   TasksActions,
   tasksLoader,
@@ -26,26 +28,44 @@ export const meetingRouter = [
     element: <BoardMeetingForm />,
   },
   {
-    path: ":id",
+    path: ":BMid",
+
     children: [
       {
         path: "edit",
         loader: boardmeetingFormLoader,
         element: <BoardMeetingForm />,
       },
-      // {
-      //   element: <BoardMeetingLandingPage />,
-      //   children: [
-      //     { index: true, element: <BoardMeetingOverview /> },
-      //     {
-      //       path: "task",
-      //       loader: tasksLoader,
-      //       action: TasksActions,
-      //       element: <Tasks />,
-      //     },
-      //     { path: "documents", element: <Documents /> },
-      //   ],
-      // },
+      {
+        element: <BoardMeetingLandingPage />,
+
+        children: [
+          {
+            index: true,
+            loader: boardMeetingOverviewLoader,
+            element: <BoardMeetingOverview />,
+          },
+
+          {
+            path: "tasks",
+            loader: tasksLoader,
+            action: TasksActions,
+            element: <Tasks />,
+            // handle: {
+            //   crumb: (data) => (
+            //     <Link to={data?.threadPath}>{data?.threadName}</Link>
+            //   ),
+            // },
+          },
+          {
+            path: "documents",
+            element: <Documents />,
+            // handle: {
+            //   crumb: (data) => <Link to=".">Documents</Link>,
+            // },
+          },
+        ],
+      },
     ],
   },
 ];

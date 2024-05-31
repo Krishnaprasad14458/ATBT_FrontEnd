@@ -259,13 +259,14 @@ function Users() {
             />
           </div>
         </div>
-        <div className="grid1-item text-end flex justify-end filter_pagination divide-x-2 h-7 mt-2">
+        <div className="grid1-item text-end flex justify-end filter_pagination divide-x-2 ">
           <CustomColumn
             tableView={tableView}
             setTableView={setTableView}
             form="userform"
           />
           <CustomFilter
+            
             fieldsDropDownData={fieldsDropDownData}
             Qparams={Qparams}
             setQParams={setQParams}
@@ -344,7 +345,7 @@ function Users() {
 
                       if (key === "name") {
                        
-let meetingPermission = permissions.find((permission=>permission.module ==="meeting"))
+let meetingPermission = permissions?.find((permission=>permission.module ==="meeting"))
 
                         return (
                           <td
@@ -380,7 +381,7 @@ let meetingPermission = permissions.find((permission=>permission.module ==="meet
                         return (
                           <td
                             key={key}
-                            className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium truncate  hover:text-orange-500 overflow-hidden`}
+                            className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium truncate  overflow-hidden`}
                             style={{ maxWidth: "10rem" }}
                             title={entity_name}
                           >
@@ -394,7 +395,7 @@ let meetingPermission = permissions.find((permission=>permission.module ==="meet
                         return (
                           <td
                             key={key}
-                            className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium truncate  hover:text-orange-500 overflow-hidden`}
+                            className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium truncate   overflow-hidden`}
                             style={{ maxWidth: "10rem" }}
                             title={role_name}
                           >

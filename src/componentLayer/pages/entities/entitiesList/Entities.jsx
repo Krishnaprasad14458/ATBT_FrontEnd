@@ -325,7 +325,7 @@ function Entities() {
                         }-${year}`;
                       }
                       if (key === "name") {
-                        let meetingPermission = permissions.find((permission=>permission.module ==="meeting"))
+                        let meetingPermission = permissions?.find((permission=>permission.module ==="meeting"))
                         return (
                           <td
                             key={key}

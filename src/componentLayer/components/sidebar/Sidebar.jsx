@@ -256,10 +256,11 @@ const Sidebar = () => {
                   permission.module === menu.module && permission.canRead
                 }
               >
-                <Link
+             
+                {menu?.link !== "/tasks"  && <Link
                   to={{
                     pathname: menu?.link,
-                    search:
+                    search: 
                       location?.pathname === menu?.link
                         ? location.search
                         : `?search=&page=1&pageSize=10`,
@@ -296,7 +297,48 @@ const Sidebar = () => {
                   >
                     {menu?.name}
                   </h4>
-                </Link>
+                </Link>}
+                {menu?.link === "/tasks"  && <Link
+                  to={{
+                    pathname: menu?.link,
+                    search: 
+                      location?.pathname === menu?.link
+                        ? location.search
+                        : `?status=To-Do`,
+                  }}
+                  state={{ from: location.pathname }}
+                  key={i}
+                  onClick={(e) => {
+                    setActive(menu.name);
+                  }}
+                  className={`group flex items-center text-md gap-3.5 font-semibold p-2 leading-normal
+                                    hover:bg-orange-600 hover:text-white rounded-md
+                                    ${
+                                      menu?.name === active
+                                        ? "text-orange-600"
+                                        : "black"
+                                    }`}
+                >
+                  <div
+                    style={{ width: "1rem", height: "1rem", marginLeft: "5px" }}
+                  >
+                    {menu?.icon}
+                  </div>
+                  <h3
+                    className={`whitespace-pre font-sans  ${
+                      !open && `opacity-0 translate-x-20 overflow-hidden `
+                    }`}
+                  >
+                    {menu?.name}
+                  </h3>
+                  <h4
+                    className={`${
+                      open && "hidden"
+                    } absolute left-20 bg-white font-semibold whitespace-pre text-black rounded-md drop-shadow-lg px-0 py-0 w-0 overflow-hidden group-hover:px-2 group-hover:py-1 group-hover:left-14 group-hover:w-fit text-sm`}
+                  >
+                    {menu?.name}
+                  </h4>
+                </Link>}
               </GateKeeper>
             ))}
           </div>

@@ -2,13 +2,11 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useNavigate, Link, useLoaderData, useNavigation, useSubmit } from "react-router-dom";
 import atbtApi from "../../../serviceLayer/interceptor";
 import * as XLSX from 'xlsx';
-
 const userData = JSON.parse(localStorage.getItem("data"));
 const userId = userData?.user?.id;
 export async function loader({ request, params }) {
   try {
     let url = new URL(request.url);
-
     // const statusName = url.searchParams.get("status");
     // const [reports] = await Promise.all([
     //   // statusName === "master" ? atbtApi.get(`task/list?userId=191`) : atbtApi.get(`task/list?userId=191&status=${statusName}`)
@@ -127,7 +125,6 @@ function Reports() {
     const headerLength = header.label.length;
     return headerLength + 5;
   };
-
   const handleDownload = (data, headers) => {
     const worksheetData = [
       headers.map(header => header.label),
@@ -138,7 +135,6 @@ function Reports() {
     // Apply styles to the header row
     headers.forEach((header, index) => {
       const cellAddress = XLSX.utils.encode_cell({ r: 0, c: index });
-      // console.log( worksheet[cellAddress].v, "cellAddress")
       if (!worksheet[cellAddress]) {
         worksheet[cellAddress] = { t: 's', v: header.label };
       }
@@ -147,9 +143,6 @@ function Reports() {
         alignment: { horizontal: 'center', wrapText: true }
       };
     });
-
-
-
     const wscols = headers.map(header => ({ wch: getMaxColumnWidth(data, header) }));
     worksheet['!cols'] = wscols;
     const rowCount = worksheetData.length;

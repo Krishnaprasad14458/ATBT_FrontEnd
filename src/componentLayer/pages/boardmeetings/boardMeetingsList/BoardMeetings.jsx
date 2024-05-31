@@ -21,7 +21,7 @@ export async function loader({ request, params }) {
       atbtApi.post(`public/list/role`),
       atbtApi.get(`form/list?name=boardmeetingform`),
     ]);
-    console.log(meetings, "meetings loader");
+    console.log(meetings, "meetings loaderp");
     const combinedResponse = {
       meetings: meetings?.data,
       fieldsDropDownData: {
@@ -134,7 +134,7 @@ function BoardMeetings() {
     <div className="overflow-x-auto p-3">
       {/* search & filter */}
       <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-3 xl:grid-col-3 gap-2 mt-2 items-center">
-        <h1 className="font-semibold text-lg grid1-item">Board Meetings</h1>
+        <h1 className="font-semibold text-lg grid1-item">Meetings</h1>
         <div className="grid1-item  text-start">
           <label
             for="default-search"
@@ -171,13 +171,14 @@ function BoardMeetings() {
             />
           </div>
         </div>
-        <div className="grid1-item text-end flex justify-end filter_pagination divide-x-2 h-7 mt-2">
+        <div className="grid1-item text-end flex justify-end  items-center filter_pagination divide-x-2 h-7 mt-2">
           <CustomColumn
             tableView={tableView}
             setTableView={setTableView}
             form="boardmeetingform"
           />
           <CustomFilter
+          
             fieldsDropDownData={fieldsDropDownData}
             Qparams={Qparams}
             setQParams={setQParams}
@@ -232,7 +233,7 @@ function BoardMeetings() {
                 <th
                   scope="col"
                   className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200"
-                  style={{ width: "7rem" }}
+                  style={{ width: "5rem" }}
                 >
                   Actions
                 </th>
@@ -301,7 +302,7 @@ function BoardMeetings() {
                                 permission.canRead
                               }
                             >
-                              <Link to={`${row.id}/task`}>
+                              <Link to={`${row.id}/tasks`}>
                                 <p className="truncate text-xs"> {value}</p>
                               </Link>
                             </GateKeeper>
@@ -325,39 +326,35 @@ function BoardMeetings() {
                       
                       title=""
                     >
-                      <p className="truncate text-xs"> 5000</p>
+                      <p className="truncate text-xs">    {row.taskCounts.totalTaskCount}</p>
                     </td>
                     <td
                       className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden`}
                       
                       title=""
                     >
-                      <p className="truncate text-xs"> 2000</p>
+                      <p className="truncate text-xs">  {row.taskCounts.toDoCount}</p>
                     </td>
                     <td
                       className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden`}
-                      
                       title=""
                     >
-                      <p className="truncate text-xs"> 1000</p>
+                      <p className="truncate text-xs">  {row.taskCounts.inProgressCount}</p>
                     </td>
                     <td
                       className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden`}
-                     
                       title=""
                     >
-                      <p className="truncate text-xs"> 500</p>
+                      <p className="truncate text-xs">   {row.taskCounts.overDueCount}</p>
                     </td>
                     <td
                       className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden`}
-                    
                       title=""
                     >
-                      <p className="truncate text-xs"> 500</p>
+                      <p className="truncate text-xs">   {row.taskCounts.completedCount}</p>
                     </td>
                     <td
                       className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden`}
-                      
                       title=""
                     >
                       <div className="flex justify-start gap-4">
@@ -388,7 +385,7 @@ function BoardMeetings() {
                             </Link>
                           </button>
                         </GateKeeper>
-                        <GateKeeper
+                        {/* <GateKeeper
                           permissionCheck={(permission) =>
                             permission.module === "meeting" &&
                             permission.canUpdate
@@ -398,7 +395,12 @@ function BoardMeetings() {
                             type="button"
                             className="inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
                           >
-                            <Link to={`${row.id}/edit`}>
+                            <Link
+                              to={{
+                                pathname: `/boardmeetings/${row.id}/edit`,
+                                search: `?boardmeetingFor=${moduleName}&boardmeetingForID=${id}`,
+                              }}
+                            >
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 viewBox="0 0 20 20"
@@ -409,8 +411,8 @@ function BoardMeetings() {
                               </svg>
                             </Link>
                           </button>
-                        </GateKeeper>
-                        <GateKeeper
+                        </GateKeeper> */}
+                        {/* <GateKeeper
                           permissionCheck={(permission) =>
                             permission.module === "meeting" &&
                             permission.canDelete
@@ -434,7 +436,7 @@ function BoardMeetings() {
                               />
                             </svg>
                           </button>
-                        </GateKeeper>
+                        </GateKeeper> */}
                       </div>
                     </td>
                   </tr>

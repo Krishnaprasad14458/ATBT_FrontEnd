@@ -402,7 +402,12 @@ const handleInputChange = (newValue) => {
         </div>
       </div>
 
-      <div className="flex justify-end ">
+      <div className="flex justify-between ">
+      <Link to="/settings/datashare/">
+            <button className="mt-4 px-3 py-2 inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white ">
+          Back
+            </button>
+          </Link>
         <button
           className="mt-4 px-3 py-2  whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white "
           onClick={handleSubmit}

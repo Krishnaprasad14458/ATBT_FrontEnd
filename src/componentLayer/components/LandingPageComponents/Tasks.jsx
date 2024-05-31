@@ -5,6 +5,7 @@ import {
   useLoaderData,
   useFetcher,
   useSubmit,
+  useLocation
 } from "react-router-dom";
 import Select from "react-select";
 import TaskOverview from "./TaskOverview";
@@ -13,8 +14,6 @@ import { debounce } from "../../../utils/utils";
 import subtask_icon from "../../../assets/Images/Subtask_icon.svg";
 import "react-datepicker/dist/react-datepicker.css";
 import GateKeeper from "../../../rbac/GateKeeper";
-
-
 let status = [
   { label: "To-Do", value: "To-Do" },
   { label: "In-Progress", value: "In-Progress" },
@@ -27,7 +26,6 @@ let idOF;
 export async function tasksLoader({ request, params }) {
   try {
     const url = new URL(request.url);
-
     if (url.pathname.split("/")[1] === "users") {
       parentPath = "users";
       // groupName = "groupUser";
@@ -42,6 +40,9 @@ export async function tasksLoader({ request, params }) {
       parentPath = "teams";
       // groupName = "groupTeam";
       idOF = "teamId";
+    }
+    if (url.pathname.split("/")[1] === "tasks") {
+      parentPath = "tasks";
     }
     console.log("url", url.pathname.split("/")[1]);
     const taskID = url.searchParams.get("taskID");
@@ -90,15 +91,88 @@ export async function tasksLoader({ request, params }) {
       task: updatedTask,
       subTasks: subTasks?.data?.Task,
       subTask: updatedSubTask,
-      // personResponsible: personResponsible?.data?.map((user) => ({
-      //   label: user.name,
-      //   value: user.id,
-      // })),
       threadName: params.BMid ? ` Board Meetings Tasks` : `Tasks`,
       threadPath: params.BMid
         ? `/${parentPath}/${params.id}/${params.boardmeetings}/${params.BMid}/tasks`
         : `/${parentPath}/${params.id}/tasks`,
     };
+    console.log("tasks tasksLoader",)
+    console.log("combinedResponse", combinedResponse);
+    return combinedResponse;
+  } catch (error) {
+    console.log(error, "which error");
+    if (error.response) {
+      throw new Error(`Failed to fetch data: ${error.response.status}`);
+    } else if (error.request) {
+      throw new Error("Request made but no response received");
+    } else {
+      throw new Error(`Error setting up request: ${error.message}`);
+    }
+  }
+}
+export async function AllTasksLoader({ request, params }) {
+  try {
+    const url = new URL(request.url);
+    if (url.pathname.split("/")[1] === "tasks") {
+      parentPath = "tasks";
+    }
+    console.log("url", url.pathname.split("/")[1]);
+    const taskID = url.searchParams.get("taskID");
+    const subTaskID = url.searchParams.get("subTaskID");
+    const statusType = url.searchParams.get("status");
+    console.log("statusType", statusType);
+    const [tasks, task, subTasks, subTask] =
+      await Promise.all([
+        statusType !== null
+        ? atbtApi.get(`task/list?status=${statusType}`)
+        : atbtApi.get(`task/list`)
+ ,
+        // atbtApi.get(`task/listAll?user=${params.id}`),
+        taskID ? atbtApi.get(`task/listbyid/${taskID}`) : null,
+        taskID ? atbtApi.get(`task/subList/${taskID}`) : null,
+        subTaskID ? atbtApi.get(`task/subtaskbyid/${subTaskID}`) : null,
+        // groupName && params.BMid
+        //   ? atbtApi.get(`/boardmeeting/${groupName}/${params.BMid}`)
+        //   : {},
+       
+      ]);
+    // console.log("personResponsiblee", personResponsible);
+    let updatedTask = task?.data[0];
+    let updatedSubTask = subTask?.data[0];
+    let taskAge = null;
+    let subTaskAge = null;
+    if (updatedTask) {
+      const currentDate = new Date();
+      const enteredDate = new Date(updatedTask?.createdAt);
+      const differenceInMilliseconds = currentDate - enteredDate;
+      const differenceInDays = differenceInMilliseconds / (1000 * 3600 * 24);
+      taskAge = Math.floor(differenceInDays);
+      updatedTask.age = taskAge;
+    }
+    if (updatedSubTask) {
+      const currentDate = new Date();
+      const enteredDate = new Date(updatedSubTask?.createdAt);
+      const differenceInMilliseconds = currentDate - enteredDate;
+      const differenceInDays = differenceInMilliseconds / (1000 * 3600 * 24);
+      subTaskAge = Math.floor(differenceInDays);
+      updatedSubTask.age = subTaskAge;
+    }
+    const combinedResponse = {
+      tasks: tasks?.data,
+      task: updatedTask,
+      subTasks: subTasks?.data?.Task,
+      subTask: updatedSubTask,
+      // personResponsible: personResponsible?.data?.map((user) => ({
+      //   label: user.name,
+      //   value: user.id,
+      // })),
+      // threadName: params.BMid ? ` Board Meetings Tasks` : `Tasks`,
+      // threadPath: params.BMid
+      //   ? `/${parentPath}/${params.id}/${params.boardmeetings}/${params.BMid}/tasks`
+      //   : `/${parentPath}/${params.id}/tasks`,
+    };
+  console.log("tasks AllTasksLoader",)
+
     console.log("combinedResponse", combinedResponse);
     return combinedResponse;
   } catch (error) {
@@ -195,6 +269,7 @@ export async function TasksActions({ request, params }) {
 }
 const Tasks = () => {
   let submit = useSubmit();
+  let location = useLocation()
   const data = useLoaderData();
   let [tasks, setTasks] = useState([]);
   let [task, setTask] = useState({});
@@ -228,7 +303,6 @@ const Tasks = () => {
     }, 500),
     []
   );
-
   const [overViewTask, setOverViewTask] = useState(false);
   const [displayOverviewTask, setDisplayOverviewTask] = useState(false);
   const [displayOverviewSubTask, setDisplayOverviewSubTask] = useState(false);
@@ -355,7 +429,6 @@ const Tasks = () => {
   const [isSubTaskInputActiveID, setIsSubTaskInputActive] = useState(null);
   const [autoFocusID, setAutoFocusID] = useState(null);
   const [autoFocusSubTaskID, setAutoFocussubTaskID] = useState(null);
-
   const [activeLink, setActiveLink] = useState("toDo");
 
   // Function to handle click and set active link
@@ -376,7 +449,12 @@ const Tasks = () => {
   };
 
   return (
-    <div className="">
+    <div className=" p-3">
+      {location.pathname === '/tasks' && 
+      <p className="text-xl font-semibold">
+      Tasks
+     </p>}
+       
       <div className="flex justify-end">
         {BMid && (
           <GateKeeper         
@@ -403,7 +481,7 @@ const Tasks = () => {
       </div>
       <div>
         <div className="flex overflow-x-auto my-2">
-          {!BMid && (
+          {!BMid && (parentPath === "users" || parentPath === "entities" || parentPath === "teams" ) && (
             <NavLink
               to={`/${parentPath}/${id}/tasks?status=To-Do`}
               end
@@ -417,7 +495,21 @@ const Tasks = () => {
               To-Do
             </NavLink>
           )}
-          {!BMid && (
+             {!BMid && parentPath === "tasks" && (
+            <NavLink
+              to={`/tasks?status=To-Do`}
+              end
+              className={`cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09] ${
+                activeLink === "toDo"
+                  ? "border-b-2 border-orange-500 text-orange-600"
+                  : ""
+              }`}
+              onClick={() => handleNavLinkClick("toDo")}
+            >
+              To-Do
+            </NavLink>
+          )}
+          {!BMid && (parentPath === "users" || parentPath === "entities" || parentPath === "teams" ) &&(
             <NavLink
               to={`/${parentPath}/${id}/tasks?status=In-Progress`}
               end
@@ -431,8 +523,22 @@ const Tasks = () => {
               In-Progress
             </NavLink>
           )}
+              {!BMid &&  parentPath === "tasks" && (
+            <NavLink
+              to={`/tasks?status=In-Progress`}
+              end
+              className={`cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09] ${
+                activeLink === "inProgress"
+                  ? "border-b-2 border-orange-500 text-orange-600"
+                  : ""
+              }`}
+              onClick={() => handleNavLinkClick("inProgress")}
+            >
+              In-Progress
+            </NavLink>
+          )}
 
-          {!BMid && (
+          {!BMid && (parentPath === "users" || parentPath === "entities" || parentPath === "teams" ) && (
             <NavLink
               to={`/${parentPath}/${id}/tasks?status=Over-Due`}
               end
@@ -446,7 +552,21 @@ const Tasks = () => {
               Overdue
             </NavLink>
           )}
-          {!BMid && (
+          {!BMid && parentPath === "tasks" && (
+            <NavLink
+              to={`/tasks?status=Over-Due`}
+              end
+              className={`cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09] ${
+                activeLink === "OverDue"
+                  ? "border-b-2 border-orange-500 text-orange-600"
+                  : ""
+              }`}
+              onClick={() => handleNavLinkClick("OverDue")}
+            >
+              Overdue
+            </NavLink>
+          )}
+          {!BMid && (parentPath === "users" || parentPath === "entities" || parentPath === "teams" ) && (
             <NavLink
               to={`/${parentPath}/${id}/tasks?status=Completed`}
               end
@@ -460,7 +580,21 @@ const Tasks = () => {
               Completed
             </NavLink>
           )}
-          {!BMid && (
+             {!BMid && parentPath === "tasks" && (
+            <NavLink
+              to={`/tasks?status=Completed`}
+              end
+              className={`cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09] ${
+                activeLink === "Completed"
+                  ? "border-b-2 border-orange-500 text-orange-600"
+                  : ""
+              }`}
+              onClick={() => handleNavLinkClick("Completed")}
+            >
+              Completed
+            </NavLink>
+          )}
+          {!BMid && (parentPath === "users" || parentPath === "entities" || parentPath === "teams" ) &&(
             <NavLink
               to={`/${parentPath}/${id}/tasks`}
               end
@@ -472,9 +606,21 @@ const Tasks = () => {
               Master
             </NavLink>
           )}
+            {!BMid && parentPath === "tasks" &&(
+            <NavLink
+              to={`/tasks`}
+              end
+              className={`cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09] ${
+                activeLink === "Master" ? "border-b-2 border-orange-600" : ""
+              }`}
+              onClick={() => handleNavLinkClick("Master")}
+            >
+              Master
+            </NavLink>
+          )}
         </div>
       </div>
-      <div className=" max-h-[410px] overflow-y-auto ">
+      <div className=" max-h-[410px] overflow-y-auto">
         <table className="w-full divide-y divide-gray-200 dark:divide-gray-700 rounded-md table ">
           <thead>
             <tr>
@@ -500,11 +646,11 @@ const Tasks = () => {
                 Decision Status
               </th>
               <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-2 py-2 border-l-2 border-gray-200 ">
-                Decision Updated of User
+        Latest Decision Updated
               </th>
-              <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2 border-l-2 border-gray-200">
+              {/* <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2 border-l-2 border-gray-200">
                 Decision Updated of Admin
-              </th>
+              </th> */}
               {/* <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2 border-l-2 border-gray-200">
                 Actions
               </th> */}
@@ -558,7 +704,7 @@ const Tasks = () => {
                       )}
                       <div className="flex">
                         {task.subtaskCount > 0 && (
-                          <span className="flex items-center ml-2 px-0.5 cursor-pointer border border-[#f8fafc] hover:border hover:border-gray-500 hover:rounded-sm hover:bg-gray-100">
+                          <span className="flex items-center ml-2 px-0.5 ">
                             <span className="text-sm">{task.subtaskCount}</span>
                             <svg
                               viewBox="0 0 32 32"
@@ -769,11 +915,12 @@ const Tasks = () => {
                     />
                   </td>
                   <td className="border py-1.5 px-2 text-sm text-gray-600">
-                    Updated By User
+          
+             {task?.updatedbyuser}
                   </td>
-                  <td className="border py-1.5 px-2 text-sm text-gray-600">
+                  {/* <td className="border py-1.5 px-2 text-sm text-gray-600">
                     Updated By Admin
-                  </td>
+                  </td> */}
                   {/* <td className="border py-1.5 px-3 text-sm text-gray-600 cursor-pointer" style={{width :"3rem"}} >
                     <svg
                       onClick={() => handleDeleteTask(task.id)}
