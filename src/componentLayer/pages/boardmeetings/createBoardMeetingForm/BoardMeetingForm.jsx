@@ -21,7 +21,7 @@ export async function boardmeetingFormLoader({ params, request }) {
     let [formResponse, boardmeetingResponse, usersList, displayMembers] =
       await Promise.all([
         atbtApi.get(`form/list?name=boardmeetingform`),
-        params.id ? atbtApi.get(`boardmeeting/getByid/${params.id}`) : null, //Api for edit
+        params.BMid ? atbtApi.get(`boardmeeting/getByid/${params.BMid}`) : null, //Api for edit
         atbtApi.post(`public/list/user`),
         boardmeetingFor === "user"
           ? atbtApi.get(`user/list/${boardmeetingForID}`)
@@ -55,7 +55,7 @@ export async function boardmeetingFormLoader({ params, request }) {
       }
     
     let boardmeetingData = null;
-    if (params && params.id) {
+    if (params && params.BMid) {
       console.log(boardmeetingResponse, "loader boardmeeting data");
       boardmeetingData = boardmeetingResponse?.data;
       console.log(boardmeetingResponse, "loader boardmeeting data updated");
@@ -81,13 +81,13 @@ function BoardMeetingForm() {
   const boardmeetingForID = urlParams.get("boardmeetingForID");
   const [showPassword, setShowPassword] = useState(false);
   document.title = "ATBT | Meeting";
-  let { id } = useParams();
+  let { BMid } = useParams();
   const boardmeeting = useLoaderData();
   console.log(boardmeeting, "cmp loader data");
 
   /// for edit to bind selected memebers
   useEffect(() => {
-    if (id && boardmeeting?.boardmeetingData?.members) {
+    if (BMid && boardmeeting?.boardmeetingData?.members) {
       const updatedMembersForSelect = boardmeeting.boardmeetingData.members.map(
         (member) => ({
           value: member.id,
@@ -98,11 +98,11 @@ function BoardMeetingForm() {
       );
       setSelected(updatedMembersForSelect);
     }
-  }, [id, boardmeeting]);
+  }, [BMid, boardmeeting]);
   function setInitialForm() {
     console.log("boardmeeting", boardmeeting);
     let response = boardmeeting?.formData;
-    if (!!id && !!boardmeeting?.boardmeetingData) {
+    if (!!BMid && !!boardmeeting?.boardmeetingData) {
       let boardmeetingData = boardmeeting?.boardmeetingData;
       response.forEach((input) => {
         if (boardmeetingData.hasOwnProperty(input.inputname)) {
@@ -144,10 +144,10 @@ function BoardMeetingForm() {
   );
   useEffect(() => {
     setCustomFormFields(setInitialForm());
-    if (!id) {
+    if (!BMid) {
       setSelected([]);
     }
-  }, [id]);
+  }, [BMid]);
 
   
   const handleOpenOptions = (name) => {
@@ -168,17 +168,17 @@ function BoardMeetingForm() {
     // defaultBMMembers.push();
     setDefaultBoardMeetingMembers(defaultBMMembers);
 
-    if (id) {
+    if (BMid) {
       for (let y = 0; y < customFormFields.length; y++) {
         if (customFormFields[y].inputname === "members") {
           let members = customFormFields[y].value;
           setAllBoardMeetingMembers([ ...defaultBMMembers,...members]);
         }
       }
-    } else if (!id) {
+    } else if (!BMid) {
       setAllBoardMeetingMembers(defaultBMMembers);
     }
-  }, [id, boardmeeting]);
+  }, [BMid, boardmeeting]);
   const handleClick = (value, index) => {
     console.log("value", value);
     setSelected(value);
@@ -517,9 +517,9 @@ function BoardMeetingForm() {
       });
       console.log("formDataObj", formDataObj);
       let response;
-      if (!!id && !!boardmeeting?.boardmeetingData) {
+      if (!!BMid && !!boardmeeting?.boardmeetingData) {
         console.log("updating");
-        response = await updateBoardMeeting(formData, id);
+        response = await updateBoardMeeting(formData, BMid);
       } else {
         console.log("creating");
         response = await createBoardMeeting(
@@ -666,7 +666,7 @@ function BoardMeetingForm() {
                             WebkitAppearance: "none",
                           }}
 
-                          min={(id===null || id=== undefined) && getCurrentDate()}
+                          min={(BMid===null || BMid=== undefined) && getCurrentDate()}
 
                           className="px-2 py-2 text-sm block w-full rounded-md bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder:text-xs"
                           value={customFormFields[index].value || ""}
@@ -1313,7 +1313,7 @@ function BoardMeetingForm() {
                 type="submit"
                 className="mt-4 flex w-full justify-center rounded-md bg-orange-600 px-3 py-2.5 text-sm font-medium leading-6 text-white shadow-sm  focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600"
               >
-                {id ? "Update Board Meeting" : "Create Board Meeting"}
+                {BMid ? "Update Board Meeting" : "Create Board Meeting"}
               </button>
             </div>
           </form>
