@@ -23,6 +23,7 @@ let parentPath;
 // let groupName;
 let idOF;
 export async function tasksLoader({ request, params }) {
+
   try {
     const url = new URL(request.url);
     if (url.pathname.split("/")[1] === "users") {
@@ -39,6 +40,9 @@ export async function tasksLoader({ request, params }) {
       parentPath = "teams";
       // groupName = "groupTeam";
       idOF = "teamId";
+    }
+    if (url.pathname.split("/")[1] === "tasks") {
+      parentPath = "tasks";
     }
     console.log("url", url.pathname.split("/")[1]);
     const taskID = url.searchParams.get("taskID");
@@ -92,6 +96,80 @@ export async function tasksLoader({ request, params }) {
         ? `/${parentPath}/${params.id}/${params.boardmeetings}/${params.BMid}/tasks`
         : `/${parentPath}/${params.id}/tasks`,
     };
+    console.log("tasks tasksLoader",)
+    console.log("combinedResponse", combinedResponse);
+    return combinedResponse;
+  } catch (error) {
+    console.log(error, "which error");
+    if (error.response) {
+      throw new Error(`Failed to fetch data: ${error.response.status}`);
+    } else if (error.request) {
+      throw new Error("Request made but no response received");
+    } else {
+      throw new Error(`Error setting up request: ${error.message}`);
+    }
+  }
+}
+export async function AllTasksLoader({ request, params }) {
+  try {
+    const url = new URL(request.url);
+    if (url.pathname.split("/")[1] === "tasks") {
+      parentPath = "tasks";
+    }
+    console.log("url", url.pathname.split("/")[1]);
+    const taskID = url.searchParams.get("taskID");
+    const subTaskID = url.searchParams.get("subTaskID");
+    const statusType = url.searchParams.get("status");
+    console.log("statusType", statusType);
+    const [tasks, task, subTasks, subTask] =
+      await Promise.all([
+     atbtApi.get(`task/list`) ,
+        // atbtApi.get(`task/listAll?user=${params.id}`),
+        taskID ? atbtApi.get(`task/listbyid/${taskID}`) : null,
+        taskID ? atbtApi.get(`task/subList/${taskID}`) : null,
+        subTaskID ? atbtApi.get(`task/subtaskbyid/${subTaskID}`) : null,
+        // groupName && params.BMid
+        //   ? atbtApi.get(`/boardmeeting/${groupName}/${params.BMid}`)
+        //   : {},
+       
+      ]);
+    // console.log("personResponsiblee", personResponsible);
+    let updatedTask = task?.data[0];
+    let updatedSubTask = subTask?.data[0];
+    let taskAge = null;
+    let subTaskAge = null;
+    if (updatedTask) {
+      const currentDate = new Date();
+      const enteredDate = new Date(updatedTask?.createdAt);
+      const differenceInMilliseconds = currentDate - enteredDate;
+      const differenceInDays = differenceInMilliseconds / (1000 * 3600 * 24);
+      taskAge = Math.floor(differenceInDays);
+      updatedTask.age = taskAge;
+    }
+    if (updatedSubTask) {
+      const currentDate = new Date();
+      const enteredDate = new Date(updatedSubTask?.createdAt);
+      const differenceInMilliseconds = currentDate - enteredDate;
+      const differenceInDays = differenceInMilliseconds / (1000 * 3600 * 24);
+      subTaskAge = Math.floor(differenceInDays);
+      updatedSubTask.age = subTaskAge;
+    }
+    const combinedResponse = {
+      tasks: tasks?.data,
+      task: updatedTask,
+      subTasks: subTasks?.data?.Task,
+      subTask: updatedSubTask,
+      // personResponsible: personResponsible?.data?.map((user) => ({
+      //   label: user.name,
+      //   value: user.id,
+      // })),
+      threadName: params.BMid ? ` Board Meetings Tasks` : `Tasks`,
+      threadPath: params.BMid
+        ? `/${parentPath}/${params.id}/${params.boardmeetings}/${params.BMid}/tasks`
+        : `/${parentPath}/${params.id}/tasks`,
+    };
+  console.log("tasks AllTasksLoader",)
+
     console.log("combinedResponse", combinedResponse);
     return combinedResponse;
   } catch (error) {
