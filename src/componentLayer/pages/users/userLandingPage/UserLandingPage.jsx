@@ -7,7 +7,7 @@ import GateKeeper from "../../../../rbac/GateKeeper";
 const UserLandingPage = () => {
   const { id, BMid } = useParams();
   return (
-    <div className=" p-4 bg-[#f8fafc]">
+    <div className=" p-3 bg-[#f8fafc]">
       <div className="flex justify-between my-2">
         <p className="text-xl font-semibold">
           {" "}
