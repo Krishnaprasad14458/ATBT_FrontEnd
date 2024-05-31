@@ -23,7 +23,6 @@ let parentPath;
 // let groupName;
 let idOF;
 export async function tasksLoader({ request, params }) {
-
   try {
     const url = new URL(request.url);
     if (url.pathname.split("/")[1] === "users") {
@@ -123,7 +122,10 @@ export async function AllTasksLoader({ request, params }) {
     console.log("statusType", statusType);
     const [tasks, task, subTasks, subTask] =
       await Promise.all([
-     atbtApi.get(`task/list`) ,
+        statusType !== null
+        ? atbtApi.get(`task/list?status=${statusType}`)
+        : atbtApi.get(`task/list`)
+ ,
         // atbtApi.get(`task/listAll?user=${params.id}`),
         taskID ? atbtApi.get(`task/listbyid/${taskID}`) : null,
         taskID ? atbtApi.get(`task/subList/${taskID}`) : null,
@@ -163,10 +165,10 @@ export async function AllTasksLoader({ request, params }) {
       //   label: user.name,
       //   value: user.id,
       // })),
-      threadName: params.BMid ? ` Board Meetings Tasks` : `Tasks`,
-      threadPath: params.BMid
-        ? `/${parentPath}/${params.id}/${params.boardmeetings}/${params.BMid}/tasks`
-        : `/${parentPath}/${params.id}/tasks`,
+      // threadName: params.BMid ? ` Board Meetings Tasks` : `Tasks`,
+      // threadPath: params.BMid
+      //   ? `/${parentPath}/${params.id}/${params.boardmeetings}/${params.BMid}/tasks`
+      //   : `/${parentPath}/${params.id}/tasks`,
     };
   console.log("tasks AllTasksLoader",)
 
@@ -475,7 +477,7 @@ const Tasks = () => {
       </div>
       <div>
         <div className="flex overflow-x-auto my-2">
-          {!BMid && parentPath && (
+          {!BMid && (parentPath === "users" || parentPath === "entities" || parentPath === "teams" ) && (
             <NavLink
               to={`/${parentPath}/${id}/tasks?status=To-Do`}
               end
@@ -489,7 +491,7 @@ const Tasks = () => {
               To-Do
             </NavLink>
           )}
-             {!BMid && !parentPath && (
+             {!BMid && parentPath === "tasks" && (
             <NavLink
               to={`/tasks?status=To-Do`}
               end
@@ -503,7 +505,7 @@ const Tasks = () => {
               To-Do
             </NavLink>
           )}
-          {!BMid && parentPath &&(
+          {!BMid && (parentPath === "users" || parentPath === "entities" || parentPath === "teams" ) &&(
             <NavLink
               to={`/${parentPath}/${id}/tasks?status=In-Progress`}
               end
@@ -517,7 +519,7 @@ const Tasks = () => {
               In-Progress
             </NavLink>
           )}
-              {!BMid &&  !parentPath && (
+              {!BMid &&  parentPath === "tasks" && (
             <NavLink
               to={`/tasks?status=In-Progress`}
               end
@@ -532,7 +534,7 @@ const Tasks = () => {
             </NavLink>
           )}
 
-          {!BMid && parentPath && (
+          {!BMid && (parentPath === "users" || parentPath === "entities" || parentPath === "teams" ) && (
             <NavLink
               to={`/${parentPath}/${id}/tasks?status=Over-Due`}
               end
@@ -546,7 +548,7 @@ const Tasks = () => {
               Overdue
             </NavLink>
           )}
-          {!BMid && !parentPath && (
+          {!BMid && parentPath === "tasks" && (
             <NavLink
               to={`/tasks?status=Over-Due`}
               end
@@ -560,7 +562,7 @@ const Tasks = () => {
               Overdue
             </NavLink>
           )}
-          {!BMid && parentPath && (
+          {!BMid && (parentPath === "users" || parentPath === "entities" || parentPath === "teams" ) && (
             <NavLink
               to={`/${parentPath}/${id}/tasks?status=Completed`}
               end
@@ -574,7 +576,7 @@ const Tasks = () => {
               Completed
             </NavLink>
           )}
-             {!BMid && !parentPath && (
+             {!BMid && parentPath === "tasks" && (
             <NavLink
               to={`/tasks?status=Completed`}
               end
@@ -588,7 +590,7 @@ const Tasks = () => {
               Completed
             </NavLink>
           )}
-          {!BMid && parentPath &&(
+          {!BMid && (parentPath === "users" || parentPath === "entities" || parentPath === "teams" ) &&(
             <NavLink
               to={`/${parentPath}/${id}/tasks`}
               end
@@ -600,7 +602,7 @@ const Tasks = () => {
               Master
             </NavLink>
           )}
-            {!BMid && !parentPath &&(
+            {!BMid && parentPath === "tasks" &&(
             <NavLink
               to={`/tasks`}
               end
