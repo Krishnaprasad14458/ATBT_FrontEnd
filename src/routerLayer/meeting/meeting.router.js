@@ -7,7 +7,9 @@ import BoardMeetings, {
   action as meetingAction,
   loader as meetingLoader,
 } from "../../componentLayer/pages/boardmeetings/boardMeetingsList/BoardMeetings";
-import BoardMeetingOverview, { boardMeetingOverviewLoader } from "../../componentLayer/pages/boardmeetings/boardMeetingLandingPage/BoardMeetingOverview";
+import BoardMeetingOverview, {
+  boardMeetingOverviewLoader,
+} from "../../componentLayer/pages/boardmeetings/boardMeetingLandingPage/BoardMeetingOverview";
 import Tasks, {
   TasksActions,
   tasksLoader,
@@ -27,38 +29,43 @@ export const meetingRouter = [
   },
   {
     path: ":BMid",
-    element: <BoardMeetingLandingPage />,
 
     children: [
-      {
-        index: true,
-        loader: boardMeetingOverviewLoader,
-        element: <BoardMeetingOverview />,
-      },
       {
         path: "edit",
         loader: boardmeetingFormLoader,
         element: <BoardMeetingForm />,
       },
       {
-        path: "tasks",
-        loader: tasksLoader,
-        action: TasksActions,
-        element: <Tasks />,
-        // handle: {
-        //   crumb: (data) => (
-        //     <Link to={data?.threadPath}>{data?.threadName}</Link>
-        //   ),
-        // },
+        element: <BoardMeetingLandingPage />,
+
+        children: [
+          {
+            index: true,
+            loader: boardMeetingOverviewLoader,
+            element: <BoardMeetingOverview />,
+          },
+
+          {
+            path: "tasks",
+            loader: tasksLoader,
+            action: TasksActions,
+            element: <Tasks />,
+            // handle: {
+            //   crumb: (data) => (
+            //     <Link to={data?.threadPath}>{data?.threadName}</Link>
+            //   ),
+            // },
+          },
+          {
+            path: "documents",
+            element: <Documents />,
+            // handle: {
+            //   crumb: (data) => <Link to=".">Documents</Link>,
+            // },
+          },
+        ],
       },
-      {
-        path: "documents",
-        element: <Documents />,
-        // handle: {
-        //   crumb: (data) => <Link to=".">Documents</Link>,
-        // },
-      },
-      
     ],
   },
 ];
