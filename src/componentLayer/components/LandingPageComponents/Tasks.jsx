@@ -5,6 +5,7 @@ import {
   useLoaderData,
   useFetcher,
   useSubmit,
+  useLocation
 } from "react-router-dom";
 import Select from "react-select";
 import TaskOverview from "./TaskOverview";
@@ -268,6 +269,7 @@ export async function TasksActions({ request, params }) {
 }
 const Tasks = () => {
   let submit = useSubmit();
+  let location = useLocation()
   const data = useLoaderData();
   let [tasks, setTasks] = useState([]);
   let [task, setTask] = useState({});
@@ -448,9 +450,11 @@ const Tasks = () => {
 
   return (
     <div className=" p-3">
-       <p className="text-xl font-semibold">
-         Tasks
-        </p>
+      {location.pathname === '/tasks' && 
+      <p className="text-xl font-semibold">
+      Tasks
+     </p>}
+       
       <div className="flex justify-end">
         {BMid && (
           <GateKeeper         

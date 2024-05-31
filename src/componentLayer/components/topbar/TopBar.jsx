@@ -411,14 +411,14 @@ export default function TopBar() {
                       <img
                         className="h-8 w-8 rounded-full"
                         src={logInUserDetails?.image}
-                        alt=""
+                        alt="profile"
                         aria-hidden="true"
                       />
                     ) : (
                       <img
                         className="h-8 w-8 rounded-full"
                         src={defprop}
-                        alt=""
+                        alt="profile"
                         aria-hidden="true"
                       />
                     )}
