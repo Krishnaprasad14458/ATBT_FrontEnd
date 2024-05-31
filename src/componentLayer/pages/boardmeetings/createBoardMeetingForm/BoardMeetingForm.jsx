@@ -88,6 +88,7 @@ function BoardMeetingForm() {
   /// for edit to bind selected memebers
   useEffect(() => {
     if (BMid && boardmeeting?.boardmeetingData?.members) {
+      console.log("boardmeeting.boardmeetingData.members",boardmeeting.boardmeetingData.members)
       const updatedMembersForSelect = boardmeeting.boardmeetingData.members.map(
         (member) => ({
           value: member.id,
@@ -105,10 +106,15 @@ function BoardMeetingForm() {
     if (!!BMid && !!boardmeeting?.boardmeetingData) {
       let boardmeetingData = boardmeeting?.boardmeetingData;
       response.forEach((input) => {
+      console.log("input",input)
         if (boardmeetingData.hasOwnProperty(input.inputname)) {
           if (boardmeetingData[input.inputname] !== null) {
             input.value = boardmeetingData[input.inputname];
           }
+          // if (boardmeetingData[input.inputname] !== null && input.type === "multiselect") {
+          //   input.value = boardmeetingData[input.inputname]?.map((item)=>item.id);
+            
+          // }
         }
       });
     }
@@ -124,7 +130,7 @@ function BoardMeetingForm() {
     BoardMeetingsDataContext
   );
   const [selected, setSelected] = useState([]);
-
+console.log("selected selected",selected)
   const [usersEmails, setUsersEmails] = useState(boardmeeting.usersList);
 
   useEffect(() => {
@@ -173,6 +179,8 @@ function BoardMeetingForm() {
         if (customFormFields[y].inputname === "members") {
           let members = customFormFields[y].value;
           setAllBoardMeetingMembers([ ...defaultBMMembers,...members]);
+          customFormFields[y].value = customFormFields[y].value.map((item)=> item.id)
+        // console.log("first",customFormFields[y].value)
         }
       }
     } else if (!BMid) {
