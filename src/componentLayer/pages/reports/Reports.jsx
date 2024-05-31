@@ -1,19 +1,10 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useNavigate, Link, useLoaderData, useNavigation, useSubmit } from "react-router-dom";
-import CustomColumn from "../../../componentLayer/components/tableCustomization/CustomColumn";
-import CustomFilter from "../../../componentLayer/components/tableCustomization/CustomFilter";
 import atbtApi from "../../../serviceLayer/interceptor";
-import { debounce } from "../../../utils/utils";
-// import { CSVLink } from "react-csv";
-
 import * as XLSX from 'xlsx';
-
 
 const userData = JSON.parse(localStorage.getItem("data"));
 const userId = userData?.user?.id;
-
-
-
 export async function loader({ request, params }) {
   try {
     let url = new URL(request.url);
@@ -25,9 +16,9 @@ export async function loader({ request, params }) {
     // ]);
 
     const [ReportsMaster, ReportsAtbt, ReportsAtr] = await Promise.all([
-      atbtApi.get(`task/list?userId=228`),
-      atbtApi.get(`task/list?userId=228&status=To-Do`),
-      atbtApi.get(`task/list?userId=228&status=In-Progress`)
+      atbtApi.get(`task/list?userId=${userId}`),
+      atbtApi.get(`task/list?userId=${userId}&status=To-Do`),
+      atbtApi.get(`task/list?userId=${userId}&status=In-Progress`)
     ]);
 
 
@@ -56,18 +47,17 @@ function Reports() {
   let submit = useSubmit();
   const data = useLoaderData();
   const { reportsMaster, reportsAtbt, reportsAtr } = data;
-
   const [masterData, setMasterData] = useState();
   const [atbtData, setAtbtData] = useState();
   const [atrData, setAtrData] = useState();
 
-  console.log(atrData, "atbtData")
+  console.log(data, "atbtData")
 
   useEffect(() => {
     if (reportsMaster) {
       setMasterData(reportsMaster.map((report, index) => ({
         ...report,
-        'S.NO': index + 1 // Generate serial number
+        'S.NO': index + 1
       })));
     }
   }, [reportsMaster]);
@@ -76,7 +66,7 @@ function Reports() {
     if (reportsAtbt) {
       setAtbtData(reportsAtbt.map((report, index) => ({
         ...report,
-        'S.NO': index + 1 // Generate serial number
+        'S.NO': index + 1
       })));
     }
   }, [reportsAtbt]);
@@ -85,35 +75,33 @@ function Reports() {
     if (reportsAtr) {
       setAtrData(reportsAtr.map((report, index) => ({
         ...report,
-        'S.NO': index + 1 // Generate serial number
+        'S.NO': index + 1
       })));
     }
-  }, [reportsAtr]);
+  }, [reportsAtr]); 
 
-
-
-  // To-DO
   const headersAtbt = [
     { label: 'S.NO', key: 'S.NO' },
+    { label: "Date of Board meeting", key: "date" },
     { label: 'Initial Decision Taken', key: 'decision' },
     { label: 'Person Responsible for implementation', key: 'members' },
     { label: "DueDate", key: "dueDate" },
-    { label: "Meeting ID", key: "meetingId" }
+    { label: "Meeting ID", key: "meetingNumber"}
   ];
-
 
   const headerMaster = [
     { label: 'S.NO', key: 'S.NO' },
     { label: "Date of Board meeting", key: "date" },
     { label: 'Decision Taken', key: 'decision' },
-    { label: 'Person Responsible for implementation' },
+    { label: 'Person Responsible for implementation', key: "members" },
     { label: "DueDate", key: "dueDate" },
-    { label: "Meeting ID", key: "meetingId" },
-    { label: "Updated Decision on Date", key: "updatedAt" },
-    { label: "Updated Person Responsible", key: "updatedAt" },
-    { label: "Updated Decision on Date", key: "updatedAt" },
-    { label: "Updated Person Responsible", key: "updatedAt" }
+    { label: "Meeting ID", key: "meetingNumber" },
+    // { label: "Ageing of the Decision as per Latest Board Meeting", key: "meetingId" },
+    { label: "Updated Decision", key: "updatedbyuser" },
+    { label: "Updated Person Responsible", key: "members" },
   ]
+
+
 
   const headerATR = [
     { label: 'S.NO', key: 'S.NO' },
@@ -121,13 +109,19 @@ function Reports() {
     { label: 'Initial Decision Taken', key: 'decision' },
     { label: 'Person Responsible for implementation', key: "members" },
     { label: "DueDate", key: "dueDate" },
-    { label: "Meeting ID", key: "meetingId" },
-    { label: "Ageing of the Decision as per Latest Board Meeting", key: "meetingId" },
-    { label: "Updated Decision", key: "meetingId" },
-    { label: "Person Responsible", key: "meetingId" },
+    { label: "Meeting ID", key: "meetingNumber" },
+    // { label: "Ageing of the Decision as per Latest Board Meeting", key: "date" },
+    { label: "Updated Decision", key: "updatedbyuser" },
+    { label: "Updated Person Responsible", key: "members" },
   ]
 
+  //  const dynamicHeaders = reportdata[0]?.comments.flatMap((comment, index) => [
+  //   { label: `Updated Decision ${index + 1}`, key: `updatedDecision${index}` },
+  //   { label: `Person Responsible ${index + 1}`, key: `personResponsible${index}` }
+  // ]);
 
+  // Combine static and dynamic headers
+  // const HeadersMaster = [...headerMaster, ...dynamicHeaders];
 
   const getMaxColumnWidth = (data, header) => {
     const headerLength = header.label.length;
@@ -144,6 +138,7 @@ function Reports() {
     // Apply styles to the header row
     headers.forEach((header, index) => {
       const cellAddress = XLSX.utils.encode_cell({ r: 0, c: index });
+      // console.log( worksheet[cellAddress].v, "cellAddress")
       if (!worksheet[cellAddress]) {
         worksheet[cellAddress] = { t: 's', v: header.label };
       }
@@ -153,12 +148,13 @@ function Reports() {
       };
     });
 
+
+
     const wscols = headers.map(header => ({ wch: getMaxColumnWidth(data, header) }));
     worksheet['!cols'] = wscols;
-
     const rowCount = worksheetData.length;
     for (let r = 0; r < rowCount; r++) {
-      let maxCellHeight = 0;
+      let maxCellHeight = 0;  
       for (let c = 0; c < headers.length; c++) {
         const cellAddress = XLSX.utils.encode_cell({ r, c });
         const cell = worksheet[cellAddress];
@@ -166,12 +162,12 @@ function Reports() {
           const cellTextLength = cell.v ? cell.v.toString().length : 0;
           const cellWidth = wscols[c].wch;
           const lines = Math.ceil(cellTextLength / cellWidth);
-          const cellHeight = lines * 20; // Assume 20 pixels per line of text
+          const cellHeight = lines * 20;
           maxCellHeight = Math.max(maxCellHeight, cellHeight);
           cell.s = cell.s || {};
           cell.s.alignment = cell.s.alignment || {};
           cell.s.alignment.wrapText = true;
-          worksheet[cellAddress] = cell; // Ensure the cell with styles is saved back to the worksheet
+          worksheet[cellAddress] = cell;
         }
       }
       worksheet['!rows'] = worksheet['!rows'] || [];
@@ -182,10 +178,6 @@ function Reports() {
     XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet1');
     XLSX.writeFile(workbook, 'reports.xlsx');
   };
-
-
-
-
 
 
   // const handleSVGClick = async (newStatus) => {
@@ -305,10 +297,10 @@ function Reports() {
                 className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  hover:text-orange-500 overflow-hidden`}
               >
                 {
-                  atbtData?.length > 0 && (
+                  atbtData && atbtData.length > 0 ? (
                     <button
                       type="button"
-                      title="CSV file"
+                      title="xlsx file"
                       className=" inline-flex items-center gap-x-1 text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
                       onClick={() => handleDownload(atbtData, headersAtbt)}
                     >
@@ -316,7 +308,8 @@ function Reports() {
                         <path stroke-linecap="round" stroke-linejoin="round" d="m9 13.5 3 3m0 0 3-3m-3 3v-6m1.06-4.19-2.12-2.12a1.5 1.5 0 0 0-1.061-.44H4.5A2.25 2.25 0 0 0 2.25 6v12a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9a2.25 2.25 0 0 0-2.25-2.25h-5.379a1.5 1.5 0 0 1-1.06-.44Z" />
                       </svg>
                     </button>
-                  )
+
+                  ) : "No Reports Found"
                 }
               </td>
             </tr>
@@ -332,33 +325,32 @@ function Reports() {
                 className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  hover:text-orange-500 overflow-hidden`}
                 style={{ maxWidth: "160px" }}
               >
-
                 ATR
               </td>
               <td
                 className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  hover:text-orange-500 overflow-hidden`}
               >
-              In-Progress
+                In-Progress
               </td>
               <td
                 className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  hover:text-orange-500 overflow-hidden`}
               >
-                 Super Admin
+                Super Admin
               </td>
               <td
                 className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  hover:text-orange-500 overflow-hidden`}
               >
-               29-05-2024
+                29-05-2024
               </td>
               <td
                 className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  hover:text-orange-500 overflow-hidden`}
                 style={{ maxWidth: "160px" }}
               >
                 {
-                  atrData?.length > 0 && (
+                  atrData && atrData.length > 0 ? (
                     <button
                       type="button"
-                      title="CSV file"
+                      title="xlsx file"
                       className=" inline-flex items-center gap-x-1 text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
                       onClick={() => handleDownload(atrData, headerATR)}
                     >
@@ -366,8 +358,10 @@ function Reports() {
                         <path stroke-linecap="round" stroke-linejoin="round" d="m9 13.5 3 3m0 0 3-3m-3 3v-6m1.06-4.19-2.12-2.12a1.5 1.5 0 0 0-1.061-.44H4.5A2.25 2.25 0 0 0 2.25 6v12a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9a2.25 2.25 0 0 0-2.25-2.25h-5.379a1.5 1.5 0 0 1-1.06-.44Z" />
                       </svg>
                     </button>
-                  )
+
+                  ) : "No Reports Found"
                 }
+
               </td>
             </tr>
             <tr className={`hover:bg-slate-100 dark:hover:bg-gray-700 `}>
@@ -390,22 +384,22 @@ function Reports() {
               <td
                 className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  hover:text-orange-500 overflow-hidden`}
               >
-                 Super Admin
+                Super Admin
               </td>
               <td
                 className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  hover:text-orange-500 overflow-hidden`}
               >
-               29-05-2024
+                29-05-2024
               </td>
               <td
                 className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  hover:text-orange-500 overflow-hidden`}
                 style={{ maxWidth: "160px" }}
               >
                 {
-                  masterData?.length > 0 && (
+                  masterData && masterData.length > 0 ? (
                     <button
                       type="button"
-                      title="CSV file"
+                      title="xlsx file"
                       className=" inline-flex items-center gap-x-1 text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
                       onClick={() => handleDownload(masterData, headerMaster)}
                     >
@@ -413,8 +407,12 @@ function Reports() {
                         <path stroke-linecap="round" stroke-linejoin="round" d="m9 13.5 3 3m0 0 3-3m-3 3v-6m1.06-4.19-2.12-2.12a1.5 1.5 0 0 0-1.061-.44H4.5A2.25 2.25 0 0 0 2.25 6v12a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9a2.25 2.25 0 0 0-2.25-2.25h-5.379a1.5 1.5 0 0 1-1.06-.44Z" />
                       </svg>
                     </button>
+
+                  ) : (
+                    "No Reports Found"
                   )
                 }
+
               </td>
             </tr>
           </tbody>
@@ -424,6 +422,8 @@ function Reports() {
   );
 }
 
+
+
 export default Reports;
 
 
@@ -432,3 +432,16 @@ export default Reports;
 
 
 
+// const reportdata = [{
+
+//   decision: "task-2 ready",
+//   meetingId: 454,
+//   comments: [
+//     { upadatedDecision: "table content", personResponble: "krishna" },
+//     { upadatedDecision: "content", personResponble: "sita" },
+//     { upadatedDecision: "reporst", personResponble: "david" },
+//     { upadatedDecision: "refund ", personResponble: "sai" },
+//     { upadatedDecision: "teams", personResponble: "venu" },
+//     { upadatedDecision: "tasks", personResponble: "ram" },
+//   ]
+// }]
