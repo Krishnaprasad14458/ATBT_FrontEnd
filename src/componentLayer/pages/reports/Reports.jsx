@@ -7,17 +7,11 @@ import { debounce } from "../../../utils/utils";
 // import { CSVLink } from "react-csv";
 
 import * as XLSX from 'xlsx';
-
-
 const userData = JSON.parse(localStorage.getItem("data"));
 const userId = userData?.user?.id;
-
-
-
 export async function loader({ request, params }) {
   try {
     let url = new URL(request.url);
-
     // const statusName = url.searchParams.get("status");
     // const [reports] = await Promise.all([
     //   // statusName === "master" ? atbtApi.get(`task/list?userId=191`) : atbtApi.get(`task/list?userId=191&status=${statusName}`)
@@ -127,13 +121,10 @@ function Reports() {
     { label: "Person Responsible", key: "meetingId" },
   ]
 
-
-
   const getMaxColumnWidth = (data, header) => {
     const headerLength = header.label.length;
     return headerLength + 5;
   };
-
   const handleDownload = (data, headers) => {
     const worksheetData = [
       headers.map(header => header.label),
