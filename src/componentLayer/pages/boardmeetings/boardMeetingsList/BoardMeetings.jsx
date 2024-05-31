@@ -233,7 +233,7 @@ function BoardMeetings() {
                 <th
                   scope="col"
                   className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200"
-                  style={{ width: "7rem" }}
+                  style={{ width: "5rem" }}
                 >
                   Actions
                 </th>
@@ -326,32 +326,32 @@ function BoardMeetings() {
                       
                       title=""
                     >
-                      <p className="truncate text-xs"> 5000</p>
+                      <p className="truncate text-xs">    {row.taskCounts.totalTaskCount}</p>
                     </td>
                     <td
                       className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden`}
                       
                       title=""
                     >
-                      <p className="truncate text-xs"> 2000</p>
+                      <p className="truncate text-xs">  {row.taskCounts.toDoCount}</p>
                     </td>
                     <td
                       className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden`}
                       title=""
                     >
-                      <p className="truncate text-xs"> 1000</p>
+                      <p className="truncate text-xs">  {row.taskCounts.inProgressCount}</p>
                     </td>
                     <td
                       className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden`}
                       title=""
                     >
-                      <p className="truncate text-xs"> 500</p>
+                      <p className="truncate text-xs">   {row.taskCounts.overDueCount}</p>
                     </td>
                     <td
                       className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden`}
                       title=""
                     >
-                      <p className="truncate text-xs"> 500</p>
+                      <p className="truncate text-xs">   {row.taskCounts.completedCount}</p>
                     </td>
                     <td
                       className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden`}
