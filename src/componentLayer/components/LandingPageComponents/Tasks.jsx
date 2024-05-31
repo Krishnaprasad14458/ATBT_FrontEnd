@@ -646,11 +646,11 @@ const Tasks = () => {
                 Decision Status
               </th>
               <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-2 py-2 border-l-2 border-gray-200 ">
-                Decision Updated of User
+        Latest Decision Updated
               </th>
-              <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2 border-l-2 border-gray-200">
+              {/* <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2 border-l-2 border-gray-200">
                 Decision Updated of Admin
-              </th>
+              </th> */}
               {/* <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2 border-l-2 border-gray-200">
                 Actions
               </th> */}
@@ -915,11 +915,12 @@ const Tasks = () => {
                     />
                   </td>
                   <td className="border py-1.5 px-2 text-sm text-gray-600">
-                    Updated By User
+          
+             {task?.updatedbyuser  }
                   </td>
-                  <td className="border py-1.5 px-2 text-sm text-gray-600">
+                  {/* <td className="border py-1.5 px-2 text-sm text-gray-600">
                     Updated By Admin
-                  </td>
+                  </td> */}
                   {/* <td className="border py-1.5 px-3 text-sm text-gray-600 cursor-pointer" style={{width :"3rem"}} >
                     <svg
                       onClick={() => handleDeleteTask(task.id)}
