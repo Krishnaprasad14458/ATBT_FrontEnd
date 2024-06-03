@@ -370,27 +370,31 @@ function Entities() {
                     <td
                       className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium hover:text-orange-500  overflow-hidden`}
                     >
-                      200
+                      {row?.taskCounts?.totalTaskCount}
                     </td>
                     <td
                       className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium hover:text-orange-500  overflow-hidden`}
                     >
-                      100
+                                          {row?.taskCounts?.toDoCount}
+
                     </td>
                     <td
                       className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium hover:text-orange-500  overflow-hidden`}
                     >
-                      50
+                                                              {row?.taskCounts?.inProgressCount}
+
                     </td>
                     <td
                       className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium hover:text-orange-500  overflow-hidden`}
                     >
-                      50
+                                                                                 {row?.taskCounts?.overDueCount}
+
                     </td>
                     <td
                       className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium hover:text-orange-500  overflow-hidden`}
                     >
-                      50
+                                                                                 {row?.taskCounts?.completedCount}
+                      
                     </td>
 
                     <td
