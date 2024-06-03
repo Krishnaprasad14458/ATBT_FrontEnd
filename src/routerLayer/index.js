@@ -38,7 +38,7 @@ export const router = createBrowserRouter([
           
           to={{
             pathname: "/users",
-            search:`?search=&page=1&pageSize=10`,
+            search:`?search=&page=1&pageSize=5`,
           }}
           
           >Users</Link>,
@@ -58,7 +58,7 @@ export const router = createBrowserRouter([
           crumb: () => <Link 
           to={{
             pathname: "/entities",
-            search:`?search=&page=1&pageSize=10`,
+            search:`?search=&page=1&pageSize=5`,
           }}
           >Entities</Link>,
         },
@@ -78,7 +78,7 @@ export const router = createBrowserRouter([
 
           to={{
             pathname: "/teams",
-            search:`?search=&page=1&pageSize=10`,
+            search:`?search=&page=1&pageSize=5`,
           }}
           
           >Teams</Link>,
