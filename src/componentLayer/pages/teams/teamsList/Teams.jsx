@@ -57,7 +57,7 @@ function Teams() {
   const [Qparams, setQParams] = useState({
     search: "",
     page: 1,
-    pageSize: 5,
+    pageSize: 10,
   });
   useEffect(() => {
     debouncedParams(Qparams);
@@ -308,7 +308,7 @@ let meetingPermission = permissions?.find((permission=>permission.module ==="mee
                                className="hover:text-orange-500"
                                 to={{
                                   pathname: `${row.id}/teamboardmeetings`,
-                                  search: `?search=&page=1&pageSize=5`,
+                                  search: `?search=&page=1&pageSize=10`,
                                 }}
                               >
                                 <p className="truncate text-xs"> {value}</p>

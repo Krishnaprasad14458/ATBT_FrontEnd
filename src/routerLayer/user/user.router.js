@@ -105,7 +105,7 @@ export const userRouter = [
                 <Link
                   to={{
                     pathname: data.threadPath,
-                    search: `?search=&page=1&pageSize=5`,
+                    search: `?search=&page=1&pageSize=10`,
                   }}
                 >
                   {data.threadName}

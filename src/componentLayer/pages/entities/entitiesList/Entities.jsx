@@ -76,7 +76,7 @@ function Entities() {
   const [Qparams, setQParams] = useState({
     search: "",
     page: 1,
-    pageSize: 5,
+    pageSize: 10,
   });
   useEffect(() => {
     debouncedParams(Qparams);
@@ -342,7 +342,7 @@ function Entities() {
                                className="hover:text-orange-500"
                               to={{
                                 pathname: `${row.id}/entityboardmeetings`,
-                                search: `?search=&page=1&pageSize=5`,
+                                search: `?search=&page=1&pageSize=10`,
                               }}
                         
                               >

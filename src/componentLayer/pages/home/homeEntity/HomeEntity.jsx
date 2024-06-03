@@ -14,7 +14,7 @@ function HomeEntity() {
   const [Qparams, setQParams] = useState({
     search: "",
     page: 1,
-    pageSize: 5,
+    pageSize: 10,
   });
   const debouncedParams = useCallback(
     debounce((param) => {
