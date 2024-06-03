@@ -19,7 +19,7 @@ export const initialState = {
         currentPage: 1,
         totalPages: null,
         totalTeams: null,
-        perPage: 5,
+        perPage: 10,
         loading: false,
         search: "",
         sortBy: "createdAt",
