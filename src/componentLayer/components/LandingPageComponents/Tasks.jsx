@@ -688,7 +688,7 @@ const Tasks = () => {
                       {(isInputActiveID !== task.id ||
                         isInputActiveID === null) && (
                         <p
-                          className="text-sm"
+                          className="text-sm break-words"
                           onClick={() => {
                             setIsInputActive(task.id);
                             setAutoFocusID(task.id);
