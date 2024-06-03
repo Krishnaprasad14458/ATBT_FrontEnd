@@ -61,7 +61,7 @@ function BoardMeetings() {
   const [Qparams, setQParams] = useState({
     search: "",
     page: 1,
-    pageSize: 10,
+    pageSize: 5,
   });
   useEffect(() => {
     debouncedParams(Qparams);
