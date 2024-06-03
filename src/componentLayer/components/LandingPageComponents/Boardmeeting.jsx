@@ -34,7 +34,7 @@ export async function loader({ request, params }) {
     }
     const [meetings, entityList, roleList, meetingFormData] = await Promise.all(
       [
-        atbtApi.get(
+        atbtApi.post(
           `boardmeeting/list?${moduleName}=${params.id}${
             url && url.search ? "&" + url.search.substring(1) : ""
           }`
@@ -44,7 +44,7 @@ export async function loader({ request, params }) {
         atbtApi.get(`form/list?name=boardmeetingform`),
       ]
     ); 
-    console.log(meetings, "meetings loader");
+    console.log(meetings, meetingFormData,"meetings loader");
     const combinedResponse = {
       meetings: meetings?.data,
       fieldsDropDownData: {
@@ -240,7 +240,7 @@ function Boardmeeting() {
           <table className="w-full divide-y divide-gray-200 dark:divide-gray-700 rounded-md">
             <thead>
               <tr>
-                {visibleColumns.map((key) => (
+                {visibleColumns?.map((key) => (
                   <th
                     key={key}
                     className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2 border-l-2 border-gray-200"
@@ -290,7 +290,7 @@ function Boardmeeting() {
               {meetings?.Meetings &&
                 meetings?.Meetings?.map((row) => (
                   <tr key={row.id}>
-                    {visibleColumns.map((key) => {
+                    {visibleColumns?.map((key) => {
                       let value = row[key];
                       if (tableView[key].type === "multiselect" && row[key]) {
                         value = row[key].join(", ");
@@ -369,7 +369,7 @@ function Boardmeeting() {
                       title=""
                     >
                       <p className="truncate text-xs">
-                        {row.taskCounts.totalTaskCount}
+                        {row?.taskCounts?.totalTaskCount}
                       </p>
                     </td>
                     <td
@@ -378,7 +378,7 @@ function Boardmeeting() {
                       title=""
                     >
                       <p className="truncate text-xs">
-                        {row.taskCounts.toDoCount}
+                        {row?.taskCounts?.toDoCount}
                       </p>
                     </td>
                     <td
@@ -387,7 +387,7 @@ function Boardmeeting() {
                       title=""
                     >
                       <p className="truncate text-xs">
-                        {row.taskCounts.inProgressCount}
+                        {row?.taskCounts?.inProgressCount}
                       </p>
                     </td>
                     <td
@@ -396,7 +396,7 @@ function Boardmeeting() {
                       title=""
                     >
                       <p className="truncate text-xs">
-                        {row.taskCounts.overDueCount}
+                        {row?.taskCounts?.overDueCount}
                       </p>
                     </td>
                     <td
@@ -405,7 +405,7 @@ function Boardmeeting() {
                       title=""
                     >
                       <p className="truncate text-xs">
-                        {row.taskCounts.completedCount}
+                        {row?.taskCounts?.completedCount}
                       </p>
                     </td>
                     <td
