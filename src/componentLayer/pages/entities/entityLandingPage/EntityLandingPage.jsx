@@ -21,7 +21,7 @@ const EntityLandingPage = () => {
      
             to={{
               pathname: `entityboardmeetings`,
-              search:  `?search=&page=1&pageSize=10`,
+              search:  `?search=&page=1&pageSize=5`,
             }}
             end
             className={({ isActive, isPending, isTransitioning }) =>

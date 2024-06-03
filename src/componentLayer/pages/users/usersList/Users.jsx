@@ -83,7 +83,7 @@ function Users() {
   const [Qparams, setQParams] = useState({
     search: "",
     page: 1,
-    pageSize: 10,
+    pageSize: 5,
   });
   useEffect(() => {
     debouncedParams(Qparams);
@@ -364,7 +364,7 @@ let meetingPermission = permissions?.find((permission=>permission.module ==="mee
                               className="hover:text-orange-500"
                                 to={{
                                   pathname: `${row.id}/userboardmeetings`,
-                                  search: `?search=&page=1&pageSize=10`,
+                                  search: `?search=&page=1&pageSize=5`,
                                 }}
                               >
                                 <p className="truncate text-xs"> {value}</p>

@@ -263,7 +263,7 @@ const Sidebar = () => {
                     search: 
                       location?.pathname === menu?.link
                         ? location.search
-                        : `?search=&page=1&pageSize=10`,
+                        : `?search=&page=1&pageSize=5`,
                   }}
                   state={{ from: location.pathname }}
                   key={i}
