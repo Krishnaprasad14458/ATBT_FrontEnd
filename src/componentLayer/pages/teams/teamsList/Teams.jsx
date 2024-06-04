@@ -14,7 +14,7 @@ import CustomFilter from "../../../../componentLayer/components/tableCustomizati
 import atbtApi from "../../../../serviceLayer/interceptor";
 import BreadCrumbs from "../../../components/breadcrumbs/BreadCrumbs";
 const userData = JSON.parse(localStorage.getItem("data"));
-let permissions = userData?.role?.Permissions
+let permissions = userData?.role?.Permissions;
 export async function TeamsLoader({ request, params }) {
   try {
     let url = new URL(request.url);
@@ -289,8 +289,9 @@ function Teams() {
                         }-${year}`;
                       }
                       if (key === "name") {
-                                               
-let meetingPermission = permissions?.find((permission=>permission.module ==="meeting"))
+                        let meetingPermission = permissions?.find(
+                          (permission) => permission.module === "meeting"
+                        );
                         return (
                           <td
                             key={key}
@@ -298,22 +299,26 @@ let meetingPermission = permissions?.find((permission=>permission.module ==="mee
                             style={{ maxWidth: "160px" }}
                             title={row[key]}
                           >
-                            {meetingPermission?.canRead ?  <GateKeeper
-                              permissionCheck={(permission) =>
-                                permission.module === "meeting" &&
-                                permission.canRead
-                              }
-                            >
-                              <Link
-                               className="hover:text-orange-500"
-                                to={{
-                                  pathname: `${row.id}/teamboardmeetings`,
-                                  search: `?search=&page=1&pageSize=10`,
-                                }}
+                            {meetingPermission?.canRead ? (
+                              <GateKeeper
+                                permissionCheck={(permission) =>
+                                  permission.module === "meeting" &&
+                                  permission.canRead
+                                }
                               >
-                                <p className="truncate text-xs"> {value}</p>
-                              </Link>
-                            </GateKeeper> :   <p className="truncate text-xs"> {value}</p> }
+                                <Link
+                                  className="hover:text-orange-500"
+                                  to={{
+                                    pathname: `${row.id}/teamboardmeetings`,
+                                    search: `?search=&page=1&pageSize=10`,
+                                  }}
+                                >
+                                  <p className="truncate text-xs"> {value}</p>
+                                </Link>
+                              </GateKeeper>
+                            ) : (
+                              <p className="truncate text-xs"> {value}</p>
+                            )}
                           </td>
                         );
                       }
@@ -335,32 +340,47 @@ let meetingPermission = permissions?.find((permission=>permission.module ==="mee
                       style={{ width: "9rem" }}
                       title=""
                     >
-                      <p className="truncate text-xs"> 5000</p>
+                      <p className="truncate text-xs">
+                        {" "}
+                        {row?.taskCounts?.totalTaskCount}
+                      </p>
                     </td>
                     <td
                       className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden`}
                       style={{ width: "10rem" }}
                       title=""
                     >
-                      <p className="truncate text-xs"> 2000</p>
+                      <p className="truncate text-xs">
+                        {" "}
+                        {row?.taskCounts?.toDoCount}
+                      </p>
                     </td>
                     <td
                       className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden`}
                       title=""
                     >
-                      <p className="truncate text-xs"> 1000</p>
+                      <p className="truncate text-xs">
+                        {" "}
+                        {row?.taskCounts?.inProgressCount}
+                      </p>
                     </td>
                     <td
                       className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden`}
                       title=""
                     >
-                      <p className="truncate text-xs"> 500</p>
+                      <p className="truncate text-xs">
+                        {" "}
+                        {row?.taskCounts?.overDueCount}
+                      </p>
                     </td>
                     <td
                       className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden`}
                       title=""
                     >
-                      <p className="truncate text-xs"> 500</p>
+                      <p className="truncate text-xs">
+                        {" "}
+                        {row?.taskCounts?.completedCount}
+                      </p>
                     </td>
                     <td
                       className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden`}
@@ -424,7 +444,7 @@ let meetingPermission = permissions?.find((permission=>permission.module ==="mee
                         >
                           <button
                             type="button"
-                           title="Delete"
+                            title="Delete"
                             onClick={() => handleDeleteTeam(row.id)}
                             className=" inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600 delete-button"
                           >
