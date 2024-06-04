@@ -7,22 +7,15 @@ import Swal from 'sweetalert2';
 import { apiUrl } from '../../utils/constants';
 import { setupAuthenticationErrorHandler } from './utils/setupAthenticationErrorHandler';
 import atbtApi from '../../serviceLayer/interceptor';
-
 export const AuthContext = createContext();
-
 const AuthProvider = ({ children }) => {
-  // const navigate = useNavigate();
-  // const location = useLocation();
-
-  const localStorageData = JSON.parse(localStorage.getItem('data'));
-
-  const initialAuth = {
+const localStorageData = JSON.parse(localStorage.getItem('data'));
+const initialAuth = {
     user: localStorageData?.user || {},
     token: localStorageData?.token || '',
     role: localStorageData?.role || {},
   };
-
-  const [authState, authDispatch] = useReducer(authReducer, initialAuth);
+const [authState, authDispatch] = useReducer(authReducer, initialAuth);
   const adminLogin = async (loginData) => {
     try {
       const { data, status } = await toast.promise(
@@ -41,9 +34,7 @@ const AuthProvider = ({ children }) => {
                 },
               },
             }) {
-
-
-              return `Welcome ${name}`;
+return `Welcome ${name}`;
             },
           },
           error: {
@@ -78,11 +69,74 @@ const AuthProvider = ({ children }) => {
       }
     } catch (e) {
       console.error(e);
-      throw e;
+      // throw e;
     }
   };
+//   const adminLogin = async (loginData) => {
+//     // const authDispatch = useAuthDispatch();
+//     try { 
+//         const { data, status } = await toast.promise(
+//             axios.post(`${apiUrl}/auth/login`, loginData),
+//             {
+//                 pending: {
+//                     render() {
+//                         return "Logging In...";
+//                     },
+//                 },
+//                 success: {
+//                     render({ data }) {
+//                         const { name } = data.data.user;
+//                         return `Welcome ${name}`;
+//                     },
+//                 },
+//                 error: {
+//                     render({ data }) {
+//                         const errorMessage = data?.response?.data?.message || "Login failed";
+//                         return `Error: ${errorMessage}`;
+//                     },
+//                 },
+//             }
+//         );
 
-  const changePassword = async ({ email }) => {
+//         console.log(data, status, "data status");
+
+//         if (status === 200) {
+//             localStorage.setItem(
+//                 "data",
+//                 JSON.stringify({
+//                     user: data.user,
+//                     token: data.token,
+//                     role: data.role,
+//                 })
+//             );
+//             authDispatch({ type: "SET_USER", payload: data.user });
+//             authDispatch({ type: "SET_TOKEN", payload: data.token });
+//             authDispatch({ type: "SET_ROLE", payload: data.role });
+//             return redirect("/");
+//         } else {
+//             throw new Error(`Unexpected status code: ${status}`);
+//         }
+//     } catch (e) {
+//         console.error("Login error:", e);
+        
+//         if (e.response) {
+//             if (e.response.status === 401) {
+//                 toast.error("Unauthorized: Incorrect login credentials.");
+//             } else if (e.response.status === 404) {
+//                 toast.error("Login endpoint not found (404). Please check the API URL.");
+//             } else if (e.response.data && e.response.data.message) {
+//                 toast.error(`Login failed: ${e.response.data.message}`);
+//             } else {
+//                 toast.error(`An error occurred: ${e.response.status}`);
+//             }
+//         } else {
+//             toast.error("An unexpected error occurred. Please try again later.");
+//         }
+
+//         // throw e; // Rethrow the error if needed for further handling
+//     }
+// };
+ const changePassword = async ({ email }) => {
     try {
       const { status } = await toast.promise(
         axios.put(`${apiUrl}/auth/forgotpassword?email=${email}`, {
@@ -122,8 +176,7 @@ const AuthProvider = ({ children }) => {
       throw e;
     }
   };
-
-  const resetPassword = async ({ id, password }) => {
+const resetPassword = async ({ id, password }) => {
     console.log("hi", atbtApi)
     try {
       const { data, status } = await toast.promise(
@@ -166,8 +219,7 @@ const AuthProvider = ({ children }) => {
   };
   const resetPasswordWhenLoggedIn = async ({ id, oldpassword, newpassword }) => {
     console.log("hie", atbtApi)
-
-    try {
+try {
       const { data, status } = await toast.promise(
         axios.put(
           `${apiUrl}/auth/renewpassword/${id}`,

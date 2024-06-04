@@ -6,7 +6,7 @@ import useOnlineStatus from '../../../hooks/isOnline/useOnlineStatus ';
 import { AuthContext } from '../../../contexts/authContext/authContext';
 import useServiceWorker from '../../../useSw';
 import TopBarProgress from 'react-topbar-progress-indicator';
-
+import BreadCrumbs from '../../components/breadcrumbs/BreadCrumbs';
 TopBarProgress.config({
   barColors: {
     0: '#ff7f50',
@@ -15,7 +15,6 @@ TopBarProgress.config({
   barThickness: 5,
   shadowBlur: 2,
 });
-
 const Layout = () => {
   const isOnline = useOnlineStatus();
   const { authState } = useContext(AuthContext);
@@ -34,7 +33,7 @@ const Layout = () => {
     <div className='app'>
       <Sidebar />
       <main
-        className='content h-screen bg-[#f8fafc]'
+        className='content h-screen bg-[#f8fafc] '
         style={{ overflow: 'auto' }}
       >
         <TopBar />
@@ -56,6 +55,7 @@ const Layout = () => {
           </span>
         )}
         {navigation.state == 'loading' && <TopBarProgress />}
+        
         <Outlet />
       </main>
     </div>

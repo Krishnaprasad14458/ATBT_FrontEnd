@@ -4,7 +4,6 @@ import atbtApi from "../../../../../serviceLayer/interceptor";
 import { Link, useNavigate } from "react-router-dom";
 import { useLoaderData } from "react-router-dom";
 import { toast } from "react-toastify";
-
 export async function loader({ request, params }) {
   try {
     const [users, entityList] = await Promise.all([
@@ -22,6 +21,7 @@ export async function loader({ request, params }) {
         label: item.name,
       })),
     };
+    console.log("combinedResponse add data share",combinedResponse)
     return combinedResponse;
   } catch (error) {
     console.error("Error occurred:", error);
@@ -34,16 +34,17 @@ const AddDataShare = () => {
   const [dataShareName, setDataShareName] = useState("");
   const [dataShareDescription, setDataShareDescription] = useState("");
   let moduleOptions = [
-    { value: "User", label: "user" },
-    { value: "Entity", label: "entity" },
+    { value: "user", label: "user" },
+    { value: "entity", label: "entity" },
   ];
   const [module, setModule] = useState("");
+  console.log("module",module)
 
   const handleModuleChange = (selected) => {
     setModule(selected);
   };
-
-  const [shareDataofOptions, setShareDataOfOptions] = useState([]);
+const [shareDataofOptions, setShareDataOfOptions] = useState([]);
+console.log("shareDataofOptions",shareDataofOptions)
   useEffect(() => {
     if (module?.value === "user") {
       setShareDataOfOptions(data.users);
@@ -55,24 +56,20 @@ const AddDataShare = () => {
       setShareDataOfSelectedOptions([]);
     }
   }, [module]);
-
-  const [shareDataOfSelectedOptions, setShareDataOfSelectedOptions] = useState(
+const [shareDataOfSelectedOptions, setShareDataOfSelectedOptions] = useState(
     []
   );
-
-  const handleShareDataOf = (selected) => {
+const handleShareDataOf = (selected) => {
     setShareDataOfSelectedOptions(selected);
   };
-
-  const [shareDataWithOptions, setShareDataWithOptions] = useState(data.users);
+const [shareDataWithOptions, setShareDataWithOptions] = useState(data.users);
   const [shareDataWithSelectedOptions, setShareDataWithSelectedOptions] =
     useState({});
   const handleShareDataWith = (selected) => {
     setShareDataWithSelectedOptions(selected);
   };
   const [searchValue, setSearchValue] = useState("");
-
-  const handleInputChange = (newValue) => {
+const handleInputChange = (newValue) => {
     setSearchValue(newValue);
   };
   useEffect(() => {
@@ -106,23 +103,6 @@ const AddDataShare = () => {
       } else if (moduleName === "entity") {
         endpoint = "access/entity";
       }
-      // console.log("data",{
-      //   name: dataShareName,
-      //   description: dataShareDescription,
-      //   // selectedUsers: shareDataOf,
-      //   ...(moduleName === "user"
-      //     ? {
-      //       selectedUsers: shareDataOfSelectedOptions.map((item) => item.value),
-      //       selectedUsersNames: JSON.stringify(shareDataOfSelectedOptions.map(
-      //         (item) => item.label
-      //       )),
-      //     }
-      //     : {
-      //       entityIds: shareDataOfSelectedOptions.map((item) => item.value),
-      //       entityNames: JSON.stringify(shareDataOfSelectedOptions.map((item) => item.label)),
-      //     }),
-      //   userId: shareDataWithSelectedOptions.value, userName: shareDataWithSelectedOptions.label
-      // })
       await toast.promise(
         atbtApi.post(endpoint, {
           name: dataShareName,
@@ -170,7 +150,6 @@ const AddDataShare = () => {
             }) {
               // When the promise reject, data will contains the error
               return `error: Data share failed`;
-              // return <MyErrorComponent message={data.message} />;
             },
           },
         }
@@ -226,13 +205,13 @@ const AddDataShare = () => {
     <div className="p-4 bg-[#f8fafc]">
       <div className="grid grid-cols-1  sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-2 lg:gap-5 gap-y-4">
         <div className="col-span-1 ">
-          <label className="block text-sm font-medium leading-6  text-gray-900 mb-1">
+          <label className="block text-sm font-medium leading-6  text-gray-900 mb-1 ">
             Name <span className="text-red-600">*</span>
           </label>
           <input
             type="text"
             placeholder="Enter name"
-            className="px-2 py-1.5 text-md block w-full rounded-md bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400  placeholder-small"
+            className="px-2 py-1.5 text-md block w-full rounded-md bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400  placeholder:text-xs"
             value={dataShareName}
             onChange={(event) => setDataShareName(event.target.value)}
           />
@@ -242,13 +221,13 @@ const AddDataShare = () => {
                         </div>
         </div>
         <div className="col-span-1 ">
-          <label className="block text-sm font-medium leading-6  text-gray-900 mb-1">
+          <label className="block text-sm font-medium leading-6  text-gray-900 mb-1 ">
             Description
           </label>
           <input
             type="text"
             placeholder="Enter Description"
-            className="px-2 py-1.5 text-md block w-full rounded-md bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder-small"
+            className="px-2 py-1.5 text-md block w-full rounded-md bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder:text-xs"
             value={dataShareDescription}
             onChange={(event) => setDataShareDescription(event.target.value)}
           />
@@ -272,8 +251,8 @@ const AddDataShare = () => {
                     ...provided,
                     backgroundColor: "#f8fafb", // Change the background color of the select input
                     borderWidth: state.isFocused ? "1px" : "1px", // Decrease border width when focused
-                    borderColor: state.isFocused ? "#orange-400" : "#d1d5db", // Change border color when focused
-                    boxShadow: state.isFocused ? "none" : provided.boxShadow, // Optionally remove box shadow when focused
+                    borderColor: state.isFocused ? "#orange-400" : "#d1d5db", 
+                    boxShadow: state.isFocused ? "none" : provided.boxShadow, 
                   }),
                   placeholder: (provided) => ({
                     ...provided,
@@ -423,7 +402,12 @@ const AddDataShare = () => {
         </div>
       </div>
 
-      <div className="flex justify-end ">
+      <div className="flex justify-between ">
+      <Link to="/settings/datashare/">
+            <button className="mt-4 px-3 py-2 inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white ">
+          Back
+            </button>
+          </Link>
         <button
           className="mt-4 px-3 py-2  whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white "
           onClick={handleSubmit}

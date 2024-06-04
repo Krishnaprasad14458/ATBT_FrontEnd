@@ -1,0 +1,42 @@
+
+@media (max-width: 640px) {
+  .tota_tasks,
+  .todo_tasks,
+  .in_progress_tasks,
+  .completed_tasks,
+  .overdue_tasks {
+    padding: 0;
+background-color: #f8fafc;
+    border-radius: none;
+    border: none;
+    text-align: center;
+  }
+.dashboard-main {
+    padding: 0;
+  }
+.welcome_user {
+    font-size: 1.125rem;
+    font-weight: 600;
+  }
+.date_time {
+    font-size: 0.75rem;
+  }
+}
+@media (max-width: 768px) {
+  .tota_tasks,
+  .todo_tasks,
+  .in_progress_tasks,
+  .overdue_tasks  {
+    background-color: #f8fafc;
+    border-radius: none;
+  }
+.completed_tasks{
+    border: none;
+    background-color: #f8fafc;
+    border-radius: none;
+  }
+.welcome_user {
+    font-size: 1.25rem;
+    font-weight: 600;
+  }
+}

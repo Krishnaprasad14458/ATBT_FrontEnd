@@ -1,47 +1,70 @@
 import React, { useState, useContext, useEffect } from "react";
 import axios from "axios";
-
-import defprop from "../../../../assets/Images/defprof.svg"
-
+import defprop from "../../../../assets/Images/defprof.svg";
 import useDebounce from "../../../../hooks/debounce/useDebounce";
-import "./BoardMeetingForm.css";
-import { Link } from "react-router-dom";
 import { UserDataContext } from "../../../../contexts/usersDataContext/usersDataContext";
 import { BoardMeetingsDataContext } from "../../../../contexts/boardmeetingsDataContext/boardmeetingsDataContext";
 import $ from "jquery";
-import {
-  Navigate,
-  redirect,
-  useSubmit,
-  useNavigate,
-  useLoaderData,
-  useParams,
-} from "react-router-dom";
-
+import { useNavigate, useLoaderData, useParams } from "react-router-dom";
+import atbtApi from "../../../../serviceLayer/interceptor";
+import Select from "react-select";
 const userData = JSON.parse(localStorage.getItem("data"));
 let createdBy = userData?.user?.id;
 const token = userData?.token;
 const role = userData?.role?.name;
-export async function boardmeetingFormLoader({ params }) {
+export async function boardmeetingFormLoader({ params, request }) {
+  const url = new URL(request.url);
+  const boardmeetingFor = url.searchParams.get("boardmeetingFor");
+  const boardmeetingForID = parseInt(url.searchParams.get("boardmeetingForID"));
+
   try {
-    const formApi =
-      "https://atbtbeta.infozit.com/form/list?name=boardmeetingform";
-    const boardmeetingApi = `https://atbtbeta.infozit.com/boardmeeting/list/${params.id}`;
+    let [formResponse, boardmeetingResponse, usersList, displayMembers] =
+      await Promise.all([
+        atbtApi.get(`form/list?name=boardmeetingform`),
+        params.BMid ? atbtApi.get(`boardmeeting/getByid/${params.BMid}`) : null, //Api for edit
+        atbtApi.post(`public/list/user`),
+        boardmeetingFor === "user"
+          ? atbtApi.get(`user/list/${boardmeetingForID}`)
+          : boardmeetingFor === "entity" ? atbtApi.post(`entity/User/list/${boardmeetingForID}`) :  boardmeetingFor === "team" ?  atbtApi.get(`/team/list/${boardmeetingForID}`): null ,
+      ]);
+      usersList = usersList?.data?.users?.map((item) => ({
+        value: item.id,
+        label: item.email,
+        image: item.image,
+        name: item.name,
+      }));
+      // to 
+      if (boardmeetingFor === "user" && boardmeetingForID) {
+        usersList = usersList.filter((user) => user.value !== boardmeetingForID);
+        displayMembers = [displayMembers?.data?.user]
+
+      }
+      if (boardmeetingFor === "entity" && boardmeetingForID) {
+    
+        const entityIds = displayMembers?.data.map((entity) => entity.id);
+        usersList = usersList.filter((user) => !entityIds.includes(user.value));
+        displayMembers = displayMembers?.data
+       
+      }
+      if (boardmeetingFor === "team" && boardmeetingForID) {
+       
+        const teamIds = displayMembers?.data?.members.map((team) => team.id);
+        usersList = usersList.filter((user) => !teamIds.includes(user.value));
+        displayMembers = displayMembers?.data?.members
+
+      }
+    
     let boardmeetingData = null;
-    if (params && params.id) {
-      const boardmeetingResponse = await axios.get(boardmeetingApi, {
-        headers: {
-          Authorization: token,
-        },
-      });
+    if (params && params.BMid) {
       console.log(boardmeetingResponse, "loader boardmeeting data");
       boardmeetingData = boardmeetingResponse?.data;
+      console.log(boardmeetingResponse, "loader boardmeeting data updated");
     }
-    const formResponse = await axios.get(formApi);
+   
     const formData = formResponse.data.Data;
     console.log("formData", formData, "boardmeetingData", boardmeetingData);
 
-    return { boardmeetingData, formData };
+    return { boardmeetingData, formData, usersList, displayMembers };
   } catch (error) {
     if (error.response) {
       throw new Error(`Failed to fetch data: ${error.response.status}`);
@@ -56,71 +79,83 @@ function BoardMeetingForm() {
   const urlParams = new URLSearchParams(window.location.search);
   const boardmeetingFor = urlParams.get("boardmeetingFor");
   const boardmeetingForID = urlParams.get("boardmeetingForID");
-
   const [showPassword, setShowPassword] = useState(false);
-
   document.title = "ATBT | Meeting";
-  let { id } = useParams();
+  let { BMid } = useParams();
   const boardmeeting = useLoaderData();
   console.log(boardmeeting, "cmp loader data");
+
+  /// for edit to bind selected memebers
   useEffect(() => {
-    if (id && boardmeeting?.boardmeetingData?.members) {
-      setSelected(boardmeeting.boardmeetingData.members);
+    if (BMid && boardmeeting?.boardmeetingData?.members) {
+      console.log("boardmeeting.boardmeetingData.members",boardmeeting.boardmeetingData.members)
+      const updatedMembersForSelect = boardmeeting.boardmeetingData.members.map(
+        (member) => ({
+          value: member.id,
+          label: member.email,
+          image: member.image,
+          name: member.name,
+        })
+      );
+      setSelected(updatedMembersForSelect);
     }
-  }, [id, boardmeeting]);
+  }, [BMid, boardmeeting]);
   function setInitialForm() {
     console.log("boardmeeting", boardmeeting);
-
     let response = boardmeeting?.formData;
-    if (!!id && !!boardmeeting?.boardmeetingData) {
+    if (!!BMid && !!boardmeeting?.boardmeetingData) {
       let boardmeetingData = boardmeeting?.boardmeetingData;
       response.forEach((input) => {
+      console.log("input",input)
         if (boardmeetingData.hasOwnProperty(input.inputname)) {
           if (boardmeetingData[input.inputname] !== null) {
             input.value = boardmeetingData[input.inputname];
           }
+          // if (boardmeetingData[input.inputname] !== null && input.type === "multiselect") {
+          //   input.value = boardmeetingData[input.inputname]?.map((item)=>item.id);
+            
+          // }
         }
       });
     }
+    console.log("response", response);
     return response;
   }
   const navigate = useNavigate();
-  const {
-    usersState: { users, dashboard },
-    usersDispatch,
-  } = useContext(UserDataContext);
+  // const {
+  //   usersState: { users, dashboard },
+  //   usersDispatch,
+  // } = useContext(UserDataContext);
   const { createBoardMeeting, updateBoardMeeting } = useContext(
     BoardMeetingsDataContext
   );
-  const usersEmails = dashboard.paginatedUsers;
-  // const usersEmails = dashboard.paginatedUsers?.map((user) => user.email);
-  const { debouncedSetPage, debouncedSetSearch } = useDebounce(usersDispatch);
+  const [selected, setSelected] = useState([]);
+console.log("selected selected",selected)
+  const [usersEmails, setUsersEmails] = useState(boardmeeting.usersList);
 
+  useEffect(() => {
+    const filteredEmails = boardmeeting.usersList.filter(
+      (mainObj) =>
+        !selected.some((selectedObj) => selectedObj.value === mainObj.value)
+    );
+    setUsersEmails(filteredEmails);
+  }, [selected, boardmeeting.usersList]);
+
+  // const { debouncedSetPage, debouncedSetSearch } = useDebounce(usersDispatch);
   let [openOptions, setopenOptions] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
-  const [selected, setSelected] = useState([]);
-  const [showUsers, setShowUsers] = useState(false);
+  // const [showUsers, setShowUsers] = useState(false);
   let [customFormFields, setCustomFormFields] = useState(() =>
     setInitialForm()
   );
   useEffect(() => {
     setCustomFormFields(setInitialForm());
-    if (!id) {
+    if (!BMid) {
       setSelected([]);
     }
-  }, [id]);
-  useEffect(() => {
-    console.log(customFormFields, "cfff");
-    console.log("errors", errors);
-  });
-  const handleInputChange = (e) => {
-    setShowUsers(true);
-    setSearchTerm(e.target.value);
-    debouncedSetSearch({
-      context: "DASHBOARD",
-      data: e.target.value,
-    });
-  };
+  }, [BMid]);
+
+  
   const handleOpenOptions = (name) => {
     if (openOptions == name) {
       setopenOptions("");
@@ -129,16 +164,45 @@ function BoardMeetingForm() {
       setopenOptions(name);
     }
   };
+  const [defaultboardMeetingMembers, setDefaultBoardMeetingMembers] = useState(
+    []
+  );
+  const [allboardMeetingMembers, setAllBoardMeetingMembers] = useState([]);
+
+  useEffect(() => {
+    let defaultBMMembers = [...boardmeeting?.displayMembers];
+    // defaultBMMembers.push();
+    setDefaultBoardMeetingMembers(defaultBMMembers);
+
+    if (BMid) {
+      for (let y = 0; y < customFormFields.length; y++) {
+        if (customFormFields[y].inputname === "members") {
+          let members = customFormFields[y].value;
+          setAllBoardMeetingMembers([ ...defaultBMMembers,...members]);
+          customFormFields[y].value = customFormFields[y].value.map((item)=> item.id)
+        // console.log("first",customFormFields[y].value)
+        }
+      }
+    } else if (!BMid) {
+      setAllBoardMeetingMembers(defaultBMMembers);
+    }
+  }, [BMid, boardmeeting]);
   const handleClick = (value, index) => {
-    setSelected((e) => [...e, value]);
+    console.log("value", value);
+    setSelected(value);
+    let formatChange = value.map((item)=>({
+      name: item.name,
+      id: item.value,
+      image: item.image,
+      email: item.label,
+    }))
+    setAllBoardMeetingMembers([...defaultboardMeetingMembers, ...formatChange]);
     const updatedFormData = [...customFormFields];
-    let members = updatedFormData[index].value;
-    members.push(value);
+    let members = value.map((item) => item.value);
     updatedFormData[index].value = members;
     setCustomFormFields(updatedFormData);
-    setSearchTerm("");
-    setShowUsers(false);
   };
+
   useEffect(() => {
     console.log(searchTerm, "clear");
   }, [searchTerm]);
@@ -156,7 +220,6 @@ function BoardMeetingForm() {
     updatedFormData[index].value = updatedMembers;
     setCustomFormFields(updatedFormData);
   };
-
   const handleChange = (index, newValue) => {
     const updatedFormData = [...customFormFields];
     if (updatedFormData[index].type != "multiselect") {
@@ -164,7 +227,6 @@ function BoardMeetingForm() {
       setCustomFormFields(updatedFormData);
     }
     if (updatedFormData[index].type == "multiselect") {
-      // { item.value.includes(option) }
       let selectedoptions = updatedFormData[index].value;
       if (selectedoptions.includes(newValue)) {
         selectedoptions = selectedoptions.filter(
@@ -186,10 +248,7 @@ function BoardMeetingForm() {
   };
 
   console.log("customFormFields", customFormFields);
-  /////
   const [errors, setErrors] = useState({});
-
-  /////
   const [isErrorspresent, setIsErrorspresent] = useState(false);
   const checkValidation = () => {
     let isErrorspresent = false;
@@ -458,21 +517,17 @@ function BoardMeetingForm() {
           );
         }
       }
-
       formData.set("customFieldsData", JSON.stringify(customFormFields));
       formData.set("createdBy", createdBy);
       const formDataObj = {};
       formData.forEach((value, key) => {
         formDataObj[key] = value;
       });
-      // Log form data
-
-      console.log(formDataObj, "foj");
-
+      console.log("formDataObj", formDataObj);
       let response;
-      if (!!id && !!boardmeeting?.boardmeetingData) {
+      if (!!BMid && !!boardmeeting?.boardmeetingData) {
         console.log("updating");
-        response = await updateBoardMeeting(formData, id);
+        response = await updateBoardMeeting(formData, BMid);
       } else {
         console.log("creating");
         response = await createBoardMeeting(
@@ -484,7 +539,21 @@ function BoardMeetingForm() {
       console.log("jsonData submitted", response);
       if (response?.status === 201) {
         console.log("data is 201");
-        navigate(`/boardmeetings/${response.data}`);
+        if (boardmeetingFor === "user") {
+          navigate(
+            `/users/${boardmeetingForID}/userboardmeetings/${response.data}`
+          );
+        }
+        if (boardmeetingFor === "entity") {
+          navigate(
+            `/entities/${boardmeetingForID}/entityboardmeetings/${response.data}`
+          );
+        }
+        if (boardmeetingFor === "team") {
+          navigate(
+            `/teams/${boardmeetingForID}/teamboardmeetings/${response.data}`
+          );
+        }
       }
     }
   }
@@ -524,12 +593,13 @@ function BoardMeetingForm() {
     const year = today.getFullYear();
     let month = today.getMonth() + 1;
     let day = today.getDate();
- 
+
     month = month < 10 ? `0${month}` : month;
     day = day < 10 ? `0${day}` : day;
- 
+
     return `${year}-${month}-${day}`;
   };
+
   return (
     <div className=" p-4 bg-[#f8fafc]">
       {/* <p className="font-lg font-semibold p-3">Entity Form</p> */}
@@ -542,7 +612,6 @@ function BoardMeetingForm() {
               customFormFields.map((item, index) => (
                 <div key={index}>
                   {/* predefined fields */}
-
                   {item.type === "number" &&
                     item.inputname == "meetingnumber" &&
                     item.field == "predefined" && (
@@ -562,7 +631,7 @@ function BoardMeetingForm() {
                         <input
                           type="number"
                           name={item.inputname}
-                          placeholder="Enter number"
+                          placeholder="Enter Meeting Id"
                           id={item.inputname}
                           style={{ fontSize: "0.8rem" }}
                           value={customFormFields[index].value || ""}
@@ -600,9 +669,13 @@ function BoardMeetingForm() {
                           type="date"
                           name={item.inputname}
                           id={item.inputname}
-                          style={{ fontSize: "0.8rem" }}
-                          min={ id ? "" : getCurrentDate() }
-                          // placeholder="bhavi"
+                          style={{
+                            fontSize: "0.8rem",
+                            WebkitAppearance: "none",
+                          }}
+
+                          min={(BMid===null || BMid=== undefined) && getCurrentDate()}
+
                           className="px-2 py-2 text-sm block w-full rounded-md bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder:text-xs"
                           value={customFormFields[index].value || ""}
                           onChange={(e) => handleChange(index, e.target.value)}
@@ -657,7 +730,7 @@ function BoardMeetingForm() {
                       <div className="relative">
                         <label
                           htmlFor="email"
-                          className="block text-sm  font-medium leading-6 mt-2 text-gray-900"
+                          className="block text-sm  font-medium leading-6  text-gray-900"
                         >
                           {item.label}
                           {item.mandatory ? (
@@ -666,84 +739,59 @@ function BoardMeetingForm() {
                             <span> </span>
                           )}
                         </label>
-                        <div
-                          className=" 
-                       flex flex-wrap gap-1 px-2 py-2 text-sm  w-full  bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 selected-users-container relative  rounded-md"
-                        >
-                          {selected &&
-                            selected.length > 0 &&
-                            selected.map((result, selectedIndex) => {
-                              let mail = result.email.split("@")[0];
-                              return (
-                                <span className="flex gap-1 text-xs mt-1 border-2 border-gray-200 rounded-md  focus:border-orange-600">
-                                  {result.image ? (
-                                    <img
-                                      src={
-                                        typeof result.image === "string"
-                                          ? result.image
-                                          : URL.createObjectURL(result.image)
-                                      }
-                                      name="EntityPhoto"
-                                      alt="Entity Photo"
-                                      className="rounded-lg w-4 h-4 "
-                                    />
-                                  ) : (
-                                    <img
-                                      className="w-4 h-4 rounded-lg "
-                                      src={defprop}
-                                      alt="default image"
-                                    />
-                                  )}
-                                  {mail}
-                                  <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    viewBox="0 0 16 16"
-                                    fill="currentColor"
-                                    className="w-4 h-4 "
-                                    onClick={() =>
-                                      handleRemove(selectedIndex, index)
-                                    }
-                                  >
-                                    <path d="M5.28 4.22a.75.75 0 0 0-1.06 1.06L6.94 8l-2.72 2.72a.75.75 0 1 0 1.06 1.06L8 9.06l2.72 2.72a.75.75 0 1 0 1.06-1.06L9.06 8l2.72-2.72a.75.75 0 0 0-1.06-1.06L8 6.94 5.28 4.22Z" />
-                                  </svg>
-                                </span>
-                              );
-                            })}
-                          <input
-                            type="text"
-                            placeholder="Type email id"
-                            tabindex="0"
-                            aria-describedby="lui_5891"
-                            aria-invalid="false"
-                            style={{ border: "none" }}
-                            className="bg-[#f8fafc]   focus:outline-none  placeholder:text-xs"
-                            value={searchTerm}
-                            onChange={handleInputChange}
-                          />
-                        </div>
+                        <Select
+                          styles={{
+                            control: (provided, state) => ({
+                              ...provided,
+                              backgroundColor: "#f9fafb", // Change the background color of the select input
+                              borderWidth: state.isFocused ? "1px" : "1px", // Decrease border width when focused
+                              borderColor: state.isFocused
+                                ? "#orange-400"
+                                : "#d1d5db", // Change border color when focused
+                              boxShadow: state.isFocused
+                                ? "none"
+                                : provided.boxShadow, // Optionally remove box shadow when focused
+                              maxHeight: "150px",
+                              overflowY: "auto",
+                              fontSize: "0.7rem",
+                            }),
+                            placeholder: (provided) => ({
+                              ...provided,
+                              fontSize: "small", // Adjust the font size of the placeholder text
+                            }),
+                            option: (provided, state) => ({
+                              ...provided,
+                              color: state.isFocused ? "#fff" : "#000000",
+                              backgroundColor: state.isFocused
+                                ? "#ea580c"
+                                : "transparent",
 
-                        {showUsers && searchTerm.length > 0 && (
-                          <ul className="user-list z-10 absolute top-full left-0 bg-gray-50 border border-1 border-gray-200 w-full">
-                            {usersEmails
-                              .filter(
-                                (mainObj) =>
-                                  !selected.some(
-                                    (selectedObj) =>
-                                      selectedObj.id === mainObj.id
-                                  )
-                              )
-                              .map((user, ind) => (
-                                <li
-                                  key={ind}
-                                  className="px-3 py-1 text-sm hover:bg-gray-200"
-                                  onClick={() => handleClick(user, index)}
-                                >
-                                  {user.email}
-                                </li>
-                              ))}
-                          </ul>
-                        )}
+                              "&:hover": {
+                                color: "#fff",
+                                backgroundColor: "#ea580c",
+                              },
+                              fontSize: "0.7rem",
+                            }),
+                          }}
+                          theme={(theme) => ({
+                            ...theme,
+                            borderRadius: 5,
+                            colors: {
+                              ...theme.colors,
 
+                              primary: "#fb923c",
+                            },
+                          })}
+                          isMulti
+                          // name="colors"
+                          options={usersEmails}
+                          className="basic-multi-select "
+                          classNamePrefix="select"
+                          value={selected}
+                          onChange={(selectedOption) => {
+                            handleClick(selectedOption, index);
+                          }}
+                        />
                         <div className="h-2 text-[#dc2626]">
                           {errors[item.inputname] && (
                             <span className="text-xs">
@@ -1016,7 +1064,6 @@ function BoardMeetingForm() {
                         className="px-2 py-2 text-sm block w-full rounded-md bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder:text-xs"
                         id={item.inputname}
                         value={customFormFields[index].value || ""}
-                      
                         onChange={(e) => handleChange(index, e.target.value)}
                         style={{ fontSize: "0.8rem" }}
                       />
@@ -1274,7 +1321,7 @@ function BoardMeetingForm() {
                 type="submit"
                 className="mt-4 flex w-full justify-center rounded-md bg-orange-600 px-3 py-2.5 text-sm font-medium leading-6 text-white shadow-sm  focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600"
               >
-                {id ? "Update Board Meeting" : "Create Board Meeting"}
+                {BMid ? "Update Board Meeting" : "Create Board Meeting"}
               </button>
             </div>
           </form>
@@ -1298,7 +1345,7 @@ function BoardMeetingForm() {
                                 <p className="text-lg">{item.value}</p>
                               ) : (
                                 <p className="text-lg text-gray-400">
-                                  Board Meeting Number
+                                  Meeting Id
                                 </p>
                               )}
                             </div>
@@ -1307,39 +1354,56 @@ function BoardMeetingForm() {
                       <span>
                         {item.type === "date" &&
                           item.inputname === "date" &&
-                          item.field === "predefined" && (
-                            <div>
-                              {item.value ? (
-                                <p className="text-sm absolute bottom-4 right-2">
-                                  {" "}
-                                  Date : {item.value}
-                                </p>
-                              ) : (
-                                <p className="text-sm text-gray-400 absolute bottom-4 right-2">
-                                  Date:dd/mm/yyy
-                                </p>
-                              )}
-                            </div>
-                          )}
-                      </span>
-                    </div>
-                    <div className="flex justify-end">
-                      <span className="">
-                        {item.type === "time" &&
-                          item.inputname === "time" &&
-                          item.field === "predefined" && (
-                            <div>
-                              {item.value ? (
-                                <p className="text-sm">
-                                  Time : {formatTime(item.value)}
-                                </p>
-                              ) : (
-                                <p className="text-sm text-gray-400 ">
-                                  Time : 00:00 AM
-                                </p>
-                              )}
-                            </div>
-                          )}
+                          item.field === "predefined" &&
+                          (() => {
+                            let date = new Date(item.value);
+                            const day = date.getUTCDate();
+                            const monthIndex = date.getUTCMonth();
+                            const year = date.getUTCFullYear();
+
+                            const monthAbbreviations = [
+                              "January",
+                              "February",
+                              "March",
+                              "April",
+                              "May",
+                              "June",
+                              "July",
+                              "August",
+                              "September",
+                              "October",
+                              "November",
+                              "December",
+                            ];
+                            let ordinalsText = "";
+                            if (day == 1 || day == 21 || day == 31) {
+                              ordinalsText = "st";
+                            } else if (day == 2 || day == 22) {
+                              ordinalsText = "nd";
+                            } else if (day == 3 || day == 23) {
+                              ordinalsText = "rd";
+                            } else {
+                              ordinalsText = "th";
+                            }
+
+                            // Formatting the date
+                            date = ` ${monthAbbreviations[monthIndex]} ${
+                              day < 10 ? "0" : ""
+                            }${day}${ordinalsText}, ${year}`;
+                            return (
+                              <div>
+                                {item.value ? (
+                                  <p className="text-sm absolute bottom-2 right-2">
+                                    Date : {date ? date : "No Date"}
+                                  </p>
+                                ) : (
+                                  <p className="text-sm text-gray-400 absolute bottom-2 right-2">
+                                    Date : month date, year
+                                  </p>
+                                )}
+                              </div>
+                            );
+                          })()}
                       </span>
                     </div>
                     {item.type === "textarea" &&
@@ -1354,14 +1418,18 @@ function BoardMeetingForm() {
                       item.field == "predefined" && (
                         <div className=" grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-2 mt-5 mb-5">
                           {item.value &&
+                            allboardMeetingMembers &&
                             Array.from({ length: 12 }).map((_, index) => {
                               let first = "";
                               let second = "";
                               let firstLetter;
                               let secondLetter;
                               let mail = "";
-                              if (index < item.value.length) {
-                                mail = item.value[index].email.split("@")[0];
+                              if (index < allboardMeetingMembers.length) {
+                                mail =
+                                  allboardMeetingMembers[index].email.split(
+                                    "@"
+                                  )[0];
                                 if (mail.includes(".")) {
                                   first = mail.split(".")[0];
                                   second = mail.split(".")[1];
@@ -1399,28 +1467,34 @@ function BoardMeetingForm() {
                                   className="col-span-1 flex justify-start gap-1"
                                   key={index}
                                 >
-                                  {index + 1 <= item.value.length && (
+                                  {index + 1 <=
+                                    allboardMeetingMembers.length && (
                                     <>
                                       <h5
                                         style={{
-                                          backgroundColor: item.value[index]
-                                            .image
-                                            ? "transparent"
-                                            : getRandomColor(firstLetter),
+                                          backgroundColor:
+                                            allboardMeetingMembers[index].image
+                                              ? "transparent"
+                                              : getRandomColor(firstLetter),
                                         }}
                                         className=" rounded-full w-10 h-10  md:h-8 xl:h-10 flex justify-center  text-xs items-center text-white"
                                       >
-                                        {(item.value[index].image &&
+                                        {(allboardMeetingMembers[index].image &&
                                           index < 11) ||
                                         (index === 11 &&
-                                          item.value.length === 12) ? (
+                                          allboardMeetingMembers.length ===
+                                            12) ? (
                                           <img
                                             src={
-                                              typeof item.value[index].image ===
-                                              "string"
-                                                ? item.value[index].image
+                                              typeof allboardMeetingMembers[
+                                                index
+                                              ].image === "string"
+                                                ? allboardMeetingMembers[index]
+                                                    .image
                                                 : URL.createObjectURL(
-                                                    item.value[index].image
+                                                    allboardMeetingMembers[
+                                                      index
+                                                    ].image
                                                   )
                                             }
                                             name="EntityPhoto"
@@ -1436,7 +1510,8 @@ function BoardMeetingForm() {
                                         )}
 
                                         {index == 11 &&
-                                          item.value.length > 12 && (
+                                          allboardMeetingMembers.length >
+                                            12 && (
                                             <span>
                                               <svg
                                                 xmlns="http://www.w3.org/2000/svg"
@@ -1465,19 +1540,25 @@ function BoardMeetingForm() {
                                         >
                                           {index < 11 && mail}
                                           {index == 11 &&
-                                            item.value.length == 12 &&
+                                            allboardMeetingMembers.length ==
+                                              12 &&
                                             mail}
                                           {index == 11 &&
-                                            item.value.length > 12 && (
+                                            allboardMeetingMembers.length >
+                                              12 && (
                                               <span>
-                                                +{item.value.length - 11} more
+                                                +
+                                                {allboardMeetingMembers.length -
+                                                  11}{" "}
+                                                more
                                               </span>
                                             )}
                                         </div>
                                       </div>
                                     </>
                                   )}
-                                  {index + 1 > item.value.length && (
+                                  {index + 1 >
+                                    allboardMeetingMembers.length && (
                                     <>
                                       <h5 className="bg-[#e5e7eb] rounded-full w-10 h-10  md:h-8 xl:h-10 flex justify-center text-xs items-center text-white"></h5>
                                       <div className=" flex items-center">
@@ -1723,163 +1804,3 @@ function BoardMeetingForm() {
 }
 
 export default BoardMeetingForm;
-
-// import React, { useState } from 'react';
-// import defprop from '../../../Images/defprof.svg';
-// import { Link } from 'react-router-dom'
-
-// function BoardMeetingForm() {
-//   //  for binding data
-//   const [boardMeetingForm, setBoardMeetingForm] = useState({
-//     boardMeetingName: "",
-//     boardMeetingAddress: "",
-//     boardMeetingDate: "",
-//     boardMeetingTime: "",
-//     boardMeetingVenue: "",
-//     boardMeetingDescription: "",
-//     boardMeetingMembers: ""
-//   });
-
-//   const handleBoardMeetingData = (e) => {
-//     const { name, value } = e.target;
-//     setBoardMeetingForm((e) => ({
-//       ...e, [name]: value
-//     }))
-
-//   }
-
-//   return (
-
-//     <div className='container p-3 bg-[#f8fafc] '>
-//       <p className="text-lg font-semibold">Board Meeting</p>
-//       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-4  mt-4">
-//         <div className="col-span-1 ps-5 pe-8">
-//           <form className="space-y-3 " method="POST">
-//             <div>
-//               <label htmlFor="name" className="block text-sm font-medium leading-6 mt-4 mb-2 text-gray-900">Name</label>
-//               <div className="">
-//                 <input id="name" name="boardMeetingName" value={boardMeetingForm.boardMeetingName} onChange={handleBoardMeetingData} type="text" autoComplete="name" required className="p-2 text-xs block w-full bg-gray-50  rounded-md  border-2 border-gray-200 py-1 text-gray-900 appearance-none shadow-sm  placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-xs sm:leading-6" />
-//               </div>
-//             </div>
-//             <div className="max-w-md mx-auto flex gap-2">
-//               <span className='flex-1 '>
-//                 <label for="datepicker" className="block text-sm my-1  font-medium text-gray-700">Select a Date:</label>
-//                 <input type="date" id="datepicker" name="boardMeetingDate" value={boardMeetingForm.boardMeetingDate} onChange={handleBoardMeetingData} className="p-2 text-xs block w-full bg-gray-50  rounded-md  border-2 border-gray-200 py-1 text-gray-900 appearance-none shadow-sm  placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-xs sm:leading-6" />
-//               </span>
-//               <span className='flex-1 '>
-//                 <label for="timepicker" className="block text-sm my-1  font-medium text-gray-700">Select a Time:</label>
-//                 <input type="time" id="timepicker" name="boardMeetingTime" value={boardMeetingForm.boardMeetingTime} onChange={handleBoardMeetingData} className="p-2 text-xs block w-full bg-gray-50  rounded-md  border-2 border-gray-200 py-1 text-gray-900 appearance-none shadow-sm  placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-xs sm:leading-6" />
-//               </span>
-//             </div>
-
-//             <div>
-//               <label htmlFor="venue" className="block text-sm my-2  font-medium text-gray-700">Venue</label>
-//               <div className="relative inline-block text-left w-full">
-//                 <select className="p-2 text-xs block w-full bg-gray-50  rounded-md  border-2 border-gray-200 py-1.5 text-gray-900 appearance-none shadow-sm  placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-xs sm:leading-6">
-//                   <option value="selected" className="hover:bg-orange-600">Select Venue</option>
-//                   <option value="hi-teccity">Hi-Tec City</option>
-//                   <option value="gachibowli">Gachibowli</option>
-//                   <option value="miyapur">Miyapur</option>
-//                 </select>
-//                 <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-//                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-//                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-//                   </svg>
-//                 </div>
-//               </div>
-//             </div>
-//             <div>
-//               <label htmlFor="name" className=" block text-sm my-2 font-medium  text-gray-900" >Description</label>
-//               <div className=''>
-//                 <textarea name='boardMeetingDescription' value={boardMeetingForm.boardMeetingDescription} onChange={handleBoardMeetingData} className="resize-none bg-gray-50 rounded-md text-xs p-2 w-full h-20 border-2 border-gray-200 focus:outline-none focus:border-orange-400"></textarea>
-//               </div>
-//             </div>
-//             <div className='relative'>
-//               <label htmlFor="email" className="block text-sm my-2 font-medium leading-6 text-gray-900">Add Member(Entity/Team/User)</label>
-//               <div className='border border-1 flex flex-wrap gap-1 px-1 py-1 selected-users-container relative z-50 rounded-md'>
-//                 <span className='flex gap-1 text-xs mt-1 border-2 border-gray-200 rounded-md p-0.5 focus:border-orange-600
-//                     '>
-//                   dfgfdgf
-//                 </span>
-//                 <input
-//                   type="text"
-//                   tabindex="0" aria-describedby="lui_5891" aria-invalid="false"
-//                   style={{ border: "none" }}
-//                   className='bg-[#f8fafc] w-20 h-5 mt-1 focus:outline-none z-40'
-//                 />
-//               </div>
-//             </div>
-//             {/*
-//             <div>
-//               <label htmlFor="venue" className="block text-sm my-2  font-medium text-gray-700">Members(Entity/Team/User)</label>
-//               <div className="relative inline-block text-left w-full">
-//                 <select className="p-2 text-xs block w-full bg-gray-50  rounded-md  border-2 border-gray-200 py-1.5 text-gray-900 appearance-none shadow-sm  placeholder:text-gray-400 focus:outline-none focus:border-orange-400 sm:text-xs sm:leading-6
-//                " >
-//                   <option value="selected" className="hover:bg-orange-600">Entity/Team/User</option>
-//                   <option value="infoz" className="hover:bg-orange-600">Infoz</option>
-//                   <option value="bhavitha">Bhavitha</option>
-//                   <option value="development">Development</option>
-//                 </select>
-//                 <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-//                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-//                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-//                   </svg>
-//                 </div>
-//               </div>
-//             </div> */}
-//             <div className=''>
-//               <button type="submit"
-//                 className="mt-6 flex w-full justify-center rounded-md bg-orange-600 px-3 py-2.5 text-sm font-medium leading-6 text-white shadow-sm  focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600">Create Board Meeting</button>
-//             </div>
-//           </form>
-//         </div>
-//         <div className="col-span-2 h-[500px] overflow-auto shadow-md px-6 py-4 border-2 rounded-md bg-[#f8fafc]  ">
-//           <div className='mb-5 mt-3'>
-//             <div className="grid grid-cols-3 sm:grid-cols-3 md:grid-cols-3 xl:grid-cols-3 lg:grid-cols-3 gap-4">
-//               {/* <div className="group h-10 ">
-//                 <img className="w-10 h-10 rounded-lg " src={defprop} alt="Neil image" />
-//               </div> */}
-//               <div className='col-span-2 '>
-//                 <p className="text-lg font-black text-gray-800 ">{boardMeetingForm.boardMeetingName}</p>
-//                 <p className='text-xs  text-gray-500'><span className='text-xs font-semi-bold text-gray-700'> Address:</span> Pista House Opposite, secunderabad , HYD</p>
-//               </div>
-//               <div className='col-span-1 text-end'>
-//                 <p className='text-xs text-gray-60 '>Date : {boardMeetingForm.boardMeetingDate}</p>
-//                 <p className='text-xs text-gray-60 my-1'>Time : {boardMeetingForm.boardMeetingTime}</p>
-//               </div>
-//             </div>
-//             <hr className='my-3' />
-//             <div className='h-20 overflow-auto border border-1 border-gray-200 rounded-md p-2 bg-[#f8fafc] text-sm w-full  '>
-//               {/* <textarea className="resize-none h-20 border border-1 border-gray-200 focus:outline-none "> */}
-//               {boardMeetingForm.boardMeetingDescription}
-//               {/* </textarea> */}
-//             </div>
-
-//             <p className='text-md font-semibold my-3' > Members</p>
-
-//             <div className=' grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-4 mt-5'>
-//               <div className='col-span-1 flex justify-start gap-3'>
-//                 <h5 className=' rounded-full w-10 h-10 flex justify-center text-xs items-center text-white'>
-
-//                 </h5>
-//                 <div className=' flex items-center'>
-
-//                 </div>
-
-//                 <h5 className='bg-[#e5e7eb] rounded-full w-10 h-10 flex justify-center text-xs items-center text-white'>
-
-//                 </h5>
-//                 <div className=' flex items-center'>
-//                   <div className=' rounded-md  bg-[#e5e7eb] h-2 w-28'> </div>
-//                 </div>
-
-//               </div>
-//             </div>
-//           </div>
-//         </div>
-//       </div>
-//     </div >
-//   );
-// }
-
-// export default BoardMeetingForm;

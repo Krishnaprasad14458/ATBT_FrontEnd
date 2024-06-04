@@ -2,6 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
+
 .content {
   height: 100%;
   width: 100%;
@@ -73,133 +74,222 @@ input[type="checkbox"]:checked::before {
 
 /* for task input */
 
-/* for delete button hover */
-.delete-button {
-  position: relative;
+/* for hidden button in small screen */
+@media (max-width: 640px) {
+  .create-btn {
+    display: none;
+  }
+}
+/* for hidden button in small screen */
+
+/* all customforms CSS */
+.selected-users-container {
+  max-height: 120px;
+  overflow-y: auto;
 }
 
-.delete-button .icon {
-  position: absolute;
-
-  left: 50%;
-  top: 0.5%;
-  width: 40px;
-  height: 40px;
-  transform: translate(-50%, -50%);
+.user-list {
+  max-height: 150px;
+  overflow-y: auto;
+  list-style: none;
+  padding: 0;
+  margin: 0;
 }
 
-.delete-button .icon .lid {
-  position: absolute;
-  z-index: 2;
-  left: 50%;
-  top: 53%;
-  width: 30%;
-  height: 4%;
-  background-color: #475569;
-  border-top-left-radius: 5px;
-  border-top-right-radius: 5px;
-  transform: translateX(-50%);
-  transform-origin: left bottom;
-  transition: transform 0.3s ease-in-out;
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+/* all customforms CSS end*/
+
+/* for breadcrumbs */
+.breadcrumbs {
+  max-width: 1200px;
+  margin-left: 2px;
+
+  font-size: 1.25rem;
 }
 
-.delete-button .icon .can {
-  position: absolute;
-  z-index: 2;
-  left: 50%;
-  bottom: 14%;
-  width: 22%;
-  height: 25%;
-  background-color: #475569;
-  border-bottom-left-radius: 2px;
-  border-bottom-right-radius: 2px;
-  transform: translateX(-50%);
+.breadcrumbs > * {
+  display: inline-block;
+  margin-right: 5px;
+
+  font-size: 1rem;
 }
 
-.delete-button:hover .icon .lid {
-  transform: translateX(-50%) rotate(-35deg);
+.breadcrumbs .crumb:after {
+  content: ">";
+  margin-left: 7px;
+}
+.breadcrumbs .crumb:last-child::after {
+  display: none;
+}
+.breadcrumbs .crumb a {
+  color: #334155;
+  font-weight: 600;
+}
+.breadcrumbs .crumb a:hover {
+  color: #ea580c;
+  border-bottom: 1px solid #fb923c;
+}
+/* for breadcrumbs end */
+
+@media (max-width: 640px) {
+  .filter_pagination {
+    text-align: start;
+    padding-left: 10px;
+  }
 }
 
-.delete-button .icon .lid::before {
-  content: "";
-  position: absolute;
-  left: 50%;
-
-  bottom: 100%;
-  width: 10%;
-  height: 50%;
-  border: 2px solid #475569;
-  transform: translateX(-50%) translateY(2px);
+@media (max-width: 768px) {
+  .filter_pagination {
+    text-align: start;
+    padding-left: 10px;
+  }
 }
+/* for input select new end*/
 
-.delete-button .icon .can::before,
-.delete-button .icon .can::after {
-  content: "";
-  position: absolute;
-  top: 20%;
-  bottom: 20%;
-  width: 14%;
-  background-color: #ffffff;
+.css-1dimb5e-singleValue {
+  font-size: 14px !important;
 }
-
-.delete-button .icon .can::before {
-  left: 15%;
-}
-
-.delete-button .icon .can::after {
-  left: 70%;
-}
-
-.delete-button .icon .trash {
-  position: absolute;
-  z-index: 1;
-  left: 100%;
-  top: 0;
-  width: 14%;
-  height: 20%;
-  border-radius: 25%;
-  background-color: #ffffff;
-  opacity: 0;
-}
-
-.delete-button.clicked .icon .trash {
-  animation: trash 0.5s forwards linear;
-}
-
-/* end delete icon css */
-
-/* for input placeholder */
-.placeholder-small::placeholder {
-  font-size: small;
-}
-/* for input placeholder end*/
-
-
-
 
 /* dont delete this code ask bhavi before delete */
 /* 
 /* for defult  date input dd/mm/yyy its working in all expect boardmeeting form dont remove */
- /* input[type="date"]:in-range::-webkit-datetime-edit-year-field,
+/* input[type="date"]:in-range::-webkit-datetime-edit-year-field,
 input[type="date"]:in-range::-webkit-datetime-edit-month-field,
 input[type="date"]:in-range::-webkit-datetime-edit-day-field,
 input[type="date"]:in-range::-webkit-datetime-edit-text {
-  color: transparent;
+  color: yellow;
 }  */
 /* for defult  date input dd/mm/yyy its working in all expect boardmeeting form  end */
 
 /* this one also working  dont remove */
-/* input[type='date']:not(:focus):in-range::-webkit-datetime-edit-year-field,
-input[type='date']:not(:focus):in-range::-webkit-datetime-edit-month-field,
-input[type='date']:not(:focus):in-range::-webkit-datetime-edit-day-field,
-input[type='date']:not(:focus):in-range::-webkit-datetime-edit-text 
-{
-  color: transparent ;
+/* .date_type:not(:focus):in-range::-webkit-datetime-edit-year-field,
+.date_type:not(:focus):in-range::-webkit-datetime-edit-month-field,
+.date_type:not(:focus):in-range::-webkit-datetime-edit-day-field,
+.date_type:not(:focus):in-range::-webkit-datetime-edit-text {
+  opacity: 0;
+  filter: invert(40%);
 } */
- /* input[type='date']:before {
+/* .date_type:not(:focus)::-webkit-calendar-picker-indicator {
+  filter: grayscale(100%);
+} */
+/* .date_type::-webkit-calendar-picker-indicator {
+  filter:brightness(50%);
+} */
+
+/* .date_type {
+  position: relative;
+}
+.date_type::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+  border-radius: 4px;
+  margin-right: 2px;
+  opacity: 0.6;
+
+} */
+
+/* .date_type:before {
+  color: lightgrey;
+  content: attr(placeholder) !important;
+  margin-right: 0.5em;
+}
+.date_type:focus:before {
+  content: '' !important;
+} */
+
+/* .date_type::-webkit-calendar-picker-indicator:hover {
+  opacity: 1
+} */
+
+/* input[type='date']:before {
   content: attr(placeholder)
 }
 input[type='date']:after {
   content:''
-}   */
+}  
+
+
+
+
+
+
 /* dont delete this code ask bhavi before delete  end*/
+@media (max-width: 425px) {
+  .teams_img {
+    flex-direction: column-reverse;
+  }
+}
+
+/* Styling for the collaborator container */
+.collaborator-container {
+  position: relative;
+}
+
+/* Styling for the close icon */
+.collaborator-container svg {
+  width: 0.8rem; /* Adjust the size of the close icon */
+  height: 0.8rem;
+  cursor: pointer;
+  padding: 1px;
+  background-color: #64748b;
+  position: absolute;
+  border-radius: 50%;
+}
+
+/* Hide the close icon by default */
+.collaborator-container .hidden {
+  display: none;
+}
+
+/* Display the close icon when hovering over the container */
+.collaborator-container:hover .hidden {
+  display: flex;
+}
+
+/* Align the close icon to the top right corner */
+.collaborator-container .hidden {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 0.25rem; /* Adjust padding as needed */
+}
+
+.arrow_breadcrumbs::after {
+  content: ">";
+  color: #334155;
+}
+input[type="date"] {
+  position: relative;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+  background: transparent;
+  bottom: 0;
+  cursor: pointer;
+  height: auto;
+  right: 0;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: auto;
+}
+input[type="date"] {
+  justify-content: space-between;
+  display: flex;
+}
+input[type="date"]:after {
+  font-family: "Font Awesome 5 Free";
+  font-weight: 600;
+  content: "\f073";
+  color: gray;
+  padding: 0 1px;
+}
+
+input[type="search"]::-webkit-search-decoration:hover,
+input[type="search"]::-webkit-search-cancel-button:hover { 
+    cursor:pointer; 
+}
+

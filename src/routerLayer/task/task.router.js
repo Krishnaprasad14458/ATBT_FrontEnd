@@ -1,7 +1,18 @@
+import Tasks, { AllTasksLoader, TasksActions, tasksLoader } from "../../componentLayer/components/LandingPageComponents/Tasks";
 
-import Tasks from "../../componentLayer/pages/tasks/Tasks";
 export const taskRouter = [
-    { path: 'tasks', element: <Tasks /> },
+    // { index :true, element: <Tasks /> },
+    {
+        index :true,
+        loader: AllTasksLoader,
+        action: TasksActions,
+        element: <Tasks />,
+        // handle: {
+        //   crumb: (data) => (
+        //     <Link to={data?.threadPath}>{data?.threadName}</Link>
+        //   ),
+        // },
+      },
     // { path: 'task', element: <Task /> },
 
 ]

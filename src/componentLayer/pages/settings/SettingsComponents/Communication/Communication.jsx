@@ -1,10 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-
 import whatsappicon from '../../../../../assets/Images/whatsaapp.svg';
-
 import emailicon from '../../../../../assets/Images/Email.svg'
-
 const Communication = () => {
     const communication = [
         {

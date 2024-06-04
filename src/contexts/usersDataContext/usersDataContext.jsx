@@ -1,11 +1,11 @@
-import React, { createContext, useEffect, useReducer, useContext } from 'react';
-import * as actions from './utils/usersActions';
-import * as api from './utils/usersApis';
-import userDataReducer from './userDataReducer';
-import { initialState } from './utils/usersConfig';
-import { AuthContext } from '../authContext/authContext';
-import { useNavigate, useSubmit } from 'react-router-dom';
-import { useAsyncCatch } from '../../hooks/asyncErrors/useAsyncCatch';
+import React, { createContext, useEffect, useReducer, useContext } from "react";
+import * as actions from "./utils/usersActions";
+import * as api from "./utils/usersApis";
+import userDataReducer from "./userDataReducer";
+import { initialState } from "./utils/usersConfig";
+import { AuthContext } from "../authContext/authContext";
+import { useNavigate, useSubmit } from "react-router-dom";
+import { useAsyncCatch } from "../../hooks/asyncErrors/useAsyncCatch";
 
 export const UserDataContext = createContext();
 
@@ -14,7 +14,7 @@ const UserDataProvider = ({ children }) => {
 
   const [usersState, usersDispatch] = useReducer(userDataReducer, initialState);
 
-  console.log(usersState, 'userState for filters');
+  console.log(usersState, "userState for filters");
 
   const { authState } = useContext(AuthContext);
 
@@ -30,7 +30,7 @@ const UserDataProvider = ({ children }) => {
     console.log(`${authState.token} token is present in getDashboardUsersData`);
     const { currentPage, pageSize, sortBy, search, filters } =
       usersState.dashboard;
-    usersDispatch(actions.setLoading('DASHBOARD'));
+    usersDispatch(actions.setLoading("DASHBOARD"));
     // console.log("usersState", usersState, currentPage, pageSize, sortBy, search, filters)
     try {
       const { status, data } = await api.getDashboardUsers(
@@ -41,13 +41,13 @@ const UserDataProvider = ({ children }) => {
         authState?.token
       );
       if (status === 200) {
-        console.log(data, 'udud is 200');
-        usersDispatch(actions.setDashboardUsers(data, 'DASHBOARD'));
+        console.log(data, "udud is 200");
+        usersDispatch(actions.setDashboardUsers(data, "DASHBOARD"));
       }
     } catch (error) {
       throwError(error);
     } finally {
-      usersDispatch(actions.setLoading('DASHBOARD'));
+      usersDispatch(actions.setLoading("DASHBOARD"));
     }
   };
 
@@ -55,7 +55,7 @@ const UserDataProvider = ({ children }) => {
     console.log(`${authState.token} token is present in getSettingsUsersData`);
     const { currentPage, pageSize, sortBy, search, filters } =
       usersState.settings;
-    usersDispatch(actions.setLoading('SETTINGS'));
+    usersDispatch(actions.setLoading("SETTINGS"));
     try {
       const { status, data } = await api.getSettingsUsers(
         currentPage,
@@ -67,12 +67,12 @@ const UserDataProvider = ({ children }) => {
       );
       if (status === 200) {
         // throw new Error('Parameter is not a number!');
-        usersDispatch(actions.setDashboardUsers(data, 'SETTINGS'));
+        usersDispatch(actions.setDashboardUsers(data, "SETTINGS"));
       }
     } catch (error) {
       throwError(error);
     } finally {
-      usersDispatch(actions.setLoading('SETTINGS'));
+      usersDispatch(actions.setLoading("SETTINGS"));
     }
   };
 
@@ -91,9 +91,9 @@ const UserDataProvider = ({ children }) => {
   const createUser = async (userData) => {
     console.log(`${authState.token} token is present in createUser`);
     try {
-      console.log('navig');
+      console.log("navig");
       const { data, status } = await api.createUser(userData, authState?.token);
-      console.log(data, status, 'navig');
+      console.log(data, status, "navig");
       if (status === 201) {
         getDashboardUsersData();
         getSettingsUsersData();
@@ -108,13 +108,13 @@ const UserDataProvider = ({ children }) => {
   const updateUser = async (userData, id) => {
     console.log(`${authState.token} token is present in updateUser`);
     try {
-      console.log('navig');
+      console.log("navig");
       const { data, status } = await api.updateUser(
         userData,
         id,
         authState?.token
       );
-      console.log(data, status, 'navig');
+      console.log(data, status, "navig");
       getDashboardUsersData();
       getSettingsUsersData();
       getAllUsers();

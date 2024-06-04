@@ -1,64 +1,71 @@
-
-import BoardMeetingForm, { boardmeetingFormLoader } from "../../componentLayer/pages/boardmeetings/createBoardMeetingForm/BoardMeetingForm";
-
-import Documents from "../../componentLayer/pages/landingPages/ReuseableComponents/Documents";
-
-import BoardMeetingLandingPage from "../../componentLayer/pages/landingPages/boardMeeting/BoardMeetingLandingPage";
-
-import BoardMeetings, { action as meetingAction, loader as meetingLoader } from "../../componentLayer/pages/boardmeetings/boardMeetingsList/BoardMeetings";
-
-import BoardMeetingOverview from "../../componentLayer/pages/landingPages/boardMeeting/BoardMeetingOverview";
-
-import MeetingWiseTask, { tasksLoader } from "../../componentLayer/pages/landingPages/ReuseableComponents/MeetingWiseTask";
+import BoardMeetingForm, {
+  boardmeetingFormLoader,
+} from "../../componentLayer/pages/boardmeetings/createBoardMeetingForm/BoardMeetingForm";
+import Documents from "../../componentLayer/components/LandingPageComponents/Documents";
+import BoardMeetingLandingPage from "../../componentLayer/pages/boardmeetings/boardMeetingLandingPage/BoardMeetingLandingPage";
+import BoardMeetings, {
+  action as meetingAction,
+  loader as meetingLoader,
+} from "../../componentLayer/pages/boardmeetings/boardMeetingsList/BoardMeetings";
+import BoardMeetingOverview, {
+  boardMeetingOverviewLoader,
+} from "../../componentLayer/pages/boardmeetings/boardMeetingLandingPage/BoardMeetingOverview";
+import Tasks, {
+  TasksActions,
+  tasksLoader,
+} from "../../componentLayer/components/LandingPageComponents/Tasks";
 
 export const meetingRouter = [
-    { index: true, loader: meetingLoader, action: meetingAction, element: <BoardMeetings />, },
-    { path: 'new', loader: boardmeetingFormLoader, element: <BoardMeetingForm /> },
-    {
-        path: ':id', children: [
-            { path: 'edit', loader: boardmeetingFormLoader, element: <BoardMeetingForm /> },
-            {
-                element: <BoardMeetingLandingPage />, children: [
-                    { index: true, element: <BoardMeetingOverview /> },
-                    { path: 'task', loader: tasksLoader, element: <MeetingWiseTask /> },
-                    { path: 'documents', element: <Documents /> },
-                ]
-            }
-        ]
-    },
-]
+  {
+    index: true,
+    loader: meetingLoader,
+    action: meetingAction,
+    element: <BoardMeetings />,
+  },
+  {
+    path: "new",
+    loader: boardmeetingFormLoader,
+    element: <BoardMeetingForm />,
+  },
+  {
+    path: ":BMid",
 
+    children: [
+      {
+        path: "edit",
+        loader: boardmeetingFormLoader,
+        element: <BoardMeetingForm />,
+      },
+      {
+        element: <BoardMeetingLandingPage />,
 
+        children: [
+          {
+            index: true,
+            loader: boardMeetingOverviewLoader,
+            element: <BoardMeetingOverview />,
+          },
 
-// export const meetingRouter = [
-//     {
-//         element: <RouteBlocker permissionCheck={(permission) =>
-//             permission.module === 'meeting' && permission.canRead} />,
-//         children: [
-//             { index: true, loader: meetingLoader, action: meetingAction, element: <BoardMeetings />, },
-//             {
-//                 path: ':id', element: <BoardMeetingLandingPage />
-//                 , children: [
-//                     { path: 'overview', element: <BoardMeetingOverview /> },
-//                     { path: 'task', element: <Task /> },
-//                     // { path: 'boardmeetings', element: <Boardmeeting /> },
-//                     { path: 'documents', element: <Documents /> },
-//                 ]
-//             },
-//         ]
-//     },
-//     {
-//         element: <RouteBlocker permissionCheck={(permission) =>
-//             permission.module === 'meeting' && permission.canCreate} />,
-//         children: [
-//             { path: 'new', loader: boardmeetingFormLoader, element: <BoardMeetingForm /> },
-//         ]
-//     },
-//     {
-//         element: <RouteBlocker permissionCheck={(permission) =>
-//             permission.module === 'meeting' && permission.canUpdate} />,
-//         children: [
-//             { path: ':id/edit', loader: boardmeetingFormLoader, element: <BoardMeetingForm /> },
-//         ]
-//     },
-// ]
+          {
+            path: "tasks",
+            loader: tasksLoader,
+            action: TasksActions,
+            element: <Tasks />,
+            // handle: {
+            //   crumb: (data) => (
+            //     <Link to={data?.threadPath}>{data?.threadName}</Link>
+            //   ),
+            // },
+          },
+          {
+            path: "documents",
+            element: <Documents />,
+            // handle: {
+            //   crumb: (data) => <Link to=".">Documents</Link>,
+            // },
+          },
+        ],
+      },
+    ],
+  },
+];
