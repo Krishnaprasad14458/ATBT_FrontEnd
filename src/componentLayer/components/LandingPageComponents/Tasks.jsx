@@ -197,7 +197,7 @@ export async function TasksActions({ request, params }) {
           return await atbtApi.post(
             `task/add/${params.BMid}`,
 
-            { createdby:56,
+            { createdby:parseInt(JSON.parse(localStorage.getItem("data")).user.id),
               taskCreatedBy: { name: parentPath, id: params.id },
               collaborators: [
                 parseInt(JSON.parse(localStorage.getItem("data")).user.id),
