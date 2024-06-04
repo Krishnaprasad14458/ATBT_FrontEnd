@@ -19,7 +19,7 @@ function HomeUser() {
   const [Qparams, setQParams] = useState({
     search: "",
     page: 1,
-    pageSize: 10,
+    pageSize: 5,
   });
   const debouncedParams = useCallback(
     debounce((param) => {
