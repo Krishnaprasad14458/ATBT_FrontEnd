@@ -642,7 +642,7 @@ const Tasks = () => {
               >
                 Due Date
               </th>
-              <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-2 py-2 border-l-2 border-gray-200 z-10">
+              <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-2 py-2 border-l-2 border-gray-200 z-10" style={{width:"7rem"}}>
                 Decision Status
               </th>
               <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-2 py-2 border-l-2 border-gray-200 ">
@@ -875,7 +875,7 @@ const Tasks = () => {
                           "&:focus-within": {
                             borderColor: "#fb923c",
                           },
-                          width: "6.5rem",
+                          width: "7rem",
                         }),
                         option: (provided, state) => ({
                           ...provided,
