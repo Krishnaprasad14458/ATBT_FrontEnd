@@ -156,7 +156,7 @@ function Home() {
         <h4 className=" text-2xl font-normal dark:text-white welcome_user">
           Welcome {localStorageData?.user?.name ?? "user"}
         </h4>
-        <div className="flex flex-wrap mt-2 justify-center">
+        <div className=" md:flex-wrap mt-2 justify-center block md:flex">
           <div className="tota_tasks border-r-2 border-black-100 bg-gray-100 p-2 rounded-s-full">
             <p className="mr-4 lg:ml-4 px-2 pt-1 text-xs text-[#929297]">
               Total Tasks

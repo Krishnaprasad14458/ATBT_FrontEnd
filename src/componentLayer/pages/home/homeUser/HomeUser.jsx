@@ -84,7 +84,7 @@ function HomeUser() {
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 20 20"
               fill="currentColor"
-              className="w-3 h-3 cursor-pointer"
+              className="w-4 h-4 md:w-3 md:h-3 cursor-pointer"
             >
               <path
                 fill-rule="evenodd"
