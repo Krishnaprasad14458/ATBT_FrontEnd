@@ -449,7 +449,7 @@ const Tasks = () => {
   };
 
   return (
-    <div className=" p-3">
+    <div className={` ${location.pathname === '/tasks'? "p-3" :""}`  }>
       {location.pathname === '/tasks' && 
       <p className="text-xl font-semibold">
       Tasks
@@ -642,7 +642,7 @@ const Tasks = () => {
               >
                 Due Date
               </th>
-              <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-2 py-2 border-l-2 border-gray-200 z-10" style={{width:"7rem"}}>
+              <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-2 py-2 border-l-2 border-gray-200 z-10" style={{width:"8rem"}}>
                 Decision Status
               </th>
               <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-2 py-2 border-l-2 border-gray-200 ">
@@ -875,7 +875,7 @@ const Tasks = () => {
                           "&:focus-within": {
                             borderColor: "#fb923c",
                           },
-                          width: "7rem",
+                          width: "8rem",
                         }),
                         option: (provided, state) => ({
                           ...provided,
