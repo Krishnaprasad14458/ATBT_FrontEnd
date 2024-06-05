@@ -449,7 +449,7 @@ const Tasks = () => {
   };
 
   return (
-    <div className=" p-3">
+    <div className={` ${location.pathname === '/tasks'? "p-3" :""}`  }>
       {location.pathname === '/tasks' && 
       <p className="text-xl font-semibold">
       Tasks
