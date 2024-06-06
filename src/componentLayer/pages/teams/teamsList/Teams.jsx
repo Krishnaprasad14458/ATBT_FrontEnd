@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback, useContext } from "react";
+import React, { useEffect, useState, useCallback, useContext, useRef } from "react";
 import {
   Link,
   useFetcher,
@@ -62,7 +62,13 @@ function Teams() {
     page: 1,
     pageSize: 10,
   });
+  const isFirstRender = useRef(true);
+  
   useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
     debouncedParams(Qparams);
   }, [Qparams]);
   const debouncedParams = useCallback(

@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState, useCallback, useRef } from "react";
 import {
   NavLink,
   useParams,
@@ -293,7 +293,13 @@ const Tasks = () => {
     }
     return initialState;
   });
+  const isFirstRender = useRef(true);
+  
   useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
     debouncedParams(Qparams);
   }, [Qparams]);
   const debouncedParams = useCallback(

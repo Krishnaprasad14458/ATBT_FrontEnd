@@ -1153,7 +1153,7 @@ export default CustomFormStructure;
 //   {
 //     "label": "Meeting Id",
 //     "inputname": "meetingnumber",
-//     "type": "number",
+//     "type": "text",
 //     "value": "",
 //     "field": "predefined",
 //     "mandatory": true,
@@ -1197,7 +1197,7 @@ export default CustomFormStructure;
 //   "meetingnumber": {
 //     "label": "Meeting Id",
 //     "value": true,
-//     "type": "number"
+//     "type": "text"
 //   },
 //   "date": {
 //     "label": "Meeting Date",
