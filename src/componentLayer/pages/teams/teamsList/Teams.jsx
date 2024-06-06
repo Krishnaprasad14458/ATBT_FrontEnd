@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState, useCallback, useContext } from "react";
 import {
   Link,
   useFetcher,
@@ -13,8 +13,9 @@ import CustomColumn from "../../../../componentLayer/components/tableCustomizati
 import CustomFilter from "../../../../componentLayer/components/tableCustomization/CustomFilter";
 import atbtApi from "../../../../serviceLayer/interceptor";
 import BreadCrumbs from "../../../components/breadcrumbs/BreadCrumbs";
+import { PermissionsContext } from "../../../../rbac/PermissionsProvider";
 const userData = JSON.parse(localStorage.getItem("data"));
-let permissions = userData?.role?.Permissions;
+
 export async function TeamsLoader({ request, params }) {
   try {
     let url = new URL(request.url);
@@ -48,6 +49,8 @@ export async function TeamsAction({ request, params }) {
   }
 }
 function Teams() {
+  const { permissions, loading } = useContext(PermissionsContext);
+
   document.title = "ATBT | Team";
   const navigation = useNavigation();
   let submit = useSubmit();

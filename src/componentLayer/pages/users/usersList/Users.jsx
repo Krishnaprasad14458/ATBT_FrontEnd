@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from "react";
+import React, { useState, useEffect, useRef, useCallback, useContext } from "react";
 import {
   Link,
   useFetcher,
@@ -17,8 +17,10 @@ import CustomColumn from "../../../../componentLayer/components/tableCustomizati
 import CustomFilter from "../../../../componentLayer/components/tableCustomization/CustomFilter";
 import atbtApi from "../../../../serviceLayer/interceptor";
 import BreadCrumbs from "../../../components/breadcrumbs/BreadCrumbs";
+
+import { PermissionsContext } from "../../../../rbac/PermissionsProvider";
 const userData = JSON.parse(localStorage.getItem("data"));
-let permissions = userData?.role?.Permissions
+
 const userId = userData?.user?.id;
 const role = userData?.role?.name;
 export async function loader({ request, params }) {
@@ -72,6 +74,9 @@ export async function action({ request, params }) {
   }
 }
 function Users() {
+  const { permissions, loading } = useContext(PermissionsContext);
+ 
+
   let location  = useLocation()
   console.log("loctoion",location)
   document.title = "ATBT | User";
