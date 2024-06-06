@@ -44,7 +44,7 @@ const BoardMeetingOverview = () => {
   let data = useLoaderData();
   let customFormField = data?.data?.data?.customFieldsData;
  let usersGroupData = data?.data?.data?.allMembers
-
+console.log("customFormField customFormField",customFormField)
   function formatTime(timeString) {
     // Splitting the timeString to extract hours and minutes
     const [hourStr, minuteStr] = timeString.split(":");
