@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef, useCallback } from "react";
+import React, { useEffect, useState, useRef, useCallback, useContext } from "react";
 import {
   Link,
   useFetcher,
@@ -14,8 +14,8 @@ import atbtApi from "../../../../serviceLayer/interceptor";
 import CustomColumn from "../../../components/tableCustomization/CustomColumn";
 import CustomFilter from "../../../components/tableCustomization/CustomFilter";
 import BreadCrumbs from "../../../components/breadcrumbs/BreadCrumbs";
+import { PermissionsContext } from "../../../../rbac/PermissionsProvider";
 const userData = JSON.parse(localStorage.getItem("data"));
-let permissions = userData?.role?.Permissions;
 export async function loader({ request, params }) {
   try {
     let url = new URL(request.url);
@@ -66,6 +66,8 @@ export async function action({ request, params }) {
   }
 }
 function Entities() {
+  const { permissions, loading } = useContext(PermissionsContext);
+
   document.title = "ATBT | Entity";
   const navigation = useNavigation();
   const data = useLoaderData();

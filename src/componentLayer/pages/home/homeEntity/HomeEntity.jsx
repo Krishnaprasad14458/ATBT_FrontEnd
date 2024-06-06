@@ -77,7 +77,7 @@ function HomeEntity() {
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 20 20"
               fill="currentColor"
-              className="w-3 h-3 "
+              className="w-4 h-4 md:w-3 md:h-3 cursor-pointer"
             >
               <path
                 fill-rule="evenodd"
@@ -130,13 +130,13 @@ function HomeEntity() {
         <div className="flex flex-1 justify-between sm:hidden">
           <a
             href="#"
-            className="relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
+            className="relative inline-flex items-center rounded-md border border-gray-300 bg-[#f8fafc] px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
           >
             Previous
           </a>
           <a
             href="#"
-            className="relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
+            className="relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-[#f8fafc] px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
           >
             Next
           </a>

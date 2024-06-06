@@ -197,7 +197,7 @@ export async function TasksActions({ request, params }) {
           return await atbtApi.post(
             `task/add/${params.BMid}`,
 
-            { createdby:56,
+            { createdby:parseInt(JSON.parse(localStorage.getItem("data")).user.id),
               taskCreatedBy: { name: parentPath, id: params.id },
               collaborators: [
                 parseInt(JSON.parse(localStorage.getItem("data")).user.id),
@@ -449,7 +449,7 @@ const Tasks = () => {
   };
 
   return (
-    <div className=" p-3">
+    <div className={` ${location.pathname === '/tasks'? "p-3" :""}`  }>
       {location.pathname === '/tasks' && 
       <p className="text-xl font-semibold">
       Tasks
@@ -642,7 +642,7 @@ const Tasks = () => {
               >
                 Due Date
               </th>
-              <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-2 py-2 border-l-2 border-gray-200 z-10">
+              <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-2 py-2 border-l-2 border-gray-200 z-10" style={{width:"8rem"}}>
                 Decision Status
               </th>
               <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-2 py-2 border-l-2 border-gray-200 ">
@@ -745,7 +745,7 @@ const Tasks = () => {
                       options={members}
                       menuPortalTarget={document.body}
                       closeMenuOnScroll={() => true}
-                      styles={{
+                    styles={{
                         control: (provided, state) => ({
                           ...provided,
                           backgroundColor: "#f9fafb",
@@ -827,6 +827,9 @@ const Tasks = () => {
                             )
                       }
                       menuPlacement="auto"
+                      maxMenuHeight={150}
+                      // closeMenuOnSelect={()=> true}
+                      // menuIsOpen = {()=> true}
                     />
                   </td>
                   <td className="border py-1.5 px-2">
@@ -875,7 +878,7 @@ const Tasks = () => {
                           "&:focus-within": {
                             borderColor: "#fb923c",
                           },
-                          width: "6.5rem",
+                          width: "8rem",
                         }),
                         option: (provided, state) => ({
                           ...provided,
