@@ -227,6 +227,7 @@ const SubTasksList = ({
                               )
                         }
                        menuPlacement="auto"
+                       maxMenuHeight={150}
                       />
                     </td>
                     <td style={{width:"7rem"}} className="border py-1.5 px-2">
