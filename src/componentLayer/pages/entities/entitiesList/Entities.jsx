@@ -80,7 +80,13 @@ function Entities() {
     page: 1,
     pageSize: 10,
   });
+  const isFirstRender = useRef(true);
+  
   useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
     debouncedParams(Qparams);
   }, [Qparams]);
   const debouncedParams = useCallback(
