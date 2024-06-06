@@ -386,27 +386,27 @@ function Entities() {
                       }
                     })}
                     <td
-                      className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium hover:text-orange-500  overflow-hidden`}
+                      className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium   overflow-hidden`}
                     >
                       {row?.taskCounts?.totalTaskCount}
                     </td>
                     <td
-                      className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium hover:text-orange-500  overflow-hidden`}
+                      className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden`}
                     >
                       {row?.taskCounts?.toDoCount}
                     </td>
                     <td
-                      className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium hover:text-orange-500  overflow-hidden`}
+                      className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium   overflow-hidden`}
                     >
                       {row?.taskCounts?.inProgressCount}
                     </td>
                     <td
-                      className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium hover:text-orange-500  overflow-hidden`}
+                      className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium   overflow-hidden`}
                     >
                       {row?.taskCounts?.overDueCount}
                     </td>
                     <td
-                      className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium hover:text-orange-500  overflow-hidden`}
+                      className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium   overflow-hidden`}
                     >
                       {row?.taskCounts?.completedCount}
                     </td>
