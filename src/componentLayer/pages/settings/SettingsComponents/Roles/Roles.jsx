@@ -3,6 +3,8 @@ import React, { useContext } from "react";
 import {Link,useFetcher,useLoaderData,useSubmit,} from "react-router-dom";
 import { AuthContext } from "../../../../../contexts/authContext/authContext";
 import Swal from "sweetalert2";
+import atbtApi from "../../../../../serviceLayer/interceptor";
+
 import { debounce } from "../../../../../utils/utils";
 function deleteRole(id) {
   return axios.delete(`https://atbtbeta.infozit.com/rbac/deleteRole/${id}`);
@@ -22,6 +24,12 @@ const Roles = () => {
   console.log(data.roles , "userroleid")
   const fetcher = useFetcher();
   const onDelete = async (data) => {
+    let usersResponse = await atbtApi.post(`public/list/user`)
+    let users = usersResponse.data.users  
+    let roleUsers = users?.filter(
+      (user) => user.RoleId === parseInt(data.roleId)
+    );
+   if(roleUsers?.length === 0){
     const confirmDelete = await Swal.fire({
       title: "Are you sure?",
       text: "Once deleted, you will not be able to recover this role!",
@@ -48,6 +56,28 @@ const Roles = () => {
         Swal.fire("Error", "Unable to delete role 🤯", "error");
       }
     }
+   }else{
+    const confirmDelete = await Swal.fire({
+      title: "Role can't be deleted",
+      text: `You cannot delete role because there are  ${
+        roleUsers?.length
+      } users(${roleUsers?.map((user) => user.name)
+        .join(", ")}) are present `,
+      icon: "warning",
+      showCancelButton: false,
+      confirmButtonColor: "#ea580c",
+      cancelButtonColor: "#fff",
+      confirmButtonText: "ok",
+      customClass: {
+        popup: "custom-swal2-popup",
+        title: "custom-swal2-title",
+        content: "custom-swal2-content",
+      },
+    });
+   
+
+   }
+   
   };
   function handleSearch(event) {
     debouncedSearchParams(`search=${event.target.value}`);
