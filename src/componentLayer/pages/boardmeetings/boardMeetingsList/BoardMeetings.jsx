@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState, useCallback, useRef } from "react";
 import {
   Link,
   useFetcher,
@@ -63,7 +63,13 @@ function BoardMeetings() {
     page: 1,
     pageSize: 10,
   });
+  const isFirstRender = useRef(true);
+  
   useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
     debouncedParams(Qparams);
   }, [Qparams]);
   const debouncedParams = useCallback(
