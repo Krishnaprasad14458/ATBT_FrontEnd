@@ -115,7 +115,7 @@ const BoardMeetingOverview = () => {
                 <div className="relative">
                   {/* predefined */}
                   <div className=" block md:flex md:justify-between my-2 ">
-                    {item.type === "number" &&
+                    {item.type === "text" &&
                       item.inputname === "meetingnumber" &&
                       item.field === "predefined" && (
                         <p className="text-md md:w-5/6 md:truncate">
