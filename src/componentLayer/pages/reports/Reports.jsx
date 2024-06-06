@@ -7,6 +7,7 @@ const userId = userData?.user?.id;
 export async function loader({ request, params }) {
   try {
     let url = new URL(request.url);
+
     // const statusName = url.searchParams.get("status");
     // const [reports] = await Promise.all([
     //   // statusName === "master" ? atbtApi.get(`task/list?userId=191`) : atbtApi.get(`task/list?userId=191&status=${statusName}`)
@@ -26,7 +27,7 @@ export async function loader({ request, params }) {
       reportsAtr: ReportsAtr.data,
     }
 
-    console.log(CombinedResponse, "jdskfsjf");
+    console.log(userId, "jdskfsjf");
     // const combinedResponse = {
     //   reports: reports.data,
     // }
@@ -87,7 +88,7 @@ function Reports() {
   ];
 
   const headerMaster = [
-    { label: 'S.NO', key: 'sNO' },
+    { label: 'S.NO', key: 'S.NO' },
     { label: "Date of Board meeting", key: "date" },
     { label: 'Decision Taken', key: 'decision' },
     { label: 'Person Responsible for implementation', key: "members" },
@@ -101,7 +102,7 @@ function Reports() {
 
 
   const headerATR = [
-    { label: 'S.NO', key: 'sNO' },
+    { label: 'S.NO', key: 'S.NO' },
     { label: "Date of Board meeting", key: "date" },
     { label: 'Initial Decision Taken', key: 'decision' },
     { label: 'Person Responsible for implementation', key: "members" },
