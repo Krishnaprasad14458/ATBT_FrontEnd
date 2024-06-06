@@ -153,7 +153,12 @@ function Entities() {
         title: "Entity can't be deleted",
         text: `You cannot delete entity because there are ${
           entityUsers?.data.length
-        } users(${entityUsers?.data
+        } 
+        ${
+          entityUsers?.data.length > 1 ? `users` : `user`
+        }   
+        
+        (${entityUsers?.data
           .map((user) => user.name)
           .join(", ")}) are present`,
         icon: "warning",
