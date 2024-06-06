@@ -74,6 +74,8 @@ const SubTasksList = ({
                         {isInputActiveID === task.id && (
                           <input
                             className="border border-[#d1d5db] text-black px-1.5 py-1.5 rounded-md  bg-[#f9fafb] focus:outline-none text-sm focus:border-orange-400 "
+                            style={{   width: "15rem",}}
+                         
                             
                             type="text"
                             placeholder="Type here"

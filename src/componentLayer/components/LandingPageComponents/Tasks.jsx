@@ -745,7 +745,7 @@ const Tasks = () => {
                       options={members}
                       menuPortalTarget={document.body}
                       closeMenuOnScroll={() => true}
-                      styles={{
+                    styles={{
                         control: (provided, state) => ({
                           ...provided,
                           backgroundColor: "#f9fafb",
@@ -827,6 +827,9 @@ const Tasks = () => {
                             )
                       }
                       menuPlacement="auto"
+                      maxMenuHeight={150}
+                      // closeMenuOnSelect={()=> true}
+                      // menuIsOpen = {()=> true}
                     />
                   </td>
                   <td className="border py-1.5 px-2">
