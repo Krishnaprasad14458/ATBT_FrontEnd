@@ -48,7 +48,6 @@ function Reports() {
   const [masterData, setMasterData] = useState();
   const [atbtData, setAtbtData] = useState();
   const [atrData, setAtrData] = useState();
-
   console.log(data, "atbtData")
 
   useEffect(() => {
@@ -76,7 +75,7 @@ function Reports() {
         'S.NO': index + 1
       })));
     }
-  }, [reportsAtr]); 
+  }, [reportsAtr]);
 
   const headersAtbt = [
     { label: 'S.NO', key: 'S.NO' },
@@ -84,11 +83,11 @@ function Reports() {
     { label: 'Initial Decision Taken', key: 'decision' },
     { label: 'Person Responsible for implementation', key: 'members' },
     { label: "DueDate", key: "dueDate" },
-    { label: "Meeting ID", key: "meetingNumber"}
+    { label: "Meeting ID", key: "meetingNumber" }
   ];
 
   const headerMaster = [
-    { label: 'S.NO', key: 'S.NO' },
+    { label: 'S.NO', key: 'sNO' },
     { label: "Date of Board meeting", key: "date" },
     { label: 'Decision Taken', key: 'decision' },
     { label: 'Person Responsible for implementation', key: "members" },
@@ -102,7 +101,7 @@ function Reports() {
 
 
   const headerATR = [
-    { label: 'S.NO', key: 'S.NO' },
+    { label: 'S.NO', key: 'sNO' },
     { label: "Date of Board meeting", key: "date" },
     { label: 'Initial Decision Taken', key: 'decision' },
     { label: 'Person Responsible for implementation', key: "members" },
@@ -113,13 +112,66 @@ function Reports() {
     { label: "Updated Person Responsible", key: "members" },
   ]
 
-  //  const dynamicHeaders = reportdata[0]?.comments.flatMap((comment, index) => [
-  //   { label: `Updated Decision ${index + 1}`, key: `updatedDecision${index}` },
-  //   { label: `Person Responsible ${index + 1}`, key: `personResponsible${index}` }
-  // ]);
 
-  // Combine static and dynamic headers
-  // const HeadersMaster = [...headerMaster, ...dynamicHeaders];
+  const reportdata = [{
+    date: "24-06-2024",
+    decision: "task-2 ready",
+    meetingId: 454,
+    comments: [
+      { upadatedDecision: "table content", personResponble: "krishna", date :"24-09-2024" },
+      { upadatedDecision: "content", personResponble: "sita",  date :"14-05-2024" },
+      { upadatedDecision: "reporst", personResponble: "david" , date :"24-03-2024"},
+      { upadatedDecision: "refund ", personResponble: "sai" , date :"04-04-2024"},
+      { upadatedDecision: "teams", personResponble: "venu", date :"2-05-2024" },
+      { upadatedDecision: "tasks", personResponble: "ram", date :"23-09-2024" },
+    ]
+  },
+]
+
+
+  // Extract dynamic   ATR headers
+  const dynamicATRHeaders = reportdata[0]?.comments.flatMap((comment, index) => [
+    { label: `Updated Decision on ${comment.date}`, key: `updatedDecision${index + 1}` },
+    { label: `Person Responsible`, key: `personResponsible${index + 1}` }
+  ]);
+  const HeadersATR = [...headerATR, ...dynamicATRHeaders]
+
+
+  // Extract dynamic headers
+  const dynamicmasterHeaders = reportdata[0]?.comments.flatMap((comment, index) => [
+    { label: `Updated Decision on ${comment.date}`, key: `updatedDecision${index + 1}` },
+    { label: `Person Responsible`, key: `personResponsible${index + 1}` }
+  ]);
+  const HeadersMaster = [...headerMaster, ...dynamicmasterHeaders];
+  console.log(HeadersMaster, "HeadersMaster");
+
+  // Transform data to match headers
+  
+  const transformData = (data) => {
+    return data.map((item, index) => { 
+      const transformedItem = {
+        sNO: index + 1,
+        date: item.date,
+        decision: item.decision,
+        members: item.members,
+        dueDate: item.dueDate,
+        meetingNumber: item.meetingId,
+        meetingId: item.meetingId,
+      };
+
+      item.comments.forEach((comment, commentIndex) => {
+        console.log(comment, "comments")
+        transformedItem[`updatedDecision${commentIndex + 1}`] = comment.upadatedDecision;
+        transformedItem[`personResponsible${commentIndex + 1}`] = comment.personResponble;
+      });
+
+      return transformedItem;
+    });
+  };
+  const masterTransformedData = transformData(reportdata);
+  const atrTransformedData = transformData(reportdata);
+
+  console.log(masterTransformedData, "transformedReportData")
 
   const getMaxColumnWidth = (data, header) => {
     const headerLength = header.label.length;
@@ -147,7 +199,7 @@ function Reports() {
     worksheet['!cols'] = wscols;
     const rowCount = worksheetData.length;
     for (let r = 0; r < rowCount; r++) {
-      let maxCellHeight = 0;  
+      let maxCellHeight = 0;
       for (let c = 0; c < headers.length; c++) {
         const cellAddress = XLSX.utils.encode_cell({ r, c });
         const cell = worksheet[cellAddress];
