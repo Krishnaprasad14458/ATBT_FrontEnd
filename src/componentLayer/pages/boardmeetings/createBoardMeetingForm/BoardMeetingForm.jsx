@@ -545,17 +545,17 @@ console.log("selected selected",selected)
         console.log("data is 201");
         if (boardmeetingFor === "user") {
           navigate(
-            `/users/${boardmeetingForID}/userboardmeetings/${response.data}`
+            `/users/${boardmeetingForID}/userboardmeetings/${response.data}/tasks`
           );
         }
         if (boardmeetingFor === "entity") {
           navigate(
-            `/entities/${boardmeetingForID}/entityboardmeetings/${response.data}`
+            `/entities/${boardmeetingForID}/entityboardmeetings/${response.data}/tasks`
           );
         }
         if (boardmeetingFor === "team") {
           navigate(
-            `/teams/${boardmeetingForID}/teamboardmeetings/${response.data}`
+            `/teams/${boardmeetingForID}/teamboardmeetings/${response.data}/tasks`
           );
         }
       }
