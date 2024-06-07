@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useFetcher } from "react-router-dom";
 import Dropzone from "react-dropzone";
+import { AuthContext } from "../../../../contexts/authContext/authContext";
 const CommentsForm = ({
   taskID,
   displayOverviewTask,
@@ -11,7 +12,8 @@ const CommentsForm = ({
   setIsCommentEditing,
 }) => {
   let fetcher = useFetcher();
-  let loggedInUser = JSON.parse(localStorage.getItem("data")).user;
+
+  const { authState } = useContext(AuthContext);
 
   const handleDrop = (acceptedFiles) => {
     setNewComment((prev) => ({
@@ -23,7 +25,7 @@ const CommentsForm = ({
     e.preventDefault();
     if (!isCommentEditing) {
       let postComment = newComment;
-      postComment.senderId = loggedInUser.id;
+      postComment.senderId = authState?.user?.id;
 
       let UpdateData = {
         id: taskID,

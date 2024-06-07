@@ -8,9 +8,10 @@ import $ from "jquery";
 import atbtApi from "../../../../serviceLayer/interceptor";
 import { useNavigate, useLoaderData, useParams } from "react-router-dom";
 import BreadCrumbs from "../../../components/breadcrumbs/BreadCrumbs";
+import { AuthContext } from "../../../../contexts/authContext/authContext";
 
 const userData = JSON.parse(localStorage.getItem("data"));
-let createdBy = userData?.user?.id;
+// let createdBy = userData?.user?.id;
 const token = userData?.token;
 const role = userData?.role?.name;
 export async function entityFormLoader({ params }) {
@@ -43,6 +44,8 @@ export async function entityFormLoader({ params }) {
   }
 }
 function EntityForm() {
+  const { authState } = useContext(AuthContext);
+
   const [showPassword, setShowPassword] = useState(false);
   document.title = "ATBT | Entity";
   let { id } = useParams();
@@ -441,7 +444,7 @@ function EntityForm() {
       }
 
       formData.set("customFieldsData", JSON.stringify(customFormFields));
-      formData.set("createdBy", createdBy);
+      formData.set("createdBy", authState?.user?.id);
       const formDataObj = {};
       formData.forEach((value, key) => {
         formDataObj[key] = value;

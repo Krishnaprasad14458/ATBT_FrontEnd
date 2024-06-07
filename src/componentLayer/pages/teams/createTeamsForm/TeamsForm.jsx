@@ -7,8 +7,10 @@ import { useNavigate, useLoaderData, useParams } from "react-router-dom";
 import atbtApi from "../../../../serviceLayer/interceptor";
 import BreadCrumbs from "../../../components/breadcrumbs/BreadCrumbs";
 import Select from "react-select";
+import { AuthContext } from "../../../../contexts/authContext/authContext";
+
 const userData = JSON.parse(localStorage.getItem("data"));
-let createdBy = userData?.user?.id;
+// let createdBy = userData?.user?.id;
 const token = userData?.token;
 const role = userData?.role?.name;
 export async function teamFormLoader({ params }) {
@@ -50,6 +52,8 @@ export async function teamFormLoader({ params }) {
   }
 }
 function TeamsForm() {
+  const { authState } = useContext(AuthContext);
+
   const [showPassword, setShowPassword] = useState(false);
   document.title = "ATBT | Team";
   let { id } = useParams();
@@ -484,7 +488,7 @@ function TeamsForm() {
       }
 
       formData.set("customFieldsData", JSON.stringify(customFormFields));
-      formData.set("createdBy", createdBy);
+      formData.set("createdBy", authState?.user?.id);
       const formDataObj = {};
       formData.forEach((value, key) => {
         formDataObj[key] = value;
