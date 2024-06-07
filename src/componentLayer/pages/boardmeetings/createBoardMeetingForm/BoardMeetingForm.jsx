@@ -9,9 +9,9 @@ import { useNavigate, useLoaderData, useParams } from "react-router-dom";
 import atbtApi from "../../../../serviceLayer/interceptor";
 import Select from "react-select";
 import { AuthContext } from "../../../../contexts/authContext/authContext";
-const userData = JSON.parse(localStorage.getItem("data"));
-const token = userData?.token;
-const role = userData?.role?.name;
+// const userData = JSON.parse(localStorage.getItem("data"));
+// const token = userData?.token;
+// const role = userData?.role?.name;
 export async function boardmeetingFormLoader({ params, request }) {
   const url = new URL(request.url);
   const boardmeetingFor = url.searchParams.get("boardmeetingFor");
