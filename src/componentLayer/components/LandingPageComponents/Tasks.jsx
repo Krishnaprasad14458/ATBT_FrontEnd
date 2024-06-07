@@ -91,10 +91,11 @@ export async function tasksLoader({ request, params }) {
       task: updatedTask,
       subTasks: subTasks?.data?.Task,
       subTask: updatedSubTask,
-      threadName: params.BMid ? ` Board Meetings Tasks` : `Tasks`,
+      threadName: params.BMid ? `Meetings Tasks` : `Tasks`,
       threadPath: params.BMid
         ? `/${parentPath}/${params.id}/${params.boardmeetings}/${params.BMid}/tasks`
         : `/${parentPath}/${params.id}/tasks`,
+        threadPathForOutsideBM :    `/boardmeetings/${params.BMid}/tasks`
     };
     console.log("tasks tasksLoader",)
     console.log("combinedResponse", combinedResponse);
