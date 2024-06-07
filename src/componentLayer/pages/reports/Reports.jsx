@@ -16,9 +16,9 @@ export async function loader({ request, params }) {
     // ]);
 
     const [ReportsMaster, ReportsAtbt, ReportsAtr] = await Promise.all([
-      atbtApi.get(`task/list?userId=${userId}`),
-      atbtApi.get(`task/list?userId=${userId}&status=To-Do`),
-      atbtApi.get(`task/list?userId=${userId}&status=In-Progress`)
+      atbtApi.get(`task/list`),
+      atbtApi.get(`task/list?status=To-Do`),
+      atbtApi.get(`task/list?status=In-Progress`)
     ]);
 
 
@@ -51,7 +51,6 @@ function Reports() {
   const [atbtData, setAtbtData] = useState();
   const [atrData, setAtrData] = useState();
   console.log(data, "atbtData")
-
   useEffect(() => {
     if (reportsMaster) {
       setMasterData(reportsMaster.map((report, index) => ({
