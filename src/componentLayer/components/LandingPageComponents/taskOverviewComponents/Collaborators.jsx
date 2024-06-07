@@ -1,21 +1,21 @@
 import React, { useState } from "react";
 import Select from "react-select";
 const Collaborators = ({
-
   task,
   handleSubmit,
 }) => {
   console.log("task", task,task?.collaborators);
-  // let members = task?.group.map((item,index)=>({value : item.id}))
-  let members = task?.group?.map((user) => ({
+
+  let CollaboratorsId =   task?.collaborators?.map(
+    (collaborat) => collaborat.id
+  );
+  const filteredGroup = task?.group?.filter(item => !CollaboratorsId.includes(item.id));
+  let members = filteredGroup?.map((user) => ({
     label: user.name,
     value: user.id,
   }));
   let [isCollaboratorsEditing, setIsCollaboratorsEditing] = useState(false);
-  // let idsOfCollaborators = task?.collaborators?.map(
-  //   (collaborat) => collaborat.id
-  // );
-  // members = members?.filter((item) => !idsOfCollaborators?.includes(item.value));
+  
   const handleRemoveCollaborator = (collaboratorId) => {
     let updatedCollaborators = task?.collaborators.map(
       (collaborat) => collaborat.id
@@ -60,7 +60,8 @@ const Collaborators = ({
               <div className="absolute -top-5 bottom-0 right-4 ml-4 mt-2 w-52 h-60 p-2 bg-white border border-gray-200 shadow-lg rounded-lg opacity-0 pointer-events-none transition-opacity duration-300 ease-in-out transform translate-x-1/2 -translate-y-full group-hover:opacity-100 group-hover:-translate-y-full z-10 text-black">
                 {/* Image */}
                 <img
-                  src="https://img.freepik.com/premium-photo/headshot-photos-indian-women-dynamic-professions-occassions-indian-girl_978786-292.jpg"
+                  // src="https://img.freepik.com/premium-photo/headshot-photos-indian-women-dynamic-professions-occassions-indian-girl_978786-292.jpg"
+                 src={collaborator.image}
                   alt={collaborator.name}
                   className="w-full h-40 rounded-t-lg object-cover"
                 />
@@ -122,15 +123,14 @@ const Collaborators = ({
                 primary: "#fb923c",
               },
             })}
-            onChange={(selectedOption) => {
-              // let updatedCollaborators = task?.collaborators.map(
-              //   (collaborat) => collaborat.id
-              // );
+            onChange={async  (selectedOption) => {
+             
            let   updatedCollaborators = [
-                ...task?.collaborators,
+                ...CollaboratorsId,
                 selectedOption.value,
               ];
-              handleSubmit(task?.id, "collaborators", updatedCollaborators);
+              console.log("first",updatedCollaborators,CollaboratorsId)
+            await   handleSubmit(task?.id, "collaborators", updatedCollaborators);
               setIsCollaboratorsEditing(false);
             }}
             menuPlacement="auto"
