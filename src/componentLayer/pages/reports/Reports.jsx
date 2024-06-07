@@ -2,11 +2,12 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useNavigate, Link, useLoaderData, useNavigation, useSubmit } from "react-router-dom";
 import atbtApi from "../../../serviceLayer/interceptor";
 import * as XLSX from 'xlsx';
-const userData = JSON.parse(localStorage.getItem("data"));
-const userId = userData?.user?.id;
+
 export async function loader({ request, params }) {
   try {
     let url = new URL(request.url);
+    const userData = JSON.parse(localStorage.getItem("data"));
+    const userId = userData?.user?.id;
 
     // const statusName = url.searchParams.get("status");
     // const [reports] = await Promise.all([
@@ -27,7 +28,7 @@ export async function loader({ request, params }) {
       reportsAtr: ReportsAtr.data,
     }
 
-    console.log(userId, "jdskfsjf");
+    console.log(userId, CombinedResponse, "jdskfsjf");
     // const combinedResponse = {
     //   reports: reports.data,
     // }
