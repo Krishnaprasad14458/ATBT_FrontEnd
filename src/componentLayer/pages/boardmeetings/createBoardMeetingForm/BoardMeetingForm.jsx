@@ -8,8 +8,8 @@ import $ from "jquery";
 import { useNavigate, useLoaderData, useParams } from "react-router-dom";
 import atbtApi from "../../../../serviceLayer/interceptor";
 import Select from "react-select";
+import { AuthContext } from "../../../../contexts/authContext/authContext";
 const userData = JSON.parse(localStorage.getItem("data"));
-let createdBy = userData?.user?.id;
 const token = userData?.token;
 const role = userData?.role?.name;
 export async function boardmeetingFormLoader({ params, request }) {
@@ -76,6 +76,10 @@ export async function boardmeetingFormLoader({ params, request }) {
   }
 }
 function BoardMeetingForm() {
+  const { authState } = useContext(AuthContext);
+  let createdBy = authState?.user?.id;
+
+
   const urlParams = new URLSearchParams(window.location.search);
   const boardmeetingFor = urlParams.get("boardmeetingFor");
   const boardmeetingForID = urlParams.get("boardmeetingForID");
