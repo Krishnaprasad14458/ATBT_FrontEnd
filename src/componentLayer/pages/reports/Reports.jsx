@@ -119,15 +119,15 @@ function Reports() {
     decision: "task-2 ready",
     meetingId: 454,
     comments: [
-      { upadatedDecision: "table content", personResponble: "krishna", date :"24-09-2024" },
-      { upadatedDecision: "content", personResponble: "sita",  date :"14-05-2024" },
-      { upadatedDecision: "reporst", personResponble: "david" , date :"24-03-2024"},
-      { upadatedDecision: "refund ", personResponble: "sai" , date :"04-04-2024"},
-      { upadatedDecision: "teams", personResponble: "venu", date :"2-05-2024" },
-      { upadatedDecision: "tasks", personResponble: "ram", date :"23-09-2024" },
+      { upadatedDecision: "table content", personResponble: "krishna", date: "24-09-2024" },
+      { upadatedDecision: "content", personResponble: "sita", date: "14-05-2024" },
+      { upadatedDecision: "reporst", personResponble: "david", date: "24-03-2024" },
+      { upadatedDecision: "refund ", personResponble: "sai", date: "04-04-2024" },
+      { upadatedDecision: "teams", personResponble: "venu", date: "2-05-2024" },
+      { upadatedDecision: "tasks", personResponble: "ram", date: "23-09-2024" },
     ]
   },
-]
+  ]
 
 
   // Extract dynamic   ATR headers
@@ -147,9 +147,9 @@ function Reports() {
   console.log(HeadersMaster, "HeadersMaster");
 
   // Transform data to match headers
-  
+
   const transformData = (data) => {
-    return data.map((item, index) => { 
+    return data.map((item, index) => {
       const transformedItem = {
         sNO: index + 1,
         date: item.date,
@@ -296,21 +296,14 @@ function Reports() {
               <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200">
                 Report Name
               </th>
-              <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200">
-                Description
-              </th>
-              <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200">
-                Created By
-              </th>
-              <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200">
-                Created Date
-              </th>
+
               <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200">
                 Action
               </th>
             </tr>
           </thead>
           <tbody className=" divide-gray-200 dark:divide-gray-700">
+
             <tr className={`hover:bg-slate-100 dark:hover:bg-gray-700 `}>
               <td
                 className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  hover:text-orange-500 overflow-hidden`}
@@ -324,21 +317,7 @@ function Reports() {
                 ATBT
               </td>
 
-              <td
-                className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  hover:text-orange-500 overflow-hidden`}
-              >
-                To-Do
-              </td>
-              <td
-                className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  hover:text-orange-500 overflow-hidden`}
-              >
-                Super Admin
-              </td>
-              <td
-                className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  hover:text-orange-500 overflow-hidden`}
-              >
-                29-05-2024
-              </td>
+
               <td
                 className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  hover:text-orange-500 overflow-hidden`}
               >
@@ -350,15 +329,19 @@ function Reports() {
                       className=" inline-flex items-center gap-x-1 text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
                       onClick={() => handleDownload(atbtData, headersAtbt)}
                     >
-                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="m9 13.5 3 3m0 0 3-3m-3 3v-6m1.06-4.19-2.12-2.12a1.5 1.5 0 0 0-1.061-.44H4.5A2.25 2.25 0 0 0 2.25 6v12a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9a2.25 2.25 0 0 0-2.25-2.25h-5.379a1.5 1.5 0 0 1-1.06-.44Z" />
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3" />
                       </svg>
+
                     </button>
 
                   ) : "No Reports Found"
                 }
               </td>
             </tr>
+
+
+
 
 
             <tr className={`hover:bg-slate-100 dark:hover:bg-gray-700 `}>
@@ -373,21 +356,7 @@ function Reports() {
               >
                 ATR
               </td>
-              <td
-                className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  hover:text-orange-500 overflow-hidden`}
-              >
-                In-Progress
-              </td>
-              <td
-                className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  hover:text-orange-500 overflow-hidden`}
-              >
-                Super Admin
-              </td>
-              <td
-                className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  hover:text-orange-500 overflow-hidden`}
-              >
-                29-05-2024
-              </td>
+
               <td
                 className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  hover:text-orange-500 overflow-hidden`}
                 style={{ maxWidth: "160px" }}
@@ -400,9 +369,10 @@ function Reports() {
                       className=" inline-flex items-center gap-x-1 text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
                       onClick={() => handleDownload(atrData, headerATR)}
                     >
-                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="m9 13.5 3 3m0 0 3-3m-3 3v-6m1.06-4.19-2.12-2.12a1.5 1.5 0 0 0-1.061-.44H4.5A2.25 2.25 0 0 0 2.25 6v12a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9a2.25 2.25 0 0 0-2.25-2.25h-5.379a1.5 1.5 0 0 1-1.06-.44Z" />
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3" />
                       </svg>
+
                     </button>
 
                   ) : "No Reports Found"
@@ -410,6 +380,10 @@ function Reports() {
 
               </td>
             </tr>
+
+
+
+
             <tr className={`hover:bg-slate-100 dark:hover:bg-gray-700 `}>
               <td
                 className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  hover:text-orange-500 overflow-hidden`}
@@ -422,21 +396,7 @@ function Reports() {
               >
                 ATBT Master
               </td>
-              <td
-                className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  hover:text-orange-500 overflow-hidden`}
-              >
-                All
-              </td>
-              <td
-                className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  hover:text-orange-500 overflow-hidden`}
-              >
-                Super Admin
-              </td>
-              <td
-                className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  hover:text-orange-500 overflow-hidden`}
-              >
-                29-05-2024
-              </td>
+
               <td
                 className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  hover:text-orange-500 overflow-hidden`}
                 style={{ maxWidth: "160px" }}
@@ -449,9 +409,10 @@ function Reports() {
                       className=" inline-flex items-center gap-x-1 text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
                       onClick={() => handleDownload(masterData, headerMaster)}
                     >
-                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="m9 13.5 3 3m0 0 3-3m-3 3v-6m1.06-4.19-2.12-2.12a1.5 1.5 0 0 0-1.061-.44H4.5A2.25 2.25 0 0 0 2.25 6v12a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9a2.25 2.25 0 0 0-2.25-2.25h-5.379a1.5 1.5 0 0 1-1.06-.44Z" />
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3" />
                       </svg>
+
                     </button>
 
                   ) : (
@@ -461,6 +422,11 @@ function Reports() {
 
               </td>
             </tr>
+
+
+
+
+
           </tbody>
         </table>
       </div>
