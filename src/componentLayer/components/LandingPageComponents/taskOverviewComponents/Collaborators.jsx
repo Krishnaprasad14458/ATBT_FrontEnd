@@ -87,11 +87,28 @@ const Collaborators = ({
             styles={{
               control: (provided, state) => ({
                 ...provided,
-                backgroundColor: "#white-50", // Change the background color of the select input
-                borderWidth: state.isFocused ? "1px" : "1px", // Decrease border width when focused
-                borderColor: state.isFocused ? "#orange-400" : "#d1d5db", // Change border color when focused
-                boxShadow: state.isFocused ? "none" : provided.boxShadow, // Optionally remove box shadow when focused
-                cursor: "pointer",
+                backgroundColor: "#f9fafb",
+                borderWidth: "1px",
+                borderColor: state.isFocused
+                  ? "#orange-400"
+                  : "transparent",
+                boxShadow: state.isFocused
+                  ? "none"
+                  : provided.boxShadow,
+                fontSize: "16px",
+                height: "36px", // Adjust the height here
+                "&:hover": {
+                  borderColor: state.isFocused
+                    ? "#fb923c"
+                    : "transparent",
+                },
+                "&:focus": {
+                  borderColor: "#fb923c",
+                },
+                "&:focus-within": {
+                  borderColor: "#fb923c",
+                },
+                width: "10rem",
               }),
               placeholder: (provided) => ({
                 ...provided,
@@ -115,6 +132,7 @@ const Collaborators = ({
                 lineHeight: "1.25rem",
               }),
             }}
+            
             theme={(theme) => ({
               ...theme,
               borderRadius: 5,
