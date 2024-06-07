@@ -612,7 +612,7 @@ console.log("selected selected",selected)
               customFormFields.map((item, index) => (
                 <div key={index}>
                   {/* predefined fields */}
-                  {item.type === "number" &&
+                  {item.type === "text" &&
                     item.inputname == "meetingnumber" &&
                     item.field == "predefined" && (
                       <div>
@@ -629,7 +629,7 @@ console.log("selected selected",selected)
                           )}
                         </label>
                         <input
-                          type="number"
+                          type="text"
                           name={item.inputname}
                           placeholder="Enter Meeting Id"
                           id={item.inputname}
@@ -1337,7 +1337,7 @@ console.log("selected selected",selected)
                     {/* predefined fields*/}
                     <div className="flex justify-between my-1 ">
                       <span>
-                        {item.type === "number" &&
+                        {item.type === "text" &&
                           item.inputname == "meetingnumber" &&
                           item.field == "predefined" && (
                             <div>

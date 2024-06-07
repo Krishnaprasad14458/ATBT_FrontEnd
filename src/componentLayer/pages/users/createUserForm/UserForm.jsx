@@ -170,7 +170,7 @@ function UserForm() {
     setCustomFormFields(updatedFormData);
   };
   const isDisabled = !!id && !!data?.userData && parseInt(id) === loggedInUser;
-  const handleFileChange = (event, index) => {
+  const handleFileChange = (event, index,inputname) => {
     const file = event.target.files[0];
     if (file?.size > 1000000) {
       alert("file size too large");
@@ -589,7 +589,7 @@ function UserForm() {
                           name={item.inputname}
                           id={item.inputname}
                           className="px-2 py-1 md:py-1 lg:py-1 xl:py-1 text-sm block w-full rounded-md bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder:text-xs"
-                          onChange={(event) => handleFileChange(event, index)}
+                          onChange={(event) => handleFileChange(event, index,item.inputname)}
                           accept="image/*"
                           style={{ fontSize: "0.8rem" }}
                         />

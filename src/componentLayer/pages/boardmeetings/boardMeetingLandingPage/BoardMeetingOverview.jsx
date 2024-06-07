@@ -44,7 +44,7 @@ const BoardMeetingOverview = () => {
   let data = useLoaderData();
   let customFormField = data?.data?.data?.customFieldsData;
  let usersGroupData = data?.data?.data?.allMembers
-
+console.log("customFormField customFormField",customFormField)
   function formatTime(timeString) {
     // Splitting the timeString to extract hours and minutes
     const [hourStr, minuteStr] = timeString.split(":");
@@ -71,7 +71,7 @@ const BoardMeetingOverview = () => {
   return (
     <div className=" p-4 bg-[#f8fafc]">
       <div className="flex justify-end gap-3">
-        <Link
+       {moduleName && id && <Link
           to={{
             pathname: `/boardmeetings/${BMid}/edit`,
             search: `?boardmeetingFor=${moduleName}&boardmeetingForID=${id}`,
@@ -91,7 +91,7 @@ const BoardMeetingOverview = () => {
           >
             <path d="m2.695 14.762-1.262 3.155a.5.5 0 0 0 .65.65l3.155-1.262a4 4 0 0 0 1.343-.886L17.5 5.501a2.121 2.121 0 0 0-3-3L3.58 13.419a4 4 0 0 0-.885 1.343Z" />
           </svg> */}
-        </Link>
+        </Link>}
         {/* <Link
           to={`/${
             boardmeetings === "userboardmeetings" ? "users" : boardmeetings === "entityboardmeetings" ? "entities": boardmeetings === "teamboardmeetings" ? "teams" :""
@@ -115,7 +115,7 @@ const BoardMeetingOverview = () => {
                 <div className="relative">
                   {/* predefined */}
                   <div className=" block md:flex md:justify-between my-2 ">
-                    {item.type === "number" &&
+                    {item.type === "text" &&
                       item.inputname === "meetingnumber" &&
                       item.field === "predefined" && (
                         <p className="text-md md:w-5/6 md:truncate">

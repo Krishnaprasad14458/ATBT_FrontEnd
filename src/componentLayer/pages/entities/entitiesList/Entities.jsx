@@ -153,7 +153,12 @@ function Entities() {
         title: "Entity can't be deleted",
         text: `You cannot delete entity because there are ${
           entityUsers?.data.length
-        } users(${entityUsers?.data
+        } 
+        ${
+          entityUsers?.data.length > 1 ? `users` : `user`
+        }   
+        
+        (${entityUsers?.data
           .map((user) => user.name)
           .join(", ")}) are present`,
         icon: "warning",
@@ -386,27 +391,27 @@ function Entities() {
                       }
                     })}
                     <td
-                      className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium hover:text-orange-500  overflow-hidden`}
+                      className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium   overflow-hidden`}
                     >
                       {row?.taskCounts?.totalTaskCount}
                     </td>
                     <td
-                      className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium hover:text-orange-500  overflow-hidden`}
+                      className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden`}
                     >
                       {row?.taskCounts?.toDoCount}
                     </td>
                     <td
-                      className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium hover:text-orange-500  overflow-hidden`}
+                      className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium   overflow-hidden`}
                     >
                       {row?.taskCounts?.inProgressCount}
                     </td>
                     <td
-                      className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium hover:text-orange-500  overflow-hidden`}
+                      className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium   overflow-hidden`}
                     >
                       {row?.taskCounts?.overDueCount}
                     </td>
                     <td
-                      className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium hover:text-orange-500  overflow-hidden`}
+                      className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium   overflow-hidden`}
                     >
                       {row?.taskCounts?.completedCount}
                     </td>
