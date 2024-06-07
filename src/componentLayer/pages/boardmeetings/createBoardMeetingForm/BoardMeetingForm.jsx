@@ -603,7 +603,7 @@ console.log("selected selected",selected)
   return (
     <div className=" p-4 bg-[#f8fafc]">
       {/* <p className="font-lg font-semibold p-3">Entity Form</p> */}
-      <p className="text-lg font-semibold">Board Meeting Form</p>
+      <p className="text-lg font-semibold">Meeting Form</p>
       <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-3 xl:grid-cols-3  gap-4 mt-2  ">
         <div className="col-span-1">
           <form method="POST" onSubmit={handleFormSubmit}>
