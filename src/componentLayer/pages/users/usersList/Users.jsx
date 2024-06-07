@@ -187,7 +187,7 @@ function Users() {
   const handleDeleteUser = async (id) => {
     const confirmDelete = await Swal.fire({
       title: "Are you sure?",
-      text: "Once deleted, you will not be able to recover this user!",
+      text: "Once the user deleted, decisions assigned to user will also get deleted permanently.",
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#ea580c",

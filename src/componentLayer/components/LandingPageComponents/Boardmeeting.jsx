@@ -205,13 +205,13 @@ function Boardmeeting() {
             setTableView={setTableView}
             form="boardmeetingform"
           />
-          <CustomFilter
+          {/* <CustomFilter
           className="mt-2"
             fieldsDropDownData={fieldsDropDownData}
             Qparams={Qparams}
             setQParams={setQParams}
             customForm={customForm}
-          />
+          /> */}
 
           <GateKeeper
             permissionCheck={(permission) =>
