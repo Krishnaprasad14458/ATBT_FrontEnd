@@ -159,7 +159,7 @@ function Teams() {
           {/* Teams {teams.loading ? "..." : null} */}
           <BreadCrumbs />
         </h1>
-        <div className="grid1-item text-start">
+        {/* <div className="grid1-item text-start">
           <div className="relative">
             <div className="absolute inset-y-0 start-0 flex items-center p-3 pointer-events-none">
               <svg
@@ -202,7 +202,7 @@ function Teams() {
               customForm={customForm}
             />
           </div>
-        </div>
+        </div> */}
       </div>
       {/* table */}
       <div className="max-h-[457px] overflow-y-auto mt-5">

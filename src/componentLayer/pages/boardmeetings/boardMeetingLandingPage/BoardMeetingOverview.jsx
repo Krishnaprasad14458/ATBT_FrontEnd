@@ -31,8 +31,8 @@ export const boardMeetingOverviewLoader = async ({ params }) => {
     console.log("bm overview combined data", data);
     let threadName = data?.data?.meetingnumber;
     let threadPath = `/${parentPath}/${params.id}/${params.boardmeetings}/${params.BMid}`;
-  
-    return { data, threadName, threadPath };
+  let threadPathForOutsideBM = `/boardmeetings/${params.BMid}`
+    return { data, threadName, threadPath ,threadPathForOutsideBM};
   } catch (error) {
     console.error("Error loading dashboard:", error);
     return null;

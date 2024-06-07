@@ -14,6 +14,7 @@ import Tasks, {
   TasksActions,
   tasksLoader,
 } from "../../componentLayer/components/LandingPageComponents/Tasks";
+import { Link } from "react-router-dom";
 
 export const meetingRouter = [
   {
@@ -38,12 +39,20 @@ export const meetingRouter = [
       },
       {
         element: <BoardMeetingLandingPage />,
-
+        loader: boardMeetingOverviewLoader,
+        handle: {
+          crumb: (data) => <Link to={data.threadPathForOutsideBM}>{data.threadName}</Link>,
+        },
         children: [
           {
             index: true,
             loader: boardMeetingOverviewLoader,
             element: <BoardMeetingOverview />,
+            // handle: {
+            //   crumb: (data) => (
+            //     <Link to={data.threadPath}>{data.threadName}</Link>
+            //   ),
+            // },
           },
 
           {
@@ -51,18 +60,18 @@ export const meetingRouter = [
             loader: tasksLoader,
             action: TasksActions,
             element: <Tasks />,
-            // handle: {
-            //   crumb: (data) => (
-            //     <Link to={data?.threadPath}>{data?.threadName}</Link>
-            //   ),
-            // },
+            handle: {
+              crumb: (data) => (
+                <Link to={data?.threadPathForOutsideBM}>{data?.threadName}</Link>
+              ),
+            },
           },
           {
             path: "documents",
             element: <Documents />,
-            // handle: {
-            //   crumb: (data) => <Link to=".">Documents</Link>,
-            // },
+            handle: {
+              crumb: (data) => <Link to=".">Documents</Link>,
+            },
           },
         ],
       },
