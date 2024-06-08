@@ -36,32 +36,31 @@ export async function loader({ request, params }) {
     const reportType = url.searchParams.get("reportType");
 
 
-   
+
 
 
     const userData = JSON.parse(localStorage.getItem("data"));
     const userId = userData?.user?.id;
-    const [ReportsMaster, ReportsAtbt, ReportsAtr,reportsData, selectedModuleList,meetings] =
+    const [ReportsMaster, ReportsAtbt, ReportsAtr, reportsData, selectedModuleList, meetings] =
       await Promise.all([
         atbtApi.get(`task/list`),
         atbtApi.get(`task/list?status=To-Do`),
         atbtApi.get(`task/list?status=In-Progress`),
-        atbtApi.get(`task/list?meetingId=${meetingId}`),
-      
+        atbtApi.get(`task/list?meetingId=${meetingId}&status=${reportType}`),
         moduleName === "user"
           ? atbtApi.post(`public/list/user`)
           : moduleName === "entity"
-          ? atbtApi.post(`public/list/entity`)
-          : moduleName === "team"
-          ? atbtApi.post(`public/list/team`)
-          : null,
-          moduleName && listID && atbtApi.get(
-            `boardmeeting/list?${moduleName}=${listID}`
-          ),
+            ? atbtApi.post(`public/list/entity`)
+            : moduleName === "team"
+              ? atbtApi.post(`public/list/team`)
+              : null,
+        moduleName && listID && atbtApi.get(
+          `boardmeeting/list?${moduleName}=${listID}`
+        ),
       ]);
-    console.log( "selectedModuleList890",reportsData);
-    let selectedModuleLists ;
-    if(moduleName==="user"){
+    console.log("selectedModuleList890", reportsData);
+    let selectedModuleLists;
+    if (moduleName === "user") {
       selectedModuleLists = selectedModuleList?.data?.users.map(
         (user) => ({
           label: user.name,
@@ -69,7 +68,7 @@ export async function loader({ request, params }) {
         })
       );
     }
-    else if(moduleName==="entity"){
+    else if (moduleName === "entity") {
       selectedModuleLists = selectedModuleList?.data?.Entites.map(
         (entity) => ({
           label: entity.name,
@@ -77,7 +76,7 @@ export async function loader({ request, params }) {
         })
       );
     }
-   else  if(moduleName==="team"){
+    else if (moduleName === "team") {
       selectedModuleLists = selectedModuleList?.data?.Teams.map(
         (entity) => ({
           label: entity.name,
@@ -91,13 +90,14 @@ export async function loader({ request, params }) {
         value: meeting.id,
       })
     );
-    console.log(selectedModuleLists,meetingsLists, "EntitiesListuoi");
+    console.log(selectedModuleLists, meetingsLists, "EntitiesListuoi");
     const CombinedResponse = {
       reportsMaster: ReportsMaster.data,
       reportsAtbt: ReportsAtbt.data,
       reportsAtr: ReportsAtr.data,
+      reportsData: reportsData.data,
       selectedModuleList: selectedModuleLists,
-      meetingsList:meetingsLists
+      meetingsList: meetingsLists
     };
 
     console.log(userId, CombinedResponse, "jdskfsjf");
@@ -133,19 +133,34 @@ function Reports() {
     selectedMeetingId: null,
   });
 
+  console.log(report?.selectedReport?.value, "reportreport")
+
   let submit = useSubmit();
 
   const data = useLoaderData();
-  const { reportsMaster, reportsAtbt, reportsAtr, selectedModuleList,meetingsList } = data;
-  console.log(selectedModuleList, "EntitiesListsss");
+  const { reportsMaster, reportsAtbt, reportsAtr, selectedModuleList, meetingsList, reportsData } = data;
+  console.log(reportsData, "EntitiesListsss");
+
+
+  const [ReportData, setReportData] = useState();
+  console.log(ReportData, "ReportDatahere")
+
+
+  useEffect(() => {
+    if (reportsData) {
+      setReportData(
+        reportsData.map((report, index) => ({
+          ...report,
+          "serialNO": index + 1,
+        }))
+      );
+    }
+  }, [reportsData]);
+
+
   const [masterData, setMasterData] = useState();
   const [atbtData, setAtbtData] = useState();
   const [atrData, setAtrData] = useState();
-
-  const [singleEntity, setSingleEntity] = useState({});
-  const handleEntites = (selected) => {
-    setSingleEntity(selected);
-  };
 
   useEffect(() => {
     if (reportsMaster) {
@@ -180,8 +195,11 @@ function Reports() {
     }
   }, [reportsAtr]);
 
+
+
+
   const headersAtbt = [
-    { label: "S.NO", key: "S.NO" },
+    { label: "S.NO", key: "serialNO" },
     { label: "Date of Board meeting", key: "date" },
     { label: "Initial Decision Taken", key: "decision" },
     { label: "Person Responsible for implementation", key: "members" },
@@ -190,7 +208,7 @@ function Reports() {
   ];
 
   const headerMaster = [
-    { label: "S.NO", key: "S.NO" },
+    { label: "S.NO", key: "serialNO" },
     { label: "Date of Board meeting", key: "date" },
     { label: "Decision Taken", key: "decision" },
     { label: "Person Responsible for implementation", key: "members" },
@@ -202,7 +220,7 @@ function Reports() {
   ];
 
   const headerATR = [
-    { label: "S.NO", key: "S.NO" },
+    { label: "S.NO", key: "serialNO" },
     { label: "Date of Board meeting", key: "date" },
     { label: "Initial Decision Taken", key: "decision" },
     { label: "Person Responsible for implementation", key: "members" },
@@ -212,6 +230,7 @@ function Reports() {
     { label: "Updated Decision", key: "updatedbyuser" },
     { label: "Updated Person Responsible", key: "members" },
   ];
+
 
   const reportdata = [
     {
@@ -264,6 +283,7 @@ function Reports() {
     ]
   );
   const HeadersATR = [...headerATR, ...dynamicATRHeaders];
+  console.log(HeadersATR, "HeadersATR")
 
   // Extract dynamic headers
   const dynamicmasterHeaders = reportdata[0]?.comments.flatMap(
@@ -283,7 +303,7 @@ function Reports() {
   const transformData = (data) => {
     return data.map((item, index) => {
       const transformedItem = {
-        sNO: index + 1,
+        serialNO: index + 1,
         date: item.date,
         decision: item.decision,
         members: item.members,
@@ -303,6 +323,8 @@ function Reports() {
       return transformedItem;
     });
   };
+
+
   const masterTransformedData = transformData(reportdata);
   const atrTransformedData = transformData(reportdata);
 
@@ -363,21 +385,7 @@ function Reports() {
     XLSX.writeFile(workbook, "reports.xlsx");
   };
 
-  // const handleSVGClick = async (newStatus) => {
-  //   setQParams({ status: newStatus })
-  // };
-  // const [Qparams, setQParams] = useState({});
-  // const debouncedParams = useCallback(
-  //   debounce((param) => {
-  //     console.log(param);
-  //     submit(param, { method: "get", action: "." });
-  //   }, 500),
-  //   [submit]
-  // );
 
-  // useEffect(() => {
-  //   debouncedParams(Qparams);
-  // }, [Qparams, debouncedParams]);
 
   return (
     <div className="overflow-x-auto p-3">
@@ -503,7 +511,7 @@ function Reports() {
                       selectedMeetingId: null,
                     }));
                     setQParams((prev) => ({
-                  
+
                       reportType: selectedOption.value,
 
                     }));
@@ -688,31 +696,148 @@ function Reports() {
               <td
                 className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium   overflow-hidden`}
               >
-                {atbtData && atbtData.length > 0 ? (
-                  <button
-                    type="button"
-                    title="xlsx file"
-                    className=" inline-flex items-center gap-x-1 text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
-                    onClick={() => handleDownload(atbtData, headersAtbt)}
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke-width="1.5"
-                      stroke="currentColor"
-                      class="size-6"
+
+
+                {
+                  report?.selectedReport?.value == "To-Do" && reportsData && reportsData.length > 0 ? (
+                    <button
+                      type="button"
+                      title="xlsx file"
+                      className=" inline-flex items-center gap-x-1 text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
+                      onClick={() => handleDownload(reportsData, headersAtbt)}
                     >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3"
-                      />
-                    </svg>
-                  </button>
-                ) : (
-                  "No Reports Found"
-                )}
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke-width="1.5"
+                        stroke="currentColor"
+                        class="size-6"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3"
+                        />
+                      </svg>
+                    </button>
+
+                  ) : report?.selectedReport?.value == "In-Progress" && reportsData && reportsData.length > 0 ? (
+                    <button
+                      type="button"
+                      title="xlsx file"
+                      className=" inline-flex items-center gap-x-1 text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
+                      onClick={() => handleDownload(reportsData, headerATR)}
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke-width="1.5"
+                        stroke="currentColor"
+                        class="size-6"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3"
+                        />
+                      </svg>
+                    </button>
+
+                  ) :  report?.selectedReport?.value == "Master" && reportsData && reportsData.length > 0 ? (
+                    <button
+                      type="button"
+                      title="xlsx file"
+                      className=" inline-flex items-center gap-x-1 text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
+                      onClick={() => handleDownload(reportsData,headerMaster )}
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke-width="1.5"
+                        stroke="currentColor"
+                        class="size-6"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3"
+                        />
+                      </svg>
+                    </button>
+
+                  ): (
+                    "No Reports Found"
+                  )
+                }
+
+
+                {/* {
+                  report?.selectedReport?.value == "In-Progress" && reportsData && reportsData.length > 0 ? (
+                    <button
+                      type="button"
+                      title="xlsx file"
+                      className=" inline-flex items-center gap-x-1 text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
+                      onClick={() => handleDownload(reportsData, headersAtbt)}
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke-width="1.5"
+                        stroke="currentColor"
+                        class="size-6"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3"
+                        />
+                      </svg>
+                    </button>
+
+                  ) : (
+                    "No Reports Found"
+                  )
+                }
+
+
+                {
+                  report?.selectedReport?.value == "Master" && reportsData && reportsData.length > 0 ? (
+                    <button
+                      type="button"
+                      title="xlsx file"
+                      className=" inline-flex items-center gap-x-1 text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
+                      onClick={() => handleDownload(reportsData, headersAtbt)}
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke-width="1.5"
+                        stroke="currentColor"
+                        class="size-6"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3"
+                        />
+                      </svg>
+                    </button>
+
+                  ) : (
+                    "No Reports Found"
+                  )
+                } */}
+
+
+
+
+
+
               </td>
             </tr>
           </tbody>
