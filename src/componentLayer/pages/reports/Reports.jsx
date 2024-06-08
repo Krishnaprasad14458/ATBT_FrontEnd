@@ -33,6 +33,8 @@ export async function loader({ request, params }) {
     const moduleName = url.searchParams.get("moduleName");
     const listID = url.searchParams.get("listID");
     const meetingId = url.searchParams.get("meetingId");
+    const reportType = url.searchParams.get("reportType");
+
 
    
 
@@ -54,9 +56,7 @@ export async function loader({ request, params }) {
           ? atbtApi.post(`public/list/team`)
           : null,
           moduleName && listID && atbtApi.get(
-            `boardmeeting/list?${moduleName}=${listID}${
-              url && url.search ? "&" + url.search.substring(1) : ""
-            }`
+            `boardmeeting/list?${moduleName}=${listID}`
           ),
       ]);
     console.log( "selectedModuleList890",reportsData);
