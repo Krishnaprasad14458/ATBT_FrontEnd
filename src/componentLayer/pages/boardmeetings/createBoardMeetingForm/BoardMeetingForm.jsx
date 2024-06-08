@@ -8,10 +8,10 @@ import $ from "jquery";
 import { useNavigate, useLoaderData, useParams } from "react-router-dom";
 import atbtApi from "../../../../serviceLayer/interceptor";
 import Select from "react-select";
-const userData = JSON.parse(localStorage.getItem("data"));
-let createdBy = userData?.user?.id;
-const token = userData?.token;
-const role = userData?.role?.name;
+import { AuthContext } from "../../../../contexts/authContext/authContext";
+// const userData = JSON.parse(localStorage.getItem("data"));
+// const token = userData?.token;
+// const role = userData?.role?.name;
 export async function boardmeetingFormLoader({ params, request }) {
   const url = new URL(request.url);
   const boardmeetingFor = url.searchParams.get("boardmeetingFor");
@@ -76,6 +76,10 @@ export async function boardmeetingFormLoader({ params, request }) {
   }
 }
 function BoardMeetingForm() {
+  const { authState } = useContext(AuthContext);
+  let createdBy = authState?.user?.id;
+
+
   const urlParams = new URLSearchParams(window.location.search);
   const boardmeetingFor = urlParams.get("boardmeetingFor");
   const boardmeetingForID = urlParams.get("boardmeetingForID");
@@ -541,17 +545,17 @@ console.log("selected selected",selected)
         console.log("data is 201");
         if (boardmeetingFor === "user") {
           navigate(
-            `/users/${boardmeetingForID}/userboardmeetings/${response.data}`
+            `/users/${boardmeetingForID}/userboardmeetings/${response.data}/tasks`
           );
         }
         if (boardmeetingFor === "entity") {
           navigate(
-            `/entities/${boardmeetingForID}/entityboardmeetings/${response.data}`
+            `/entities/${boardmeetingForID}/entityboardmeetings/${response.data}/tasks`
           );
         }
         if (boardmeetingFor === "team") {
           navigate(
-            `/teams/${boardmeetingForID}/teamboardmeetings/${response.data}`
+            `/teams/${boardmeetingForID}/teamboardmeetings/${response.data}/tasks`
           );
         }
       }
