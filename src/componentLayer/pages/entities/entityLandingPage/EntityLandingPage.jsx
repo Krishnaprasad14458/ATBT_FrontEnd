@@ -84,7 +84,7 @@ const EntityLandingPage = () => {
                 : "cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09]"
             }
           >
-          Entity  Documents
+          Entity  Attachments
           </NavLink>
         )}
         {BMid && (
@@ -99,7 +99,7 @@ const EntityLandingPage = () => {
                 : "cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09]"
             }
           >
-          Meeting  Documents
+          Meeting Attachments
           </NavLink>
         )}
         {!BMid && (

@@ -70,7 +70,7 @@ export const meetingRouter = [
             path: "documents",
             element: <Documents />,
             handle: {
-              crumb: (data) => <Link to=".">Documents</Link>,
+              crumb: (data) => <Link to=".">Meeting Attachments</Link>,
             },
           },
         ],

@@ -151,7 +151,7 @@ export const userRouter = [
                     path: "documents",
                     element: <Documents />,
                     handle: {
-                      crumb: (data) => <Link to=".">Documents</Link>,
+                      crumb: (data) => <Link to="."> Meeting Attachments</Link>,
                     },
                   },
                 ],
@@ -163,7 +163,7 @@ export const userRouter = [
             path: "documents",
             element: <Documents />,
             handle: {
-              crumb: () => <Link to=".">User Documents</Link>,
+              crumb: () => <Link to=".">User Attachments</Link>,
             },
           },
         ],

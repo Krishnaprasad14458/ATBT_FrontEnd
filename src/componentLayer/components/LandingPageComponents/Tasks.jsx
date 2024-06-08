@@ -678,7 +678,7 @@ const Tasks = () => {
                 Decision Status
               </th>
               <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-2 py-2 border-l-2 border-gray-200 ">
-                Latest Decision Updated
+                Latest Decision Update
               </th>
               {/* <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2 border-l-2 border-gray-200">
                 Decision Updated of Admin
