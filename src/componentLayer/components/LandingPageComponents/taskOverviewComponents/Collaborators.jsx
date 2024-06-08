@@ -25,6 +25,7 @@ const Collaborators = ({
     );
     handleSubmit(task?.id, "collaborators", updatedCollaborators);
   };
+  
   return (
     <div className="px-3 py-1">
       <div className="me-2 flex gap-2">
@@ -59,23 +60,23 @@ const Collaborators = ({
 
               <div className="absolute -top-5 bottom-0 right-4 ml-4 mt-2 w-52 h-60 p-2 bg-white border border-gray-200 shadow-lg rounded-lg opacity-0 pointer-events-none transition-opacity duration-300 ease-in-out transform translate-x-1/2 -translate-y-full group-hover:opacity-100 group-hover:-translate-y-full z-10 text-black">
                 {/* Image */}
-                <img
-                  // src="https://img.freepik.com/premium-photo/headshot-photos-indian-women-dynamic-professions-occassions-indian-girl_978786-292.jpg"
+                {/* <img
                  src={collaborator.image}
                   alt={collaborator.name}
                   className="w-full h-40 rounded-t-lg object-cover"
-                />
+                /> */}
                 {/* Details */}
                 <div className="inline-block p-1">
                   {/* Name */}
                   <p className="font-semibold w-48 truncate">
                     {collaborator.name}
                   </p>
+              
 
                   {/* Email */}
-                  <p className="text-sm text-gray-600 pt-1 w-48 truncate">
+                  {/* <p className="text-sm text-gray-600 pt-1 w-48 truncate">
                     {collaborator.email}
-                  </p>
+                  </p> */}
                 </div>
               </div>
             </div>

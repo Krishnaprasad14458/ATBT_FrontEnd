@@ -148,10 +148,10 @@ function Home() {
   });
   return (
     <div className="  p-4 bg-[#f8fafc] ">
-      <h1 className="lg:m-2 font-semibold sm:text-xs md:text-base lg:text-lg xl:text-xl">
+      {/* <h1 className="lg:m-2 font-semibold sm:text-xs md:text-base lg:text-lg xl:text-xl">
         Home
-      </h1>
-      <div className="text-center">
+      </h1> */}
+      <div className="text-center pt-5">
         <h6 className="text-sm date_time">{getDate()}</h6>
         <h4 className=" text-2xl font-normal dark:text-white welcome_user">
           Welcome {localStorageData?.user?.name ?? "user"}

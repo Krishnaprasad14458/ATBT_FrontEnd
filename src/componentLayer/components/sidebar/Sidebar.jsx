@@ -162,7 +162,7 @@ const Sidebar = () => {
       module: "setting",
     },
   ];
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
   const [active, setActive] = useState("Home");
   let screenSize = window.innerWidth;
   useEffect(() => {
@@ -205,6 +205,8 @@ const Sidebar = () => {
             className={`mt-6 flex-col gap-4 text-black relative ${
               open ? "" : "mt-8"
             }`}
+            
+            
           >
             <Link
               to="/"
@@ -218,6 +220,8 @@ const Sidebar = () => {
                                         ? "text-orange-600"
                                         : "black"
                                     }`}
+                                    onMouseEnter={() =>  setOpen(true)}
+            onMouseLeave={() =>  setOpen(false)}
             >
               <div style={{ width: "1rem", height: "1rem", marginLeft: "5px" }}>
                 {
@@ -239,6 +243,7 @@ const Sidebar = () => {
                 className={`whitespace-pre font-sans ${
                   !open && `opacity-0 translate-x-20 overflow-hidden`
                 }`}
+               
               >
                 {"Home"}
               </h3>
@@ -246,6 +251,7 @@ const Sidebar = () => {
                 className={`${
                   open && "hidden"
                 } absolute left-20 bg-white font-semibold whitespace-pre text-black rounded-md drop-shadow-lg px-0 py-0 w-0 overflow-hidden group-hover:px-2 group-hover:py-1 group-hover:left-14 group-hover:w-fit text-sm`}
+              
               >
                 {"Home"}
               </h3>
@@ -265,6 +271,8 @@ const Sidebar = () => {
                         ? location.search
                         : `?search=&page=1&pageSize=10`,
                   }}
+                  onMouseEnter={() => setOpen(true)}
+              onMouseLeave={() => setOpen(false)}
                   state={{ from: location.pathname }}
                   key={i}
                   onClick={(e) => {
@@ -306,6 +314,8 @@ const Sidebar = () => {
                         ? location.search
                         : `?status=To-Do`,
                   }}
+                  onMouseEnter={() => setOpen(true)}
+                  onMouseLeave={() => setOpen(false)}
                   state={{ from: location.pathname }}
                   key={i}
                   onClick={(e) => {
