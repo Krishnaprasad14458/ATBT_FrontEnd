@@ -17,51 +17,87 @@ import { debounce } from "../../../utils/utils";
 let reportType = [
   { label: "ATBT", value: "To-Do" },
   { label: "ATR", value: "In-Progress" },
-  { label: "ATBT MASTER", value: null },
-]
-
+  { label: "ATBT MASTER", value: "Master" },
+];
 
 let moduleList = [
   { label: "User", value: "user" },
   { label: "Entity", value: "entity" },
   { label: "Team", value: "team" },
 ];
-let report = { moduleName: "", selectedIDfromModule: null, meetingId: null };
+
 export async function loader({ request, params }) {
   try {
     let url = new URL(request.url);
     // let moduleName =
     const moduleName = url.searchParams.get("moduleName");
+    const listID = url.searchParams.get("listID");
+    const meetingId = url.searchParams.get("meetingId");
+
+   
+
 
     const userData = JSON.parse(localStorage.getItem("data"));
     const userId = userData?.user?.id;
-    const [ReportsMaster, ReportsAtbt, ReportsAtr, selectedModuleList] =
+    const [ReportsMaster, ReportsAtbt, ReportsAtr,reportsData, selectedModuleList,meetings] =
       await Promise.all([
         atbtApi.get(`task/list`),
         atbtApi.get(`task/list?status=To-Do`),
         atbtApi.get(`task/list?status=In-Progress`),
+        atbtApi.get(`task/list?meetingId=${meetingId}`),
+      
         moduleName === "user"
           ? atbtApi.post(`public/list/user`)
           : moduleName === "entity"
-            ? atbtApi.post(`public/list/entity`)
-            : moduleName === "team"
-              ? atbtApi.post(`public/list/team`)
-              : null,
+          ? atbtApi.post(`public/list/entity`)
+          : moduleName === "team"
+          ? atbtApi.post(`public/list/team`)
+          : null,
+          moduleName && listID && atbtApi.get(
+            `boardmeeting/list?${moduleName}=${listID}${
+              url && url.search ? "&" + url.search.substring(1) : ""
+            }`
+          ),
       ]);
-    console.log(selectedModuleList, "selectedModuleList");
-    let selectedModuleLists
-      = selectedModuleList?.data?.Entites.map((entity) => ({
-        label: entity.name,
-        value: entity.id,
-      }));
-
-    // let selectedModuleLists =selectedModuleList
-    console.log(selectedModuleLists, "EntitiesList");
+    console.log( "selectedModuleList890",reportsData);
+    let selectedModuleLists ;
+    if(moduleName==="user"){
+      selectedModuleLists = selectedModuleList?.data?.users.map(
+        (user) => ({
+          label: user.name,
+          value: user.id,
+        })
+      );
+    }
+    else if(moduleName==="entity"){
+      selectedModuleLists = selectedModuleList?.data?.Entites.map(
+        (entity) => ({
+          label: entity.name,
+          value: entity.id,
+        })
+      );
+    }
+   else  if(moduleName==="team"){
+      selectedModuleLists = selectedModuleList?.data?.Teams.map(
+        (entity) => ({
+          label: entity.name,
+          value: entity.id,
+        })
+      );
+    }
+    let meetingsLists = meetings?.data?.Meetings?.map(
+      (meeting) => ({
+        label: meeting.meetingnumber,
+        value: meeting.id,
+      })
+    );
+    console.log(selectedModuleLists,meetingsLists, "EntitiesListuoi");
     const CombinedResponse = {
       reportsMaster: ReportsMaster.data,
       reportsAtbt: ReportsAtbt.data,
       reportsAtr: ReportsAtr.data,
-      selectedModuleList: selectedModuleLists
+      selectedModuleList: selectedModuleLists,
+      meetingsList:meetingsLists
     };
 
     console.log(userId, CombinedResponse, "jdskfsjf");
@@ -100,7 +136,7 @@ function Reports() {
   let submit = useSubmit();
 
   const data = useLoaderData();
-  const { reportsMaster, reportsAtbt, reportsAtr, selectedModuleList } = data;
+  const { reportsMaster, reportsAtbt, reportsAtr, selectedModuleList,meetingsList } = data;
   console.log(selectedModuleList, "EntitiesListsss");
   const [masterData, setMasterData] = useState();
   const [atbtData, setAtbtData] = useState();
@@ -461,12 +497,15 @@ function Reports() {
                   value={report.selectedReport}
                   onChange={(selectedOption) => {
                     setReport((prev) => ({
-                      ...prev,
                       selectedReport: selectedOption,
+                      selectedModule: "",
+                      selectedIdFromList: null,
+                      selectedMeetingId: null,
                     }));
                     setQParams((prev) => ({
-                      ...prev,
+                  
                       reportType: selectedOption.value,
+
                     }));
                   }}
                 />
@@ -527,7 +566,6 @@ function Reports() {
                       ...prev,
                       moduleName: selectedOption.value,
                     }));
-
                   }}
                 />
               </td>
@@ -577,15 +615,24 @@ function Reports() {
                   closeMenuOnScroll={() => true}
                   menuPlacement="auto"
                   maxMenuHeight={150}
-                // value={singleEntity}
-                // onChange={handleEntites}
+                  value={report.selectedIdFromList}
+                  onChange={(selectedOption) => {
+                    setReport((prev) => ({
+                      ...prev,
+                      selectedIdFromList: selectedOption,
+                    }));
+                    setQParams((prev) => ({
+                      ...prev,
+                      listID: selectedOption.value,
+                    }));
+                  }}
                 />
               </td>
               <td
                 className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium   overflow-hidden`}
               >
                 <Select
-                  // options={shareDataWithOptions}
+                  options={meetingsList}
                   styles={{
                     control: (provided, state) => ({
                       ...provided,
@@ -620,8 +667,21 @@ function Reports() {
                       primary: "#fb923c",
                     },
                   })}
-                // value={shareDataWithSelectedOptions}
-                // onChange={handleShareDataWith}
+                  menuPortalTarget={document.body}
+                  closeMenuOnScroll={() => true}
+                  menuPlacement="auto"
+                  maxMenuHeight={150}
+                  value={report.selectedMeetingId}
+                  onChange={(selectedOption) => {
+                    setReport((prev) => ({
+                      ...prev,
+                      selectedMeetingId: selectedOption,
+                    }));
+                    setQParams((prev) => ({
+                      ...prev,
+                      meetingId: selectedOption.value,
+                    }));
+                  }}
                 />
               </td>
 
@@ -655,8 +715,6 @@ function Reports() {
                 )}
               </td>
             </tr>
-
-
           </tbody>
         </table>
       </div>
@@ -666,17 +724,8 @@ function Reports() {
 
 export default Reports;
 
-
-
-
-
-
-
-
-
-
-
-{/* <tr className={`hover:bg-slate-100 dark:hover:bg-gray-700 `}>
+{
+  /* <tr className={`hover:bg-slate-100 dark:hover:bg-gray-700 `}>
 <td
   className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium   overflow-hidden`}
   style={{ maxWidth: "160px" }}
@@ -1054,11 +1103,8 @@ export default Reports;
     "No Reports Found"
   )}
 </td>
-</tr> */}
-
-
-
-
+</tr> */
+}
 
 // import React, { useCallback, useEffect, useRef, useState } from "react";
 // import { useNavigate, Link, useLoaderData, useNavigation, useSubmit } from "react-router-dom";
