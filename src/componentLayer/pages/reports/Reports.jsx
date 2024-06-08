@@ -40,16 +40,11 @@ export async function loader({ request, params }) {
       idOF = "teamId";
     }
     const [
-      ReportsMaster,
-      ReportsAtbt,
-      ReportsAtr,
       reportsData,
       selectedModuleList,
       meetings,
     ] = await Promise.all([
-      atbtApi.get(`task/list`),
-      atbtApi.get(`task/list?status=To-Do`),
-      atbtApi.get(`task/list?status=In-Progress`),
+
       meetingId !== "all" && reportType !== "Master"
         ? atbtApi.get(`task/list?meetingId=${meetingId}&status=${reportType}`)
         : meetingId !== "all" && reportType === "Master"
@@ -101,9 +96,6 @@ export async function loader({ request, params }) {
 
     console.log(selectedModuleLists, meetingsLists, "EntitiesListuoi");
     const CombinedResponse = {
-      reportsMaster: ReportsMaster.data,
-      reportsAtbt: ReportsAtbt.data,
-      reportsAtr: ReportsAtr.data,
       reportsData: reportsData.data,
       selectedModuleList: selectedModuleLists,
       meetingsList: meetingsLists,
@@ -501,8 +493,6 @@ function Reports() {
                     setQParams((prev) => ({
                       ...prev,
                       moduleName: selectedOption.value,
-                      listID: null,
-                      meetingId: null,
                     }));
                   }}
                 />
@@ -561,8 +551,7 @@ function Reports() {
                     }));
                     setQParams((prev) => ({
                       ...prev,
-                      listID: selectedOption.value,
-                      meetingId: null,
+                      listID: selectedOption?.value,
                     }));
                   }}
                 />
