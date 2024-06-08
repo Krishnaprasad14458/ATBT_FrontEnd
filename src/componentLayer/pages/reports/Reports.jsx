@@ -13,6 +13,14 @@ import Select from "react-select";
 import { debounce } from "../../../utils/utils";
 
 //  atbtApi.post(`public/list/entity`),
+
+let reportType = [
+  { label: "ATBT", value: "To-Do" },
+  { label: "ATR", value: "In-Progress" },
+  { label: "ATBT MASTER", value: null },
+]
+
+
 let moduleList = [
   { label: "User", value: "user" },
   { label: "Entity", value: "entity" },
@@ -35,28 +43,25 @@ export async function loader({ request, params }) {
         moduleName === "user"
           ? atbtApi.post(`public/list/user`)
           : moduleName === "entity"
-          ? atbtApi.post(`public/list/entity`)
-          : moduleName === "team"
-          ? atbtApi.post(`public/list/team`)
-          : null,
+            ? atbtApi.post(`public/list/entity`)
+            : moduleName === "team"
+              ? atbtApi.post(`public/list/team`)
+              : null,
       ]);
     console.log(selectedModuleList, "selectedModuleList");
-    let EntitiesList
-    //  = Entites?.data?.Entites.map((entity) => ({
-    //   label: entity.name,
-    //   value: entity.id,
-    // }));
-    console.log(EntitiesList, "EntitiesList");
+    let selectedModuleLists
+      = selectedModuleList?.data?.Entites.map((entity) => ({
+        label: entity.name,
+        value: entity.id,
+      }));
+
+    // let selectedModuleLists =selectedModuleList
+    console.log(selectedModuleLists, "EntitiesList");
     const CombinedResponse = {
       reportsMaster: ReportsMaster.data,
       reportsAtbt: ReportsAtbt.data,
       reportsAtr: ReportsAtr.data,
-
-      entitiesList: moduleName === "entity" ? selectedModuleList : null,
-      usersList: moduleName === "user" ? selectedModuleList : null,
-
-      teamsList: moduleName === "team" ? selectedModuleList : null,
-
+      selectedModuleList: selectedModuleLists
     };
 
     console.log(userId, CombinedResponse, "jdskfsjf");
@@ -85,39 +90,18 @@ function Reports() {
     []
   );
 
-  let [ATBTReport, setATBTReport] = useState({
+  let [report, setReport] = useState({
+    selectedReport: "",
     selectedModule: "",
     selectedIdFromList: null,
     selectedMeetingId: null,
   });
-  let [ATRReport, setATRReport] = useState({
-    selectedModule: "",
-    selectedIdFromList: null,
-    selectedMeetingId: null,
-  });
-  let [ATBTMASTERReport, setATBTMASTERReport] = useState({
-    selectedModule: "",
-    selectedIdFromList: null,
-    selectedMeetingId: null,
-  });
-let [selectedModuleList,setSelectedModuleList]=useState()
 
-  let [reportType, setReportType] = useState("");
-  console.log(
-    reportType,
-    "reportType",
-    ATBTReport,
-    "ATBTReport",
-    ATRReport,
-    "ATRReport",
-    ATBTMASTERReport,
-    "ATBTMASTERReport"
-  );
   let submit = useSubmit();
 
   const data = useLoaderData();
-  const { reportsMaster, reportsAtbt, reportsAtr, entitiesList } = data;
-  console.log(entitiesList, "EntitiesListsss");
+  const { reportsMaster, reportsAtbt, reportsAtr, selectedModuleList } = data;
+  console.log(selectedModuleList, "EntitiesListsss");
   const [masterData, setMasterData] = useState();
   const [atbtData, setAtbtData] = useState();
   const [atrData, setAtrData] = useState();
@@ -431,7 +415,61 @@ let [selectedModuleList,setSelectedModuleList]=useState()
               <td
                 className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium   overflow-hidden`}
               >
-                ATBT
+                <Select
+                  options={reportType}
+                  styles={{
+                    control: (provided, state) => ({
+                      ...provided,
+
+                      backgroundColor: "#f9fafb", // Change the background color of the select input
+                      borderWidth: state.isFocused ? "1px" : "1px", // Decrease border width when focused
+                      borderColor: state.isFocused ? "#orange-400" : "#d1d5db", // Change border color when focused
+                      boxShadow: state.isFocused ? "none" : provided.boxShadow, // Optionally remove box shadow when focused
+                    }),
+                    placeholder: (provided) => ({
+                      ...provided,
+                      fontSize: "12px", // Adjust the font size of the placeholder text
+                      color: "#a9a9a9",
+                    }),
+                    option: (provided, state) => ({
+                      ...provided,
+                      color: state.isFocused ? "#fff" : "#000000",
+                      backgroundColor: state.isFocused
+                        ? "#ea580c"
+                        : "transparent",
+
+                      "&:hover": {
+                        color: "#fff",
+                        backgroundColor: "#ea580c",
+                      },
+                    }),
+                    fontSize: "14px",
+                  }}
+                  theme={(theme) => ({
+                    ...theme,
+                    borderRadius: 5,
+                    colors: {
+                      ...theme.colors,
+
+                      primary: "#fb923c",
+                    },
+                  })}
+                  menuPortalTarget={document.body}
+                  closeMenuOnScroll={() => true}
+                  menuPlacement="auto"
+                  maxMenuHeight={150}
+                  value={report.selectedReport}
+                  onChange={(selectedOption) => {
+                    setReport((prev) => ({
+                      ...prev,
+                      selectedReport: selectedOption,
+                    }));
+                    setQParams((prev) => ({
+                      ...prev,
+                      reportType: selectedOption.value,
+                    }));
+                  }}
+                />
               </td>
               <td
                 className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium   overflow-hidden`}
@@ -479,9 +517,9 @@ let [selectedModuleList,setSelectedModuleList]=useState()
                   closeMenuOnScroll={() => true}
                   menuPlacement="auto"
                   maxMenuHeight={150}
-                  value={ATBTReport.selectedModule}
+                  value={report.selectedModule}
                   onChange={(selectedOption) => {
-                    setATBTReport((prev) => ({
+                    setReport((prev) => ({
                       ...prev,
                       selectedModule: selectedOption,
                     }));
@@ -489,7 +527,7 @@ let [selectedModuleList,setSelectedModuleList]=useState()
                       ...prev,
                       moduleName: selectedOption.value,
                     }));
-                    setReportType("ATBT");
+
                   }}
                 />
               </td>
@@ -497,7 +535,7 @@ let [selectedModuleList,setSelectedModuleList]=useState()
                 className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium   overflow-hidden`}
               >
                 <Select
-                  options={entitiesList}
+                  options={selectedModuleList}
                   styles={{
                     control: (provided, state) => ({
                       ...provided,
@@ -539,8 +577,8 @@ let [selectedModuleList,setSelectedModuleList]=useState()
                   closeMenuOnScroll={() => true}
                   menuPlacement="auto"
                   maxMenuHeight={150}
-                  // value={singleEntity}
-                  // onChange={handleEntites}
+                // value={singleEntity}
+                // onChange={handleEntites}
                 />
               </td>
               <td
@@ -582,8 +620,8 @@ let [selectedModuleList,setSelectedModuleList]=useState()
                       primary: "#fb923c",
                     },
                   })}
-                  // value={shareDataWithSelectedOptions}
-                  // onChange={handleShareDataWith}
+                // value={shareDataWithSelectedOptions}
+                // onChange={handleShareDataWith}
                 />
               </td>
 
@@ -618,385 +656,7 @@ let [selectedModuleList,setSelectedModuleList]=useState()
               </td>
             </tr>
 
-            <tr className={`hover:bg-slate-100 dark:hover:bg-gray-700 `}>
-              <td
-                className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium   overflow-hidden`}
-                style={{ maxWidth: "160px" }}
-              >
-                ATR
-              </td>
-              <td
-                className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium   overflow-hidden`}
-              >
-                <Select
-                  options={moduleList}
-                  styles={{
-                    control: (provided, state) => ({
-                      ...provided,
 
-                      backgroundColor: "#f9fafb", // Change the background color of the select input
-                      borderWidth: state.isFocused ? "1px" : "1px", // Decrease border width when focused
-                      borderColor: state.isFocused ? "#orange-400" : "#d1d5db", // Change border color when focused
-                      boxShadow: state.isFocused ? "none" : provided.boxShadow, // Optionally remove box shadow when focused
-                    }),
-                    placeholder: (provided) => ({
-                      ...provided,
-                      fontSize: "12px", // Adjust the font size of the placeholder text
-                      color: "#a9a9a9",
-                    }),
-                    option: (provided, state) => ({
-                      ...provided,
-                      color: state.isFocused ? "#fff" : "#000000",
-                      backgroundColor: state.isFocused
-                        ? "#ea580c"
-                        : "transparent",
-
-                      "&:hover": {
-                        color: "#fff",
-                        backgroundColor: "#ea580c",
-                      },
-                    }),
-                    fontSize: "14px",
-                  }}
-                  theme={(theme) => ({
-                    ...theme,
-                    borderRadius: 5,
-                    colors: {
-                      ...theme.colors,
-
-                      primary: "#fb923c",
-                    },
-                  })}
-                  menuPortalTarget={document.body}
-                  closeMenuOnScroll={() => true}
-                  menuPlacement="auto"
-                  maxMenuHeight={150}
-                  value={ATRReport.selectedModule}
-                  onChange={(selectedOption) => {
-                    setATRReport((prev) => ({
-                      ...prev,
-                      selectedModule: selectedOption,
-                    }));
-                    setReportType("ATR");
-                  }}
-                />
-              </td>
-
-              <td
-                className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium   overflow-hidden`}
-              >
-                <Select
-                  options={entitiesList}
-                  styles={{
-                    control: (provided, state) => ({
-                      ...provided,
-
-                      backgroundColor: "#f9fafb", // Change the background color of the select input
-                      borderWidth: state.isFocused ? "1px" : "1px", // Decrease border width when focused
-                      borderColor: state.isFocused ? "#orange-400" : "#d1d5db", // Change border color when focused
-                      boxShadow: state.isFocused ? "none" : provided.boxShadow, // Optionally remove box shadow when focused
-                    }),
-                    placeholder: (provided) => ({
-                      ...provided,
-                      fontSize: "12px", // Adjust the font size of the placeholder text
-                      color: "#a9a9a9",
-                    }),
-                    option: (provided, state) => ({
-                      ...provided,
-                      color: state.isFocused ? "#fff" : "#000000",
-                      backgroundColor: state.isFocused
-                        ? "#ea580c"
-                        : "transparent",
-
-                      "&:hover": {
-                        color: "#fff",
-                        backgroundColor: "#ea580c",
-                      },
-                    }),
-                    fontSize: "14px",
-                  }}
-                  theme={(theme) => ({
-                    ...theme,
-                    borderRadius: 5,
-                    colors: {
-                      ...theme.colors,
-
-                      primary: "#fb923c",
-                    },
-                  })}
-                  menuPortalTarget={document.body}
-                  closeMenuOnScroll={() => true}
-                  menuPlacement="auto"
-                  maxMenuHeight={150}
-                  // value={singleEntity}
-                  // onChange={handleEntites}
-                />
-              </td>
-
-              <td
-                className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium   overflow-hidden`}
-              >
-                <Select
-                  // options={shareDataWithOptions}
-                  styles={{
-                    control: (provided, state) => ({
-                      ...provided,
-                      backgroundColor: "#f9fafb", // Change the background color of the select input
-                      borderWidth: state.isFocused ? "1px" : "1px", // Decrease border width when focused
-                      borderColor: state.isFocused ? "#orange-400" : "#d1d5db", // Change border color when focused
-                      boxShadow: state.isFocused ? "none" : provided.boxShadow, // Optionally remove box shadow when focused
-                    }),
-                    placeholder: (provided) => ({
-                      ...provided,
-                      fontSize: "small", // Adjust the font size of the placeholder text
-                    }),
-                    option: (provided, state) => ({
-                      ...provided,
-                      color: state.isFocused ? "#fff" : "#000000",
-                      backgroundColor: state.isFocused
-                        ? "#ea580c"
-                        : "transparent",
-
-                      "&:hover": {
-                        color: "#fff",
-                        backgroundColor: "#ea580c",
-                      },
-                    }),
-                  }}
-                  theme={(theme) => ({
-                    ...theme,
-                    borderRadius: 5,
-                    colors: {
-                      ...theme.colors,
-
-                      primary: "#fb923c",
-                    },
-                  })}
-                  // value={shareDataWithSelectedOptions}
-                  // onChange={handleShareDataWith}
-                />
-              </td>
-
-              <td
-                className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium   overflow-hidden`}
-                style={{ maxWidth: "160px" }}
-              >
-                {atrData && atrData.length > 0 ? (
-                  <button
-                    type="button"
-                    title="xlsx file"
-                    className=" inline-flex items-center gap-x-1 text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
-                    onClick={() => handleDownload(atrData, headerATR)}
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke-width="1.5"
-                      stroke="currentColor"
-                      class="size-6"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3"
-                      />
-                    </svg>
-                  </button>
-                ) : (
-                  "No Reports Found"
-                )}
-              </td>
-            </tr>
-
-            <tr className={`hover:bg-slate-100 dark:hover:bg-gray-700 `}>
-              <td
-                className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium   overflow-hidden`}
-                style={{ maxWidth: "160px" }}
-              >
-                ATBT Master
-              </td>
-              <td
-                className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium   overflow-hidden`}
-              >
-                <Select
-                  options={moduleList}
-                  styles={{
-                    control: (provided, state) => ({
-                      ...provided,
-
-                      backgroundColor: "#f9fafb", // Change the background color of the select input
-                      borderWidth: state.isFocused ? "1px" : "1px", // Decrease border width when focused
-                      borderColor: state.isFocused ? "#orange-400" : "#d1d5db", // Change border color when focused
-                      boxShadow: state.isFocused ? "none" : provided.boxShadow, // Optionally remove box shadow when focused
-                    }),
-                    placeholder: (provided) => ({
-                      ...provided,
-                      fontSize: "12px", // Adjust the font size of the placeholder text
-                      color: "#a9a9a9",
-                    }),
-                    option: (provided, state) => ({
-                      ...provided,
-                      color: state.isFocused ? "#fff" : "#000000",
-                      backgroundColor: state.isFocused
-                        ? "#ea580c"
-                        : "transparent",
-
-                      "&:hover": {
-                        color: "#fff",
-                        backgroundColor: "#ea580c",
-                      },
-                    }),
-                    fontSize: "14px",
-                  }}
-                  theme={(theme) => ({
-                    ...theme,
-                    borderRadius: 5,
-                    colors: {
-                      ...theme.colors,
-
-                      primary: "#fb923c",
-                    },
-                  })}
-                  menuPortalTarget={document.body}
-                  closeMenuOnScroll={() => true}
-                  menuPlacement="auto"
-                  maxMenuHeight={150}
-                  value={ATBTMASTERReport.selectedModule}
-                  onChange={(selectedOption) => {
-                    setATBTMASTERReport((prev) => ({
-                      ...prev,
-                      selectedModule: selectedOption,
-                    }));
-                    setReportType("ATBTMASTER");
-                  }}
-                />
-              </td>
-              <td
-                className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium   overflow-hidden`}
-              >
-                <Select
-                  options={entitiesList}
-                  styles={{
-                    control: (provided, state) => ({
-                      ...provided,
-
-                      backgroundColor: "#f9fafb", // Change the background color of the select input
-                      borderWidth: state.isFocused ? "1px" : "1px", // Decrease border width when focused
-                      borderColor: state.isFocused ? "#orange-400" : "#d1d5db", // Change border color when focused
-                      boxShadow: state.isFocused ? "none" : provided.boxShadow, // Optionally remove box shadow when focused
-                    }),
-                    placeholder: (provided) => ({
-                      ...provided,
-                      fontSize: "12px", // Adjust the font size of the placeholder text
-                      color: "#a9a9a9",
-                    }),
-                    option: (provided, state) => ({
-                      ...provided,
-                      color: state.isFocused ? "#fff" : "#000000",
-                      backgroundColor: state.isFocused
-                        ? "#ea580c"
-                        : "transparent",
-
-                      "&:hover": {
-                        color: "#fff",
-                        backgroundColor: "#ea580c",
-                      },
-                    }),
-                    fontSize: "14px",
-                  }}
-                  theme={(theme) => ({
-                    ...theme,
-                    borderRadius: 5,
-                    colors: {
-                      ...theme.colors,
-
-                      primary: "#fb923c",
-                    },
-                  })}
-                  menuPortalTarget={document.body}
-                  closeMenuOnScroll={() => true}
-                  menuPlacement="auto"
-                  maxMenuHeight={150}
-                  // value={singleEntity}
-                  // onChange={handleEntites}
-                />
-              </td>
-              <td
-                className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium   overflow-hidden`}
-              >
-                <Select
-                  // options={shareDataWithOptions}
-                  styles={{
-                    control: (provided, state) => ({
-                      ...provided,
-                      backgroundColor: "#f9fafb", // Change the background color of the select input
-                      borderWidth: state.isFocused ? "1px" : "1px", // Decrease border width when focused
-                      borderColor: state.isFocused ? "#orange-400" : "#d1d5db", // Change border color when focused
-                      boxShadow: state.isFocused ? "none" : provided.boxShadow, // Optionally remove box shadow when focused
-                    }),
-                    placeholder: (provided) => ({
-                      ...provided,
-                      fontSize: "small", // Adjust the font size of the placeholder text
-                    }),
-                    option: (provided, state) => ({
-                      ...provided,
-                      color: state.isFocused ? "#fff" : "#000000",
-                      backgroundColor: state.isFocused
-                        ? "#ea580c"
-                        : "transparent",
-
-                      "&:hover": {
-                        color: "#fff",
-                        backgroundColor: "#ea580c",
-                      },
-                    }),
-                  }}
-                  theme={(theme) => ({
-                    ...theme,
-                    borderRadius: 5,
-                    colors: {
-                      ...theme.colors,
-
-                      primary: "#fb923c",
-                    },
-                  })}
-                  // value={shareDataWithSelectedOptions}
-                  // onChange={handleShareDataWith}
-                />
-              </td>
-
-              <td
-                className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium   overflow-hidden`}
-                style={{ maxWidth: "160px" }}
-              >
-                {masterData && masterData.length > 0 ? (
-                  <button
-                    type="button"
-                    title="xlsx file"
-                    className=" inline-flex items-center gap-x-1 text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
-                    onClick={() => handleDownload(masterData, headerMaster)}
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke-width="1.5"
-                      stroke="currentColor"
-                      class="size-6"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3"
-                      />
-                    </svg>
-                  </button>
-                ) : (
-                  "No Reports Found"
-                )}
-              </td>
-            </tr>
           </tbody>
         </table>
       </div>
@@ -1005,6 +665,400 @@ let [selectedModuleList,setSelectedModuleList]=useState()
 }
 
 export default Reports;
+
+
+
+
+
+
+
+
+
+
+
+{/* <tr className={`hover:bg-slate-100 dark:hover:bg-gray-700 `}>
+<td
+  className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium   overflow-hidden`}
+  style={{ maxWidth: "160px" }}
+>
+  ATR
+</td>
+<td
+  className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium   overflow-hidden`}
+>
+  <Select
+    options={moduleList}
+    styles={{
+      control: (provided, state) => ({
+        ...provided,
+
+        backgroundColor: "#f9fafb", // Change the background color of the select input
+        borderWidth: state.isFocused ? "1px" : "1px", // Decrease border width when focused
+        borderColor: state.isFocused ? "#orange-400" : "#d1d5db", // Change border color when focused
+        boxShadow: state.isFocused ? "none" : provided.boxShadow, // Optionally remove box shadow when focused
+      }),
+      placeholder: (provided) => ({
+        ...provided,
+        fontSize: "12px", // Adjust the font size of the placeholder text
+        color: "#a9a9a9",
+      }),
+      option: (provided, state) => ({
+        ...provided,
+        color: state.isFocused ? "#fff" : "#000000",
+        backgroundColor: state.isFocused
+          ? "#ea580c"
+          : "transparent",
+
+        "&:hover": {
+          color: "#fff",
+          backgroundColor: "#ea580c",
+        },
+      }),
+      fontSize: "14px",
+    }}
+    theme={(theme) => ({
+      ...theme,
+      borderRadius: 5,
+      colors: {
+        ...theme.colors,
+
+        primary: "#fb923c",
+      },
+    })}
+    menuPortalTarget={document.body}
+    closeMenuOnScroll={() => true}
+    menuPlacement="auto"
+    maxMenuHeight={150}
+    value={ATRReport.selectedModule}
+    onChange={(selectedOption) => {
+      setATRReport((prev) => ({
+        ...prev,
+        selectedModule: selectedOption,
+      }));
+      setReportType("ATR");
+    }}
+  />
+</td>
+
+<td
+  className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium   overflow-hidden`}
+>
+  <Select
+    options={entitiesList}
+    styles={{
+      control: (provided, state) => ({
+        ...provided,
+
+        backgroundColor: "#f9fafb", // Change the background color of the select input
+        borderWidth: state.isFocused ? "1px" : "1px", // Decrease border width when focused
+        borderColor: state.isFocused ? "#orange-400" : "#d1d5db", // Change border color when focused
+        boxShadow: state.isFocused ? "none" : provided.boxShadow, // Optionally remove box shadow when focused
+      }),
+      placeholder: (provided) => ({
+        ...provided,
+        fontSize: "12px", // Adjust the font size of the placeholder text
+        color: "#a9a9a9",
+      }),
+      option: (provided, state) => ({
+        ...provided,
+        color: state.isFocused ? "#fff" : "#000000",
+        backgroundColor: state.isFocused
+          ? "#ea580c"
+          : "transparent",
+
+        "&:hover": {
+          color: "#fff",
+          backgroundColor: "#ea580c",
+        },
+      }),
+      fontSize: "14px",
+    }}
+    theme={(theme) => ({
+      ...theme,
+      borderRadius: 5,
+      colors: {
+        ...theme.colors,
+
+        primary: "#fb923c",
+      },
+    })}
+    menuPortalTarget={document.body}
+    closeMenuOnScroll={() => true}
+    menuPlacement="auto"
+    maxMenuHeight={150}
+    // value={singleEntity}
+    // onChange={handleEntites}
+  />
+</td>
+
+<td
+  className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium   overflow-hidden`}
+>
+  <Select
+    // options={shareDataWithOptions}
+    styles={{
+      control: (provided, state) => ({
+        ...provided,
+        backgroundColor: "#f9fafb", // Change the background color of the select input
+        borderWidth: state.isFocused ? "1px" : "1px", // Decrease border width when focused
+        borderColor: state.isFocused ? "#orange-400" : "#d1d5db", // Change border color when focused
+        boxShadow: state.isFocused ? "none" : provided.boxShadow, // Optionally remove box shadow when focused
+      }),
+      placeholder: (provided) => ({
+        ...provided,
+        fontSize: "small", // Adjust the font size of the placeholder text
+      }),
+      option: (provided, state) => ({
+        ...provided,
+        color: state.isFocused ? "#fff" : "#000000",
+        backgroundColor: state.isFocused
+          ? "#ea580c"
+          : "transparent",
+
+        "&:hover": {
+          color: "#fff",
+          backgroundColor: "#ea580c",
+        },
+      }),
+    }}
+    theme={(theme) => ({
+      ...theme,
+      borderRadius: 5,
+      colors: {
+        ...theme.colors,
+
+        primary: "#fb923c",
+      },
+    })}
+    // value={shareDataWithSelectedOptions}
+    // onChange={handleShareDataWith}
+  />
+</td>
+
+<td
+  className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium   overflow-hidden`}
+  style={{ maxWidth: "160px" }}
+>
+  {atrData && atrData.length > 0 ? (
+    <button
+      type="button"
+      title="xlsx file"
+      className=" inline-flex items-center gap-x-1 text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
+      onClick={() => handleDownload(atrData, headerATR)}
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke-width="1.5"
+        stroke="currentColor"
+        class="size-6"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3"
+        />
+      </svg>
+    </button>
+  ) : (
+    "No Reports Found"
+  )}
+</td>
+</tr>
+
+<tr className={`hover:bg-slate-100 dark:hover:bg-gray-700 `}>
+<td
+  className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium   overflow-hidden`}
+  style={{ maxWidth: "160px" }}
+>
+  ATBT Master
+</td>
+<td
+  className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium   overflow-hidden`}
+>
+  <Select
+    options={moduleList}
+    styles={{
+      control: (provided, state) => ({
+        ...provided,
+
+        backgroundColor: "#f9fafb", // Change the background color of the select input
+        borderWidth: state.isFocused ? "1px" : "1px", // Decrease border width when focused
+        borderColor: state.isFocused ? "#orange-400" : "#d1d5db", // Change border color when focused
+        boxShadow: state.isFocused ? "none" : provided.boxShadow, // Optionally remove box shadow when focused
+      }),
+      placeholder: (provided) => ({
+        ...provided,
+        fontSize: "12px", // Adjust the font size of the placeholder text
+        color: "#a9a9a9",
+      }),
+      option: (provided, state) => ({
+        ...provided,
+        color: state.isFocused ? "#fff" : "#000000",
+        backgroundColor: state.isFocused
+          ? "#ea580c"
+          : "transparent",
+
+        "&:hover": {
+          color: "#fff",
+          backgroundColor: "#ea580c",
+        },
+      }),
+      fontSize: "14px",
+    }}
+    theme={(theme) => ({
+      ...theme,
+      borderRadius: 5,
+      colors: {
+        ...theme.colors,
+
+        primary: "#fb923c",
+      },
+    })}
+    menuPortalTarget={document.body}
+    closeMenuOnScroll={() => true}
+    menuPlacement="auto"
+    maxMenuHeight={150}
+    value={ATBTMASTERReport.selectedModule}
+    onChange={(selectedOption) => {
+      setATBTMASTERReport((prev) => ({
+        ...prev,
+        selectedModule: selectedOption,
+      }));
+      setReportType("ATBTMASTER");
+    }}
+  />
+</td>
+<td
+  className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium   overflow-hidden`}
+>
+  <Select
+    options={entitiesList}
+    styles={{
+      control: (provided, state) => ({
+        ...provided,
+
+        backgroundColor: "#f9fafb", // Change the background color of the select input
+        borderWidth: state.isFocused ? "1px" : "1px", // Decrease border width when focused
+        borderColor: state.isFocused ? "#orange-400" : "#d1d5db", // Change border color when focused
+        boxShadow: state.isFocused ? "none" : provided.boxShadow, // Optionally remove box shadow when focused
+      }),
+      placeholder: (provided) => ({
+        ...provided,
+        fontSize: "12px", // Adjust the font size of the placeholder text
+        color: "#a9a9a9",
+      }),
+      option: (provided, state) => ({
+        ...provided,
+        color: state.isFocused ? "#fff" : "#000000",
+        backgroundColor: state.isFocused
+          ? "#ea580c"
+          : "transparent",
+
+        "&:hover": {
+          color: "#fff",
+          backgroundColor: "#ea580c",
+        },
+      }),
+      fontSize: "14px",
+    }}
+    theme={(theme) => ({
+      ...theme,
+      borderRadius: 5,
+      colors: {
+        ...theme.colors,
+
+        primary: "#fb923c",
+      },
+    })}
+    menuPortalTarget={document.body}
+    closeMenuOnScroll={() => true}
+    menuPlacement="auto"
+    maxMenuHeight={150}
+    // value={singleEntity}
+    // onChange={handleEntites}
+  />
+</td>
+<td
+  className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium   overflow-hidden`}
+>
+  <Select
+    // options={shareDataWithOptions}
+    styles={{
+      control: (provided, state) => ({
+        ...provided,
+        backgroundColor: "#f9fafb", // Change the background color of the select input
+        borderWidth: state.isFocused ? "1px" : "1px", // Decrease border width when focused
+        borderColor: state.isFocused ? "#orange-400" : "#d1d5db", // Change border color when focused
+        boxShadow: state.isFocused ? "none" : provided.boxShadow, // Optionally remove box shadow when focused
+      }),
+      placeholder: (provided) => ({
+        ...provided,
+        fontSize: "small", // Adjust the font size of the placeholder text
+      }),
+      option: (provided, state) => ({
+        ...provided,
+        color: state.isFocused ? "#fff" : "#000000",
+        backgroundColor: state.isFocused
+          ? "#ea580c"
+          : "transparent",
+
+        "&:hover": {
+          color: "#fff",
+          backgroundColor: "#ea580c",
+        },
+      }),
+    }}
+    theme={(theme) => ({
+      ...theme,
+      borderRadius: 5,
+      colors: {
+        ...theme.colors,
+
+        primary: "#fb923c",
+      },
+    })}
+    // value={shareDataWithSelectedOptions}
+    // onChange={handleShareDataWith}
+  />
+</td>
+
+<td
+  className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium   overflow-hidden`}
+  style={{ maxWidth: "160px" }}
+>
+  {masterData && masterData.length > 0 ? (
+    <button
+      type="button"
+      title="xlsx file"
+      className=" inline-flex items-center gap-x-1 text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
+      onClick={() => handleDownload(masterData, headerMaster)}
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke-width="1.5"
+        stroke="currentColor"
+        class="size-6"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3"
+        />
+      </svg>
+    </button>
+  ) : (
+    "No Reports Found"
+  )}
+</td>
+</tr> */}
+
+
+
+
 
 // import React, { useCallback, useEffect, useRef, useState } from "react";
 // import { useNavigate, Link, useLoaderData, useNavigation, useSubmit } from "react-router-dom";
