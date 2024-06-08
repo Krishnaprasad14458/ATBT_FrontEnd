@@ -58,7 +58,7 @@ const Collaborators = ({
                 </span>
               </div>
 
-              <div className="absolute -top-5 bottom-0 right-4 ml-4 mt-2 w-52 h-60 p-2 bg-white border border-gray-200 shadow-lg rounded-lg opacity-0 pointer-events-none transition-opacity duration-300 ease-in-out transform translate-x-1/2 -translate-y-full group-hover:opacity-100 group-hover:-translate-y-full z-10 text-black">
+              <div className="absolute -top-5 bottom-0 right-4 ml-4 mt-2 w-52 h-20 p-2 bg-white border border-gray-200 shadow-lg rounded-lg opacity-0 pointer-events-none transition-opacity duration-300 ease-in-out transform translate-x-1/2 -translate-y-full group-hover:opacity-100 group-hover:-translate-y-full z-10 text-black">
                 {/* Image */}
                 {/* <img
                  src={collaborator.image}
@@ -74,9 +74,9 @@ const Collaborators = ({
               
 
                   {/* Email */}
-                  {/* <p className="text-sm text-gray-600 pt-1 w-48 truncate">
+                  <p className="text-sm text-gray-600 pt-1 w-48 truncate">
                     {collaborator.email}
-                  </p> */}
+                  </p>
                 </div>
               </div>
             </div>
