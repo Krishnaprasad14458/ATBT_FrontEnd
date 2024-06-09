@@ -468,14 +468,14 @@ const Tasks = () => {
   return (
     <div className={` ${location.pathname === "/tasks" ? "p-3" : ""}`}>
    
-     <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-3 xl:grid-col-3 items-center gap-2 mt-2">
-        <div>
+     <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-col-4 items-center gap-2 mt-2">
+        <div className="col-span-1">
         {location.pathname === "/tasks" && (
         <p className="text-md font-semibold">Tasks</p>
       )}
         </div>
-        <div>
-        <div className="grid1-item text-start">
+ 
+        <div className="col-span-1 text-start">
           <div className="relative">
             <div className="absolute inset-y-0 start-0 flex items-center p-3 pointer-events-none">
               <svg
@@ -505,12 +505,139 @@ const Tasks = () => {
             />
           </div>
         </div>
-        </div>
-        <div className="flex justify-end">
-        <TasksFilter 
+    
+        <div className="col-span-2 ">
+        <div className="flex gap-2 items-center">
+          <label className="text-sm text-gray-400"> From:</label>
+
+<input
+              className=" border border-gray-200  text-black px-1.5 py-2 rounded-md  bg-[#f9fafb] focus:outline-none text-sm focus:border-orange-400   w-96"
+              type="date"
+              // value={task?.dueDate}
+              style={{
+                fontSize: "0.8rem",
+                WebkitAppearance: "none",
+              }}
+            
+              // onChange={(e) => {
+              //   handleSubmit(task?.id, "dueDate", e.target.value);
+              //   handleTaskChange(index, "dueDate", e.target.value);
+              // }}
+            />
+            <label className="text-sm text-gray-400"> To:</label>
+            <input
+              className=" border border-gray-200 text-black px-1.5 py-2 rounded-md  bg-[#f9fafb] focus:outline-none text-sm focus:border-orange-400 date_type w-96"
+              type="date"
+              // value={task?.dueDate}
+              style={{
+                fontSize: "0.8rem",
+                WebkitAppearance: "none",
+              }}
+              
+             
+              // onChange={(e) => {
+              //   handleSubmit(task?.id, "dueDate", e.target.value);
+              //   handleTaskChange(index, "dueDate", e.target.value);
+              // }}
+            />
+            <Select
+              // options={members}
+              menuPortalTarget={document.body}
+              closeMenuOnScroll={() => true}
+              styles={{
+                control: (provided, state) => ({
+                  ...provided,
+                  backgroundColor: "#f9fafb",
+                  borderWidth: "1px",
+                  borderColor:"#orange-400",
+                  // borderColor: state.isFocused
+                  //   ? "#orange-400"
+                  //   : "transparent",
+                  boxShadow: state.isFocused
+                    ? "none"
+                    : provided.boxShadow,
+                  fontSize: "16px",
+                  height: "36px", // Adjust the height here
+                  "&:hover": {
+                    borderColor: state.isFocused
+                      ? "#fb923c"
+                      : "transparent",
+                  },
+                  "&:focus": {
+                    borderColor: "#fb923c",
+                  },
+                  "&:focus-within": {
+                    borderColor: "#fb923c",
+                  },
+               width:"13rem"
+                }),
+
+                option: (provided, state) => ({
+                  ...provided,
+                  color: state.isFocused ? "#fff" : "#000000",
+                  backgroundColor: state.isFocused
+                    ? "#ea580c"
+                    : "transparent",
+                  "&:hover": {
+                    color: "#fff",
+                    backgroundColor: "#ea580c",
+                  },
+                }),
+
+                indicatorSeparator: (provided, state) => ({
+                  ...provided,
+                  display: state.isFocused ? "visible" : "none",
+                }),
+                dropdownIndicator: (provided, state) => ({
+                  ...provided,
+                  display: state.isFocused ? "visible" : "none",
+                }),
+                menu: (provided) => ({
+                  ...provided,
+                }),
+
+                placeholder: (provided) => ({
+                  ...provided,
+                  fontSize: "12px",
+                }),
+              }}
+              theme={(theme) => ({
+                ...theme,
+                borderRadius: 5,
+                colors: {
+                  ...theme.colors,
+                  primary: "#fb923c",
+                },
+              })}
+              // onChange={(selectedOption) => {
+              //   handleSubmit(task?.id, "members", selectedOption.value);
+              //   handleTaskChange(
+              //     index,
+              //     "members",
+              //     selectedOption.value
+              //   );
+              // }}
+              // value={
+              //   task?.members === null ||
+              //   task?.members === "" ||
+              //   task?.members === undefined
+              //     ? ""
+              //     : members?.find(
+              //         (person) => person.value === task?.members
+              //       )
+              // }
+              menuPlacement="auto"
+              maxMenuHeight={150}
+              placeholder="Person Responsible"
+              // closeMenuOnSelect={()=> true}
+              // menuIsOpen = {()=> true}
+            />
+              <TasksFilter 
          Qparams={Qparams}
          setQParams={setQParams}
          />
+</div>
+      
         </div>
       </div>
 
@@ -705,19 +832,19 @@ const Tasks = () => {
                 Decision Taken
               </th>
               <th
-                className="sticky top-0 bg-orange-600 text-white text-sm text-left px-2 py-2 border-l-2 border-gray-200 z-10"
+                className="sticky top-0 bg-orange-600 text-white text-sm text-left px-2 py-2 border-l-2 border-gray-200 "
                 style={{ width: "13rem" }}
               >
                 Person Responsible
               </th>
               <th
-                className="sticky top-0 bg-orange-600 text-white text-sm text-left px-2 py-2 border-l-2 border-gray-200 z-10"
+                className="sticky top-0 bg-orange-600 text-white text-sm text-left px-2 py-2 border-l-2 border-gray-200 "
                 style={{ width: "6rem" }}
               >
                 Due Date
               </th>
               <th
-                className="sticky top-0 bg-orange-600 text-white text-sm text-left px-2 py-2 border-l-2 border-gray-200 z-10"
+                className="sticky top-0 bg-orange-600 text-white text-sm text-left px-2 py-2 border-l-2 border-gray-200 "
                 style={{ width: "8rem" }}
               >
                 Decision Status
