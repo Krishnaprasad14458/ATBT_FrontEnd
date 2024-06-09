@@ -17,10 +17,8 @@ import CustomColumn from "../../../../componentLayer/components/tableCustomizati
 import CustomFilter from "../../../../componentLayer/components/tableCustomization/CustomFilter";
 import atbtApi from "../../../../serviceLayer/interceptor";
 import BreadCrumbs from "../../../components/breadcrumbs/BreadCrumbs";
-
 import { PermissionsContext } from "../../../../rbac/PermissionsProvider";
 const userData = JSON.parse(localStorage.getItem("data"));
-
 const userId = userData?.user?.id;
 const role = userData?.role?.name;
 export async function loader({ request, params }) {
@@ -75,9 +73,7 @@ export async function action({ request, params }) {
 }
 function Users() {
   const { permissions, loading } = useContext(PermissionsContext);
- 
-
-  let location  = useLocation()
+   let location  = useLocation()
   console.log("loctoion",location)
   document.title = "ATBT | User";
   const navigation = useNavigation();
