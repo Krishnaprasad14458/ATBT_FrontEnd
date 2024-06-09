@@ -238,8 +238,6 @@ function CustomFilter({
                                 e.target.value
                               )
                             }
-                            
-                            
                             value={selectedFilters[filter.inputname] || ""}
                             style={{
                               fontSize: "0.8rem",

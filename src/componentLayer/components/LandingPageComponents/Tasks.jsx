@@ -21,6 +21,7 @@ import subtask_icon from "../../../assets/Images/Subtask_icon.svg";
 import "react-datepicker/dist/react-datepicker.css";
 import GateKeeper from "../../../rbac/GateKeeper";
 import { AuthContext } from "../../../contexts/authContext/authContext";
+import TasksFilter from "../tableCustomization/TasksFilter";
 let status = [
   { label: "To-Do", value: "To-Do" },
   { label: "In-Progress", value: "In-Progress" },
@@ -203,9 +204,7 @@ export async function TasksActions({ request, params }) {
             {
               createdby: requestBody.createdby,
               taskCreatedBy: { name: parentPath, id: parseInt(params.id) },
-              collaborators: [
-                requestBody.createdby,
-              ],
+              collaborators: [requestBody.createdby],
             }
           );
         }
@@ -456,18 +455,64 @@ const Tasks = () => {
     const year = today.getFullYear();
     let month = today.getMonth() + 1;
     let day = today.getDate();
-
     month = month < 10 ? `0${month}` : month;
     day = day < 10 ? `0${day}` : day;
-
     return `${year}-${month}-${day}`;
   };
-
+  function handleSearch(event) {
+    setQParams({
+      ...Qparams,
+      search: event.target.value,
+    });
+  }
   return (
     <div className={` ${location.pathname === "/tasks" ? "p-3" : ""}`}>
-      {location.pathname === "/tasks" && (
+   
+     <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-3 xl:grid-col-3 items-center gap-2 mt-2">
+        <div>
+        {location.pathname === "/tasks" && (
         <p className="text-md font-semibold">Tasks</p>
       )}
+        </div>
+        <div>
+        <div className="grid1-item text-start">
+          <div className="relative">
+            <div className="absolute inset-y-0 start-0 flex items-center p-3 pointer-events-none">
+              <svg
+                className="w-3 h-3 text-gray-500 dark:text-gray-400"
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 20 20"
+              >
+                <path
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
+                />
+              </svg>
+            </div>
+            <input
+              onChange={handleSearch}
+              value={Qparams?.search}
+              type="search"
+              id="default-search"
+              className="block w-full px-4 py-2 ps-8 text-sm border-2 border-gray-200  rounded-2xl bg-gray-50  focus:outline-none placeholder:text-sm"
+              placeholder="Search here..."
+              required
+            />
+          </div>
+        </div>
+        </div>
+        <div className="flex justify-end">
+        <TasksFilter 
+         Qparams={Qparams}
+         setQParams={setQParams}
+         />
+        </div>
+      </div>
 
       <div className="flex justify-end">
         {BMid && (
