@@ -755,30 +755,30 @@ const Tasks = () => {
           <thead>
             <tr>
               <th
-                className="sticky top-0 bg-orange-600 text-white text-sm text-left px-2 py-2 border-l-2 border-gray-200"
+                className="sticky top-0 z-20 bg-orange-600 text-white text-sm text-left px-2 py-2 border-l-2 border-gray-200"
                 style={{ width: "20rem" }}
               >
                 Decision Taken
               </th>
               <th
-                className="sticky top-0 bg-orange-600 text-white text-sm text-left px-2 py-2 border-l-2 border-gray-200 "
+                className="sticky top-0 z-20 bg-orange-600 text-white text-sm text-left px-2 py-2 border-l-2 border-gray-200 "
                 style={{ width: "13rem" }}
               >
                 Person Responsible
               </th>
               <th
-                className="sticky top-0 bg-orange-600 text-white text-sm text-left px-2 py-2 border-l-2 border-gray-200 "
+                className="sticky top-0 z-20 bg-orange-600 text-white text-sm text-left px-2 py-2 border-l-2 border-gray-200 "
                 style={{ width: "6rem" }}
               >
                 Due Date
               </th>
               <th
-                className="sticky top-0 bg-orange-600 text-white text-sm text-left px-2 py-2 border-l-2 border-gray-200 "
+                className="sticky top-0 z-20 bg-orange-600 text-white text-sm text-left px-2 py-2 border-l-2 border-gray-200 "
                 style={{ width: "8rem" }}
               >
                 Decision Status
               </th>
-              <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-2 py-2 border-l-2 border-gray-200 ">
+              <th className="sticky top-0 z-20 bg-orange-600 text-white text-sm text-left px-2 py-2 border-l-2 border-gray-200 ">
                 Latest Decision Update
               </th>
               {/* <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2 border-l-2 border-gray-200">
@@ -874,98 +874,6 @@ const Tasks = () => {
                   </td>
 
                   <td className="border py-1.5 px-2">
-                    <Select
-                      options={members}
-                      menuPortalTarget={document.body}
-                      closeMenuOnScroll={() => true}
-                      styles={{
-                        control: (provided, state) => ({
-                          ...provided,
-                          backgroundColor: "#f9fafb",
-                          borderWidth: "1px",
-                          borderColor: state.isFocused
-                            ? "#orange-400"
-                            : "transparent",
-                          boxShadow: state.isFocused
-                            ? "none"
-                            : provided.boxShadow,
-                          fontSize: "16px",
-                          height: "36px", // Adjust the height here
-                          "&:hover": {
-                            borderColor: state.isFocused
-                              ? "#fb923c"
-                              : "transparent",
-                          },
-                          "&:focus": {
-                            borderColor: "#fb923c",
-                          },
-                          "&:focus-within": {
-                            borderColor: "#fb923c",
-                          },
-                          width: "13rem",
-                        }),
-
-                        option: (provided, state) => ({
-                          ...provided,
-                          color: state.isFocused ? "#fff" : "#000000",
-                          backgroundColor: state.isFocused
-                            ? "#ea580c"
-                            : "transparent",
-                          "&:hover": {
-                            color: "#fff",
-                            backgroundColor: "#ea580c",
-                          },
-                        }),
-
-                        indicatorSeparator: (provided, state) => ({
-                          ...provided,
-                          display: state.isFocused ? "visible" : "none",
-                        }),
-                        dropdownIndicator: (provided, state) => ({
-                          ...provided,
-                          display: state.isFocused ? "visible" : "none",
-                        }),
-                        menu: (provided) => ({
-                          ...provided,
-                        }),
-
-                        placeholder: (provided) => ({
-                          ...provided,
-                          fontSize: "12px",
-                        }),
-                      }}
-                      theme={(theme) => ({
-                        ...theme,
-                        borderRadius: 5,
-                        colors: {
-                          ...theme.colors,
-                          primary: "#fb923c",
-                        },
-                      })}
-                      onChange={(selectedOption) => {
-                        handleSubmit(task?.id, "members", selectedOption.value);
-                        handleTaskChange(
-                          index,
-                          "members",
-                          selectedOption.value
-                        );
-                      }}
-                      value={
-                        task?.members === null ||
-                        task?.members === "" ||
-                        task?.members === undefined
-                          ? ""
-                          : members?.find(
-                              (person) => person.value === task?.members
-                            )
-                      }
-                      menuPlacement="auto"
-                      maxMenuHeight={150}
-                      // closeMenuOnSelect={()=> true}
-                      // menuIsOpen = {()=> true}
-                    />
-                  </td>
-                  <td className="border py-1.5 px-2">
                     <input
                       className=" border border-transparent text-black px-1.5 py-2 rounded-md  bg-[#f9fafb] focus:outline-none text-sm focus:border-orange-400  date_type"
                       type="date"
@@ -981,6 +889,7 @@ const Tasks = () => {
                       }}
                     />
                   </td>
+
                   <td className="border py-1.5 px-2" title={task?.status}>
                     <Select
                       options={status}
@@ -1012,6 +921,7 @@ const Tasks = () => {
                           },
                           width: "8rem",
                         }),
+                        
                         option: (provided, state) => ({
                           ...provided,
                           color: state.isFocused ? "#fff" : "#000000",
@@ -1023,6 +933,7 @@ const Tasks = () => {
                             backgroundColor: "#ea580c",
                           },
                         }),
+                    
                         indicatorSeparator: (provided, state) => ({
                           ...provided,
                           display: state.isFocused ? "visible" : "none",
@@ -1049,6 +960,7 @@ const Tasks = () => {
                       menuPlacement="auto"
                     />
                   </td>
+
                   <td className="border py-1.5 px-2 text-sm text-gray-600">
                     {task?.updatedbyuser}
                   </td>
