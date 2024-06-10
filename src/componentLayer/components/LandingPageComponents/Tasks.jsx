@@ -804,13 +804,13 @@ const Tasks = () => {
           <thead>
             <tr>
               <th
-                className="sticky top-0 z-10 bg-orange-600 text-white text-sm text-left px-2 py-2 border-l-2 border-gray-200"
+                className="sticky top-0  bg-orange-600 text-white text-sm text-left px-2 py-2 border-l-2 border-gray-200"
                 style={{ width: "20rem" }}
               >
                 Decision Taken
               </th>
               <th
-                className="sticky top-0 z-10 bg-orange-600 text-white text-sm text-left px-2 py-2 border-l-2 border-gray-200 "
+                className="sticky top-0 z-10  bg-orange-600 text-white text-sm text-left px-2 py-2 border-l-2 border-gray-200 "
                 style={{ width: "13rem" }}
               >
                 Person Responsible
@@ -827,7 +827,7 @@ const Tasks = () => {
               >
                 Decision Status
               </th>
-              <th className="sticky top-0  z-10 bg-orange-600 text-white text-sm text-left px-2 py-2 border-l-2 border-gray-200 ">
+              <th className="sticky top-0  bg-orange-600 text-white text-sm text-left px-2 py-2 border-l-2 border-gray-200 ">
                 Latest Decision Update
               </th>
               {/* <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2 border-l-2 border-gray-200">
