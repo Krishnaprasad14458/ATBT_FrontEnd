@@ -356,6 +356,7 @@ const Tasks = () => {
       isFirstRender.current = false;
       return;
     }
+
     debouncedParams(Qparams);
   }, [Qparams]);
   const debouncedParams = useCallback(
@@ -517,7 +518,11 @@ const Tasks = () => {
     });
   }
   let [dueDateFilter, setDueDateFilter] = useState({});
-
+  const createQueryString = (params) => {
+    return new URLSearchParams(params).toString();
+  };
+  const queryString = createQueryString(Qparams);
+  console.log(queryString,"queryString")
   return (
     <div className={` ${location.pathname === "/tasks" ? "p-3" : ""}`}>
       <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-col-4 items-center gap-2 mt-2">
@@ -652,15 +657,15 @@ const Tasks = () => {
             )}
           {!BMid && parentPath === "tasks" && (
             <NavLink
-              to={`/tasks?status=To-Do`}
+              to={`/tasks?${queryString}`}
               end
               className={`cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09] ${
                 activeLink === "toDo"
                   ? "border-b-2 border-orange-500 text-orange-600"
                   : ""
               }`}
-              // onClick={() =>{ handleNavLinkClick("toDo");setQParams((prev)=>({...prev,status:"To-Do"}))}}
-              onClick={() => handleNavLinkClick("toDo")}
+              onClick={() =>{ handleNavLinkClick("toDo");setQParams((prev)=>({...prev,status:"To-Do"}))}}
+              // onClick={() => handleNavLinkClick("toDo")}
             >
               To-Do
             </NavLink>
@@ -684,15 +689,15 @@ const Tasks = () => {
             )}
           {!BMid && parentPath === "tasks" && (
             <NavLink
-              to={`/tasks?status=In-Progress`}
+              to={`/tasks?${queryString}`}
               end
               className={`cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09] ${
                 activeLink === "inProgress"
                   ? "border-b-2 border-orange-500 text-orange-600"
                   : ""
               }`}
-              onClick={() => handleNavLinkClick("inProgress")}
-              // onClick={() =>{ handleNavLinkClick("inProgress");setQParams((prev)=>({...prev,status:"In-Progress"}))}}
+              // onClick={() => handleNavLinkClick("inProgress")}
+              onClick={() =>{ handleNavLinkClick("inProgress");setQParams((prev)=>({...prev,status:"In-Progress"}))}}
 
             >
               In-Progress
@@ -718,15 +723,15 @@ const Tasks = () => {
             )}
           {!BMid && parentPath === "tasks" && (
             <NavLink
-              to={`/tasks?status=Over-Due`}
+              to={`/tasks?${queryString}`}
               end
               className={`cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09] ${
                 activeLink === "OverDue"
                   ? "border-b-2 border-orange-500 text-orange-600"
                   : ""
               }`}
-              onClick={() => handleNavLinkClick("OverDue")}
-              // onClick={() =>{ handleNavLinkClick("OverDue");setQParams((prev)=>({...prev,status:"Over-Due"}))}}
+              // onClick={() => handleNavLinkClick("OverDue")}
+              onClick={() =>{ handleNavLinkClick("OverDue");setQParams((prev)=>({...prev,status:"Over-Due"}))}}
 
             >
               Overdue
@@ -751,15 +756,15 @@ const Tasks = () => {
             )}
           {!BMid && parentPath === "tasks" && (
             <NavLink
-              to={`/tasks?status=Completed`}
+              to={`/tasks?${queryString}`}
               end
               className={`cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09] ${
                 activeLink === "Completed"
                   ? "border-b-2 border-orange-500 text-orange-600"
                   : ""
               }`}
-              onClick={() => handleNavLinkClick("Completed")}
-              // onClick={() =>{ handleNavLinkClick("Completed");setQParams((prev)=>({...prev,status:"Completed"}))}}
+              // onClick={() => handleNavLinkClick("Completed")}
+              onClick={() =>{ handleNavLinkClick("Completed");setQParams((prev)=>({...prev,status:"Completed"}))}}
 
             >
               Completed
@@ -782,16 +787,18 @@ const Tasks = () => {
             )}
           {!BMid && parentPath === "tasks" && (
             <NavLink
-              to={`/tasks`}
+              // to={`/tasks`}
+              to={`/tasks?${queryString}`}
+
               end
               className={`cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09] ${
                 activeLink === "Master" ? "border-b-2 border-orange-600" : ""
               }`}
-              onClick={() => handleNavLinkClick("Master")}
-              // onClick={() =>{ handleNavLinkClick("Master");
-              // let Qprams = {...Qparams}
-              // delete Qprams.status
-              // setQParams(Qprams)}}
+              // onClick={() => handleNavLinkClick("Master")}
+              onClick={() =>{ handleNavLinkClick("Master");
+              let Qprams = {...Qparams}
+              delete Qprams.status
+              setQParams(Qprams)}}
 
             >
               Master

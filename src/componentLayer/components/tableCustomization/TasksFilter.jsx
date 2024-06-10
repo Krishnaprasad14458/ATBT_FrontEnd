@@ -19,7 +19,6 @@ function TasksFilter({
 
   // Access individual query parameters by name
   const status = queryParams.get('status');
- 
   function handlefilters() {
     let Qp
     if(status === null){
@@ -28,7 +27,6 @@ function TasksFilter({
     }else {
         Qp ={...Qparams,status:status}
     }
-   
     console.log("Qparams",Qparams,"selectedFilters",selectedFilters)
     setQParams({
       ...Qp,
@@ -58,9 +56,9 @@ function TasksFilter({
   const handleFilterReset = () => {
     setSelectedFilters({});
     setQParams({
-      search: Qparams?.search,
-      page: Qparams?.page,
-      pageSize: Qparams?.pageSize,
+    //   search: Qparams?.search,
+    //   page: Qparams?.page,
+    //   pageSize: Qparams?.pageSize,
     });
     setFilterDrawerOpen(!filterDrawerOpen);
   };
