@@ -146,7 +146,7 @@ function TasksFilter({
   }, [selectedModuleList]);
 
   return (
-    <div className="mt-1 z-50">
+    <div className="mt-1">
       <button
         onClick={filterDrawer}
         className="focus:outline-none gap-x-1 px-4  text-sm font-[500] text-gray-500 hover:text-orange-600 "
