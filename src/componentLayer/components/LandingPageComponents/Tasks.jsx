@@ -149,18 +149,13 @@ export async function AllTasksLoader({ request, params }) {
   } else if (meetingId === "all" && listID) {
     queryParams.push(`${idOF}=${listID}`);
   }
-
   if (statusType && statusType !== "null") {
     queryParams.push(`status=${statusType}`);
   }
-
   if (fromDate && toDate) {
     queryParams.push(`fromDate=${fromDate}`, `toDate=${toDate}`);
   }
-
- 
   const queryString = queryParams.length > 0 ? `?${queryParams.join('&')}` : '';
-
  console.log(queryString,"queryString")
 
     const [tasks, task, subTasks, subTask] = await Promise.all([
@@ -353,6 +348,7 @@ const Tasks = () => {
     }
     return initialState;
   });
+  console.log(Qparams,"Qparams")
   const isFirstRender = useRef(true);
 
   useEffect(() => {
@@ -530,7 +526,7 @@ const Tasks = () => {
             <p className="text-md font-semibold">Tasks</p>
           )}
         </div>
-
+{/* 
         <div className="col-span-1 text-start">
           <div className="relative">
             <div className="absolute inset-y-0 start-0 flex items-center p-3 pointer-events-none">
@@ -560,9 +556,9 @@ const Tasks = () => {
               required
             />
           </div>
-        </div>
+        </div> */}
 
-        <div className="col-span-2 ">
+      {parentPath === "tasks" &&  <div className="col-span-2 ">
           <div className="flex gap-2 items-center">
             <label className="text-sm text-gray-400"> From:</label>
 
@@ -608,7 +604,7 @@ const Tasks = () => {
 
             <TasksFilter Qparams={Qparams} setQParams={setQParams} />
           </div>
-        </div>
+        </div>}
       </div>
 
       <div className="flex justify-end">
@@ -663,6 +659,7 @@ const Tasks = () => {
                   ? "border-b-2 border-orange-500 text-orange-600"
                   : ""
               }`}
+              // onClick={() =>{ handleNavLinkClick("toDo");setQParams((prev)=>({...prev,status:"To-Do"}))}}
               onClick={() => handleNavLinkClick("toDo")}
             >
               To-Do
@@ -695,6 +692,8 @@ const Tasks = () => {
                   : ""
               }`}
               onClick={() => handleNavLinkClick("inProgress")}
+              // onClick={() =>{ handleNavLinkClick("inProgress");setQParams((prev)=>({...prev,status:"In-Progress"}))}}
+
             >
               In-Progress
             </NavLink>
@@ -727,6 +726,8 @@ const Tasks = () => {
                   : ""
               }`}
               onClick={() => handleNavLinkClick("OverDue")}
+              // onClick={() =>{ handleNavLinkClick("OverDue");setQParams((prev)=>({...prev,status:"Over-Due"}))}}
+
             >
               Overdue
             </NavLink>
@@ -758,6 +759,8 @@ const Tasks = () => {
                   : ""
               }`}
               onClick={() => handleNavLinkClick("Completed")}
+              // onClick={() =>{ handleNavLinkClick("Completed");setQParams((prev)=>({...prev,status:"Completed"}))}}
+
             >
               Completed
             </NavLink>
@@ -785,6 +788,11 @@ const Tasks = () => {
                 activeLink === "Master" ? "border-b-2 border-orange-600" : ""
               }`}
               onClick={() => handleNavLinkClick("Master")}
+              // onClick={() =>{ handleNavLinkClick("Master");
+              // let Qprams = {...Qparams}
+              // delete Qprams.status
+              // setQParams(Qprams)}}
+
             >
               Master
             </NavLink>
