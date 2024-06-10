@@ -48,6 +48,18 @@ function TasksFilter({
   const filterDrawer = () => {
     setFilterDrawerOpen(!filterDrawerOpen);
   };
+  let moduleOptions = [
+    { label: "User", value: "User" },
+    { label: "Entity", value: "Entity" },
+    { label: "Team", value: "Team" },
+  ];
+  let [selectedModule, setSelectedModule] = useState("");
+console.log("selectedModule",selectedModule)
+useEffect(()=>{},[
+
+
+    
+])
   return (
     <div className="mt-1">
       <button
@@ -106,117 +118,74 @@ function TasksFilter({
           >
             <div className="text-start px-3 ">
               <label className="block text-sm font-medium leading-6 mt-2 text-[#878a99]">
-              Entity
+                Module
               </label>
               <div className="relative w-full">
-              <Select
-                //   options={selectedModuleList}
+                <Select
+                  className="absolute"
+                  options={moduleOptions}
                   styles={{
                     control: (provided, state) => ({
                       ...provided,
-
-                      backgroundColor: "#f9fafb", // Change the background color of the select input
-                      borderWidth: state.isFocused ? "1px" : "1px", // Decrease border width when focused
-                      borderColor: state.isFocused ? "#orange-400" : "#d1d5db", // Change border color when focused
-                      boxShadow: state.isFocused ? "none" : provided.boxShadow, // Optionally remove box shadow when focused
+                      backgroundColor: "#f9fafb", // Light gray background
+                      borderWidth: state.isFocused ? "1px" : "1px",
+                      borderColor: state.isFocused ? "#fb923c" : "#d1d5db", // Corrected color value
+                      boxShadow: state.isFocused ? "none" : provided.boxShadow,
                     }),
                     placeholder: (provided) => ({
                       ...provided,
-                      fontSize: "12px", // Adjust the font size of the placeholder text
+                      fontSize: "12px",
                       color: "#a9a9a9",
                     }),
                     option: (provided, state) => ({
                       ...provided,
-                      color: state.isFocused ? "#fff" : "#000000",
+                      color: state.isFocused ? "#fff" : "#000",
                       backgroundColor: state.isFocused
                         ? "#ea580c"
                         : "transparent",
-
                       "&:hover": {
                         color: "#fff",
                         backgroundColor: "#ea580c",
                       },
                     }),
-                    fontSize: "14px",
+                    menu: (provided) => ({
+                      ...provided,
+                      zIndex: "inherit", // Inherit zIndex to avoid stacking issues
+                    }),
+                    menuPortal: (provided) => ({
+                      ...provided,
+                      zIndex: 9999, // High zIndex to ensure it's above other elements
+                    }),
+                    singleValue: (provided) => ({
+                      ...provided,
+                      fontSize: "14px", // Applied to single value for consistency
+                    }),
                   }}
                   theme={(theme) => ({
                     ...theme,
                     borderRadius: 5,
                     colors: {
                       ...theme.colors,
-
                       primary: "#fb923c",
                     },
                   })}
                   menuPortalTarget={document.body}
-                  closeMenuOnScroll={() => true}
+                  closeMenuOnScroll={true}
                   menuPlacement="auto"
                   maxMenuHeight={150}
-                //   value={report.selectedIdFromList}
-                //   onChange={(selectedOption) => {
-                //     setReport((prev) => ({
-                //       ...prev,
-                //       selectedIdFromList: selectedOption,
-                //     }));
-                //     setQParams((prev) => ({
-                //       ...prev,
-                //       listID: selectedOption.value,
-                //     }));
-                //   }}
+                  value={selectedModule}
+                  onChange={(selectedOption) => setSelectedModule(selectedOption)}
                 />
               </div>
+
+              <label className="block text-sm font-medium leading-6 mt-2 text-[#878a99]">
+                Entity
+              </label>
+              <div className="relative w-full"></div>
               <label className="block text-sm font-medium leading-6 mt-2 text-[#878a99]">
                 Board Meeting
               </label>
-              <div className="relative w-full">
-                <Select
-                  className="text-sm"
-                  // name={item.inputname}
-                  // options={data?.fieldsDropDownData?.entityname}
-                  styles={{
-                    control: (provided, state) => ({
-                      ...provided,
-                      fontSize: "10px",
-                      backgroundColor: "#f9fafb", // Change the background color of the select input
-                      borderWidth: state.isFocused ? "1px" : "1px", // Decrease border width when focused
-                      borderColor: state.isFocused ? "#orange-400" : "#d1d5db", // Change border color when focused
-                      boxShadow: state.isFocused ? "none" : provided.boxShadow, // Optionally remove box shadow when focused
-                    }),
-
-                    placeholder: (provided) => ({
-                      ...provided,
-                      fontSize: "12px", // Adjust the font size of the placeholder text
-                      color: "#a9a9a9",
-                    }),
-                    option: (provided, state) => ({
-                      ...provided,
-                      color: state.isFocused ? "#fff" : "#000000",
-                      backgroundColor: state.isFocused
-                        ? "#ea580c"
-                        : "transparent",
-
-                      "&:hover": {
-                        color: "#fff",
-                        backgroundColor: "#ea580c",
-                      },
-                      fontSize: "14px",
-                    }),
-                  }}
-                  theme={(theme) => ({
-                    ...theme,
-                    borderRadius: 5,
-                    colors: {
-                      ...theme.colors,
-
-                      primary: "#fb923c",
-                    },
-                  })}
-                  // value={selectedEntityOption}
-                  // onChange={(selectedOption) => {
-                  //   handleEntityName(selectedOption, index);
-                  // }}
-                />
-              </div>
+              <div className="relative w-full"></div>
             </div>
           </div>
           <div className="absolute bottom-0 bg-gray-100 flex justify-between p-3 w-full ">
