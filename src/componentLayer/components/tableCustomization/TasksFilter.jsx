@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Select from "react-select";
 import atbtApi from "../../../serviceLayer/interceptor";
+import { useLocation } from "react-router-dom";
 function TasksFilter({
   fieldsDropDownData = {},
   Qparams,
@@ -11,9 +12,26 @@ function TasksFilter({
   const [filterDrawerOpen, setFilterDrawerOpen] = useState(false);
   const [filterableInputsInBox, setFilterableInputsInBox] = useState();
 
+  const location = useLocation();
+
+  // Extract query parameters from the current URL
+  const queryParams = new URLSearchParams(location.search);
+
+  // Access individual query parameters by name
+  const status = queryParams.get('status');
+ 
   function handlefilters() {
+    let Qp
+    if(status === null){
+        Qp ={...Qparams}
+        delete Qp.status
+    }else {
+        Qp ={...Qparams,status:status}
+    }
+   
+    console.log("Qparams",Qparams,"selectedFilters",selectedFilters)
     setQParams({
-      ...Qparams,
+      ...Qp,
       ...selectedFilters,
     });
     setFilterDrawerOpen(!filterDrawerOpen);
