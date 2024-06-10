@@ -526,9 +526,9 @@ const Tasks = () => {
             <p className="text-md font-semibold">Tasks</p>
           )}
         </div>
-{/* 
+
         <div className="col-span-1 text-start">
-          <div className="relative">
+          {/* <div className="relative">
             <div className="absolute inset-y-0 start-0 flex items-center p-3 pointer-events-none">
               <svg
                 className="w-3 h-3 text-gray-500 dark:text-gray-400"
@@ -555,15 +555,15 @@ const Tasks = () => {
               placeholder="Search here..."
               required
             />
-          </div>
-        </div> */}
+          </div> */}
+        </div>
 
-      {parentPath === "tasks" &&  <div className="col-span-2 ">
-          <div className="flex gap-2 items-center">
+      {parentPath === "tasks" &&  <div className="col-span-2 text-end">
+          <div className="flex gap-2 items-center justify-end">
             <label className="text-sm text-gray-400"> From:</label>
 
             <input
-              className=" border border-gray-200  text-black px-1.5 py-2 rounded-md  bg-[#f9fafb] focus:outline-none text-sm focus:border-orange-400   w-96"
+              className=" border border-gray-200  text-black px-1.5 py-2 rounded-md  bg-[#f9fafb] focus:outline-none text-sm focus:border-orange-400  date_type"
               type="date"
               value={dueDateFilter.fromDate}
               style={{
@@ -582,7 +582,7 @@ const Tasks = () => {
             />
             <label className="text-sm text-gray-400"> To:</label>
             <input
-              className=" border border-gray-200 text-black px-1.5 py-2 rounded-md  bg-[#f9fafb] focus:outline-none text-sm focus:border-orange-400 date_type w-96"
+              className=" border border-gray-200 text-black px-1.5 py-2 rounded-md  bg-[#f9fafb] focus:outline-none text-sm focus:border-orange-400 date_type"
               type="date"
               // value={task?.dueDate}
               style={{
