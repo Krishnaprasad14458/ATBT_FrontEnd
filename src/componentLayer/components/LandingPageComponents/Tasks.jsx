@@ -128,21 +128,63 @@ export async function AllTasksLoader({ request, params }) {
     const subTaskID = url.searchParams.get("subTaskID");
     const statusType = url.searchParams.get("status");
     const fromDate = url.searchParams.get("fromDate");
-
+    const moduleName = url.searchParams.get("moduleName");
+    const listID = url.searchParams.get("listID");
+    const meetingId = url.searchParams.get("meetingId");
     const toDate = url.searchParams.get("toDate");
-
+    let idOF;
+    if (moduleName === "user") {
+      idOF = "userId";
+    } else if (moduleName === "entity") {
+      idOF = "entityId";
+    } else if (moduleName === "team") {
+      idOF = "teamId";
+    }
     console.log("statusType", statusType);
+    const queryParams = [];
+
+  // Validate and add query parameters
+  if (meetingId && meetingId !== "all") {
+    queryParams.push(`meetingId=${meetingId}`);
+  } else if (meetingId === "all" && listID) {
+    queryParams.push(`${idOF}=${listID}`);
+  }
+
+  if (statusType && statusType !== "null") {
+    queryParams.push(`status=${statusType}`);
+  }
+
+  if (fromDate && toDate) {
+    queryParams.push(`fromDate=${fromDate}`, `toDate=${toDate}`);
+  }
+
+ 
+  const queryString = queryParams.length > 0 ? `?${queryParams.join('&')}` : '';
+
+ console.log(queryString,"queryString")
+
     const [tasks, task, subTasks, subTask] = await Promise.all([
-      statusType !== null && fromDate && toDate
-        ? atbtApi.get(
-            `task/list?status=${statusType}&fromDate=${fromDate}&toDate=${toDate}`
-          )
-        : statusType !== null && !fromDate && !toDate
-        ? atbtApi.get(
-            `task/list?status=${statusType}`
-          )
-        : atbtApi.get(`task/list`),
-      
+atbtApi.get(`task/list${queryString}`),
+
+      // meetingId !== "all" && statusType !== "null"
+      //   ? atbtApi.get(`task/list?meetingId=${meetingId}&status=${statusType}`)
+      //   : meetingId !== "all" && statusType === "null"
+      //   ? atbtApi.get(`task/list?meetingId=${meetingId}`)
+      //   : meetingId === "all" && statusType !== "null"
+      //   ? atbtApi.get(`task/list?${idOF}=${listID}&status=${statusType}`)
+      //   : meetingId === "all" && statusType === "null"
+      //   ? atbtApi.get(`task/list?${idOF}=${listID}`)
+      //   : null,
+      // statusType !== null && fromDate && toDate
+      //   ? atbtApi.get(
+      //       `task/list?status=${statusType}&fromDate=${fromDate}&toDate=${toDate}`
+      //     )
+      //   : statusType !== null && !fromDate && !toDate
+      //   ? atbtApi.get(
+      //       `task/list?status=${statusType}`
+      //     )
+      //   : atbtApi.get(`task/list`),
+
       // atbtApi.get(
       //         `task/list${url?.search ? url?.search : ""}`
       //       ),
@@ -479,7 +521,6 @@ const Tasks = () => {
     });
   }
   let [dueDateFilter, setDueDateFilter] = useState({});
-  
 
   return (
     <div className={` ${location.pathname === "/tasks" ? "p-3" : ""}`}>
@@ -535,7 +576,7 @@ const Tasks = () => {
               }}
               onChange={(e) => {
                 // handleSubmit(task?.id, "dueDate", e.target.value);
-                setQParams((prev)=>({...prev,fromDate:e.target.value}))
+                setQParams((prev) => ({ ...prev, fromDate: e.target.value }));
                 setDueDateFilter((prev) => ({
                   ...prev,
                   fromDate: e.target.value,
@@ -555,7 +596,7 @@ const Tasks = () => {
               onChange={(e) => {
                 setQParams((prev) => ({
                   ...prev,
-               
+
                   toDate: e.target.value,
                 }));
                 setDueDateFilter((prev) => ({
@@ -564,7 +605,7 @@ const Tasks = () => {
                 }));
               }}
             />
-            
+
             <TasksFilter Qparams={Qparams} setQParams={setQParams} />
           </div>
         </div>

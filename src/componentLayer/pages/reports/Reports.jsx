@@ -1,9 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
-import {
-  useLoaderData,
-  useSubmit,
-  useFetcher,
-} from "react-router-dom";
+import { useLoaderData, useSubmit, useFetcher } from "react-router-dom";
 import atbtApi from "../../../serviceLayer/interceptor";
 import * as XLSX from "xlsx";
 import Select from "react-select";
@@ -39,31 +35,26 @@ export async function loader({ request, params }) {
     } else if (moduleName === "team") {
       idOF = "teamId";
     }
-    const [
-      reportsData,
-      selectedModuleList,
-      meetings,
-    ] = await Promise.all([
-
+    const [reportsData, selectedModuleList, meetings] = await Promise.all([
       meetingId !== "all" && reportType !== "Master"
         ? atbtApi.get(`task/list?meetingId=${meetingId}&status=${reportType}`)
         : meetingId !== "all" && reportType === "Master"
-          ? atbtApi.get(`task/list?meetingId=${meetingId}`)
-          : meetingId === "all" && reportType !== "Master"
-            ? atbtApi.get(`task/list?${idOF}=${listID}&status=${reportType}`)
-            : meetingId === "all" && reportType === "Master"
-              ? atbtApi.get(`task/list?${idOF}=${listID}`)
-              : null,
+        ? atbtApi.get(`task/list?meetingId=${meetingId}`)
+        : meetingId === "all" && reportType !== "Master"
+        ? atbtApi.get(`task/list?${idOF}=${listID}&status=${reportType}`)
+        : meetingId === "all" && reportType === "Master"
+        ? atbtApi.get(`task/list?${idOF}=${listID}`)
+        : null,
       moduleName === "user"
         ? atbtApi.post(`public/list/user`)
         : moduleName === "entity"
-          ? atbtApi.post(`public/list/entity`)
-          : moduleName === "team"
-            ? atbtApi.post(`public/list/team`)
-            : null,
+        ? atbtApi.post(`public/list/entity`)
+        : moduleName === "team"
+        ? atbtApi.post(`public/list/team`)
+        : null,
       moduleName &&
-      listID &&
-      atbtApi.get(`boardmeeting/list?${moduleName}=${listID}`),
+        listID &&
+        atbtApi.get(`boardmeeting/list?${moduleName}=${listID}`),
     ]);
     console.log("selectedModuleList890", reportsData);
     let selectedModuleLists;
@@ -92,8 +83,6 @@ export async function loader({ request, params }) {
       meetingsLists?.unshift({ label: "All Meetings", value: "all" });
     }
 
-
-
     console.log(selectedModuleLists, meetingsLists, "EntitiesListuoi");
     const CombinedResponse = {
       reportsData: reportsData.data,
@@ -115,7 +104,7 @@ function Reports() {
 
   let fetcher = useFetcher();
   const [Qparams, setQParams] = useState({});
-  console.log(Qparams, "Qparams")
+  console.log(Qparams, "Qparams");
 
   useEffect(() => {
     debouncedParams(Qparams);
@@ -140,12 +129,7 @@ function Reports() {
   let submit = useSubmit();
 
   const data = useLoaderData();
-  const {
-    selectedModuleList,
-    meetingsList,
-    reportsData,
-  } = data;
-
+  const { selectedModuleList, meetingsList, reportsData } = data;
 
   console.log(reportsData, "EntitiesListsss");
 
@@ -162,7 +146,6 @@ function Reports() {
       );
     }
   }, [reportsData]);
-
 
   const headersAtbt = [
     { label: "S.NO", key: "serialNO" },
@@ -344,9 +327,6 @@ function Reports() {
     XLSX.writeFile(workbook, "reports.xlsx");
   };
 
-
-
-
   return (
     <div className="overflow-x-auto p-3">
       <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-3 xl:grid-col-3 items-center gap-2 mt-2">
@@ -492,7 +472,7 @@ function Reports() {
                       selectedMeetingId: null,
                     }));
                     setQParams((prev) => ({
-                      reportType:Qparams.reportType,
+                      reportType: Qparams.reportType,
                       moduleName: selectedOption.value,
                     }));
                   }}
@@ -551,11 +531,9 @@ function Reports() {
                       selectedMeetingId: null,
                     }));
                     setQParams((prev) => ({
-                      
-                      reportType:Qparams.reportType,
+                      reportType: Qparams.reportType,
                       moduleName: Qparams.moduleName,
                       listID: selectedOption?.value,
-                     
                     }));
                   }}
                 />
@@ -610,8 +588,7 @@ function Reports() {
                       selectedMeetingId: selectedOption,
                     }));
                     setQParams((prev) => ({
-                     
-                      reportType:Qparams.reportType,
+                      reportType: Qparams.reportType,
                       moduleName: Qparams.moduleName,
                       listID: Qparams.listID,
                       meetingId: selectedOption.value,
@@ -624,8 +601,8 @@ function Reports() {
                 className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium   overflow-hidden`}
               >
                 {report?.selectedReport?.value == "To-Do" &&
-                  ReportData &&
-                  ReportData.length > 0 ? (
+                ReportData &&
+                ReportData.length > 0 ? (
                   <button
                     type="button"
                     title="xlsx file"
@@ -698,8 +675,6 @@ function Reports() {
                 ) : (
                   "No Reports Found"
                 )}
-
-
               </td>
             </tr>
           </tbody>
@@ -710,4 +685,3 @@ function Reports() {
 }
 
 export default Reports;
-

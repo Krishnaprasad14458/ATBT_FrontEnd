@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Select from "react-select";
+import atbtApi from "../../../serviceLayer/interceptor";
 function TasksFilter({
   fieldsDropDownData = {},
   Qparams,
@@ -49,17 +50,101 @@ function TasksFilter({
     setFilterDrawerOpen(!filterDrawerOpen);
   };
   let moduleOptions = [
-    { label: "User", value: "User" },
-    { label: "Entity", value: "Entity" },
-    { label: "Team", value: "Team" },
+    { label: "User", value: "user" },
+    { label: "Entity", value: "entity" },
+    { label: "Team", value: "team" },
   ];
   let [selectedModule, setSelectedModule] = useState("");
-console.log("selectedModule",selectedModule)
-useEffect(()=>{},[
+  let [ModuleListOptions, setModuleListOptions] = useState();
+  let [selectedModuleList, setSelectedModuleList] = useState();
+  let [meetingList, setMeetingList] = useState();
+  let [selectedMeeting,setSelectedMeeting] = useState()
+  console.log("selectedModuleList", selectedModuleList);
+  useEffect(() => {
+    // Ensure selectedModule exists before making the API call
+    if (!selectedModule || !selectedModule.value) return;
 
+    const fetchData = async () => {
+      try {
+        let response;
 
-    
-])
+        switch (selectedModule.value) {
+          case "user":
+            response = await atbtApi.post("public/list/user");
+            response = response?.data?.users?.map((user) => ({
+              label: user.name,
+              value: user.id,
+            }));
+            break;
+          case "entity":
+            response = await atbtApi.post("public/list/entity");
+
+            response = response?.data?.Entites?.map((entity) => ({
+              label: entity.name,
+              value: entity.id,
+            }));
+            console.log("response", response);
+
+            break;
+          case "team":
+            response = await atbtApi.post("public/list/team");
+
+            response = response?.data?.Teams?.map((team) => ({
+              label: team.name,
+              value: team.id,
+            }));
+
+            break;
+          default:
+            console.warn("No valid selected module value.");
+            return;
+        }
+
+        // Update state with the data from the API response
+        setModuleListOptions(response);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+        // Handle error appropriately, e.g., set an error state or show a message
+      }
+    };
+
+    fetchData();
+  }, [selectedModule]);
+  useEffect(() => {
+    // Ensure selectedModule exists before making the API call
+    if (
+      !selectedModuleList ||
+      !selectedModuleList.value ||
+      !selectedModule ||
+      !selectedModule.value
+    )
+      return;
+
+    const fetchData = async () => {
+      try {
+        let response;
+        response = await atbtApi.get(
+          `boardmeeting/list?${selectedModule.value}=${selectedModuleList.value}`
+        );
+
+        response = await response?.data?.Meetings?.map((meeting) => ({
+          label: meeting.meetingnumber,
+          value: meeting.id,
+        }));
+     response?.unshift({label:"All Meetings",value:"all"})
+        console.log(response,"response b")
+
+        // Update state with the data from the API response
+        setMeetingList(response);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+        // Handle error appropriately, e.g., set an error state or show a message
+      }
+    };
+
+    fetchData();
+  }, [selectedModuleList]);
+
   return (
     <div className="mt-1 z-50">
       <button
@@ -174,18 +259,153 @@ useEffect(()=>{},[
                   menuPlacement="auto"
                   maxMenuHeight={150}
                   value={selectedModule}
-                  onChange={(selectedOption) => setSelectedModule(selectedOption)}
+                  onChange={(selectedOption) =>{
+                    setSelectedModule(selectedOption);
+                    setSelectedModuleList(null)
+                    setSelectedMeeting(null)
+                    handleFilterChange("moduleName", selectedOption?.value)
+
+                  }
+                   
+                  }
                 />
               </div>
 
               <label className="block text-sm font-medium leading-6 mt-2 text-[#878a99]">
-                Entity
+                Module List
               </label>
-              <div className="relative w-full"></div>
+              <div className="relative w-full">
+                <Select
+                  className="absolute"
+                  options={ModuleListOptions}
+                  styles={{
+                    control: (provided, state) => ({
+                      ...provided,
+                      backgroundColor: "#f9fafb", // Light gray background
+                      borderWidth: state.isFocused ? "1px" : "1px",
+                      borderColor: state.isFocused ? "#fb923c" : "#d1d5db", // Corrected color value
+                      boxShadow: state.isFocused ? "none" : provided.boxShadow,
+                    }),
+                    placeholder: (provided) => ({
+                      ...provided,
+                      fontSize: "12px",
+                      color: "#a9a9a9",
+                    }),
+                    option: (provided, state) => ({
+                      ...provided,
+                      color: state.isFocused ? "#fff" : "#000",
+                      backgroundColor: state.isFocused
+                        ? "#ea580c"
+                        : "transparent",
+                      "&:hover": {
+                        color: "#fff",
+                        backgroundColor: "#ea580c",
+                      },
+                    }),
+                    menu: (provided) => ({
+                      ...provided,
+                      zIndex: "inherit", // Inherit zIndex to avoid stacking issues
+                    }),
+                    menuPortal: (provided) => ({
+                      ...provided,
+                      zIndex: 9999, // High zIndex to ensure it's above other elements
+                    }),
+                    singleValue: (provided) => ({
+                      ...provided,
+                      fontSize: "14px", // Applied to single value for consistency
+                    }),
+                  }}
+                  theme={(theme) => ({
+                    ...theme,
+                    borderRadius: 5,
+                    colors: {
+                      ...theme.colors,
+                      primary: "#fb923c",
+                    },
+                  })}
+                  menuPortalTarget={document.body}
+                  closeMenuOnScroll={true}
+                  menuPlacement="auto"
+                  maxMenuHeight={150}
+                  value={selectedModuleList}
+                  onChange={(selectedOption) =>{
+                    setSelectedModuleList(selectedOption)
+                    setSelectedMeeting(null)
+                    handleFilterChange("listID", selectedOption.value)
+
+                  }
+                  }
+                />
+              </div>
               <label className="block text-sm font-medium leading-6 mt-2 text-[#878a99]">
                 Board Meeting
               </label>
-              <div className="relative w-full"></div>
+              <div className="relative w-full">
+              <Select
+                  className="absolute"
+                  options={meetingList}
+                  styles={{
+                    control: (provided, state) => ({
+                      ...provided,
+                      backgroundColor: "#f9fafb", // Light gray background
+                      borderWidth: state.isFocused ? "1px" : "1px",
+                      borderColor: state.isFocused ? "#fb923c" : "#d1d5db", // Corrected color value
+                      boxShadow: state.isFocused ? "none" : provided.boxShadow,
+                    }),
+                    placeholder: (provided) => ({
+                      ...provided,
+                      fontSize: "12px",
+                      color: "#a9a9a9",
+                    }),
+                    option: (provided, state) => ({
+                      ...provided,
+                      color: state.isFocused ? "#fff" : "#000",
+                      backgroundColor: state.isFocused
+                        ? "#ea580c"
+                        : "transparent",
+                      "&:hover": {
+                        color: "#fff",
+                        backgroundColor: "#ea580c",
+                      },
+                    }),
+                    menu: (provided) => ({
+                      ...provided,
+                      zIndex: "inherit", // Inherit zIndex to avoid stacking issues
+                    }),
+                    menuPortal: (provided) => ({
+                      ...provided,
+                      zIndex: 9999, // High zIndex to ensure it's above other elements
+                    }),
+                    singleValue: (provided) => ({
+                      ...provided,
+                      fontSize: "14px", // Applied to single value for consistency
+                    }),
+                  }}
+                  theme={(theme) => ({
+                    ...theme,
+                    borderRadius: 5,
+                    colors: {
+                      ...theme.colors,
+                      primary: "#fb923c",
+                    },
+                  })}
+                  menuPortalTarget={document.body}
+                  closeMenuOnScroll={true}
+                  menuPlacement="auto"
+                  maxMenuHeight={150}
+                  value={selectedMeeting}
+                  onChange={(selectedOption) =>{
+                    setSelectedMeeting(selectedOption);
+                    handleFilterChange("meetingId", selectedOption.value)
+
+                    
+                  }
+                   
+                  }
+                />
+
+
+              </div>
             </div>
           </div>
           <div className="absolute bottom-0 bg-gray-100 flex justify-between p-3 w-full ">
