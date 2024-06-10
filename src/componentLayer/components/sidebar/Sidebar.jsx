@@ -175,15 +175,15 @@ const Sidebar = () => {
     <div className="sidebar">
       <main className={`bg-white ${
             open ? "w-52" : "w-16"
-          }   duration-500`}>
+          }   duration-500 `}>
         <div
-          className={` min-h-screen duration-500 text-gray-100 px-2 relative`}
+          className={` min-h-screen duration-500 text-gray-100 px-2 relative `}
         >
           <div className="pt-3 flex justify-between">
             <img
               src={logo}
               alt="Infoz IT"
-              className={`w-28 h-10 ms-6 p-0 ${open ? "" : "hidden"}`}
+              className={`w-28 h-10 ms-6 p-0  ${open ? "" : "hidden"}`}
             />
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -214,7 +214,7 @@ const Sidebar = () => {
                 setActive("Home");
               }}
               className={`group flex items-center text-md gap-3.5 font-semibold p-2 leading-normal
-                                    hover:bg-orange-600 hover:text-white rounded-md
+                                    hover:bg-orange-600 hover:text-white rounded-md 
                                     ${
                                       "Home" === active
                                         ? "text-orange-600"
@@ -239,22 +239,24 @@ const Sidebar = () => {
                   </svg>
                 }
               </div>
+              {/* open word */}
               <h3
-                className={`whitespace-pre font-sans ${
-                  !open && `opacity-0 translate-x-20 overflow-hidden`
+                className={`whitespace-pre font-sans   ${
+                  !open && `opacity-0 translate-x-20 overflow-hidden ` 
                 }`}
                
               >
                 {"Home"}
               </h3>
-              <h3
+              {/* close hovering display */}
+              {/* <h3
                 className={`${
                   open && "hidden"
                 } absolute left-20 bg-white font-semibold whitespace-pre text-black rounded-md drop-shadow-lg px-0 py-0 w-0 overflow-hidden group-hover:px-2 group-hover:py-1 group-hover:left-14 group-hover:w-fit text-sm`}
               
               >
                 {"Home"}
-              </h3>
+              </h3> */}
             </Link>
             {menus?.map((menu, i) => (
               <GateKeeper
@@ -279,7 +281,7 @@ const Sidebar = () => {
                     setActive(menu.name);
                   }}
                   className={`group flex items-center text-md gap-3.5 font-semibold p-2 leading-normal
-                                    hover:bg-orange-600 hover:text-white rounded-md
+                                    hover:bg-orange-600 hover:text-white rounded-md dealy-1000
                                     ${
                                       menu?.name === active
                                         ? "text-orange-600"
@@ -291,20 +293,22 @@ const Sidebar = () => {
                   >
                     {menu?.icon}
                   </div>
+                  {/* open words */}
                   <h3
                     className={`whitespace-pre font-sans  ${
-                      !open && `opacity-0 translate-x-20 overflow-hidden `
+                      !open && `opacity-0 translate-x-20 overflow-hidden  `
                     }`}
                   >
                     {menu?.name}
                   </h3>
-                  <h4
+                  {/* close hover */}
+                  {/* <h4
                     className={`${
                       open && "hidden"
                     } absolute left-20 bg-white font-semibold whitespace-pre text-black rounded-md drop-shadow-lg px-0 py-0 w-0 overflow-hidden group-hover:px-2 group-hover:py-1 group-hover:left-14 group-hover:w-fit text-sm`}
                   >
                     {menu?.name}
-                  </h4>
+                  </h4> */}
                 </Link>}
                 {menu?.link === "/tasks"  && <Link
                   to={{
