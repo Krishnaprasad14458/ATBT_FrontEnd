@@ -115,6 +115,7 @@ function Reports() {
 
   let fetcher = useFetcher();
   const [Qparams, setQParams] = useState({});
+  console.log(Qparams, "Qparams")
 
   useEffect(() => {
     debouncedParams(Qparams);
@@ -491,7 +492,7 @@ function Reports() {
                       selectedMeetingId: null,
                     }));
                     setQParams((prev) => ({
-                      ...prev,
+                      reportType:Qparams.reportType,
                       moduleName: selectedOption.value,
                     }));
                   }}
@@ -550,8 +551,11 @@ function Reports() {
                       selectedMeetingId: null,
                     }));
                     setQParams((prev) => ({
-                      ...prev,
+                      
+                      reportType:Qparams.reportType,
+                      moduleName: Qparams.moduleName,
                       listID: selectedOption?.value,
+                     
                     }));
                   }}
                 />
@@ -606,7 +610,10 @@ function Reports() {
                       selectedMeetingId: selectedOption,
                     }));
                     setQParams((prev) => ({
-                      ...prev,
+                     
+                      reportType:Qparams.reportType,
+                      moduleName: Qparams.moduleName,
+                      listID: Qparams.listID,
                       meetingId: selectedOption.value,
                     }));
                   }}
