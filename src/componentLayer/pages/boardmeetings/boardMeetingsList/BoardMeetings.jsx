@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useCallback, useRef } from "react";
+import Select from "react-select";
 import {
   Link,
   useFetcher,
@@ -140,9 +141,9 @@ function BoardMeetings() {
   return (
     <div className="overflow-x-auto p-3">
       {/* search & filter */}
-      <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-3 xl:grid-col-3 gap-2 mt-2 items-center">
-        <h1 className="font-semibold text-lg grid1-item"> <BreadCrumbs /></h1>
-        <div className="grid1-item  text-start">
+      <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-5 xl:grid-col-5 gap-2 mt-2 items-center">
+        <h1 className="font-semibold text-lg col-span-1"> <BreadCrumbs /></h1>
+        <div className="col-span-1  text-start">
           <label
             for="default-search"
             className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white"
@@ -178,20 +179,184 @@ function BoardMeetings() {
             />
           </div>
         </div>
-        <div className="grid1-item text-end flex justify-end  items-center filter_pagination divide-x-2 h-7 mt-2">
+        <div className="col-span-1 md:col-span-3  filter_pagination divide-x-2 ">
+        <div className="md:flex gap-2 items-center justify-end">
+            <label className="text-sm text-gray-400"> From:</label>
+
+            <input
+              className=" border border-gray-200  text-black px-1.5 py-2 rounded-md  bg-[#f9fafb] focus:outline-none text-sm focus:border-orange-400  date_type w-full"
+              type="date"
+              // value={dueDateFilter.fromDate}
+              style={{
+                fontSize: "0.8rem",
+                WebkitAppearance: "none",
+              }}
+              // onChange={(e) => {
+               
+              //   setQParams((prev) => ({ ...prev, fromDate: e.target.value }));
+              //   setDueDateFilter((prev) => ({
+              //     ...prev,
+              //     fromDate: e.target.value,
+              //   }));
+        
+              // }}
+            />
+            <label className="text-sm text-gray-400"> To:</label>
+            <input
+              className=" border border-gray-200 text-black px-1.5 py-2 rounded-md  bg-[#f9fafb] focus:outline-none text-sm focus:border-orange-400 date_type w-full"
+              type="date"
+              // value={dueDateFilter.toDate}
+
+              style={{
+                fontSize: "0.8rem",
+                WebkitAppearance: "none",
+              }}
+              // onChange={(e) => {
+              //   setQParams((prev) => ({
+              //     ...prev,
+
+              //     toDate: e.target.value,
+              //   }));
+              //   setDueDateFilter((prev) => ({
+              //     ...prev,
+              //     toDate: e.target.value,
+              //   }));
+              // }}
+            />
+            <button
+//              onClick={()=>{
+//               let Qprms = {...Qparams}
+// delete Qprms.fromDate
+// delete Qprms.toDate
+// setQParams(Qprms)
+// setDueDateFilter({toDate:"",fromDate:""})
+//             }}
+            ><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-4">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99" />
+          </svg>
+          </button>
+
+          <Select
+                           
+                            menuPlacement="auto"
+                            maxMenuHeight={170}
+                            // options={data?.fieldsDropDownData?.role}
+                            styles={{
+                              control: (provided, state) => ({
+                                ...provided,
+                                backgroundColor: "#f9fafb",
+                                borderWidth: state.isFocused ? "1px" : "1px", 
+                                borderColor: state.isFocused
+                                  ? "#orange-400"
+                                  : "#d1d5db", 
+                                boxShadow: state.isFocused
+                                  ? "none"
+                                  : provided.boxShadow, 
+                                  width: "100%", // Default width for small screens
+                                  '@media (min-width: 640px)': { // Media query for medium screens and above
+                                    width: "10rem",
+                                  },
+                              }),
+                              
+                              placeholder: (provided) => ({
+                                ...provided,
+                                fontSize: "12px",
+                                color: "#a9a9a9",
+                              }),
+                              option: (provided, state) => ({
+                                ...provided,
+                                color: state.isFocused ? "#fff" : "#000000",
+                                backgroundColor: state.isFocused
+                                  ? "#ea580c"
+                                  : "transparent",
+
+                                "&:hover": {
+                                  color: "#fff",
+                                  backgroundColor: "#ea580c",
+                                },
+                              }),
+                              fontSize: "14px",
+                            }}
+                            theme={(theme) => ({
+                              ...theme,
+                              borderRadius: 5,
+                              colors: {
+                                ...theme.colors,
+
+                                primary: "#fb923c",
+                              },
+                            })}
+                           />
+                              <Select
+                           
+                           menuPlacement="auto"
+                           maxMenuHeight={170}
+                           // options={data?.fieldsDropDownData?.role}
+                           styles={{
+                             control: (provided, state) => ({
+                               ...provided,
+                               backgroundColor: "#f9fafb",
+                               borderWidth: state.isFocused ? "1px" : "1px", 
+                               borderColor: state.isFocused
+                                 ? "#orange-400"
+                                 : "#d1d5db", 
+                               boxShadow: state.isFocused
+                                 ? "none"
+                                 : provided.boxShadow, 
+                                 width: "100%", // Default width for small screens
+                                 '@media (min-width: 640px)': { // Media query for medium screens and above
+                                   width: "10rem",
+                                 },
+                             }),
+                             
+                             placeholder: (provided) => ({
+                               ...provided,
+                               fontSize: "12px",
+                               color: "#a9a9a9",
+                             }),
+                             option: (provided, state) => ({
+                               ...provided,
+                               color: state.isFocused ? "#fff" : "#000000",
+                               backgroundColor: state.isFocused
+                                 ? "#ea580c"
+                                 : "transparent",
+
+                               "&:hover": {
+                                 color: "#fff",
+                                 backgroundColor: "#ea580c",
+                               },
+                             }),
+                             fontSize: "14px",
+                           }}
+                           theme={(theme) => ({
+                             ...theme,
+                             borderRadius: 5,
+                             colors: {
+                               ...theme.colors,
+
+                               primary: "#fb923c",
+                             },
+                           })}
+                          //  placeholder="bhavi"
+                          />
+            
           <CustomColumn
             tableView={tableView}
             setTableView={setTableView}
             form="boardmeetingform"
           />
-          {/* <CustomFilter
+          <CustomFilter
           
             fieldsDropDownData={fieldsDropDownData}
             Qparams={Qparams}
             setQParams={setQParams}
             customForm={customForm}
-          /> */}
+          />
         </div>
+
+        
+          </div>
+
       </div>
       {/* table */}
       <div className="max-h-[457px] overflow-y-auto mt-5">
