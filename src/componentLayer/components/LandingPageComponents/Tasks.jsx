@@ -589,7 +589,8 @@ const Tasks = () => {
             <input
               className=" border border-gray-200 text-black px-1.5 py-2 rounded-md  bg-[#f9fafb] focus:outline-none text-sm focus:border-orange-400 date_type"
               type="date"
-              // value={task?.dueDate}
+              value={dueDateFilter.toDate}
+
               style={{
                 fontSize: "0.8rem",
                 WebkitAppearance: "none",
@@ -606,6 +607,13 @@ const Tasks = () => {
                 }));
               }}
             />
+            <button onClick={()=>{
+              let Qprms = {...Qparams}
+delete Qprms.fromDate
+delete Qprms.toDate
+setQParams(Qprms)
+setDueDateFilter({toDate:"",fromDate:""})
+            }}>Reset Date</button>
 
             <TasksFilter Qparams={Qparams} setQParams={setQParams} />
           </div>
