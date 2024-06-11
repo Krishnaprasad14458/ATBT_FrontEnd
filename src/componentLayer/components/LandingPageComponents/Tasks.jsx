@@ -127,7 +127,7 @@ export async function AllTasksLoader({ request, params }) {
     const taskID = url.searchParams.get("taskID");
     const subTaskID = url.searchParams.get("subTaskID");
     // const statusType = url.searchParams.get("status");
-    const statusType = params.status;
+    const statusType = params.statusType;
     const fromDate = url.searchParams.get("fromDate");
     const moduleName = url.searchParams.get("moduleName");
     const listID = url.searchParams.get("listID");
@@ -214,7 +214,7 @@ export async function AllTasksLoader({ request, params }) {
       updatedSubTask.age = subTaskAge;
     }
     const combinedResponse = {
-      tasks: tasks?.data?.tasks,
+      tasks: tasks?.data,
       task: updatedTask,
       subTasks: subTasks?.data?.Task,
       subTask: updatedSubTask,
@@ -323,6 +323,7 @@ export async function TasksActions({ request, params }) {
   }
 }
 const Tasks = () => {
+  
   const { authState } = useContext(AuthContext);
   console.log("authState authState", authState?.user?.id);
   let submit = useSubmit();
@@ -334,14 +335,14 @@ const Tasks = () => {
   let [subTask, setSubTask] = useState();
   // members = data?.personResponsible;
   useEffect(() => {
-    setTasks(data?.tasks);
+    setTasks(data?.tasks?.tasks);
     setTask(data?.task);
     setSubTasks(data?.subTasks);
     setSubTask(data?.subTask);
   }, [data]);
 
   let fetcher = useFetcher();
-  const { id, BMid, status } = useParams();
+  const { id, BMid, statusType } = useParams();
   const [Qparams, setQParams] = useState(() => {
     // Initialize the state object conditionally
     // const initialState = {};
@@ -497,7 +498,7 @@ const Tasks = () => {
   const [isSubTaskInputActiveID, setIsSubTaskInputActive] = useState(null);
   const [autoFocusID, setAutoFocusID] = useState(null);
   const [autoFocusSubTaskID, setAutoFocussubTaskID] = useState(null);
-  const [activeLink, setActiveLink] = useState(status);
+  const [activeLink, setActiveLink] = useState(statusType);
 
   // Function to handle click and set active link
   const handleNavLinkClick = (link) => {

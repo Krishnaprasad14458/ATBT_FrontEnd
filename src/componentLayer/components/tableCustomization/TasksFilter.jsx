@@ -59,7 +59,8 @@ function TasksFilter({
     setSelectedModule(null)
     setSelectedModuleList(null)
     setSelectedMeeting(null)
-    
+    setModuleListOptions()
+    setMeetingList()
     let qprms = {...Qparams}
     delete qprms.listID
     delete qprms.meetingId
