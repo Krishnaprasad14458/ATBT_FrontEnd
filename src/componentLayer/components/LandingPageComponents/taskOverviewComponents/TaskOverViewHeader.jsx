@@ -18,8 +18,8 @@ const TaskOverViewHeader = ({
 }) => {
   // const isSmallScreen = useMediaQuery({ query: '(max-width: 768px)' });
   return (
-    <div className="flex justify-start p-2">
-      <div className="relative inline-block ms-2">
+    <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 items-center p-2">
+      <div className="col-span-1 ms-2">
         <Select
           options={status}
           styles={{
@@ -60,12 +60,13 @@ const TaskOverViewHeader = ({
           value={{ label: task?.status, value: task?.status }}
         />
       </div>
-      <div className="absolute top-4 right-4 flex flex-row">
+      <div className="col-span-1 ">
+      <div className=" flex justify-end gap-5">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 24 24"
           fill="currentColor"
-          className="me-4 w-5 h-5 text-gray-500"
+          className=" w-5 h-5 text-gray-500"
         >
           <path
             fill-rule="evenodd"
@@ -79,7 +80,7 @@ const TaskOverViewHeader = ({
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
               fill="currentColor"
-              className="w-5 h-5 me-4 text-gray-500"
+              className="w-5 h-5  text-gray-500"
             >
               <path
                 fillRule="evenodd"
@@ -92,7 +93,7 @@ const TaskOverViewHeader = ({
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 20 20"
               fill="currentColor"
-              className="w-5 h-5 me-4 text-gray-500"
+              className="w-5 h-5  text-gray-500"
             >
               <path d="M3.28 2.22a.75.75 0 0 0-1.06 1.06L5.44 6.5H2.75a.75.75 0 0 0 0 1.5h4.5A.75.75 0 0 0 8 7.25v-4.5a.75.75 0 0 0-1.5 0v2.69L3.28 2.22ZM13.5 2.75a.75.75 0 0 0-1.5 0v4.5c0 .414.336.75.75.75h4.5a.75.75 0 0 0 0-1.5h-2.69l3.22-3.22a.75.75 0 0 0-1.06-1.06L13.5 5.44V2.75ZM3.28 17.78l3.22-3.22v2.69a.75.75 0 0 0 1.5 0v-4.5a.75.75 0 0 0-.75-.75h-4.5a.75.75 0 0 0 0 1.5h2.69l-3.22 3.22a.75.75 0 1 0 1.06 1.06ZM13.5 14.56l3.22 3.22a.75.75 0 1 0 1.06-1.06l-3.22-3.22h2.69a.75.75 0 0 0 0-1.5h-4.5a.75.75 0 0 0-.75.75v4.5a.75.75 0 0 0 1.5 0v-2.69Z" />
             </svg>
@@ -125,7 +126,7 @@ const TaskOverViewHeader = ({
             />
           </svg>
         </button>
-      </div>
+      </div></div>
     </div>
   );
 };

@@ -885,6 +885,8 @@ function UserForm() {
                                 ? true
                                 : false
                             }
+                            menuPlacement="auto"
+                            maxMenuHeight={170}
                             options={data?.fieldsDropDownData?.role}
                             styles={{
                               control: (provided, state) => ({
