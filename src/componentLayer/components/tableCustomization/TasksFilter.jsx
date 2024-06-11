@@ -160,7 +160,10 @@ function TasksFilter({
           label: meeting.meetingnumber,
           value: meeting.id,
         }));
-     response?.unshift({label:"All Meetings",value:"all"})
+        if(response?.length>0){
+          response?.unshift({label:"All Meetings",value:"all"})
+
+        }
         console.log(response,"response b")
 
         // Update state with the data from the API response
