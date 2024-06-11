@@ -4,7 +4,7 @@ export const taskRouter = [
     // { index :true, element: <Tasks /> },
     {
         // index :true,
-        path:':status',
+        path:':statusType',
         loader: AllTasksLoader,
         action: TasksActions,
         element: <Tasks />,
