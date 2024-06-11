@@ -153,7 +153,7 @@ export const teamRouter = [
             path: "documents",
             element: <Documents />,
             handle: {
-              crumb: () => <Link to=".">Team Attachments</Link>,
+              crumb: () => <Link to="."> Attachments</Link>,
             },
           },
         ],

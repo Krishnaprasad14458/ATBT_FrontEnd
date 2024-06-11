@@ -163,7 +163,7 @@ export const userRouter = [
             path: "documents",
             element: <Documents />,
             handle: {
-              crumb: () => <Link to=".">User Attachments</Link>,
+              crumb: () => <Link to=".">Attachments</Link>,
             },
           },
         ],
