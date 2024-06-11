@@ -64,7 +64,7 @@ export const teamRouter = [
             element: <TeamsOverview />,
           },
           {
-            path: "tasks",
+            path: "tasks/:statusType",
             loader: tasksLoader,
             action: TasksActions,
             element: (
@@ -79,7 +79,7 @@ export const teamRouter = [
                 <Link
                   to={{
                     pathname: data?.threadPath,
-                    search: `?status=To-Do`,
+                    // search: `?status=To-Do`,
                   }}
                 >
                   {data?.threadName}

@@ -12,6 +12,7 @@ import {
   useFetcher,
   useSubmit,
   useLocation,
+  useMatches,
 } from "react-router-dom";
 import Select from "react-select";
 import TaskOverview from "./TaskOverview";
@@ -55,7 +56,8 @@ export async function tasksLoader({ request, params }) {
     console.log("url", url.pathname.split("/")[1]);
     const taskID = url.searchParams.get("taskID");
     const subTaskID = url.searchParams.get("subTaskID");
-    const statusType = url.searchParams.get("status");
+    // const statusType = url.searchParams.get("status");
+    const statusType = params.statusType
     console.log("statusType", statusType);
     const [tasks, task, subTasks, subTask] = await Promise.all([
       params.BMid
@@ -99,8 +101,8 @@ export async function tasksLoader({ request, params }) {
       subTask: updatedSubTask,
       threadName: params.BMid ? `Meetings Tasks` : `Tasks`,
       threadPath: params.BMid
-        ? `/${parentPath}/${params.id}/${params.boardmeetings}/${params.BMid}/tasks`
-        : `/${parentPath}/${params.id}/tasks`,
+        ? `/${parentPath}/${params.id}/${params.boardmeetings}/${params.BMid}/tasks/To-Do`
+        : `/${parentPath}/${params.id}/tasks/To-Do`,
       threadPathForOutsideBM: `/boardmeetings/${params.BMid}/tasks`,
     };
     console.log("tasks tasksLoader");
@@ -327,6 +329,8 @@ const Tasks = () => {
   console.log("authState authState", authState?.user?.id);
   let submit = useSubmit();
   let location = useLocation();
+  let matches = useMatches()
+  console.log(matches[0].params.statusType,"matches matches")
   const data = useLoaderData();
   let [tasks, setTasks] = useState([]);
   let [task, setTask] = useState({});
@@ -497,8 +501,11 @@ const Tasks = () => {
   const [isSubTaskInputActiveID, setIsSubTaskInputActive] = useState(null);
   const [autoFocusID, setAutoFocusID] = useState(null);
   const [autoFocusSubTaskID, setAutoFocussubTaskID] = useState(null);
-  const [activeLink, setActiveLink] = useState(statusType);
-
+  const [activeLink, setActiveLink] = useState(matches[0].params.statusType);
+  useEffect(()=>{
+    setActiveLink(matches[0].params.statusType)
+  },[matches])
+console.log(activeLink,"activeLink")
   // Function to handle click and set active link
   const handleNavLinkClick = (link) => {
     setActiveLink(link);
@@ -671,7 +678,7 @@ const Tasks = () => {
               parentPath === "entities" ||
               parentPath === "teams") && (
               <NavLink
-                to={`/${parentPath}/${id}/tasks?status=To-Do`}
+                to={`/${parentPath}/${id}/tasks/To-Do`}
                 end
                 className={`cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09] ${
                   activeLink === "To-Do"
@@ -705,7 +712,7 @@ const Tasks = () => {
               parentPath === "entities" ||
               parentPath === "teams") && (
               <NavLink
-                to={`/${parentPath}/${id}/tasks?status=In-Progress`}
+                to={`/${parentPath}/${id}/tasks/In-Progress`}
                 end
                 className={`cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09] ${
                   activeLink === "In-Progress"
@@ -740,7 +747,7 @@ const Tasks = () => {
               parentPath === "entities" ||
               parentPath === "teams") && (
               <NavLink
-                to={`/${parentPath}/${id}/tasks?status=Over-Due`}
+                to={`/${parentPath}/${id}/tasks/Over-Due`}
                 end
                 className={`cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09] ${
                   activeLink === "Over-Due"
@@ -772,7 +779,7 @@ const Tasks = () => {
               parentPath === "entities" ||
               parentPath === "teams") && (
               <NavLink
-                to={`/${parentPath}/${id}/tasks?status=Completed`}
+                to={`/${parentPath}/${id}/tasks/Completed`}
                 end
                 className={`cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09] ${
                   activeLink === "Completed"
@@ -804,15 +811,16 @@ const Tasks = () => {
               parentPath === "entities" ||
               parentPath === "teams") && (
               <NavLink
-                to={`/${parentPath}/${id}/tasks`}
+                to={`/${parentPath}/${id}/tasks/Master`}
                 end
                 className={`cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09] ${
-                  activeLink === "Master" ? "border-b-2 border-orange-600" : ""
+                  activeLink === "Master" ? "border-b-2 border-orange-500 text-orange-600" : ""
                 }`}
                 onClick={() => handleNavLinkClick("Master")}
               >
                 Master
               </NavLink>
+            
             )}
           {!BMid && parentPath === "tasks" && (
             <NavLink
@@ -820,7 +828,7 @@ const Tasks = () => {
               to={`/tasks/Master?${queryString}`}
               end
               className={`cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09] ${
-                activeLink === "Master" ? "border-b-2 border-orange-600" : ""
+                activeLink === "Master" ? "border-b-2 border-orange-600 text-orange-600" : ""
               }`}
               onClick={() => handleNavLinkClick("Master")}
               // onClick={() =>{ handleNavLinkClick("Master");

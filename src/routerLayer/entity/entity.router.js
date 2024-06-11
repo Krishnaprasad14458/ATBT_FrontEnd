@@ -65,7 +65,7 @@ export const entityRouter = [
           },
 
           {
-            path: "tasks",
+            path: "tasks/:statusType",
             loader: tasksLoader,
             action: TasksActions,
           
@@ -75,7 +75,7 @@ export const entityRouter = [
                 <Link 
                 to={{
                   pathname: data?.threadPath,
-                  search: `?status=To-Do`,
+                  // search: `?status=To-Do`,
                 }}
                 
                 
