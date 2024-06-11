@@ -101,7 +101,7 @@ const Sidebar = () => {
     },
     {
       name: "Tasks",
-      link: "/tasks",
+      link: "/tasks/To-Do",
       icon: (
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -265,7 +265,7 @@ const Sidebar = () => {
                 }
               >
              
-                {menu?.link !== "/tasks"  && <Link
+                {menu?.link !== "/tasks/To-Do"  && <Link
                   to={{
                     pathname: menu?.link,
                     search: 
@@ -310,13 +310,13 @@ const Sidebar = () => {
                     {menu?.name}
                   </h4> */}
                 </Link>}
-                {menu?.link === "/tasks"  && <Link
+                {menu?.link === "/tasks/To-Do"  && <Link
                   to={{
                     pathname: menu?.link,
                     search: 
                       location?.pathname === menu?.link
                         ? location.search
-                        : `?status=To-Do`,
+                        : ``,
                   }}
                   onMouseEnter={() => setOpen(true)}
                   onMouseLeave={() => setOpen(false)}

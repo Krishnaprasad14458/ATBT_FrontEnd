@@ -60,7 +60,7 @@ export async function tasksLoader({ request, params }) {
     const [tasks, task, subTasks, subTask] = await Promise.all([
       params.BMid
         ? atbtApi.get(`task/list?meetingId=${params.BMid}`)
-        : statusType !== null
+        : statusType !== "Master"
         ? atbtApi.get(`task/list?${idOF}=${params.id}&status=${statusType}`)
         : atbtApi.get(`task/list?${idOF}=${params.id}`),
       // atbtApi.get(`task/listAll?user=${params.id}`),
@@ -126,7 +126,8 @@ export async function AllTasksLoader({ request, params }) {
     console.log("url", url.pathname.split("/")[1]);
     const taskID = url.searchParams.get("taskID");
     const subTaskID = url.searchParams.get("subTaskID");
-    const statusType = url.searchParams.get("status");
+    // const statusType = url.searchParams.get("status");
+    const statusType = params.status;
     const fromDate = url.searchParams.get("fromDate");
     const moduleName = url.searchParams.get("moduleName");
     const listID = url.searchParams.get("listID");
@@ -143,23 +144,24 @@ export async function AllTasksLoader({ request, params }) {
     console.log("statusType", statusType);
     const queryParams = [];
 
-  // Validate and add query parameters
-  if (meetingId && meetingId !== "all") {
-    queryParams.push(`meetingId=${meetingId}`);
-  } else if (meetingId === "all" && listID) {
-    queryParams.push(`${idOF}=${listID}`);
-  }
-  if (statusType && statusType !== "null") {
-    queryParams.push(`status=${statusType}`);
-  }
-  if (fromDate && toDate) {
-    queryParams.push(`fromDate=${fromDate}`, `toDate=${toDate}`);
-  }
-  const queryString = queryParams.length > 0 ? `?${queryParams.join('&')}` : '';
- console.log(queryString,"queryString")
+    // Validate and add query parameters
+    if (meetingId && meetingId !== "all") {
+      queryParams.push(`meetingId=${meetingId}`);
+    } else if (meetingId === "all" && listID) {
+      queryParams.push(`${idOF}=${listID}`);
+    }
+    if (statusType && statusType !== "Master") {
+      queryParams.push(`status=${statusType}`);
+    }
+    if (fromDate && toDate) {
+      queryParams.push(`fromDate=${fromDate}`, `toDate=${toDate}`);
+    }
+    const queryString =
+      queryParams.length > 0 ? `?${queryParams.join("&")}` : "";
+    console.log(queryString, "queryString");
 
     const [tasks, task, subTasks, subTask] = await Promise.all([
-atbtApi.get(`task/list${queryString}`),
+      atbtApi.get(`task/list${queryString}`),
 
       // meetingId !== "all" && statusType !== "null"
       //   ? atbtApi.get(`task/list?meetingId=${meetingId}&status=${statusType}`)
@@ -212,7 +214,7 @@ atbtApi.get(`task/list${queryString}`),
       updatedSubTask.age = subTaskAge;
     }
     const combinedResponse = {
-      tasks: tasks?.data,
+      tasks: tasks?.data?.tasks,
       task: updatedTask,
       subTasks: subTasks?.data?.Task,
       subTask: updatedSubTask,
@@ -339,16 +341,16 @@ const Tasks = () => {
   }, [data]);
 
   let fetcher = useFetcher();
-  const { id, BMid } = useParams();
+  const { id, BMid, status } = useParams();
   const [Qparams, setQParams] = useState(() => {
     // Initialize the state object conditionally
-    const initialState = {};
-    if (!BMid) {
-      initialState.status = "To-Do";
-    }
-    return initialState;
+    // const initialState = {};
+    // if (!BMid) {
+    //   initialState.status = status;
+    // }
+    // return initialState;
   });
-  console.log(Qparams,"Qparams")
+  console.log(Qparams, "Qparams");
   const isFirstRender = useRef(true);
 
   useEffect(() => {
@@ -495,7 +497,7 @@ const Tasks = () => {
   const [isSubTaskInputActiveID, setIsSubTaskInputActive] = useState(null);
   const [autoFocusID, setAutoFocusID] = useState(null);
   const [autoFocusSubTaskID, setAutoFocussubTaskID] = useState(null);
-  const [activeLink, setActiveLink] = useState("toDo");
+  const [activeLink, setActiveLink] = useState(status);
 
   // Function to handle click and set active link
   const handleNavLinkClick = (link) => {
@@ -522,12 +524,12 @@ const Tasks = () => {
     return new URLSearchParams(params).toString();
   };
   const queryString = createQueryString(Qparams);
-  console.log(queryString,"queryString")
+  console.log(queryString, "queryString");
   return (
-    <div className={` ${location.pathname === "/tasks" ? "p-3" : ""}`}>
+    <div className={` ${parentPath === "tasks" ? "p-3" : ""}`}>
       <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-col-4 items-center gap-2 mt-2">
         <div className="col-span-1">
-          {location.pathname === "/tasks" && (
+          {parentPath === "tasks" && (
             <p className="text-md font-semibold">Tasks</p>
           )}
         </div>
@@ -563,61 +565,66 @@ const Tasks = () => {
           </div> */}
         </div>
 
-      {parentPath === "tasks" &&  <div className="col-span-2 text-end">
-          <div className="flex gap-2 items-center justify-end">
-            <label className="text-sm text-gray-400"> From:</label>
+        {parentPath === "tasks" && (
+          <div className="col-span-2 text-end">
+            <div className="flex gap-2 items-center justify-end">
+              <label className="text-sm text-gray-400"> From:</label>
 
-            <input
-              className=" border border-gray-200  text-black px-1.5 py-2 rounded-md  bg-[#f9fafb] focus:outline-none text-sm focus:border-orange-400  date_type"
-              type="date"
-              value={dueDateFilter.fromDate}
-              style={{
-                fontSize: "0.8rem",
-                WebkitAppearance: "none",
-              }}
-              onChange={(e) => {
-                // handleSubmit(task?.id, "dueDate", e.target.value);
-                setQParams((prev) => ({ ...prev, fromDate: e.target.value }));
-                setDueDateFilter((prev) => ({
-                  ...prev,
-                  fromDate: e.target.value,
-                }));
-                // handleTaskChange(index, "dueDate", e.target.value);
-              }}
-            />
-            <label className="text-sm text-gray-400"> To:</label>
-            <input
-              className=" border border-gray-200 text-black px-1.5 py-2 rounded-md  bg-[#f9fafb] focus:outline-none text-sm focus:border-orange-400 date_type"
-              type="date"
-              value={dueDateFilter.toDate}
+              <input
+                className=" border border-gray-200  text-black px-1.5 py-2 rounded-md  bg-[#f9fafb] focus:outline-none text-sm focus:border-orange-400  date_type"
+                type="date"
+                value={dueDateFilter.fromDate}
+                style={{
+                  fontSize: "0.8rem",
+                  WebkitAppearance: "none",
+                }}
+                onChange={(e) => {
+                  // handleSubmit(task?.id, "dueDate", e.target.value);
+                  setQParams((prev) => ({ ...prev, fromDate: e.target.value }));
+                  setDueDateFilter((prev) => ({
+                    ...prev,
+                    fromDate: e.target.value,
+                  }));
+                  // handleTaskChange(index, "dueDate", e.target.value);
+                }}
+              />
+              <label className="text-sm text-gray-400"> To:</label>
+              <input
+                className=" border border-gray-200 text-black px-1.5 py-2 rounded-md  bg-[#f9fafb] focus:outline-none text-sm focus:border-orange-400 date_type"
+                type="date"
+                value={dueDateFilter.toDate}
+                style={{
+                  fontSize: "0.8rem",
+                  WebkitAppearance: "none",
+                }}
+                onChange={(e) => {
+                  setQParams((prev) => ({
+                    ...prev,
 
-              style={{
-                fontSize: "0.8rem",
-                WebkitAppearance: "none",
-              }}
-              onChange={(e) => {
-                setQParams((prev) => ({
-                  ...prev,
+                    toDate: e.target.value,
+                  }));
+                  setDueDateFilter((prev) => ({
+                    ...prev,
+                    toDate: e.target.value,
+                  }));
+                }}
+              />
+              <button
+                onClick={() => {
+                  let Qprms = { ...Qparams };
+                  delete Qprms.fromDate;
+                  delete Qprms.toDate;
+                  setQParams(Qprms);
+                  setDueDateFilter({ toDate: "", fromDate: "" });
+                }}
+              >
+                Reset Date
+              </button>
 
-                  toDate: e.target.value,
-                }));
-                setDueDateFilter((prev) => ({
-                  ...prev,
-                  toDate: e.target.value,
-                }));
-              }}
-            />
-            <button onClick={()=>{
-              let Qprms = {...Qparams}
-delete Qprms.fromDate
-delete Qprms.toDate
-setQParams(Qprms)
-setDueDateFilter({toDate:"",fromDate:""})
-            }}>Reset Date</button>
-
-            <TasksFilter Qparams={Qparams} setQParams={setQParams} />
+              <TasksFilter Qparams={Qparams} setQParams={setQParams} />
+            </div>
           </div>
-        </div>}
+        )}
       </div>
 
       <div className="flex justify-end">
@@ -654,26 +661,28 @@ setDueDateFilter({toDate:"",fromDate:""})
                 to={`/${parentPath}/${id}/tasks?status=To-Do`}
                 end
                 className={`cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09] ${
-                  activeLink === "toDo"
+                  activeLink === "To-Do"
                     ? "border-b-2 border-orange-500 text-orange-600"
                     : ""
                 }`}
-                onClick={() => handleNavLinkClick("toDo")}
+                onClick={() => handleNavLinkClick("To-Do")}
               >
                 To-Do
               </NavLink>
             )}
           {!BMid && parentPath === "tasks" && (
             <NavLink
-              to={`/tasks?${queryString}`}
+              to={`/tasks/To-Do?${queryString}`}
               end
               className={`cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09] ${
-                activeLink === "toDo"
+                activeLink === "To-Do"
                   ? "border-b-2 border-orange-500 text-orange-600"
                   : ""
               }`}
-              onClick={() =>{ handleNavLinkClick("toDo");setQParams((prev)=>({...prev,status:"To-Do"}))}}
-              // onClick={() => handleNavLinkClick("toDo")}
+              onClick={() => {
+                handleNavLinkClick("To-Do");
+              }}
+              // onClick={() => handleNavLinkClick("To-Do")}
             >
               To-Do
             </NavLink>
@@ -686,27 +695,28 @@ setDueDateFilter({toDate:"",fromDate:""})
                 to={`/${parentPath}/${id}/tasks?status=In-Progress`}
                 end
                 className={`cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09] ${
-                  activeLink === "inProgress"
+                  activeLink === "In-Progress"
                     ? "border-b-2 border-orange-500 text-orange-600"
                     : ""
                 }`}
-                onClick={() => handleNavLinkClick("inProgress")}
+                onClick={() => handleNavLinkClick("In-Progress")}
               >
                 In-Progress
               </NavLink>
             )}
           {!BMid && parentPath === "tasks" && (
             <NavLink
-              to={`/tasks?${queryString}`}
+              to={`/tasks/In-Progress?${queryString}`}
               end
               className={`cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09] ${
-                activeLink === "inProgress"
+                activeLink === "In-Progress"
                   ? "border-b-2 border-orange-500 text-orange-600"
                   : ""
               }`}
-              // onClick={() => handleNavLinkClick("inProgress")}
-              onClick={() =>{ handleNavLinkClick("inProgress");setQParams((prev)=>({...prev,status:"In-Progress"}))}}
-
+              // onClick={() => handleNavLinkClick("In-Progress")}
+              onClick={() => {
+                handleNavLinkClick("In-Progress");
+              }}
             >
               In-Progress
             </NavLink>
@@ -720,27 +730,26 @@ setDueDateFilter({toDate:"",fromDate:""})
                 to={`/${parentPath}/${id}/tasks?status=Over-Due`}
                 end
                 className={`cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09] ${
-                  activeLink === "OverDue"
+                  activeLink === "Over-Due"
                     ? "border-b-2 border-orange-500 text-orange-600"
                     : ""
                 }`}
-                onClick={() => handleNavLinkClick("OverDue")}
+                onClick={() => handleNavLinkClick("Over-Due")}
               >
                 Overdue
               </NavLink>
             )}
           {!BMid && parentPath === "tasks" && (
             <NavLink
-              to={`/tasks?${queryString}`}
+              to={`/tasks/Over-Due?${queryString}`}
               end
               className={`cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09] ${
-                activeLink === "OverDue"
+                activeLink === "Over-Due"
                   ? "border-b-2 border-orange-500 text-orange-600"
                   : ""
               }`}
-              // onClick={() => handleNavLinkClick("OverDue")}
-              onClick={() =>{ handleNavLinkClick("OverDue");setQParams((prev)=>({...prev,status:"Over-Due"}))}}
-
+              onClick={() => handleNavLinkClick("Over-Due")}
+              // onClick={() =>{ handleNavLinkClick("OverDue");setQParams((prev)=>({...prev,status:"Over-Due"}))}}
             >
               Overdue
             </NavLink>
@@ -764,16 +773,15 @@ setDueDateFilter({toDate:"",fromDate:""})
             )}
           {!BMid && parentPath === "tasks" && (
             <NavLink
-              to={`/tasks?${queryString}`}
+              to={`/tasks/Completed?${queryString}`}
               end
               className={`cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09] ${
                 activeLink === "Completed"
                   ? "border-b-2 border-orange-500 text-orange-600"
                   : ""
               }`}
-              // onClick={() => handleNavLinkClick("Completed")}
-              onClick={() =>{ handleNavLinkClick("Completed");setQParams((prev)=>({...prev,status:"Completed"}))}}
-
+              onClick={() => handleNavLinkClick("Completed")}
+              // onClick={() =>{ handleNavLinkClick("Completed");setQParams((prev)=>({...prev,status:"Completed"}))}}
             >
               Completed
             </NavLink>
@@ -796,18 +804,16 @@ setDueDateFilter({toDate:"",fromDate:""})
           {!BMid && parentPath === "tasks" && (
             <NavLink
               // to={`/tasks`}
-              to={`/tasks?${queryString}`}
-
+              to={`/tasks/Master?${queryString}`}
               end
               className={`cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09] ${
                 activeLink === "Master" ? "border-b-2 border-orange-600" : ""
               }`}
-              // onClick={() => handleNavLinkClick("Master")}
-              onClick={() =>{ handleNavLinkClick("Master");
-              let Qprams = {...Qparams}
-              delete Qprams.status
-              setQParams(Qprams)}}
-
+              onClick={() => handleNavLinkClick("Master")}
+              // onClick={() =>{ handleNavLinkClick("Master");
+              // let Qprams = {...Qparams}
+              // delete Qprams.status
+              // setQParams(Qprams)}}
             >
               Master
             </NavLink>
