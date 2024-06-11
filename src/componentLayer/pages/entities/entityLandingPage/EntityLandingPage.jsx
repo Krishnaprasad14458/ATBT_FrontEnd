@@ -1,27 +1,37 @@
-import React from "react";
-import {
-  NavLink,
-  Outlet,
-  useParams,
-} from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { NavLink, Outlet, useLocation, useParams } from "react-router-dom";
 import BreadCrumbs from "../../../components/breadcrumbs/BreadCrumbs";
 const EntityLandingPage = () => {
-  const { id,BMid  } = useParams();
-  
+  const { id, BMid } = useParams();
+  let location = useLocation();
+  let [ActiveLink, setActiveLink] = useState(false);
+  useEffect(() => {
+    if (
+      location.pathname == `/entities/${id}/tasks/To-Do` ||
+      location.pathname == `/entities/${id}/tasks/In-Progress` ||
+      location.pathname == `/entities/${id}/tasks/Over-Due` ||
+      location.pathname == `/entities/${id}/tasks/Completed` ||
+      location.pathname == `/entities/${id}/tasks/Master`
+    ) {
+      setActiveLink(true);
+    } else {
+      setActiveLink(false);
+    }
+  }, [location]);
   return (
     <div className=" p-4 bg-[#f8fafc]">
       <div className="flex justify-between my-2">
-        <p className="text-xl font-semibold"><BreadCrumbs />
-</p>
+        <p className="text-xl font-semibold">
+          <BreadCrumbs />
+        </p>
       </div>
 
       <div className="flex overflow-auto">
         {!BMid && (
           <NavLink
-     
             to={{
               pathname: `entityboardmeetings`,
-              search:  `?search=&page=1&pageSize=10`,
+              search: `?search=&page=1&pageSize=10`,
             }}
             end
             className={({ isActive, isPending, isTransitioning }) =>
@@ -32,7 +42,7 @@ const EntityLandingPage = () => {
                 : "cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09]"
             }
           >
-           Entity Meetings
+            Entity Meetings
           </NavLink>
         )}
         {BMid && (
@@ -41,7 +51,9 @@ const EntityLandingPage = () => {
             end
             isActive={(match, location) =>
               match ||
-              location.pathname.startsWith(`/entities/${id}/entityboardmeetings`)
+              location.pathname.startsWith(
+                `/entities/${id}/entityboardmeetings`
+              )
             }
             className={({ isActive, isPending, isTransitioning }) =>
               isPending
@@ -54,25 +66,25 @@ const EntityLandingPage = () => {
             Meeting Tasks
           </NavLink>
         )}
-    {!BMid && (
+        {!BMid && (
           <NavLink
             to={{
-              pathname: "tasks",
-              search: `?status=To-Do`,
+              pathname: "tasks/To-Do",
+              // search: `?status=To-Do`,
             }}
             end
             className={({ isActive, isPending, isTransitioning }) =>
               isPending
                 ? "cursor-pointer px-4 py-1 text-sm  text-[#0c0a09]"
-                : isActive
+                : ActiveLink
                 ? "border-b-2 border-orange-500 text-orange-600 cursor-pointer px-4 py-1 text-sm font-[500]"
                 : "cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09]"
             }
           >
-           Entity Tasks
+            Entity Tasks
           </NavLink>
         )}
-         {!BMid && (
+        {!BMid && (
           <NavLink
             to="documents"
             end
@@ -84,7 +96,7 @@ const EntityLandingPage = () => {
                 : "cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09]"
             }
           >
-          Entity  Attachments
+            Entity Attachments
           </NavLink>
         )}
         {BMid && (
@@ -99,7 +111,7 @@ const EntityLandingPage = () => {
                 : "cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09]"
             }
           >
-          Meeting Attachments
+            Meeting Attachments
           </NavLink>
         )}
         {!BMid && (
@@ -114,10 +126,10 @@ const EntityLandingPage = () => {
                 : "cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09]"
             }
           >
-          Entity  Overview
+            Entity Overview
           </NavLink>
         )}
-         {BMid && (
+        {BMid && (
           <NavLink
             to={`entityboardmeetings/${BMid}`}
             end
@@ -129,13 +141,12 @@ const EntityLandingPage = () => {
                 : "cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09]"
             }
           >
-           Meeting  Overview
+            Meeting Overview
           </NavLink>
         )}
-
       </div>
       <hr />
-      <Outlet  />
+      <Outlet />
     </div>
   );
 };

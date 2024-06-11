@@ -74,7 +74,7 @@ export const userRouter = [
           },
           // /users/:id/tasks          all tasks
           {
-            path: "tasks",
+            path: "tasks/:statusType",
             loader: tasksLoader,
             action: TasksActions,
             element: (
@@ -87,7 +87,7 @@ export const userRouter = [
                 <Link
                   to={{
                     pathname: data?.threadPath,
-                    search: `?status=To-Do`,
+                    // search: `?status=To-Do`,
                   }}
                 >
                   {data?.threadName}
@@ -104,7 +104,6 @@ export const userRouter = [
               // /users/:id/:boardmeetings                     bmeetings list
               {
                 index: true,
-               
                 action: MeetingAction,
                 element: <Boardmeeting />,
                 loader: MeetingLoader,
