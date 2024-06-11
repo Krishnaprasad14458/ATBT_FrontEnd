@@ -55,7 +55,20 @@ function TasksFilter({
 
   const handleFilterReset = () => {
     setSelectedFilters({});
+  
+    setSelectedModule(null)
+    setSelectedModuleList(null)
+    setSelectedMeeting(null)
+    
+    let qprms = {...Qparams}
+    delete qprms.listID
+    delete qprms.meetingId
+    delete qprms.moduleName
+
+
+
     setQParams({
+      ...qprms,
     //   search: Qparams?.search,
     //   page: Qparams?.page,
     //   pageSize: Qparams?.pageSize,

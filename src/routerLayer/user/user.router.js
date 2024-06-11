@@ -99,7 +99,15 @@ export const userRouter = [
 
           {
             path: ":boardmeetings",
-            loader: MeetingLoader,
+            
+            children: [
+              // /users/:id/:boardmeetings                     bmeetings list
+              {
+                index: true,
+               
+                action: MeetingAction,
+                element: <Boardmeeting />,
+                loader: MeetingLoader,
             handle: {
               crumb: (data) => (
                 <Link
@@ -112,13 +120,6 @@ export const userRouter = [
                 </Link>
               ),
             },
-            children: [
-              // /users/:id/:boardmeetings                     bmeetings list
-              {
-                index: true,
-                loader: MeetingLoader,
-                action: MeetingAction,
-                element: <Boardmeeting />,
               },
               // /users/:id/:boardmeetings/:BMid        tasks of :BMid  bmeetings
               {

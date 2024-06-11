@@ -87,24 +87,25 @@ export const entityRouter = [
 
           {
             path: ":boardmeetings",
-            loader: MeetingLoader,
-            handle: {
-              crumb: (data) => (
-                <Link 
-                to={{
-                  pathname: data.threadPath,
-                  search: `?search=&page=1&pageSize=10`,
-                }}
-                
-                >{data.threadName}</Link>
-              ),
-            },
+            // loader: MeetingLoader,
+           
             children: [
               {
                 index: true,
                 loader: MeetingLoader,
                 action: MeetingAction,
                 element: <Boardmeeting />,
+                handle: {
+                  crumb: (data) => (
+                    <Link 
+                    to={{
+                      pathname: data.threadPath,
+                      search: `?search=&page=1&pageSize=10`,
+                    }}
+                    
+                    >{data.threadName}</Link>
+                  ),
+                },
               },
               {
                 path: ":BMid",
