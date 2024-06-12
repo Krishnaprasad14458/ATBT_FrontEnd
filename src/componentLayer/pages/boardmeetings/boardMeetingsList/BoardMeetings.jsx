@@ -284,14 +284,8 @@ function BoardMeetings() {
               type='date'
               placeholder="select To Date"
               value={filterMeetingDate.toDate}
-<<<<<<< Updated upstream
-              onFocus={handleFocus}
-              onBlur={handleBlur}
-              
-=======
               // onFocus={handleFocus}
               // onBlur={handleBlur}
->>>>>>> Stashed changes
               style={{
                 fontSize: "0.8rem",
                 WebkitAppearance: "none",
