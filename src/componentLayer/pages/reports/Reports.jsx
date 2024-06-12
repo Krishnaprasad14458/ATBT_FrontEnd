@@ -85,7 +85,7 @@ export async function loader({ request, params }) {
 
     console.log(selectedModuleLists, meetingsLists, "EntitiesListuoi");
     const CombinedResponse = {
-      reportsData: reportsData.data,
+      reportsData: reportsData.data.tasks,
       selectedModuleList: selectedModuleLists,
       meetingsList: meetingsLists,
     };
