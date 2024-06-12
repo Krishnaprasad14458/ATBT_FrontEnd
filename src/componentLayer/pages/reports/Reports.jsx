@@ -39,22 +39,22 @@ export async function loader({ request, params }) {
       meetingId !== "all" && reportType !== "Master"
         ? atbtApi.get(`task/list?meetingId=${meetingId}&status=${reportType}`)
         : meetingId !== "all" && reportType === "Master"
-        ? atbtApi.get(`task/list?meetingId=${meetingId}`)
-        : meetingId === "all" && reportType !== "Master"
-        ? atbtApi.get(`task/list?${idOF}=${listID}&status=${reportType}`)
-        : meetingId === "all" && reportType === "Master"
-        ? atbtApi.get(`task/list?${idOF}=${listID}`)
-        : null,
+          ? atbtApi.get(`task/list?meetingId=${meetingId}`)
+          : meetingId === "all" && reportType !== "Master"
+            ? atbtApi.get(`task/list?${idOF}=${listID}&status=${reportType}`)
+            : meetingId === "all" && reportType === "Master"
+              ? atbtApi.get(`task/list?${idOF}=${listID}`)
+              : null,
       moduleName === "user"
         ? atbtApi.post(`public/list/user`)
         : moduleName === "entity"
-        ? atbtApi.post(`public/list/entity`)
-        : moduleName === "team"
-        ? atbtApi.post(`public/list/team`)
-        : null,
+          ? atbtApi.post(`public/list/entity`)
+          : moduleName === "team"
+            ? atbtApi.post(`public/list/team`)
+            : null,
       moduleName &&
-        listID &&
-        atbtApi.get(`boardmeeting/list?${moduleName}=${listID}`),
+      listID &&
+      atbtApi.get(`boardmeeting/list?${moduleName}=${listID}`),
     ]);
     console.log("selectedModuleList890", reportsData);
     let selectedModuleLists;
@@ -151,7 +151,7 @@ function Reports() {
     { label: "S.NO", key: "serialNO" },
     { label: "Date of Board meeting", key: "date" },
     { label: "Initial Decision Taken", key: "decision" },
-    { label: "Person Responsible for implementation", key: "members" },
+    { label: "Person Responsible for implementation", key: "memberdata" },
     { label: "DueDate", key: "dueDate" },
     { label: "Meeting ID", key: "meetingNumber" },
   ];
@@ -160,24 +160,24 @@ function Reports() {
     { label: "S.NO", key: "serialNO" },
     { label: "Date of Board meeting", key: "date" },
     { label: "Decision Taken", key: "decision" },
-    { label: "Person Responsible for implementation", key: "members" },
+    { label: "Person Responsible for implementation", key: "memberdata" },
     { label: "DueDate", key: "dueDate" },
     { label: "Meeting ID", key: "meetingNumber" },
     // { label: "Ageing of the Decision as per Latest Board Meeting", key: "meetingId" },
     { label: "Updated Decision", key: "updatedbyuser" },
-    { label: "Updated Person Responsible", key: "members" },
+    // { label: "Updated Person Responsible", key: "memberdata" },
   ];
 
   const headerATR = [
     { label: "S.NO", key: "serialNO" },
     { label: "Date of Board meeting", key: "date" },
     { label: "Initial Decision Taken", key: "decision" },
-    { label: "Person Responsible for implementation", key: "members" },
+    { label: "Person Responsible for implementation", key: "memberdata" },
     { label: "DueDate", key: "dueDate" },
     { label: "Meeting ID", key: "meetingNumber" },
     // { label: "Ageing of the Decision as per Latest Board Meeting", key: "date" },
     { label: "Updated Decision", key: "updatedbyuser" },
-    { label: "Updated Person Responsible", key: "members" },
+    // { label: "Updated Person Responsible", key: "memberdata" },
   ];
 
   const reportdata = [
@@ -233,6 +233,18 @@ function Reports() {
   const HeadersATR = [...headerATR, ...dynamicATRHeaders];
   console.log(HeadersATR, "HeadersATR");
 
+
+  const masterPersonResHeaders = ReportData && ReportData.length >0 ? ReportData?.flatMap((data, index) =>
+    [
+      {
+        label: `Person Responsible for implementation`,
+        key: `PersonResponce${index + 1}`,
+      },
+    ]
+  ) :[];
+
+
+
   // Extract dynamic headers
   const dynamicmasterHeaders = reportdata[0]?.comments.flatMap(
     (comment, index) => [
@@ -243,7 +255,10 @@ function Reports() {
       { label: `Person Responsible`, key: `personResponsible${index + 1}` },
     ]
   );
-  const HeadersMaster = [...headerMaster, ...dynamicmasterHeaders];
+
+
+  const HeadersMaster = [...headerMaster, ...dynamicmasterHeaders, ...masterPersonResHeaders];
+
   console.log(HeadersMaster, "HeadersMaster");
 
   // Transform data to match headers
@@ -340,19 +355,19 @@ function Reports() {
           <thead>
             <tr>
               <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200"
-              style={{width :"12rem"}}>
+                style={{ width: "12rem" }}>
                 Report Name
               </th>
               <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200"
-              style={{width :"12rem"}}>
+                style={{ width: "12rem" }}>
                 Module
               </th>
               <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200"
-              style={{width :"20em"}}>
+                style={{ width: "20em" }}>
                 List
               </th>
               <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200"
-              style={{width :"12rem"}}>
+                style={{ width: "12rem" }}>
                 Meetings ID's
               </th>
               <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200">
@@ -374,7 +389,7 @@ function Reports() {
                       borderWidth: state.isFocused ? "1px" : "1px", // Decrease border width when focused
                       borderColor: state.isFocused ? "#orange-400" : "#d1d5db", // Change border color when focused
                       boxShadow: state.isFocused ? "none" : provided.boxShadow, // Optionally remove box shadow when focused
-                      width:"12rem"
+                      width: "12rem"
                     }),
                     placeholder: (provided) => ({
                       ...provided,
@@ -405,7 +420,7 @@ function Reports() {
                     },
                   })}
                   menuPortalTarget={document.body}
-                  
+
                   maxMenuHeight={150}
                   value={report.selectedReport}
                   onChange={(selectedOption) => {
@@ -434,7 +449,7 @@ function Reports() {
                       borderWidth: state.isFocused ? "1px" : "1px", // Decrease border width when focused
                       borderColor: state.isFocused ? "#orange-400" : "#d1d5db", // Change border color when focused
                       boxShadow: state.isFocused ? "none" : provided.boxShadow, // Optionally remove box shadow when focused
-                      width:"12rem"
+                      width: "12rem"
                     }),
                     placeholder: (provided) => ({
                       ...provided,
@@ -465,7 +480,7 @@ function Reports() {
                     },
                   })}
                   menuPortalTarget={document.body}
-                
+
                   maxMenuHeight={150}
                   value={report.selectedModule}
                   onChange={(selectedOption) => {
@@ -494,7 +509,7 @@ function Reports() {
                       borderWidth: state.isFocused ? "1px" : "1px", // Decrease border width when focused
                       borderColor: state.isFocused ? "#orange-400" : "#d1d5db", // Change border color when focused
                       boxShadow: state.isFocused ? "none" : provided.boxShadow, // Optionally remove box shadow when focused
-                      width:"20rem"
+                      width: "20rem"
                     }),
                     placeholder: (provided) => ({
                       ...provided,
@@ -525,7 +540,7 @@ function Reports() {
                     },
                   })}
                   menuPortalTarget={document.body}
-                  
+
                   maxMenuHeight={150}
                   value={report.selectedIdFromList}
                   onChange={(selectedOption) => {
@@ -554,7 +569,7 @@ function Reports() {
                       borderWidth: state.isFocused ? "1px" : "1px", // Decrease border width when focused
                       borderColor: state.isFocused ? "#orange-400" : "#d1d5db", // Change border color when focused
                       boxShadow: state.isFocused ? "none" : provided.boxShadow, // Optionally remove box shadow when focused
-                      width:"12rem"
+                      width: "12rem"
                     }),
                     placeholder: (provided) => ({
                       ...provided,
@@ -583,8 +598,8 @@ function Reports() {
                     },
                   })}
                   menuPortalTarget={document.body}
-                  
-                
+
+
                   maxMenuHeight={200}
                   value={report.selectedMeetingId}
                   onChange={(selectedOption) => {
@@ -606,8 +621,8 @@ function Reports() {
                 className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium   overflow-hidden`}
               >
                 {report?.selectedReport?.value == "To-Do" &&
-                ReportData &&
-                ReportData.length > 0 ? (
+                  ReportData &&
+                  ReportData.length > 0 ? (
                   <button
                     type="button"
                     title="xlsx file"
