@@ -13,6 +13,7 @@ import {
   useSubmit,
   useLocation,
   useMatches,
+  useNavigation,
 } from "react-router-dom";
 import Select from "react-select";
 import TaskOverview from "./TaskOverview";
@@ -59,15 +60,20 @@ export async function tasksLoader({ request, params }) {
     console.log("url parentPath",parentPath, url.pathname.split("/")[1]);
     const taskID = url.searchParams.get("taskID");
     const subTaskID = url.searchParams.get("subTaskID");
+    const search = url.searchParams.get("search");
+    const page = url.searchParams.get("page");
+    const pageSize = url.searchParams.get("pageSize");
+    
+
     // const statusType = url.searchParams.get("status");
     const statusType = params.statusType
     console.log("statusType", statusType);
     const [tasks, task, subTasks, subTask] = await Promise.all([
       params.BMid
-        ? atbtApi.get(`task/list?meetingId=${params.BMid}`)
+        ? atbtApi.get(`task/list?meetingId=${params.BMid}&search=${search}&page=${page}&pageSize=${pageSize}`)
         : statusType !== "Master"
-        ? atbtApi.get(`task/list?${idOF}=${params.id}&status=${statusType}`)
-        : atbtApi.get(`task/list?${idOF}=${params.id}`),
+        ? atbtApi.get(`task/list?${idOF}=${params.id}&status=${statusType}&search=${search}&page=${page}&pageSize=${pageSize}`)
+        : atbtApi.get(`task/list?${idOF}=${params.id}&search=${search}&page=${page}&pageSize=${pageSize}`),
       // atbtApi.get(`task/listAll?user=${params.id}`),
       taskID ? atbtApi.get(`task/listbyid/${taskID}`) : null,
       taskID ? atbtApi.get(`task/subList/${taskID}`) : null,
@@ -125,8 +131,27 @@ export async function tasksLoader({ request, params }) {
 export async function AllTasksLoader({ request, params }) {
   try {
     const url = new URL(request.url);
+    // const url = new URL(request.url);
+    if (url.pathname.split("/")[1] === "users") {
+      parentPath = "users";
+      // groupName = "groupUser";
+      // idOF = "userId";
+    }
+    if (url.pathname.split("/")[1] === "entities") {
+      parentPath = "entities";
+      // groupName = "groupEntity";
+      // idOF = "entityId";
+    }
+    if (url.pathname.split("/")[1] === "teams") {
+      parentPath = "teams";
+      // groupName = "groupTeam";
+      // idOF = "teamId";
+    }
     if (url.pathname.split("/")[1] === "tasks") {
       parentPath = "tasks";
+    }
+    if (url.pathname.split("/")[1] === "boardmeetings") {
+      parentPath = "boardmeetings";
     }
     console.log("url", url.pathname.split("/")[1]);
     const taskID = url.searchParams.get("taskID");
@@ -137,6 +162,12 @@ export async function AllTasksLoader({ request, params }) {
     const moduleName = url.searchParams.get("moduleName");
     const listID = url.searchParams.get("listID");
     const meetingId = url.searchParams.get("meetingId");
+    const pageSize = url.searchParams.get("pageSize");
+    const search = url.searchParams.get("search");
+
+
+    const page = url.searchParams.get("page");
+
     const toDate = url.searchParams.get("toDate");
     let idOF;
     if (moduleName === "user") {
@@ -148,6 +179,11 @@ export async function AllTasksLoader({ request, params }) {
     }
     console.log("statusType", statusType);
     const queryParams = [];
+    queryParams.push(`page=${page}`);
+    queryParams.push(`pageSize=${pageSize}`);
+    queryParams.push(`search=${search}`);
+
+
 
     // Validate and add query parameters
     if (meetingId && meetingId !== "all") {
@@ -335,6 +371,8 @@ const Tasks = () => {
   let matches = useMatches()
   console.log(matches[0].params.statusType,"matches matches")
   const data = useLoaderData();
+  const navigation = useNavigation();
+
   let [tasks, setTasks] = useState([]);
   let [task, setTask] = useState({});
   let [subTasks, setSubTasks] = useState();
@@ -349,13 +387,22 @@ const Tasks = () => {
 
   let fetcher = useFetcher();
   const { id, BMid, statusType } = useParams();
-  const [Qparams, setQParams] = useState(() => {
-    // Initialize the state object conditionally
-    // const initialState = {};
-    // if (!BMid) {
-    //   initialState.status = status;
-    // }
-    // return initialState;
+  // const [Qparams, setQParams] = useState(() => {
+  //   search: "",
+
+  //   page: 1,
+  //   pageSize: 10,
+  //   // Initialize the state object conditionally
+  //   // const initialState = {};
+  //   // if (!BMid) {
+  //   //   initialState.status = status;
+  //   // }
+  //   // return initialState;
+  // });
+  const [Qparams, setQParams] = useState({
+    search: "",
+    page: 1,
+    pageSize: 10,
   });
   console.log(Qparams, "Qparams");
   const isFirstRender = useRef(true);
@@ -448,6 +495,22 @@ const Tasks = () => {
       console.log(error, "which error");
     }
   };
+  const handlePerPageChange = (event) => {
+    const selectedValue = parseInt(event.target.value, 10);
+    console.log(selectedValue, "sv");
+    setQParams({
+      ...Qparams,
+      page:1,
+      pageSize: selectedValue,
+    });
+  };
+  function handlePage(page) {
+    setQParams({
+      ...Qparams,
+      page,
+    });
+  }
+
   const handleDeleteTask = async (deleteId) => {
     let UpdateData = {
       id: deleteId,
@@ -1198,6 +1261,104 @@ console.log(activeLink,"activeLink")
         setSubTask={setSubTask}
         handleSendComment={handleSendComment}
       />
+      {/* pagination */}
+      <div className="inset-x-0 bottom-0 mt-5">
+        <div className="md:flex md:justify-between block text-end">
+          <div className="">
+            {!data?.tasks?.tasks || data?.tasks?.tasks?.length === 0 ? (
+              "no data to show"
+            ) : data?.tasks?.tasks?.loading ? (
+              "Loading..."
+            ) : (
+              <p className="text-sm text-gray-700">
+                Showing {data?.tasks?.startTasks} to {data?.tasks?.endTasks} of{" "}
+                <span className="text-sm">{data?.tasks?.totalTasks}</span> Tasks
+              </p>
+            )}
+          </div>
+
+          <section
+            className="isolate inline-flex rounded-md  ms-4 mt-2 md:mt-0"
+            aria-label="Pagination"
+          >
+            <select
+              value={Qparams?.pageSize}
+              onChange={handlePerPageChange}
+              className="focus:outline-none me-3 rounded-md bg-[#f8fafc]  px-1 py-1.5 text-sm font-semibold  ring-1 ring-inset ring-gray-300 hover:bg-gray-50 shadow-sm  text-gray-500 cursor-pointer"
+            >
+              <option value="10">10</option>
+              <option value="25">25</option>
+              <option value="50">50</option>
+              <option value="100">100</option>
+              <option value="250">250</option>
+              <option value="500">500</option>
+            </select>
+            {/* previos button */}
+            <button 
+              disabled={
+                navigation?.state === "loading"
+                  ? true
+                  : false || data?.tasks?.currentPage === 1
+              }
+              onClick={() => handlePage(data?.tasks?.currentPage - 1)}
+              href="#"
+              className={`relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${
+                navigation?.state === "loading"
+                  ? "cursor-wait"
+                  : data?.tasks?.currentPage === 1
+                  ? "cursor-not-allowed"
+                  : "cursor-pointer"
+              }`}
+            >
+              <span className="sr-only">Previous</span>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+                className="w-5 h-5"
+                aria-hidden="true"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M11.78 5.22a.75.75 0 0 1 0 1.06L8.06 10l3.72 3.72a.75.75 0 1 1-1.06 1.06l-4.25-4.25a.75.75 0 0 1 0-1.06l4.25-4.25a.75.75 0 0 1 1.06 0Z"
+                  clip-rule="evenodd"
+                />
+              </svg>
+            </button>
+            {/* next button */}
+            <button
+              disabled={
+                navigation?.state === "loading"
+                  ? true
+                  : false || data?.tasks?.currentPage === data?.tasks?.totalPages
+              }
+              onClick={() => handlePage(data?.tasks?.currentPage + 1)}
+              className={`relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${
+                navigation?.state === "loading"
+                  ? "cursor-wait"
+                  : data?.tasks?.currentPage === data?.tasks?.totalPages
+                  ? "cursor-not-allowed"
+                  : "cursor-pointer"
+              }`}
+            >
+              <span className="sr-only">Next</span>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+                className="w-5 h-5"
+                aria-hidden="true"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M8.22 5.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 0 1-1.06-1.06L11.94 10 8.22 6.28a.75.75 0 0 1 0-1.06Z"
+                  clip-rule="evenodd"
+                />
+              </svg>
+            </button>
+          </section>
+        </div>
+      </div>
     </div>
   );
 };

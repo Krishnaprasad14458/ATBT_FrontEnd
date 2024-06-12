@@ -68,10 +68,12 @@ const EntityLandingPage = () => {
         )}
         {!BMid && (
           <NavLink
-            to={{
-              pathname: "tasks/To-Do",
-              // search: `?status=To-Do`,
-            }}
+            // to={{
+            //   pathname: "tasks/To-Do",
+            //   // search: `?status=To-Do`,
+            // }}
+            to="tasks/To-Do?search=&page=1&pageSize=10"
+
             end
             className={({ isActive, isPending, isTransitioning }) =>
               isPending
