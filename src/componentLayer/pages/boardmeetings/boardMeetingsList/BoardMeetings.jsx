@@ -286,6 +286,7 @@ function BoardMeetings() {
               value={filterMeetingDate.toDate}
               onFocus={handleFocus}
               onBlur={handleBlur}
+              
               style={{
                 fontSize: "0.8rem",
                 WebkitAppearance: "none",

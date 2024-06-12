@@ -99,9 +99,9 @@ export async function tasksLoader({ request, params }) {
       task: updatedTask,
       subTasks: subTasks?.data?.Task,
       subTask: updatedSubTask,
-      threadName: params.BMid ? `Meetings Tasks` : `Tasks`,
+      threadName: params.BMid ? ` Tasks` : `Tasks`,
       threadPath: params.BMid
-        ? `/${parentPath}/${params.id}/${params.boardmeetings}/${params.BMid}/tasks/To-Do`
+        ? `/${parentPath}/${params.id}/${params.boardmeetings}/${params.BMid}/tasks`
         : `/${parentPath}/${params.id}/tasks/To-Do`,
       threadPathForOutsideBM: `/boardmeetings/${params.BMid}/tasks`,
     };
