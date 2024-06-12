@@ -35,11 +35,11 @@ const EditableFields = ({
            setDisplayOverviewTask(true);
          }}
        >
-         Back to Main Task Overview
+         Back to Main Decision Overview
        </span>
        <span className="mx-2 arrow_breadcrumbs"></span> 
        <span className="text-xs text-orange-500 ">
-         Sub Task
+         Sub Decision
        </span>
      </div>
         )}
