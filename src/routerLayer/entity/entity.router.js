@@ -140,7 +140,7 @@ export const entityRouter = [
                     element: <Documents />,
                     handle: {
                       crumb: (data) => (
-                        <Link to="."> Meeting Attachments</Link>
+                        <Link to="."> Attachments</Link>
                       ),
                     },
                   },
