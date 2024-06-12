@@ -53,7 +53,10 @@ export async function tasksLoader({ request, params }) {
     if (url.pathname.split("/")[1] === "tasks") {
       parentPath = "tasks";
     }
-    console.log("url", url.pathname.split("/")[1]);
+    if (url.pathname.split("/")[1] === "boardmeetings") {
+      parentPath = "boardmeetings";
+    }
+    console.log("url parentPath",parentPath, url.pathname.split("/")[1]);
     const taskID = url.searchParams.get("taskID");
     const subTaskID = url.searchParams.get("subTaskID");
     // const statusType = url.searchParams.get("status");
