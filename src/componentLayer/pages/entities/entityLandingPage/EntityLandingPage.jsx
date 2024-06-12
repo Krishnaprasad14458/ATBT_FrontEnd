@@ -63,7 +63,7 @@ const EntityLandingPage = () => {
                 : "cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09]"
             }
           >
-            Meeting Tasks
+            Meeting Decisions
           </NavLink>
         )}
         {!BMid && (
@@ -83,7 +83,7 @@ const EntityLandingPage = () => {
                 : "cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09]"
             }
           >
-            Entity Tasks
+            Entity Decisions
           </NavLink>
         )}
         {!BMid && (

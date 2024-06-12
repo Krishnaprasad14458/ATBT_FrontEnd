@@ -84,7 +84,7 @@ const UserLandingPage = () => {
                   : "cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09]"
               }
             >
-              Meeting Tasks
+              Meeting Decisions
             </NavLink>
           </GateKeeper>
         )}
@@ -110,7 +110,7 @@ const UserLandingPage = () => {
                   : "cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09]"
               }
             >
-              User Tasks
+              User Decisions
             </NavLink>
           </GateKeeper>
         )}
