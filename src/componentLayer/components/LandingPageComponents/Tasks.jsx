@@ -644,7 +644,7 @@ console.log(activeLink,"activeLink")
               <label className="text-sm text-gray-400"> From:</label>
 
               <input
-                className=" border border-gray-200  text-black px-1.5 py-2 rounded-md  bg-[#f9fafb] focus:outline-none text-sm focus:border-orange-400  date_type w-full"
+                className=" border border-gray-200  text-black px-1.5 py-2 rounded-md  bg-[#f9fafb] focus:outline-none text-sm focus:border-orange-400  date_type "
                 type="date"
                 value={dueDateFilter.fromDate}
                 style={{
@@ -663,7 +663,7 @@ console.log(activeLink,"activeLink")
               />
               <label className="text-sm text-gray-400"> To:</label>
               <input
-                className=" border border-gray-200 text-black px-1.5 py-2 rounded-md  bg-[#f9fafb] focus:outline-none text-sm focus:border-orange-400 date_type w-full"
+                className=" border border-gray-200 text-black px-1.5 py-2 rounded-md  bg-[#f9fafb] focus:outline-none text-sm focus:border-orange-400 date_type "
                 type="date"
                 value={dueDateFilter.toDate}
                 style={{

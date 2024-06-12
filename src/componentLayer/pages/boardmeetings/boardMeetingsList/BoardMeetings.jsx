@@ -144,15 +144,14 @@ function BoardMeetings() {
     setvisibleColumns(visibleColumns);
   }, [tableView]);
 
-
   let [selectedModule, setSelectedModule] = useState("");
   let [ModuleListOptions, setModuleListOptions] = useState();
   let [selectedModuleList, setSelectedModuleList] = useState();
 
-  const [filterMeetingDate , setFilterMeetingDate] = useState({
-    fromDate :"",
-    toDate:""
-  })
+  const [filterMeetingDate, setFilterMeetingDate] = useState({
+    fromDate: "",
+    toDate: "",
+  });
   // const [inputType , setInputType] = useState("text")
   // const handleFocus = () => {
   //   setInputType('date');
@@ -211,11 +210,11 @@ function BoardMeetings() {
 
     fetchData();
   }, [selectedModule]);
-  console.log(selectedModuleList,"selectedModuleList")
+  console.log(selectedModuleList, "selectedModuleList");
   return (
     <div className="overflow-x-auto p-3">
       {/* search & filter */}
-      <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-5 xl:grid-col-5 gap-2 mt-2 items-center">
+      <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-6 xl:grid-col-6 gap-2 mt-2 items-center">
         <h1 className="font-semibold text-lg col-span-1">
           {" "}
           <BreadCrumbs />
@@ -256,207 +255,223 @@ function BoardMeetings() {
             />
           </div>
         </div>
-        <div className="col-span-1 md:col-span-3  filter_pagination divide-x-2 ">
-          <div className="md:flex gap-2 items-center justify-end">
-            <label className="text-sm text-gray-400"> From:</label>
+        <div className="col-span-1 md:col-span-4  filter_pagination divide-x-2 ">
+          <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-5 xl:grid-cols-5 gap-2 items-center justify-end">
+            <div className="col-span-1 md:flex items-center">
+              <label className="text-sm text-gray-400 me-3"> From&nbsp;:</label>
 
-            <input
-              className=" border border-[#d1d5db]  text-black px-1.5 py-2 rounded-md  bg-[#f9fafb] focus:outline-none text-sm focus:border-orange-400  date_type w-full"
-              type="date"
-              value={filterMeetingDate.fromDate}
-              style={{
-                fontSize: "0.8rem",
-                WebkitAppearance: "none",
-              }}
-              onChange={(e) => {
-                setQParams((prev) => ({ ...prev, fromDate: e.target.value }));
-                setFilterMeetingDate((prev) => ({
-                  ...prev,
-                  fromDate: e.target.value,
-                }));
-              }}
-            />
-            <label className="text-sm text-gray-400"> To:</label>
-           
-            <input
-              className=" border border-[#d1d5db] text-black px-1.5 py-2 rounded-md  bg-[#f9fafb] focus:outline-none text-sm focus:border-orange-400 date_type w-full"
-              // type={inputType}
-              type='date'
-              placeholder="select To Date"
-              value={filterMeetingDate.toDate}
-              // onFocus={handleFocus}
-              // onBlur={handleBlur}
-              style={{
-                fontSize: "0.8rem",
-                WebkitAppearance: "none",
-              }}
-              onChange={(e) => {
-                setQParams((prev) => ({
-                  ...prev,
+              <input
+                className=" border border-[#d1d5db]  text-black px-1.5 py-2 rounded-md  bg-[#f9fafb] focus:outline-none text-sm focus:border-orange-400   w-full"
+                type="date"
+                value={filterMeetingDate.fromDate}
+                style={{
+                  fontSize: "0.8rem",
+                  WebkitAppearance: "none",
+                }}
+                onChange={(e) => {
+                  setQParams((prev) => ({ ...prev, fromDate: e.target.value }));
+                  setFilterMeetingDate((prev) => ({
+                    ...prev,
+                    fromDate: e.target.value,
+                  }));
+                }}
+              />
+            </div>
+            <div className="colspan-1  md:flex items-center">
+              <label className="text-sm text-gray-400 me-3"> To&nbsp;:</label>
 
-                  toDate: e.target.value,
-                }));
-                setFilterMeetingDate((prev) => ({
-                  ...prev,
-                  toDate: e.target.value,
-                }));
-              }}
-            />
+              <input
+                className=" border border-[#d1d5db] text-black px-1.5 py-2 rounded-md  bg-[#f9fafb] focus:outline-none text-sm focus:border-orange-400  w-full"
+                // type={inputType}
+                type="date"
+                placeholder="select To Date"
+                value={filterMeetingDate.toDate}
+                // onFocus={handleFocus}
+                // onBlur={handleBlur}
+                style={{
+                  fontSize: "0.8rem",
+                  WebkitAppearance: "none",
+                }}
+                onChange={(e) => {
+                  setQParams((prev) => ({
+                    ...prev,
 
-            <Select
-              menuPlacement="auto"
-              maxMenuHeight={170}
-              options={moduleOptions}
-              value={selectedModule}
-              onChange={(selectedOption) => {
-                setSelectedModule(selectedOption);
-                setSelectedModuleList("");
-                setModuleListOptions();
-                // setSelectedMeeting(null)
-              }}
-              styles={{
-                control: (provided, state) => ({
-                  ...provided,
-                  backgroundColor: "#f9fafb",
-                  borderWidth: state.isFocused ? "1px" : "1px",
-                  borderColor: state.isFocused ? "#orange-400" : "#d1d5db",
-                  boxShadow: state.isFocused ? "none" : provided.boxShadow,
-                  width: "100%", // Default width for small screens
-                  "@media (min-width: 640px)": {
-                    // Media query for medium screens and above
-                    width: "10rem",
+                    toDate: e.target.value,
+                  }));
+                  setFilterMeetingDate((prev) => ({
+                    ...prev,
+                    toDate: e.target.value,
+                  }));
+                }}
+              />
+            </div>
+
+            <div className="col-span-1">
+              <Select
+                menuPlacement="auto"
+                maxMenuHeight={170}
+                options={moduleOptions}
+                value={selectedModule}
+                onChange={(selectedOption) => {
+                  setSelectedModule(selectedOption);
+                  setSelectedModuleList("");
+                  setModuleListOptions();
+                  // setSelectedMeeting(null)
+                }}
+                styles={{
+                  control: (provided, state) => ({
+                    ...provided,
+                    backgroundColor: "#f9fafb",
+                    borderWidth: state.isFocused ? "1px" : "1px",
+                    borderColor: state.isFocused ? "#orange-400" : "#d1d5db",
+                    boxShadow: state.isFocused ? "none" : provided.boxShadow,
+                    width: "100%", // Default width for small screens
+                    "@media (min-width: 640px)": {
+                      // Media query for medium screens and above
+                      width: "full",
+                    },
+                  }),
+
+                  placeholder: (provided) => ({
+                    ...provided,
+                    fontSize: "12px",
+                    color: "#a9a9a9",
+                  }),
+                  option: (provided, state) => ({
+                    ...provided,
+                    color: state.isFocused ? "#fff" : "#000000",
+                    backgroundColor: state.isFocused
+                      ? "#ea580c"
+                      : "transparent",
+
+                    "&:hover": {
+                      color: "#fff",
+                      backgroundColor: "#ea580c",
+                    },
+                  }),
+                  fontSize: "14px",
+                }}
+                theme={(theme) => ({
+                  ...theme,
+                  borderRadius: 5,
+                  colors: {
+                    ...theme.colors,
+
+                    primary: "#fb923c",
                   },
-                }),
+                })}
+              />
+            </div>
+            <div className="col-span-1">
+              <Select
+                menuPlacement="auto"
+                maxMenuHeight={170}
+                options={ModuleListOptions}
+                value={selectedModuleList}
+                onChange={(selectedOption) => {
+                  setSelectedModuleList(selectedOption);
+                  // setSelectedMeeting(null)
+                  // handleFilterChange("listID", selectedOption.value)
+                  let qparms = { ...Qparams };
+                  delete qparms.user;
+                  delete qparms.entity;
+                  delete qparms.team;
+                  setQParams({
+                    ...qparms,
+                    [selectedModule.value]: selectedOption.value,
+                  });
+                }}
+                styles={{
+                  control: (provided, state) => ({
+                    ...provided,
+                    backgroundColor: "#f9fafb",
+                    borderWidth: state.isFocused ? "1px" : "1px",
+                    borderColor: state.isFocused ? "#orange-400" : "#d1d5db",
+                    boxShadow: state.isFocused ? "none" : provided.boxShadow,
+                    width: "100%", // Default width for small screens
+                    "@media (min-width: 640px)": {
+                      // Media query for medium screens and above
+                      width: "full",
+                    },
+                  }),
 
-                placeholder: (provided) => ({
-                  ...provided,
-                  fontSize: "12px",
-                  color: "#a9a9a9",
-                }),
-                option: (provided, state) => ({
-                  ...provided,
-                  color: state.isFocused ? "#fff" : "#000000",
-                  backgroundColor: state.isFocused ? "#ea580c" : "transparent",
+                  placeholder: (provided) => ({
+                    ...provided,
+                    fontSize: "12px",
+                    color: "#a9a9a9",
+                  }),
+                  option: (provided, state) => ({
+                    ...provided,
+                    color: state.isFocused ? "#fff" : "#000000",
+                    backgroundColor: state.isFocused
+                      ? "#ea580c"
+                      : "transparent",
 
-                  "&:hover": {
-                    color: "#fff",
-                    backgroundColor: "#ea580c",
+                    "&:hover": {
+                      color: "#fff",
+                      backgroundColor: "#ea580c",
+                    },
+                  }),
+                  fontSize: "14px",
+                }}
+                theme={(theme) => ({
+                  ...theme,
+                  borderRadius: 5,
+                  colors: {
+                    ...theme.colors,
+
+                    primary: "#fb923c",
                   },
-                }),
-                fontSize: "14px",
-              }}
-              theme={(theme) => ({
-                ...theme,
-                borderRadius: 5,
-                colors: {
-                  ...theme.colors,
+                })}
+                //  placeholder="bhavi"
+              />
+            </div>
+            <div className="col-span-1 text-end">
+              <div className="lg:flex justify-end">
+                <button
+                  onClick={() => {
+                    let Qprms = { ...Qparams };
+                    delete Qprms.fromDate;
+                    delete Qprms.toDate;
+                    delete Qprms.user;
+                    delete Qprms.entity;
+                    delete Qprms.team;
+                    setSelectedModule("");
+                    setModuleListOptions();
+                    setSelectedModuleList("");
 
-                  primary: "#fb923c",
-                },
-              })}
-            />
-            <Select
-              menuPlacement="auto"
-              maxMenuHeight={170}
-              options={ModuleListOptions}
-              value = {selectedModuleList}
-              onChange={(selectedOption) => {
-                setSelectedModuleList(selectedOption);
-                // setSelectedMeeting(null)
-                // handleFilterChange("listID", selectedOption.value)
-                let qparms = { ...Qparams };
-                delete qparms.user;
-                delete qparms.entity;
-                delete qparms.team;
-                setQParams({
-                  ...qparms,
-                  [selectedModule.value]: selectedOption.value,
-                });
-              }}
-              styles={{
-                control: (provided, state) => ({
-                  ...provided,
-                  backgroundColor: "#f9fafb",
-                  borderWidth: state.isFocused ? "1px" : "1px",
-                  borderColor: state.isFocused ? "#orange-400" : "#d1d5db",
-                  boxShadow: state.isFocused ? "none" : provided.boxShadow,
-                  width: "100%", // Default width for small screens
-                  "@media (min-width: 640px)": {
-                    // Media query for medium screens and above
-                    width: "10rem",
-                  },
-                }),
-
-                placeholder: (provided) => ({
-                  ...provided,
-                  fontSize: "12px",
-                  color: "#a9a9a9",
-                }),
-                option: (provided, state) => ({
-                  ...provided,
-                  color: state.isFocused ? "#fff" : "#000000",
-                  backgroundColor: state.isFocused ? "#ea580c" : "transparent",
-
-                  "&:hover": {
-                    color: "#fff",
-                    backgroundColor: "#ea580c",
-                  },
-                }),
-                fontSize: "14px",
-              }}
-              theme={(theme) => ({
-                ...theme,
-                borderRadius: 5,
-                colors: {
-                  ...theme.colors,
-
-                  primary: "#fb923c",
-                },
-              })}
-              //  placeholder="bhavi"
-            />
-            <button
-              onClick={() => {
-                let Qprms = { ...Qparams };
-                delete Qprms.fromDate;
-                delete Qprms.toDate;
-                delete Qprms.user;
-                delete Qprms.entity;
-                delete Qprms.team;
-                setSelectedModule("")
-                setModuleListOptions()
-                setSelectedModuleList("")
-            
-                setQParams(Qprms);
-                setFilterMeetingDate({ toDate: "", fromDate: "" });
-              }}
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke-width="1.5"
-                stroke="currentColor"
-                class="size-4"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99"
+                    setQParams(Qprms);
+                    setFilterMeetingDate({ toDate: "", fromDate: "" });
+                  }}
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    class="size-4"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99"
+                    />
+                  </svg>
+                </button>
+                <CustomColumn
+                  tableView={tableView}
+                  setTableView={setTableView}
+                  form="boardmeetingform"
                 />
-              </svg>
-            </button>
-            <CustomColumn
-              tableView={tableView}
-              setTableView={setTableView}
-              form="boardmeetingform"
-            />
-            <CustomFilter
-              fieldsDropDownData={fieldsDropDownData}
-              Qparams={Qparams}
-              setQParams={setQParams}
-              customForm={customForm}
-            />
+                <CustomFilter
+                  fieldsDropDownData={fieldsDropDownData}
+                  Qparams={Qparams}
+                  setQParams={setQParams}
+                  customForm={customForm}
+                />
+              </div>
+            </div>
           </div>
         </div>
       </div>
