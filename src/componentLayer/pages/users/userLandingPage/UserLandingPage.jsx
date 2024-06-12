@@ -70,7 +70,7 @@ const UserLandingPage = () => {
             }
           >
             <NavLink
-              to={`userboardmeetings/${BMid}/tasks`}
+              to={`userboardmeetings/${BMid}/tasks?search=&page=1&pageSize=10`}
               end
               isActive={(match, location) =>
                 match ||
@@ -96,10 +96,11 @@ const UserLandingPage = () => {
             }
           >
             <NavLink
-              to={{
-                pathname: "tasks/To-Do",
-                // search: `?status=To-Do`,
-              }}
+              // to={{
+              //   pathname: "tasks/To-Do?search=&page=1&pageSize=10",
+              //   // search: `?status=To-Do`,
+              // }}
+              to="tasks/To-Do?search=&page=1&pageSize=10"
               end
               className={({ isActive, isPending, isTransitioning }) =>
                 isPending
