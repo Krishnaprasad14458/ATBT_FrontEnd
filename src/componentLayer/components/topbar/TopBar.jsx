@@ -47,7 +47,20 @@ export default function TopBar() {
               <div className="flex flex-shrink-0 items-center">
                 <Menu as="div" className="relative inline-block text-left">
                   <div>
-                    <Menu.Button className="inline-flex w-full justify-center gap-x-1.5 rounded-full">
+                    <Menu.Button className=" w-full justify-center gap-x-1.5 rounded-full sm:hidden">
+                      <button className="px-3 py-2 inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white gap-1">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                          className="w-5 h-5"
+                        >
+                          <path d="M10.75 4.75a.75.75 0 0 0-1.5 0v4.5h-4.5a.75.75 0 0 0 0 1.5h4.5v4.5a.75.75 0 0 0 1.5 0v-4.5h4.5a.75.75 0 0 0 0-1.5h-4.5v-4.5Z" />
+                        </svg>
+                    
+                      </button>
+                    </Menu.Button>
+                    <Menu.Button className="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between     ">
                       <button className="px-3 py-2 inline-flex items-center justify-center whitespace-nowrap rounded-full text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white gap-1">
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -57,7 +70,7 @@ export default function TopBar() {
                         >
                           <path d="M10.75 4.75a.75.75 0 0 0-1.5 0v4.5h-4.5a.75.75 0 0 0 0 1.5h4.5v4.5a.75.75 0 0 0 1.5 0v-4.5h4.5a.75.75 0 0 0 0-1.5h-4.5v-4.5Z" />
                         </svg>
-                        Create
+                     Create
                       </button>
                     </Menu.Button>
                   </div>
@@ -71,7 +84,7 @@ export default function TopBar() {
                     leaveTo="transform opacity-0 scale-95"
                   >
                     <Menu.Items
-                      className="absolute mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none
+                      className="absolute mt-2 w-48 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none
       md:ml-28 md:top-0 md:left-0 md:mt-1"
                     >
                       <div className="py-1">
@@ -435,7 +448,7 @@ export default function TopBar() {
                   leaveTo="transform opacity-0 scale-95"
                 >
                   {/* for profile */}
-                  <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                  <Menu.Items className="absolute right-9 z-10 mt-2 top-2 w-48 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                     <div className="py-1">
                       <Menu.Item>
                         {({ active }) => (
