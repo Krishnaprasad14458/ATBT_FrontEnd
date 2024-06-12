@@ -36,7 +36,7 @@ const Collaborators = ({
               {/* Collaborator */}
               <div className="collaborator-container bg-orange-600 text-white py-1.5 w-8 h-8 rounded-full relative hover:bg-orange-700">
                 <span className="flex justify-center  text-sm">
-                  {collaborator.name.split("")[0]} 
+                  {collaborator?.name.split("")[0]} 
                 </span>
                 {/* Remove icon */}
                 <span className="absolute top-0 left-4 p-1 hidden group-hover:flex items-center">
