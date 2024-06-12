@@ -339,16 +339,20 @@ function Reports() {
         <table className="w-full">
           <thead>
             <tr>
-              <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200">
+              <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200"
+              style={{width :"10rem"}}>
                 Report Name
               </th>
-              <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200">
+              <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200"
+              style={{width :"10rem"}}>
                 Module
               </th>
-              <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200">
+              <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200"
+              style={{width :"10rem"}}>
                 List
               </th>
-              <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200">
+              <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200"
+              style={{width :"10rem"}}>
                 Meetings ID's
               </th>
               <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200">
@@ -370,6 +374,7 @@ function Reports() {
                       borderWidth: state.isFocused ? "1px" : "1px", // Decrease border width when focused
                       borderColor: state.isFocused ? "#orange-400" : "#d1d5db", // Change border color when focused
                       boxShadow: state.isFocused ? "none" : provided.boxShadow, // Optionally remove box shadow when focused
+                      width:"10rem"
                     }),
                     placeholder: (provided) => ({
                       ...provided,
@@ -430,6 +435,7 @@ function Reports() {
                       borderWidth: state.isFocused ? "1px" : "1px", // Decrease border width when focused
                       borderColor: state.isFocused ? "#orange-400" : "#d1d5db", // Change border color when focused
                       boxShadow: state.isFocused ? "none" : provided.boxShadow, // Optionally remove box shadow when focused
+                      width:"10rem"
                     }),
                     placeholder: (provided) => ({
                       ...provided,
@@ -490,6 +496,7 @@ function Reports() {
                       borderWidth: state.isFocused ? "1px" : "1px", // Decrease border width when focused
                       borderColor: state.isFocused ? "#orange-400" : "#d1d5db", // Change border color when focused
                       boxShadow: state.isFocused ? "none" : provided.boxShadow, // Optionally remove box shadow when focused
+                      width:"10rem"
                     }),
                     placeholder: (provided) => ({
                       ...provided,
@@ -550,6 +557,7 @@ function Reports() {
                       borderWidth: state.isFocused ? "1px" : "1px", // Decrease border width when focused
                       borderColor: state.isFocused ? "#orange-400" : "#d1d5db", // Change border color when focused
                       boxShadow: state.isFocused ? "none" : provided.boxShadow, // Optionally remove box shadow when focused
+                      width:"10rem"
                     }),
                     placeholder: (provided) => ({
                       ...provided,
