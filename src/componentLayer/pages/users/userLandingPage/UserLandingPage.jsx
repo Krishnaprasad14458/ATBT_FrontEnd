@@ -39,7 +39,7 @@ const UserLandingPage = () => {
         </p>
       </div>
       <div className="flex overflow-x-auto">
-        {!BMid && (
+        {/* {!BMid && (
           <GateKeeper
             permissionCheck={(permission) =>
               permission.module === "meeting" && permission.canRead
@@ -143,7 +143,7 @@ const UserLandingPage = () => {
           >
             Meeting Attachments
           </NavLink>
-        )}
+        )} */}
 
         {!BMid && (
           <GateKeeper
@@ -166,7 +166,7 @@ const UserLandingPage = () => {
             </NavLink>
           </GateKeeper>
         )}
-        {BMid && (
+        {/* {BMid && (
           <GateKeeper
             permissionCheck={(permission) =>
               permission.module === "meeting" && permission.canRead
@@ -186,7 +186,7 @@ const UserLandingPage = () => {
               Meeting Overview
             </NavLink>
           </GateKeeper>
-        )}
+        )} */}
       </div>
       <hr />
       <Outlet />
