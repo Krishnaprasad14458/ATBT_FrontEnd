@@ -335,7 +335,7 @@ function Reports() {
       </div>
       {/* table */}
 
-      <div className="max-h-[510px] overflow-y-scroll mt-5">
+      <div className=" mt-5">
         <table className="w-full">
           <thead>
             <tr>
