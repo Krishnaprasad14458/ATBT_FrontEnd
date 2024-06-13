@@ -86,7 +86,7 @@ const NonEditableFields = ({ task, age }) => {
           ) : task?.taskCreateBY?.name === "teams" ? (
             <span className="text-xs">Team Name</span>
           ) : (
-            <span></span>
+            <span>&#8203;</span> 
           )}{" "}
         </label>
         <p
