@@ -1,13 +1,16 @@
-import React, { useEffect, useRef } from "react";
+import React, { useContext, useEffect, useRef } from "react";
 import { useState } from "react";
 import { useFetcher } from "react-router-dom";
+import { AuthContext } from "../../../../contexts/authContext/authContext";
 const CommentsView = ({
   comments,
   messagesEndRef,
   setIsCommentEditing,
   setNewComment,
 }) => {
-  let loggedInUser = JSON.parse(localStorage.getItem("data")).user;
+  const { authState } = useContext(AuthContext);
+
+ 
   let fetcher = useFetcher();
   const attachmentStyle = {
     maxWidth: "200px",
@@ -56,7 +59,7 @@ const CommentsView = ({
   return (
     <div>
       <div className="bg-[#f8fafc] ">
-        <p className="p-3"> Comments</p>
+        <p className="p-3"> Recent Activities</p>
         <hr />
         {/* {comments?.length > 5 && (
           <p
@@ -170,7 +173,7 @@ const CommentsView = ({
                     <div className="flex justify-around items-center md:gap-3">
                       <div class="relative inline-block text-left bottom-0">
                         <div>
-                          {parseInt(loggedInUser.id) ===
+                          {parseInt(authState?.user?.id) ===
                             parseInt(comment.senderId) && (
                             <button
                               type="button"

@@ -174,7 +174,7 @@ const TaskOverview = ({
           displayOverviewTask={displayOverviewTask}
           taskID={displayOverviewTask ? task?.id : subTask?.id}
         />
-        {/* <Collaborators
+        <Collaborators
         handleOverviewTaskChange={
           displayOverviewTask
             ? handleOverviewTaskChange
@@ -187,7 +187,7 @@ const TaskOverview = ({
           task={
             displayOverviewTask ? task : subTask
           }
-        /> */}
+        />
       </div>
     </div>
   );

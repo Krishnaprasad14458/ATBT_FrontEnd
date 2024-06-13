@@ -3,7 +3,8 @@ import Tasks, { AllTasksLoader, TasksActions, tasksLoader } from "../../componen
 export const taskRouter = [
     // { index :true, element: <Tasks /> },
     {
-        index :true,
+        // index :true,
+        path:':statusType',
         loader: AllTasksLoader,
         action: TasksActions,
         element: <Tasks />,

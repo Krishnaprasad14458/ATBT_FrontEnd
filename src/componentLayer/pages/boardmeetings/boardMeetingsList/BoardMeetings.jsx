@@ -1,4 +1,5 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState, useCallback, useRef } from "react";
+import Select from "react-select";
 import {
   Link,
   useFetcher,
@@ -12,6 +13,12 @@ import GateKeeper from "../../../../rbac/GateKeeper";
 import CustomColumn from "../../../components/tableCustomization/CustomColumn";
 import CustomFilter from "../../../components/tableCustomization/CustomFilter";
 import atbtApi from "../../../../serviceLayer/interceptor";
+import BreadCrumbs from "../../../components/breadcrumbs/BreadCrumbs";
+let moduleOptions = [
+  { label: "User", value: "user" },
+  { label: "Entity", value: "entity" },
+  { label: "Team", value: "team" },
+];
 export async function loader({ request, params }) {
   try {
     let url = new URL(request.url);
@@ -63,7 +70,13 @@ function BoardMeetings() {
     page: 1,
     pageSize: 10,
   });
+  const isFirstRender = useRef(true);
+
   useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
     debouncedParams(Qparams);
   }, [Qparams]);
   const debouncedParams = useCallback(
@@ -130,12 +143,83 @@ function BoardMeetings() {
     );
     setvisibleColumns(visibleColumns);
   }, [tableView]);
+
+  let [selectedModule, setSelectedModule] = useState("");
+  let [ModuleListOptions, setModuleListOptions] = useState();
+  let [selectedModuleList, setSelectedModuleList] = useState();
+
+  const [filterMeetingDate, setFilterMeetingDate] = useState({
+    fromDate: "",
+    toDate: "",
+  });
+  // const [inputType , setInputType] = useState("text")
+  // const handleFocus = () => {
+  //   setInputType('date');
+  // };
+
+  // const handleBlur = () => {
+  //   setInputType('text');
+  // };
+  useEffect(() => {
+    // Ensure selectedModule exists before making the API call
+    if (!selectedModule || !selectedModule.value) return;
+
+    const fetchData = async () => {
+      try {
+        let response;
+
+        switch (selectedModule.value) {
+          case "user":
+            response = await atbtApi.post("public/list/user");
+            response = response?.data?.users?.map((user) => ({
+              label: user.name,
+              value: user.id,
+            }));
+            break;
+          case "entity":
+            response = await atbtApi.post("public/list/entity");
+
+            response = response?.data?.Entites?.map((entity) => ({
+              label: entity.name,
+              value: entity.id,
+            }));
+            console.log("response", response);
+
+            break;
+          case "team":
+            response = await atbtApi.post("public/list/team");
+
+            response = response?.data?.Teams?.map((team) => ({
+              label: team.name,
+              value: team.id,
+            }));
+
+            break;
+          default:
+            console.warn("No valid selected module value.");
+            return;
+        }
+
+        // Update state with the data from the API response
+        setModuleListOptions(response);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+        // Handle error appropriately, e.g., set an error state or show a message
+      }
+    };
+
+    fetchData();
+  }, [selectedModule]);
+  console.log(selectedModuleList, "selectedModuleList");
   return (
     <div className="overflow-x-auto p-3">
       {/* search & filter */}
-      <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-3 xl:grid-col-3 gap-2 mt-2 items-center">
-        <h1 className="font-semibold text-lg grid1-item">Meetings</h1>
-        <div className="grid1-item  text-start">
+      <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-6 xl:grid-col-6 gap-2 mt-2 items-center">
+        <h1 className="font-semibold text-lg col-span-1">
+          {" "}
+          <BreadCrumbs />
+        </h1>
+        <div className="col-span-1  text-start">
           <label
             for="default-search"
             className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white"
@@ -171,19 +255,224 @@ function BoardMeetings() {
             />
           </div>
         </div>
-        <div className="grid1-item text-end flex justify-end  items-center filter_pagination divide-x-2 h-7 mt-2">
-          <CustomColumn
-            tableView={tableView}
-            setTableView={setTableView}
-            form="boardmeetingform"
-          />
-          <CustomFilter
-          
-            fieldsDropDownData={fieldsDropDownData}
-            Qparams={Qparams}
-            setQParams={setQParams}
-            customForm={customForm}
-          />
+        <div className="col-span-1 md:col-span-4  filter_pagination divide-x-2 ">
+          <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-5 xl:grid-cols-5 gap-2 items-center justify-end">
+            <div className="col-span-1 md:flex items-center">
+              <label className="text-sm text-gray-400 me-3"> From&nbsp;:</label>
+
+              <input
+                className=" border border-[#d1d5db]  text-black px-1.5 py-2 rounded-md  bg-[#f9fafb] focus:outline-none text-sm focus:border-orange-400   w-full"
+                type="date"
+                value={filterMeetingDate.fromDate}
+                style={{
+                  fontSize: "0.8rem",
+                  WebkitAppearance: "none",
+                }}
+                onChange={(e) => {
+                  setQParams((prev) => ({ ...prev, fromDate: e.target.value }));
+                  setFilterMeetingDate((prev) => ({
+                    ...prev,
+                    fromDate: e.target.value,
+                  }));
+                }}
+              />
+            </div>
+            <div className="colspan-1  md:flex items-center">
+              <label className="text-sm text-gray-400 me-3"> To&nbsp;:</label>
+
+              <input
+                className=" border border-[#d1d5db] text-black px-1.5 py-2 rounded-md  bg-[#f9fafb] focus:outline-none text-sm focus:border-orange-400  w-full"
+                // type={inputType}
+                type="date"
+                placeholder="select To Date"
+                value={filterMeetingDate.toDate}
+                // onFocus={handleFocus}
+                // onBlur={handleBlur}
+                style={{
+                  fontSize: "0.8rem",
+                  WebkitAppearance: "none",
+                }}
+                onChange={(e) => {
+                  setQParams((prev) => ({
+                    ...prev,
+
+                    toDate: e.target.value,
+                  }));
+                  setFilterMeetingDate((prev) => ({
+                    ...prev,
+                    toDate: e.target.value,
+                  }));
+                }}
+              />
+            </div>
+
+            <div className="col-span-1">
+              <Select
+                menuPlacement="auto"
+                maxMenuHeight={170}
+                options={moduleOptions}
+                value={selectedModule}
+                onChange={(selectedOption) => {
+                  setSelectedModule(selectedOption);
+                  setSelectedModuleList("");
+                  setModuleListOptions();
+                  // setSelectedMeeting(null)
+                }}
+                styles={{
+                  control: (provided, state) => ({
+                    ...provided,
+                    backgroundColor: "#f9fafb",
+                    borderWidth: state.isFocused ? "1px" : "1px",
+                    borderColor: state.isFocused ? "#orange-400" : "#d1d5db",
+                    boxShadow: state.isFocused ? "none" : provided.boxShadow,
+                    width: "100%", // Default width for small screens
+                    "@media (min-width: 640px)": {
+                      // Media query for medium screens and above
+                      width: "full",
+                    },
+                  }),
+
+                  placeholder: (provided) => ({
+                    ...provided,
+                    fontSize: "12px",
+                    color: "#a9a9a9",
+                  }),
+                  option: (provided, state) => ({
+                    ...provided,
+                    color: state.isFocused ? "#fff" : "#000000",
+                    backgroundColor: state.isFocused
+                      ? "#ea580c"
+                      : "transparent",
+
+                    "&:hover": {
+                      color: "#fff",
+                      backgroundColor: "#ea580c",
+                    },
+                  }),
+                  fontSize: "14px",
+                }}
+                theme={(theme) => ({
+                  ...theme,
+                  borderRadius: 5,
+                  colors: {
+                    ...theme.colors,
+
+                    primary: "#fb923c",
+                  },
+                })}
+              />
+            </div>
+            <div className="col-span-1">
+              <Select
+                menuPlacement="auto"
+                maxMenuHeight={170}
+                options={ModuleListOptions}
+                value={selectedModuleList}
+                onChange={(selectedOption) => {
+                  setSelectedModuleList(selectedOption);
+                  // setSelectedMeeting(null)
+                  // handleFilterChange("listID", selectedOption.value)
+                  let qparms = { ...Qparams };
+                  delete qparms.user;
+                  delete qparms.entity;
+                  delete qparms.team;
+                  setQParams({
+                    ...qparms,
+                    [selectedModule.value]: selectedOption.value,
+                  });
+                }}
+                styles={{
+                  control: (provided, state) => ({
+                    ...provided,
+                    backgroundColor: "#f9fafb",
+                    borderWidth: state.isFocused ? "1px" : "1px",
+                    borderColor: state.isFocused ? "#orange-400" : "#d1d5db",
+                    boxShadow: state.isFocused ? "none" : provided.boxShadow,
+                    width: "100%", // Default width for small screens
+                    "@media (min-width: 640px)": {
+                      // Media query for medium screens and above
+                      width: "full",
+                    },
+                  }),
+
+                  placeholder: (provided) => ({
+                    ...provided,
+                    fontSize: "12px",
+                    color: "#a9a9a9",
+                  }),
+                  option: (provided, state) => ({
+                    ...provided,
+                    color: state.isFocused ? "#fff" : "#000000",
+                    backgroundColor: state.isFocused
+                      ? "#ea580c"
+                      : "transparent",
+
+                    "&:hover": {
+                      color: "#fff",
+                      backgroundColor: "#ea580c",
+                    },
+                  }),
+                  fontSize: "14px",
+                }}
+                theme={(theme) => ({
+                  ...theme,
+                  borderRadius: 5,
+                  colors: {
+                    ...theme.colors,
+
+                    primary: "#fb923c",
+                  },
+                })}
+                //  placeholder="bhavi"
+              />
+            </div>
+            <div className="col-span-1 text-end">
+              <div className="lg:flex justify-end">
+                <button
+                  onClick={() => {
+                    let Qprms = { ...Qparams };
+                    delete Qprms.fromDate;
+                    delete Qprms.toDate;
+                    delete Qprms.user;
+                    delete Qprms.entity;
+                    delete Qprms.team;
+                    setSelectedModule("");
+                    setModuleListOptions();
+                    setSelectedModuleList("");
+
+                    setQParams(Qprms);
+                    setFilterMeetingDate({ toDate: "", fromDate: "" });
+                  }}
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    class="size-4"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99"
+                    />
+                  </svg>
+                </button>
+                <CustomColumn
+                  tableView={tableView}
+                  setTableView={setTableView}
+                  form="boardmeetingform"
+                />
+                <CustomFilter
+                  fieldsDropDownData={fieldsDropDownData}
+                  Qparams={Qparams}
+                  setQParams={setQParams}
+                  customForm={customForm}
+                />
+              </div>
+            </div>
+          </div>
         </div>
       </div>
       {/* table */}
@@ -204,31 +493,31 @@ function BoardMeetings() {
                   scope="col"
                   className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200"
                 >
-                  Total Tasks
+                  Total Decisions
                 </th>
                 <th
                   scope="col"
                   className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200"
                 >
-                  To-Do Tasks
+                  To-Do Decisions
                 </th>
                 <th
                   scope="col"
                   className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200"
                 >
-                  In-Progress Tasks
+                  In-Progress Decisions
                 </th>
                 <th
                   scope="col"
                   className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200"
                 >
-                  Overdue Tasks
+                  Overdue Decisions
                 </th>
                 <th
                   scope="col"
                   className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200"
                 >
-                  Completed Tasks
+                  Completed Decisions
                 </th>
                 <th
                   scope="col"
@@ -312,7 +601,7 @@ function BoardMeetings() {
                         return (
                           <td
                             key={key}
-                            className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden hover:text-orange-500`}
+                            className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden`}
                             style={{ maxWidth: "160px" }}
                             title={row[key]}
                           >
@@ -323,35 +612,48 @@ function BoardMeetings() {
                     })}
                     <td
                       className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden hover:text-orange-500`}
-                      
                       title=""
                     >
-                      <p className="truncate text-xs">    {row.taskCounts.totalTaskCount}</p>
-                    </td>
-                    <td
-                      className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden`}
-                      
-                      title=""
-                    >
-                      <p className="truncate text-xs">  {row.taskCounts.toDoCount}</p>
+                      <p className="truncate text-xs">
+                        {" "}
+                        {row.taskCounts.totalTaskCount}
+                      </p>
                     </td>
                     <td
                       className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden`}
                       title=""
                     >
-                      <p className="truncate text-xs">  {row.taskCounts.inProgressCount}</p>
+                      <p className="truncate text-xs">
+                        {" "}
+                        {row.taskCounts.toDoCount}
+                      </p>
                     </td>
                     <td
                       className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden`}
                       title=""
                     >
-                      <p className="truncate text-xs">   {row.taskCounts.overDueCount}</p>
+                      <p className="truncate text-xs">
+                        {" "}
+                        {row.taskCounts.inProgressCount}
+                      </p>
                     </td>
                     <td
                       className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden`}
                       title=""
                     >
-                      <p className="truncate text-xs">   {row.taskCounts.completedCount}</p>
+                      <p className="truncate text-xs">
+                        {" "}
+                        {row.taskCounts.overDueCount}
+                      </p>
+                    </td>
+                    <td
+                      className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden`}
+                      title=""
+                    >
+                      <p className="truncate text-xs">
+                        {" "}
+                        {row.taskCounts.completedCount}
+                      </p>
                     </td>
                     <td
                       className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden`}
@@ -455,7 +757,7 @@ function BoardMeetings() {
               "Loading..."
             ) : (
               <p className="text-sm text-gray-700">
-                Showing {meetings.startMeeting} to {meetings.endMeeting}  of
+                Showing {meetings.startMeeting} to {meetings.endMeeting} of
                 <span className="text-sm"> {meetings.totalMeetings}</span>
               </p>
             )}

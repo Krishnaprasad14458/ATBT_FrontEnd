@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import {
   Link,
   useFetcher,
@@ -89,7 +89,13 @@ function Boardmeeting() {
     page: 1,
     pageSize: 10,
   });
+  const isFirstRender = useRef(true);
+  
   useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
     debouncedParams(Qparams);
   }, [Qparams]);
   const debouncedParams = useCallback(
@@ -162,10 +168,10 @@ function Boardmeeting() {
     <div className="overflow-x-auto p-3 w-full">
       {/* search & filter */}
       <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3 xl:grid-col-3 gap-2 mt-2">
-        <span className="col-span-1"> </span>
+        <span className="col-span1 "> </span>
         <div className="col-span-1 text-start">
           <div className="relative">
-            <div className="absolute inset-y-0 start-0 flex items-center p-3 pointer-events-none">
+            <div className="absolute inset-y-0 start-0 flex items-center justify-start p-3 pointer-events-none">
               <svg
                 className="w-3 h-3 text-gray-500 dark:text-gray-400"
                 aria-hidden="true"
@@ -193,7 +199,7 @@ function Boardmeeting() {
             />
           </div>
         </div>
-        <div className="col-span-1 text-end flex justify-end items-center filter_pagination divide-x-2 ">
+        <div className="col-span-1  text-end flex justify-end items-center filter_pagination divide-x-2 ">
           <CustomColumn
             tableView={tableView}
             setTableView={setTableView}
@@ -252,31 +258,31 @@ function Boardmeeting() {
                   scope="col"
                   className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2 border-l-2 border-gray-200"
                 >
-                  Total Tasks
+                  Total Decisions
                 </th>
                 <th
                   scope="col"
                   className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2 border-l-2 border-gray-200"
                 >
-                  To-Do Tasks
+                  To-Do Decisions
                 </th>
                 <th
                   scope="col"
                   className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2 border-l-2 border-gray-200"
                 >
-                  In-Progress Tasks
+                  In-Progress Decisions
                 </th>
                 <th
                   scope="col"
                   className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2 border-l-2 border-gray-200"
                 >
-                  Overdue Tasks
+                  Overdue Decisions
                 </th>
                 <th
                   scope="col"
                   className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2 border-l-2 border-gray-200"
                 >
-                  Completed Tasks
+                  Completed Decisions
                 </th>
                 <th
                   scope="col"
@@ -344,7 +350,7 @@ function Boardmeeting() {
                                 permission.canRead
                               }
                             >
-                              <Link to={`${row.id}/tasks`}>
+                              <Link to={`${row.id}/tasks?search=&page=1&pageSize=10`}>
                                 <p className="truncate text-xs"> {value}</p>
                               </Link>
                             </GateKeeper>
@@ -354,7 +360,7 @@ function Boardmeeting() {
                         return (
                           <td
                             key={key}
-                            className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden hover:text-orange-500`}
+                            className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden `}
                             style={{ maxWidth: "160px" }}
                             title={row[key]}
                           >

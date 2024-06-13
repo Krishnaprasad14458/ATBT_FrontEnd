@@ -3,6 +3,7 @@ import { NavLink, Link, Outlet, useParams, useLocation } from 'react-router-dom'
 // import { BoardMeetingsDataContext } from '../../../../contexts/boardmeetingsDataContext/boardmeetingsDataContext';
 // import axios from 'axios';
 import GateKeeper from '../../../../rbac/GateKeeper';
+import BreadCrumbs from '../../../components/breadcrumbs/BreadCrumbs';
 const BoardMeetingLandingPage = () => {
   const { id, BMid } = useParams();
 
@@ -10,7 +11,7 @@ const BoardMeetingLandingPage = () => {
   return (
     <div className=' p-4 bg-[#f8fafc]'>
       <div className='flex justify-between my-2'>
-        {/* <p className='text-xl font-semibold'>Board Meeting Landing Page</p> */}
+        <p className='text-xl font-semibold'><BreadCrumbs/></p>
       </div>
       <div className='flex overflow-auto'>
       <GateKeeper
@@ -33,7 +34,7 @@ const BoardMeetingLandingPage = () => {
                 : "cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09]"
             }
           >
-            Meeting Tasks
+            Meeting Decisions
           </NavLink>
         </GateKeeper>
         <NavLink

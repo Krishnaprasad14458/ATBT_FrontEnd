@@ -40,7 +40,6 @@ export const router = createBrowserRouter([
             pathname: "/users",
             search:`?search=&page=1&pageSize=10`,
           }}
-          
           >Users</Link>,
         },
       },
@@ -94,6 +93,16 @@ export const router = createBrowserRouter([
             }
           />
         ),
+        handle: {
+          crumb: () => <Link  
+
+          to={{
+            pathname: "/boardmeetings",
+            search:`?search=&page=1&pageSize=10`,
+          }}
+          
+          >Meetings</Link>,
+        },
         
       },
       

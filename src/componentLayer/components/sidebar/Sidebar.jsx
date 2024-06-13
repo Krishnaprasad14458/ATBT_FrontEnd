@@ -100,8 +100,8 @@ const Sidebar = () => {
       module: "meeting",
     },
     {
-      name: "Tasks",
-      link: "/tasks",
+      name: "Decisions",
+      link: "/tasks/To-Do",
       icon: (
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -162,7 +162,7 @@ const Sidebar = () => {
       module: "setting",
     },
   ];
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
   const [active, setActive] = useState("Home");
   let screenSize = window.innerWidth;
   useEffect(() => {
@@ -175,15 +175,15 @@ const Sidebar = () => {
     <div className="sidebar">
       <main className={`bg-white ${
             open ? "w-52" : "w-16"
-          }   duration-500`}>
+          }   duration-500 `}>
         <div
-          className={` min-h-screen duration-500 text-gray-100 px-2 relative`}
+          className={` min-h-screen duration-500 text-gray-100 px-2 relative `}
         >
           <div className="pt-3 flex justify-between">
             <img
               src={logo}
               alt="Infoz IT"
-              className={`w-28 h-10 ms-6 p-0 ${open ? "" : "hidden"}`}
+              className={`w-28 h-10 ms-6 p-0  ${open ? "" : "hidden"}`}
             />
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -205,6 +205,8 @@ const Sidebar = () => {
             className={`mt-6 flex-col gap-4 text-black relative ${
               open ? "" : "mt-8"
             }`}
+            
+            
           >
             <Link
               to="/"
@@ -212,12 +214,14 @@ const Sidebar = () => {
                 setActive("Home");
               }}
               className={`group flex items-center text-md gap-3.5 font-semibold p-2 leading-normal
-                                    hover:bg-orange-600 hover:text-white rounded-md
+                                    hover:bg-orange-600 hover:text-white rounded-md 
                                     ${
                                       "Home" === active
                                         ? "text-orange-600"
                                         : "black"
                                     }`}
+                                    onMouseEnter={() =>  setOpen(true)}
+            onMouseLeave={() =>  setOpen(false)}
             >
               <div style={{ width: "1rem", height: "1rem", marginLeft: "5px" }}>
                 {
@@ -235,20 +239,24 @@ const Sidebar = () => {
                   </svg>
                 }
               </div>
+              {/* open word */}
               <h3
-                className={`whitespace-pre font-sans ${
-                  !open && `opacity-0 translate-x-20 overflow-hidden`
+                className={`whitespace-pre font-sans   ${
+                  !open && `opacity-0 translate-x-20 overflow-hidden ` 
                 }`}
+               
               >
                 {"Home"}
               </h3>
-              <h3
+              {/* close hovering display */}
+              {/* <h3
                 className={`${
                   open && "hidden"
                 } absolute left-20 bg-white font-semibold whitespace-pre text-black rounded-md drop-shadow-lg px-0 py-0 w-0 overflow-hidden group-hover:px-2 group-hover:py-1 group-hover:left-14 group-hover:w-fit text-sm`}
+              
               >
                 {"Home"}
-              </h3>
+              </h3> */}
             </Link>
             {menus?.map((menu, i) => (
               <GateKeeper
@@ -256,15 +264,16 @@ const Sidebar = () => {
                   permission.module === menu.module && permission.canRead
                 }
               >
-             
-                {menu?.link !== "/tasks"  && <Link
+             <Link
                   to={{
                     pathname: menu?.link,
-                    search: 
-                      location?.pathname === menu?.link
+                    search:
+                      location?.state?.from === menu?.link
                         ? location.search
                         : `?search=&page=1&pageSize=10`,
                   }}
+                  onMouseEnter={() => setOpen(true)}
+              onMouseLeave={() => setOpen(false)}
                   state={{ from: location.pathname }}
                   key={i}
                   onClick={(e) => {
@@ -290,55 +299,17 @@ const Sidebar = () => {
                   >
                     {menu?.name}
                   </h3>
-                  <h4
+                   {/* close hover */}
+                  {/* <h4
                     className={`${
                       open && "hidden"
                     } absolute left-20 bg-white font-semibold whitespace-pre text-black rounded-md drop-shadow-lg px-0 py-0 w-0 overflow-hidden group-hover:px-2 group-hover:py-1 group-hover:left-14 group-hover:w-fit text-sm`}
                   >
                     {menu?.name}
-                  </h4>
-                </Link>}
-                {menu?.link === "/tasks"  && <Link
-                  to={{
-                    pathname: menu?.link,
-                    search: 
-                      location?.pathname === menu?.link
-                        ? location.search
-                        : `?status=To-Do`,
-                  }}
-                  state={{ from: location.pathname }}
-                  key={i}
-                  onClick={(e) => {
-                    setActive(menu.name);
-                  }}
-                  className={`group flex items-center text-md gap-3.5 font-semibold p-2 leading-normal
-                                    hover:bg-orange-600 hover:text-white rounded-md
-                                    ${
-                                      menu?.name === active
-                                        ? "text-orange-600"
-                                        : "black"
-                                    }`}
-                >
-                  <div
-                    style={{ width: "1rem", height: "1rem", marginLeft: "5px" }}
-                  >
-                    {menu?.icon}
-                  </div>
-                  <h3
-                    className={`whitespace-pre font-sans  ${
-                      !open && `opacity-0 translate-x-20 overflow-hidden `
-                    }`}
-                  >
-                    {menu?.name}
-                  </h3>
-                  <h4
-                    className={`${
-                      open && "hidden"
-                    } absolute left-20 bg-white font-semibold whitespace-pre text-black rounded-md drop-shadow-lg px-0 py-0 w-0 overflow-hidden group-hover:px-2 group-hover:py-1 group-hover:left-14 group-hover:w-fit text-sm`}
-                  >
-                    {menu?.name}
-                  </h4>
-                </Link>}
+                  </h4> */}
+                </Link>
+             
+
               </GateKeeper>
             ))}
           </div>

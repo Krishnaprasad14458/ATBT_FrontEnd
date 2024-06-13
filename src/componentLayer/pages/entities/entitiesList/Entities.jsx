@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef, useCallback } from "react";
+import React, { useEffect, useState, useRef, useCallback, useContext } from "react";
 import {
   Link,
   useFetcher,
@@ -14,8 +14,8 @@ import atbtApi from "../../../../serviceLayer/interceptor";
 import CustomColumn from "../../../components/tableCustomization/CustomColumn";
 import CustomFilter from "../../../components/tableCustomization/CustomFilter";
 import BreadCrumbs from "../../../components/breadcrumbs/BreadCrumbs";
+import { PermissionsContext } from "../../../../rbac/PermissionsProvider";
 const userData = JSON.parse(localStorage.getItem("data"));
-let permissions = userData?.role?.Permissions;
 export async function loader({ request, params }) {
   try {
     let url = new URL(request.url);
@@ -66,6 +66,8 @@ export async function action({ request, params }) {
   }
 }
 function Entities() {
+  const { permissions, loading } = useContext(PermissionsContext);
+
   document.title = "ATBT | Entity";
   const navigation = useNavigation();
   const data = useLoaderData();
@@ -78,7 +80,13 @@ function Entities() {
     page: 1,
     pageSize: 10,
   });
+  const isFirstRender = useRef(true);
+  
   useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
     debouncedParams(Qparams);
   }, [Qparams]);
   const debouncedParams = useCallback(
@@ -145,7 +153,12 @@ function Entities() {
         title: "Entity can't be deleted",
         text: `You cannot delete entity because there are ${
           entityUsers?.data.length
-        } users(${entityUsers?.data
+        } 
+        ${
+          entityUsers?.data.length > 1 ? `users` : `user`
+        }   
+        
+        (${entityUsers?.data
           .map((user) => user.name)
           .join(", ")}) are present`,
         icon: "warning",
@@ -253,31 +266,31 @@ function Entities() {
                   scope="col"
                   className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200"
                 >
-                  Total Tasks
+                  Total Decisions
                 </th>
                 <th
                   scope="col"
                   className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200"
                 >
-                  To-Do Tasks
+                  To-Do Decisions
                 </th>
                 <th
                   scope="col"
                   className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200"
                 >
-                  In-Progress Tasks
+                  In-Progress Decisions
                 </th>
                 <th
                   scope="col"
                   className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200"
                 >
-                  Overdue Tasks
+                  Overdue Decisions
                 </th>
                 <th
                   scope="col"
                   className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200"
                 >
-                  Completed Tasks
+                  Completed Decisions
                 </th>
                 <th
                   scope="col"
@@ -378,27 +391,27 @@ function Entities() {
                       }
                     })}
                     <td
-                      className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium hover:text-orange-500  overflow-hidden`}
+                      className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium   overflow-hidden`}
                     >
                       {row?.taskCounts?.totalTaskCount}
                     </td>
                     <td
-                      className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium hover:text-orange-500  overflow-hidden`}
+                      className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden`}
                     >
                       {row?.taskCounts?.toDoCount}
                     </td>
                     <td
-                      className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium hover:text-orange-500  overflow-hidden`}
+                      className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium   overflow-hidden`}
                     >
                       {row?.taskCounts?.inProgressCount}
                     </td>
                     <td
-                      className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium hover:text-orange-500  overflow-hidden`}
+                      className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium   overflow-hidden`}
                     >
                       {row?.taskCounts?.overDueCount}
                     </td>
                     <td
-                      className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium hover:text-orange-500  overflow-hidden`}
+                      className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium   overflow-hidden`}
                     >
                       {row?.taskCounts?.completedCount}
                     </td>

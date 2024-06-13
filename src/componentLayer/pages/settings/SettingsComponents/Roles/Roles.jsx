@@ -3,6 +3,8 @@ import React, { useContext } from "react";
 import {Link,useFetcher,useLoaderData,useSubmit,} from "react-router-dom";
 import { AuthContext } from "../../../../../contexts/authContext/authContext";
 import Swal from "sweetalert2";
+import atbtApi from "../../../../../serviceLayer/interceptor";
+
 import { debounce } from "../../../../../utils/utils";
 function deleteRole(id) {
   return axios.delete(`https://atbtbeta.infozit.com/rbac/deleteRole/${id}`);
@@ -22,6 +24,12 @@ const Roles = () => {
   console.log(data.roles , "userroleid")
   const fetcher = useFetcher();
   const onDelete = async (data) => {
+    let usersResponse = await atbtApi.post(`public/list/user`)
+    let users = usersResponse.data.users  
+    let roleUsers = users?.filter(
+      (user) => user.RoleId === parseInt(data.roleId)
+    );
+   if(roleUsers?.length === 0){
     const confirmDelete = await Swal.fire({
       title: "Are you sure?",
       text: "Once deleted, you will not be able to recover this role!",
@@ -48,6 +56,33 @@ const Roles = () => {
         Swal.fire("Error", "Unable to delete role 🤯", "error");
       }
     }
+   }else{
+    const confirmDelete = await Swal.fire({
+      title: "Role can't be deleted",
+      text: `You cannot delete role because there are  ${
+        roleUsers?.length
+      }                   
+      ${
+        roleUsers?.length > 1 ? `users` : `user`
+      }    
+      
+       (${roleUsers?.map((user) => user.name)
+        .join(", ")}) are present `,
+      icon: "warning",
+      showCancelButton: false,
+      confirmButtonColor: "#ea580c",
+      cancelButtonColor: "#fff",
+      confirmButtonText: "ok",
+      customClass: {
+        popup: "custom-swal2-popup",
+        title: "custom-swal2-title",
+        content: "custom-swal2-content",
+      },
+    });
+   
+
+   }
+   
   };
   function handleSearch(event) {
     debouncedSearchParams(`search=${event.target.value}`);
@@ -195,7 +230,7 @@ const Roles = () => {
                             <path d="m2.695 14.762-1.262 3.155a.5.5 0 0 0 .65.65l3.155-1.262a4 4 0 0 0 1.343-.886L17.5 5.501a2.121 2.121 0 0 0-3-3L3.58 13.419a4 4 0 0 0-.885 1.343Z" />
                           </svg>
                         </button>
-                        {role.name != 'admin' && role.name != 'managing director' &&  role.name != 'user' &&(
+                        {role.name !== 'admin' && role.name !== 'managing director' &&  role.name !== 'user' && role.name !== 'super admin'&&(
                           <button
                             type="button"
                             disabled={userRoleId == role.id ? true : false}

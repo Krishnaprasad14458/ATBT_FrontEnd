@@ -65,7 +65,7 @@ export const entityRouter = [
           },
 
           {
-            path: "tasks",
+            path: "tasks/:statusType",
             loader: tasksLoader,
             action: TasksActions,
           
@@ -75,7 +75,7 @@ export const entityRouter = [
                 <Link 
                 to={{
                   pathname: data?.threadPath,
-                  search: `?status=To-Do`,
+                  // search: `?status=To-Do`,
                 }}
                 
                 
@@ -87,24 +87,25 @@ export const entityRouter = [
 
           {
             path: ":boardmeetings",
-            loader: MeetingLoader,
-            handle: {
-              crumb: (data) => (
-                <Link 
-                to={{
-                  pathname: data.threadPath,
-                  search: `?search=&page=1&pageSize=10`,
-                }}
-                
-                >{data.threadName}</Link>
-              ),
-            },
+            // loader: MeetingLoader,
+           
             children: [
               {
                 index: true,
                 loader: MeetingLoader,
                 action: MeetingAction,
                 element: <Boardmeeting />,
+                handle: {
+                  crumb: (data) => (
+                    <Link 
+                    to={{
+                      pathname: data.threadPath,
+                      search: `?search=&page=1&pageSize=10`,
+                    }}
+                    
+                    >{data.threadName}</Link>
+                  ),
+                },
               },
               {
                 path: ":BMid",
@@ -139,7 +140,7 @@ export const entityRouter = [
                     element: <Documents />,
                     handle: {
                       crumb: (data) => (
-                        <Link to=".">Documents</Link>
+                        <Link to="."> Attachments</Link>
                       ),
                     },
                   },
@@ -152,7 +153,7 @@ export const entityRouter = [
             path: "documents",
             element: <Documents />,
             handle: {
-              crumb: () => <Link to=".">Entity Documents</Link>,
+              crumb: () => <Link to=".">Attachments</Link>,
             },
           },
         ],

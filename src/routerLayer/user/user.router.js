@@ -74,7 +74,7 @@ export const userRouter = [
           },
           // /users/:id/tasks          all tasks
           {
-            path: "tasks",
+            path: "tasks/:statusType",
             loader: tasksLoader,
             action: TasksActions,
             element: (
@@ -87,7 +87,7 @@ export const userRouter = [
                 <Link
                   to={{
                     pathname: data?.threadPath,
-                    search: `?status=To-Do`,
+                    // search: `?status=To-Do`,
                   }}
                 >
                   {data?.threadName}
@@ -99,7 +99,14 @@ export const userRouter = [
 
           {
             path: ":boardmeetings",
-            loader: MeetingLoader,
+            
+            children: [
+              // /users/:id/:boardmeetings                     bmeetings list
+              {
+                index: true,
+                action: MeetingAction,
+                element: <Boardmeeting />,
+                loader: MeetingLoader,
             handle: {
               crumb: (data) => (
                 <Link
@@ -112,13 +119,6 @@ export const userRouter = [
                 </Link>
               ),
             },
-            children: [
-              // /users/:id/:boardmeetings                     bmeetings list
-              {
-                index: true,
-                loader: MeetingLoader,
-                action: MeetingAction,
-                element: <Boardmeeting />,
               },
               // /users/:id/:boardmeetings/:BMid        tasks of :BMid  bmeetings
               {
@@ -151,7 +151,7 @@ export const userRouter = [
                     path: "documents",
                     element: <Documents />,
                     handle: {
-                      crumb: (data) => <Link to=".">Documents</Link>,
+                      crumb: (data) => <Link to="."> Attachments</Link>,
                     },
                   },
                 ],
@@ -163,7 +163,7 @@ export const userRouter = [
             path: "documents",
             element: <Documents />,
             handle: {
-              crumb: () => <Link to=".">User Documents</Link>,
+              crumb: () => <Link to=".">Attachments</Link>,
             },
           },
         ],

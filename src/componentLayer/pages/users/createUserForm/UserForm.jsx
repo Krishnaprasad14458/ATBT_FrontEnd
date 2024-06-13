@@ -13,9 +13,9 @@ import {
   useParams,
 } from "react-router-dom";
 import BreadCrumbs from "../../../components/breadcrumbs/BreadCrumbs";
-const userData = JSON.parse(localStorage.getItem("data"));
-const loggedInUser = userData?.user?.id;
-const token = userData?.token;
+import { AuthContext } from "../../../../contexts/authContext/authContext";
+// const userData = JSON.parse(localStorage.getItem("data"));
+// const token = userData?.token;
 export async function userFormLoader({ params }) {
   try {
     const [
@@ -70,11 +70,11 @@ export async function userFormLoader({ params }) {
 }
 
 function UserForm() {
+  const { authState } = useContext(AuthContext);
+  const loggedInUser = authState?.user?.id;
   const [showPassword, setShowPassword] = useState(false);
   document.title = "ATBT | User";
   let { id } = useParams();
-  const userData = JSON.parse(localStorage.getItem("data"));
-  let createdBy = userData.user.id;
   // const token = userData?.token;
   const navigate = useNavigate();
   const data = useLoaderData();
@@ -170,7 +170,7 @@ function UserForm() {
     setCustomFormFields(updatedFormData);
   };
   const isDisabled = !!id && !!data?.userData && parseInt(id) === loggedInUser;
-  const handleFileChange = (event, index) => {
+  const handleFileChange = (event, index,inputname) => {
     const file = event.target.files[0];
     if (file?.size > 1000000) {
       alert("file size too large");
@@ -460,7 +460,7 @@ function UserForm() {
       }
       formData.set("userremarkshistory", JSON.stringify([]));
       formData.set("customFieldsData", JSON.stringify(customFormFields));
-      formData.set("createdBy", createdBy);
+      formData.set("createdBy", loggedInUser);
       const formDataObj = {};
       formData.forEach((value, key) => {
         formDataObj[key] = value;
@@ -589,7 +589,7 @@ function UserForm() {
                           name={item.inputname}
                           id={item.inputname}
                           className="px-2 py-1 md:py-1 lg:py-1 xl:py-1 text-sm block w-full rounded-md bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder:text-xs"
-                          onChange={(event) => handleFileChange(event, index)}
+                          onChange={(event) => handleFileChange(event, index,item.inputname)}
                           accept="image/*"
                           style={{ fontSize: "0.8rem" }}
                         />
@@ -885,6 +885,8 @@ function UserForm() {
                                 ? true
                                 : false
                             }
+                            menuPlacement="auto"
+                            maxMenuHeight={170}
                             options={data?.fieldsDropDownData?.role}
                             styles={{
                               control: (provided, state) => ({

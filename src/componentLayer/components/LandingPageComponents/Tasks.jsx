@@ -1,11 +1,19 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, {
+  useEffect,
+  useState,
+  useCallback,
+  useRef,
+  useContext,
+} from "react";
 import {
   NavLink,
   useParams,
   useLoaderData,
   useFetcher,
   useSubmit,
-  useLocation
+  useLocation,
+  useMatches,
+  useNavigation,
 } from "react-router-dom";
 import Select from "react-select";
 import TaskOverview from "./TaskOverview";
@@ -14,6 +22,8 @@ import { debounce } from "../../../utils/utils";
 import subtask_icon from "../../../assets/Images/Subtask_icon.svg";
 import "react-datepicker/dist/react-datepicker.css";
 import GateKeeper from "../../../rbac/GateKeeper";
+import { AuthContext } from "../../../contexts/authContext/authContext";
+import TasksFilter from "../tableCustomization/TasksFilter";
 let status = [
   { label: "To-Do", value: "To-Do" },
   { label: "In-Progress", value: "In-Progress" },
@@ -44,27 +54,34 @@ export async function tasksLoader({ request, params }) {
     if (url.pathname.split("/")[1] === "tasks") {
       parentPath = "tasks";
     }
-    console.log("url", url.pathname.split("/")[1]);
+    if (url.pathname.split("/")[1] === "boardmeetings") {
+      parentPath = "boardmeetings";
+    }
+    console.log("url parentPath",parentPath, url.pathname.split("/")[1]);
     const taskID = url.searchParams.get("taskID");
     const subTaskID = url.searchParams.get("subTaskID");
-    const statusType = url.searchParams.get("status");
+    const search = url.searchParams.get("search");
+    const page = url.searchParams.get("page");
+    const pageSize = url.searchParams.get("pageSize");
+    
+
+    // const statusType = url.searchParams.get("status");
+    const statusType = params.statusType
     console.log("statusType", statusType);
-    const [tasks, task, subTasks, subTask] =
-      await Promise.all([
-        params.BMid
-          ? atbtApi.get(`task/list?meetingId=${params.BMid}`)
-          : statusType !== null
-          ? atbtApi.get(`task/list?${idOF}=${params.id}&status=${statusType}`)
-          : atbtApi.get(`task/list?${idOF}=${params.id}`),
-        // atbtApi.get(`task/listAll?user=${params.id}`),
-        taskID ? atbtApi.get(`task/listbyid/${taskID}`) : null,
-        taskID ? atbtApi.get(`task/subList/${taskID}`) : null,
-        subTaskID ? atbtApi.get(`task/subtaskbyid/${subTaskID}`) : null,
-        // groupName && params.BMid
-        //   ? atbtApi.get(`/boardmeeting/${groupName}/${params.BMid}`)
-        //   : {},
-       
-      ]);
+    const [tasks, task, subTasks, subTask] = await Promise.all([
+      params.BMid
+        ? atbtApi.get(`task/list?meetingId=${params.BMid}&search=${search}&page=${page}&pageSize=${pageSize}`)
+        : statusType !== "Master"
+        ? atbtApi.get(`task/list?${idOF}=${params.id}&status=${statusType}&search=${search}&page=${page}&pageSize=${pageSize}`)
+        : atbtApi.get(`task/list?${idOF}=${params.id}&search=${search}&page=${page}&pageSize=${pageSize}`),
+      // atbtApi.get(`task/listAll?user=${params.id}`),
+      taskID ? atbtApi.get(`task/listbyid/${taskID}`) : null,
+      taskID ? atbtApi.get(`task/subList/${taskID}`) : null,
+      subTaskID ? atbtApi.get(`task/subtaskbyid/${subTaskID}`) : null,
+      // groupName && params.BMid
+      //   ? atbtApi.get(`/boardmeeting/${groupName}/${params.BMid}`)
+      //   : {},
+    ]);
     // console.log("personResponsiblee", personResponsible);
     let updatedTask = task?.data[0];
     let updatedSubTask = subTask?.data[0];
@@ -91,12 +108,13 @@ export async function tasksLoader({ request, params }) {
       task: updatedTask,
       subTasks: subTasks?.data?.Task,
       subTask: updatedSubTask,
-      threadName: params.BMid ? ` Board Meetings Tasks` : `Tasks`,
+      threadName: params.BMid ? ` Decisions` : `Decisions`,
       threadPath: params.BMid
         ? `/${parentPath}/${params.id}/${params.boardmeetings}/${params.BMid}/tasks`
-        : `/${parentPath}/${params.id}/tasks`,
+        : `/${parentPath}/${params.id}/tasks/To-Do`,
+      threadPathForOutsideBM: `/boardmeetings/${params.BMid}/tasks`,
     };
-    console.log("tasks tasksLoader",)
+    console.log("tasks tasksLoader");
     console.log("combinedResponse", combinedResponse);
     return combinedResponse;
   } catch (error) {
@@ -113,29 +131,108 @@ export async function tasksLoader({ request, params }) {
 export async function AllTasksLoader({ request, params }) {
   try {
     const url = new URL(request.url);
+    // const url = new URL(request.url);
+    if (url.pathname.split("/")[1] === "users") {
+      parentPath = "users";
+      // groupName = "groupUser";
+      // idOF = "userId";
+    }
+    if (url.pathname.split("/")[1] === "entities") {
+      parentPath = "entities";
+      // groupName = "groupEntity";
+      // idOF = "entityId";
+    }
+    if (url.pathname.split("/")[1] === "teams") {
+      parentPath = "teams";
+      // groupName = "groupTeam";
+      // idOF = "teamId";
+    }
     if (url.pathname.split("/")[1] === "tasks") {
       parentPath = "tasks";
+    }
+    if (url.pathname.split("/")[1] === "boardmeetings") {
+      parentPath = "boardmeetings";
     }
     console.log("url", url.pathname.split("/")[1]);
     const taskID = url.searchParams.get("taskID");
     const subTaskID = url.searchParams.get("subTaskID");
-    const statusType = url.searchParams.get("status");
+    // const statusType = url.searchParams.get("status");
+    const statusType = params.statusType;
+    const fromDate = url.searchParams.get("fromDate");
+    const moduleName = url.searchParams.get("moduleName");
+    const listID = url.searchParams.get("listID");
+    const meetingId = url.searchParams.get("meetingId");
+    const pageSize = url.searchParams.get("pageSize");
+    const search = url.searchParams.get("search");
+
+
+    const page = url.searchParams.get("page");
+
+    const toDate = url.searchParams.get("toDate");
+    let idOF;
+    if (moduleName === "user") {
+      idOF = "userId";
+    } else if (moduleName === "entity") {
+      idOF = "entityId";
+    } else if (moduleName === "team") {
+      idOF = "teamId";
+    }
     console.log("statusType", statusType);
-    const [tasks, task, subTasks, subTask] =
-      await Promise.all([
-        statusType !== null
-        ? atbtApi.get(`task/list?status=${statusType}`)
-        : atbtApi.get(`task/list`)
- ,
-        // atbtApi.get(`task/listAll?user=${params.id}`),
-        taskID ? atbtApi.get(`task/listbyid/${taskID}`) : null,
-        taskID ? atbtApi.get(`task/subList/${taskID}`) : null,
-        subTaskID ? atbtApi.get(`task/subtaskbyid/${subTaskID}`) : null,
-        // groupName && params.BMid
-        //   ? atbtApi.get(`/boardmeeting/${groupName}/${params.BMid}`)
-        //   : {},
-       
-      ]);
+    const queryParams = [];
+    queryParams.push(`page=${page}`);
+    queryParams.push(`pageSize=${pageSize}`);
+    queryParams.push(`search=${search}`);
+
+
+
+    // Validate and add query parameters
+    if (meetingId && meetingId !== "all") {
+      queryParams.push(`meetingId=${meetingId}`);
+    } else if (meetingId === "all" && listID) {
+      queryParams.push(`${idOF}=${listID}`);
+    }
+    if (statusType && statusType !== "Master") {
+      queryParams.push(`status=${statusType}`);
+    }
+    if (fromDate && toDate) {
+      queryParams.push(`fromDate=${fromDate}`, `toDate=${toDate}`);
+    }
+    const queryString =
+      queryParams.length > 0 ? `?${queryParams.join("&")}` : "";
+    console.log(queryString, "queryString");
+
+    const [tasks, task, subTasks, subTask] = await Promise.all([
+      atbtApi.get(`task/list${queryString}`),
+
+      // meetingId !== "all" && statusType !== "null"
+      //   ? atbtApi.get(`task/list?meetingId=${meetingId}&status=${statusType}`)
+      //   : meetingId !== "all" && statusType === "null"
+      //   ? atbtApi.get(`task/list?meetingId=${meetingId}`)
+      //   : meetingId === "all" && statusType !== "null"
+      //   ? atbtApi.get(`task/list?${idOF}=${listID}&status=${statusType}`)
+      //   : meetingId === "all" && statusType === "null"
+      //   ? atbtApi.get(`task/list?${idOF}=${listID}`)
+      //   : null,
+      // statusType !== null && fromDate && toDate
+      //   ? atbtApi.get(
+      //       `task/list?status=${statusType}&fromDate=${fromDate}&toDate=${toDate}`
+      //     )
+      //   : statusType !== null && !fromDate && !toDate
+      //   ? atbtApi.get(
+      //       `task/list?status=${statusType}`
+      //     )
+      //   : atbtApi.get(`task/list`),
+
+      // atbtApi.get(
+      //         `task/list${url?.search ? url?.search : ""}`
+      //       ),
+      taskID ? atbtApi.get(`task/listbyid/${taskID}`) : null,
+      taskID ? atbtApi.get(`task/subList/${taskID}`) : null,
+      subTaskID ? atbtApi.get(`task/subtaskbyid/${subTaskID}`) : null,
+      // groupName && params.BMid
+      //   ? atbtApi.get(`/boardmeeting/${groupName}/${params.BMid}`)
+      //   : {},
+    ]);
     // console.log("personResponsiblee", personResponsible);
     let updatedTask = task?.data[0];
     let updatedSubTask = subTask?.data[0];
@@ -171,7 +268,7 @@ export async function AllTasksLoader({ request, params }) {
       //   ? `/${parentPath}/${params.id}/${params.boardmeetings}/${params.BMid}/tasks`
       //   : `/${parentPath}/${params.id}/tasks`,
     };
-  console.log("tasks AllTasksLoader",)
+    console.log("tasks AllTasksLoader");
 
     console.log("combinedResponse", combinedResponse);
     return combinedResponse;
@@ -197,11 +294,10 @@ export async function TasksActions({ request, params }) {
           return await atbtApi.post(
             `task/add/${params.BMid}`,
 
-            { createdby:56,
-              taskCreatedBy: { name: parentPath, id: params.id },
-              collaborators: [
-                parseInt(JSON.parse(localStorage.getItem("data")).user.id),
-              ],
+            {
+              createdby: requestBody.createdby,
+              taskCreatedBy: { name: parentPath, id: parseInt(params.id) },
+              collaborators: [requestBody.createdby],
             }
           );
         }
@@ -268,32 +364,55 @@ export async function TasksActions({ request, params }) {
   }
 }
 const Tasks = () => {
+  const { authState } = useContext(AuthContext);
+  console.log("authState authState", authState?.user?.id);
   let submit = useSubmit();
-  let location = useLocation()
+  let location = useLocation();
+  let matches = useMatches()
+  console.log(matches[0].params.statusType,"matches matches")
   const data = useLoaderData();
+  const navigation = useNavigation();
+
   let [tasks, setTasks] = useState([]);
   let [task, setTask] = useState({});
   let [subTasks, setSubTasks] = useState();
   let [subTask, setSubTask] = useState();
   // members = data?.personResponsible;
   useEffect(() => {
-    setTasks(data?.tasks);
+    setTasks(data?.tasks?.tasks);
     setTask(data?.task);
     setSubTasks(data?.subTasks);
     setSubTask(data?.subTask);
   }, [data]);
 
   let fetcher = useFetcher();
-  const { id, BMid } = useParams();
-  const [Qparams, setQParams] = useState(() => {
-    // Initialize the state object conditionally
-    const initialState = {};
-    if (!BMid) {
-      initialState.status = "To-Do";
-    }
-    return initialState;
+  const { id, BMid, statusType } = useParams();
+  // const [Qparams, setQParams] = useState(() => {
+  //   search: "",
+
+  //   page: 1,
+  //   pageSize: 10,
+  //   // Initialize the state object conditionally
+  //   // const initialState = {};
+  //   // if (!BMid) {
+  //   //   initialState.status = status;
+  //   // }
+  //   // return initialState;
+  // });
+  const [Qparams, setQParams] = useState({
+    search: "",
+    page: 1,
+    pageSize: 10,
   });
+  console.log(Qparams, "Qparams");
+  const isFirstRender = useRef(true);
+
   useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
+
     debouncedParams(Qparams);
   }, [Qparams]);
   const debouncedParams = useCallback(
@@ -312,7 +431,10 @@ const Tasks = () => {
     setQParams((prev) => ({ ...prev, taskID: taskId }));
   };
   const handleAddNewTask = async () => {
-    let requestBody = { type: "ADD_NEW_TASK" };
+    let requestBody = {
+      type: "ADD_NEW_TASK",
+      createdby: parseInt(authState?.user?.id),
+    };
 
     try {
       fetcher.submit(requestBody, {
@@ -373,6 +495,22 @@ const Tasks = () => {
       console.log(error, "which error");
     }
   };
+  const handlePerPageChange = (event) => {
+    const selectedValue = parseInt(event.target.value, 10);
+    console.log(selectedValue, "sv");
+    setQParams({
+      ...Qparams,
+      page:1,
+      pageSize: selectedValue,
+    });
+  };
+  function handlePage(page) {
+    setQParams({
+      ...Qparams,
+      page,
+    });
+  }
+
   const handleDeleteTask = async (deleteId) => {
     let UpdateData = {
       id: deleteId,
@@ -429,8 +567,11 @@ const Tasks = () => {
   const [isSubTaskInputActiveID, setIsSubTaskInputActive] = useState(null);
   const [autoFocusID, setAutoFocusID] = useState(null);
   const [autoFocusSubTaskID, setAutoFocussubTaskID] = useState(null);
-  const [activeLink, setActiveLink] = useState("toDo");
-
+  const [activeLink, setActiveLink] = useState(matches[0].params.statusType);
+  useEffect(()=>{
+    setActiveLink(matches[0].params.statusType)
+  },[matches])
+console.log(activeLink,"activeLink")
   // Function to handle click and set active link
   const handleNavLinkClick = (link) => {
     setActiveLink(link);
@@ -441,24 +582,141 @@ const Tasks = () => {
     const year = today.getFullYear();
     let month = today.getMonth() + 1;
     let day = today.getDate();
-
     month = month < 10 ? `0${month}` : month;
     day = day < 10 ? `0${day}` : day;
-
     return `${year}-${month}-${day}`;
   };
-
+  function handleSearch(event) {
+    setQParams({
+      ...Qparams,
+      search: event.target.value,
+    });
+  }
+  let [dueDateFilter, setDueDateFilter] = useState({});
+  const createQueryString = (params) => {
+    return new URLSearchParams(params).toString();
+  };
+  const queryString = createQueryString(Qparams);
+  console.log(queryString, "queryString");
   return (
-    <div className=" p-3">
-      {location.pathname === '/tasks' && 
-      <p className="text-xl font-semibold">
-      Tasks
-     </p>}
-       
+    <div className={` ${parentPath === "tasks" ? "p-3" : ""}`}>
+      <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-col-4 items-center gap-2 mt-2">
+        <div className="col-span-1">
+          {parentPath === "tasks" && (
+            <p className="text-md font-semibold">Decisions</p>
+          )}
+        </div>
+
+        <div className="col-span-1 text-start">
+          {/* <div className="relative">
+            <div className="absolute inset-y-0 start-0 flex items-center p-3 pointer-events-none">
+              <svg
+                className="w-3 h-3 text-gray-500 dark:text-gray-400"
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 20 20"
+              >
+                <path
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
+                />
+              </svg>
+            </div>
+            <input
+              onChange={handleSearch}
+              value={Qparams?.search}
+              type="search"
+              id="default-search"
+              className="block w-full px-4 py-2 ps-8 text-sm border-2 border-gray-200  rounded-2xl bg-gray-50  focus:outline-none placeholder:text-sm"
+              placeholder="Search here..."
+              required
+            />
+          </div> */}
+        </div>
+
+        {parentPath === "tasks" && (
+          <div className="col-span-2 text-end">
+            <div className="flex gap-2 items-center justify-end">
+              <label className="text-sm text-gray-400"> From:</label>
+
+              <input
+                className=" border border-gray-200  text-black px-1.5 py-2 rounded-md  bg-[#f9fafb] focus:outline-none text-sm focus:border-orange-400  date_type "
+                type="date"
+                value={dueDateFilter.fromDate}
+                style={{
+                  fontSize: "0.8rem",
+                  WebkitAppearance: "none",
+                }}
+                onChange={(e) => {
+                  // handleSubmit(task?.id, "dueDate", e.target.value);
+                  setQParams((prev) => ({ ...prev, fromDate: e.target.value }));
+                  setDueDateFilter((prev) => ({
+                    ...prev,
+                    fromDate: e.target.value,
+                  }));
+                  // handleTaskChange(index, "dueDate", e.target.value);
+                }}
+              />
+              <label className="text-sm text-gray-400"> To:</label>
+              <input
+                className=" border border-gray-200 text-black px-1.5 py-2 rounded-md  bg-[#f9fafb] focus:outline-none text-sm focus:border-orange-400 date_type "
+                type="date"
+                value={dueDateFilter.toDate}
+                style={{
+                  fontSize: "0.8rem",
+                  WebkitAppearance: "none",
+                }}
+                onChange={(e) => {
+                  setQParams((prev) => ({
+                    ...prev,
+
+                    toDate: e.target.value,
+                  }));
+                  setDueDateFilter((prev) => ({
+                    ...prev,
+                    toDate: e.target.value,
+                  }));
+                }}
+              />
+              <button
+                onClick={() => {
+                  let Qprms = { ...Qparams };
+                  delete Qprms.fromDate;
+                  delete Qprms.toDate;
+                  setQParams(Qprms);
+                  setDueDateFilter({ toDate: "", fromDate: "" });
+                }}
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                  class="size-4"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M19.5 12c0-1.232-.046-2.453-.138-3.662a4.006 4.006 0 0 0-3.7-3.7 48.678 48.678 0 0 0-7.324 0 4.006 4.006 0 0 0-3.7 3.7c-.017.22-.032.441-.046.662M19.5 12l3-3m-3 3-3-3m-12 3c0 1.232.046 2.453.138 3.662a4.006 4.006 0 0 0 3.7 3.7 48.656 48.656 0 0 0 7.324 0 4.006 4.006 0 0 0 3.7-3.7c.017-.22.032-.441.046-.662M4.5 12l3 3m-3-3-3 3"
+                  />
+                </svg>
+              </button>
+
+              <TasksFilter Qparams={Qparams} setQParams={setQParams} />
+            </div>
+          </div>
+        )}
+      </div>
+
       <div className="flex justify-end">
         {BMid && (
-          <GateKeeper         
-             permissionCheck={(permission) =>
+          <GateKeeper
+            permissionCheck={(permission) =>
               permission.module === "task" && permission.canCreate
             }
           >
@@ -474,101 +732,134 @@ const Tasks = () => {
               >
                 <path d="M10.75 4.75a.75.75 0 0 0-1.5 0v4.5h-4.5a.75.75 0 0 0 0 1.5h4.5v4.5a.75.75 0 0 0 1.5 0v-4.5h4.5a.75.75 0 0 0 0-1.5h-4.5v-4.5Z" />
               </svg>
-              Add Task
+              Create
             </button>
           </GateKeeper>
         )}
       </div>
       <div>
         <div className="flex overflow-x-auto my-2">
-          {!BMid && (parentPath === "users" || parentPath === "entities" || parentPath === "teams" ) && (
+          {!BMid &&
+            (parentPath === "users" ||
+              parentPath === "entities" ||
+              parentPath === "teams") && (
+              <NavLink
+                to={`/${parentPath}/${id}/tasks/To-Do`}
+                end
+                className={`cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09] ${
+                  activeLink === "To-Do"
+                    ? "border-b-2 border-orange-500 text-orange-600"
+                    : ""
+                }`}
+                onClick={() => handleNavLinkClick("To-Do")}
+              >
+                To-Do
+              </NavLink>
+            )}
+          {!BMid && parentPath === "tasks" && (
             <NavLink
-              to={`/${parentPath}/${id}/tasks?status=To-Do`}
+              to={`/tasks/To-Do?${queryString}`}
               end
               className={`cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09] ${
-                activeLink === "toDo"
+                activeLink === "To-Do"
                   ? "border-b-2 border-orange-500 text-orange-600"
                   : ""
               }`}
-              onClick={() => handleNavLinkClick("toDo")}
+              onClick={() => {
+                handleNavLinkClick("To-Do");
+              }}
+              // onClick={() => handleNavLinkClick("To-Do")}
             >
               To-Do
             </NavLink>
           )}
-             {!BMid && parentPath === "tasks" && (
+          {!BMid &&
+            (parentPath === "users" ||
+              parentPath === "entities" ||
+              parentPath === "teams") && (
+              <NavLink
+                to={`/${parentPath}/${id}/tasks/In-Progress`}
+                end
+                className={`cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09] ${
+                  activeLink === "In-Progress"
+                    ? "border-b-2 border-orange-500 text-orange-600"
+                    : ""
+                }`}
+                onClick={() => handleNavLinkClick("In-Progress")}
+              >
+                In-Progress
+              </NavLink>
+            )}
+          {!BMid && parentPath === "tasks" && (
             <NavLink
-              to={`/tasks?status=To-Do`}
+              to={`/tasks/In-Progress?${queryString}`}
               end
               className={`cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09] ${
-                activeLink === "toDo"
+                activeLink === "In-Progress"
                   ? "border-b-2 border-orange-500 text-orange-600"
                   : ""
               }`}
-              onClick={() => handleNavLinkClick("toDo")}
-            >
-              To-Do
-            </NavLink>
-          )}
-          {!BMid && (parentPath === "users" || parentPath === "entities" || parentPath === "teams" ) &&(
-            <NavLink
-              to={`/${parentPath}/${id}/tasks?status=In-Progress`}
-              end
-              className={`cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09] ${
-                activeLink === "inProgress"
-                  ? "border-b-2 border-orange-500 text-orange-600"
-                  : ""
-              }`}
-              onClick={() => handleNavLinkClick("inProgress")}
-            >
-              In-Progress
-            </NavLink>
-          )}
-              {!BMid &&  parentPath === "tasks" && (
-            <NavLink
-              to={`/tasks?status=In-Progress`}
-              end
-              className={`cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09] ${
-                activeLink === "inProgress"
-                  ? "border-b-2 border-orange-500 text-orange-600"
-                  : ""
-              }`}
-              onClick={() => handleNavLinkClick("inProgress")}
+              // onClick={() => handleNavLinkClick("In-Progress")}
+              onClick={() => {
+                handleNavLinkClick("In-Progress");
+              }}
             >
               In-Progress
             </NavLink>
           )}
 
-          {!BMid && (parentPath === "users" || parentPath === "entities" || parentPath === "teams" ) && (
-            <NavLink
-              to={`/${parentPath}/${id}/tasks?status=Over-Due`}
-              end
-              className={`cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09] ${
-                activeLink === "OverDue"
-                  ? "border-b-2 border-orange-500 text-orange-600"
-                  : ""
-              }`}
-              onClick={() => handleNavLinkClick("OverDue")}
-            >
-              Overdue
-            </NavLink>
-          )}
+          {!BMid &&
+            (parentPath === "users" ||
+              parentPath === "entities" ||
+              parentPath === "teams") && (
+              <NavLink
+                to={`/${parentPath}/${id}/tasks/Over-Due`}
+                end
+                className={`cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09] ${
+                  activeLink === "Over-Due"
+                    ? "border-b-2 border-orange-500 text-orange-600"
+                    : ""
+                }`}
+                onClick={() => handleNavLinkClick("Over-Due")}
+              >
+                Overdue
+              </NavLink>
+            )}
           {!BMid && parentPath === "tasks" && (
             <NavLink
-              to={`/tasks?status=Over-Due`}
+              to={`/tasks/Over-Due?${queryString}`}
               end
               className={`cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09] ${
-                activeLink === "OverDue"
+                activeLink === "Over-Due"
                   ? "border-b-2 border-orange-500 text-orange-600"
                   : ""
               }`}
-              onClick={() => handleNavLinkClick("OverDue")}
+              onClick={() => handleNavLinkClick("Over-Due")}
+              // onClick={() =>{ handleNavLinkClick("OverDue");setQParams((prev)=>({...prev,status:"Over-Due"}))}}
             >
               Overdue
             </NavLink>
           )}
-          {!BMid && (parentPath === "users" || parentPath === "entities" || parentPath === "teams" ) && (
+          {!BMid &&
+            (parentPath === "users" ||
+              parentPath === "entities" ||
+              parentPath === "teams") && (
+              <NavLink
+                to={`/${parentPath}/${id}/tasks/Completed`}
+                end
+                className={`cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09] ${
+                  activeLink === "Completed"
+                    ? "border-b-2 border-orange-500 text-orange-600"
+                    : ""
+                }`}
+                onClick={() => handleNavLinkClick("Completed")}
+              >
+                Completed
+              </NavLink>
+            )}
+          {!BMid && parentPath === "tasks" && (
             <NavLink
-              to={`/${parentPath}/${id}/tasks?status=Completed`}
+              to={`/tasks/Completed?${queryString}`}
               end
               className={`cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09] ${
                 activeLink === "Completed"
@@ -576,44 +867,40 @@ const Tasks = () => {
                   : ""
               }`}
               onClick={() => handleNavLinkClick("Completed")}
+              // onClick={() =>{ handleNavLinkClick("Completed");setQParams((prev)=>({...prev,status:"Completed"}))}}
             >
               Completed
             </NavLink>
           )}
-             {!BMid && parentPath === "tasks" && (
+          {!BMid &&
+            (parentPath === "users" ||
+              parentPath === "entities" ||
+              parentPath === "teams") && (
+              <NavLink
+                to={`/${parentPath}/${id}/tasks/Master`}
+                end
+                className={`cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09] ${
+                  activeLink === "Master" ? "border-b-2 border-orange-500 text-orange-600" : ""
+                }`}
+                onClick={() => handleNavLinkClick("Master")}
+              >
+                Master
+              </NavLink>
+            
+            )}
+          {!BMid && parentPath === "tasks" && (
             <NavLink
-              to={`/tasks?status=Completed`}
+              // to={`/tasks`}
+              to={`/tasks/Master?${queryString}`}
               end
               className={`cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09] ${
-                activeLink === "Completed"
-                  ? "border-b-2 border-orange-500 text-orange-600"
-                  : ""
-              }`}
-              onClick={() => handleNavLinkClick("Completed")}
-            >
-              Completed
-            </NavLink>
-          )}
-          {!BMid && (parentPath === "users" || parentPath === "entities" || parentPath === "teams" ) &&(
-            <NavLink
-              to={`/${parentPath}/${id}/tasks`}
-              end
-              className={`cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09] ${
-                activeLink === "Master" ? "border-b-2 border-orange-600" : ""
-              }`}
-              onClick={() => handleNavLinkClick("Master")}
-            >
-              Master
-            </NavLink>
-          )}
-            {!BMid && parentPath === "tasks" &&(
-            <NavLink
-              to={`/tasks`}
-              end
-              className={`cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09] ${
-                activeLink === "Master" ? "border-b-2 border-orange-600" : ""
+                activeLink === "Master" ? "border-b-2 border-orange-600 text-orange-600" : ""
               }`}
               onClick={() => handleNavLinkClick("Master")}
+              // onClick={() =>{ handleNavLinkClick("Master");
+              // let Qprams = {...Qparams}
+              // delete Qprams.status
+              // setQParams(Qprams)}}
             >
               Master
             </NavLink>
@@ -625,28 +912,31 @@ const Tasks = () => {
           <thead>
             <tr>
               <th
-                className="sticky top-0 bg-orange-600 text-white text-sm text-left px-2 py-2 border-l-2 border-gray-200"
+                className="sticky top-0  bg-orange-600 text-white text-sm text-left px-2 py-2 border-l-2 border-gray-200"
                 style={{ width: "20rem" }}
               >
                 Decision Taken
               </th>
               <th
-                className="sticky top-0 bg-orange-600 text-white text-sm text-left px-2 py-2 border-l-2 border-gray-200 z-10"
+                className="sticky top-0 z-10  bg-orange-600 text-white text-sm text-left px-2 py-2 border-l-2 border-gray-200 "
                 style={{ width: "13rem" }}
               >
                 Person Responsible
               </th>
               <th
-                className="sticky top-0 bg-orange-600 text-white text-sm text-left px-2 py-2 border-l-2 border-gray-200 z-10"
+                className="sticky top-0 z-10 bg-orange-600 text-white text-sm text-left px-2 py-2 border-l-2 border-gray-200 "
                 style={{ width: "6rem" }}
               >
                 Due Date
               </th>
-              <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-2 py-2 border-l-2 border-gray-200 z-10">
+              <th
+                className="sticky top-0 z-10 bg-orange-600 text-white text-sm text-left px-2 py-2 border-l-2 border-gray-200 "
+                style={{ width: "8rem" }}
+              >
                 Decision Status
               </th>
-              <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-2 py-2 border-l-2 border-gray-200 ">
-        Latest Decision Updated
+              <th className="sticky top-0  bg-orange-600 text-white text-sm text-left px-2 py-2 border-l-2 border-gray-200 ">
+                Latest Decision Update
               </th>
               {/* <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2 border-l-2 border-gray-200">
                 Decision Updated of Admin
@@ -827,6 +1117,9 @@ const Tasks = () => {
                             )
                       }
                       menuPlacement="auto"
+                      maxMenuHeight={150}
+                      // closeMenuOnSelect={()=> true}
+                      // menuIsOpen = {()=> true}
                     />
                   </td>
                   <td className="border py-1.5 px-2">
@@ -847,7 +1140,6 @@ const Tasks = () => {
                   </td>
                   <td className="border py-1.5 px-2" title={task?.status}>
                     <Select
-                   
                       options={status}
                       menuPortalTarget={document.body}
                       closeMenuOnScroll={() => true}
@@ -875,7 +1167,7 @@ const Tasks = () => {
                           "&:focus-within": {
                             borderColor: "#fb923c",
                           },
-                          width: "6.5rem",
+                          width: "8rem",
                         }),
                         option: (provided, state) => ({
                           ...provided,
@@ -915,8 +1207,7 @@ const Tasks = () => {
                     />
                   </td>
                   <td className="border py-1.5 px-2 text-sm text-gray-600">
-          
-             {task?.updatedbyuser}
+                    {task?.updatedbyuser}
                   </td>
                   {/* <td className="border py-1.5 px-2 text-sm text-gray-600">
                     Updated By Admin
@@ -947,7 +1238,6 @@ const Tasks = () => {
         task={task}
         subTasks={subTasks}
         subTask={subTask}
-
         setTask={setTask}
         Qparams={Qparams}
         setQParams={setQParams}
@@ -955,7 +1245,6 @@ const Tasks = () => {
         handleOverviewTaskChange={handleOverviewTaskChange}
         overViewTask={overViewTask}
         handleSubmit={handleSubmit}
-      
         status={status}
         handleAddSubTask={handleAddSubTask}
         handleSubTaskChange={handleSubTaskChange}
@@ -972,6 +1261,104 @@ const Tasks = () => {
         setSubTask={setSubTask}
         handleSendComment={handleSendComment}
       />
+      {/* pagination */}
+      <div className="inset-x-0 bottom-0 mt-5">
+        <div className="md:flex md:justify-between block text-end">
+          <div className="">
+            {!data?.tasks?.tasks || data?.tasks?.tasks?.length === 0 ? (
+              "no data to show"
+            ) : data?.tasks?.tasks?.loading ? (
+              "Loading..."
+            ) : (
+              <p className="text-sm text-gray-700">
+                Showing {data?.tasks?.startTasks} to {data?.tasks?.endTasks} of{" "}
+                <span className="text-sm">{data?.tasks?.totalTasks}</span> Tasks
+              </p>
+            )}
+          </div>
+
+          <section
+            className="isolate inline-flex rounded-md  ms-4 mt-2 md:mt-0"
+            aria-label="Pagination"
+          >
+            <select
+              value={Qparams?.pageSize}
+              onChange={handlePerPageChange}
+              className="focus:outline-none me-3 rounded-md bg-[#f8fafc]  px-1 py-1.5 text-sm font-semibold  ring-1 ring-inset ring-gray-300 hover:bg-gray-50 shadow-sm  text-gray-500 cursor-pointer"
+            >
+              <option value="10">10</option>
+              <option value="25">25</option>
+              <option value="50">50</option>
+              <option value="100">100</option>
+              <option value="250">250</option>
+              <option value="500">500</option>
+            </select>
+            {/* previos button */}
+            <button 
+              disabled={
+                navigation?.state === "loading"
+                  ? true
+                  : false || data?.tasks?.currentPage === 1
+              }
+              onClick={() => handlePage(data?.tasks?.currentPage - 1)}
+              href="#"
+              className={`relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${
+                navigation?.state === "loading"
+                  ? "cursor-wait"
+                  : data?.tasks?.currentPage === 1
+                  ? "cursor-not-allowed"
+                  : "cursor-pointer"
+              }`}
+            >
+              <span className="sr-only">Previous</span>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+                className="w-5 h-5"
+                aria-hidden="true"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M11.78 5.22a.75.75 0 0 1 0 1.06L8.06 10l3.72 3.72a.75.75 0 1 1-1.06 1.06l-4.25-4.25a.75.75 0 0 1 0-1.06l4.25-4.25a.75.75 0 0 1 1.06 0Z"
+                  clip-rule="evenodd"
+                />
+              </svg>
+            </button>
+            {/* next button */}
+            <button
+              disabled={
+                navigation?.state === "loading"
+                  ? true
+                  : false || data?.tasks?.currentPage === data?.tasks?.totalPages
+              }
+              onClick={() => handlePage(data?.tasks?.currentPage + 1)}
+              className={`relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${
+                navigation?.state === "loading"
+                  ? "cursor-wait"
+                  : data?.tasks?.currentPage === data?.tasks?.totalPages
+                  ? "cursor-not-allowed"
+                  : "cursor-pointer"
+              }`}
+            >
+              <span className="sr-only">Next</span>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+                className="w-5 h-5"
+                aria-hidden="true"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M8.22 5.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 0 1-1.06-1.06L11.94 10 8.22 6.28a.75.75 0 0 1 0-1.06Z"
+                  clip-rule="evenodd"
+                />
+              </svg>
+            </button>
+          </section>
+        </div>
+      </div>
     </div>
   );
 };

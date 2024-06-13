@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from "react";
+import React, { useState, useEffect, useRef, useCallback, useContext } from "react";
 import {
   Link,
   useFetcher,
@@ -17,8 +17,8 @@ import CustomColumn from "../../../../componentLayer/components/tableCustomizati
 import CustomFilter from "../../../../componentLayer/components/tableCustomization/CustomFilter";
 import atbtApi from "../../../../serviceLayer/interceptor";
 import BreadCrumbs from "../../../components/breadcrumbs/BreadCrumbs";
+import { PermissionsContext } from "../../../../rbac/PermissionsProvider";
 const userData = JSON.parse(localStorage.getItem("data"));
-let permissions = userData?.role?.Permissions
 const userId = userData?.user?.id;
 const role = userData?.role?.name;
 export async function loader({ request, params }) {
@@ -48,7 +48,7 @@ export async function loader({ request, params }) {
       tableViewData: meetingFormData?.data?.Tableview,
       customForm: meetingFormData?.data?.Data,
     };
-    console.log(combinedResponse, "entities response", request, params);
+    console.log(combinedResponse, "users response", request, params);
     return combinedResponse;
   } catch (error) {
     console.error("Error occurred:", error);
@@ -72,7 +72,8 @@ export async function action({ request, params }) {
   }
 }
 function Users() {
-  let location  = useLocation()
+  const { permissions, loading } = useContext(PermissionsContext);
+   let location  = useLocation()
   console.log("loctoion",location)
   document.title = "ATBT | User";
   const navigation = useNavigation();
@@ -85,7 +86,12 @@ function Users() {
     page: 1,
     pageSize: 10,
   });
+  const isFirstRender = useRef(true);
   useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
     debouncedParams(Qparams);
   }, [Qparams]);
   const debouncedParams = useCallback(
@@ -177,7 +183,7 @@ function Users() {
   const handleDeleteUser = async (id) => {
     const confirmDelete = await Swal.fire({
       title: "Are you sure?",
-      text: "Once deleted, you will not be able to recover this user!",
+      text: "Once the user deleted, decisions assigned to user will also get deleted permanently.",
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#ea580c",
@@ -363,7 +369,9 @@ let meetingPermission = permissions?.find((permission=>permission.module ==="mee
                               <Link
                               className="hover:text-orange-500"
                                 to={{
-                                  pathname: `${row.id}/userboardmeetings`,
+                                  // pathname: `${row.id}/userboardmeetings`,
+                                  pathname: `${row.id}`,
+
                                   search: `?search=&page=1&pageSize=10`,
                                 }}
                               >

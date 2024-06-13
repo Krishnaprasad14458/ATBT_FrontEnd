@@ -1,21 +1,21 @@
 import React, { useState } from "react";
 import Select from "react-select";
 const Collaborators = ({
-
   task,
   handleSubmit,
 }) => {
   console.log("task", task,task?.collaborators);
-  // let members = task?.group.map((item,index)=>({value : item.id}))
-  let members = task?.group?.map((user) => ({
+
+  let CollaboratorsId =   task?.collaborators?.map(
+    (collaborat) => collaborat.id
+  );
+  const filteredGroup = task?.group?.filter(item => !CollaboratorsId.includes(item.id));
+  let members = filteredGroup?.map((user) => ({
     label: user.name,
     value: user.id,
   }));
   let [isCollaboratorsEditing, setIsCollaboratorsEditing] = useState(false);
-  // let idsOfCollaborators = task?.collaborators?.map(
-  //   (collaborat) => collaborat.id
-  // );
-  // members = members?.filter((item) => !idsOfCollaborators?.includes(item.value));
+  
   const handleRemoveCollaborator = (collaboratorId) => {
     let updatedCollaborators = task?.collaborators.map(
       (collaborat) => collaborat.id
@@ -25,6 +25,7 @@ const Collaborators = ({
     );
     handleSubmit(task?.id, "collaborators", updatedCollaborators);
   };
+  
   return (
     <div className="px-3 py-1">
       <div className="me-2 flex gap-2">
@@ -35,7 +36,7 @@ const Collaborators = ({
               {/* Collaborator */}
               <div className="collaborator-container bg-orange-600 text-white py-1.5 w-8 h-8 rounded-full relative hover:bg-orange-700">
                 <span className="flex justify-center  text-sm">
-                  {collaborator.name.split("")[0]} 
+                  {collaborator?.name.split("")[0]} 
                 </span>
                 {/* Remove icon */}
                 <span className="absolute top-0 left-4 p-1 hidden group-hover:flex items-center">
@@ -57,19 +58,20 @@ const Collaborators = ({
                 </span>
               </div>
 
-              <div className="absolute -top-5 bottom-0 right-4 ml-4 mt-2 w-52 h-60 p-2 bg-white border border-gray-200 shadow-lg rounded-lg opacity-0 pointer-events-none transition-opacity duration-300 ease-in-out transform translate-x-1/2 -translate-y-full group-hover:opacity-100 group-hover:-translate-y-full z-10 text-black">
+              <div className="absolute -top-5 bottom-0 right-4 ml-4 mt-2 w-52 h-20 p-2 bg-white border border-gray-200 shadow-lg rounded-lg opacity-0 pointer-events-none transition-opacity duration-300 ease-in-out transform translate-x-1/2 -translate-y-full group-hover:opacity-100 group-hover:-translate-y-full z-10 text-black">
                 {/* Image */}
-                <img
-                  src="https://img.freepik.com/premium-photo/headshot-photos-indian-women-dynamic-professions-occassions-indian-girl_978786-292.jpg"
+                {/* <img
+                 src={collaborator.image}
                   alt={collaborator.name}
                   className="w-full h-40 rounded-t-lg object-cover"
-                />
+                /> */}
                 {/* Details */}
                 <div className="inline-block p-1">
                   {/* Name */}
                   <p className="font-semibold w-48 truncate">
                     {collaborator.name}
                   </p>
+              
 
                   {/* Email */}
                   <p className="text-sm text-gray-600 pt-1 w-48 truncate">
@@ -86,11 +88,28 @@ const Collaborators = ({
             styles={{
               control: (provided, state) => ({
                 ...provided,
-                backgroundColor: "#white-50", // Change the background color of the select input
-                borderWidth: state.isFocused ? "1px" : "1px", // Decrease border width when focused
-                borderColor: state.isFocused ? "#orange-400" : "#d1d5db", // Change border color when focused
-                boxShadow: state.isFocused ? "none" : provided.boxShadow, // Optionally remove box shadow when focused
-                cursor: "pointer",
+                backgroundColor: "#f9fafb",
+                borderWidth: "1px",
+                borderColor: state.isFocused
+                  ? "#orange-400"
+                  : "transparent",
+                boxShadow: state.isFocused
+                  ? "none"
+                  : provided.boxShadow,
+                fontSize: "16px",
+                height: "36px", // Adjust the height here
+                "&:hover": {
+                  borderColor: state.isFocused
+                    ? "#fb923c"
+                    : "transparent",
+                },
+                "&:focus": {
+                  borderColor: "#fb923c",
+                },
+                "&:focus-within": {
+                  borderColor: "#fb923c",
+                },
+                width: "10rem",
               }),
               placeholder: (provided) => ({
                 ...provided,
@@ -114,6 +133,7 @@ const Collaborators = ({
                 lineHeight: "1.25rem",
               }),
             }}
+            
             theme={(theme) => ({
               ...theme,
               borderRadius: 5,
@@ -122,15 +142,14 @@ const Collaborators = ({
                 primary: "#fb923c",
               },
             })}
-            onChange={(selectedOption) => {
-              // let updatedCollaborators = task?.collaborators.map(
-              //   (collaborat) => collaborat.id
-              // );
+            onChange={async  (selectedOption) => {
+             
            let   updatedCollaborators = [
-                ...task?.collaborators,
+                ...CollaboratorsId,
                 selectedOption.value,
               ];
-              handleSubmit(task?.id, "collaborators", updatedCollaborators);
+              console.log("first",updatedCollaborators,CollaboratorsId)
+            await   handleSubmit(task?.id, "collaborators", updatedCollaborators);
               setIsCollaboratorsEditing(false);
             }}
             menuPlacement="auto"

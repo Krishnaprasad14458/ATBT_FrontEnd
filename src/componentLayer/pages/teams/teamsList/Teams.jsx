@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState, useCallback, useContext, useRef } from "react";
 import {
   Link,
   useFetcher,
@@ -13,8 +13,9 @@ import CustomColumn from "../../../../componentLayer/components/tableCustomizati
 import CustomFilter from "../../../../componentLayer/components/tableCustomization/CustomFilter";
 import atbtApi from "../../../../serviceLayer/interceptor";
 import BreadCrumbs from "../../../components/breadcrumbs/BreadCrumbs";
+import { PermissionsContext } from "../../../../rbac/PermissionsProvider";
 const userData = JSON.parse(localStorage.getItem("data"));
-let permissions = userData?.role?.Permissions;
+
 export async function TeamsLoader({ request, params }) {
   try {
     let url = new URL(request.url);
@@ -28,7 +29,7 @@ export async function TeamsLoader({ request, params }) {
       tableViewData: teamFormData?.data?.Tableview,
       customForm: teamFormData?.data?.Data,
     };
-    console.log(combinedResponse, "entities response", request, params);
+    console.log(combinedResponse, "teams response", request, params);
     return combinedResponse;
   } catch (error) {
     console.error("Error occurred:", error);
@@ -48,6 +49,8 @@ export async function TeamsAction({ request, params }) {
   }
 }
 function Teams() {
+  const { permissions, loading } = useContext(PermissionsContext);
+
   document.title = "ATBT | Team";
   const navigation = useNavigation();
   let submit = useSubmit();
@@ -59,7 +62,13 @@ function Teams() {
     page: 1,
     pageSize: 10,
   });
+  const isFirstRender = useRef(true);
+  
   useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
     debouncedParams(Qparams);
   }, [Qparams]);
   const debouncedParams = useCallback(
@@ -185,7 +194,7 @@ function Teams() {
             <CustomColumn
               tableView={tableView}
               setTableView={setTableView}
-              form="boardmeetingform"
+              form="teamform"
             />
             <CustomFilter
               Qparams={Qparams}
@@ -213,31 +222,31 @@ function Teams() {
                   scope="col"
                   className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200"
                 >
-                  Total Tasks
+                  Total Decisions
                 </th>
                 <th
                   scope="col"
                   className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200"
                 >
-                  To-Do Tasks
+                  To-Do Decisions
                 </th>
                 <th
                   scope="col"
                   className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200"
                 >
-                  In-Progress Tasks
+                  In-Progress Decisions
                 </th>
                 <th
                   scope="col"
                   className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200"
                 >
-                  Overdue Tasks
+                  Overdue Decisions
                 </th>
                 <th
                   scope="col"
                   className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200"
                 >
-                  Completed Tasks
+                  Completed Decisions
                 </th>
                 <th
                   scope="col"

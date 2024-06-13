@@ -1,5 +1,6 @@
 import React from "react";
 import { caseLetter } from "../../../../utils/utils";
+import defprop from '../../../../assets/Images/defprof.svg'
 function HomeUsersList({ user }) {
   return (
     <div className="flex items-center">
@@ -8,7 +9,7 @@ function HomeUsersList({ user }) {
           className="w-8 h-8 rounded-full"
           src={
             user?.image ??
-            `https://picsum.photos/seed/${user.id + Math.random}/100`
+            defprop
           }
           alt="user"
         />

@@ -16,6 +16,7 @@ const initialAuth = {
     role: localStorageData?.role || {},
   };
 const [authState, authDispatch] = useReducer(authReducer, initialAuth);
+
   const adminLogin = async (loginData) => {
     try {
       const { data, status } = await toast.promise(
@@ -52,7 +53,7 @@ return `Welcome ${name}`;
       );
       console.log(data, 'data');
       if (status === 200) {
-        window.location.reload();
+        // window.location.reload();
         localStorage.setItem(
           'data',
           JSON.stringify({

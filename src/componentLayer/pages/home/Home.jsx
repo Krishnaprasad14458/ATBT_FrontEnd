@@ -148,18 +148,18 @@ function Home() {
   });
   return (
     <div className="  p-4 bg-[#f8fafc] ">
-      <h1 className="lg:m-2 font-semibold sm:text-xs md:text-base lg:text-lg xl:text-xl">
+      {/* <h1 className="lg:m-2 font-semibold sm:text-xs md:text-base lg:text-lg xl:text-xl">
         Home
-      </h1>
-      <div className="text-center">
+      </h1> */}
+      <div className="text-center pt-5">
         <h6 className="text-sm date_time">{getDate()}</h6>
         <h4 className=" text-2xl font-normal dark:text-white welcome_user">
           Welcome {localStorageData?.user?.name ?? "user"}
         </h4>
-        <div className="flex flex-wrap mt-2 justify-center">
+        <div className=" md:flex-wrap mt-2 justify-center block md:flex">
           <div className="tota_tasks border-r-2 border-black-100 bg-gray-100 p-2 rounded-s-full">
             <p className="mr-4 lg:ml-4 px-2 pt-1 text-xs text-[#929297]">
-              Total Tasks
+              Total Decisions
             </p>
             <p className="mr-4 lg:ml-4 px-2 font-semibold">
               {data?.count?.allTasksCount}
@@ -167,13 +167,13 @@ function Home() {
           </div>
           <div className=" todo_tasks border-r-2 border-black-100 bg-gray-100 p-2">
             <p className="mr-4 lg:ml-4 px-2 pt-1 text-xs text-[#929297]">
-              To-Do Tasks
+              To-Do Decisions
             </p>
             <p className="mr-4 lg:ml-4 px-2 font-semibold">{data?.count?.toDoCount}</p>
           </div>
           <div className=" in_progress_tasks border-r-2 border-black-100 bg-gray-100 p-2">
             <p className="mr-4 lg:ml-4 px-2 pt-1 text-xs text-[#929297]">
-              In-Progress Tasks
+              In-Progress Decisions
             </p>
             <p className="mr-4 lg:ml-4 px-2 font-semibold">
               {data?.count?.inProgressCount}
@@ -181,7 +181,7 @@ function Home() {
           </div>
           <div className="  overdue_tasks border-r-2 border-black-100 bg-gray-100 p-2">
             <p className="mr-4 lg:ml-4 px-2 pt-1 text-xs text-[#929297]">
-              Overdue Tasks
+              Overdue Decisions
             </p>
             <p className="mr-4 lg:ml-4 px-2 font-semibold">
               {data?.count?.overdueCount}
@@ -189,7 +189,7 @@ function Home() {
           </div>
           <div className=" completed_tasks border-black-100 bg-gray-100 p-2 rounded-e-full">
             <p className="mr-4 lg:ml-4 px-2 pt-1 text-xs text-[#929297]">
-              Completed Tasks
+              Completed Decisions
             </p>
             <p className="mr-4 lg:ml-4 px-2 font-semibold">
               {data?.count?.completedCount}
