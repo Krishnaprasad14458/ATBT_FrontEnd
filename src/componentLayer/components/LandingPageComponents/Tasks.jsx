@@ -108,7 +108,7 @@ export async function tasksLoader({ request, params }) {
       task: updatedTask,
       subTasks: subTasks?.data?.Task,
       subTask: updatedSubTask,
-      threadName: params.BMid ? ` Tasks` : `Tasks`,
+      threadName: params.BMid ? ` Decisions` : `Decisions`,
       threadPath: params.BMid
         ? `/${parentPath}/${params.id}/${params.boardmeetings}/${params.BMid}/tasks`
         : `/${parentPath}/${params.id}/tasks/To-Do`,
@@ -603,7 +603,7 @@ console.log(activeLink,"activeLink")
       <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-col-4 items-center gap-2 mt-2">
         <div className="col-span-1">
           {parentPath === "tasks" && (
-            <p className="text-md font-semibold">Tasks</p>
+            <p className="text-md font-semibold">Decisions</p>
           )}
         </div>
 

@@ -100,7 +100,7 @@ const Sidebar = () => {
       module: "meeting",
     },
     {
-      name: "Tasks",
+      name: "Decisions",
       link: "/tasks/To-Do",
       icon: (
         <svg

@@ -48,7 +48,7 @@ export async function loader({ request, params }) {
       tableViewData: meetingFormData?.data?.Tableview,
       customForm: meetingFormData?.data?.Data,
     };
-    console.log(combinedResponse, "entities response", request, params);
+    console.log(combinedResponse, "users response", request, params);
     return combinedResponse;
   } catch (error) {
     console.error("Error occurred:", error);
@@ -369,7 +369,9 @@ let meetingPermission = permissions?.find((permission=>permission.module ==="mee
                               <Link
                               className="hover:text-orange-500"
                                 to={{
-                                  pathname: `${row.id}/userboardmeetings`,
+                                  // pathname: `${row.id}/userboardmeetings`,
+                                  pathname: `${row.id}`,
+
                                   search: `?search=&page=1&pageSize=10`,
                                 }}
                               >
