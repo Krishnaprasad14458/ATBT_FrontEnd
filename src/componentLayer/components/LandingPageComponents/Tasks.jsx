@@ -714,7 +714,7 @@ console.log(activeLink,"activeLink")
       </div>
 
       <div className="flex justify-end">
-        {BMid && (
+        {BMid && (parentPath === "users" || parentPath ===   "entities" ||   parentPath ===    "teams")  &&(
           <GateKeeper
             permissionCheck={(permission) =>
               permission.module === "task" && permission.canCreate
