@@ -51,7 +51,7 @@ const TaskOverview = ({
   const [isCommentEditing, setIsCommentEditing] = useState(false);
   const [newComment, setNewComment] = useState({
     message: "",
-    file: "",
+    image: "",
     senderId: "",
   });
   console.log("newCOmment", newComment);
