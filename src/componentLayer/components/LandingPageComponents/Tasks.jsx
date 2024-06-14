@@ -739,6 +739,65 @@ console.log(activeLink,"activeLink")
       </div>
       <div>
         <div className="flex overflow-x-auto my-2">
+          
+        {!BMid &&
+            (parentPath === "users" ||
+              parentPath === "entities" ||
+              parentPath === "teams") && (
+              <NavLink
+                to=''
+                end
+                className={`cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09] ${
+                  activeLink === "runningdecisions" ? "border-b-2 border-orange-500 text-orange-600" : ""
+                }`}>
+                Running Decisions
+              </NavLink>
+            
+            )}
+          {!BMid && parentPath === "tasks" && (
+            <NavLink
+              // to={`/tasks`}
+              to=''
+              end
+              className={`cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09] ${
+                activeLink === "runningdecisions" ? "border-b-2 border-orange-600 text-orange-600" : ""
+              }`}>
+              Running Decisions
+            </NavLink>
+          )}
+        {!BMid &&
+            (parentPath === "users" ||
+              parentPath === "entities" ||
+              parentPath === "teams") && (
+              <NavLink
+                to={`/${parentPath}/${id}/tasks/Master`}
+                end
+                className={`cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09] ${
+                  activeLink === "Master" ? "border-b-2 border-orange-500 text-orange-600" : ""
+                }`}
+                onClick={() => handleNavLinkClick("Master")}
+              >
+                Master
+              </NavLink>
+            
+            )}
+          {!BMid && parentPath === "tasks" && (
+            <NavLink
+              // to={`/tasks`}
+              to={`/tasks/Master?${queryString}`}
+              end
+              className={`cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09] ${
+                activeLink === "Master" ? "border-b-2 border-orange-600 text-orange-600" : ""
+              }`}
+              onClick={() => handleNavLinkClick("Master")}
+              // onClick={() =>{ handleNavLinkClick("Master");
+              // let Qprams = {...Qparams}
+              // delete Qprams.status
+              // setQParams(Qprams)}}
+            >
+              Master
+            </NavLink>
+          )}
           {!BMid &&
             (parentPath === "users" ||
               parentPath === "entities" ||
@@ -845,6 +904,31 @@ console.log(activeLink,"activeLink")
               parentPath === "entities" ||
               parentPath === "teams") && (
               <NavLink
+                to=''
+                end
+                className={`cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09] ${
+                  activeLink === "on_hold" ? "border-b-2 border-orange-500 text-orange-600" : ""
+                }`}>
+                On-Hold
+              </NavLink>
+            
+            )}
+          {!BMid && parentPath === "tasks" && (
+            <NavLink
+              // to={`/tasks`}
+              to=''
+              end
+              className={`cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09] ${
+                activeLink === "on_hold" ? "border-b-2 border-orange-600 text-orange-600" : ""
+              }`}>
+              On-Hold
+            </NavLink>
+          )}
+          {!BMid &&
+            (parentPath === "users" ||
+              parentPath === "entities" ||
+              parentPath === "teams") && (
+              <NavLink
                 to={`/${parentPath}/${id}/tasks/Completed`}
                 end
                 className={`cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09] ${
@@ -872,50 +956,24 @@ console.log(activeLink,"activeLink")
               Completed
             </NavLink>
           )}
-          {!BMid &&
-            (parentPath === "users" ||
-              parentPath === "entities" ||
-              parentPath === "teams") && (
-              <NavLink
-                to={`/${parentPath}/${id}/tasks/Master`}
-                end
-                className={`cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09] ${
-                  activeLink === "Master" ? "border-b-2 border-orange-500 text-orange-600" : ""
-                }`}
-                onClick={() => handleNavLinkClick("Master")}
-              >
-                Master
-              </NavLink>
-            
-            )}
-          {!BMid && parentPath === "tasks" && (
-            <NavLink
-              // to={`/tasks`}
-              to={`/tasks/Master?${queryString}`}
-              end
-              className={`cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09] ${
-                activeLink === "Master" ? "border-b-2 border-orange-600 text-orange-600" : ""
-              }`}
-              onClick={() => handleNavLinkClick("Master")}
-              // onClick={() =>{ handleNavLinkClick("Master");
-              // let Qprams = {...Qparams}
-              // delete Qprams.status
-              // setQParams(Qprams)}}
-            >
-              Master
-            </NavLink>
-          )}
+        
         </div>
       </div>
       <div className=" max-h-[410px] overflow-y-auto">
         <table className="w-full divide-y divide-gray-200 dark:divide-gray-700 rounded-md table ">
           <thead>
             <tr>
+            <th
+                className="sticky top-0  bg-orange-600 text-white text-sm text-left px-2 py-2 border-l-2 border-gray-200"
+                
+              >
+                Entity Name
+              </th>
               <th
                 className="sticky top-0  bg-orange-600 text-white text-sm text-left px-2 py-2 border-l-2 border-gray-200"
                 style={{ width: "20rem" }}
               >
-                Decision Taken
+               Initial Decision Taken
               </th>
               <th
                 className="sticky top-0 z-10  bg-orange-600 text-white text-sm text-left px-2 py-2 border-l-2 border-gray-200 "
@@ -928,6 +986,9 @@ console.log(activeLink,"activeLink")
                 style={{ width: "6rem" }}
               >
                 Due Date
+              </th>
+              <th className="sticky top-0 z-10 bg-orange-600 text-white text-sm text-left px-2 py-2 border-l-2 border-gray-200">
+                Age
               </th>
               <th
                 className="sticky top-0 z-10 bg-orange-600 text-white text-sm text-left px-2 py-2 border-l-2 border-gray-200 "
@@ -956,6 +1017,7 @@ console.log(activeLink,"activeLink")
               }));
               return (
                 <tr key={task.id} className="border-b border-gray-200 ">
+                  <td className="border py-1.5 px-2"> </td>
                   <td className="border py-1.5 px-2">
                     <div className="flex items-center justify-between">
                       {isInputActiveID === task.id && (
@@ -1138,6 +1200,7 @@ console.log(activeLink,"activeLink")
                       }}
                     />
                   </td>
+                  <td className="border py-1.5 px-2"> </td>
                   <td className="border py-1.5 px-2" title={task?.status}>
                     <Select
                       options={status}

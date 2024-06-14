@@ -59,7 +59,7 @@ const CommentsView = ({
   return (
     <div>
       <div className="bg-[#f8fafc] ">
-        <p className="p-3"> Recent Activities</p>
+        <p className="p-3"> Logs</p>
         <hr />
         {/* {comments?.length > 5 && (
           <p

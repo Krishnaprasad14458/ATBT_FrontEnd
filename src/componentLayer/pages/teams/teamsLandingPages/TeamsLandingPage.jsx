@@ -50,7 +50,7 @@ const TeamsLandingPage = () => {
                 : "cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09]"
             }
           >
-            Team Meetings
+            Meetings
           </NavLink>
         )}
         {BMid && (
@@ -69,7 +69,7 @@ const TeamsLandingPage = () => {
                 : "cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09]"
             }
           >
-            Meetings Decisions
+            Decisions
           </NavLink>
         )}{" "}
         {!BMid && (
@@ -89,7 +89,7 @@ const TeamsLandingPage = () => {
                 : "cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09]"
             }
           >
-            Team Decisions
+           Decisions
           </NavLink>
         )}
         {!BMid && (
@@ -104,7 +104,7 @@ const TeamsLandingPage = () => {
                 : "cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09]"
             }
           >
-            Team Attachments
+            Attachments
           </NavLink>
         )}
         {BMid && (
@@ -119,7 +119,7 @@ const TeamsLandingPage = () => {
                 : "cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09]"
             }
           >
-            Meeting Attachments
+            Attachments
           </NavLink>
         )}
         {!BMid && (
@@ -134,7 +134,7 @@ const TeamsLandingPage = () => {
                 : "cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09]"
             }
           >
-            Team Overview
+           Overview
           </NavLink>
         )}
         {BMid && (
@@ -149,7 +149,7 @@ const TeamsLandingPage = () => {
                 : "cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09]"
             }
           >
-            Meeting Overview
+           Overview
           </NavLink>
         )}
       </div>
