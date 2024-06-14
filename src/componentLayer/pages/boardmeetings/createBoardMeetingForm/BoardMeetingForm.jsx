@@ -809,7 +809,7 @@ function BoardMeetingForm() {
                       </div>
                     )}
                   {item.type === "file" &&
-                    item.inputname === "attachment" &&
+                    item.inputname === "image" &&
                     item.field === "predefined" && (
                       <div>
                         <label

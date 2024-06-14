@@ -1191,7 +1191,7 @@ export default CustomFormStructure;
 //   },
 //   {
 //         "label": "Attachment",
-//         "inputname": "attachment",
+//         "inputname": "image",
 //         "type": "file",
 //         "value": "",
 //         "field": "predefined",
