@@ -26,10 +26,14 @@ const CommentsForm = ({
     if (!isCommentEditing) {
       let postComment = newComment;
       postComment.senderId = authState?.user?.id;
+      const formData = new FormData(e.target);
+      formData.set("image", postComment.image);
+      formData.set("message", postComment.message);
+      formData.set("senderId", postComment.senderId);
 
       let UpdateData = {
         id: taskID,
-        data: postComment,
+        data: formData,
         type: displayOverviewTask ? "ADD_TASK_COMMENT" : "ADD_SUBTASK_COMMENT",
       };
       console.log("UpdateData", UpdateData);
