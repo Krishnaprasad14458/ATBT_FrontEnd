@@ -1139,7 +1139,8 @@ console.log(activeLink,"activeLink")
                     />
                   </td>
                   <td className="border py-1.5 px-2" title={task?.status}>
-                    <Select
+               {task?.status}
+                    {/* <Select
                       options={status}
                       menuPortalTarget={document.body}
                       closeMenuOnScroll={() => true}
@@ -1204,7 +1205,7 @@ console.log(activeLink,"activeLink")
                       classNamePrefix="select"
                       value={{ label: task?.status, value: task?.status }}
                       menuPlacement="auto"
-                    />
+                    /> */}
                   </td>
                   <td className="border py-1.5 px-2 text-sm text-gray-600">
                     {task?.updatedbyuser}
