@@ -1188,7 +1188,17 @@ export default CustomFormStructure;
 //     "options": {
 //       "type": "predefined", "value": "users"
 //     }
-//   }
+//   },
+//   {
+//         "label": "Attachment",
+//         "inputname": "attachment",
+//         "type": "file",
+//         "value": "",
+//         "field": "predefined",
+//         "mandatory": false,
+//         "filterable": false
+//       },
+
 // ],
 
 /////////////////////// predefined tableview

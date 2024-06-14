@@ -25,42 +25,41 @@ export async function boardmeetingFormLoader({ params, request }) {
         atbtApi.post(`public/list/user`),
         boardmeetingFor === "user"
           ? atbtApi.get(`user/list/${boardmeetingForID}`)
-          : boardmeetingFor === "entity" ? atbtApi.post(`entity/User/list/${boardmeetingForID}`) :  boardmeetingFor === "team" ?  atbtApi.get(`/team/list/${boardmeetingForID}`): null ,
+          : boardmeetingFor === "entity"
+          ? atbtApi.post(`entity/User/list/${boardmeetingForID}`)
+          : boardmeetingFor === "team"
+          ? atbtApi.get(`/team/list/${boardmeetingForID}`)
+          : null,
       ]);
-      usersList = usersList?.data?.users?.map((item) => ({
-        value: item.id,
-        label: item.email,
-        image: item.image,
-        name: item.name,
-      }));
-      // to 
-      if (boardmeetingFor === "user" && boardmeetingForID) {
-        usersList = usersList.filter((user) => user.value !== boardmeetingForID);
-        displayMembers = [displayMembers?.data?.user]
+    usersList = usersList?.data?.users?.map((item) => ({
+      value: item.id,
+      label: item.email,
+      image: item.image,
+      name: item.name,
+    }));
+    // to
+    if (boardmeetingFor === "user" && boardmeetingForID) {
+      usersList = usersList.filter((user) => user.value !== boardmeetingForID);
+      displayMembers = [displayMembers?.data?.user];
+    }
+    if (boardmeetingFor === "entity" && boardmeetingForID) {
+      const entityIds = displayMembers?.data.map((entity) => entity.id);
+      usersList = usersList.filter((user) => !entityIds.includes(user.value));
+      displayMembers = displayMembers?.data;
+    }
+    if (boardmeetingFor === "team" && boardmeetingForID) {
+      const teamIds = displayMembers?.data?.members.map((team) => team.id);
+      usersList = usersList.filter((user) => !teamIds.includes(user.value));
+      displayMembers = displayMembers?.data?.members;
+    }
 
-      }
-      if (boardmeetingFor === "entity" && boardmeetingForID) {
-    
-        const entityIds = displayMembers?.data.map((entity) => entity.id);
-        usersList = usersList.filter((user) => !entityIds.includes(user.value));
-        displayMembers = displayMembers?.data
-       
-      }
-      if (boardmeetingFor === "team" && boardmeetingForID) {
-       
-        const teamIds = displayMembers?.data?.members.map((team) => team.id);
-        usersList = usersList.filter((user) => !teamIds.includes(user.value));
-        displayMembers = displayMembers?.data?.members
-
-      }
-    
     let boardmeetingData = null;
     if (params && params.BMid) {
       console.log(boardmeetingResponse, "loader boardmeeting data");
       boardmeetingData = boardmeetingResponse?.data;
       console.log(boardmeetingResponse, "loader boardmeeting data updated");
     }
-   
+
     const formData = formResponse.data.Data;
     console.log("formData", formData, "boardmeetingData", boardmeetingData);
 
@@ -79,7 +78,6 @@ function BoardMeetingForm() {
   const { authState } = useContext(AuthContext);
   let createdBy = authState?.user?.id;
 
-
   const urlParams = new URLSearchParams(window.location.search);
   const boardmeetingFor = urlParams.get("boardmeetingFor");
   const boardmeetingForID = urlParams.get("boardmeetingForID");
@@ -92,7 +90,10 @@ function BoardMeetingForm() {
   /// for edit to bind selected memebers
   useEffect(() => {
     if (BMid && boardmeeting?.boardmeetingData?.members) {
-      console.log("boardmeeting.boardmeetingData.members",boardmeeting.boardmeetingData.members)
+      console.log(
+        "boardmeeting.boardmeetingData.members",
+        boardmeeting.boardmeetingData.members
+      );
       const updatedMembersForSelect = boardmeeting.boardmeetingData.members.map(
         (member) => ({
           value: member.id,
@@ -110,14 +111,14 @@ function BoardMeetingForm() {
     if (!!BMid && !!boardmeeting?.boardmeetingData) {
       let boardmeetingData = boardmeeting?.boardmeetingData;
       response.forEach((input) => {
-      console.log("input",input)
+        console.log("input", input);
         if (boardmeetingData.hasOwnProperty(input.inputname)) {
           if (boardmeetingData[input.inputname] !== null) {
             input.value = boardmeetingData[input.inputname];
           }
           // if (boardmeetingData[input.inputname] !== null && input.type === "multiselect") {
           //   input.value = boardmeetingData[input.inputname]?.map((item)=>item.id);
-            
+
           // }
         }
       });
@@ -134,7 +135,7 @@ function BoardMeetingForm() {
     BoardMeetingsDataContext
   );
   const [selected, setSelected] = useState([]);
-console.log("selected selected",selected)
+  console.log("selected selected", selected);
   const [usersEmails, setUsersEmails] = useState(boardmeeting.usersList);
 
   useEffect(() => {
@@ -159,7 +160,6 @@ console.log("selected selected",selected)
     }
   }, [BMid]);
 
-  
   const handleOpenOptions = (name) => {
     if (openOptions == name) {
       setopenOptions("");
@@ -182,9 +182,11 @@ console.log("selected selected",selected)
       for (let y = 0; y < customFormFields.length; y++) {
         if (customFormFields[y].inputname === "members") {
           let members = customFormFields[y].value;
-          setAllBoardMeetingMembers([ ...defaultBMMembers,...members]);
-          customFormFields[y].value = customFormFields[y].value.map((item)=> item.id)
-        // console.log("first",customFormFields[y].value)
+          setAllBoardMeetingMembers([...defaultBMMembers, ...members]);
+          customFormFields[y].value = customFormFields[y].value.map(
+            (item) => item.id
+          );
+          // console.log("first",customFormFields[y].value)
         }
       }
     } else if (!BMid) {
@@ -194,12 +196,12 @@ console.log("selected selected",selected)
   const handleClick = (value, index) => {
     console.log("value", value);
     setSelected(value);
-    let formatChange = value.map((item)=>({
+    let formatChange = value.map((item) => ({
       name: item.name,
       id: item.value,
       image: item.image,
       email: item.label,
-    }))
+    }));
     setAllBoardMeetingMembers([...defaultboardMeetingMembers, ...formatChange]);
     const updatedFormData = [...customFormFields];
     let members = value.map((item) => item.value);
@@ -677,9 +679,10 @@ console.log("selected selected",selected)
                             fontSize: "0.8rem",
                             WebkitAppearance: "none",
                           }}
-
-                          min={(BMid===null || BMid=== undefined) && getCurrentDate()}
-
+                          min={
+                            (BMid === null || BMid === undefined) &&
+                            getCurrentDate()
+                          }
                           className="px-2 py-2 text-sm block w-full rounded-md bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder:text-xs"
                           value={customFormFields[index].value || ""}
                           onChange={(e) => handleChange(index, e.target.value)}
@@ -797,6 +800,42 @@ console.log("selected selected",selected)
                           }}
                         />
                         <div className="h-2 text-[#dc2626]">
+                          {errors[item.inputname] && (
+                            <span className="text-xs">
+                              {errors[item.inputname]}
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                    )}
+                  {item.type === "file" &&
+                    item.inputname === "attachment" &&
+                    item.field === "predefined" && (
+                      <div>
+                        <label
+                          htmlFor={item.label}
+                          className="block text-sm font-medium leading-6 mt-2 text-gray-900"
+                        >
+                          {item.label.charAt(0).toUpperCase() +
+                            item.label.slice(1)}
+                          {item.mandatory ? (
+                            <span className="text-red-600">*</span>
+                          ) : (
+                            <span> </span>
+                          )}
+                        </label>
+                        <input
+                          type="file"
+                          name={item.inputname}
+                          id={item.inputname}
+                          className="px-2 py-1 md:py-1 lg:py-1 xl:py-1 text-sm block w-full rounded-md bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder:text-xs"
+                          onChange={(event) =>
+                            handleFileChange(event, index, item.inputname)
+                          }
+                          accept="image/*"
+                          style={{ fontSize: "0.8rem" }}
+                        />
+                        <div className="h-2 text-red-500">
                           {errors[item.inputname] && (
                             <span className="text-xs">
                               {errors[item.inputname]}
