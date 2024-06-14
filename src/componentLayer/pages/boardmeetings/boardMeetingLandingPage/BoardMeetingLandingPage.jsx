@@ -34,7 +34,7 @@ const BoardMeetingLandingPage = () => {
                 : "cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09]"
             }
           >
-            Meeting Decisions
+           Decisions
           </NavLink>
         </GateKeeper>
         <NavLink
@@ -48,7 +48,7 @@ const BoardMeetingLandingPage = () => {
                 : "cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09]"
             }
           >
-            Meeting Attachments
+            Attachments
           </NavLink>
           <GateKeeper
               permissionCheck={(permission) =>
@@ -67,7 +67,7 @@ const BoardMeetingLandingPage = () => {
                 : "cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09]"
             }
           >
-            Meeting Overview
+            Overview
           </NavLink>
             </GateKeeper>
       </div>

@@ -42,7 +42,7 @@ const EntityLandingPage = () => {
                 : "cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09]"
             }
           >
-            Entity Meetings
+             Meetings
           </NavLink>
         )}
         {BMid && (
@@ -63,7 +63,7 @@ const EntityLandingPage = () => {
                 : "cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09]"
             }
           >
-            Meeting Decisions
+            Decisions
           </NavLink>
         )}
         {!BMid && (
@@ -83,7 +83,7 @@ const EntityLandingPage = () => {
                 : "cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09]"
             }
           >
-            Entity Decisions
+            Decisions
           </NavLink>
         )}
         {!BMid && (
@@ -98,7 +98,7 @@ const EntityLandingPage = () => {
                 : "cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09]"
             }
           >
-            Entity Attachments
+         Attachments
           </NavLink>
         )}
         {BMid && (
@@ -113,7 +113,7 @@ const EntityLandingPage = () => {
                 : "cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09]"
             }
           >
-            Meeting Attachments
+            Attachments
           </NavLink>
         )}
         {!BMid && (
@@ -128,7 +128,7 @@ const EntityLandingPage = () => {
                 : "cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09]"
             }
           >
-            Entity Overview
+            Overview
           </NavLink>
         )}
         {BMid && (
@@ -143,7 +143,7 @@ const EntityLandingPage = () => {
                 : "cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09]"
             }
           >
-            Meeting Overview
+          Overview
           </NavLink>
         )}
       </div>
