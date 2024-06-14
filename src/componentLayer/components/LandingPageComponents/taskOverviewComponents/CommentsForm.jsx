@@ -18,7 +18,7 @@ const CommentsForm = ({
   const handleDrop = (acceptedFiles) => {
     setNewComment((prev) => ({
       ...prev,
-      file: [...prev.file, ...acceptedFiles],
+      image: [...prev.image, ...acceptedFiles],
     }));
   };
   const handleSubmit = (e) => {
@@ -41,7 +41,7 @@ const CommentsForm = ({
         setTimeout(() => {
           scrollToBottom();
         }, 1000);
-        setNewComment({ message: "", file: "", senderId: "" });
+        setNewComment({ message: "", image: "", senderId: "" });
       } catch (error) {
         console.log(error, "which error");
       }
@@ -59,7 +59,7 @@ const CommentsForm = ({
           encType: "application/json",
         });
         setIsCommentEditing(false);
-        setNewComment({ message: "", file: "", senderId: "" });
+        setNewComment({ message: "", image: "", senderId: "" });
       } catch (error) {
         console.log(error, "which error");
       }
@@ -68,7 +68,7 @@ const CommentsForm = ({
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     const updatedComment = { ...newComment };
-    updatedComment.file = file;
+    updatedComment.image = file;
     setNewComment(updatedComment);
   };
   console.log("newcomment", newComment);
@@ -86,7 +86,7 @@ const CommentsForm = ({
               className={`p-2 text-sm w-full  resize-none   shadow-sm rounded-md  outline-none `}
             />
             <div>
-              {newComment.file.name}
+              {newComment.image.name}
               <label htmlFor="fileInput" className="cursor-pointer">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -104,6 +104,7 @@ const CommentsForm = ({
                 </svg>
               </label>
               <input
+              name="image"
                 id="fileInput"
                 type="file"
                 className="hidden"
