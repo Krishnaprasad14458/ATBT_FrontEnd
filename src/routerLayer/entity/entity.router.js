@@ -5,7 +5,7 @@ import Boardmeeting, {
   action as MeetingAction,
   loader as MeetingLoader,
 } from "../../componentLayer/components/LandingPageComponents/Boardmeeting";
-import Documents from "../../componentLayer/components/LandingPageComponents/Documents";
+import Documents, { attachmentsLoader } from "../../componentLayer/components/LandingPageComponents/Documents";
 import EntityLandingPage from "../../componentLayer/pages/entities/entityLandingPage/EntityLandingPage";
 import EntityOverview, {
 
@@ -138,6 +138,7 @@ export const entityRouter = [
                   {
                     path: "documents",
                     element: <Documents />,
+                    loader: attachmentsLoader,
                     handle: {
                       crumb: (data) => (
                         <Link to="."> Attachments</Link>
