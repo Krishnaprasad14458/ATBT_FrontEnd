@@ -18,8 +18,8 @@ const TaskOverViewHeader = ({
 }) => {
   // const isSmallScreen = useMediaQuery({ query: '(max-width: 768px)' });
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 items-center p-2">
-      <div className="col-span-1 ms-2">
+    <div className="grid grid-cols-4 sm:grid-cols-4 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-4 items-center p-2">
+      <div className="col-span-2 md:col-span-1 ms-2">
         <Select
           options={status}
           styles={{
@@ -29,7 +29,7 @@ const TaskOverViewHeader = ({
               borderWidth: "1px",
               borderColor: state.isFocused ? "#orange-400" : "#d1d5db",
               boxShadow: state.isFocused ? "none" : provided.boxShadow,
-              width: "10rem",
+              
             }),
             placeholder: (provided) => ({
               ...provided,
@@ -60,7 +60,7 @@ const TaskOverViewHeader = ({
           value={{ label: task?.status, value: task?.status }}
         />
       </div>
-      <div className="col-span-1 ">
+      <div className="col-span-2  md:col-span-3">
       <div className=" flex justify-end gap-5">
         <svg
           xmlns="http://www.w3.org/2000/svg"
