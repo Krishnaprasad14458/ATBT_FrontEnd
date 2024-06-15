@@ -28,6 +28,7 @@ let status = [
   { label: "To-Do", value: "To-Do" },
   { label: "In-Progress", value: "In-Progress" },
   { label: "Completed", value: "Completed" },
+  { label: "On-Hold", value: "On-Hold" },
 ];
 
 let parentPath;
@@ -63,8 +64,6 @@ export async function tasksLoader({ request, params }) {
     const search = url.searchParams.get("search");
     const page = url.searchParams.get("page");
     const pageSize = url.searchParams.get("pageSize");
-    
-
     // const statusType = url.searchParams.get("status");
     const statusType = params.statusType
     console.log("statusType", statusType);
