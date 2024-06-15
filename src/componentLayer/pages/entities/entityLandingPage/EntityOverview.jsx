@@ -59,7 +59,7 @@ const EntityOverview = () => {
   }
   return (
     <div className="p-4 bg-[#f8fafc]">
-      <div className="flex justify-end gap-3">
+      <div className="flex justify-end gap-3 pb-5 md:pb-0">
         <Link to={`../${id}/edit`} relative="path">
           <button className=" flex  justify-center rounded-md bg-orange-600 px-3 py-2 text-sm font-medium leading-6 text-white shadow-sm  focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600">
             Edit

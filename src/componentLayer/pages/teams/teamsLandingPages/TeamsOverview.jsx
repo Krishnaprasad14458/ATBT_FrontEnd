@@ -53,24 +53,19 @@ const TeamsOverview = () => {
     return formattedTime;
   }
   return (
-    <div className=" flex justify-center mt-5">
-      <div className="w-full md:w-full  lg:w-11/12 xl:11/12 shadow-md border-2 rounded-md bg-[#f8fafc] px-4 pb-4">
-        <div className="flex justify-end ">
+    <div className="p-4 bg-[#f8fafc]">
+   
+        <div className="flex justify-end gap-3 pb-5 md:pb-0">
           <Link
             to={`../${id}/edit`}
-            relative="path"
-            className="text-sm font-medium transition-colors  focus-visible:ring-1 focus-visible:ring-ring  text-gray-900 pt-2 "
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 20 20"
-              fill="currentColor"
-              className="w-5 h-5 text-gray-900"
-            >
-              <path d="m2.695 14.762-1.262 3.155a.5.5 0 0 0 .65.65l3.155-1.262a4 4 0 0 0 1.343-.886L17.5 5.501a2.121 2.121 0 0 0-3-3L3.58 13.419a4 4 0 0 0-.885 1.343Z" />
-            </svg>
+            relative="path">
+               <button className=" flex  justify-center rounded-md bg-orange-600 px-3 py-2 text-sm font-medium leading-6 text-white shadow-sm  focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600">
+              Edit
+            </button>
           </Link>
         </div>
+        <div className=" flex justify-center mt-5">
+        <div className="w-full md:w-full  lg:w-11/12 xl:11/12 shadow-md border-2 rounded-md bg-[#f8fafc] px-4 pb-4">
         {customFormField &&
           customFormField.length > 0 &&
           customFormField.map((item) => {
@@ -454,7 +449,7 @@ const TeamsOverview = () => {
           })}
     
       </div>
-    </div>
+    </div></div>
   );
 };
 

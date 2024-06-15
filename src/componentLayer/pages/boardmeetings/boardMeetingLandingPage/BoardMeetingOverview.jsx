@@ -70,7 +70,7 @@ console.log("customFormField customFormField",customFormField)
 
   return (
     <div className=" p-4 bg-[#f8fafc]">
-      <div className="flex justify-end gap-3">
+      <div className="flex justify-end gap-3 pb-5 md:pb-0">
        {moduleName && id && <Link
           to={{
             pathname: `/boardmeetings/${BMid}/edit`,
