@@ -5,28 +5,14 @@ import React, {
   useRef,
   useContext,
 } from "react";
-import {
-  NavLink,
-  useParams,
-  useLoaderData,
-  useFetcher,
-  useSubmit,
-  useLocation,
-  useMatches,
-  useNavigation,
-} from "react-router-dom";
+import {NavLink,useParams,useLoaderData,useFetcher,useSubmit,useLocation,useMatches,useNavigation,} from "react-router-dom";
 import Select from "react-select";
 import TaskOverview from "./TaskOverview";
 import atbtApi from "../../../serviceLayer/interceptor";
 import { debounce } from "../../../utils/utils";
-import subtask_icon from "../../../assets/Images/Subtask_icon.svg";
-import "react-datepicker/dist/react-datepicker.css";
 import GateKeeper from "../../../rbac/GateKeeper";
 import { AuthContext } from "../../../contexts/authContext/authContext";
 import TasksFilter from "../tableCustomization/TasksFilter";
-import DatePicker from "react-datepicker";
-
-import "react-datepicker/dist/react-datepicker.css";
 let status = [
   { label: "To-Do", value: "To-Do" },
   { label: "In-Progress", value: "In-Progress" },
@@ -641,12 +627,12 @@ console.log(activeLink,"activeLink")
         </div>
 
         {parentPath === "tasks" && (
-          <div className="col-span-2 text-end">
-            <div className="flex gap-2 items-center justify-end">
+          <div className="col-span-2 ">
+            <div className=" md:flex gap-2 items-center md:justify-end">
               <label className="text-sm text-gray-400"> From:</label>
 
               <input
-                className=" border border-gray-200  text-black px-1.5 py-2 rounded-md  bg-[#f9fafb] focus:outline-none text-sm focus:border-orange-400  date_type "
+                className=" border border-gray-200 text-black px-1.5 py-2 rounded-md bg-[#f9fafb] focus:outline-none text-sm focus:border-orange-400 date_type w-full"
                 type="date"
                 value={dueDateFilter.fromDate}
                 style={{
@@ -665,7 +651,7 @@ console.log(activeLink,"activeLink")
               />
               <label className="text-sm text-gray-400"> To:</label>
               <input
-                className=" border border-gray-200 text-black px-1.5 py-2 rounded-md  bg-[#f9fafb] focus:outline-none text-sm focus:border-orange-400 date_type "
+                className=" border border-gray-200 text-black px-1.5 py-2 rounded-md  bg-[#f9fafb] focus:outline-none text-sm focus:border-orange-400 date_type w-full"
                 type="date"
                 value={dueDateFilter.toDate}
                 style={{
@@ -683,7 +669,8 @@ console.log(activeLink,"activeLink")
                     toDate: e.target.value,
                   }));
                 }}
-              />
+              /> 
+              <div className="flex justify-end">
               <button
                 onClick={() => {
                   let Qprms = { ...Qparams };
@@ -710,7 +697,9 @@ console.log(activeLink,"activeLink")
               </button>
 
               <TasksFilter Qparams={Qparams} setQParams={setQParams} />
-            </div>
+              </div>
+          
+              </div>
           </div>
         )}
       </div>
@@ -1187,16 +1176,6 @@ console.log(activeLink,"activeLink")
                     />
                   </td>
                   <td className="border py-1.5 px-2">
-
-
-                  {/* <DatePicker 
-                  className=" border border-transparent text-black px-1.5 py-2 rounded-md  bg-[#f9fafb] focus:outline-none text-sm focus:border-orange-400  date_type"
-                  selected={task?.dueDate}
-                   onChange={(e) => {
-                        handleSubmit(task?.id, "dueDate", e.target.value);
-                        handleTaskChange(index, "dueDate", e.target.value);
-                      }}
-                      dateFormat='dd/mm/yyyy' /> */}
                     <input
                       className=" border border-transparent text-black px-1.5 py-2 rounded-md  bg-[#f9fafb] focus:outline-none text-sm focus:border-orange-400  date_type"
                       type="date"
