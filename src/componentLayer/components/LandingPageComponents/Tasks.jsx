@@ -736,11 +736,12 @@ console.log(activeLink,"activeLink")
               parentPath === "entities" ||
               parentPath === "teams") && (
               <NavLink
-                to=''
+              to={`/${parentPath}/${id}/tasks/runningdecisions`}
                 end
                 className={`cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09] ${
                   activeLink === "runningdecisions" ? "border-b-2 border-orange-500 text-orange-600" : ""
-                }`}>
+                }`}
+                onClick={() => handleNavLinkClick("runningdecisions")}>
                 Running Decisions
               </NavLink>
             
@@ -748,11 +749,12 @@ console.log(activeLink,"activeLink")
           {!BMid && parentPath === "tasks" && (
             <NavLink
               // to={`/tasks`}
-              to=''
+              to={`/tasks/runningdecisions?${queryString}`}
               end
               className={`cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09] ${
                 activeLink === "runningdecisions" ? "border-b-2 border-orange-600 text-orange-600" : ""
-              }`}>
+              }`}
+              onClick={() => handleNavLinkClick("runningdecisions")}>
               Running Decisions
             </NavLink>
           )}
@@ -895,23 +897,23 @@ console.log(activeLink,"activeLink")
               parentPath === "entities" ||
               parentPath === "teams") && (
               <NavLink
-                to=''
+              to={`/${parentPath}/${id}/tasks/On-Hold`}
                 end
                 className={`cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09] ${
-                  activeLink === "on_hold" ? "border-b-2 border-orange-500 text-orange-600" : ""
-                }`}>
+                  activeLink === "On-Hold" ? "border-b-2 border-orange-500 text-orange-600" : ""
+                }`} onClick={() => handleNavLinkClick("On-Hold")}>
                 On-Hold
               </NavLink>
             
             )}
           {!BMid && parentPath === "tasks" && (
             <NavLink
-              // to={`/tasks`}
-              to=''
+              
+              to={`/tasks/On-Hold?${queryString}`}
               end
               className={`cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09] ${
-                activeLink === "on_hold" ? "border-b-2 border-orange-600 text-orange-600" : ""
-              }`}>
+                activeLink === "On-Hold" ? "border-b-2 border-orange-600 text-orange-600" : ""
+              }`} onClick={() => handleNavLinkClick("On-Hold")}>
               On-Hold
             </NavLink>
           )}
