@@ -43,6 +43,7 @@ const TaskOverViewHeader = ({
                 color: "#fff",
                 backgroundColor: "#ea580c",
               },
+              fontSize:"16px"
             }),
           }}
           theme={(theme) => ({
