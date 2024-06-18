@@ -1191,8 +1191,8 @@ console.log(activeLink,"activeLink")
                       }}
                     />
                   </td>
-                  <td className="border py-1.5 px-2"> </td>
-                  <td className="border py-1.5 px-2" title={task?.status}>
+                  <td className="border py-1.5 px-2 text-sm text-gray-600"> </td>
+                  <td className="border py-1.5 px-2 text-sm text-gray-600" title={task?.status}>
                {task?.status}
                     {/* <Select
                       options={status}

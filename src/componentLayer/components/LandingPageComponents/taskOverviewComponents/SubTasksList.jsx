@@ -52,7 +52,7 @@ const SubTasksList = ({
           Create Sub Decision
         </button>
       </div>
-   
+
       <div className="">
         <table className="w-full divide-y divide-gray-200 dark:divide-gray-700 rounded-md ">
           <thead></thead>
@@ -63,10 +63,10 @@ const SubTasksList = ({
                   task?.decision === null || task?.decision === ""
                     ? "2rem"
                     : "";
-                    let members = task?.group?.map((user) => ({
-                      label: user.name,
-                      value: user.id,
-                    }));
+                let members = task?.group?.map((user) => ({
+                  label: user.name,
+                  value: user.id,
+                }));
                 return (
                   <tr key={task.id} className="border-b border-gray-200 ">
                     <td className="border py-1.5 px-2">
@@ -74,9 +74,7 @@ const SubTasksList = ({
                         {isInputActiveID === task.id && (
                           <input
                             className="border border-[#d1d5db] text-black px-1.5 py-1.5 rounded-md  bg-[#f9fafb] focus:outline-none text-sm focus:border-orange-400 "
-                            style={{   width: "15rem",}}
-                         
-                            
+                            style={{ width: "15rem" }}
                             type="text"
                             placeholder="Type here"
                             value={task?.decision}
@@ -139,11 +137,9 @@ const SubTasksList = ({
                     </td>
                     <td
                       className="border py-1.5 px-2"
-                     
-                      style={{width:"12rem"}}
+                      style={{ width: "12rem" }}
                     >
                       <Select
-                       
                         options={members}
                         styles={{
                           control: (provided, state) => ({
@@ -170,7 +166,6 @@ const SubTasksList = ({
                             "&:focus-within": {
                               borderColor: "#fb923c",
                             },
-                          
                           }),
                           option: (provided, state) => ({
                             ...provided,
@@ -182,7 +177,6 @@ const SubTasksList = ({
                               color: "#fff",
                               backgroundColor: "#ea580c",
                             },
-                        
                           }),
                           indicatorSeparator: (provided, state) => ({
                             ...provided,
@@ -226,14 +220,15 @@ const SubTasksList = ({
                                 (person) => person.value === task?.members
                               )
                         }
-                       menuPlacement="auto"
-                       maxMenuHeight={150}
+                        menuPlacement="auto"
+                        maxMenuHeight={150}
                       />
                     </td>
-                    <td style={{width:"7rem"}} className="border py-1.5 px-2">
-
+                    <td
+                      style={{ width: "7rem" }}
+                      className="border py-1.5 px-2"
+                    >
                       <input
-                        
                         className=" border border-transparent text-black px-1.5 py-2 rounded-md  bg-white-50 focus:outline-none text-sm focus:border-orange-400  date_type"
                         type="date"
                         style={{
@@ -249,11 +244,9 @@ const SubTasksList = ({
                     </td>
                     <td
                       className="border py-1.5 px-2"
-                    style={{width:"8rem"}}
+                      style={{ width: "8rem" }}
                     >
                       <Select
-                   
-                      
                         options={status}
                         styles={{
                           control: (provided, state) => ({
@@ -279,7 +272,7 @@ const SubTasksList = ({
                             "&:focus-within": {
                               borderColor: "#fb923c",
                             },
-                          width:"8rem"
+                            width: "8rem",
                           }),
                           option: (provided, state) => ({
                             ...provided,
@@ -328,7 +321,6 @@ const SubTasksList = ({
                         className="basic-multi-select"
                         classNamePrefix="select"
                         value={{ label: task?.status, value: task?.status }}
-                        
                       />
                     </td>
                     {/* <td className="border py-1.5 px-2 text-sm  text-gray-600" >
