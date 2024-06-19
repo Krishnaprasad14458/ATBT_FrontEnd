@@ -135,7 +135,7 @@ input::-webkit-inner-spin-button {
 }
 /* Styling for the close icon */
 .collaborator-container svg {
-  width: 0.8rem; /* Adjust the size of the close icon */
+  width: 0.8rem; 
   height: 0.8rem;
   cursor: pointer;
   padding: 1px;
@@ -143,23 +143,20 @@ input::-webkit-inner-spin-button {
   position: absolute;
   border-radius: 50%;
 }
-
 /* Hide the close icon by default */
 .collaborator-container .hidden {
   display: none;
 }
-
 /* Display the close icon when hovering over the container */
 .collaborator-container:hover .hidden {
   display: flex;
 }
-
 /* Align the close icon to the top right corner */
 .collaborator-container .hidden {
   position: absolute;
   top: 0;
   right: 0;
-  padding: 0.25rem; /* Adjust padding as needed */
+  padding: 0.25rem; 
 }
 .arrow_breadcrumbs::after {
   content: ">";
