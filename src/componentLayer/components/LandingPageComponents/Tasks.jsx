@@ -751,7 +751,7 @@ const Tasks = () => {
               parentPath === "teams") && (
               <NavLink
 
-                to={`/${parentPath}/${id}/tasks/runningdecisions`}
+                to={`/${parentPath}/${id}/tasks/runningdecisions?${queryString}`}
 
                 end
                 onClick={() => handleNavLinkClick("runningdecisions")}
@@ -761,7 +761,7 @@ const Tasks = () => {
                     ? "border-b-2 border-orange-500 text-orange-600"
                     : ""
                 }`}
-                onClick={() => handleNavLinkClick("runningdecisions")}
+            
               >
                 Running Decisions
               </NavLink>
@@ -779,7 +779,7 @@ const Tasks = () => {
                   ? "border-b-2 border-orange-600 text-orange-600"
                   : ""
               }`}
-              onClick={() => handleNavLinkClick("runningdecisions")}
+          
             >
               Running Decisions
             </NavLink>
@@ -789,7 +789,7 @@ const Tasks = () => {
               parentPath === "entities" ||
               parentPath === "teams") && (
               <NavLink
-                to={`/${parentPath}/${id}/tasks/Master`}
+                to={`/${parentPath}/${id}/tasks/Master?${queryString}`}
                 end
                 className={`cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09] ${
                   activeLink === "Master"
@@ -825,7 +825,7 @@ const Tasks = () => {
               parentPath === "entities" ||
               parentPath === "teams") && (
               <NavLink
-                to={`/${parentPath}/${id}/tasks/To-Do`}
+                to={`/${parentPath}/${id}/tasks/To-Do?${queryString}`}
                 end
                 className={`cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09] ${
                   activeLink === "To-Do"
@@ -859,7 +859,7 @@ const Tasks = () => {
               parentPath === "entities" ||
               parentPath === "teams") && (
               <NavLink
-                to={`/${parentPath}/${id}/tasks/In-Progress`}
+                to={`/${parentPath}/${id}/tasks/In-Progress?${queryString}`}
                 end
                 className={`cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09] ${
                   activeLink === "In-Progress"
@@ -894,7 +894,7 @@ const Tasks = () => {
               parentPath === "entities" ||
               parentPath === "teams") && (
               <NavLink
-                to={`/${parentPath}/${id}/tasks/Over-Due`}
+                to={`/${parentPath}/${id}/tasks/Over-Due?${queryString}`}
                 end
                 className={`cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09] ${
                   activeLink === "Over-Due"
@@ -926,7 +926,7 @@ const Tasks = () => {
               parentPath === "entities" ||
               parentPath === "teams") && (
               <NavLink
-                to={`/${parentPath}/${id}/tasks/On-Hold`}
+                to={`/${parentPath}/${id}/tasks/On-Hold?${queryString}`}
                 end
                 className={`cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09] ${
                   activeLink === "On-Hold"
@@ -957,7 +957,7 @@ const Tasks = () => {
               parentPath === "entities" ||
               parentPath === "teams") && (
               <NavLink
-                to={`/${parentPath}/${id}/tasks/Completed`}
+                to={`/${parentPath}/${id}/tasks/Completed?${queryString}`}
                 end
                 className={`cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09] ${
                   activeLink === "Completed"
