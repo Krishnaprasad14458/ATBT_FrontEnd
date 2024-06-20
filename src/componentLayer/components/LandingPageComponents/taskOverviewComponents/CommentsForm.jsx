@@ -2,6 +2,8 @@ import React, { useContext, useState } from "react";
 import { useFetcher } from "react-router-dom";
 import Dropzone from "react-dropzone";
 import { AuthContext } from "../../../../contexts/authContext/authContext";
+import axios from "axios";
+import atbtApi from "../../../../serviceLayer/interceptor";
 const CommentsForm = ({
   taskID,
   displayOverviewTask,
@@ -21,13 +23,26 @@ const CommentsForm = ({
       image: [...prev.image, ...acceptedFiles],
     }));
   };
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!isCommentEditing) {
       let postComment = newComment;
       postComment.senderId = authState?.user?.id;
+      let response
+      if(postComment.image){
+        let attachmentFormData = new FormData();
+        attachmentFormData.set("files", postComment.image);
+        attachmentFormData.set("ids",taskID);
+        if(displayOverviewTask){
+          attachmentFormData.set("name", "task");
+        }else{
+          attachmentFormData.set("name", "subtask");
+        }
+       response = await atbtApi.post("upload",attachmentFormData)
+      console.log("response attachment",response)
+      }
       const formData = new FormData(e.target);
-      formData.set("image", postComment.image);
+      formData.set("file", response.data);
       formData.set("message", postComment.message);
       formData.set("senderId", postComment.senderId);
 

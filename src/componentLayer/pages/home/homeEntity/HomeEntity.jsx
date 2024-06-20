@@ -128,7 +128,7 @@ function HomeEntity() {
       </div>
       <div className="flex items-center justify-between  px-4 py-3  sm:px-6 absolute inset-x-0 right-0 bottom-0">
         <div className="flex flex-1 justify-between sm:hidden">
-          <a
+          {/* <a
             href="#"
             className="relative inline-flex items-center rounded-md border border-gray-300 bg-[#f8fafc] px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
           >
@@ -139,7 +139,42 @@ function HomeEntity() {
             className="relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-[#f8fafc] px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
           >
             Next
-          </a>
+          </a> */}
+          <button
+                disabled={
+                  fetcher.state === "loading"
+                    ? true
+                    : false || data.currentPage === 1
+                }
+                className={`relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${
+                  fetcher.state === "loading"
+                    ? "cursor-wait"
+                    : data.currentPage === 1
+                    ? "cursor-not-allowed"
+                    : "cursor-pointer"
+                }`}
+                onClick={() => handlePage(data.currentPage - 1)}
+              >
+                <span className="">Previous</span>
+              </button>
+              <button
+                disabled={
+                  fetcher.state === "loading"
+                    ? true
+                    : false || data.currentPage === data.totalPages
+                }
+                onClick={() => handlePage(data.currentPage + 1)}
+                className={`relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${
+                  fetcher.state === "loading"
+                    ? "cursor-wait"
+                    : data.currentPage === data.totalPages
+                    ? "cursor-not-allowed"
+                    : "cursor-pointer"
+                }`}
+              >
+                <span className="">Next</span>
+               
+              </button>
         </div>
         <div className="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
           <div>

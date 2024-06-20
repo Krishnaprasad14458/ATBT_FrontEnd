@@ -5,7 +5,6 @@ const Collaborators = ({
   handleSubmit,
 }) => {
   console.log("task", task,task?.collaborators);
-
   let CollaboratorsId =   task?.collaborators?.map(
     (collaborat) => collaborat.id
   );
@@ -15,7 +14,6 @@ const Collaborators = ({
     value: user.id,
   }));
   let [isCollaboratorsEditing, setIsCollaboratorsEditing] = useState(false);
-  
   const handleRemoveCollaborator = (collaboratorId) => {
     let updatedCollaborators = task?.collaborators.map(
       (collaborat) => collaborat.id
@@ -25,7 +23,6 @@ const Collaborators = ({
     );
     handleSubmit(task?.id, "collaborators", updatedCollaborators);
   };
-  
   return (
     <div className="px-3 py-1">
       <div className="me-2 flex gap-2">
