@@ -128,6 +128,7 @@ function HomeEntity() {
       </div>
       <div className="flex items-center justify-between  px-4 py-3  sm:px-6 absolute inset-x-0 right-0 bottom-0">
         <div className="flex flex-1 justify-between sm:hidden">
+
         <button
                 disabled={
                   fetcher.state === "loading"
@@ -143,6 +144,7 @@ function HomeEntity() {
                 }`}
                 onClick={() => handlePage(data.currentPage - 1)}
               >
+
             Previous
           </button>
           <button
@@ -161,7 +163,9 @@ function HomeEntity() {
                 }`}
               >
             Next
+
           </button>
+
         </div>
         <div className="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
           <div>

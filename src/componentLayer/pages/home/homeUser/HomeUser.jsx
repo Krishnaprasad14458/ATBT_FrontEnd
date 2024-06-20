@@ -136,6 +136,7 @@ function HomeUser() {
       <div className="flex items-center justify-between  px-4 py-3  sm:px-6 absolute inset-x-0 right-0 bottom-0">
         {/* hidden dashboard only for mobile */}
         <div className="flex flex-1 justify-between sm:hidden">
+
         <button
                 disabled={
                   fetcher?.state === "loading"
@@ -151,6 +152,7 @@ function HomeUser() {
                     : "cursor-pointer"
                 }`}
               >
+
             Previous
           </button>
           <button
@@ -173,7 +175,9 @@ function HomeUser() {
             className="relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-[#f8fafc] px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
           > */}
             Next
+
           </button>
+
         </div>
         {/*only for big screen dashboard */}
         <div className="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">

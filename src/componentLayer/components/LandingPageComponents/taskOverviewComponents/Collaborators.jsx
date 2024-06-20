@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import Select from "react-select";
+
 const Collaborators = ({ task, handleSubmit }) => {
   console.log("task", task, task?.collaborators);
 
   let CollaboratorsId = task?.collaborators?.map((collaborat) => collaborat.id);
   const filteredGroup = task?.group?.filter(
     (item) => !CollaboratorsId.includes(item.id)
+
   );
   let members = filteredGroup?.map((user) => ({
     label: user.name,

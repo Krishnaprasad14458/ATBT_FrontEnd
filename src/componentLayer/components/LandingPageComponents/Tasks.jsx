@@ -62,8 +62,10 @@ export async function tasksLoader({ request, params }) {
     const search = url.searchParams.get("search");
     const page = url.searchParams.get("page");
     const pageSize = url.searchParams.get("pageSize");
+
     // const statusType = url.searchParams.get("status");
     const statusType = params.statusType;
+
     console.log("statusType", statusType);
     const [tasks, task, subTasks, subTask] = await Promise.all([
       params.BMid
@@ -86,10 +88,21 @@ export async function tasksLoader({ request, params }) {
       //   : {},
     ]);
     // console.log("personResponsiblee", personResponsible);
+    let updatedTasks = tasks?.data;
+    console.log("updatedTasks",updatedTasks)
     let updatedTask = task?.data[0];
     let updatedSubTask = subTask?.data[0];
     let taskAge = null;
     let subTaskAge = null;
+    if(updatedTasks && updatedTasks?.tasks && updatedTasks?.tasks?.length>0){
+for(let i=0;i<updatedTasks.tasks.length;i++){
+  const currentDate = new Date();
+      const enteredDate = new Date(updatedTasks?.tasks[i]?.createdAt);
+      const differenceInMilliseconds = currentDate - enteredDate;
+      const differenceInDays = differenceInMilliseconds / (1000 * 3600 * 24);
+      updatedTasks.tasks[i].age = Math.floor(differenceInDays);
+ }
+    }
     if (updatedTask) {
       const currentDate = new Date();
       const enteredDate = new Date(updatedTask?.createdAt);
@@ -107,7 +120,7 @@ export async function tasksLoader({ request, params }) {
       updatedSubTask.age = subTaskAge;
     }
     const combinedResponse = {
-      tasks: tasks?.data,
+      tasks:  updatedTasks,
       task: updatedTask,
       subTasks: subTasks?.data?.Task,
       subTask: updatedSubTask,
@@ -117,7 +130,7 @@ export async function tasksLoader({ request, params }) {
         : `/${parentPath}/${params.id}/tasks/To-Do`,
       threadPathForOutsideBM: `/boardmeetings/${params.BMid}/tasks`,
     };
-    console.log("tasks tasksLoader");
+   
     console.log("combinedResponse", combinedResponse);
     return combinedResponse;
   } catch (error) {
@@ -203,29 +216,6 @@ export async function AllTasksLoader({ request, params }) {
 
     const [tasks, task, subTasks, subTask] = await Promise.all([
       atbtApi.get(`task/list${queryString}`),
-
-      // meetingId !== "all" && statusType !== "null"
-      //   ? atbtApi.get(`task/list?meetingId=${meetingId}&status=${statusType}`)
-      //   : meetingId !== "all" && statusType === "null"
-      //   ? atbtApi.get(`task/list?meetingId=${meetingId}`)
-      //   : meetingId === "all" && statusType !== "null"
-      //   ? atbtApi.get(`task/list?${idOF}=${listID}&status=${statusType}`)
-      //   : meetingId === "all" && statusType === "null"
-      //   ? atbtApi.get(`task/list?${idOF}=${listID}`)
-      //   : null,
-      // statusType !== null && fromDate && toDate
-      //   ? atbtApi.get(
-      //       `task/list?status=${statusType}&fromDate=${fromDate}&toDate=${toDate}`
-      //     )
-      //   : statusType !== null && !fromDate && !toDate
-      //   ? atbtApi.get(
-      //       `task/list?status=${statusType}`
-      //     )
-      //   : atbtApi.get(`task/list`),
-
-      // atbtApi.get(
-      //         `task/list${url?.search ? url?.search : ""}`
-      //       ),
       taskID ? atbtApi.get(`task/listbyid/${taskID}`) : null,
       taskID ? atbtApi.get(`task/subList/${taskID}`) : null,
       subTaskID ? atbtApi.get(`task/subtaskbyid/${subTaskID}`) : null,
@@ -234,10 +224,21 @@ export async function AllTasksLoader({ request, params }) {
       //   : {},
     ]);
     // console.log("personResponsiblee", personResponsible);
+    let updatedTasks = tasks?.data;
+   
     let updatedTask = task?.data[0];
     let updatedSubTask = subTask?.data[0];
     let taskAge = null;
     let subTaskAge = null;
+    if(updatedTasks && updatedTasks?.tasks && updatedTasks?.tasks?.length>0){
+      for(let i=0;i<updatedTasks.tasks.length;i++){
+        const currentDate = new Date();
+            const enteredDate = new Date(updatedTasks?.tasks[i]?.createdAt);
+            const differenceInMilliseconds = currentDate - enteredDate;
+            const differenceInDays = differenceInMilliseconds / (1000 * 3600 * 24);
+            updatedTasks.tasks[i].age = Math.floor(differenceInDays);
+       }
+          }
     if (updatedTask) {
       const currentDate = new Date();
       const enteredDate = new Date(updatedTask?.createdAt);
@@ -255,7 +256,7 @@ export async function AllTasksLoader({ request, params }) {
       updatedSubTask.age = subTaskAge;
     }
     const combinedResponse = {
-      tasks: tasks?.data,
+      tasks:  updatedTasks,
       task: updatedTask,
       subTasks: subTasks?.data?.Task,
       subTask: updatedSubTask,
@@ -749,8 +750,12 @@ const Tasks = () => {
               parentPath === "entities" ||
               parentPath === "teams") && (
               <NavLink
+
                 to={`/${parentPath}/${id}/tasks/runningdecisions`}
+
                 end
+                onClick={() => handleNavLinkClick("runningdecisions")}
+
                 className={`cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09] ${
                   activeLink === "runningdecisions"
                     ? "border-b-2 border-orange-500 text-orange-600"
@@ -765,7 +770,10 @@ const Tasks = () => {
             <NavLink
               // to={`/tasks`}
               to={`/tasks/runningdecisions?${queryString}`}
+
               end
+              onClick={() => handleNavLinkClick("runningdecisions")}
+
               className={`cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09] ${
                 activeLink === "runningdecisions"
                   ? "border-b-2 border-orange-600 text-orange-600"
@@ -1216,14 +1224,11 @@ const Tasks = () => {
                       }}
                     />
                   </td>
-                  <td className="border py-1.5 px-2 text-sm text-gray-600">
-                    {" "}
-                  </td>
-                  <td
-                    className="border py-1.5 px-2 text-sm text-gray-600"
-                    title={task?.status}
-                  >
-                    {task?.status}
+
+                  <td className="border py-1.5 px-2">{task?.age} </td>
+                  <td className="border py-1.5 px-2" title={task?.status}>
+               {task?.status}
+
                     {/* <Select
                       options={status}
                       menuPortalTarget={document.body}
