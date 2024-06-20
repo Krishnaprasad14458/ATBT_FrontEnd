@@ -97,7 +97,7 @@ const Documents = () => {
                   />
                 </svg>
               ) : (
-                <span>No file</span>
+                <span className="text-xs">No file</span>
               )}
               {/* <svg
                 xmlns="http://www.w3.org/2000/svg"

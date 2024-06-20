@@ -19,8 +19,6 @@ import Select from "react-select";
 import TaskOverview from "./TaskOverview";
 import atbtApi from "../../../serviceLayer/interceptor";
 import { debounce } from "../../../utils/utils";
-import subtask_icon from "../../../assets/Images/Subtask_icon.svg";
-import "react-datepicker/dist/react-datepicker.css";
 import GateKeeper from "../../../rbac/GateKeeper";
 import { AuthContext } from "../../../contexts/authContext/authContext";
 import TasksFilter from "../tableCustomization/TasksFilter";
@@ -58,20 +56,29 @@ export async function tasksLoader({ request, params }) {
     if (url.pathname.split("/")[1] === "boardmeetings") {
       parentPath = "boardmeetings";
     }
-    console.log("url parentPath",parentPath, url.pathname.split("/")[1]);
+    console.log("url parentPath", parentPath, url.pathname.split("/")[1]);
     const taskID = url.searchParams.get("taskID");
     const subTaskID = url.searchParams.get("subTaskID");
     const search = url.searchParams.get("search");
     const page = url.searchParams.get("page");
     const pageSize = url.searchParams.get("pageSize");
-    const statusType = params.statusType
+
+    // const statusType = url.searchParams.get("status");
+    const statusType = params.statusType;
+
     console.log("statusType", statusType);
     const [tasks, task, subTasks, subTask] = await Promise.all([
       params.BMid
-        ? atbtApi.get(`task/list?meetingId=${params.BMid}&search=${search}&page=${page}&pageSize=${pageSize}`)
+        ? atbtApi.get(
+            `task/list?meetingId=${params.BMid}&search=${search}&page=${page}&pageSize=${pageSize}`
+          )
         : statusType !== "Master"
-        ? atbtApi.get(`task/list?${idOF}=${params.id}&status=${statusType}&search=${search}&page=${page}&pageSize=${pageSize}`)
-        : atbtApi.get(`task/list?${idOF}=${params.id}&search=${search}&page=${page}&pageSize=${pageSize}`),
+        ? atbtApi.get(
+            `task/list?${idOF}=${params.id}&status=${statusType}&search=${search}&page=${page}&pageSize=${pageSize}`
+          )
+        : atbtApi.get(
+            `task/list?${idOF}=${params.id}&search=${search}&page=${page}&pageSize=${pageSize}`
+          ),
       // atbtApi.get(`task/listAll?user=${params.id}`),
       taskID ? atbtApi.get(`task/listbyid/${taskID}`) : null,
       taskID ? atbtApi.get(`task/subList/${taskID}`) : null,
@@ -174,7 +181,6 @@ export async function AllTasksLoader({ request, params }) {
     const pageSize = url.searchParams.get("pageSize");
     const search = url.searchParams.get("search");
 
-
     const page = url.searchParams.get("page");
 
     const toDate = url.searchParams.get("toDate");
@@ -191,8 +197,6 @@ export async function AllTasksLoader({ request, params }) {
     queryParams.push(`page=${page}`);
     queryParams.push(`pageSize=${pageSize}`);
     queryParams.push(`search=${search}`);
-
-
 
     // Validate and add query parameters
     if (meetingId && meetingId !== "all") {
@@ -365,8 +369,8 @@ const Tasks = () => {
   console.log("authState authState", authState?.user?.id);
   let submit = useSubmit();
   let location = useLocation();
-  let matches = useMatches()
-  console.log(matches[0].params.statusType,"matches matches")
+  let matches = useMatches();
+  console.log(matches[0].params.statusType, "matches matches");
   const data = useLoaderData();
   const navigation = useNavigation();
 
@@ -497,7 +501,7 @@ const Tasks = () => {
     console.log(selectedValue, "sv");
     setQParams({
       ...Qparams,
-      page:1,
+      page: 1,
       pageSize: selectedValue,
     });
   };
@@ -565,10 +569,10 @@ const Tasks = () => {
   const [autoFocusID, setAutoFocusID] = useState(null);
   const [autoFocusSubTaskID, setAutoFocussubTaskID] = useState(null);
   const [activeLink, setActiveLink] = useState(matches[0].params.statusType);
-  useEffect(()=>{
-    setActiveLink(matches[0].params.statusType)
-  },[matches])
-console.log(activeLink,"activeLink")
+  useEffect(() => {
+    setActiveLink(matches[0].params.statusType);
+  }, [matches]);
+  console.log(activeLink, "activeLink");
   // Function to handle click and set active link
   const handleNavLinkClick = (link) => {
     setActiveLink(link);
@@ -636,12 +640,12 @@ console.log(activeLink,"activeLink")
         </div>
 
         {parentPath === "tasks" && (
-          <div className="col-span-2 text-end">
-            <div className="flex gap-2 items-center justify-end">
+          <div className="col-span-2 ">
+            <div className=" md:flex gap-2 items-center md:justify-end">
               <label className="text-sm text-gray-400"> From:</label>
 
               <input
-                className=" border border-gray-200  text-black px-1.5 py-2 rounded-md  bg-[#f9fafb] focus:outline-none text-sm focus:border-orange-400  date_type "
+                className=" border border-gray-200 text-black px-1.5 py-2 rounded-md bg-[#f9fafb] focus:outline-none text-sm focus:border-orange-400 date_type w-full"
                 type="date"
                 value={dueDateFilter.fromDate}
                 style={{
@@ -660,7 +664,7 @@ console.log(activeLink,"activeLink")
               />
               <label className="text-sm text-gray-400"> To:</label>
               <input
-                className=" border border-gray-200 text-black px-1.5 py-2 rounded-md  bg-[#f9fafb] focus:outline-none text-sm focus:border-orange-400 date_type "
+                className=" border border-gray-200 text-black px-1.5 py-2 rounded-md  bg-[#f9fafb] focus:outline-none text-sm focus:border-orange-400 date_type w-full"
                 type="date"
                 value={dueDateFilter.toDate}
                 style={{
@@ -679,98 +683,108 @@ console.log(activeLink,"activeLink")
                   }));
                 }}
               />
-              <button
-                onClick={() => {
-                  let Qprms = { ...Qparams };
-                  delete Qprms.fromDate;
-                  delete Qprms.toDate;
-                  setQParams(Qprms);
-                  setDueDateFilter({ toDate: "", fromDate: "" });
-                }}
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke-width="1.5"
-                  stroke="currentColor"
-                  class="size-4"
+              <div className="flex justify-end">
+                <button
+                  onClick={() => {
+                    let Qprms = { ...Qparams };
+                    delete Qprms.fromDate;
+                    delete Qprms.toDate;
+                    setQParams(Qprms);
+                    setDueDateFilter({ toDate: "", fromDate: "" });
+                  }}
                 >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    d="M19.5 12c0-1.232-.046-2.453-.138-3.662a4.006 4.006 0 0 0-3.7-3.7 48.678 48.678 0 0 0-7.324 0 4.006 4.006 0 0 0-3.7 3.7c-.017.22-.032.441-.046.662M19.5 12l3-3m-3 3-3-3m-12 3c0 1.232.046 2.453.138 3.662a4.006 4.006 0 0 0 3.7 3.7 48.656 48.656 0 0 0 7.324 0 4.006 4.006 0 0 0 3.7-3.7c.017-.22.032-.441.046-.662M4.5 12l3 3m-3-3-3 3"
-                  />
-                </svg>
-              </button>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    class="size-4"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M19.5 12c0-1.232-.046-2.453-.138-3.662a4.006 4.006 0 0 0-3.7-3.7 48.678 48.678 0 0 0-7.324 0 4.006 4.006 0 0 0-3.7 3.7c-.017.22-.032.441-.046.662M19.5 12l3-3m-3 3-3-3m-12 3c0 1.232.046 2.453.138 3.662a4.006 4.006 0 0 0 3.7 3.7 48.656 48.656 0 0 0 7.324 0 4.006 4.006 0 0 0 3.7-3.7c.017-.22.032-.441.046-.662M4.5 12l3 3m-3-3-3 3"
+                    />
+                  </svg>
+                </button>
 
-              <TasksFilter Qparams={Qparams} setQParams={setQParams} />
+                <TasksFilter Qparams={Qparams} setQParams={setQParams} />
+              </div>
             </div>
           </div>
         )}
       </div>
 
       <div className="flex justify-end">
-        {BMid && (parentPath === "users" || parentPath ===   "entities" ||   parentPath ===    "teams")  &&(
-          <GateKeeper
-            permissionCheck={(permission) =>
-              permission.module === "task" && permission.canCreate
-            }
-          >
-            <button
-              className=" ms-2  mt-3 inline-flex items-center  whitespace-nowrap rounded-2xl text-sm font-medium  transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50  text-orange-foreground shadow hover:bg-orange/90 h-9 px-3 py-1 shrink-0 bg-orange-600 text-white gap-1"
-              onClick={handleAddNewTask}
+        {BMid &&
+          (parentPath === "users" ||
+            parentPath === "entities" ||
+            parentPath === "teams") && (
+            <GateKeeper
+              permissionCheck={(permission) =>
+                permission.module === "task" && permission.canCreate
+              }
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-                className="w-5 h-5"
+              <button
+                className=" ms-2  mt-3 inline-flex items-center  whitespace-nowrap rounded-2xl text-sm font-medium  transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50  text-orange-foreground shadow hover:bg-orange/90 h-9 px-3 py-1 shrink-0 bg-orange-600 text-white gap-1"
+                onClick={handleAddNewTask}
               >
-                <path d="M10.75 4.75a.75.75 0 0 0-1.5 0v4.5h-4.5a.75.75 0 0 0 0 1.5h4.5v4.5a.75.75 0 0 0 1.5 0v-4.5h4.5a.75.75 0 0 0 0-1.5h-4.5v-4.5Z" />
-              </svg>
-              Create
-            </button>
-          </GateKeeper>
-        )}
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                  className="w-5 h-5"
+                >
+                  <path d="M10.75 4.75a.75.75 0 0 0-1.5 0v4.5h-4.5a.75.75 0 0 0 0 1.5h4.5v4.5a.75.75 0 0 0 1.5 0v-4.5h4.5a.75.75 0 0 0 0-1.5h-4.5v-4.5Z" />
+                </svg>
+                Create
+              </button>
+            </GateKeeper>
+          )}
       </div>
       <div>
         <div className="flex overflow-x-auto my-2">
-          
-        {!BMid &&
+          {!BMid &&
             (parentPath === "users" ||
               parentPath === "entities" ||
               parentPath === "teams") && (
               <NavLink
-    
+
                 to={`/${parentPath}/${id}/tasks/runningdecisions`}
 
                 end
                 onClick={() => handleNavLinkClick("runningdecisions")}
 
                 className={`cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09] ${
-                  activeLink === "runningdecisions" ? "border-b-2 border-orange-500 text-orange-600" : ""
-                }`}>
+                  activeLink === "runningdecisions"
+                    ? "border-b-2 border-orange-500 text-orange-600"
+                    : ""
+                }`}
+                onClick={() => handleNavLinkClick("runningdecisions")}
+              >
                 Running Decisions
               </NavLink>
-            
             )}
           {!BMid && parentPath === "tasks" && (
             <NavLink
               // to={`/tasks`}
               to={`/tasks/runningdecisions?${queryString}`}
 
-      
               end
               onClick={() => handleNavLinkClick("runningdecisions")}
 
               className={`cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09] ${
-                activeLink === "runningdecisions" ? "border-b-2 border-orange-600 text-orange-600" : ""
-              }`}>
+                activeLink === "runningdecisions"
+                  ? "border-b-2 border-orange-600 text-orange-600"
+                  : ""
+              }`}
+              onClick={() => handleNavLinkClick("runningdecisions")}
+            >
               Running Decisions
             </NavLink>
           )}
-        {!BMid &&
+          {!BMid &&
             (parentPath === "users" ||
               parentPath === "entities" ||
               parentPath === "teams") && (
@@ -778,13 +792,14 @@ console.log(activeLink,"activeLink")
                 to={`/${parentPath}/${id}/tasks/Master`}
                 end
                 className={`cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09] ${
-                  activeLink === "Master" ? "border-b-2 border-orange-500 text-orange-600" : ""
+                  activeLink === "Master"
+                    ? "border-b-2 border-orange-500 text-orange-600"
+                    : ""
                 }`}
                 onClick={() => handleNavLinkClick("Master")}
               >
                 Master
               </NavLink>
-            
             )}
           {!BMid && parentPath === "tasks" && (
             <NavLink
@@ -792,7 +807,9 @@ console.log(activeLink,"activeLink")
               to={`/tasks/Master?${queryString}`}
               end
               className={`cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09] ${
-                activeLink === "Master" ? "border-b-2 border-orange-600 text-orange-600" : ""
+                activeLink === "Master"
+                  ? "border-b-2 border-orange-600 text-orange-600"
+                  : ""
               }`}
               onClick={() => handleNavLinkClick("Master")}
               // onClick={() =>{ handleNavLinkClick("Master");
@@ -909,23 +926,29 @@ console.log(activeLink,"activeLink")
               parentPath === "entities" ||
               parentPath === "teams") && (
               <NavLink
-                to=''
+                to={`/${parentPath}/${id}/tasks/On-Hold`}
                 end
                 className={`cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09] ${
-                  activeLink === "on_hold" ? "border-b-2 border-orange-500 text-orange-600" : ""
-                }`}>
+                  activeLink === "On-Hold"
+                    ? "border-b-2 border-orange-500 text-orange-600"
+                    : ""
+                }`}
+                onClick={() => handleNavLinkClick("On-Hold")}
+              >
                 On-Hold
               </NavLink>
-            
             )}
           {!BMid && parentPath === "tasks" && (
             <NavLink
-              // to={`/tasks`}
-              to=''
+              to={`/tasks/On-Hold?${queryString}`}
               end
               className={`cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09] ${
-                activeLink === "on_hold" ? "border-b-2 border-orange-600 text-orange-600" : ""
-              }`}>
+                activeLink === "On-Hold"
+                  ? "border-b-2 border-orange-600 text-orange-600"
+                  : ""
+              }`}
+              onClick={() => handleNavLinkClick("On-Hold")}
+            >
               On-Hold
             </NavLink>
           )}
@@ -961,24 +984,20 @@ console.log(activeLink,"activeLink")
               Completed
             </NavLink>
           )}
-        
         </div>
       </div>
       <div className=" max-h-[410px] overflow-y-auto">
         <table className="w-full divide-y divide-gray-200 dark:divide-gray-700 rounded-md table ">
           <thead>
             <tr>
-            <th
-                className="sticky top-0  bg-orange-600 text-white text-sm text-left px-2 py-2 border-l-2 border-gray-200"
-                
-              >
+              <th className="sticky top-0  bg-orange-600 text-white text-sm text-left px-2 py-2 border-l-2 border-gray-200">
                 Entity Name
               </th>
               <th
                 className="sticky top-0  bg-orange-600 text-white text-sm text-left px-2 py-2 border-l-2 border-gray-200"
                 style={{ width: "20rem" }}
               >
-               Initial Decision Taken
+                Initial Decision Taken
               </th>
               <th
                 className="sticky top-0 z-10  bg-orange-600 text-white text-sm text-left px-2 py-2 border-l-2 border-gray-200 "
@@ -1205,9 +1224,11 @@ console.log(activeLink,"activeLink")
                       }}
                     />
                   </td>
+
                   <td className="border py-1.5 px-2">{task?.age} </td>
                   <td className="border py-1.5 px-2" title={task?.status}>
                {task?.status}
+
                     {/* <Select
                       options={status}
                       menuPortalTarget={document.body}
@@ -1363,7 +1384,7 @@ console.log(activeLink,"activeLink")
               <option value="500">500</option>
             </select>
             {/* previos button */}
-            <button 
+            <button
               disabled={
                 navigation?.state === "loading"
                   ? true
@@ -1399,7 +1420,8 @@ console.log(activeLink,"activeLink")
               disabled={
                 navigation?.state === "loading"
                   ? true
-                  : false || data?.tasks?.currentPage === data?.tasks?.totalPages
+                  : false ||
+                    data?.tasks?.currentPage === data?.tasks?.totalPages
               }
               onClick={() => handlePage(data?.tasks?.currentPage + 1)}
               className={`relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${

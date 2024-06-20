@@ -136,26 +136,15 @@ function HomeUser() {
       <div className="flex items-center justify-between  px-4 py-3  sm:px-6 absolute inset-x-0 right-0 bottom-0">
         {/* hidden dashboard only for mobile */}
         <div className="flex flex-1 justify-between sm:hidden">
-          {/* <a
-            href="#"
-            className="relative inline-flex items-center rounded-md border border-gray-300 bg-[#f8fafc] px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
-          >
-            Previous
-          </a>
-          <a
-            href="#"
-            className="relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-[#f8fafc] px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
-          >
-            Next
-          </a> */}
-              <button
+
+        <button
                 disabled={
                   fetcher?.state === "loading"
                     ? true
                     : false || data?.currentPage === 1
                 }
                 onClick={() => handlePage(data.currentPage - 1)}
-                className={`relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${
+                className={`relative  inline-flex items-center rounded-md border border-gray-300 bg-[#f8fafc] px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 ${
                   fetcher?.state === "loading"
                     ? "cursor-wait"
                     : data?.currentPage === 1
@@ -163,18 +152,17 @@ function HomeUser() {
                     : "cursor-pointer"
                 }`}
               >
-                <span className="">Previous</span>
-               
-              </button>
-              {/* next button */}
-              <button
+
+            Previous
+          </button>
+          <button
                 disabled={
                   fetcher?.state === "loading"
                     ? true
                     : false || data?.currentPage === data?.totalPages
                 }
                 onClick={() => handlePage(data.currentPage + 1)}
-                className={`relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${
+                className={`relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-[#f8fafc] px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 ${
                   fetcher?.state === "loading"
                     ? "cursor-wait"
                     : data?.currentPage === data?.totalPages
@@ -182,9 +170,14 @@ function HomeUser() {
                     : "cursor-pointer"
                 }`}
               >
-                <span className="">Next</span>
-               
-              </button>
+          {/* <a
+            href="#"
+            className="relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-[#f8fafc] px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
+          > */}
+            Next
+
+          </button>
+
         </div>
         {/*only for big screen dashboard */}
         <div className="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">

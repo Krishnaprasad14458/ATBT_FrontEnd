@@ -10,19 +10,19 @@ export const boardMeetingOverviewLoader = async ({ params }) => {
     if (params.boardmeetings === "userboardmeetings") {
       moduleName = "user";
       parentPath = "users";
-      groupName = "groupUser"
+      groupName = "groupUser";
     }
     if (params.boardmeetings === "entityboardmeetings") {
       moduleName = "entity";
-      parentPath = "entities"
-      groupName = "groupEntity"
+      parentPath = "entities";
+      groupName = "groupEntity";
     }
     if (params.boardmeetings === "teamboardmeetings") {
       moduleName = "team";
-      parentPath = "teams"
-      groupName = "groupTeam"
+      parentPath = "teams";
+      groupName = "groupTeam";
     }
-    const [data ] = await Promise.all([
+    const [data] = await Promise.all([
       atbtApi.get(`boardmeeting/getByid/${params?.BMid}`),
       // atbtApi.get(`/boardmeeting/${groupName}/${params.BMid}`),
       // atbtApi.post(`entity/User/list/${params?.id}`),
@@ -31,8 +31,8 @@ export const boardMeetingOverviewLoader = async ({ params }) => {
     console.log("bm overview combined data", data);
     let threadName = data?.data?.meetingnumber;
     let threadPath = `/${parentPath}/${params.id}/${params.boardmeetings}/${params.BMid}`;
-  let threadPathForOutsideBM = `/boardmeetings/${params.BMid}`
-    return { data, threadName, threadPath ,threadPathForOutsideBM};
+    let threadPathForOutsideBM = `/boardmeetings/${params.BMid}`;
+    return { data, threadName, threadPath, threadPathForOutsideBM };
   } catch (error) {
     console.error("Error loading dashboard:", error);
     return null;
@@ -43,8 +43,8 @@ const BoardMeetingOverview = () => {
   const { id, BMid, boardmeetings } = useParams();
   let data = useLoaderData();
   let customFormField = data?.data?.data?.customFieldsData;
- let usersGroupData = data?.data?.data?.allMembers
-console.log("customFormField customFormField",customFormField)
+  let usersGroupData = data?.data?.data?.allMembers;
+  console.log("customFormField customFormField", customFormField);
   function formatTime(timeString) {
     // Splitting the timeString to extract hours and minutes
     const [hourStr, minuteStr] = timeString.split(":");
@@ -70,28 +70,19 @@ console.log("customFormField customFormField",customFormField)
 
   return (
     <div className=" p-4 bg-[#f8fafc]">
-      <div className="flex justify-end gap-3">
-       {moduleName && id && <Link
-          to={{
-            pathname: `/boardmeetings/${BMid}/edit`,
-            search: `?boardmeetingFor=${moduleName}&boardmeetingForID=${id}`,
-          }}
-        >
-          <button
-            type="submit"
-            className=" flex  justify-center rounded-md bg-orange-600 px-3 py-2 text-sm font-medium leading-6 text-white shadow-sm  focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600"
+      <div className="flex justify-end gap-3 pb-5 md:pb-0">
+        {moduleName && id && (
+          <Link
+            to={{
+              pathname: `/boardmeetings/${BMid}/edit`,
+              search: `?boardmeetingFor=${moduleName}&boardmeetingForID=${id}`,
+            }}
           >
-            Edit
-          </button>
-          {/* <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-            className="w-5 h-5 text-gray-900"
-          >
-            <path d="m2.695 14.762-1.262 3.155a.5.5 0 0 0 .65.65l3.155-1.262a4 4 0 0 0 1.343-.886L17.5 5.501a2.121 2.121 0 0 0-3-3L3.58 13.419a4 4 0 0 0-.885 1.343Z" />
-          </svg> */}
-        </Link>}
+            <button className=" flex  justify-center rounded-md bg-orange-600 px-3 py-2 text-sm font-medium leading-6 text-white shadow-sm  focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600">
+              Edit
+            </button>
+          </Link>
+        )}
         {/* <Link
           to={`/${
             boardmeetings === "userboardmeetings" ? "users" : boardmeetings === "entityboardmeetings" ? "entities": boardmeetings === "teamboardmeetings" ? "teams" :""
@@ -126,7 +117,8 @@ console.log("customFormField customFormField",customFormField)
 
                     {item.type === "date" &&
                       item.inputname === "date" &&
-                      item.field === "predefined" &&   (() => {
+                      item.field === "predefined" &&
+                      (() => {
                         let date = new Date(item.value);
                         const day = date.getUTCDate();
                         const monthIndex = date.getUTCMonth();
@@ -188,7 +180,8 @@ console.log("customFormField customFormField",customFormField)
                     item.inputname == "members" &&
                     item.field == "predefined" && (
                       <div className=" grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-2 mt-5">
-                        {item.value && usersGroupData &&
+                        {item.value &&
+                          usersGroupData &&
                           Array.from({ length: 12 }).map((_, index) => {
                             let first = "";
                             let second = "";
@@ -238,7 +231,8 @@ console.log("customFormField customFormField",customFormField)
                                   <>
                                     <h5
                                       style={{
-                                        backgroundColor: usersGroupData[index].image
+                                        backgroundColor: usersGroupData[index]
+                                          .image
                                           ? "transparent"
                                           : getRandomColor(firstLetter),
                                       }}
@@ -250,11 +244,11 @@ console.log("customFormField customFormField",customFormField)
                                         usersGroupData.length === 12) ? (
                                         <img
                                           src={
-                                            typeof usersGroupData[index].image ===
-                                            "string"
+                                            typeof usersGroupData[index]
+                                              .image === "string"
                                               ? usersGroupData[index].image
                                               : URL.createObjectURL(
-                                                usersGroupData[index].image
+                                                  usersGroupData[index].image
                                                 )
                                           }
                                           name="EntityPhoto"
