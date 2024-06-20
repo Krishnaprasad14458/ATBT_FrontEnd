@@ -15,10 +15,13 @@ const TeamsLandingPage = () => {
   let [ActiveLink, setActiveLink] = useState(false);
   useEffect(() => {
     if (
+      location.pathname == `/teams/${id}/tasks/runningdecisions` ||
       location.pathname == `/teams/${id}/tasks/To-Do` ||
       location.pathname == `/teams/${id}/tasks/In-Progress` ||
       location.pathname == `/teams/${id}/tasks/Over-Due` ||
       location.pathname == `/teams/${id}/tasks/Completed` ||
+      location.pathname == `/teams/${id}/tasks/On-Hold` ||
+
       location.pathname == `/teams/${id}/tasks/Master`
     ) {
       setActiveLink(true);
@@ -74,12 +77,7 @@ const TeamsLandingPage = () => {
         )}{" "}
         {!BMid && (
           <NavLink
-            // to={{
-            //   pathname: "tasks/To-Do",
-            //   // search: `?status=To-Do`,
-            // }}
             to="tasks/runningdecisions?search=&page=1&pageSize=10"
-
             end
             className={({ isActive, isPending, isTransitioning }) =>
               isPending
