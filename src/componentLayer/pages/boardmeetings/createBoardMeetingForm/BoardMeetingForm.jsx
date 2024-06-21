@@ -510,10 +510,8 @@ function BoardMeetingForm() {
 
   async function handleFormSubmit(e) {
     e.preventDefault();
-
     if (!checkValidation()) {
       console.log(customFormFields, "submitcustomFormFields");
-
       const formData = new FormData(e.target);
       for (let i = 0; i < customFormFields.length; i++) {
         if (Array.isArray(customFormFields[i].value)) {
