@@ -62,10 +62,8 @@ export async function tasksLoader({ request, params }) {
     const search = url.searchParams.get("search");
     const page = url.searchParams.get("page");
     const pageSize = url.searchParams.get("pageSize");
-
     // const statusType = url.searchParams.get("status");
     const statusType = params.statusType;
-
     console.log("statusType", statusType);
     const [tasks, task, subTasks, subTask] = await Promise.all([
       params.BMid
@@ -89,19 +87,23 @@ export async function tasksLoader({ request, params }) {
     ]);
     // console.log("personResponsiblee", personResponsible);
     let updatedTasks = tasks?.data;
-    console.log("updatedTasks",updatedTasks)
+    console.log("updatedTasks", updatedTasks);
     let updatedTask = task?.data[0];
     let updatedSubTask = subTask?.data[0];
     let taskAge = null;
     let subTaskAge = null;
-    if(updatedTasks && updatedTasks?.tasks && updatedTasks?.tasks?.length>0){
-for(let i=0;i<updatedTasks.tasks.length;i++){
-  const currentDate = new Date();
-      const enteredDate = new Date(updatedTasks?.tasks[i]?.createdAt);
-      const differenceInMilliseconds = currentDate - enteredDate;
-      const differenceInDays = differenceInMilliseconds / (1000 * 3600 * 24);
-      updatedTasks.tasks[i].age = Math.floor(differenceInDays);
- }
+    if (
+      updatedTasks &&
+      updatedTasks?.tasks &&
+      updatedTasks?.tasks?.length > 0
+    ) {
+      for (let i = 0; i < updatedTasks.tasks.length; i++) {
+        const currentDate = new Date();
+        const enteredDate = new Date(updatedTasks?.tasks[i]?.createdAt);
+        const differenceInMilliseconds = currentDate - enteredDate;
+        const differenceInDays = differenceInMilliseconds / (1000 * 3600 * 24);
+        updatedTasks.tasks[i].age = Math.floor(differenceInDays);
+      }
     }
     if (updatedTask) {
       const currentDate = new Date();
@@ -120,7 +122,7 @@ for(let i=0;i<updatedTasks.tasks.length;i++){
       updatedSubTask.age = subTaskAge;
     }
     const combinedResponse = {
-      tasks:  updatedTasks,
+      tasks: updatedTasks,
       task: updatedTask,
       subTasks: subTasks?.data?.Task,
       subTask: updatedSubTask,
@@ -130,7 +132,7 @@ for(let i=0;i<updatedTasks.tasks.length;i++){
         : `/${parentPath}/${params.id}/tasks/To-Do`,
       threadPathForOutsideBM: `/boardmeetings/${params.BMid}/tasks`,
     };
-   
+
     console.log("combinedResponse", combinedResponse);
     return combinedResponse;
   } catch (error) {
@@ -225,20 +227,24 @@ export async function AllTasksLoader({ request, params }) {
     ]);
     // console.log("personResponsiblee", personResponsible);
     let updatedTasks = tasks?.data;
-   
+
     let updatedTask = task?.data[0];
     let updatedSubTask = subTask?.data[0];
     let taskAge = null;
     let subTaskAge = null;
-    if(updatedTasks && updatedTasks?.tasks && updatedTasks?.tasks?.length>0){
-      for(let i=0;i<updatedTasks.tasks.length;i++){
+    if (
+      updatedTasks &&
+      updatedTasks?.tasks &&
+      updatedTasks?.tasks?.length > 0
+    ) {
+      for (let i = 0; i < updatedTasks.tasks.length; i++) {
         const currentDate = new Date();
-            const enteredDate = new Date(updatedTasks?.tasks[i]?.createdAt);
-            const differenceInMilliseconds = currentDate - enteredDate;
-            const differenceInDays = differenceInMilliseconds / (1000 * 3600 * 24);
-            updatedTasks.tasks[i].age = Math.floor(differenceInDays);
-       }
-          }
+        const enteredDate = new Date(updatedTasks?.tasks[i]?.createdAt);
+        const differenceInMilliseconds = currentDate - enteredDate;
+        const differenceInDays = differenceInMilliseconds / (1000 * 3600 * 24);
+        updatedTasks.tasks[i].age = Math.floor(differenceInDays);
+      }
+    }
     if (updatedTask) {
       const currentDate = new Date();
       const enteredDate = new Date(updatedTask?.createdAt);
@@ -256,7 +262,7 @@ export async function AllTasksLoader({ request, params }) {
       updatedSubTask.age = subTaskAge;
     }
     const combinedResponse = {
-      tasks:  updatedTasks,
+      tasks: updatedTasks,
       task: updatedTask,
       subTasks: subTasks?.data?.Task,
       subTask: updatedSubTask,
@@ -750,18 +756,14 @@ const Tasks = () => {
               parentPath === "entities" ||
               parentPath === "teams") && (
               <NavLink
-
                 to={`/${parentPath}/${id}/tasks/runningdecisions?${queryString}`}
-
                 end
                 onClick={() => handleNavLinkClick("runningdecisions")}
-
                 className={`cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09] ${
                   activeLink === "runningdecisions"
                     ? "border-b-2 border-orange-500 text-orange-600"
                     : ""
                 }`}
-            
               >
                 Running Decisions
               </NavLink>
@@ -770,16 +772,13 @@ const Tasks = () => {
             <NavLink
               // to={`/tasks`}
               to={`/tasks/runningdecisions?${queryString}`}
-
               end
               onClick={() => handleNavLinkClick("runningdecisions")}
-
               className={`cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09] ${
                 activeLink === "runningdecisions"
                   ? "border-b-2 border-orange-600 text-orange-600"
                   : ""
               }`}
-          
             >
               Running Decisions
             </NavLink>
@@ -888,7 +887,6 @@ const Tasks = () => {
               In-Progress
             </NavLink>
           )}
-
           {!BMid &&
             (parentPath === "users" ||
               parentPath === "entities" ||
@@ -1227,7 +1225,7 @@ const Tasks = () => {
 
                   <td className="border py-1.5 px-2">{task?.age} </td>
                   <td className="border py-1.5 px-2" title={task?.status}>
-               {task?.status}
+                    {task?.status}
 
                     {/* <Select
                       options={status}

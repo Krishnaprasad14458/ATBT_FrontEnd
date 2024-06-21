@@ -78,8 +78,7 @@ export const entityRouter = [
                   // search: `?status=To-Do`,
                 }}
                 
-                
-                
+          
                 >{data?.threadName}</Link>
               ),
             },
@@ -88,7 +87,6 @@ export const entityRouter = [
           {
             path: ":boardmeetings",
             // loader: MeetingLoader,
-           
             children: [
               {
                 index: true,
@@ -102,7 +100,6 @@ export const entityRouter = [
                       pathname: data.threadPath,
                       search: `?search=&page=1&pageSize=10`,
                     }}
-                    
                     >{data.threadName}</Link>
                   ),
                 },
@@ -137,8 +134,9 @@ export const entityRouter = [
                   },
                   {
                     path: "documents",
-                    element: <Documents />,
+                    element: <Documents belongsTo ="boardMeeting" />,
                     loader: attachmentsLoader,
+                    // action : uploadAttachmentActions,
                     handle: {
                       crumb: (data) => (
                         <Link to="."> Attachments</Link>
@@ -152,7 +150,7 @@ export const entityRouter = [
 
           {
             path: "documents",
-            element: <Documents />,
+            element: <Documents  belongsTo ="entity"  />,
             handle: {
               crumb: () => <Link to=".">Attachments</Link>,
             },
