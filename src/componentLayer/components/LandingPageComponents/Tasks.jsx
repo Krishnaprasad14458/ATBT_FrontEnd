@@ -1223,9 +1223,10 @@ const Tasks = () => {
                     />
                   </td>
 
-                  <td className="border py-1.5 px-2">{task?.age} </td>
-                  <td className="border py-1.5 px-2" title={task?.status}>
-                    {task?.status}
+                  <td className="border py-1.5 px-2 text-sm" title={task?.age}>{task?.age} </td>
+                  <td className="border py-1.5 px-2 text-sm" title={task?.status}>
+               {task?.status}
+
 
                     {/* <Select
                       options={status}
