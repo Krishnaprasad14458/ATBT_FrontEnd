@@ -53,13 +53,14 @@ const Documents = ({ belongsTo }) => {
   useEffect(() => {
     fetchAttachment();
   }, [BMid]);
-  function fileUploaded(){
+  function emptyMsg(){
     setMsg("");
-
     }
   const handleUpload = async () => {
     if (!file) {
       setMsg("No file selected");
+      setTimeout(emptyMsg, 2500);
+
       setMsgColor("#dc2626")
       return;
     }
@@ -84,7 +85,7 @@ const Documents = ({ belongsTo }) => {
         setMsgColor("#047857");
         setProgress((prevState) => ({ ...prevState, started: false }));
         setFile(null);
-        setTimeout(fileUploaded, 2500);
+        setTimeout(emptyMsg, 2500);
 
         fetchAttachment(); // Fetch updated data after upload
       } else {
@@ -119,7 +120,7 @@ const Documents = ({ belongsTo }) => {
          {file && file?.name ? (
            <p className="w-72 truncate">{file?.name}</p>
          ) : (
-           <p>Choose File</p>
+           <p>Choose File to Upload</p>
          )}
        </label>
        <input
