@@ -53,7 +53,10 @@ const Documents = ({ belongsTo }) => {
   useEffect(() => {
     fetchAttachment();
   }, [BMid]);
+  function fileUploaded(){
+    setMsg("");
 
+    }
   const handleUpload = async () => {
     if (!file) {
       setMsg("No file selected");
@@ -77,9 +80,12 @@ const Documents = ({ belongsTo }) => {
 
       if (response.status === 201) {
         setMsg("File Uploaded");
+        
         setMsgColor("#047857");
         setProgress((prevState) => ({ ...prevState, started: false }));
         setFile(null);
+        setTimeout(fileUploaded, 2500);
+
         fetchAttachment(); // Fetch updated data after upload
       } else {
         setMsg("Error In Uploading File");
