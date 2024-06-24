@@ -13,7 +13,7 @@ const Documents = ({ belongsTo }) => {
   // Function to fetch attachments
   const fetchAttachment = async () => {
 
-    if (belongsTo == "boardMeeting") {
+    if (belongsTo === "boardMeeting") {
       try {
         const response = await atbtApi.get(
           `boardmeeting/getAttachment?MeetingId=${BMid}`
@@ -23,7 +23,7 @@ const Documents = ({ belongsTo }) => {
       } catch (error) {
         console.error("Error fetching attachment:", error);
       }
-    } else if (belongsTo == "entity") {
+    } else if (belongsTo === "entity") {
       try {
         const response = await atbtApi.get(
           `boardmeeting/getAttachment?EntityId=${id}`
@@ -34,6 +34,16 @@ const Documents = ({ belongsTo }) => {
         console.error("Error fetching attachment:", error);
       }
 
+    }else if(belongsTo === "team"){
+      try {
+        const response = await atbtApi.get(
+          `boardmeeting/getAttachment?TeamId=${id}`
+        );
+        setMeetingData(response.data);
+        console.log(response.data, "response");
+      } catch (error) {
+        console.error("Error fetching attachment:", error);
+      }
     }
   };
 
@@ -88,7 +98,7 @@ const Documents = ({ belongsTo }) => {
       {belongsTo === "boardMeeting" && (
         <div className="flex justify-end items-center mb-2 gap-2 ">
           <h1>Attachments : </h1>
-          <input onChange={(e) => setFile(e.target.files[0])} type="file" className="border border-gray-300 p-1 rounded-md" />
+          <input onChange={(e) => setFile(e.target.files[0])}  type="file" className="border border-gray-300 p-1 rounded-md" />
           <button
             onClick={handleUpload}
             className=" flex  justify-center rounded-md bg-orange-600 px-3 py-2 text-sm font-medium leading-6 text-white shadow-sm  focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600"
