@@ -112,7 +112,15 @@ const Documents = ({ belongsTo }) => {
       {belongsTo === "boardMeeting" && (
 
    <div>
-        <div className="flex flex-wrap justify-end items-center mb-1 gap-2">
+        <div className="flex flex-wrap justify-end items-center mb-2 gap-2">
+        {progress.started && (
+           <progress
+             className="orange-progress rounded-md"
+             max="100"
+             value={progress.pc}
+           ></progress>
+         )}
+         {msg && <span style={{ color: msgColor }}>{msg}</span>}
        <label
          htmlFor="fileInput"
          className="cursor-pointer border border-gray-300 p-1 rounded-md w-full md:w-80"
@@ -152,16 +160,7 @@ const Documents = ({ belongsTo }) => {
      
      
      </div>
-       <div className="flex justify-end items-center gap-2 h-5 mb-1 w-full md:w-auto">
-         {progress.started && (
-           <progress
-             className="orange-progress rounded-md"
-             max="100"
-             value={progress.pc}
-           ></progress>
-         )}
-         {msg && <span style={{ color: msgColor }}>{msg}</span>}
-       </div>
+       
    </div>
       )}
 
