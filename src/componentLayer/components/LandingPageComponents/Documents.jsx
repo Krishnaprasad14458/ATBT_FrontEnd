@@ -11,8 +11,11 @@ const Documents = ({ belongsTo }) => {
   const [msg, setMsg] = useState(null);
   console.log("MeetingData", MeetingData);
   // Function to fetch attachments
-  const fetchAttachment = async () => {
 
+  const [meetingnumberName,setMeetingnumberName]=useState("")
+  const fetchAttachment = async () => {
+    const BM_Form_Data = await atbtApi.get(`form/list?name=boardmeetingform`);
+    setMeetingnumberName(BM_Form_Data?.data?.Tableview.meetingnumber?.label);
     if (belongsTo === "boardMeeting") {
       try {
         const response = await atbtApi.get(
@@ -33,8 +36,7 @@ const Documents = ({ belongsTo }) => {
       } catch (error) {
         console.error("Error fetching attachment:", error);
       }
-
-    }else if(belongsTo === "team"){
+    } else if (belongsTo === "team") {
       try {
         const response = await atbtApi.get(
           `boardmeeting/getAttachment?TeamId=${id}`
@@ -98,7 +100,11 @@ const Documents = ({ belongsTo }) => {
       {belongsTo === "boardMeeting" && (
         <div className="flex justify-end items-center mb-2 gap-2 ">
           <h1>Attachments : </h1>
-          <input onChange={(e) => setFile(e.target.files[0])}  type="file" className="border border-gray-300 p-1 rounded-md" />
+          <input
+            onChange={(e) => setFile(e.target.files[0])}
+            type="file"
+            className="border border-gray-300 p-1 rounded-md"
+          />
           <button
             onClick={handleUpload}
             className=" flex  justify-center rounded-md bg-orange-600 px-3 py-2 text-sm font-medium leading-6 text-white shadow-sm  focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600"
@@ -118,23 +124,21 @@ const Documents = ({ belongsTo }) => {
               />
             </svg>
           </button>
-          
         </div>
-        
       )}
       <div className="flex justify-end items-center gap-2">
-      {progress.started && (
-            <progress max="100" value={progress.pc}></progress>
-          )}
-          {msg && <span>{msg}</span>}
+        {progress.started && (
+          <progress max="100" value={progress.pc}></progress>
+        )}
+        {msg && <span>{msg}</span>}
       </div>
-    
-      <table className="w-full divide-y divide-gray-200 dark:divide-gray-700 rounded-md">
+
+    {meetingnumberName &&  <table className="w-full divide-y divide-gray-200 dark:divide-gray-700 rounded-md">
         <thead>
           <tr>
             {id && !BMid && (
               <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200">
-                Meeting ID
+               {meetingnumberName}
               </th>
             )}
             <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200">
@@ -197,7 +201,7 @@ const Documents = ({ belongsTo }) => {
               </tbody>
             );
           })}
-      </table>
+      </table>}
     </div>
   );
 };
