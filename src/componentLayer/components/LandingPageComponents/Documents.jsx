@@ -12,8 +12,11 @@ const Documents = ({ belongsTo }) => {
   const [msgColor, setMsgColor] = useState("");
   console.log("file", file?.name);
   // Function to fetch attachments
-  const fetchAttachment = async () => {
 
+  const [meetingnumberName,setMeetingnumberName]=useState("")
+  const fetchAttachment = async () => {
+    const BM_Form_Data = await atbtApi.get(`form/list?name=boardmeetingform`);
+    setMeetingnumberName(BM_Form_Data?.data?.Tableview.meetingnumber?.label);
     if (belongsTo === "boardMeeting") {
       try {
         const response = await atbtApi.get(
@@ -34,8 +37,7 @@ const Documents = ({ belongsTo }) => {
       } catch (error) {
         console.error("Error fetching attachment:", error);
       }
-
-    }else if(belongsTo === "team"){
+    } else if (belongsTo === "team") {
       try {
         const response = await atbtApi.get(
           `boardmeeting/getAttachment?TeamId=${id}`
@@ -101,6 +103,7 @@ const Documents = ({ belongsTo }) => {
   return (
     <div className="mt-4 overflow-y-auto">
       {belongsTo === "boardMeeting" && (
+
    <div>
         <div className="flex flex-wrap justify-end items-center mb-1 gap-2">
        <label
@@ -156,11 +159,12 @@ const Documents = ({ belongsTo }) => {
       )}
 
       <table className="w-full divide-y divide-gray-200 dark:divide-gray-700 rounded-md">
+
         <thead>
           <tr>
             {id && !BMid && (
               <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200">
-                Meeting ID
+               {meetingnumberName}
               </th>
             )}
             <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200">
@@ -223,7 +227,7 @@ const Documents = ({ belongsTo }) => {
               </tbody>
             );
           })}
-      </table>
+      </table>}
     </div>
   );
 };
