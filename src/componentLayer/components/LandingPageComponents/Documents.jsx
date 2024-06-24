@@ -12,6 +12,7 @@ const Documents = ({ belongsTo }) => {
   console.log("MeetingData", MeetingData);
   // Function to fetch attachments
   const fetchAttachment = async () => {
+
     if (belongsTo == "boardMeeting") {
       try {
         const response = await atbtApi.get(
@@ -32,6 +33,7 @@ const Documents = ({ belongsTo }) => {
       } catch (error) {
         console.error("Error fetching attachment:", error);
       }
+
     }
   };
 
@@ -84,16 +86,39 @@ const Documents = ({ belongsTo }) => {
   return (
     <div className="mt-4 overflow-y-auto">
       {belongsTo === "boardMeeting" && (
-        <div>
-          <h1>Uploading files in React</h1>
-          <input onChange={(e) => setFile(e.target.files[0])} type="file" />
-          <button onClick={handleUpload}>Upload</button>
-          {progress.started && (
+        <div className="flex justify-end items-center mb-2 gap-2 ">
+          <h1>Attachments : </h1>
+          <input onChange={(e) => setFile(e.target.files[0])} type="file" className="border border-gray-300 p-1 rounded-md" />
+          <button
+            onClick={handleUpload}
+            className=" flex  justify-center rounded-md bg-orange-600 px-3 py-2 text-sm font-medium leading-6 text-white shadow-sm  focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              class="size-6"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5m-13.5-9L12 3m0 0 4.5 4.5M12 3v13.5"
+              />
+            </svg>
+          </button>
+          
+        </div>
+        
+      )}
+      <div className="flex justify-end items-center gap-2">
+      {progress.started && (
             <progress max="100" value={progress.pc}></progress>
           )}
           {msg && <span>{msg}</span>}
-        </div>
-      )}
+      </div>
+    
       <table className="w-full divide-y divide-gray-200 dark:divide-gray-700 rounded-md">
         <thead>
           <tr>
