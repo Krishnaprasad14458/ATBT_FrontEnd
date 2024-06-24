@@ -22,6 +22,7 @@ import Tasks, {
   tasksLoader,
 } from "../../componentLayer/components/LandingPageComponents/Tasks";
 import BoardMeetingOverview, { boardMeetingOverviewLoader } from "../../componentLayer/pages/boardmeetings/boardMeetingLandingPage/BoardMeetingOverview";
+import MeetingWiseDocuments from "../../componentLayer/components/LandingPageComponents/MeetingWiseDocuments";
 
 export const entityRouter = [
   {
@@ -134,7 +135,7 @@ export const entityRouter = [
                   },
                   {
                     path: "documents",
-                    element: <Documents belongsTo ="boardMeeting" />,
+                    element: <MeetingWiseDocuments belongsTo ="boardMeeting" />,
                     // loader: attachmentsLoader,
                     // action : uploadAttachmentActions,
                     handle: {

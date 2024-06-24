@@ -23,6 +23,7 @@ import Tasks, {
 import BoardMeetingOverview, {
   boardMeetingOverviewLoader,
 } from "../../componentLayer/pages/boardmeetings/boardMeetingLandingPage/BoardMeetingOverview";
+import MeetingWiseDocuments from "../../componentLayer/components/LandingPageComponents/MeetingWiseDocuments";
 export const teamRouter = [
   {
     index: true,
@@ -140,7 +141,7 @@ export const teamRouter = [
                   },
                   {
                     path: "documents",
-                    element: <Documents  belongsTo ="boardMeeting" />,
+                    element: <MeetingWiseDocuments  belongsTo ="boardMeeting" />,
                     handle: {
                       crumb: (data) => <Link to=""> Attachments</Link>,
                     },
