@@ -194,6 +194,21 @@ input[type="search"]::-webkit-search-decoration:hover,
 input[type="search"]::-webkit-search-cancel-button:hover {
   cursor: pointer;
 }
+
+
+
+.orange-progress::-webkit-progress-bar {
+  background-color: #f3f3f3; /* Background color of the progress bar */
+}
+
+.orange-progress::-webkit-progress-value {
+  background-color: #ea580c; /* Color of the progress value */
+}
+
+.orange-progress::-moz-progress-bar {
+  background-color: #ea580c; /* Color for Firefox */
+}
+
 /* dont delete this code ask bhavi before delete */
 /* 
 /* for defult  date input dd/mm/yyy its working in all expect boardmeeting form dont remove */
