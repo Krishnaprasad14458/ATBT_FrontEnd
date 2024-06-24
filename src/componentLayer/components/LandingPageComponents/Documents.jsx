@@ -3,22 +3,37 @@ import { useParams } from "react-router-dom";
 import atbtApi from "../../../serviceLayer/interceptor";
 
 const Documents = ({ belongsTo }) => {
-  const { BMid } = useParams();
+  const { id, BMid } = useParams();
+  console.log("id, BMID", id, BMid);
   const [MeetingData, setMeetingData] = useState(null);
   const [file, setFile] = useState(null);
   const [progress, setProgress] = useState({ started: false, pc: 0 });
   const [msg, setMsg] = useState(null);
-
+  console.log("MeetingData", MeetingData);
   // Function to fetch attachments
   const fetchAttachment = async () => {
-    try {
-      const response = await atbtApi.get(
-        `boardmeeting/getAttachment?MeetingId=${BMid}`
-      );
-      setMeetingData(response.data);
-      console.log(response.data, "response");
-    } catch (error) {
-      console.error("Error fetching attachment:", error);
+
+    if (belongsTo == "boardMeeting") {
+      try {
+        const response = await atbtApi.get(
+          `boardmeeting/getAttachment?MeetingId=${BMid}`
+        );
+        setMeetingData(response.data);
+        console.log(response.data, "response");
+      } catch (error) {
+        console.error("Error fetching attachment:", error);
+      }
+    } else if (belongsTo == "entity") {
+      try {
+        const response = await atbtApi.get(
+          `boardmeeting/getAttachment?EntityId=${id}`
+        );
+        setMeetingData(response.data);
+        console.log(response.data, "response");
+      } catch (error) {
+        console.error("Error fetching attachment:", error);
+      }
+
     }
   };
 
@@ -31,11 +46,9 @@ const Documents = ({ belongsTo }) => {
       setMsg("No file selected");
       return;
     }
-
     const fd = new FormData();
     fd.append("files", file);
     fd.append("meeting", BMid);
-
     setMsg("Uploading...");
     setProgress((prevState) => ({ ...prevState, started: true }));
 
@@ -55,7 +68,6 @@ const Documents = ({ belongsTo }) => {
       } else {
         setMsg("Error In Uploading File");
       }
-
       console.log(response, "response");
     } catch (error) {
       console.error("Error during file upload:", error);
@@ -110,6 +122,11 @@ const Documents = ({ belongsTo }) => {
       <table className="w-full divide-y divide-gray-200 dark:divide-gray-700 rounded-md">
         <thead>
           <tr>
+            {id && !BMid && (
+              <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200">
+                Meeting ID
+              </th>
+            )}
             <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200">
               Attachment
             </th>
@@ -137,6 +154,11 @@ const Documents = ({ belongsTo }) => {
                 className="divide-gray-200 dark:divide-gray-700"
               >
                 <tr className="hover:bg-slate-100 dark:hover:bg-gray-700">
+                  {id && !BMid && (
+                    <td className="px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium overflow-hidden">
+                      {attachment?.MeetingId}
+                    </td>
+                  )}
                   <td className="px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium overflow-hidden">
                     {fileName}
                   </td>
