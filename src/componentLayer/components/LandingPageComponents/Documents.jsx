@@ -158,7 +158,7 @@ const Documents = ({ belongsTo }) => {
    </div>
       )}
 
-      <table className="w-full divide-y divide-gray-200 dark:divide-gray-700 rounded-md">
+  { meetingnumberName &&   <table className="w-full divide-y divide-gray-200 dark:divide-gray-700 rounded-md">
 
         <thead>
           <tr>
