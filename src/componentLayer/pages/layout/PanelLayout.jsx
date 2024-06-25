@@ -7,6 +7,7 @@ import { AuthContext } from '../../../contexts/authContext/authContext';
 import useServiceWorker from '../../../useSw';
 import TopBarProgress from 'react-topbar-progress-indicator';
 import BreadCrumbs from '../../components/breadcrumbs/BreadCrumbs';
+import Footer from '../../components/Footer/Footer';
 TopBarProgress.config({
   barColors: {
     0: '#ff7f50',
@@ -32,9 +33,10 @@ const Layout = () => {
   return (
     <div className='app'>
       <Sidebar />
-      <main
-        className='content h-screen bg-[#f8fafc] '
-        style={{ overflow: 'auto' }}
+  <div className='content' style={{ overflow: 'auto' }}>
+  <main
+        className='  bg-[#f8fafc] '
+        
       >
         <TopBar />
         {isOnline ? null : (
@@ -57,7 +59,12 @@ const Layout = () => {
         {navigation.state == 'loading' && <TopBarProgress />}
         
         <Outlet />
+        <div className="push"></div>
+   
       </main>
+      <Footer/>
+  </div>
+    
     </div>
   );
 };
