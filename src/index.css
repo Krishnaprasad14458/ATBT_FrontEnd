@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 .content {
-  height: 100%;
+  height: 100vh;
   width: 100%;
 }
 .app {
@@ -10,6 +10,53 @@
   width: 100%;
   display: flex;
   position: relative;
+}
+.sidebar{
+
+  width: 60px; 
+  height: 100vh;
+  overflow: hidden;
+  transition: 0.5s;
+  background-color: #fff;
+  
+}
+.sidebar:hover{
+  width: 210px;
+}
+.sidebar ul{
+  height: 100vh;
+  position: relative;
+}
+.sidebar ul li{
+  list-style: none;
+  margin-top: 12px;
+}
+
+.sidebar ul li .sidebar-menu{
+  position: relative;
+  display: flex;
+  white-space: nowrap;
+  text-decoration: none;
+  
+}
+.sidebar ul li .sidebar-menu .icon{
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 42px;
+  height: 35px;
+  
+}
+.sidebar ul li .sidebar-menu .text{
+  position: relative;
+  height: 35px;
+  display: flex;
+  letter-spacing: 0.03em;
+  align-items: center;
+
+
+  
 }
 ::-webkit-scrollbar {
   width: 3px;
@@ -207,6 +254,21 @@ input[type="search"]::-webkit-search-cancel-button:hover {
 
 .orange-progress::-moz-progress-bar {
   background-color: #ea580c; /* Color for Firefox */
+}
+
+
+.footer,
+.push {
+  text-align: center;
+  padding: 21px ;
+}
+ 
+ 
+.footer_alignment {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  text-align: justify;
 }
 
 /* dont delete this code ask bhavi before delete */
