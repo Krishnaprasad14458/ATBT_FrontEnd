@@ -12,18 +12,15 @@ const CommentsForm = ({
   setNewComment,
   isCommentEditing,
   setIsCommentEditing,
+  fileName,
+  setFileName
 }) => {
   let fetcher = useFetcher();
-
+console.log("newComment",newComment)
   const { authState } = useContext(AuthContext);
   const [file, setFile] = useState(null);
   console.log("file", file);
-  const handleDrop = (acceptedFiles) => {
-    setNewComment((prev) => ({
-      ...prev,
-      image: [...prev.image, ...acceptedFiles],
-    }));
-  };
+ 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!isCommentEditing) {
@@ -43,8 +40,8 @@ const CommentsForm = ({
             headers: { "Custom-Header": "value" },
           });
           if (response.status === 201) {
-            console.log("UpdateData 1");
-
+            setFile(null)
+            setFileName(null)
             // const formData = new FormData();
             // console.log("UpdateData 4",response.data,postComment);
             // formData.set("file", response.data);
@@ -73,7 +70,7 @@ const CommentsForm = ({
               setTimeout(() => {
                 scrollToBottom();
               }, 1000);
-              setNewComment({ message: "", image: "", senderId: "" });
+              setNewComment({ message: "", senderId: "" });
             } catch (error) {
               console.log(error, "which error");
             }
@@ -82,6 +79,32 @@ const CommentsForm = ({
           console.error("Error during file upload:", error);
           // setMsg("Error In Uploading File");
         }
+      }else if(!file){  
+          let CommentData = {
+            file: null,
+            message: postComment.message,
+            senderId: postComment.senderId,
+          };
+          let UpdateData = {
+            id: taskID,
+            data: CommentData,
+            type: displayOverviewTask
+              ? "ADD_TASK_COMMENT"
+              : "ADD_SUBTASK_COMMENT",
+          };
+          console.log("UpdateData", UpdateData);
+          try {
+            fetcher.submit(UpdateData, {
+              method: "POST",
+              encType: "application/json",
+            });
+            setTimeout(() => {
+              scrollToBottom();
+            }, 1000);
+            setNewComment({ message: "",  senderId: "" });
+          } catch (error) {
+            console.log(error, "which error");
+          }
       }
     } else if (isCommentEditing) {
       let postComment = newComment;
@@ -95,20 +118,17 @@ const CommentsForm = ({
           method: "PATCH",
           encType: "application/json",
         });
+        setFileName(null)
         setIsCommentEditing(false);
-        setNewComment({ message: "", image: "", senderId: "" });
+        setNewComment({ message: "",  senderId: "" });
       } catch (error) {
         console.log(error, "which error");
       }
     }
   };
-  const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    const updatedComment = { ...newComment };
-    updatedComment.image = file;
-    setNewComment(updatedComment);
-  };
+ 
   console.log("newcomment", newComment);
+  console.log("fileName",fileName,file)
   return (
     <div className="p-3 ">
       <form>
@@ -123,9 +143,9 @@ const CommentsForm = ({
               className={`p-2 text-sm w-full  resize-none   shadow-sm rounded-md  outline-none `}
             />
             <div>
-              {newComment.image.name}
+              {fileName && <span>{fileName}</span>}
               <label htmlFor="fileInput" className="cursor-pointer">
-                <svg
+                {!isCommentEditing && <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
                   viewBox="0 0 24 24"
@@ -138,7 +158,7 @@ const CommentsForm = ({
                     strokeLinejoin="round"
                     d="m18.375 12.739-7.693 7.693a4.5 4.5 0 0 1-6.364-6.364l10.94-10.94A3 3 0 1 1 19.5 7.372L8.552 18.32m.009-.01-.01.01m5.699-9.941-7.81 7.81a1.5 1.5 0 0 0 2.112 2.13"
                   />
-                </svg>
+                </svg>}
               </label>
               <input
                 name="image"
@@ -146,7 +166,7 @@ const CommentsForm = ({
                 type="file"
                 className="hidden"
                 // onChange={handleFileChange}
-                onChange={(e) => setFile(e.target.files[0])}
+                onChange={(e) => {setFile(e.target.files[0]);setFileName(e.target.files[0].name)}}
               />
             </div>
           </div>

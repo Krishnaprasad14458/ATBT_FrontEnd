@@ -61,19 +61,61 @@ const TaskOverViewHeader = ({
         />
       </div>
       <div className="col-span-2  md:col-span-3">
-        <div className=" flex justify-end gap-5">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            fill="currentColor"
-            className=" w-5 h-5 text-gray-500"
-          >
-            <path
-              fill-rule="evenodd"
-              d="M18.97 3.659a2.25 2.25 0 0 0-3.182 0l-10.94 10.94a3.75 3.75 0 1 0 5.304 5.303l7.693-7.693a.75.75 0 0 1 1.06 1.06l-7.693 7.693a5.25 5.25 0 1 1-7.424-7.424l10.939-10.94a3.75 3.75 0 1 1 5.303 5.304L9.097 18.835l-.008.008-.007.007-.002.002-.003.002A2.25 2.25 0 0 1 5.91 15.66l7.81-7.81a.75.75 0 0 1 1.061 1.06l-7.81 7.81a.75.75 0 0 0 1.054 1.068L18.97 6.84a2.25 2.25 0 0 0 0-3.182Z"
-              clip-rule="evenodd"
-            />
-          </svg>
+        <div className=" flex justify-end items-center gap-5">
+          <div class="relative inline-block text-left bottom-0">
+            <div>
+              <button
+                type="button"
+                class="inline-flex w-full justify-center items-center gap-x-1.5  text-sm font-semibold text-gray-900  "
+                id="menu-button"
+                aria-expanded="true"
+                aria-haspopup="true"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                  className=" w-5 h-5 text-gray-500"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M18.97 3.659a2.25 2.25 0 0 0-3.182 0l-10.94 10.94a3.75 3.75 0 1 0 5.304 5.303l7.693-7.693a.75.75 0 0 1 1.06 1.06l-7.693 7.693a5.25 5.25 0 1 1-7.424-7.424l10.939-10.94a3.75 3.75 0 1 1 5.303 5.304L9.097 18.835l-.008.008-.007.007-.002.002-.003.002A2.25 2.25 0 0 1 5.91 15.66l7.81-7.81a.75.75 0 0 1 1.061 1.06l-7.81 7.81a.75.75 0 0 0 1.054 1.068L18.97 6.84a2.25 2.25 0 0 0 0-3.182Z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
+              </button>
+
+              <div
+                class="absolute right-0  z-10 mt-2 w-28 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+                role="menu"
+                aria-orientation="vertical"
+                aria-labelledby="menu-button"
+                tabindex="-1"
+              >
+                <div class="py-1" role="none">
+                  <p className="text-gray-700  px-2 py-1.5 text-sm flex gap-2 cursor-pointer hover:bg-gray-200">
+                    Download
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke-width="1.5"
+                      stroke="currentColor"
+                      class="size-5 hover:text-orange-600 cursor-pointer"
+                      // onClick={() => handleDownload(comment.file)}
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3"
+                      />
+                    </svg>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
           <button onClick={handleExpand}>
             {expand ? (
               <svg
