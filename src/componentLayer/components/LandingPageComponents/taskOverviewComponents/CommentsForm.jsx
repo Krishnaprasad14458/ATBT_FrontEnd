@@ -16,7 +16,8 @@ const CommentsForm = ({
   let fetcher = useFetcher();
 
   const { authState } = useContext(AuthContext);
-
+  const [file, setFile] = useState(null);
+  console.log("file", file);
   const handleDrop = (acceptedFiles) => {
     setNewComment((prev) => ({
       ...prev,
@@ -28,44 +29,61 @@ const CommentsForm = ({
     if (!isCommentEditing) {
       let postComment = newComment;
       postComment.senderId = authState?.user?.id;
-      let response
-      if(postComment.image){
-        let attachmentFormData = new FormData();
-        attachmentFormData.set("files", postComment.image);
-        attachmentFormData.set("ids",taskID);
-        if(displayOverviewTask){
-          attachmentFormData.set("name", "task");
-        }else{
-          attachmentFormData.set("name", "subtask");
-        }
-       response = await atbtApi.post("upload",attachmentFormData)
-      console.log("response attachment",response)
-      }
-      const formData = new FormData(e.target);
-      formData.set("file", response.data);
-      formData.set("message", postComment.message);
-      formData.set("senderId", postComment.senderId);
+      let response;
+      if (file) {
+        const attachmentFormData = new FormData();
+        attachmentFormData.append("files", file);
+        attachmentFormData.append("TaskId", taskID);
+        // fd.append("meeting", BMid);
+        try {
+          response = await atbtApi.post("upload", attachmentFormData, {
+            onUploadProgress: (pe) => {
+              // setProgress((prevState) => ({ ...prevState, pc: pe.progress * 100 }));
+            },
+            headers: { "Custom-Header": "value" },
+          });
+          if (response.status === 201) {
+            console.log("UpdateData 1");
 
-      let UpdateData = {
-        id: taskID,
-        data: formData,
-        type: displayOverviewTask ? "ADD_TASK_COMMENT" : "ADD_SUBTASK_COMMENT",
-      };
-      console.log("UpdateData", UpdateData);
-      try {
-        fetcher.submit(UpdateData, {
-          method: "POST",
-          encType: "application/json",
-        });
-        setTimeout(() => {
-          scrollToBottom();
-        }, 1000);
-        setNewComment({ message: "", image: "", senderId: "" });
-      } catch (error) {
-        console.log(error, "which error");
+            // const formData = new FormData();
+            // console.log("UpdateData 4",response.data,postComment);
+            // formData.set("file", response.data);
+            // formData.set("message", postComment.message);
+            // formData.set("senderId", postComment.senderId);
+            // console.log("UpdateData");
+            let CommentData = {
+              file: response.data,
+              message: postComment.message,
+              senderId: postComment.senderId,
+            };
+            let UpdateData = {
+              id: taskID,
+              data: CommentData,
+              type: displayOverviewTask
+                ? "ADD_TASK_COMMENT"
+                : "ADD_SUBTASK_COMMENT",
+            };
+            console.log("UpdateData", UpdateData);
+            try {
+              console.log("fdskjfhdskfjs");
+              fetcher.submit(UpdateData, {
+                method: "POST",
+                encType: "application/json",
+              });
+              setTimeout(() => {
+                scrollToBottom();
+              }, 1000);
+              setNewComment({ message: "", image: "", senderId: "" });
+            } catch (error) {
+              console.log(error, "which error");
+            }
+          }
+        } catch (error) {
+          console.error("Error during file upload:", error);
+          // setMsg("Error In Uploading File");
+        }
       }
-    }
-    if (isCommentEditing) {
+    } else if (isCommentEditing) {
       let postComment = newComment;
       let UpdateData = {
         id: postComment.id,
@@ -93,7 +111,7 @@ const CommentsForm = ({
   console.log("newcomment", newComment);
   return (
     <div className="p-3 ">
-      <form onSubmit={handleSubmit}>
+      <form>
         <div className="grid grid-cols-11 md:grid-cols-11 lg:grid-cols-11 xl:grid-cols-11 justify-center gap-3">
           <div className="col-span-10  flex items-end border-2  border-back rounded-md h-15">
             <textarea
@@ -123,18 +141,19 @@ const CommentsForm = ({
                 </svg>
               </label>
               <input
-              name="image"
+                name="image"
                 id="fileInput"
                 type="file"
                 className="hidden"
-                onChange={handleFileChange}
-                
+                // onChange={handleFileChange}
+                onChange={(e) => setFile(e.target.files[0])}
               />
             </div>
           </div>
           <div className="col-span-1 flex justify-center items-center">
             <button
-              type="submit"
+              // type="submit"
+              onClick={handleSubmit}
               disabled={newComment.message.length < 2}
               className={
                 newComment.message.length >= 2
