@@ -7,7 +7,7 @@ import atbtApi from "../../../../../serviceLayer/interceptor";
 
 import { debounce } from "../../../../../utils/utils";
 function deleteRole(id) {
-  return axios.delete(`https://atbtbeta.infozit.com/rbac/deleteRole/${id}`);
+  return axios.delete(`https://atbtmain.infozit.com/rbac/deleteRole/${id}`);
 }
 export async function action() {}
 const Roles = () => {

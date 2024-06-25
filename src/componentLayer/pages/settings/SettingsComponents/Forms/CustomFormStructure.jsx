@@ -25,7 +25,7 @@ const CustomFormStructure = () => {
   });
   useEffect(() => {
     axios
-      .get(`https://atbtbeta.infozit.com/form/list?name=${formName}`)
+      .get(`https://atbtmain.infozit.com/form/list?name=${formName}`)
       .then((response) => {
         // Handle the successful response
         setCustomForm(response.data.Data);
@@ -335,7 +335,7 @@ const CustomFormStructure = () => {
   };
   const saveCustomForm = async (formData) => {
     toast.promise(
-      axios.put(`https://atbtbeta.infozit.com/form/${formName}`, formData),
+      axios.put(`https://atbtmain.infozit.com/form/${formName}`, formData),
       {
         pending: "Updating Form",
         success: {

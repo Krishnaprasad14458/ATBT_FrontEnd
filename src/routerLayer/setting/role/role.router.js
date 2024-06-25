@@ -11,7 +11,7 @@ export const roleRouter = [
             let url = new URL(request.url);
             let searchTerm = url.searchParams.get("search") || "";
             console.log(searchTerm, "role params")
-            const data = await axios.get(`https://atbtbeta.infozit.com/rbac/getroles?search=${searchTerm}`)
+            const data = await axios.get(`https://atbtmain.infozit.com/rbac/getroles?search=${searchTerm}`)
             console.log(data, "roles data")
             return data
         },
@@ -22,7 +22,7 @@ export const roleRouter = [
             let { roleId } = JSON.parse(formData.get("serialized"));
             // const data = await axios.delete(`https://atbtbeta.infozit.com/rbac/deleteRole/${roleId}`);
             return await toast.promise(
-                axios.delete(`https://atbtbeta.infozit.com/rbac/deleteRole/${roleId}`, {
+                axios.delete(`https://atbtmain.infozit.com/rbac/deleteRole/${roleId}`, {
                     headers: {
                         authorization: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEzMiwicm9sZUlkIjoyNSwiaWF0IjoxNzA5NjM0MDgwLCJleHAiOjIwMjQ5OTQwODB9.Mdk2PIIOnMqPX06ol5DKbSqp_CStWs3oFqLGqmFBhgo",
                     }
@@ -50,7 +50,7 @@ export const roleRouter = [
             }
             try {
                 // const { data, status } = await axios.get(`http://localhost:3000/rbac/getrolebyid/${searchTerm}`);
-                const { data, status } = await axios.get(`https://atbtbeta.infozit.com/rbac/getrolebyid/${searchTerm}`);
+                const { data, status } = await axios.get(`https://atbtmain.infozit.com/rbac/getrolebyid/${searchTerm}`);
                 // Check if the response is successful and return the data
                 if (status === 200) {
                     return { response: data?.role };
