@@ -12,7 +12,6 @@ const Documents = ({ belongsTo }) => {
   const [msgColor, setMsgColor] = useState("");
   console.log("file", file?.name);
   // Function to fetch attachments
-
   const [meetingnumberName, setMeetingnumberName] = useState("");
   const fetchAttachment = async () => {
     const BM_Form_Data = await atbtApi.get(`form/list?name=boardmeetingform`);
@@ -49,14 +48,12 @@ const Documents = ({ belongsTo }) => {
       }
     }
   };
-
   useEffect(() => {
     fetchAttachment();
   }, [BMid]);
   function emptyMsg() {
     setMsg("");
   }
-
   const handleDownload = (fileUrl) => {
     const link = document.createElement("a");
     link.href = fileUrl;
