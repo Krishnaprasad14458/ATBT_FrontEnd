@@ -2,15 +2,17 @@ import React, { useContext, useEffect, useRef } from "react";
 import { useState } from "react";
 import { useFetcher } from "react-router-dom";
 import { AuthContext } from "../../../../contexts/authContext/authContext";
+
 const CommentsView = ({
   comments,
   messagesEndRef,
   setIsCommentEditing,
   setNewComment,
+  fileName,
+  setFileName,
 }) => {
   const { authState } = useContext(AuthContext);
 
- 
   let fetcher = useFetcher();
   const attachmentStyle = {
     maxWidth: "200px",
@@ -56,6 +58,13 @@ const CommentsView = ({
   useEffect(() => {
     setDisplayAllComments(comments?.length <= 5);
   }, [comments]);
+  const handleDownload = (fileUrl) => {
+    const link = document.createElement("a");
+    link.href = fileUrl;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
   return (
     <div>
       <div className="bg-[#f8fafc] ">
@@ -66,21 +75,21 @@ const CommentsView = ({
             onClick={() => setDisplayAllComments((prev) => !prev)}
             className="text-sm p-3 text-end text-blue-500 hover:underline"
           > */}
-            {/* {displayAllComments
+        {/* {displayAllComments
               ? "Hide earlier comments"
               : comments.length - 5 + " more comments"} */}
-{comments?.length > 5 && (
-  <p
-    onClick={() => setDisplayAllComments((prev) => !prev)}
-    className="text-sm p-3 text-end text-blue-500 hover:underline"
-  >
-    {displayAllComments
-      ? "Hide earlier comments"
-      : comments.length === 6
-        ? "One more comment"
-        : comments.length - 5 + " more comments"}
-  </p>
-)}
+        {comments?.length > 5 && (
+          <p
+            onClick={() => setDisplayAllComments((prev) => !prev)}
+            className="text-sm p-3 text-end text-blue-500 hover:underline"
+          >
+            {displayAllComments
+              ? "Hide earlier comments"
+              : comments.length === 6
+              ? "One more comment"
+              : comments.length - 5 + " more comments"}
+          </p>
+        )}
 
         {Array.isArray(comments) &&
           comments.length > 0 &&
@@ -170,7 +179,25 @@ const CommentsView = ({
                     <p className="text-sm">{comment.message}</p>
                   </div>
                   <div>
-                    <div className="flex justify-around items-center md:gap-3">
+                    <div className="flex justify-end items-center md:gap-3">
+                      {comment && comment.file && (
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke-width="1.5"
+                          stroke="currentColor"
+                          class="size-5 hover:text-orange-600 cursor-pointer"
+                          onClick={() => handleDownload(comment.file)}
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3"
+                          />
+                        </svg>
+                      )}
+
                       <div class="relative inline-block text-left bottom-0">
                         <div>
                           {parseInt(authState?.user?.id) ===
@@ -215,6 +242,16 @@ const CommentsView = ({
                                     setIsCommentEditing(true);
                                     setNewComment(comment);
                                     setCommentCrudView(null);
+                                    const getFileName = (url) => {
+                                      const urlParts = url.split("/");
+                                      const encodedFileName =
+                                        urlParts[urlParts.length - 1];
+                                      return decodeURIComponent(
+                                        encodedFileName
+                                      );
+                                    };
+                                    const fileName = getFileName(comment?.file);
+                                    setFileName(fileName);
                                   }}
                                 >
                                   <svg

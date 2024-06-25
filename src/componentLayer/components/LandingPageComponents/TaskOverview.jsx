@@ -51,7 +51,6 @@ const TaskOverview = ({
   const [isCommentEditing, setIsCommentEditing] = useState(false);
   const [newComment, setNewComment] = useState({
     message: "",
-    image: "",
     senderId: "",
   });
   console.log("newCOmment", newComment);
@@ -61,6 +60,7 @@ const TaskOverview = ({
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
+  const [fileName,setFileName] = useState(null)
 
   return (
     <div
@@ -161,6 +161,8 @@ const TaskOverview = ({
               comments={
                 displayOverviewTask ? task?.comments : subTask?.comments
               }
+              fileName={fileName}
+              setFileName={setFileName}
             />
           </div>
         </div>
@@ -173,6 +175,10 @@ const TaskOverview = ({
           scrollToBottom={scrollToBottom}
           displayOverviewTask={displayOverviewTask}
           taskID={displayOverviewTask ? task?.id : subTask?.id}
+          fileName={fileName}
+          setFileName={setFileName}
+
+
         />
         <Collaborators
         handleOverviewTaskChange={
