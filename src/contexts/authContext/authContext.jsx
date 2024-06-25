@@ -20,7 +20,7 @@ const [authState, authDispatch] = useReducer(authReducer, initialAuth);
   const adminLogin = async (loginData) => {
     try {
       const { data, status } = await toast.promise(
-        axios.post(`${apiUrl}/auth/login`, loginData),
+        axios.post(`${apiUrl}auth/login`, loginData),
         {
           pending: {
             render() {
