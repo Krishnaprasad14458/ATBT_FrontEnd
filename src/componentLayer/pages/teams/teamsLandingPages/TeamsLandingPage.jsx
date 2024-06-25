@@ -15,10 +15,13 @@ const TeamsLandingPage = () => {
   let [ActiveLink, setActiveLink] = useState(false);
   useEffect(() => {
     if (
+      location.pathname == `/teams/${id}/tasks/runningdecisions` ||
       location.pathname == `/teams/${id}/tasks/To-Do` ||
       location.pathname == `/teams/${id}/tasks/In-Progress` ||
       location.pathname == `/teams/${id}/tasks/Over-Due` ||
       location.pathname == `/teams/${id}/tasks/Completed` ||
+      location.pathname == `/teams/${id}/tasks/On-Hold` ||
+
       location.pathname == `/teams/${id}/tasks/Master`
     ) {
       setActiveLink(true);
@@ -50,7 +53,7 @@ const TeamsLandingPage = () => {
                 : "cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09]"
             }
           >
-            Team Meetings
+            Meetings
           </NavLink>
         )}
         {BMid && (
@@ -69,17 +72,12 @@ const TeamsLandingPage = () => {
                 : "cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09]"
             }
           >
-            Meetings Decisions
+            Decisions
           </NavLink>
         )}{" "}
         {!BMid && (
           <NavLink
-            // to={{
-            //   pathname: "tasks/To-Do",
-            //   // search: `?status=To-Do`,
-            // }}
-            to="tasks/To-Do?search=&page=1&pageSize=10"
-
+            to="tasks/runningdecisions?search=&page=1&pageSize=10"
             end
             className={({ isActive, isPending, isTransitioning }) =>
               isPending
@@ -89,7 +87,7 @@ const TeamsLandingPage = () => {
                 : "cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09]"
             }
           >
-            Team Decisions
+           Decisions
           </NavLink>
         )}
         {!BMid && (
@@ -104,7 +102,7 @@ const TeamsLandingPage = () => {
                 : "cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09]"
             }
           >
-            Team Attachments
+            Attachments
           </NavLink>
         )}
         {BMid && (
@@ -119,7 +117,7 @@ const TeamsLandingPage = () => {
                 : "cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09]"
             }
           >
-            Meeting Attachments
+            Attachments
           </NavLink>
         )}
         {!BMid && (
@@ -134,7 +132,7 @@ const TeamsLandingPage = () => {
                 : "cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09]"
             }
           >
-            Team Overview
+           Overview
           </NavLink>
         )}
         {BMid && (
@@ -149,7 +147,7 @@ const TeamsLandingPage = () => {
                 : "cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09]"
             }
           >
-            Meeting Overview
+           Overview
           </NavLink>
         )}
       </div>

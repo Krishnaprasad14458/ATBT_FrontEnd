@@ -7,10 +7,12 @@ const EntityLandingPage = () => {
   let [ActiveLink, setActiveLink] = useState(false);
   useEffect(() => {
     if (
+      location.pathname == `/entities/${id}/tasks/runningdecisions` ||
       location.pathname == `/entities/${id}/tasks/To-Do` ||
       location.pathname == `/entities/${id}/tasks/In-Progress` ||
       location.pathname == `/entities/${id}/tasks/Over-Due` ||
       location.pathname == `/entities/${id}/tasks/Completed` ||
+      location.pathname == `/entities/${id}/tasks/On-Hold` ||
       location.pathname == `/entities/${id}/tasks/Master`
     ) {
       setActiveLink(true);
@@ -42,7 +44,7 @@ const EntityLandingPage = () => {
                 : "cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09]"
             }
           >
-            Entity Meetings
+             Meetings
           </NavLink>
         )}
         {BMid && (
@@ -63,7 +65,7 @@ const EntityLandingPage = () => {
                 : "cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09]"
             }
           >
-            Meeting Decisions
+            Decisions
           </NavLink>
         )}
         {!BMid && (
@@ -72,7 +74,7 @@ const EntityLandingPage = () => {
             //   pathname: "tasks/To-Do",
             //   // search: `?status=To-Do`,
             // }}
-            to="tasks/To-Do?search=&page=1&pageSize=10"
+            to="tasks/runningdecisions?search=&page=1&pageSize=10"
 
             end
             className={({ isActive, isPending, isTransitioning }) =>
@@ -83,7 +85,7 @@ const EntityLandingPage = () => {
                 : "cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09]"
             }
           >
-            Entity Decisions
+            Decisions
           </NavLink>
         )}
         {!BMid && (
@@ -98,7 +100,7 @@ const EntityLandingPage = () => {
                 : "cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09]"
             }
           >
-            Entity Attachments
+         Attachments
           </NavLink>
         )}
         {BMid && (
@@ -113,7 +115,7 @@ const EntityLandingPage = () => {
                 : "cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09]"
             }
           >
-            Meeting Attachments
+            Attachments
           </NavLink>
         )}
         {!BMid && (
@@ -128,7 +130,7 @@ const EntityLandingPage = () => {
                 : "cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09]"
             }
           >
-            Entity Overview
+            Overview
           </NavLink>
         )}
         {BMid && (
@@ -143,7 +145,7 @@ const EntityLandingPage = () => {
                 : "cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09]"
             }
           >
-            Meeting Overview
+          Overview
           </NavLink>
         )}
       </div>

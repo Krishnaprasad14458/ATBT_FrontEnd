@@ -1,69 +1,72 @@
-import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import atbtApi from "../../../serviceLayer/interceptor";
+import React from "react";
 
-const Documents = ({ belongsTo }) => {
-  const { id, BMid } = useParams();
-  console.log("id, BMID", id, BMid);
-  const [MeetingData, setMeetingData] = useState(null);
-  const [file, setFile] = useState(null);
-  const [progress, setProgress] = useState({ started: false, pc: 0 });
-  const [msg, setMsg] = useState(null);
-  const [msgColor, setMsgColor] = useState("");
-  console.log("file", file?.name);
-  // Function to fetch attachments
-  const [meetingnumberName, setMeetingnumberName] = useState("");
-  const fetchAttachment = async () => {
-    const BM_Form_Data = await atbtApi.get(`form/list?name=boardmeetingform`);
-    setMeetingnumberName(BM_Form_Data?.data?.Tableview.meetingnumber?.label);
-    if (belongsTo === "boardMeeting") {
-      try {
-        const response = await atbtApi.get(
-          `boardmeeting/getAttachment?MeetingId=${BMid}`
-        );
-        setMeetingData(response.data);
-        console.log(response.data, "response");
-      } catch (error) {
-        console.error("Error fetching attachment:", error);
-      }
-    } else if (belongsTo === "entity") {
-      try {
-        const response = await atbtApi.get(
-          `boardmeeting/getAttachment?EntityId=${id}`
-        );
-        setMeetingData(response.data);
-        console.log(response.data, "response");
-      } catch (error) {
-        console.error("Error fetching attachment:", error);
-      }
-    } else if (belongsTo === "team") {
-      try {
-        const response = await atbtApi.get(
-          `boardmeeting/getAttachment?TeamId=${id}`
-        );
-        setMeetingData(response.data);
-        console.log(response.data, "response");
-      } catch (error) {
-        console.error("Error fetching attachment:", error);
-      }
-    }
-  };
-  useEffect(() => {
-    fetchAttachment();
-  }, [BMid]);
-  function emptyMsg() {
-    setMsg("");
-  }
-  const handleDownload = (fileUrl) => {
-    const link = document.createElement("a");
-    link.href = fileUrl;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  };
-
+const MeetingAttachments = ({
+  handleDownload,
+  handleUpload,
+  belongsTo,
+  progress,
+  msg,
+  msgColor,
+  file,
+  setFile,
+  meetingnumberName,
+  id,
+  BMid,
+  MeetingData,
+}) => {
   return (
-    <div className="mt-4 overflow-y-auto">
+    <div className=" overflow-y-auto">
+      {belongsTo === "boardMeeting" && (
+        <div>
+          <div className="flex flex-wrap justify-end items-center mb-2 gap-2">
+            {progress.started && (
+              <progress
+                className="orange-progress rounded-md"
+                max="100"
+                value={progress.pc}
+              ></progress>
+            )}
+            {msg && <span style={{ color: msgColor }}>{msg}</span>}
+            <label
+              htmlFor="fileInput"
+              className="cursor-pointer border border-gray-300 p-1 rounded-md w-full md:w-80"
+            >
+              {file && file?.name ? (
+                <p className="w-72 truncate">{file?.name}</p>
+              ) : (
+                <p className="pl-1">Choose File to Upload</p>
+              )}
+            </label>
+            <input
+              name="image"
+              id="fileInput"
+              type="file"
+              className="hidden"
+              onChange={(e) => setFile(e.target.files[0])}
+            />
+            <button
+              onClick={handleUpload}
+              className="rounded-md bg-orange-600 px-2 py-1.5 text-sm font-medium leading-6 text-white shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth="1.5"
+                stroke="currentColor"
+                className="size-6"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5m-13.5-9L12 3m0 0 4.5 4.5M12 3v13.5"
+                />
+              </svg>
+            </button>
+          </div>
+        </div>
+      )}
+
       {meetingnumberName && (
         <table className="w-full divide-y divide-gray-200 dark:divide-gray-700 rounded-md">
           <thead>
@@ -148,4 +151,4 @@ const Documents = ({ belongsTo }) => {
   );
 };
 
-export default Documents;
+export default MeetingAttachments;

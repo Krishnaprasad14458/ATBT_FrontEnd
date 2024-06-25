@@ -1,8 +1,6 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-
 .content {
   height: 100%;
   width: 100%;
@@ -16,26 +14,19 @@
 ::-webkit-scrollbar {
   width: 3px;
 }
-/* Track */
 ::-webkit-scrollbar-track {
   background: #e0e0e0;
 }
-
-/* Handle */
 ::-webkit-scrollbar-thumb {
   background: #888;
 }
-
-/* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
   background: #555;
 }
-
 .labelStyles {
   font-size: "20px";
   font-style: "500";
 }
-
 /* for user , entity coloumns drawer checkbox color change */
 input[type="checkbox"]::before {
   content: "\2713";
@@ -46,34 +37,25 @@ input[type="checkbox"]::before {
   left: 50%;
   transform: translate(-50%, -50%);
   color: white;
-  /* Color of the checkmark */
   font-size: 0.7em;
-  /* Adjust the font size to decrease the size of the tick mark */
 }
-
 input[type="checkbox"]:checked::before {
   display: block;
 }
-
 /* for task input start */
-
 .shadow_box:hover {
   box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px,
     rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
   background-color: #ffffff;
 }
-
 .shadow_box:focus {
   box-shadow: none;
   background-color: white;
 }
-
 .shadow_box:active {
   background-color: white;
 }
-
 /* for task input */
-
 /* for hidden button in small screen */
 @media (max-width: 640px) {
   .create-btn {
@@ -81,13 +63,11 @@ input[type="checkbox"]:checked::before {
   }
 }
 /* for hidden button in small screen */
-
 /* all customforms CSS */
 .selected-users-container {
   max-height: 120px;
   overflow-y: auto;
 }
-
 .user-list {
   max-height: 150px;
   overflow-y: auto;
@@ -95,29 +75,23 @@ input[type="checkbox"]:checked::before {
   padding: 0;
   margin: 0;
 }
-
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
 /* all customforms CSS end*/
-
 /* for breadcrumbs */
 .breadcrumbs {
   max-width: 1200px;
   margin-left: 2px;
-
   font-size: 1.25rem;
 }
-
 .breadcrumbs > * {
   display: inline-block;
   margin-right: 5px;
-
   font-size: 1rem;
 }
-
 .breadcrumbs .crumb:after {
   content: ">";
   margin-left: 7px;
@@ -134,14 +108,12 @@ input::-webkit-inner-spin-button {
   border-bottom: 1px solid #fb923c;
 }
 /* for breadcrumbs end */
-
 @media (max-width: 640px) {
   .filter_pagination {
     text-align: start;
     padding-left: 10px;
   }
 }
-
 @media (max-width: 768px) {
   .filter_pagination {
     text-align: start;
@@ -149,9 +121,92 @@ input::-webkit-inner-spin-button {
   }
 }
 /* for input select new end*/
-
 .css-1dimb5e-singleValue {
   font-size: 14px !important;
+}
+@media (max-width: 425px) {
+  .teams_img {
+    flex-direction: column-reverse;
+  }
+}
+/* Styling for the collaborator container */
+.collaborator-container {
+  position: relative;
+}
+/* Styling for the close icon */
+.collaborator-container svg {
+  width: 0.8rem; 
+  height: 0.8rem;
+  cursor: pointer;
+  padding: 1px;
+  background-color: #64748b;
+  position: absolute;
+  border-radius: 50%;
+}
+/* Hide the close icon by default */
+.collaborator-container .hidden {
+  display: none;
+}
+/* Display the close icon when hovering over the container */
+.collaborator-container:hover .hidden {
+  display: flex;
+}
+/* Align the close icon to the top right corner */
+.collaborator-container .hidden {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 0.25rem; 
+}
+.arrow_breadcrumbs::after {
+  content: ">";
+  color: #334155;
+}
+/*  for date input */
+input[type="date"] {
+  position: relative;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+  background: transparent;
+  bottom: 0;
+  cursor: pointer;
+  height: auto;
+  right: 0;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: auto;
+}
+input[type="date"] {
+  justify-content: space-between;
+  display: flex;
+}
+input[type="date"]:after {
+  font-family: "Font Awesome 5 Free";
+  font-weight: 600;
+  content: "\f073";
+  color: gray;
+  padding: 0 1px;
+}
+/* for search input */
+input[type="search"]::-webkit-search-decoration:hover,
+input[type="search"]::-webkit-search-cancel-button:hover {
+  cursor: pointer;
+}
+
+
+
+.orange-progress::-webkit-progress-bar {
+  background-color: #f3f3f3; /* Background color of the progress bar */
+}
+
+.orange-progress::-webkit-progress-value {
+  background-color: #ea580c; /* Color of the progress value */
+}
+
+.orange-progress::-moz-progress-bar {
+  background-color: #ea580c; /* Color for Firefox */
 }
 
 /* dont delete this code ask bhavi before delete */
@@ -211,85 +266,4 @@ input[type='date']:after {
   content:''
 }  
 
-
-
-
-
-
 /* dont delete this code ask bhavi before delete  end*/
-@media (max-width: 425px) {
-  .teams_img {
-    flex-direction: column-reverse;
-  }
-}
-
-/* Styling for the collaborator container */
-.collaborator-container {
-  position: relative;
-}
-
-/* Styling for the close icon */
-.collaborator-container svg {
-  width: 0.8rem; /* Adjust the size of the close icon */
-  height: 0.8rem;
-  cursor: pointer;
-  padding: 1px;
-  background-color: #64748b;
-  position: absolute;
-  border-radius: 50%;
-}
-
-/* Hide the close icon by default */
-.collaborator-container .hidden {
-  display: none;
-}
-
-/* Display the close icon when hovering over the container */
-.collaborator-container:hover .hidden {
-  display: flex;
-}
-
-/* Align the close icon to the top right corner */
-.collaborator-container .hidden {
-  position: absolute;
-  top: 0;
-  right: 0;
-  padding: 0.25rem; /* Adjust padding as needed */
-}
-
-.arrow_breadcrumbs::after {
-  content: ">";
-  color: #334155;
-}
-input[type="date"] {
-  position: relative;
-}
-
-input[type="date"]::-webkit-calendar-picker-indicator {
-  background: transparent;
-  bottom: 0;
-  cursor: pointer;
-  height: auto;
-  right: 0;
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: auto;
-}
-input[type="date"] {
-  justify-content: space-between;
-  display: flex;
-}
-input[type="date"]:after {
-  font-family: "Font Awesome 5 Free";
-  font-weight: 600;
-  content: "\f073";
-  color: gray;
-  padding: 0 1px;
-}
-
-input[type="search"]::-webkit-search-decoration:hover,
-input[type="search"]::-webkit-search-cancel-button:hover { 
-    cursor:pointer; 
-}
-

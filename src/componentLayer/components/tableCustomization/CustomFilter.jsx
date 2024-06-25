@@ -67,7 +67,7 @@ function CustomFilter({
     setFilterDrawerOpen(!filterDrawerOpen);
   };
   return (
-    <>
+    <div className="mt-1">
       <button
         onClick={filterDrawer}
         className="focus:outline-none gap-x-1 px-4  text-sm font-[500] text-gray-500 hover:text-orange-600"
@@ -119,7 +119,7 @@ function CustomFilter({
           </div>
 
           <div
-            className="overflow-y-auto px-2 py-2.5 content relative"
+            className="overflow-y-auto px-0.5 py-2.5 content relative"
             style={{ maxHeight: "calc(100vh - 7rem)" }}
           >
             <div className="text-start px-3 ">
@@ -174,7 +174,7 @@ function CustomFilter({
                                 : "#a1a1aa",
                             }}
                           >
-                            <option value="" disabled defaultValue>
+                            <option value="" disabled defaultValue className="text-xs ">
                               Select
                             </option>
                             {filter.options &&
@@ -182,9 +182,11 @@ function CustomFilter({
                               filter.options.value &&
                               filter.options.value.map((option, index) => (
                                 <option
+                                autosize
                                   key={index}
                                   value={option}
                                   style={{ color: "#111827" }}
+                                  className="text-xs "
                                 >
                                   {option}
                                 </option>
@@ -195,9 +197,11 @@ function CustomFilter({
                               fieldsDropDownData[filter.options.value]?.map(
                                 (option, index) => (
                                   <option
+                                  autosize
                                     key={index}
                                     value={option.id}
                                     style={{ color: "#111827" }}
+                                    className="text-xs "
                                   >
                                     {option.name}
                                   </option>
@@ -251,7 +255,7 @@ function CustomFilter({
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }
 export default CustomFilter;

@@ -1,21 +1,19 @@
 import React, { useState } from "react";
 import Select from "react-select";
-const Collaborators = ({
-  task,
-  handleSubmit,
-}) => {
-  console.log("task", task,task?.collaborators);
 
-  let CollaboratorsId =   task?.collaborators?.map(
-    (collaborat) => collaborat.id
+const Collaborators = ({ task, handleSubmit }) => {
+  console.log("task", task, task?.collaborators);
+
+  let CollaboratorsId = task?.collaborators?.map((collaborat) => collaborat.id);
+  const filteredGroup = task?.group?.filter(
+    (item) => !CollaboratorsId.includes(item.id)
   );
-  const filteredGroup = task?.group?.filter(item => !CollaboratorsId.includes(item.id));
   let members = filteredGroup?.map((user) => ({
     label: user.name,
     value: user.id,
   }));
   let [isCollaboratorsEditing, setIsCollaboratorsEditing] = useState(false);
-  
+
   const handleRemoveCollaborator = (collaboratorId) => {
     let updatedCollaborators = task?.collaborators.map(
       (collaborat) => collaborat.id
@@ -25,7 +23,7 @@ const Collaborators = ({
     );
     handleSubmit(task?.id, "collaborators", updatedCollaborators);
   };
-  
+
   return (
     <div className="px-3 py-1">
       <div className="me-2 flex gap-2">
@@ -36,7 +34,7 @@ const Collaborators = ({
               {/* Collaborator */}
               <div className="collaborator-container bg-orange-600 text-white py-1.5 w-8 h-8 rounded-full relative hover:bg-orange-700">
                 <span className="flex justify-center  text-sm">
-                  {collaborator?.name.split("")[0]} 
+                  {collaborator?.name.split("")[0]}
                 </span>
                 {/* Remove icon */}
                 <span className="absolute top-0 left-4 p-1 hidden group-hover:flex items-center">
@@ -71,7 +69,6 @@ const Collaborators = ({
                   <p className="font-semibold w-48 truncate">
                     {collaborator.name}
                   </p>
-              
 
                   {/* Email */}
                   <p className="text-sm text-gray-600 pt-1 w-48 truncate">
@@ -90,18 +87,12 @@ const Collaborators = ({
                 ...provided,
                 backgroundColor: "#f9fafb",
                 borderWidth: "1px",
-                borderColor: state.isFocused
-                  ? "#orange-400"
-                  : "transparent",
-                boxShadow: state.isFocused
-                  ? "none"
-                  : provided.boxShadow,
+                borderColor: state.isFocused ? "#orange-400" : "transparent",
+                boxShadow: state.isFocused ? "none" : provided.boxShadow,
                 fontSize: "16px",
                 height: "36px", // Adjust the height here
                 "&:hover": {
-                  borderColor: state.isFocused
-                    ? "#fb923c"
-                    : "transparent",
+                  borderColor: state.isFocused ? "#fb923c" : "transparent",
                 },
                 "&:focus": {
                   borderColor: "#fb923c",
@@ -133,7 +124,6 @@ const Collaborators = ({
                 lineHeight: "1.25rem",
               }),
             }}
-            
             theme={(theme) => ({
               ...theme,
               borderRadius: 5,
@@ -142,14 +132,17 @@ const Collaborators = ({
                 primary: "#fb923c",
               },
             })}
-            onChange={async  (selectedOption) => {
-             
-           let   updatedCollaborators = [
+            onChange={async (selectedOption) => {
+              let updatedCollaborators = [
                 ...CollaboratorsId,
                 selectedOption.value,
               ];
-              console.log("first",updatedCollaborators,CollaboratorsId)
-            await   handleSubmit(task?.id, "collaborators", updatedCollaborators);
+              console.log("first", updatedCollaborators, CollaboratorsId);
+              await handleSubmit(
+                task?.id,
+                "collaborators",
+                updatedCollaborators
+              );
               setIsCollaboratorsEditing(false);
             }}
             menuPlacement="auto"
@@ -158,6 +151,7 @@ const Collaborators = ({
         )}
 
         <p>
+          {/* add collaborators icon */}
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"

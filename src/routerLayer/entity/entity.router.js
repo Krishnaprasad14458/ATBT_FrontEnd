@@ -5,7 +5,7 @@ import Boardmeeting, {
   action as MeetingAction,
   loader as MeetingLoader,
 } from "../../componentLayer/components/LandingPageComponents/Boardmeeting";
-import Documents from "../../componentLayer/components/LandingPageComponents/Documents";
+import Documents, { attachmentsLoader, uploadAttachmentActions } from "../../componentLayer/components/LandingPageComponents/Documents";
 import EntityLandingPage from "../../componentLayer/pages/entities/entityLandingPage/EntityLandingPage";
 import EntityOverview, {
 
@@ -22,6 +22,7 @@ import Tasks, {
   tasksLoader,
 } from "../../componentLayer/components/LandingPageComponents/Tasks";
 import BoardMeetingOverview, { boardMeetingOverviewLoader } from "../../componentLayer/pages/boardmeetings/boardMeetingLandingPage/BoardMeetingOverview";
+import MeetingWiseDocuments from "../../componentLayer/components/LandingPageComponents/MeetingWiseDocuments";
 
 export const entityRouter = [
   {
@@ -78,8 +79,7 @@ export const entityRouter = [
                   // search: `?status=To-Do`,
                 }}
                 
-                
-                
+          
                 >{data?.threadName}</Link>
               ),
             },
@@ -88,7 +88,6 @@ export const entityRouter = [
           {
             path: ":boardmeetings",
             // loader: MeetingLoader,
-           
             children: [
               {
                 index: true,
@@ -102,7 +101,6 @@ export const entityRouter = [
                       pathname: data.threadPath,
                       search: `?search=&page=1&pageSize=10`,
                     }}
-                    
                     >{data.threadName}</Link>
                   ),
                 },
@@ -137,10 +135,12 @@ export const entityRouter = [
                   },
                   {
                     path: "documents",
-                    element: <Documents />,
+                    element: <MeetingWiseDocuments belongsTo ="boardMeeting" />,
+                    // loader: attachmentsLoader,
+                    // action : uploadAttachmentActions,
                     handle: {
                       crumb: (data) => (
-                        <Link to="."> Attachments</Link>
+                        <Link to=""> Attachments</Link>
                       ),
                     },
                   },
@@ -151,9 +151,9 @@ export const entityRouter = [
 
           {
             path: "documents",
-            element: <Documents />,
+            element: <Documents  belongsTo ="entity"  />,
             handle: {
-              crumb: () => <Link to=".">Attachments</Link>,
+              crumb: () => <Link to="">Attachments</Link>,
             },
           },
         ],

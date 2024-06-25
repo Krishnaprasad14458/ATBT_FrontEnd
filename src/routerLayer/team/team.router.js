@@ -23,6 +23,7 @@ import Tasks, {
 import BoardMeetingOverview, {
   boardMeetingOverviewLoader,
 } from "../../componentLayer/pages/boardmeetings/boardMeetingLandingPage/BoardMeetingOverview";
+import MeetingWiseDocuments from "../../componentLayer/components/LandingPageComponents/MeetingWiseDocuments";
 export const teamRouter = [
   {
     index: true,
@@ -140,9 +141,9 @@ export const teamRouter = [
                   },
                   {
                     path: "documents",
-                    element: <Documents />,
+                    element: <MeetingWiseDocuments  belongsTo ="boardMeeting" />,
                     handle: {
-                      crumb: (data) => <Link to="."> Attachments</Link>,
+                      crumb: (data) => <Link to=""> Attachments</Link>,
                     },
                   },
                 ],
@@ -152,9 +153,9 @@ export const teamRouter = [
 
           {
             path: "documents",
-            element: <Documents />,
+            element: <Documents  belongsTo ="team" />,
             handle: {
-              crumb: () => <Link to="."> Attachments</Link>,
+              crumb: () => <Link to=""> Attachments</Link>,
             },
           },
         ],
