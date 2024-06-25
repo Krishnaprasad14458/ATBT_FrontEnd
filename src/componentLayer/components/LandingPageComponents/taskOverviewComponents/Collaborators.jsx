@@ -7,7 +7,6 @@ const Collaborators = ({ task, handleSubmit }) => {
   let CollaboratorsId = task?.collaborators?.map((collaborat) => collaborat.id);
   const filteredGroup = task?.group?.filter(
     (item) => !CollaboratorsId.includes(item.id)
-
   );
   let members = filteredGroup?.map((user) => ({
     label: user.name,
