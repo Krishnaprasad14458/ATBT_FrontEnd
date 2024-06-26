@@ -62,7 +62,7 @@ const TaskOverViewHeader = ({
       </div>
       <div className="col-span-2  md:col-span-3">
         <div className=" flex justify-end items-center gap-5">
-          <div class="relative inline-block text-left bottom-0">
+          {/* <div class="relative inline-block text-left bottom-0">
             <div>
               <button
                 type="button"
@@ -114,7 +114,7 @@ const TaskOverViewHeader = ({
                 </div>
               </div>
             </div>
-          </div>
+          </div> */}
 
           <button onClick={handleExpand}>
             {expand ? (
