@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import logo from "../../../assets/Images/logo.png";
+import logo from "../../../assets/Images/Kapil-Logo.png";
 import { Link, NavLink, useLocation, useMatches } from "react-router-dom";
 import GateKeeper from "../../../rbac/GateKeeper";
-const Sidebar = () => {
+const Sidebar = ({open}) => {
   const location = useLocation();
   const matches = useMatches();
   console.log(location, "location");
@@ -21,12 +21,11 @@ const Sidebar = () => {
     } else if (updated[1] === "boardmeetings") {
       setActive("Meetings");
     } else if (updated[1] === "tasks") {
-      setActive("Tasks");
+      setActive("Decisions");
     } else if (updated[1] === "reports") {
       setActive("Reports");
-    } else if (updated[1] === "tasks") {
-      setActive("Tasks");
-    } else if (updated[1] === "settings") {
+    } 
+     else if (updated[1] === "settings") {
       setActive("Settings");
     }
   }, [matches]);
@@ -162,174 +161,100 @@ const Sidebar = () => {
       module: "setting",
     },
   ];
-  const [open, setOpen] = useState(false);
+
   const [active, setActive] = useState("Home");
-  let screenSize = window.innerWidth;
-  useEffect(() => {
-    if (screenSize < 726) {
-      setOpen(false);
-    }
-  }, []);
+ 
 
   return (
-    <div className="sidebar">
-      <main className={`bg-white ${
-            open ? "w-52" : "w-16"
-          }   duration-500 `}>
-        <div
-          className={` min-h-screen duration-500 text-gray-100 px-2 relative `}
+    <div className={`sidebar ${open ? "expand" : "close" }`}>
+    <ul className="mt-4">
+      <li className="px-2  ">
+        <div className="sidebar-menu ">
+          <span className="icon ">
+         
+            <img src={logo} alt="Infoz IT" className={`w-18 h-7  p-0 `} />
+          </span>
+          <span className="text">
+            <span className="text-[#372f81] font-semibold text-md leading-normal ">
+            &nbsp; Kapil
+            </span>&nbsp;
+            <span className="text-[#ae060d] font-semibold text-md leading-normal">
+              Group
+            </span>
+          </span>
+         
+        </div>
+        
+      </li>
+      <li className="px-2">
+        <Link
+          className={`sidebar-menu flex items-center text-md gap-2 font-semibold  leading-normal
+                                  hover:bg-orange-600 hover:text-white rounded-md
+          ${"Home" === active ? "text-orange-600" : "black"}`}
+          to="/"
+          onClick={(e) => {
+            setActive("Home");
+          }}
         >
-          <div className="pt-3 flex justify-between">
-            <img
-              src={logo}
-              alt="Infoz IT"
-              className={`w-28 h-10 ms-6 p-0  ${open ? "" : "hidden"}`}
-            />
+          <span className="icon "   >
+            
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth="1.5"
-              stroke="currentColor"
-              className="w-6 h-6 cusrsor-pointer mt-2 text-black"
-              onClick={() => setOpen(!open)}
+              viewBox="0 0 20 20"
+              fill="currentColor"
+              className="w-5 h-5"
             >
               <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M3.75 6.75h16.5M3.75 12h16.5M12 17.25h8.25"
+                fill-rule="evenodd"
+                d="M9.293 2.293a1 1 0 0 1 1.414 0l7 7A1 1 0 0 1 17 11h-1v6a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1v-3a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v3a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-6H3a1 1 0 0 1-.707-1.707l7-7Z"
+                clip-rule="evenodd"
               />
             </svg>
-          </div>
-          <div
-            className={`mt-6 flex-col gap-4 text-black relative ${
-              open ? "" : "mt-8"
-            }`}
-            
-            
+          </span>
+
+          <span className="text text-sm  font-semibold  leading-normal ">
+            Home
+          </span>
+        </Link>
+      </li>
+      {menus?.map((menu, i) => (
+        <li className="px-2">
+          <GateKeeper
+            permissionCheck={(permission) =>
+              permission.module === menu.module && permission.canRead
+            }
           >
             <Link
-              to="/"
-              onClick={(e) => {
-                setActive("Home");
+              to={{
+                pathname: menu?.link,
+                search:
+                  location?.state?.from === menu?.link
+                    ? location.search
+                    : `?search=&page=1&pageSize=10`,
               }}
-              className={`group flex items-center text-md gap-3.5 font-semibold p-2 leading-normal
-                                    hover:bg-orange-600 hover:text-white rounded-md 
-                                    ${
-                                      "Home" === active
-                                        ? "text-orange-600"
-                                        : "black"
-                                    }`}
-                                    onMouseEnter={() =>  setOpen(true)}
-            onMouseLeave={() =>  setOpen(false)}
+              state={{ from: location.pathname }}
+              key={i}
+              onClick={(e) => {
+                setActive(menu.name);
+              }}
+              className={` sidebar-menu flex items-center text-md gap-2 font-semibold  leading-normal
+                                  hover:bg-orange-600 hover:text-white rounded-md
+                                  ${
+                                    menu?.name === active
+                                      ? "text-orange-600"
+                                      : "black"
+                                  }`}
             >
-              <div style={{ width: "1rem", height: "1rem", marginLeft: "5px" }}>
-                {
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                    className="w-5 h-5"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      d="M9.293 2.293a1 1 0 0 1 1.414 0l7 7A1 1 0 0 1 17 11h-1v6a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1v-3a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v3a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-6H3a1 1 0 0 1-.707-1.707l7-7Z"
-                      clip-rule="evenodd"
-                    />
-                  </svg>
-                }
-              </div>
-              {/* open word */}
-              <h3
-                className={`whitespace-pre font-sans   ${
-                  !open && `opacity-0 translate-x-20 overflow-hidden ` 
-                }`}
-               
-              >
-                {"Home"}
-              </h3>
-              {/* close hovering display */}
-              {/* <h3
-                className={`${
-                  open && "hidden"
-                } absolute left-20 bg-white font-semibold whitespace-pre text-black rounded-md drop-shadow-lg px-0 py-0 w-0 overflow-hidden group-hover:px-2 group-hover:py-1 group-hover:left-14 group-hover:w-fit text-sm`}
-              
-              >
-                {"Home"}
-              </h3> */}
+              <span className="icon ">{menu.icon}</span>
+              <span className="text text-sm  font-semibold  leading-normal ">
+                {menu.name}
+              </span>
             </Link>
-            {menus?.map((menu, i) => (
-              <GateKeeper
-                permissionCheck={(permission) =>
-                  permission.module === menu.module && permission.canRead
-                }
-              >
-             <Link
-                  to={{
-                    pathname: menu?.link,
-                    search:
-                      location?.state?.from === menu?.link
-                        ? location.search
-                        : `?search=&page=1&pageSize=10`,
-                  }}
-                  onMouseEnter={() => setOpen(true)}
-              onMouseLeave={() => setOpen(false)}
-                  state={{ from: location.pathname }}
-                  key={i}
-                  onClick={(e) => {
-                    setActive(menu.name);
-                  }}
-                  className={`group flex items-center text-md gap-3.5 font-semibold p-2 leading-normal
-                                    hover:bg-orange-600 hover:text-white rounded-md
-                                    ${
-                                      menu?.name === active
-                                        ? "text-orange-600"
-                                        : "black"
-                                    }`}
-                >
-                  <div
-                    style={{ width: "1rem", height: "1rem", marginLeft: "5px" }}
-                  >
-                    {menu?.icon}
-                  </div>
-                  <h3
-                    className={`whitespace-pre font-sans  ${
-                      !open && `opacity-0 translate-x-20 overflow-hidden `
-                    }`}
-                  >
-                    {menu?.name}
-                  </h3>
-                   {/* close hover */}
-                  {/* <h4
-                    className={`${
-                      open && "hidden"
-                    } absolute left-20 bg-white font-semibold whitespace-pre text-black rounded-md drop-shadow-lg px-0 py-0 w-0 overflow-hidden group-hover:px-2 group-hover:py-1 group-hover:left-14 group-hover:w-fit text-sm`}
-                  >
-                    {menu?.name}
-                  </h4> */}
-                </Link>
-             
-
-              </GateKeeper>
-            ))}
-          </div>
-          <div
-            className={`absolute inset-x-0 bottom-0 mb-3 bg-white ${
-              open ? "" : "hidden"
-            }`}
-          >
-            <p
-              className={`text-center text-gray-500 text-sm ${
-                open ? "right-0" : ""
-              }`}
-            >
-              Developed by @Infoz IT V0.1
-            </p>
-          </div>
-        </div>
-        <div className={`${open ? "ml-60" : ""} flex-grow`}></div>
-      </main>
-    </div>
+          </GateKeeper>
+        </li>
+      ))}
+    </ul>
+  </div>
   );
 };
 

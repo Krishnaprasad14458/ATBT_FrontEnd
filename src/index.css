@@ -11,17 +11,37 @@
   display: flex;
   position: relative;
 }
-.sidebar{
+ .sidebar{
 
   width: 60px; 
   height: 100vh;
   overflow: hidden;
-  transition: 0.5s;
+  transition: 0.5s ease-in-out;
   background-color: #fff;
   
 }
 .sidebar:hover{
   width: 210px;
+}
+
+.sidebar.expand {
+  width: 190px;
+  min-width: 190px;
+  
+}
+
+.sidebar .close {
+  transition: 0.5 ease-in-out;
+}
+/* .sidebar.expand span {
+  transition: 0.5s ease-in-out;
+} */
+
+.sidebar:not(.expand) .sidebar-logo,
+.sidebar:not(.expand) a.sidebar-link span {
+  /* display: none; */
+  opacity: 0;
+  visibility: hidden;
 }
 .sidebar ul{
   height: 100vh;
@@ -31,6 +51,7 @@
   list-style: none;
   margin-top: 12px;
 }
+
 
 .sidebar ul li .sidebar-menu{
   position: relative;
@@ -57,7 +78,7 @@
 
 
   
-}
+} 
 ::-webkit-scrollbar {
   width: 3px;
 }

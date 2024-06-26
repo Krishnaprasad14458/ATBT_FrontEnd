@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext , useEffect, useState } from 'react';
 import Sidebar from '../../components/sidebar/Sidebar';
 import TopBar from '../../components/topbar/TopBar';
 import { Outlet, useNavigation } from 'react-router-dom';
@@ -30,15 +30,31 @@ const Layout = () => {
   } = useServiceWorker(isOnline, isLoggedIn);
   const navigation = useNavigation();
   console.log(navigation, 'navigation state');
+
+  const [open, setOpen] = useState(false);
+  let screenSize = window.innerWidth;
+  useEffect(() => {
+    if (screenSize < 726) {
+      setOpen(false);
+    }
+  }, []);
+
+ 
   return (
     <div className='app'>
-      <Sidebar />
+      <Sidebar 
+      open= {open}
+      setOpen={setOpen} 
+     />
   <div className='content' style={{ overflow: 'auto' }}>
   <main
         className='  bg-[#f8fafc] '
         
       >
-        <TopBar />
+        <TopBar 
+         open= {open}
+         setOpen={setOpen} 
+         />
         {isOnline ? null : (
           <span
             role='img'
