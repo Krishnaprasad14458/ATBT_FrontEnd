@@ -344,10 +344,10 @@ function Reports() {
 
   return (
     <div className="overflow-x-auto p-3">
-      <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-3 xl:grid-col-3 items-center gap-2 mt-2">
+   
         <h1 className="font-semibold text-lg grid1-item">Reports</h1>
-        <div className="grid1-item text-end flex justify-end filter_pagination divide-x-2 h-7 mt-2"></div>
-      </div>
+    
+      
       {/* table */}
 
       <div className=" mt-5">
@@ -695,6 +695,73 @@ function Reports() {
                 ) : (
                   "No Reports Found"
                 )}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+{/*  table for reports printing */}
+<h1 className=" mt-5"> Reports table for print</h1>
+      <div className=" mt-5">
+        <table className="w-full">
+          <thead>
+            <tr>
+              <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200"
+                style={{ width: "12rem" }}>
+                Date of Board Meeting
+              </th>
+              <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200"
+                style={{ width: "12rem" }}>
+                Initial Decision Taken
+              </th>
+              <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200"
+                style={{ width: "25rem" }}>
+                Person Responsible for implementation
+              </th>
+              <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200"
+                style={{ width: "12rem" }}>
+                Due Date
+              </th>
+              <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200">
+                Meetin Id
+              </th>
+              <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200">
+              Latest Updated Decision
+              </th>
+            </tr>
+          </thead>
+          <tbody className=" divide-gray-200 dark:divide-gray-700">
+            <tr className={`hover:bg-slate-100 dark:hover:bg-gray-700 `}>
+              <td
+                className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium   overflow-hidden`}
+              >
+                03-06-2024
+              </td>
+              <td
+                className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium   overflow-hidden`}
+              >
+              Welcome to the meeting
+              </td>
+              <td
+                className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium   overflow-hidden`}
+              >
+               Bhavitha
+              </td>
+              <td
+                className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium   overflow-hidden`}
+              >
+              05-06-2025
+              </td>
+
+              <td
+                className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium   overflow-hidden`}
+              >
+                09875
+              </td>
+              <td
+                className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium   overflow-hidden`}
+              >
+               In-Progress
               </td>
             </tr>
           </tbody>

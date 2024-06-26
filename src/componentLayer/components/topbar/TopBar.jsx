@@ -11,7 +11,7 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-export default function TopBar() {
+export default function TopBar({open,setOpen}) {
   const { userLogout, authState } = useContext(AuthContext);
   const [logInUserDetails , setLogInUserDetails]= useState()
   console.log(logInUserDetails, "logInUserDetails")
@@ -41,9 +41,41 @@ export default function TopBar() {
   return (
     <div className="topbar w-full">
       <nav className="bg-white shadow-md ">
-        <div className="mx-auto max-w-screen px-2 sm:px-6 lg:px-2">
-          <div className="flex h-16 items-center justify-between">
-            <div className="flex flex-1 items-center justify-between sm:items-stretch sm:justify-start">
+        <div className="mx-auto max-w-screen pe-2 sm:px-6 lg:px-2">
+          <div className={`flex h-16 items-center justify-between gap-3 ${open ? "expand" : "close"}`}>
+          <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth="1.5"
+              stroke="currentColor"
+              className="w-6 h-6 cusrsor-pointer mt-2 text-black"
+              onClick={() => setOpen(!open)}
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M3.75 6.75h16.5M3.75 12h16.5M12 17.25h8.25"
+              />
+            </svg>
+            <div className="flex flex-1 items-center  sm:items-stretch sm:justify-start">
+            <div >
+              {/* <button id="toggle-btn" type="button" onClick={toggleSidebar}>
+                <CiMenuFries className="navbar_icons" />
+              </button> */}
+
+
+
+
+              {/* <button
+                id="toggle-btn"
+                type="button"
+                className="bg_white"
+                onClick={toggleSidebar}
+              >
+                bh
+              </button> */}
+              </div>
               <div className="flex flex-shrink-0 items-center">
                 <Menu as="div" className="relative inline-block text-left">
                   <div>
