@@ -1,9 +1,11 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useLoaderData, useSubmit, useFetcher } from "react-router-dom";
 import atbtApi from "../../../serviceLayer/interceptor";
 import * as XLSX from "xlsx";
 import Select from "react-select";
 import { debounce } from "../../../utils/utils";
+import { useReactToPrint } from "react-to-print";
+
 
 let reportType = [
   { label: "ATBT", value: "To-Do" },
@@ -12,7 +14,7 @@ let reportType = [
 ];
 
 let moduleList = [
-  { label: "User", value: "user" },
+  // { label: "User", value: "user" },
   { label: "Entity", value: "entity" },
   { label: "Team", value: "team" },
 ];
@@ -124,7 +126,7 @@ function Reports() {
     selectedMeetingId: null,
   });
 
-  console.log(report?.selectedReport?.value, "reportreport");
+  console.log(report, "reportreport");
 
   let submit = useSubmit();
 
@@ -163,7 +165,7 @@ function Reports() {
     { label: "Person Responsible for implementation", key: "memberdata" },
     { label: "DueDate", key: "dueDate" },
     { label: "Meeting ID", key: "meetingNumber" },
-    // { label: "Ageing of the Decision as per Latest Board Meeting", key: "meetingId" },
+    { label: "Ageing of the Decision as per Latest Board Meeting", key: "age" },
     { label: "Updated Decision", key: "updatedbyuser" },
     // { label: "Updated Person Responsible", key: "memberdata" },
   ];
@@ -175,7 +177,7 @@ function Reports() {
     { label: "Person Responsible for implementation", key: "memberdata" },
     { label: "DueDate", key: "dueDate" },
     { label: "Meeting ID", key: "meetingNumber" },
-    // { label: "Ageing of the Decision as per Latest Board Meeting", key: "date" },
+    { label: "Ageing of the Decision as per Latest Board Meeting", key: "age" },
     { label: "Updated Decision", key: "updatedbyuser" },
     // { label: "Updated Person Responsible", key: "memberdata" },
   ];
@@ -234,14 +236,14 @@ function Reports() {
   console.log(HeadersATR, "HeadersATR");
 
 
-  const masterPersonResHeaders = ReportData && ReportData.length >0 ? ReportData?.flatMap((data, index) =>
+  const masterPersonResHeaders = ReportData && ReportData.length > 0 ? ReportData?.flatMap((data, index) =>
     [
       {
         label: `Person Responsible for implementation`,
         key: `PersonResponce${index + 1}`,
       },
     ]
-  ) :[];
+  ) : [];
 
 
 
@@ -263,32 +265,35 @@ function Reports() {
 
   // Transform data to match headers
   const transformData = (data) => {
-    return data.map((item, index) => {
+    return data?.map((item, index) => {
       const transformedItem = {
         serialNO: index + 1,
-        date: item.date,
-        decision: item.decision,
-        members: item.members,
-        dueDate: item.dueDate,
-        meetingNumber: item.meetingId,
-        meetingId: item.meetingId,
+        date: item?.date,
+        decision: item?.decision,
+        members: item?.members,
+        dueDate: item?.dueDate,
+        meetingNumber: item?.meetingId,
+        meetingId: item?.meetingId,
+        age: item?.age
       };
 
-      item.comments.forEach((comment, commentIndex) => {
+      item?.comments?.forEach((comment, commentIndex) => {
         console.log(comment, "comments");
         transformedItem[`updatedDecision${commentIndex + 1}`] =
-          comment.upadatedDecision;
+          comment?.upadatedDecision;
         transformedItem[`personResponsible${commentIndex + 1}`] =
-          comment.personResponble;
+          comment?.personResponble;
       });
 
       return transformedItem;
     });
   };
 
-  const masterTransformedData = transformData(reportdata);
-  const atrTransformedData = transformData(reportdata);
-  console.log(masterTransformedData, "transformedReportData");
+  const masterTransformedData = transformData(ReportData);
+  const atrTransformedData = transformData(ReportData);
+
+
+  console.log(masterTransformedData, ReportData, "transformedReportData");
 
   const getMaxColumnWidth = (data, header) => {
     const headerLength = header.label.length;
@@ -342,12 +347,17 @@ function Reports() {
     XLSX.writeFile(workbook, "reports.xlsx");
   };
 
+
+  const componentRef = useRef();
+  const handlePrint = useReactToPrint({
+    content: () => componentRef.current,
+  });
+
+
   return (
     <div className="overflow-x-auto p-3">
-   
-        <h1 className="font-semibold text-lg grid1-item">Reports</h1>
-    
-      
+      <h1 className="font-semibold text-lg grid1-item">Reports</h1>
+
       {/* table */}
 
       <div className=" mt-5">
@@ -623,75 +633,123 @@ function Reports() {
                 {report?.selectedReport?.value == "To-Do" &&
                   ReportData &&
                   ReportData.length > 0 ? (
-                  <button
-                    type="button"
-                    title="xlsx file"
-                    className=" inline-flex items-center gap-x-1 text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
-                    onClick={() => handleDownload(ReportData, headersAtbt)}
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke-width="1.5"
-                      stroke="currentColor"
-                      class="size-6"
+                  <>
+
+                    <button
+                      type="button"
+                      title="xlsx file"
+                      className=" inline-flex items-center gap-x-1 text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
+                      onClick={() => handleDownload(ReportData, headersAtbt)}
                     >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3"
-                      />
-                    </svg>
-                  </button>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke-width="1.5"
+                        stroke="currentColor"
+                        class="size-6"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3"
+                        />
+                      </svg>
+                    </button>
+
+                    <button
+                      type="button"
+                      title="pdf"
+                      className=" inline-flex items-center gap-x-1 text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
+                      onClick={handlePrint}
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
+                        <path fill-rule="evenodd" d="M7.875 1.5C6.839 1.5 6 2.34 6 3.375v2.99c-.426.053-.851.11-1.274.174-1.454.218-2.476 1.483-2.476 2.917v6.294a3 3 0 0 0 3 3h.27l-.155 1.705A1.875 1.875 0 0 0 7.232 22.5h9.536a1.875 1.875 0 0 0 1.867-2.045l-.155-1.705h.27a3 3 0 0 0 3-3V9.456c0-1.434-1.022-2.7-2.476-2.917A48.716 48.716 0 0 0 18 6.366V3.375c0-1.036-.84-1.875-1.875-1.875h-8.25ZM16.5 6.205v-2.83A.375.375 0 0 0 16.125 3h-8.25a.375.375 0 0 0-.375.375v2.83a49.353 49.353 0 0 1 9 0Zm-.217 8.265c.178.018.317.16.333.337l.526 5.784a.375.375 0 0 1-.374.409H7.232a.375.375 0 0 1-.374-.409l.526-5.784a.373.373 0 0 1 .333-.337 41.741 41.741 0 0 1 8.566 0Zm.967-3.97a.75.75 0 0 1 .75-.75h.008a.75.75 0 0 1 .75.75v.008a.75.75 0 0 1-.75.75H18a.75.75 0 0 1-.75-.75V10.5ZM15 9.75a.75.75 0 0 0-.75.75v.008c0 .414.336.75.75.75h.008a.75.75 0 0 0 .75-.75V10.5a.75.75 0 0 0-.75-.75H15Z" clip-rule="evenodd" />
+                      </svg>
+
+                    </button>
+
+
+                  </>
                 ) : report?.selectedReport?.value == "In-Progress" &&
                   ReportData &&
                   ReportData.length > 0 ? (
-                  <button
-                    type="button"
-                    title="xlsx file"
-                    className=" inline-flex items-center gap-x-1 text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
-                    onClick={() => handleDownload(ReportData, headerATR)}
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke-width="1.5"
-                      stroke="currentColor"
-                      class="size-6"
+
+                  <>
+                    <button
+                      type="button"
+                      title="xlsx file"
+                      className=" inline-flex items-center gap-x-1 text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
+                      onClick={() => handleDownload(ReportData, headerATR)}
                     >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3"
-                      />
-                    </svg>
-                  </button>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke-width="1.5"
+                        stroke="currentColor"
+                        class="size-6"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3"
+                        />
+                      </svg>
+                    </button>
+
+                    <button
+                      type="button"
+                      title="pdf"
+                      className=" inline-flex items-center gap-x-1 text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
+                      onClick={handlePrint}
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
+                        <path fill-rule="evenodd" d="M7.875 1.5C6.839 1.5 6 2.34 6 3.375v2.99c-.426.053-.851.11-1.274.174-1.454.218-2.476 1.483-2.476 2.917v6.294a3 3 0 0 0 3 3h.27l-.155 1.705A1.875 1.875 0 0 0 7.232 22.5h9.536a1.875 1.875 0 0 0 1.867-2.045l-.155-1.705h.27a3 3 0 0 0 3-3V9.456c0-1.434-1.022-2.7-2.476-2.917A48.716 48.716 0 0 0 18 6.366V3.375c0-1.036-.84-1.875-1.875-1.875h-8.25ZM16.5 6.205v-2.83A.375.375 0 0 0 16.125 3h-8.25a.375.375 0 0 0-.375.375v2.83a49.353 49.353 0 0 1 9 0Zm-.217 8.265c.178.018.317.16.333.337l.526 5.784a.375.375 0 0 1-.374.409H7.232a.375.375 0 0 1-.374-.409l.526-5.784a.373.373 0 0 1 .333-.337 41.741 41.741 0 0 1 8.566 0Zm.967-3.97a.75.75 0 0 1 .75-.75h.008a.75.75 0 0 1 .75.75v.008a.75.75 0 0 1-.75.75H18a.75.75 0 0 1-.75-.75V10.5ZM15 9.75a.75.75 0 0 0-.75.75v.008c0 .414.336.75.75.75h.008a.75.75 0 0 0 .75-.75V10.5a.75.75 0 0 0-.75-.75H15Z" clip-rule="evenodd" />
+                      </svg>
+
+                    </button>
+                  </>
                 ) : report?.selectedReport?.value == "Master" &&
                   ReportData &&
                   ReportData.length > 0 ? (
-                  <button
-                    type="button"
-                    title="xlsx file"
-                    className=" inline-flex items-center gap-x-1 text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
-                    onClick={() => handleDownload(ReportData, headerMaster)}
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke-width="1.5"
-                      stroke="currentColor"
-                      class="size-6"
+                  <>
+
+
+                    <button
+                      type="button"
+                      title="xlsx file"
+                      className=" inline-flex items-center gap-x-1 text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
+                      onClick={() => handleDownload(ReportData, headerMaster)}
                     >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3"
-                      />
-                    </svg>
-                  </button>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke-width="1.5"
+                        stroke="currentColor"
+                        class="size-6"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3"
+                        />
+                      </svg>
+                    </button>
+                    <button
+                      type="button"
+                      title="pdf"
+                      className=" inline-flex items-center gap-x-1 text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
+                      onClick={handlePrint}
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
+                        <path fill-rule="evenodd" d="M7.875 1.5C6.839 1.5 6 2.34 6 3.375v2.99c-.426.053-.851.11-1.274.174-1.454.218-2.476 1.483-2.476 2.917v6.294a3 3 0 0 0 3 3h.27l-.155 1.705A1.875 1.875 0 0 0 7.232 22.5h9.536a1.875 1.875 0 0 0 1.867-2.045l-.155-1.705h.27a3 3 0 0 0 3-3V9.456c0-1.434-1.022-2.7-2.476-2.917A48.716 48.716 0 0 0 18 6.366V3.375c0-1.036-.84-1.875-1.875-1.875h-8.25ZM16.5 6.205v-2.83A.375.375 0 0 0 16.125 3h-8.25a.375.375 0 0 0-.375.375v2.83a49.353 49.353 0 0 1 9 0Zm-.217 8.265c.178.018.317.16.333.337l.526 5.784a.375.375 0 0 1-.374.409H7.232a.375.375 0 0 1-.374-.409l.526-5.784a.373.373 0 0 1 .333-.337 41.741 41.741 0 0 1 8.566 0Zm.967-3.97a.75.75 0 0 1 .75-.75h.008a.75.75 0 0 1 .75.75v.008a.75.75 0 0 1-.75.75H18a.75.75 0 0 1-.75-.75V10.5ZM15 9.75a.75.75 0 0 0-.75.75v.008c0 .414.336.75.75.75h.008a.75.75 0 0 0 .75-.75V10.5a.75.75 0 0 0-.75-.75H15Z" clip-rule="evenodd" />
+                      </svg>
+
+                    </button>
+
+                  </>
                 ) : (
                   "No Reports Found"
                 )}
@@ -700,72 +758,159 @@ function Reports() {
           </tbody>
         </table>
       </div>
-{/*  table for reports printing */}
-<h1 className=" mt-5"> Reports table for print</h1>
-      <div className=" mt-5">
-        <table className="w-full">
-          <thead>
-            <tr>
-              <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200"
-                style={{ width: "12rem" }}>
-                Date of Board Meeting
-              </th>
-              <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200"
-                style={{ width: "12rem" }}>
-                Initial Decision Taken
-              </th>
-              <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200"
-                style={{ width: "25rem" }}>
-                Person Responsible for implementation
-              </th>
-              <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200"
-                style={{ width: "12rem" }}>
-                Due Date
-              </th>
-              <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200">
-                Meetin Id
-              </th>
-              <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200">
-              Latest Updated Decision
-              </th>
-            </tr>
-          </thead>
-          <tbody className=" divide-gray-200 dark:divide-gray-700">
-            <tr className={`hover:bg-slate-100 dark:hover:bg-gray-700 `}>
-              <td
-                className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium   overflow-hidden`}
-              >
-                03-06-2024
-              </td>
-              <td
-                className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium   overflow-hidden`}
-              >
-              Welcome to the meeting
-              </td>
-              <td
-                className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium   overflow-hidden`}
-              >
-               Bhavitha
-              </td>
-              <td
-                className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium   overflow-hidden`}
-              >
-              05-06-2025
-              </td>
 
-              <td
-                className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium   overflow-hidden`}
-              >
-                09875
-              </td>
-              <td
-                className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium   overflow-hidden`}
-              >
-               In-Progress
-              </td>
-            </tr>
-          </tbody>
-        </table>
+      {/*  table for reports printing */}
+
+      <div style={{ display: "none", "@media print": { display: "block" } }}>
+        <div className=" mt-5" ref={componentRef} >
+          <div className="m-5" >
+            <h1>{ReportData && ReportData[0]?.blongsTo}</h1>
+            <table className="w-full">
+              <thead>
+                <tr>
+                  <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200"
+                    style={{ width: "12rem" }}>
+                    S.NO
+                  </th>
+                  <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200"
+                    style={{ width: "12rem" }}>
+                    Date of Board Meeting
+                  </th>
+                  <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200"
+                    style={{ width: "12rem" }}>
+                    Initial Decision Taken
+                  </th>
+                  <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200"
+                    style={{ width: "25rem" }}>
+                    Person Responsible for implementation
+                  </th>
+                  <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200"
+                    style={{ width: "12rem" }}>
+                    Due Date
+                  </th>
+                  <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200">
+                    Meetin Id
+                  </th>
+
+                  {
+                    (report && (report?.selectedReport.label === "ATR" || report?.selectedReport.label === "ATBT MASTER")) && (
+                      <>
+                        <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200">
+                          Ageing of the Decision as per Latest Board Meeting
+                        </th>
+                        <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200">
+                          Latest Updated Decision
+                        </th>
+                      </>
+                    )
+                  }
+
+                </tr>
+              </thead>
+              <tbody className=" divide-gray-200 dark:divide-gray-700">
+
+                {
+                  ReportData && ReportData?.length > 0 && ReportData?.map((item, index) => {
+                    return (
+                      <tr className={`hover:bg-slate-100 dark:hover:bg-gray-700 `}>
+                        <td
+                          className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium   overflow-hidden`}
+                        >
+                          {index + 1}
+                        </td>
+                        <td
+                          className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium   overflow-hidden`}
+                        >
+                          {item.date}
+                        </td>
+                        <td
+                          className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium   overflow-hidden`}
+                        >
+                          {item.decision}
+                        </td>
+                        <td
+                          className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium   overflow-hidden`}
+                        >
+                          {item.memberdata}
+                        </td>
+                        <td
+                          className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium   overflow-hidden`}
+                        >
+                          {item.dueDate}
+                        </td>
+
+                        <td
+                          className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium   overflow-hidden`}
+                        >
+                          {item.meetingNumber}
+                        </td>
+
+
+                        {
+                          (report && (report?.selectedReport.label === "ATR" || report?.selectedReport.label === "ATBT MASTER")) && (
+                            <>
+                              <td
+                                className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium   overflow-hidden`}
+                              >
+                                {item.age}
+                              </td>
+                              <td
+                                className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium   overflow-hidden`}
+                              >
+                                {item.updatedbyuser}
+                              </td>
+                            </>
+                          )
+                        }
+
+                      </tr>
+                    )
+                  })
+                }
+
+                {/* <tr className={`hover:bg-slate-100 dark:hover:bg-gray-700 `}>
+                <td
+                  className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium   overflow-hidden`}
+                >
+                  1
+                </td>
+                <td
+                  className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium   overflow-hidden`}
+                >
+                  03-06-2024
+                </td>
+                <td
+                  className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium   overflow-hidden`}
+                >
+                  Welcome to the meeting
+                </td>
+                <td
+                  className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium   overflow-hidden`}
+                >
+                  Bhavitha
+                </td>
+                <td
+                  className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium   overflow-hidden`}
+                >
+                  05-06-2025
+                </td>
+  
+                <td
+                  className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium   overflow-hidden`}
+                >
+                  09875
+                </td>
+                <td
+                  className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium   overflow-hidden`}
+                >
+                  In-Progress
+                </td>
+              </tr> */}
+
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
     </div>
   );
