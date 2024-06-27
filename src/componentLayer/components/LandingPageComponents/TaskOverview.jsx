@@ -6,6 +6,8 @@ import Collaborators from "./taskOverviewComponents/Collaborators";
 import TaskOverViewHeader from "./taskOverviewComponents/TaskOverViewHeader";
 import CommentsView from "./taskOverviewComponents/CommentsView";
 import CommentsForm from "./taskOverviewComponents/CommentsForm";
+import ActivityLogs from "./taskOverviewComponents/ActivityLogs";
+import LogsCommentBar from "./taskOverviewComponents/LogsCommentBar";
 const TaskOverview = ({
   setAutoFocussubTaskID,
   isSubTaskInputActiveID,
@@ -61,6 +63,7 @@ const TaskOverview = ({
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
   const [fileName,setFileName] = useState(null)
+  const [ActiveBar,setActiveBar] = useState("Logs")
 
   return (
     <div
@@ -154,7 +157,8 @@ const TaskOverview = ({
             )}
           </div>
           <div className="bg-white">
-            <CommentsView
+            <LogsCommentBar ActiveBar={ActiveBar}  setActiveBar={setActiveBar}/>
+           {ActiveBar === "Comments" && <CommentsView
               setIsCommentEditing={setIsCommentEditing}
               setNewComment={setNewComment}
               messagesEndRef={messagesEndRef}
@@ -163,10 +167,13 @@ const TaskOverview = ({
               }
               fileName={fileName}
               setFileName={setFileName}
-            />
+             
+            />}
+          { ActiveBar === "Logs" && <ActivityLogs   task={task}/>}
           </div>
         </div>
         <hr />
+        {ActiveBar === "Comments" &&
         <CommentsForm
           isCommentEditing={isCommentEditing}
           setIsCommentEditing={setIsCommentEditing}
@@ -179,7 +186,7 @@ const TaskOverview = ({
           setFileName={setFileName}
 
 
-        />
+        />}
         <Collaborators
         handleOverviewTaskChange={
           displayOverviewTask

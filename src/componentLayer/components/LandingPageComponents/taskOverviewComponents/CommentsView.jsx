@@ -68,7 +68,6 @@ const CommentsView = ({
   return (
     <div>
       <div className="bg-[#f8fafc] ">
-        <p className="p-3"> Logs</p>
         <hr />
         {/* {comments?.length > 5 && (
           <p
@@ -179,8 +178,8 @@ const CommentsView = ({
                                   className="w-full truncate text-sm"
                                   title={date ? date : "No Date"}
                                 >
-                                  {" "}
-                                  {date ? date : "No Date"} at{" "}
+                                  
+                                  {date ? date : "No Date"} at &nbsp;
                                   {time ? time : "No Time"}
                                 </span>
                               );
@@ -215,7 +214,7 @@ const CommentsView = ({
                                   stroke-linejoin="round"
                                   d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3"
                                 />
-                              </svg>{" "}
+                              </svg>
                             </button>
                           </div>
                         )}
@@ -291,7 +290,7 @@ const CommentsView = ({
                                     onClick={() => {
                                       handleDeleteComment(comment.id);
                                       setIsCommentEditing(false);
-      
+
                                       setCommentCrudView(null);
                                       setFileName(null);
                                       setNewComment({
