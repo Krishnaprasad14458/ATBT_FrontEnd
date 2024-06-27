@@ -90,7 +90,7 @@ export async function tasksLoader({ request, params }) {
     console.log("updatedTasks", updatedTasks);
     let updatedTask = task?.data[0];
     let updatedSubTask = subTask?.data[0];
-    let taskAge = null; 
+    let taskAge = null;
     let subTaskAge = null;
     if (
       updatedTasks &&
@@ -1031,9 +1031,9 @@ const Tasks = () => {
               {/* <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2 border-l-2 border-gray-200">
                 Decision Updated of Admin
               </th> */}
-              {/* <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2 border-l-2 border-gray-200">
+              <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2 border-l-2 border-gray-200">
                 Actions
-              </th> */}
+              </th>
             </tr>
           </thead>
           <tbody className="">
@@ -1316,9 +1316,9 @@ const Tasks = () => {
                   <td className="border py-1.5 px-2 text-sm text-gray-600">
                     {task?.updatedbyuser}
                   </td>
-                  {/* <td className="border py-1.5 px-2 text-sm text-gray-600">
-                    Updated By Admin
-                  </td> */}
+                  <td className="border py-1.5 px-2 text-sm text-gray-600">
+                   <button>Send Mail</button>
+                  </td>
                   {/* <td className="border py-1.5 px-3 text-sm text-gray-600 cursor-pointer" style={{width :"3rem"}} >
                     <svg
                       onClick={() => handleDeleteTask(task.id)}
