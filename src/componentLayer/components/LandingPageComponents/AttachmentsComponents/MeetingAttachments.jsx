@@ -34,7 +34,7 @@ const MeetingAttachments = ({
               {file && file?.name ? (
                 <p className="w-72 truncate">{file?.name}</p>
               ) : (
-                <p className="pl-1">Choose File to Upload</p>
+                <p className="pl-1 text-sm">Choose File to Upload</p>
               )}
             </label>
             <input
@@ -117,7 +117,7 @@ const MeetingAttachments = ({
                           xmlns="http://www.w3.org/2000/svg"
                           viewBox="0 0 20 20"
                           fill="currentColor"
-                          class="size-4"
+                          class="size-4 cursor-pointer"
                           onClick={() =>
                             handleDownload(attachment?.Attachments)
                           }
@@ -132,7 +132,7 @@ const MeetingAttachments = ({
                         xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 20 20"
                         fill="currentColor"
-                        class="size-4"
+                        class="size-4 cursor-pointer"
                       >
                         <path
                           fill-rule="evenodd"
