@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 
-
 const formatDate = (dateString) => {
   const date = new Date(dateString);
   const day = date.getUTCDate();
@@ -11,8 +10,18 @@ const formatDate = (dateString) => {
   const hours = indianDateTime.getUTCHours();
   const minutes = indianDateTime.getUTCMinutes();
   const monthAbbreviations = [
-    "January", "February", "March", "April", "May", "June",
-    "July", "August", "September", "October", "November", "December"
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
   ];
   const ordinals = ["th", "st", "nd", "rd"];
   const ordinalsText = day % 10 > 3 ? ordinals[0] : ordinals[day % 10];
@@ -25,28 +34,18 @@ const formatDate = (dateString) => {
   return `${formattedDate} at ${time}`;
 };
 
-
-
 const ActivityLogs = ({ task }) => {
   console.log("tasksks", task);
 
-
-
-  
-
-  const [displayAllLogs, setDisplayAllLogs] = useState(true)
+  const [displayAllLogs, setDisplayAllLogs] = useState(true);
   console.log("displayAllLogs", displayAllLogs);
 
   return (
     <div>
-    
-     
       {task &&
         Array.isArray(task.activeLog) &&
         task.activeLog.map((item, index) => (
           <div key={index}>
-              
-             
             {item.changes &&
               item.changes.map((change, changeIndex) => (
                 <div key={changeIndex} className="px-3 py-1">
@@ -56,7 +55,7 @@ const ActivityLogs = ({ task }) => {
                         {change.changedBy} &nbsp;
                       </span>
                       <span className="text-sm text-gray-500">
-                      {formatDate(change.changeDate)}
+                        {formatDate(change.changeDate)}
                       </span>
                       <div>
                         {change.fieldChanged === "decision" && (
@@ -84,13 +83,11 @@ const ActivityLogs = ({ task }) => {
 
                         {change.fieldChanged === "collaborators" && (
                           <p className="text-sm">
-                            
                             {change.oldValue} removed from collaborators
                           </p>
                         )}
                         {change.fieldChanged === "priority" && (
                           <p className="text-sm">
-                            
                             Priority updated from {change.oldValue} to &nbsp;
                             {change.newValue}
                           </p>
@@ -98,7 +95,6 @@ const ActivityLogs = ({ task }) => {
 
                         {change.fieldChanged === "status" && (
                           <p className="text-sm">
-                            
                             Status updated from {change.oldValue} to &nbsp;
                             {change.newValue}
                           </p>
@@ -107,31 +103,26 @@ const ActivityLogs = ({ task }) => {
                     </div>
                   )}
 
-{change.action === "added" && 
-<div>
-<span className="font-semibold block md:inline text-sm">
+                  {change.action === "added" && (
+                    <div>
+                      <span className="font-semibold block md:inline text-sm">
                         {change.changedBy} &nbsp;
                       </span>
                       <span className="text-sm text-gray-500">
-                      {formatDate(change.changeDate)}
+                        {formatDate(change.changeDate)}
                       </span>
 
-                  {change.fieldChanged === "collaborators" &&
-                     (
-                      <p className="text-sm">
-                        {change.newValue} added as a collaborator
-                      </p>
-                    )}
-</div>
-}
-
-
+                      {change.fieldChanged === "collaborators" && (
+                        <p className="text-sm">
+                          {change.newValue} added as a collaborator
+                        </p>
+                      )}
+                    </div>
+                  )}
 
                   {/* <p><strong>Field Changed:</strong> {change.fieldChanged}</p> */}
                 </div>
               ))}
-           
-          
           </div>
         ))}
     </div>
