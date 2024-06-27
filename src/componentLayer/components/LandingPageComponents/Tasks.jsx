@@ -1317,7 +1317,7 @@ const Tasks = () => {
                     {task?.updatedbyuser}
                   </td>
                   <td className="border py-1.5 px-2 text-sm text-gray-600">
-                   <button>Send Mail</button>
+                    <button>Send Mail</button>
                   </td>
                   {/* <td className="border py-1.5 px-3 text-sm text-gray-600 cursor-pointer" style={{width :"3rem"}} >
                     <svg
