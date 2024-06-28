@@ -139,3 +139,15 @@ export const dateFormat = (date)=>{
     day < 10 ? "0" : ""
   }${day}${ordinalsText}, ${year}`;
 }
+// previous date disabale
+export const getCurrentDate = () => {
+  const today = new Date();
+  const year = today.getFullYear();
+  let month = today.getMonth() + 1;
+  let day = today.getDate();
+
+  month = month < 10 ? `0${month}` : month;
+  day = day < 10 ? `0${day}` : day;
+
+  return `${year}-${month}-${day}`;
+};

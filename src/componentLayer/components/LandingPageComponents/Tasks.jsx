@@ -18,7 +18,7 @@ import {
 import Select from "react-select";
 import TaskOverview from "./TaskOverview";
 import atbtApi from "../../../serviceLayer/interceptor";
-import { caseLetter, debounce } from "../../../utils/utils";
+import { caseLetter, debounce, getCurrentDate } from "../../../utils/utils";
 import GateKeeper from "../../../rbac/GateKeeper";
 import { AuthContext } from "../../../contexts/authContext/authContext";
 import TasksFilter from "../tableCustomization/TasksFilter";
@@ -583,16 +583,7 @@ const Tasks = () => {
   const handleNavLinkClick = (link) => {
     setActiveLink(link);
   };
-  // for previous dates defult
-  const getCurrentDate = () => {
-    const today = new Date();
-    const year = today.getFullYear();
-    let month = today.getMonth() + 1;
-    let day = today.getDate();
-    month = month < 10 ? `0${month}` : month;
-    day = day < 10 ? `0${day}` : day;
-    return `${year}-${month}-${day}`;
-  };
+ 
   function handleSearch(event) {
     setQParams({
       ...Qparams,

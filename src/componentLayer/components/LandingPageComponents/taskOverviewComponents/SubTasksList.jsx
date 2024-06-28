@@ -1,6 +1,7 @@
 import React from "react";
 import Select from "react-select";
 import { useFetcher } from "react-router-dom";
+import { getCurrentDate } from "../../../../utils/utils";
 const SubTasksList = ({
   task,
   handleAddSubTask,
@@ -236,6 +237,7 @@ const SubTasksList = ({
                           fontSize: "0.8rem",
                           WebkitAppearance: "none",
                         }}
+                        min={getCurrentDate()}
                         value={task?.dueDate}
                         onChange={(e) => {
                           handleSubmit(task?.id, "dueDate", e.target.value);
