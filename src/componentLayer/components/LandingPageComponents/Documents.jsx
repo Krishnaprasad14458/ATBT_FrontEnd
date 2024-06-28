@@ -143,6 +143,7 @@ const Documents = ({ belongsTo }) => {
                         xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 20 20"
                         fill="currentColor"
+
                         class="size-4 cursor-pointer"
                         onClick={()=> handleDelete(attachment.id)}
                       >
