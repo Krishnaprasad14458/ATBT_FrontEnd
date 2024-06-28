@@ -41,7 +41,8 @@ const TaskAttachments = ({MeetingData,id,
                 >
                   <tr className="hover:bg-slate-100 dark:hover:bg-gray-700">
                     <td className="px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium overflow-hidden">
-                   
+                   {attachment?.decision
+                   }
                     </td>
                     <td className="px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium overflow-hidden">
                       {fileName}
