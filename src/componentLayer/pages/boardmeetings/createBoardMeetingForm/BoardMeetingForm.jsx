@@ -9,6 +9,7 @@ import { useNavigate, useLoaderData, useParams } from "react-router-dom";
 import atbtApi from "../../../../serviceLayer/interceptor";
 import Select from "react-select";
 import { AuthContext } from "../../../../contexts/authContext/authContext";
+import { getCurrentDate } from "../../../../utils/utils";
 // const userData = JSON.parse(localStorage.getItem("data"));
 // const token = userData?.token;
 // const role = userData?.role?.name;
@@ -592,17 +593,7 @@ function BoardMeetingForm() {
 
   // end the time function
   // for previous dates defult
-  const getCurrentDate = () => {
-    const today = new Date();
-    const year = today.getFullYear();
-    let month = today.getMonth() + 1;
-    let day = today.getDate();
-
-    month = month < 10 ? `0${month}` : month;
-    day = day < 10 ? `0${day}` : day;
-
-    return `${year}-${month}-${day}`;
-  };
+ 
 
   return (
     <div className=" p-4 bg-[#f8fafc]">
