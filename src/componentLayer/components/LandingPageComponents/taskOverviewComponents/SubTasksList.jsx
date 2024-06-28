@@ -54,7 +54,7 @@ const SubTasksList = ({
         </button>
       </div>
 
-      <div className="overflow-auto md:overflow-none">
+      <div className="overflow-auto lg:overflow-visible">
         <table className="w-full divide-y divide-gray-200 dark:divide-gray-700 rounded-md ">
           <thead></thead>
           <tbody>
@@ -172,6 +172,7 @@ const SubTasksList = ({
                           option: (provided, state) => ({
                             ...provided,
                             color: state.isFocused ? "#fff" : "#000000",
+                            fontSize: "12px",
                             backgroundColor: state.isFocused
                               ? "#ea580c"
                               : "transparent",
@@ -280,6 +281,7 @@ const SubTasksList = ({
                           option: (provided, state) => ({
                             ...provided,
                             color: state.isFocused ? "#fff" : "#000000",
+                            fontSize:"12px",
                             backgroundColor: state.isFocused
                               ? "#ea580c"
                               : "transparent",

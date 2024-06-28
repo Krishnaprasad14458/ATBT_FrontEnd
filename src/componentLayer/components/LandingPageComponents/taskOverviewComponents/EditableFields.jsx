@@ -79,6 +79,7 @@ const EditableFields = ({
               option: (provided, state) => ({
                 ...provided,
                 color: state.isFocused ? "#fff" : "#000000",
+                fontSize: "12px",
                 backgroundColor: state.isFocused ? "#ea580c" : "transparent",
 
                 "&:hover": {
@@ -162,7 +163,7 @@ const EditableFields = ({
                 ...provided,
                 color: state.isFocused ? "#fff" : "#000000",
                 backgroundColor: state.isFocused ? "#ea580c" : "transparent",
-
+                fontSize: "12px",
                 "&:hover": {
                   color: "#fff",
                   backgroundColor: "#ea580c",

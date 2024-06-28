@@ -1155,6 +1155,7 @@ const Tasks = () => {
                         option: (provided, state) => ({
                           ...provided,
                           color: state.isFocused ? "#fff" : "#000000",
+                          fontSize:"12px",
                           backgroundColor: state.isFocused
                             ? "#ea580c"
                             : "transparent",
