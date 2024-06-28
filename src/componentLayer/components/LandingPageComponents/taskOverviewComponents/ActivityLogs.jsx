@@ -35,13 +35,9 @@ const formatDate = (dateString) => {
 };
 
 const ActivityLogs = ({ task }) => {
-  let logs
-  if(task?.activeLog && task?.activeLog.length>0){
-    logs = task?.activeLog[0]?.changes
-  }
-
-  console.log("tasksks", task);
-
+  let logs =task?.activeLog?.changes
+  
+  console.log("tasksks", logs);
   const [displayAllLogs, setDisplayAllLogs] = useState(true);
   console.log("displayAllLogs", displayAllLogs);
   const [displayAllComments, setDisplayAllComments] = useState(true);
