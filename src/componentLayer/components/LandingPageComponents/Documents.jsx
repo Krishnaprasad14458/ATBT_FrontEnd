@@ -130,6 +130,7 @@ const Documents = ({ belongsTo }) => {
                         viewBox="0 0 20 20"
                         fill="currentColor"
                         class="size-4"
+                        
                       >
                         <path
                           fill-rule="evenodd"
