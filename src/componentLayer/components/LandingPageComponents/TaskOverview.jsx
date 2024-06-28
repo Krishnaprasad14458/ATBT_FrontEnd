@@ -107,8 +107,8 @@ const TaskOverview = ({
         />
         <hr />
         <div
-          className="overflow-y-scroll content  bg-[#f8fafc]"
-          style={{ maxHeight: "calc(100vh - 12rem)" }}
+          className={` overflow-y-scroll content  bg-[#f8fafc] ${ActiveBar === "Comments" ? "max-h-comment" : "max-h-logs"}`}
+          // style={{ maxHeight: "calc(100vh - 12rem)" }}
         >
           <div className="bg-white">
             <div className=" p-3 ">

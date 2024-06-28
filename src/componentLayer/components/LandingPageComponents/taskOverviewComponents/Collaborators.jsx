@@ -44,7 +44,7 @@ const Collaborators = ({ task, handleSubmit }) => {
                     viewBox="0 0 24 24"
                     strokeWidth="1.5"
                     stroke="currentColor"
-                    className="w-6 h-6 text-white hover:bg-black"
+                    className="w-6 h-6 text-white hover:bg-black cursor-pointer"
                     onClick={() => handleRemoveCollaborator(collaborator.id)}
                   >
                     <path

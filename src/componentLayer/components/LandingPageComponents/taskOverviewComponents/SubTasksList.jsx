@@ -53,7 +53,7 @@ const SubTasksList = ({
         </button>
       </div>
 
-      <div className="">
+      <div className="overflow-auto md:overflow-none">
         <table className="w-full divide-y divide-gray-200 dark:divide-gray-700 rounded-md ">
           <thead></thead>
           <tbody>
@@ -141,6 +141,7 @@ const SubTasksList = ({
                     >
                       <Select
                         options={members}
+                        
                         styles={{
                           control: (provided, state) => ({
                             ...provided,

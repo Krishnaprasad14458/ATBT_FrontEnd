@@ -120,6 +120,20 @@ const [activeLink, setActiveLink]= useState('meetingattachments')
     link.click();
     document.body.removeChild(link);
   };
+
+  const handleDelete = async (id) => {
+    try {
+      const response = await atbtApi.delete(`boardmeeting/deleteAttachment/${id}`);
+      console.log("response",response)
+      if (response.status === 200) {
+    fetchAttachment()
+      } else {
+        throw new Error('Failed to delete the attachment.');
+      }
+    } catch (err) {
+      console.log('An error occurred while deleting the attachment.');
+    }
+  };
   return (
     <div>
       <div className="flex overflow-auto mt-3">
@@ -173,11 +187,13 @@ const [activeLink, setActiveLink]= useState('meetingattachments')
         id={id}
         BMid={BMid}
         MeetingData={MeetingData}
+        handleDelete={handleDelete}
       />}
     {  activeLink === "taskattachments" &&  <TaskAttachments 
         MeetingData={MeetingData}   id={id}
         handleDownload={handleDownload}
         BMid={BMid} 
+
     />}
     </div>
   );

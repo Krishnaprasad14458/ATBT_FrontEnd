@@ -75,9 +75,6 @@
   display: flex;
   letter-spacing: 0.03em;
   align-items: center;
-
-
-  
 } 
 ::-webkit-scrollbar {
   width: 3px;
@@ -230,6 +227,17 @@ input::-webkit-inner-spin-button {
   content: ">";
   color: #334155;
 }
+/* this for task overview logs and comments style */
+.max-h-comment{
+  max-height: calc(100vh - 12rem);
+}
+.max-h-logs{
+  max-height: calc(100vh - 6rem);
+}
+
+
+
+
 /*  for date input */
 input[type="date"] {
   position: relative;

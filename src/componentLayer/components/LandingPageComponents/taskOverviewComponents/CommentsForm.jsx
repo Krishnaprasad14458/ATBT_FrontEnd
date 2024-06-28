@@ -142,7 +142,7 @@ let [uploadStatus,setUploadStatus] = useState()
     <div className="px-3 pt-3 ">
       <form>
         <div className="grid grid-cols-11 md:grid-cols-11 lg:grid-cols-11 xl:grid-cols-11 justify-center gap-3">
-          <div className="col-span-10  flex items-end border-2  border-back rounded-md h-15">
+          <div className="col-span-10  flex items-start  border-2  border-back rounded-md h-15">
             <textarea
               value={newComment.message}
               onChange={(e) =>
@@ -152,7 +152,7 @@ let [uploadStatus,setUploadStatus] = useState()
               className={`p-2 text-sm w-full  resize-none   shadow-sm rounded-md  outline-none `}
             />
             <div>
-              {fileName && <span>{fileName}</span>}
+            {fileName && <span className="text-xs w-5 truncate">{fileName}</span>}
               <label htmlFor="fileInput" className="cursor-pointer">
                 {!isCommentEditing && (
                   <svg
@@ -161,7 +161,7 @@ let [uploadStatus,setUploadStatus] = useState()
                     viewBox="0 0 24 24"
                     stroke-width="1.5"
                     stroke="currentColor"
-                    className="w-5 h-5 me-2 mb-2"
+                    className="w-5 h-5 me-2 mt-2 cursor-pointer"
                   >
                     <path
                       strokeLinecap="round"
@@ -182,6 +182,7 @@ let [uploadStatus,setUploadStatus] = useState()
                   setFileName(e.target.files[0].name);
                 }}
               />
+                
             </div>
           </div>
 
@@ -213,7 +214,7 @@ let [uploadStatus,setUploadStatus] = useState()
             </button>
           </div>
         </div>
-        <span className="flex justify-end text-xs"> {uploadStatus}</span>
+        <span className="flex justify-end text-xs h-6"> {uploadStatus}</span>
       </form>
     </div>
   );
