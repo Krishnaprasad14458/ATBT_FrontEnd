@@ -18,7 +18,7 @@ import {
 import Select from "react-select";
 import TaskOverview from "./TaskOverview";
 import atbtApi from "../../../serviceLayer/interceptor";
-import { debounce } from "../../../utils/utils";
+import { caseLetter, debounce } from "../../../utils/utils";
 import GateKeeper from "../../../rbac/GateKeeper";
 import { AuthContext } from "../../../contexts/authContext/authContext";
 import TasksFilter from "../tableCustomization/TasksFilter";
@@ -1047,18 +1047,19 @@ const Tasks = () => {
               return (
                 <tr key={task.id} className="border-b border-gray-200 ">
                   {parentPath === "tasks" && (
-                    <td className="border py-1.5 px-2">
-                      {task?.createdBy.name}
+                    <td className="border py-1 px-2 text-sm">
+                      {caseLetter(task?.createdBy.name)}
+                      
                     </td>
                   )}
                   {parentPath === "tasks" && (
-                    <td className="border py-1.5 px-2">{task?.blongsTo} </td>
+                    <td className="border py-1 px-2 text-sm">{caseLetter(task?.blongsTo)} </td>
                   )}
-                  <td className="border py-1.5 px-2">
+                  <td className="border py-1.5 px-2 ">
                     <div className="flex items-center justify-between">
                       {isInputActiveID === task.id && (
                         <input
-                          className="border border-[#d1d5db] text-black px-1.5 py-1.5 rounded-md  bg-[#f9fafb] focus:outline-none text-sm focus:border-orange-400 "
+                          className="border border-[#d1d5db] text-black px-1.5 py-1 rounded-md  bg-[#f9fafb] focus:outline-none text-sm focus:border-orange-400 "
                           style={{ width: "21rem" }}
                           type="text"
                           placeholder="Type here"
@@ -1128,7 +1129,7 @@ const Tasks = () => {
                     </div>
                   </td>
 
-                  <td className="border py-1.5 px-2">
+                  <td className="border py-1 px-2">
                     <Select
                       options={members}
                       menuPortalTarget={document.body}
@@ -1220,7 +1221,7 @@ const Tasks = () => {
                       // menuIsOpen = {()=> true}
                     />
                   </td>
-                  <td className="border py-1.5 px-2">
+                  <td className="border py-1 px-2">
                     <input
                       className=" border border-transparent text-black px-1.5 py-2 rounded-md  bg-[#f9fafb] focus:outline-none text-sm focus:border-orange-400  date_type"
                       type="date"
@@ -1237,11 +1238,11 @@ const Tasks = () => {
                     />
                   </td>
 
-                  <td className="border py-1.5 px-2 text-sm" title={task?.age}>
+                  <td className="border py-1 px-2 text-sm" title={task?.age}>
                     {task?.age}{" "}
                   </td>
                   <td
-                    className="border py-1.5 px-2 text-sm"
+                    className="border py-1 px-2 text-sm"
                     title={task?.status}
                   >
                     {task?.status}
@@ -1313,10 +1314,10 @@ const Tasks = () => {
                       menuPlacement="auto"
                     /> */}
                   </td>
-                  <td className="border py-1.5 px-2 text-sm text-gray-600">
+                  <td className="border py-1 px-2 text-sm text-gray-600">
                     {task?.updatedbyuser}
                   </td>
-                  <td className="border py-1.5 px-2 text-sm text-gray-600">
+                  <td className="border py-1 px-2 text-sm text-gray-600">
                     <button>Send Mail</button>
                   </td>
                   {/* <td className="border py-1.5 px-3 text-sm text-gray-600 cursor-pointer" style={{width :"3rem"}} >

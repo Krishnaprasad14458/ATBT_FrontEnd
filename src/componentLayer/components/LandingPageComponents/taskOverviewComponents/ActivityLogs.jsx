@@ -1,38 +1,6 @@
 import React, { useEffect, useState } from "react";
+import { dateFormat, formatDateandTime } from "../../../../utils/utils";
 
-const formatDate = (dateString) => {
-  const date = new Date(dateString);
-  const day = date.getUTCDate();
-  const monthIndex = date.getUTCMonth();
-  const year = date.getUTCFullYear();
-  const ISTOffset = 330; // 5 hours 30 minutes in minutes
-  const indianDateTime = new Date(date.getTime() + ISTOffset * 60000);
-  const hours = indianDateTime.getUTCHours();
-  const minutes = indianDateTime.getUTCMinutes();
-  const monthAbbreviations = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
-  ];
-  const ordinals = ["th", "st", "nd", "rd"];
-  const ordinalsText = day % 10 > 3 ? ordinals[0] : ordinals[day % 10];
-
-  const formattedDate = `${monthAbbreviations[monthIndex]} ${day}${ordinalsText}, ${year}`;
-  const amPM = hours >= 12 ? "PM" : "AM";
-  const hour12Format = hours % 12 || 12;
-  const time = `${hour12Format}:${minutes < 10 ? "0" : ""}${minutes} ${amPM}`;
-
-  return `${formattedDate} at ${time}`;
-};
 
 const ActivityLogs = ({ task }) => {
   let logs
@@ -51,7 +19,7 @@ const ActivityLogs = ({ task }) => {
     setDisplayAllComments(logs?.length <= 5);
   }, [task]);
   return (
-    <div>
+    <div className="bg-[#f8fafc] ">
       {logs?.length > 5 && (
         <p
           onClick={() => setDisplayAllComments((prev) => !prev)}
@@ -78,7 +46,7 @@ const ActivityLogs = ({ task }) => {
                       {change.changedBy} &nbsp;
                     </span>
                     <span className="text-sm text-gray-500">
-                      {formatDate(change.changeDate)}
+                      {formatDateandTime(change.changeDate)}
                     </span>
                     <div>
                       {change.fieldChanged === "decision" && (
@@ -99,7 +67,7 @@ const ActivityLogs = ({ task }) => {
 
                       {change.fieldChanged === "dueDate" && (
                         <p className="text-sm">
-                          Due Date updated from {change.oldValue} to &nbsp;
+                          Due Date updated from {dateFormat(change.oldValue)} to &nbsp;
                           {change.newValue}
                         </p>
                       )}
@@ -132,7 +100,7 @@ const ActivityLogs = ({ task }) => {
                       {change.changedBy} &nbsp;
                     </span>
                     <span className="text-sm text-gray-500">
-                      {formatDate(change.changeDate)}
+                      {formatDateandTime(change.changeDate)}
                     </span>
 
                     {change.fieldChanged === "collaborators" && (

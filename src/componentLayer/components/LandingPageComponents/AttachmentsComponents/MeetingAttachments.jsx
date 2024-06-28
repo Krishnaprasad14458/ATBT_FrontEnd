@@ -12,8 +12,11 @@ const MeetingAttachments = ({
   meetingnumberName,
   id,
   BMid,
+  handleDelete,
   MeetingData,
 }) => {
+
+  
   return (
     <div className=" overflow-y-auto">
       {belongsTo === "boardMeeting" && (
@@ -54,7 +57,7 @@ const MeetingAttachments = ({
                 viewBox="0 0 24 24"
                 strokeWidth="1.5"
                 stroke="currentColor"
-                className="size-6"
+                className="size-6 cursor-pointer"
               >
                 <path
                   strokeLinecap="round"
@@ -133,6 +136,7 @@ const MeetingAttachments = ({
                         viewBox="0 0 20 20"
                         fill="currentColor"
                         class="size-4 cursor-pointer"
+                        onClick={()=> handleDelete(attachment.id)}
                       >
                         <path
                           fill-rule="evenodd"

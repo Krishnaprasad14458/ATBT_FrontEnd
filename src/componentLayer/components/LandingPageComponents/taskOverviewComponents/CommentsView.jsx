@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useRef } from "react";
 import { useState } from "react";
 import { useFetcher } from "react-router-dom";
 import { AuthContext } from "../../../../contexts/authContext/authContext";
+import { formatDateandTime } from "../../../../utils/utils";
 
 const CommentsView = ({
   comments,
@@ -102,7 +103,7 @@ const CommentsView = ({
             if (comment?.file) {
               fileName = getFileName(comment?.file);
             }
-
+let createdAt = formatDateandTime(comment.createdAt)
             return (
               <React.Fragment key={comment.id}>
                 {displayAllComments || index >= comments.length - 5 ? (
@@ -121,69 +122,9 @@ const CommentsView = ({
                         </span>
                         <span className="text-sm text-gray-500">
                           {comment.createdAt &&
-                            (() => {
-                              let date = new Date(comment.createdAt);
-                              const day = date.getUTCDate();
-                              const monthIndex = date.getUTCMonth();
-                              const year = date.getUTCFullYear();
-                              const ISTOffset = 330; // 5 hours 30 minutes in minutes
-                              const indianDateTime = new Date(
-                                date.getTime() + ISTOffset * 60000
-                              );
-
-                              const hours = indianDateTime.getUTCHours();
-                              const minutes = indianDateTime.getUTCMinutes();
-                              const seconds = indianDateTime.getUTCSeconds();
-                              const monthAbbreviations = [
-                                "January",
-                                "February",
-                                "March",
-                                "April",
-                                "May",
-                                "June",
-                                "July",
-                                "August",
-                                "September",
-                                "October",
-                                "November",
-                                "December",
-                              ];
-
-                              let ordinalsText = "";
-                              if (day == 1 || day == 21 || day == 31) {
-                                ordinalsText = "st";
-                              } else if (day == 2 || day == 22) {
-                                ordinalsText = "nd";
-                              } else if (day == 3 || day == 23) {
-                                ordinalsText = "rd";
-                              } else {
-                                ordinalsText = "th";
-                              }
-                              // Formatting the date
-                              date = ` ${monthAbbreviations[monthIndex]} ${
-                                day < 10 ? "0" : ""
-                              }${day}${ordinalsText}, ${year}`;
-
-                              const amPM = hours >= 12 ? "PM" : "AM";
-                              const hour12Format = hours % 12 || 12; // Convert midnight (0) to 12
-                              const time = `${hour12Format}:${
-                                minutes < 10 ? "0" : ""
-                              }${minutes} ${amPM}`;
-                              // const time = `${hour12Format}:${
-                              //   minutes < 10 ? "0" : ""
-                              // }${minutes}:${seconds < 10 ? "0" : ""}${seconds} ${amPM}`;
-
-                              return (
-                                <span
-                                  className="w-full truncate text-sm"
-                                  title={date ? date : "No Date"}
-                                >
-                                  
-                                  {date ? date : "No Date"} at &nbsp;
-                                  {time ? time : "No Time"}
-                                </span>
-                              );
-                            })()}
+createdAt
+                         
+                            }
                         </span>
                       </div>
                       <p className="text-sm">{comment.message}</p>

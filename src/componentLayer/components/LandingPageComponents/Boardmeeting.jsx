@@ -11,7 +11,7 @@ import atbtApi from "../../../serviceLayer/interceptor";
 import CustomColumn from "../../../componentLayer/components/tableCustomization/CustomColumn";
 import CustomFilter from "../../../componentLayer/components/tableCustomization/CustomFilter";
 import GateKeeper from "../../../rbac/GateKeeper";
-import { debounce } from "../../../utils/utils";
+import { dateFormat, debounce } from "../../../utils/utils";
 import Swal from "sweetalert2";
 let url;
 let moduleName;
@@ -302,39 +302,7 @@ function Boardmeeting() {
                         value = row[key].join(", ");
                       }
                       if (tableView[key].type === "date" && row[key]) {
-                        value = new Date(row[key]);
-                        const day = value.getUTCDate();
-                        const monthIndex = value.getUTCMonth();
-                        const year = value.getUTCFullYear();
-
-                        const monthAbbreviations = [
-                          "January",
-                          "February",
-                          "March",
-                          "April",
-                          "May",
-                          "June",
-                          "July",
-                          "August",
-                          "September",
-                          "October",
-                          "November",
-                          "December",
-                        ];
-                        let ordinalsText = "";
-                        if (day == 1 || day == 21 || day == 31) {
-                          ordinalsText = "st";
-                        } else if (day == 2 || day == 22) {
-                          ordinalsText = "nd";
-                        } else if (day == 3 || day == 23) {
-                          ordinalsText = "rd";
-                        } else {
-                          ordinalsText = "th";
-                        }
-                        // Formatting the date
-                        value = `${monthAbbreviations[monthIndex]} ${
-                          day < 10 ? "0" : ""
-                        }${day}${ordinalsText}, ${year}`;
+                        value = dateFormat(row[key])
                       }
                       if (key === "meetingnumber") {
                         return (
