@@ -103,7 +103,7 @@ const CommentsView = ({
             if (comment?.file) {
               fileName = getFileName(comment?.file);
             }
-let createdAt = formatDateandTime(comment.createdAt)
+            let createdAt = formatDateandTime(comment.createdAt);
             return (
               <React.Fragment key={comment.id}>
                 {displayAllComments || index >= comments.length - 5 ? (
@@ -121,15 +121,12 @@ let createdAt = formatDateandTime(comment.createdAt)
                           {comment.senderName} &nbsp;
                         </span>
                         <span className="text-sm text-gray-500">
-                          {comment.createdAt &&
-createdAt
-                         
-                            }
+                          {comment.createdAt && createdAt}
                         </span>
                       </div>
                       <p className="text-sm">{comment.message}</p>
                       {comment && comment.file && (
-                        <p className="text-xs mt-3 text-gray-400">
+                        <p className="text-xs mt-1 text-gray-400">
                           Attachment :
                           <span className="text-xs">{fileName}</span>
                         </p>

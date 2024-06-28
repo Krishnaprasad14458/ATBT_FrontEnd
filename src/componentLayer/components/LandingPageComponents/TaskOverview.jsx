@@ -111,7 +111,7 @@ const TaskOverview = ({
           // style={{ maxHeight: "calc(100vh - 12rem)" }}
         >
           <div className="bg-white">
-            <div className=" p-3 ">
+            <div className=" px-3 pt-3 ">
               <NonEditableFields
                 task={task}
                 age={displayOverviewTask ? task?.age : subTask?.age}
