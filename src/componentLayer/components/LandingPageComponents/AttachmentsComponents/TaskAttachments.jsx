@@ -1,7 +1,6 @@
 import React from "react";
 
-const TaskAttachments = ({MeetingData,id,
-  BMid,handleDownload}) => {
+const TaskAttachments = ({MeetingData,id,BMid,handleDownload}) => {
   return (
     <div className="mt-4">
       <table className="w-full divide-y divide-gray-200 dark:divide-gray-700 rounded-md">
@@ -10,8 +9,6 @@ const TaskAttachments = ({MeetingData,id,
             <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200">
               Initial Decision Taken
             </th>
-
-            
              <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200">
               Attachment
             </th> 
