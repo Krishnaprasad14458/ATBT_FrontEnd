@@ -18,7 +18,7 @@ import {
 import Select from "react-select";
 import TaskOverview from "./TaskOverview";
 import atbtApi from "../../../serviceLayer/interceptor";
-import { debounce } from "../../../utils/utils";
+import { caseLetter, debounce, getCurrentDate } from "../../../utils/utils";
 import GateKeeper from "../../../rbac/GateKeeper";
 import { AuthContext } from "../../../contexts/authContext/authContext";
 import TasksFilter from "../tableCustomization/TasksFilter";
@@ -379,7 +379,6 @@ const Tasks = () => {
   console.log(matches[0].params.statusType, "matches matches");
   const data = useLoaderData();
   const navigation = useNavigation();
-
   let [tasks, setTasks] = useState([]);
   let [task, setTask] = useState({});
   let [subTasks, setSubTasks] = useState();
@@ -583,16 +582,7 @@ const Tasks = () => {
   const handleNavLinkClick = (link) => {
     setActiveLink(link);
   };
-  // for previous dates defult
-  const getCurrentDate = () => {
-    const today = new Date();
-    const year = today.getFullYear();
-    let month = today.getMonth() + 1;
-    let day = today.getDate();
-    month = month < 10 ? `0${month}` : month;
-    day = day < 10 ? `0${day}` : day;
-    return `${year}-${month}-${day}`;
-  };
+ 
   function handleSearch(event) {
     setQParams({
       ...Qparams,
@@ -605,6 +595,20 @@ const Tasks = () => {
   };
   const queryString = createQueryString(Qparams);
   console.log(queryString, "queryString");
+
+  const handleSendMail = async (id) => {
+    try {
+      const response = await atbtApi.post(`sendbyemail/${id}`);
+      console.log("response", response);
+      if (response.status === 200) {
+      } else {
+        throw new Error("Failed to delete the attachment.");
+      }
+    } catch (err) {
+      console.log("An error occurred while deleting the attachment.");
+    }
+  };
+
   return (
     <div className={` ${parentPath === "tasks" ? "p-3" : ""}`}>
       <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-col-4 items-center gap-2 mt-2">
@@ -988,9 +992,16 @@ const Tasks = () => {
         <table className="w-full divide-y divide-gray-200 dark:divide-gray-700 rounded-md table ">
           <thead>
             <tr>
-              <th className="sticky top-0  bg-orange-600 text-white text-sm text-left px-2 py-2 border-l-2 border-gray-200">
-                Entity Name
-              </th>
+              {parentPath === "tasks" && (
+                <th className="sticky top-0  bg-orange-600 text-white text-sm text-left px-2 py-2 border-l-2 border-gray-200">
+                  Module
+                </th>
+              )}
+              {parentPath === "tasks" && (
+                <th className="sticky top-0  bg-orange-600 text-white text-sm text-left px-2 py-2 border-l-2 border-gray-200">
+                  Name
+                </th>
+              )}
               <th
                 className="sticky top-0  bg-orange-600 text-white text-sm text-left px-2 py-2 border-l-2 border-gray-200"
                 style={{ width: "20rem" }}
@@ -1024,9 +1035,9 @@ const Tasks = () => {
               {/* <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2 border-l-2 border-gray-200">
                 Decision Updated of Admin
               </th> */}
-              {/* <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2 border-l-2 border-gray-200">
+              <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2 border-l-2 border-gray-200">
                 Actions
-              </th> */}
+              </th>
             </tr>
           </thead>
           <tbody className="">
@@ -1039,12 +1050,21 @@ const Tasks = () => {
               }));
               return (
                 <tr key={task.id} className="border-b border-gray-200 ">
-                  <td className="border py-1.5 px-2"> </td>
-                  <td className="border py-1.5 px-2">
+                  {parentPath === "tasks" && (
+                    <td className="border py-1 px-2 text-sm">
+                      {caseLetter(task?.createdBy.name)}
+                    </td>
+                  )}
+                  {parentPath === "tasks" && (
+                    <td className="border py-1 px-2 text-sm">
+                      {caseLetter(task?.blongsTo)}{" "}
+                    </td>
+                  )}
+                  <td className="border py-1.5 px-2 ">
                     <div className="flex items-center justify-between">
                       {isInputActiveID === task.id && (
                         <input
-                          className="border border-[#d1d5db] text-black px-1.5 py-1.5 rounded-md  bg-[#f9fafb] focus:outline-none text-sm focus:border-orange-400 "
+                          className="border border-[#d1d5db] text-black px-1.5 py-1 rounded-md  bg-[#f9fafb] focus:outline-none text-sm focus:border-orange-400 "
                           style={{ width: "21rem" }}
                           type="text"
                           placeholder="Type here"
@@ -1114,7 +1134,7 @@ const Tasks = () => {
                     </div>
                   </td>
 
-                  <td className="border py-1.5 px-2">
+                  <td className="border py-1 px-2">
                     <Select
                       options={members}
                       menuPortalTarget={document.body}
@@ -1149,6 +1169,7 @@ const Tasks = () => {
                         option: (provided, state) => ({
                           ...provided,
                           color: state.isFocused ? "#fff" : "#000000",
+                          fontSize:"12px",
                           backgroundColor: state.isFocused
                             ? "#ea580c"
                             : "transparent",
@@ -1206,7 +1227,7 @@ const Tasks = () => {
                       // menuIsOpen = {()=> true}
                     />
                   </td>
-                  <td className="border py-1.5 px-2">
+                  <td className="border py-1 px-2">
                     <input
                       className=" border border-transparent text-black px-1.5 py-2 rounded-md  bg-[#f9fafb] focus:outline-none text-sm focus:border-orange-400  date_type"
                       type="date"
@@ -1223,10 +1244,11 @@ const Tasks = () => {
                     />
                   </td>
 
-                  <td className="border py-1.5 px-2 text-sm" title={task?.age}>{task?.age} </td>
-                  <td className="border py-1.5 px-2 text-sm" title={task?.status}>
-               {task?.status}
-
+                  <td className="border py-1 px-2 text-sm" title={task?.age}>
+                    {task?.age}{" "}
+                  </td>
+                  <td className="border py-1 px-2 text-sm" title={task?.status}>
+                    {task?.status}
 
                     {/* <Select
                       options={status}
@@ -1295,12 +1317,12 @@ const Tasks = () => {
                       menuPlacement="auto"
                     /> */}
                   </td>
-                  <td className="border py-1.5 px-2 text-sm text-gray-600">
+                  <td className="border py-1 px-2 text-sm text-gray-600">
                     {task?.updatedbyuser}
                   </td>
-                  {/* <td className="border py-1.5 px-2 text-sm text-gray-600">
-                    Updated By Admin
-                  </td> */}
+                  <td className="border py-1 px-2 text-sm text-gray-600">
+                    <button onClick={()=>handleSendMail(task?.id)}>Send Mail</button>
+                  </td>
                   {/* <td className="border py-1.5 px-3 text-sm text-gray-600 cursor-pointer" style={{width :"3rem"}} >
                     <svg
                       onClick={() => handleDeleteTask(task.id)}

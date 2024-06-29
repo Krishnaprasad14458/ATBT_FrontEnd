@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useRef } from "react";
 import { useState } from "react";
 import { useFetcher } from "react-router-dom";
 import { AuthContext } from "../../../../contexts/authContext/authContext";
+import { formatDateandTime } from "../../../../utils/utils";
 
 const CommentsView = ({
   comments,
@@ -68,7 +69,6 @@ const CommentsView = ({
   return (
     <div>
       <div className="bg-[#f8fafc] ">
-        <p className="p-3"> Logs</p>
         <hr />
         {/* {comments?.length > 5 && (
           <p
@@ -103,7 +103,7 @@ const CommentsView = ({
             if (comment?.file) {
               fileName = getFileName(comment?.file);
             }
-
+            let createdAt = formatDateandTime(comment.createdAt);
             return (
               <React.Fragment key={comment.id}>
                 {displayAllComments || index >= comments.length - 5 ? (
@@ -121,75 +121,12 @@ const CommentsView = ({
                           {comment.senderName} &nbsp;
                         </span>
                         <span className="text-sm text-gray-500">
-                          {comment.createdAt &&
-                            (() => {
-                              let date = new Date(comment.createdAt);
-                              const day = date.getUTCDate();
-                              const monthIndex = date.getUTCMonth();
-                              const year = date.getUTCFullYear();
-                              const ISTOffset = 330; // 5 hours 30 minutes in minutes
-                              const indianDateTime = new Date(
-                                date.getTime() + ISTOffset * 60000
-                              );
-
-                              const hours = indianDateTime.getUTCHours();
-                              const minutes = indianDateTime.getUTCMinutes();
-                              const seconds = indianDateTime.getUTCSeconds();
-                              const monthAbbreviations = [
-                                "January",
-                                "February",
-                                "March",
-                                "April",
-                                "May",
-                                "June",
-                                "July",
-                                "August",
-                                "September",
-                                "October",
-                                "November",
-                                "December",
-                              ];
-
-                              let ordinalsText = "";
-                              if (day == 1 || day == 21 || day == 31) {
-                                ordinalsText = "st";
-                              } else if (day == 2 || day == 22) {
-                                ordinalsText = "nd";
-                              } else if (day == 3 || day == 23) {
-                                ordinalsText = "rd";
-                              } else {
-                                ordinalsText = "th";
-                              }
-                              // Formatting the date
-                              date = ` ${monthAbbreviations[monthIndex]} ${
-                                day < 10 ? "0" : ""
-                              }${day}${ordinalsText}, ${year}`;
-
-                              const amPM = hours >= 12 ? "PM" : "AM";
-                              const hour12Format = hours % 12 || 12; // Convert midnight (0) to 12
-                              const time = `${hour12Format}:${
-                                minutes < 10 ? "0" : ""
-                              }${minutes} ${amPM}`;
-                              // const time = `${hour12Format}:${
-                              //   minutes < 10 ? "0" : ""
-                              // }${minutes}:${seconds < 10 ? "0" : ""}${seconds} ${amPM}`;
-
-                              return (
-                                <span
-                                  className="w-full truncate text-sm"
-                                  title={date ? date : "No Date"}
-                                >
-                                  {" "}
-                                  {date ? date : "No Date"} at{" "}
-                                  {time ? time : "No Time"}
-                                </span>
-                              );
-                            })()}
+                          {comment.createdAt && createdAt}
                         </span>
                       </div>
                       <p className="text-sm">{comment.message}</p>
                       {comment && comment.file && (
-                        <p className="text-xs mt-3 text-gray-400">
+                        <p className="text-xs mt-1 text-gray-400">
                           Attachment :
                           <span className="text-xs">{fileName}</span>
                         </p>
@@ -215,7 +152,7 @@ const CommentsView = ({
                                   stroke-linejoin="round"
                                   d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3"
                                 />
-                              </svg>{" "}
+                              </svg>
                             </button>
                           </div>
                         )}
@@ -291,7 +228,7 @@ const CommentsView = ({
                                     onClick={() => {
                                       handleDeleteComment(comment.id);
                                       setIsCommentEditing(false);
-      
+
                                       setCommentCrudView(null);
                                       setFileName(null);
                                       setNewComment({

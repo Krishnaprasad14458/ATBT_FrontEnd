@@ -1,6 +1,7 @@
 import React from "react";
 import Select from "react-select";
 import { useFetcher } from "react-router-dom";
+import { getCurrentDate } from "../../../../utils/utils";
 const SubTasksList = ({
   task,
   handleAddSubTask,
@@ -53,7 +54,7 @@ const SubTasksList = ({
         </button>
       </div>
 
-      <div className="">
+      <div className="overflow-auto lg:overflow-visible">
         <table className="w-full divide-y divide-gray-200 dark:divide-gray-700 rounded-md ">
           <thead></thead>
           <tbody>
@@ -141,6 +142,7 @@ const SubTasksList = ({
                     >
                       <Select
                         options={members}
+                        
                         styles={{
                           control: (provided, state) => ({
                             ...provided,
@@ -170,6 +172,7 @@ const SubTasksList = ({
                           option: (provided, state) => ({
                             ...provided,
                             color: state.isFocused ? "#fff" : "#000000",
+                            fontSize: "12px",
                             backgroundColor: state.isFocused
                               ? "#ea580c"
                               : "transparent",
@@ -235,6 +238,7 @@ const SubTasksList = ({
                           fontSize: "0.8rem",
                           WebkitAppearance: "none",
                         }}
+                        min={getCurrentDate()}
                         value={task?.dueDate}
                         onChange={(e) => {
                           handleSubmit(task?.id, "dueDate", e.target.value);
@@ -277,6 +281,7 @@ const SubTasksList = ({
                           option: (provided, state) => ({
                             ...provided,
                             color: state.isFocused ? "#fff" : "#000000",
+                            fontSize:"12px",
                             backgroundColor: state.isFocused
                               ? "#ea580c"
                               : "transparent",

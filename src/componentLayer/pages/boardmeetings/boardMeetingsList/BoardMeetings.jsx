@@ -8,7 +8,7 @@ import {
   useSubmit,
 } from "react-router-dom";
 import Swal from "sweetalert2";
-import { debounce } from "../../../../utils/utils";
+import { dateFormat, debounce } from "../../../../utils/utils";
 import GateKeeper from "../../../../rbac/GateKeeper";
 import CustomColumn from "../../../components/tableCustomization/CustomColumn";
 import CustomFilter from "../../../components/tableCustomization/CustomFilter";
@@ -340,6 +340,7 @@ function BoardMeetings() {
                   option: (provided, state) => ({
                     ...provided,
                     color: state.isFocused ? "#fff" : "#000000",
+                    fontSize: "12px",
                     backgroundColor: state.isFocused
                       ? "#ea580c"
                       : "transparent",
@@ -349,7 +350,7 @@ function BoardMeetings() {
                       backgroundColor: "#ea580c",
                     },
                   }),
-                  fontSize: "14px",
+                 
                 }}
                 theme={(theme) => ({
                   ...theme,
@@ -403,6 +404,7 @@ function BoardMeetings() {
                   option: (provided, state) => ({
                     ...provided,
                     color: state.isFocused ? "#fff" : "#000000",
+                    fontSize:"12px",
                     backgroundColor: state.isFocused
                       ? "#ea580c"
                       : "transparent",
@@ -412,7 +414,7 @@ function BoardMeetings() {
                       backgroundColor: "#ea580c",
                     },
                   }),
-                  fontSize: "14px",
+                  
                 }}
                 theme={(theme) => ({
                   ...theme,
@@ -541,41 +543,8 @@ function BoardMeetings() {
                         value = row[key].join(", ");
                       }
                       if (tableView[key].type === "date" && row[key]) {
-                        value = new Date(row[key]);
-                        const day = value.getUTCDate();
-                        const monthIndex = value.getUTCMonth();
-                        const year = value.getUTCFullYear();
 
-                        const monthAbbreviations = [
-                          "January",
-                          "February",
-                          "March",
-                          "April",
-                          "May",
-                          "June",
-                          "July",
-                          "August",
-                          "September",
-                          "October",
-                          "November",
-                          "December",
-                        ];
-
-                        let ordinalsText = "";
-                        if (day == 1 || day == 21 || day == 31) {
-                          ordinalsText = "st";
-                        } else if (day == 2 || day == 22) {
-                          ordinalsText = "nd";
-                        } else if (day == 3 || day == 23) {
-                          ordinalsText = "rd";
-                        } else {
-                          ordinalsText = "th";
-                        }
-
-                        // Formatting the date
-                        value = ` ${monthAbbreviations[monthIndex]} ${
-                          day < 10 ? "0" : ""
-                        }${day}${ordinalsText}, ${year}`;
+                        value = dateFormat(row[key])
                       }
                       if (key === "meetingnumber") {
                         return (
@@ -611,7 +580,7 @@ function BoardMeetings() {
                       }
                     })}
                     <td
-                      className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden hover:text-orange-500`}
+                      className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden `}
                       title=""
                     >
                       <p className="truncate text-xs">
@@ -670,7 +639,7 @@ function BoardMeetings() {
                             type="button"
                             className=" inline-flex items-center gap-x-1 text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
                           >
-                            <Link to={`${row.id}`}>
+                            <Link to={`${row.id}`} title="view">
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 viewBox="0 0 20 20"

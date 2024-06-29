@@ -1,5 +1,6 @@
 import React from "react";
 import Select from "react-select";
+import { getCurrentDate } from "../../../../utils/utils";
 const EditableFields = ({
   task,
   handleOverviewTaskChange,
@@ -78,6 +79,7 @@ const EditableFields = ({
               option: (provided, state) => ({
                 ...provided,
                 color: state.isFocused ? "#fff" : "#000000",
+                fontSize: "12px",
                 backgroundColor: state.isFocused ? "#ea580c" : "transparent",
 
                 "&:hover": {
@@ -124,6 +126,7 @@ const EditableFields = ({
           <input
             className={`border border-[#d1d5db] text-black px-1.5 py-2 rounded-md  bg-white-50 focus:outline-none text-sm focus:border-orange-400 w-full date_type`}
             type="date"
+            min={getCurrentDate()}
             value={task?.dueDate ? task.dueDate : ""}
             onChange={(e) => {
               handleSubmit(task?.id, "dueDate", e.target.value);
@@ -160,7 +163,7 @@ const EditableFields = ({
                 ...provided,
                 color: state.isFocused ? "#fff" : "#000000",
                 backgroundColor: state.isFocused ? "#ea580c" : "transparent",
-
+                fontSize: "12px",
                 "&:hover": {
                   color: "#fff",
                   backgroundColor: "#ea580c",

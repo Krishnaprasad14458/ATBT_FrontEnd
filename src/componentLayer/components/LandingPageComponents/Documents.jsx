@@ -62,6 +62,20 @@ const Documents = ({ belongsTo }) => {
     document.body.removeChild(link);
   };
 
+  const handleDelete = async (id) => {
+    try {
+      const response = await atbtApi.delete(`boardmeeting/deleteAttachment/${id}`);
+      console.log("response",response)
+      if (response.status === 200) {
+    fetchAttachment()
+      } else {
+        throw new Error('Failed to delete the attachment.');
+      }
+    } catch (err) {
+      console.log('An error occurred while deleting the attachment.');
+    }
+  };
+
   return (
     <div className="mt-4 overflow-y-auto">
       {meetingnumberName && (
@@ -114,7 +128,7 @@ const Documents = ({ belongsTo }) => {
                           xmlns="http://www.w3.org/2000/svg"
                           viewBox="0 0 20 20"
                           fill="currentColor"
-                          class="size-4"
+                          class="size-4 cursor-pointer"
                           onClick={() =>
                             handleDownload(attachment?.Attachments)
                           }
@@ -129,7 +143,9 @@ const Documents = ({ belongsTo }) => {
                         xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 20 20"
                         fill="currentColor"
-                        class="size-4"
+
+                        class="size-4 cursor-pointer"
+                        onClick={()=> handleDelete(attachment.id)}
                       >
                         <path
                           fill-rule="evenodd"

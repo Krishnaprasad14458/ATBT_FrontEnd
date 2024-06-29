@@ -12,14 +12,16 @@ const MeetingWiseDocuments = ({ belongsTo }) => {
   const [progress, setProgress] = useState({ started: false, pc: 0 });
   const [msg, setMsg] = useState(null);
   const [msgColor, setMsgColor] = useState("");
-  console.log("file", file?.name);
+const [activeLink, setActiveLink]= useState('meetingattachments')
+
+  console.log("MeetingData", MeetingData);
   // Function to fetch attachments
 
   const [meetingnumberName, setMeetingnumberName] = useState("");
   const fetchAttachment = async () => {
     const BM_Form_Data = await atbtApi.get(`form/list?name=boardmeetingform`);
     setMeetingnumberName(BM_Form_Data?.data?.Tableview.meetingnumber?.label);
-    if (belongsTo === "boardMeeting") {
+    if (belongsTo === "boardMeeting" && activeLink === "meetingattachments") {
       try {
         const response = await atbtApi.get(
           `boardmeeting/getAttachment?MeetingId=${BMid}`
@@ -29,7 +31,17 @@ const MeetingWiseDocuments = ({ belongsTo }) => {
       } catch (error) {
         console.error("Error fetching attachment:", error);
       }
-    } else if (belongsTo === "entity") {
+    } else if (belongsTo === "boardMeeting" && activeLink === "taskattachments") {
+      try {
+        const response = await atbtApi.get(
+          `boardmeeting/getAttachment?AllTaskbyMeeting=${BMid}`
+        );
+        setMeetingData(response.data);
+        console.log(response.data, "response");
+      } catch (error) {
+        console.error("Error fetching attachment:", error);
+      }
+    }else if (belongsTo === "entity" && activeLink === "meetingattachments") {
       try {
         const response = await atbtApi.get(
           `boardmeeting/getAttachment?EntityId=${id}`
@@ -39,7 +51,7 @@ const MeetingWiseDocuments = ({ belongsTo }) => {
       } catch (error) {
         console.error("Error fetching attachment:", error);
       }
-    } else if (belongsTo === "team") {
+    } else if (belongsTo === "team" && activeLink === "meetingattachments") {
       try {
         const response = await atbtApi.get(
           `boardmeeting/getAttachment?TeamId=${id}`
@@ -54,7 +66,7 @@ const MeetingWiseDocuments = ({ belongsTo }) => {
 
   useEffect(() => {
     fetchAttachment();
-  }, [BMid]);
+  }, [BMid,activeLink]);
   function emptyMsg() {
     setMsg("");
   }
@@ -108,14 +120,31 @@ const MeetingWiseDocuments = ({ belongsTo }) => {
     link.click();
     document.body.removeChild(link);
   };
-const [activeLink, setActiveLink]= useState('meetingattachments')
+
+  const handleDelete = async (id) => {
+    try {
+      const response = await atbtApi.delete(`boardmeeting/deleteAttachment/${id}`);
+      console.log("response",response)
+      if (response.status === 200) {
+    fetchAttachment()
+      } else {
+        throw new Error('Failed to delete the attachment.');
+      }
+    } catch (err) {
+      console.log('An error occurred while deleting the attachment.');
+    }
+  };
   return (
     <div>
       <div className="flex overflow-auto mt-3">
         <NavLink
           // to={``}
           end
-          onClick={() => setActiveLink("meetingattachments")}
+          onClick={() => 
+        {  setActiveLink("meetingattachments")
+          setMeetingData(null)
+        }
+          }
           className={`cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09] ${
             activeLink === "meetingattachments"
               ? "border-b-2 border-orange-500 text-orange-600"
@@ -127,14 +156,21 @@ const [activeLink, setActiveLink]= useState('meetingattachments')
         <NavLink
           // to={``}
           end
-          onClick={() => setActiveLink("taskattachments")}
+          onClick={() => 
+
+            {
+            setActiveLink("taskattachments")
+            setMeetingData(null)
+          }
+          
+          }
           className={`cursor-pointer px-4 py-1 text-sm font-[500] text-[#0c0a09] ${
             activeLink === "taskattachments"
               ? "border-b-2 border-orange-500 text-orange-600"
               : ""
           }`}
         >
-        Task Attachments
+        Decision Attachments
         </NavLink>
       </div>
 {activeLink === "meetingattachments" &&
@@ -151,8 +187,14 @@ const [activeLink, setActiveLink]= useState('meetingattachments')
         id={id}
         BMid={BMid}
         MeetingData={MeetingData}
+        handleDelete={handleDelete}
       />}
-    {  activeLink === "taskattachments" &&  <TaskAttachments />}
+    {  activeLink === "taskattachments" &&  <TaskAttachments 
+        MeetingData={MeetingData}   id={id}
+        handleDownload={handleDownload}
+        BMid={BMid} 
+
+    />}
     </div>
   );
 };

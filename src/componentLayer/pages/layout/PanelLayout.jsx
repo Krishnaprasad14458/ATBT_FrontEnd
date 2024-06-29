@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext , useEffect, useState } from 'react';
 import Sidebar from '../../components/sidebar/Sidebar';
 import TopBar from '../../components/topbar/TopBar';
 import { Outlet, useNavigation } from 'react-router-dom';
@@ -7,6 +7,7 @@ import { AuthContext } from '../../../contexts/authContext/authContext';
 import useServiceWorker from '../../../useSw';
 import TopBarProgress from 'react-topbar-progress-indicator';
 import BreadCrumbs from '../../components/breadcrumbs/BreadCrumbs';
+import Footer from '../../components/Footer/Footer';
 TopBarProgress.config({
   barColors: {
     0: '#ff7f50',
@@ -29,14 +30,31 @@ const Layout = () => {
   } = useServiceWorker(isOnline, isLoggedIn);
   const navigation = useNavigation();
   console.log(navigation, 'navigation state');
+
+  const [open, setOpen] = useState(false);
+  let screenSize = window.innerWidth;
+  useEffect(() => {
+    if (screenSize < 726) {
+      setOpen(false);
+    }
+  }, []);
+
+ 
   return (
     <div className='app'>
-      <Sidebar />
-      <main
-        className='content h-screen bg-[#f8fafc] '
-        style={{ overflow: 'auto' }}
+      <Sidebar 
+      open= {open}
+      setOpen={setOpen} 
+     />
+  <div className='content' style={{ overflow: 'auto' }}>
+  <main
+        className='  bg-[#f8fafc] '
+        
       >
-        <TopBar />
+        <TopBar 
+         open= {open}
+         setOpen={setOpen} 
+         />
         {isOnline ? null : (
           <span
             role='img'
@@ -57,7 +75,12 @@ const Layout = () => {
         {navigation.state == 'loading' && <TopBarProgress />}
         
         <Outlet />
+        <div className="push"></div>
+   
       </main>
+      <Footer/>
+  </div>
+    
     </div>
   );
 };
