@@ -15,6 +15,7 @@ import Tasks, {
   tasksLoader,
 } from "../../componentLayer/components/LandingPageComponents/Tasks";
 import { Link } from "react-router-dom";
+import MeetingWiseDocuments from "../../componentLayer/components/LandingPageComponents/MeetingWiseDocuments";
 
 export const meetingRouter = [
   {
@@ -66,11 +67,18 @@ export const meetingRouter = [
               ),
             },
           },
+          // {
+          //   path: "documents",
+          //   element: <Documents />,
+          //   handle: {
+          //     crumb: (data) => <Link to=".">Attachments</Link>,
+          //   },
+          // },
           {
             path: "documents",
-            element: <Documents />,
+            element: <MeetingWiseDocuments  belongsTo ="boardMeeting" />,
             handle: {
-              crumb: (data) => <Link to=".">Attachments</Link>,
+              crumb: (data) => <Link to=""> Attachments</Link>,
             },
           },
         ],
