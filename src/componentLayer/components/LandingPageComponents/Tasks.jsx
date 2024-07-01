@@ -380,7 +380,6 @@ const Tasks = () => {
   console.log(matches[0].params.statusType, "matches matches");
   const data = useLoaderData();
   const navigation = useNavigation();
-
   let [tasks, setTasks] = useState([]);
   let [task, setTask] = useState({});
   let [subTasks, setSubTasks] = useState();
@@ -597,6 +596,20 @@ const Tasks = () => {
   };
   const queryString = createQueryString(Qparams);
   console.log(queryString, "queryString");
+
+  const handleSendMail = async (id) => {
+    try {
+      const response = await atbtApi.post(`sendbyemail/${id}`);
+      console.log("response", response);
+      if (response.status === 200) {
+      } else {
+        throw new Error("Failed to delete the attachment.");
+      }
+    } catch (err) {
+      console.log("An error occurred while deleting the attachment.");
+    }
+  };
+
   return (
     <div className={` ${parentPath === "tasks" ? "p-3" : ""}`}>
       <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-col-4 items-center gap-2 mt-2">
@@ -1316,6 +1329,7 @@ const Tasks = () => {
                       stroke-width="1.5"
                       stroke="currentColor"
                       class="size-5 hover:text-orange-500"
+                      onClick={()=>handleSendMail(task?.id)}
                     >
                       <path
                         stroke-linecap="round"
@@ -1324,7 +1338,7 @@ const Tasks = () => {
                       />
                     </svg>
 
-                  
+                 
                   </td>
                   {/* <td className="border py-1.5 px-3 text-sm text-gray-600 cursor-pointer" style={{width :"3rem"}} >
                     <svg
