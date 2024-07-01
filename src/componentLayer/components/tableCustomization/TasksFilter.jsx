@@ -371,7 +371,7 @@ function TasksFilter({
                 />
               </div>
               <label className="block text-sm font-medium leading-6 mt-2 text-[#878a99]">
-                Board Meeting
+                 Meeting
               </label>
               <div className="relative w-full">
               <Select
