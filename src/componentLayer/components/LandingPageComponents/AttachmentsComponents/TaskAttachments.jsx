@@ -1,6 +1,7 @@
 import React from "react";
 
 const TaskAttachments = ({MeetingData,id,BMid,handleDownload}) => {
+  console.log(MeetingData, "MeetingData")
   return (
     <div className="mt-4">
       <table className="w-full divide-y divide-gray-200 dark:divide-gray-700 rounded-md">
