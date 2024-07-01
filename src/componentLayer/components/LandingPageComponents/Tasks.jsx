@@ -22,6 +22,7 @@ import { caseLetter, debounce, getCurrentDate } from "../../../utils/utils";
 import GateKeeper from "../../../rbac/GateKeeper";
 import { AuthContext } from "../../../contexts/authContext/authContext";
 import TasksFilter from "../tableCustomization/TasksFilter";
+import mailsent from "../../../assets/Images/mailsent.svg";
 let status = [
   { label: "To-Do", value: "To-Do" },
   { label: "In-Progress", value: "In-Progress" },
@@ -583,7 +584,7 @@ const Tasks = () => {
   const handleNavLinkClick = (link) => {
     setActiveLink(link);
   };
- 
+
   function handleSearch(event) {
     setQParams({
       ...Qparams,
@@ -1040,11 +1041,12 @@ const Tasks = () => {
                   {parentPath === "tasks" && (
                     <td className="border py-1 px-2 text-sm">
                       {caseLetter(task?.createdBy.name)}
-                      
                     </td>
                   )}
                   {parentPath === "tasks" && (
-                    <td className="border py-1 px-2 text-sm">{caseLetter(task?.blongsTo)} </td>
+                    <td className="border py-1 px-2 text-sm">
+                      {caseLetter(task?.blongsTo)}{" "}
+                    </td>
                   )}
                   <td className="border py-1.5 px-2 ">
                     <div className="flex items-center justify-between">
@@ -1155,7 +1157,7 @@ const Tasks = () => {
                         option: (provided, state) => ({
                           ...provided,
                           color: state.isFocused ? "#fff" : "#000000",
-                          fontSize:"12px",
+                          fontSize: "12px",
                           backgroundColor: state.isFocused
                             ? "#ea580c"
                             : "transparent",
@@ -1233,10 +1235,7 @@ const Tasks = () => {
                   <td className="border py-1 px-2 text-sm" title={task?.age}>
                     {task?.age}{" "}
                   </td>
-                  <td
-                    className="border py-1 px-2 text-sm"
-                    title={task?.status}
-                  >
+                  <td className="border py-1 px-2 text-sm" title={task?.status}>
                     {task?.status}
 
                     {/* <Select
@@ -1309,8 +1308,23 @@ const Tasks = () => {
                   <td className="border py-1 px-2 text-sm text-gray-600">
                     {task?.updatedbyuser}
                   </td>
-                  <td className="border py-1 px-2 text-sm text-gray-600">
-                    <button>Send Mail</button>
+                  <td className="border py-1 px-2 text-sm text-gray-600 ">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke-width="1.5"
+                      stroke="currentColor"
+                      class="size-5 hover:text-orange-500"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M6 12 3.269 3.125A59.769 59.769 0 0 1 21.485 12 59.768 59.768 0 0 1 3.27 20.875L5.999 12Zm0 0h7.5"
+                      />
+                    </svg>
+
+                  
                   </td>
                   {/* <td className="border py-1.5 px-3 text-sm text-gray-600 cursor-pointer" style={{width :"3rem"}} >
                     <svg
