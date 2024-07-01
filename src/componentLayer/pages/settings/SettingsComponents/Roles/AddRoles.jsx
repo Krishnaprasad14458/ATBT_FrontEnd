@@ -438,7 +438,7 @@ const AddRoles = () => {
     }
 
     if (!response?.response.id) {
-      permission.role = caseLetter(permission.role)
+      
       console.log(permission , "perksdnfsdfds")
       const result = await toast.promise(
         axios.post(
