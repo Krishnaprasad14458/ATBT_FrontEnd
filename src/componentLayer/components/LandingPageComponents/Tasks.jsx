@@ -22,7 +22,12 @@ import { caseLetter, debounce, getCurrentDate } from "../../../utils/utils";
 import GateKeeper from "../../../rbac/GateKeeper";
 import { AuthContext } from "../../../contexts/authContext/authContext";
 import TasksFilter from "../tableCustomization/TasksFilter";
+
+import { toast } from "react-toastify";
+
+
 import mailsent from "../../../assets/Images/mailsent.svg";
+
 let status = [
   { label: "To-Do", value: "To-Do" },
   { label: "In-Progress", value: "In-Progress" },
@@ -598,16 +603,40 @@ const Tasks = () => {
   console.log(queryString, "queryString");
 
   const handleSendMail = async (id) => {
-    try {
-      const response = await atbtApi.post(`sendbyemail/${id}`);
-      console.log("response", response);
-      if (response.status === 200) {
-      } else {
-        throw new Error("Failed to delete the attachment.");
+    return await toast.promise(
+      atbtApi.post(`sendbyemail/${id}`),
+      {
+        pending: "Sending Mail...",
+        success: {
+          render({ data }) {
+            return `Mail Sent`;
+          },
+        },
+        // error: 'Check user details 🤯',
+        error: {
+          render({
+            data: {
+              response: { data },
+            },
+          }) {
+            console.log(data, "creating user user");
+            // When the promise reject, data will contains the error
+            return `error: ${data}`;
+            // return <MyErrorComponent message={data.message} />;
+          },
+        },
       }
-    } catch (err) {
-      console.log("An error occurred while deleting the attachment.");
-    }
+    );
+    // try {
+    //   const response = await atbtApi.post(`sendbyemail/${id}`);
+    //   console.log("response", response);
+    //   if (response.status === 200) {
+    //   } else {
+    //     throw new Error("Failed to delete the attachment.");
+    //   }
+    // } catch (err) {
+    //   console.log("An error occurred while deleting the attachment.");
+    // }
   };
 
   return (
