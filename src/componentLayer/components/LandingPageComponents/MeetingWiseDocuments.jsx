@@ -3,6 +3,7 @@ import { useParams, NavLink } from "react-router-dom";
 import atbtApi from "../../../serviceLayer/interceptor";
 import MeetingAttachments from "./AttachmentsComponents/MeetingAttachments";
 import TaskAttachments from "./AttachmentsComponents/TaskAttachments";
+import Swal from "sweetalert2";
 
 const MeetingWiseDocuments = ({ belongsTo }) => {
   const { id, BMid } = useParams();
@@ -122,17 +123,34 @@ const [activeLink, setActiveLink]= useState('meetingattachments')
   };
 
   const handleDelete = async (id) => {
-    try {
-      const response = await atbtApi.delete(`boardmeeting/deleteAttachment/${id}`);
-      console.log("response",response)
-      if (response.status === 200) {
-    fetchAttachment()
-      } else {
-        throw new Error('Failed to delete the attachment.');
+    const confirmDelete = await Swal.fire({
+      title: "Are you sure?",
+      text: "Once Deleted, You cannot get it back.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#ea580c",
+      cancelButtonColor: "#fff",
+      confirmButtonText: "Delete",
+      customClass: {
+        popup: "custom-swal2-popup",
+        title: "custom-swal2-title",
+        content: "custom-swal2-content",
+      },
+    });
+    if (confirmDelete.isConfirmed) {
+      try {
+        const response = await atbtApi.delete(`boardmeeting/deleteAttachment/${id}`);
+        console.log("response",response)
+        if (response.status === 200) {
+      fetchAttachment()
+        } else {
+          throw new Error('Failed to delete the attachment.');
+        }
+      } catch (err) {
+        console.log('An error occurred while deleting the attachment.');
       }
-    } catch (err) {
-      console.log('An error occurred while deleting the attachment.');
     }
+   
   };
   return (
     <div>
