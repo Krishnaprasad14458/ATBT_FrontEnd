@@ -89,7 +89,7 @@ export const getUserById = async (id, token) => {
 
 export const createUser = async (userData, token) => {
   console.log(`${token} token is present in createUser api`);
-  const url = `${apiUrl}user/create-user`;
+  const url = `${apiUrl}/user/create-user`;
   return await toast.promise(
     axios.post(url, userData, {
       headers: {
