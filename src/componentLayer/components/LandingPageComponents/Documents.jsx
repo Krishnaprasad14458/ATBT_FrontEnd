@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import atbtApi from "../../../serviceLayer/interceptor";
+import Swal from "sweetalert2";
 
 const Documents = ({ belongsTo }) => {
   const { id, BMid } = useParams();
@@ -63,17 +64,35 @@ const Documents = ({ belongsTo }) => {
   };
 
   const handleDelete = async (id) => {
-    try {
-      const response = await atbtApi.delete(`boardmeeting/deleteAttachment/${id}`);
-      console.log("response",response)
-      if (response.status === 200) {
-    fetchAttachment()
-      } else {
-        throw new Error('Failed to delete the attachment.');
+    const confirmDelete = await Swal.fire({
+      title: "Are you sure?",
+      text: "Once deleted, You cannot get it Back",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#ea580c",
+      cancelButtonColor: "#fff",
+      confirmButtonText: "Delete",
+      customClass: {
+        popup: "custom-swal2-popup",
+        title: "custom-swal2-title",
+        content: "custom-swal2-content",
+      },
+    });
+    if (confirmDelete.isConfirmed) {
+      try {
+        const response = await atbtApi.delete(`boardmeeting/deleteAttachment/${id}`);
+        console.log("response",response)
+        if (response.status === 200) {
+      fetchAttachment()
+        } else {
+          throw new Error('Failed to delete the attachment.');
+        }
+      } catch (err) {
+        console.log('An error occurred while deleting the attachment.');
       }
-    } catch (err) {
-      console.log('An error occurred while deleting the attachment.');
     }
+    
+   
   };
 
   return (
