@@ -432,7 +432,7 @@ let meetingPermission = permissions?.find((permission=>permission.module ==="mee
                       }`}
                       style={{ width: "9.375rem" }}
                     >
-                      <div className="flex justify-center gap-4">
+                     {row.role !== "super admin" && <div className="flex justify-center gap-4">
                         <GateKeeper
                           permissionCheck={(permission) =>
                             permission.module === "user" && permission.canRead
@@ -564,7 +564,7 @@ let meetingPermission = permissions?.find((permission=>permission.module ==="mee
                             </button>
                           }
                         </GateKeeper>
-                      </div>
+                      </div>}
                     </td>
                   </tr>
                 ))}
