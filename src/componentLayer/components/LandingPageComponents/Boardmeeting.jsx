@@ -84,6 +84,7 @@ function Boardmeeting() {
   let fetcher = useFetcher();
   const data = useLoaderData();
   const { meetings, tableViewData, fieldsDropDownData, customForm } = data;
+  console.log("customForm",customForm,tableViewData)
   const [Qparams, setQParams] = useState({
     search: "",
     page: 1,

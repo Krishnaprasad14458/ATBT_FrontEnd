@@ -23,12 +23,13 @@ const CustomFormStructure = () => {
     mandatory: false,
     field: "custom",
   });
+  console.log("newInputField",newInputField)
   useEffect(() => {
     axios
       .get(`https://atbtmain.infozit.com/form/list?name=${formName}`)
       .then((response) => {
         // Handle the successful response
-        setCustomForm(response.data.Data);
+        setCustomForm(response.data.Data); 
         setTableView(response.data.Tableview);
       })
       .catch((error) => {
@@ -197,10 +198,11 @@ const CustomFormStructure = () => {
         const updatedForm = [...customForm];
         updatedForm[editIndex] = newInputField;
         setCustomForm(updatedForm);
-        if (
-          newInputField.type != "checkbox" &&
-          newInputField.type != "password" &&
-          newInputField.type != "textarea"
+        if (newInputField.type &&
+          newInputField.type !== "checkbox" &&
+          newInputField.type !== "password" &&
+          newInputField.type !== "textarea" &&
+          newInputField.type !== "multiselect" 
         ) {
           setTableView((prevState) => {
             const updatedState = { ...prevState };
@@ -230,10 +232,13 @@ const CustomFormStructure = () => {
           let newField = { ...newInputField };
           delete newField.options;
           setCustomForm((prev) => [...prev, newField]);
-          if (
-            newInputField.type != "checkbox" &&
-            newInputField.type != "password" &&
-            newInputField.type != "textarea"
+          if (newInputField.type &&
+            newInputField.type !== "checkbox" &&
+            newInputField.type !== "password" &&
+            newInputField.type !== "textarea" &&
+            newInputField.type !== "multiselect"
+
+          
           ) {
             setTableView((prevState) => {
               const updatedState = { ...prevState };
@@ -247,10 +252,14 @@ const CustomFormStructure = () => {
           }
         } else {
           setCustomForm((prev) => [...prev, newInputField]);
-          if (
-            newInputField.type != "checkbox" &&
-            newInputField.type != "password" &&
-            newInputField.type != "textarea"
+          if (newInputField.type &&
+            newInputField.type !== "checkbox" &&
+            newInputField.type !== "password" &&
+            newInputField.type !== "textarea" &&
+            newInputField.type !== "multiselect"
+
+
+            
           ) {
             setTableView((prevState) => {
               const updatedState = { ...prevState };
@@ -1203,16 +1212,15 @@ export default CustomFormStructure;
 
 /////////////////////// predefined tableview
 // {
-
 //   "meetingnumber": {
-//     "label": "Meeting Id",
-//     "value": true,
-//     "type": "text"
+//       "label": "Meeting Id",
+//       "value": true,
+//       "type": "text"
 //   },
 //   "date": {
-//     "label": "Meeting Date",
-//     "value": true,
-//     "type": "date"
+//       "label": "Initial Date of Decision",
+//       "value": true,
+//       "type": "date"
 //   }
 // },
 ///////////////team form
