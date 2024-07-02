@@ -35,6 +35,7 @@ const TaskOverview = ({
   setSubTask,
   handleSendComment,
 }) => {
+  console.log("firsxxxt",displayOverviewTask,displayOverviewSubTask)
   // -------full screen----
   const [expand, setExpand] = useState(false);
   const handleExpand = () => {
@@ -187,7 +188,7 @@ const TaskOverview = ({
 
 
         />}
-        <Collaborators
+      {displayOverviewTask &&  <Collaborators
         handleOverviewTaskChange={
           displayOverviewTask
             ? handleOverviewTaskChange
@@ -200,7 +201,7 @@ const TaskOverview = ({
           task={
             displayOverviewTask ? task : subTask
           }
-        />
+        />}
       </div>
     </div>
   );
