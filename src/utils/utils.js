@@ -101,6 +101,29 @@ export function caseLetter(string) {
   );
 };
 
+export function formatTime(timeString) {
+  // Splitting the timeString to extract hours and minutes
+  const [hourStr, minuteStr] = timeString.split(":");
+
+  // Parsing hours and minutes as integers
+  const hours = parseInt(hourStr, 10);
+  const minutes = parseInt(minuteStr, 10);
+
+  // Checking if hours and minutes are valid numbers
+  if (isNaN(hours) || isNaN(minutes)) {
+    return "Invalid time";
+  }
+
+  // Converting hours to 12-hour format and determining AM/PM
+  const ampm = hours >= 12 ? "PM" : "AM";
+  const formattedHours = hours % 12 || 12; // Handles midnight
+  const formattedMinutes = minutes < 10 ? "0" + minutes : minutes; // Ensures minutes are two digits
+
+  // Constructing the formatted time string
+  const formattedTime = `${formattedHours}:${formattedMinutes} ${ampm}`;
+  return formattedTime;
+}
+
 export const dateFormat = (date)=>{
    
  let value = new Date(date);

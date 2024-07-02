@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import { Link, Outlet, useLoaderData, useParams } from "react-router-dom";
 import axios from "axios";
 import atbtApi from "../../../../serviceLayer/interceptor";
+import { dateFormat, formatTime } from "../../../../utils/utils";
 let moduleName;
 let parentPath;
 let groupName;
@@ -44,29 +45,9 @@ const BoardMeetingOverview = () => {
   let data = useLoaderData();
   let customFormField = data?.data?.data?.customFieldsData;
   let usersGroupData = data?.data?.data?.allMembers;
+  console.log("usersGroupData" , usersGroupData)
   console.log("customFormField customFormField", customFormField);
-  function formatTime(timeString) {
-    // Splitting the timeString to extract hours and minutes
-    const [hourStr, minuteStr] = timeString.split(":");
-
-    // Parsing hours and minutes as integers
-    const hours = parseInt(hourStr, 10);
-    const minutes = parseInt(minuteStr, 10);
-
-    // Checking if hours and minutes are valid numbers
-    if (isNaN(hours) || isNaN(minutes)) {
-      return "Invalid time";
-    }
-
-    // Converting hours to 12-hour format and determining AM/PM
-    const ampm = hours >= 12 ? "PM" : "AM";
-    const formattedHours = hours % 12 || 12; // Handles midnight
-    const formattedMinutes = minutes < 10 ? "0" + minutes : minutes; // Ensures minutes are two digits
-
-    // Constructing the formatted time string
-    const formattedTime = `${formattedHours}:${formattedMinutes} ${ampm}`;
-    return formattedTime;
-  }
+ 
 
   return (
     <div className=" p-4 bg-[#f8fafc]">
@@ -83,18 +64,7 @@ const BoardMeetingOverview = () => {
             </button>
           </Link>
         )}
-        {/* <Link
-          to={`/${
-            boardmeetings === "userboardmeetings" ? "users" : boardmeetings === "entityboardmeetings" ? "entities": boardmeetings === "teamboardmeetings" ? "teams" :""
-          }/${id}/${boardmeetings}/${BMid}/tasks`}
-        >
-          <button
-            type="submit"
-            className=" flex  justify-center rounded-md bg-orange-600 px-3 py-2 text-sm font-medium leading-6 text-white shadow-sm  focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600"
-          >
-            Create Task
-          </button>
-        </Link> */}
+ 
       </div>
       <div className="mt-3 flex justify-center ">
         <div className=" w-full md:w-full  lg:w-11/12 xl:11/12 shadow-md border-2 rounded-md  px-4 pb-4 pt-1">
@@ -114,50 +84,20 @@ const BoardMeetingOverview = () => {
                           Meeting Id : {item.value}
                         </p>
                       )}
+                   
 
                     {item.type === "date" &&
                       item.inputname === "date" &&
                       item.field === "predefined" &&
+                  
                       (() => {
-                        let date = new Date(item.value);
-                        const day = date.getUTCDate();
-                        const monthIndex = date.getUTCMonth();
-                        const year = date.getUTCFullYear();
-
-                        const monthAbbreviations = [
-                          "January",
-                          "February",
-                          "March",
-                          "April",
-                          "May",
-                          "June",
-                          "July",
-                          "August",
-                          "September",
-                          "October",
-                          "November",
-                          "December",
-                        ];
-                        let ordinalsText = "";
-                        if (day == 1 || day == 21 || day == 31) {
-                          ordinalsText = "st";
-                        } else if (day == 2 || day == 22) {
-                          ordinalsText = "nd";
-                        } else if (day == 3 || day == 23) {
-                          ordinalsText = "rd";
-                        } else {
-                          ordinalsText = "th";
-                        }
-
-                        // Formatting the date
-                        date = ` ${monthAbbreviations[monthIndex]} ${
-                          day < 10 ? "0" : ""
-                        }${day}${ordinalsText}, ${year}`;
+                        let  value = dateFormat(item.value)
+                        
                         return (
                           <div>
                             {item.value ? (
                               <p className="text-sm md:absolute md:bottom-2 md:right-2">
-                                Date : {date ? date : "No Date"}
+                                Date : {value}
                               </p>
                             ) : (
                               <p className="text-sm text-gray-400 md:absolute md:bottom-2 md:right-2">
@@ -187,26 +127,53 @@ const BoardMeetingOverview = () => {
                             let second = "";
                             let firstLetter;
                             let secondLetter;
+                            let username = "";
                             let mail = "";
+                            let designation = "";
+
                             if (index < usersGroupData.length) {
-                              mail = usersGroupData[index].email.split("@")[0];
-                              if (mail.includes(".")) {
-                                first = mail.split(".")[0];
-                                second = mail.split(".")[1];
+                              username =  usersGroupData[index].name
+                              mail = usersGroupData[index].email
+                              if (username.includes(" ")) {
+                                first = username.split(" ")[0];
+                                second = username.split(" ")[1];
                                 firstLetter = first[0];
                                 secondLetter = second[0];
-                              } else {
-                                firstLetter = mail[0];
                               }
+                            } else {
+                              firstLetter = username[0];
                             }
-                            if (mail.includes(".")) {
-                              first = mail.split(".")[0];
-                              second = mail.split(".")[1];
+                            if (username.includes(" ")) {
+                              first = username.split(" ")[0];
+                              second = username.split(" ")[1];
                               firstLetter = first[0];
                               secondLetter = second[0];
                             } else {
-                              firstLetter = mail[0];
+                              firstLetter = username[0];
                             }
+
+
+
+                            //   mail = usersGroupData[index].email.split("@")[0];
+                            //   if (mail.includes(".")) {
+                            //     first = mail.split(".")[0];
+                            //     second = mail.split(".")[1];
+                            //     firstLetter = first[0];
+                            //     secondLetter = second[0];
+                            //   } else {
+                            //     firstLetter = mail[0];
+                            //   }
+                            // }
+                            // if (mail.includes(".")) {
+                            //   first = mail.split(".")[0];
+                            //   second = mail.split(".")[1];
+                            //   firstLetter = first[0];
+                            //   secondLetter = second[0];
+                            // } else {
+                            //   firstLetter = mail[0];
+                            // }
+
+                            
                             const colors = [
                               "#818cf8",
                               "#fb923c",
@@ -287,13 +254,13 @@ const BoardMeetingOverview = () => {
                                       style={{ width: "150px" }}
                                     >
                                       <div
-                                        className=" md:w-28 lg:w-48  truncate"
-                                        title={mail}
+                                        className="  lg:w-48  truncate"
+                                        title={`Name : ${username}\nEmail : ${mail}`}
                                       >
-                                        {index < 11 && mail}
+                                        {index < 11 &&username}
                                         {index == 11 &&
                                           usersGroupData.length == 12 &&
-                                          mail}
+                                          username}
                                         {index == 11 &&
                                           usersGroupData.length > 12 && (
                                             <span>
