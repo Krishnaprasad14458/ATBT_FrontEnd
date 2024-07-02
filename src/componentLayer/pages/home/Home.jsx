@@ -187,6 +187,14 @@ function Home() {
               {data?.count?.overdueCount}
             </p>
           </div>
+          <div className="  overdue_tasks border-r-2 border-black-100 bg-gray-100 p-2">
+            <p className="mr-4 lg:ml-4 px-2 pt-1 text-xs text-[#929297]">
+             On-Hold
+            </p>
+            <p className="mr-4 lg:ml-4 px-2 font-semibold">
+              {data?.count?.onHoldCount}
+            </p>
+          </div>
           <div className=" completed_tasks border-black-100 bg-gray-100 p-2 rounded-e-full">
             <p className="mr-4 lg:ml-4 px-2 pt-1 text-xs text-[#929297]">
               Completed 
