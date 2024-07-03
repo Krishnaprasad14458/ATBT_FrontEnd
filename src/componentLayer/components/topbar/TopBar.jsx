@@ -7,14 +7,19 @@ import { AuthContext } from "../../../contexts/authContext/authContext";
 import GateKeeper from "../../../rbac/GateKeeper";
 import defprop from "../../../assets/Images/defprof.svg";
 import atbtApi from "../../../serviceLayer/interceptor";
+import { PermissionsContext } from "../../../rbac/PermissionsProvider";
+
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-export default function TopBar({open,setOpen}) {
+export default function TopBar({ open, setOpen }) {
+  const { permissions, loading } = useContext(PermissionsContext);
+
   const { userLogout, authState } = useContext(AuthContext);
-  const [logInUserDetails , setLogInUserDetails]= useState()
-  console.log(logInUserDetails, "logInUserDetails")
+  console.log("authState", permissions);
+  const [logInUserDetails, setLogInUserDetails] = useState();
+  console.log(logInUserDetails, "logInUserDetails");
   const [addTask, setAddTask] = useState(false);
   const toggleAddTaskDrawer = () => {
     setAddTask(!addTask);
@@ -24,26 +29,37 @@ export default function TopBar({open,setOpen}) {
     const fetchData = async () => {
       try {
         if (authState?.user?.id) {
-       
           const { data } = await atbtApi.get(`/user/list/${authState.user.id}`);
-          setLogInUserDetails(data.user)
-       
+          setLogInUserDetails(data.user);
         }
       } catch (error) {
         console.error("Error loading dashboard:", error);
         // Redirect or handle error appropriately
       }
     };
-  
+
     fetchData();
-  
   }, [authState]);
+  let userPermission = permissions?.find(
+    (permission) => permission.module === "user"
+  );
+  let entityPermission = permissions?.find(
+    (permission) => permission.module === "entity"
+  );
+  let teamPermission = permissions?.find(
+    (permission) => permission.module === "team"
+  );
+
   return (
     <div className="topbar w-full">
       <nav className="bg-white shadow-md ">
         <div className="mx-auto max-w-screen pe-2 sm:px-6 lg:px-2">
-          <div className={`flex h-16 items-center justify-between gap-3 ${open ? "expand" : "close"}`}>
-          <svg
+          <div
+            className={`flex h-16 items-center justify-between gap-3 ${
+              open ? "expand" : "close"
+            }`}
+          >
+            <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
@@ -59,15 +75,12 @@ export default function TopBar({open,setOpen}) {
               />
             </svg>
             <div className="flex flex-1 items-center  sm:items-stretch sm:justify-start">
-            <div >
-              {/* <button id="toggle-btn" type="button" onClick={toggleSidebar}>
+              <div>
+                {/* <button id="toggle-btn" type="button" onClick={toggleSidebar}>
                 <CiMenuFries className="navbar_icons" />
               </button> */}
 
-
-
-
-              {/* <button
+                {/* <button
                 id="toggle-btn"
                 type="button"
                 className="bg_white"
@@ -76,127 +89,132 @@ export default function TopBar({open,setOpen}) {
                 bh
               </button> */}
               </div>
-              <div className="flex flex-shrink-0 items-center">
-                <Menu as="div" className="relative inline-block text-left">
-                  <div>
-                    <Menu.Button className=" w-full justify-center gap-x-1.5 rounded-full sm:hidden">
-                      <button className="px-3 py-2 inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white gap-1">
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          viewBox="0 0 20 20"
-                          fill="currentColor"
-                          className="w-5 h-5"
-                        >
-                          <path d="M10.75 4.75a.75.75 0 0 0-1.5 0v4.5h-4.5a.75.75 0 0 0 0 1.5h4.5v4.5a.75.75 0 0 0 1.5 0v-4.5h4.5a.75.75 0 0 0 0-1.5h-4.5v-4.5Z" />
-                        </svg>
-                    
-                      </button>
-                    </Menu.Button>
-                    <Menu.Button className="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between     ">
-                      <button className="px-3 py-2 inline-flex items-center justify-center whitespace-nowrap rounded-full text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white gap-1">
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          viewBox="0 0 20 20"
-                          fill="currentColor"
-                          className="w-5 h-5"
-                        >
-                          <path d="M10.75 4.75a.75.75 0 0 0-1.5 0v4.5h-4.5a.75.75 0 0 0 0 1.5h4.5v4.5a.75.75 0 0 0 1.5 0v-4.5h4.5a.75.75 0 0 0 0-1.5h-4.5v-4.5Z" />
-                        </svg>
-                     Create
-                      </button>
-                    </Menu.Button>
-                  </div>
-                  <Transition
-                    as={Fragment}
-                    enter="transition ease-out duration-100"
-                    enterFrom="transform opacity-0 scale-95"
-                    enterTo="transform opacity-100 scale-100"
-                    leave="transition ease-in duration-75"
-                    leaveFrom="transform opacity-100 scale-100"
-                    leaveTo="transform opacity-0 scale-95"
-                  >
-                    <Menu.Items
-                      className="absolute mt-2 w-48 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none
-      md:ml-28 md:top-0 md:left-0 md:mt-1"
+              <GateKeeper
+                permissionCheck={(permission) =>
+                  permission.module === "user" && permission.canCreate || permission.module === "entity" && permission.canCreate || permission.module === "team" && permission.canCreate 
+                }
+              >
+                <div className="flex flex-shrink-0 items-center">
+                  <Menu as="div" className="relative inline-block text-left">
+                    <div>
+                      <Menu.Button className=" w-full justify-center gap-x-1.5 rounded-full sm:hidden">
+                        <button className="px-3 py-2 inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white gap-1">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 20 20"
+                            fill="currentColor"
+                            className="w-5 h-5"
+                          >
+                            <path d="M10.75 4.75a.75.75 0 0 0-1.5 0v4.5h-4.5a.75.75 0 0 0 0 1.5h4.5v4.5a.75.75 0 0 0 1.5 0v-4.5h4.5a.75.75 0 0 0 0-1.5h-4.5v-4.5Z" />
+                          </svg>
+                        </button>
+                      </Menu.Button>
+                      <Menu.Button className="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between     ">
+                        <button className="px-3 py-2 inline-flex items-center justify-center whitespace-nowrap rounded-full text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white gap-1">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 20 20"
+                            fill="currentColor"
+                            className="w-5 h-5"
+                          >
+                            <path d="M10.75 4.75a.75.75 0 0 0-1.5 0v4.5h-4.5a.75.75 0 0 0 0 1.5h4.5v4.5a.75.75 0 0 0 1.5 0v-4.5h4.5a.75.75 0 0 0 0-1.5h-4.5v-4.5Z" />
+                          </svg>
+                          Create
+                        </button>
+                      </Menu.Button>
+                    </div>
+                    <Transition
+                      as={Fragment}
+                      enter="transition ease-out duration-100"
+                      enterFrom="transform opacity-0 scale-95"
+                      enterTo="transform opacity-100 scale-100"
+                      leave="transition ease-in duration-75"
+                      leaveFrom="transform opacity-100 scale-100"
+                      leaveTo="transform opacity-0 scale-95"
                     >
-                      <div className="py-1">
-                        <GateKeeper
-                          permissionCheck={(permission) =>
-                            permission.module === "user" && permission.canCreate
-                          }
-                        >
-                          <Menu.Item>
-                            {({ active }) => (
-                              <Link
-                                to={`/users/new`}
-                                className={classNames(
-                                  active
-                                    ? "bg-gray-200 text-gray-900"
-                                    : "text-gray-700",
-                                  "block px-4 py-2 text-sm"
-                                )}
-                              >
-                                <div className="flex-row flex ">
-                                  <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke-width="1.5"
-                                    stroke="currentColor"
-                                    className="w-6 h-6"
-                                  >
-                                    <path
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"
-                                    />
-                                  </svg>
-                                  <p className="ms-2 mt-1 text-sm">User</p>
-                                </div>
-                              </Link>
-                            )}
-                          </Menu.Item>
-                        </GateKeeper>
-                        <GateKeeper
-                          permissionCheck={(permission) =>
-                            permission.module === "entity" &&
-                            permission.canCreate
-                          }
-                        >
-                          <Menu.Item>
-                            {({ active }) => (
-                              <Link
-                                to={`/entities/new`}
-                                className={classNames(
-                                  active
-                                    ? "bg-gray-200 text-gray-900"
-                                    : "text-gray-700",
-                                  "block px-4 py-2 text-sm"
-                                )}
-                              >
-                                <div className="flex-row flex">
-                                  <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke-width="1.5"
-                                    stroke="currentColor"
-                                    className="w-6 h-6"
-                                  >
-                                    <path
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 0 0 2.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 0 0-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75 2.25 2.25 0 0 0-.1-.664m-5.8 0A2.251 2.251 0 0 1 13.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25ZM6.75 12h.008v.008H6.75V12Zm0 3h.008v.008H6.75V15Zm0 3h.008v.008H6.75V18Z"
-                                    />
-                                  </svg>
+                      <Menu.Items
+                        className="absolute mt-2 w-48 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none
+      md:ml-28 md:top-0 md:left-0 md:mt-1"
+                      >
+                        <div className="py-1">
+                          <GateKeeper
+                            permissionCheck={(permission) =>
+                              permission.module === "user" &&
+                              permission.canCreate
+                            }
+                          >
+                            <Menu.Item>
+                              {({ active }) => (
+                                <Link
+                                  to={`/users/new`}
+                                  className={classNames(
+                                    active
+                                      ? "bg-gray-200 text-gray-900"
+                                      : "text-gray-700",
+                                    "block px-4 py-2 text-sm"
+                                  )}
+                                >
+                                  <div className="flex-row flex ">
+                                    <svg
+                                      xmlns="http://www.w3.org/2000/svg"
+                                      fill="none"
+                                      viewBox="0 0 24 24"
+                                      stroke-width="1.5"
+                                      stroke="currentColor"
+                                      className="w-6 h-6"
+                                    >
+                                      <path
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"
+                                      />
+                                    </svg>
+                                    <p className="ms-2 mt-1 text-sm">User</p>
+                                  </div>
+                                </Link>
+                              )}
+                            </Menu.Item>
+                          </GateKeeper>
+                          <GateKeeper
+                            permissionCheck={(permission) =>
+                              permission.module === "entity" &&
+                              permission.canCreate
+                            }
+                          >
+                            <Menu.Item>
+                              {({ active }) => (
+                                <Link
+                                  to={`/entities/new`}
+                                  className={classNames(
+                                    active
+                                      ? "bg-gray-200 text-gray-900"
+                                      : "text-gray-700",
+                                    "block px-4 py-2 text-sm"
+                                  )}
+                                >
+                                  <div className="flex-row flex">
+                                    <svg
+                                      xmlns="http://www.w3.org/2000/svg"
+                                      fill="none"
+                                      viewBox="0 0 24 24"
+                                      stroke-width="1.5"
+                                      stroke="currentColor"
+                                      className="w-6 h-6"
+                                    >
+                                      <path
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 0 0 2.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 0 0-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75 2.25 2.25 0 0 0-.1-.664m-5.8 0A2.251 2.251 0 0 1 13.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25ZM6.75 12h.008v.008H6.75V12Zm0 3h.008v.008H6.75V15Zm0 3h.008v.008H6.75V18Z"
+                                      />
+                                    </svg>
 
-                                  <p className="ms-2 mt-1 text-sm">Entity</p>
-                                </div>
-                              </Link>
-                            )}
-                          </Menu.Item>
-                        </GateKeeper>
-                        {/* <GateKeeper
+                                    <p className="ms-2 mt-1 text-sm">Entity</p>
+                                  </div>
+                                </Link>
+                              )}
+                            </Menu.Item>
+                          </GateKeeper>
+                          {/* <GateKeeper
                           permissionCheck={(permission) =>
                             permission.module === "task" && permission.canCreate
                           }
@@ -376,55 +394,59 @@ export default function TopBar({open,setOpen}) {
                             )}
                           </Menu.Item>
                         </GateKeeper> */}
-                        <GateKeeper
-                          permissionCheck={(permission) =>
-                            permission.module === "team" && permission.canCreate
-                          }
-                        >
-                          <Menu.Item>
-                            {({ active }) => (
-                              <Link
-                                to={`/teams/new`}
-                                className={classNames(
-                                  active
-                                    ? "bg-gray-200 text-gray-900"
-                                    : "text-gray-700",
-                                  "block px-4 py-2 text-sm"
-                                )}
-                              >
-                                <div className="flex-row flex">
-                                  <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke-width="1.5"
-                                    stroke="currentColor"
-                                    className="w-6 h-6"
-                                  >
-                                    <path
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      d="M18 18.72a9.094 9.094 0 0 0 3.741-.479 3 3 0 0 0-4.682-2.72m.94 3.198.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0 1 12 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 0 1 6 18.719m12 0a5.971 5.971 0 0 0-.941-3.197m0 0A5.995 5.995 0 0 0 12 12.75a5.995 5.995 0 0 0-5.058 2.772m0 0a3 3 0 0 0-4.681 2.72 8.986 8.986 0 0 0 3.74.477m.94-3.197a5.971 5.971 0 0 0-.94 3.197M15 6.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm6 3a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Zm-13.5 0a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Z"
-                                    />
-                                  </svg>
+                          <GateKeeper
+                            permissionCheck={(permission) =>
+                              permission.module === "team" &&
+                              permission.canCreate
+                            }
+                          >
+                            <Menu.Item>
+                              {({ active }) => (
+                                <Link
+                                  to={`/teams/new`}
+                                  className={classNames(
+                                    active
+                                      ? "bg-gray-200 text-gray-900"
+                                      : "text-gray-700",
+                                    "block px-4 py-2 text-sm"
+                                  )}
+                                >
+                                  <div className="flex-row flex">
+                                    <svg
+                                      xmlns="http://www.w3.org/2000/svg"
+                                      fill="none"
+                                      viewBox="0 0 24 24"
+                                      stroke-width="1.5"
+                                      stroke="currentColor"
+                                      className="w-6 h-6"
+                                    >
+                                      <path
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        d="M18 18.72a9.094 9.094 0 0 0 3.741-.479 3 3 0 0 0-4.682-2.72m.94 3.198.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0 1 12 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 0 1 6 18.719m12 0a5.971 5.971 0 0 0-.941-3.197m0 0A5.995 5.995 0 0 0 12 12.75a5.995 5.995 0 0 0-5.058 2.772m0 0a3 3 0 0 0-4.681 2.72 8.986 8.986 0 0 0 3.74.477m.94-3.197a5.971 5.971 0 0 0-.94 3.197M15 6.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm6 3a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Zm-13.5 0a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Z"
+                                      />
+                                    </svg>
 
-                                  <p className="ms-2 mt-1 text-sm">Team</p>
-                                </div>
-                              </Link>
-                            )}
-                          </Menu.Item>
-                        </GateKeeper>
-                        <GateKeeper
-                          permissionCheck={(permission) =>
-                            permission.module === "meeting" &&
-                            permission.canCreate
-                          }
-                        ></GateKeeper>
-                      </div>
-                    </Menu.Items>
-                  </Transition>
-                </Menu>
-              </div>
+                                    <p className="ms-2 mt-1 text-sm">Team</p>
+                                  </div>
+                                </Link>
+                              )}
+                            </Menu.Item>
+                          </GateKeeper>
+                          <GateKeeper
+                            permissionCheck={(permission) =>
+                              permission.module === "meeting" &&
+                              permission.canCreate
+                            }
+                          ></GateKeeper>
+                        </div>
+                      </Menu.Items>
+                    </Transition>
+                  </Menu>
+                </div>
+              </GateKeeper>
+
+              
             </div>
             <div className="absolute inset-y-0 right-0 flex items-center gap-2 me-3 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
               {/* <button

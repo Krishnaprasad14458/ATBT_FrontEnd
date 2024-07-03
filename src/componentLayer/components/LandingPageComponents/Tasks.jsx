@@ -25,7 +25,6 @@ import TasksFilter from "../tableCustomization/TasksFilter";
 
 import { toast } from "react-toastify";
 
-
 import mailsent from "../../../assets/Images/mailsent.svg";
 
 let status = [
@@ -601,53 +600,40 @@ const Tasks = () => {
   };
   const queryString = createQueryString(Qparams);
   console.log(queryString, "queryString");
-  let [mailSending,setMailSending]= useState(false)
-
+  let [mailSending, setMailSending] = useState(false);
+  let [mailSendingId, setMailSendingId] = useState(null);
   const handleSendMail = async (id) => {
-    return await toast.promise(
-      atbtApi.post(`sendbyemail/${id}`),
-      {
+    return await toast.promise(atbtApi.post(`sendbyemail/${id}`), {
         pending: {
-          render({ data }) {
-            setMailSending(true)
-            return  "Sending Mail...";
-          },
+            render() {
+                setMailSending(true);
+                return "Sending Mail...";
+            },
         },
         success: {
-          render({ data }) {
-            setMailSending(false)
-
-            return `Mail Sent`;
-          },
-        },
-        // error: 'Check user details 🤯',
-        error: {
-          render({
-            data: {
-              
-              response: { data },
+            render() {
+                setMailSending(false);
+                setMailSendingId(null);
+                return "Mail Sent";
             },
-          }) {
-            console.log(data, "creating user user");
-            // When the promise reject, data will contains the error
-            return `error: ${data}`;
-            // return <MyErrorComponent message={data.message} />;
-          },
         },
-      }
-    );
-    // try {
-    //   const response = await atbtApi.post(`sendbyemail/${id}`);
-    //   console.log("response", response);
-    //   if (response.status === 200) {
-    //   } else {
-    //     throw new Error("Failed to delete the attachment.");
-    //   }
-    // } catch (err) {
-    //   console.log("An error occurred while deleting the attachment.");
-    // }
-  };
-  console.log("mailSending",mailSending)
+        error: {
+            render({ data }) {
+                setMailSending(false);
+                setMailSendingId(null);
+                // Extracting the error message from the response
+                const errorMessage = data?.response?.data?.message || "Error occurred";
+                console.log(data?.response?.data, "Error sending email");
+                // Returning the error message for the toast notification
+                return `Error: ${errorMessage}`;
+                // Optionally, you can use a custom component here instead
+                // return <MyErrorComponent message={errorMessage} />;
+            },
+        },
+    });
+};
+
+  console.log("mailSending", mailSending);
 
   return (
     <div className={` ${parentPath === "tasks" ? "p-3" : ""}`}>
@@ -1361,28 +1347,31 @@ const Tasks = () => {
                     {task?.updatedbyuser}
                   </td>
                   <td className="border py-1 px-2 text-sm text-gray-600 ">
-                  <svg
-  xmlns="http://www.w3.org/2000/svg"
-  fill="none"
-  viewBox="0 0 24 24"
-  strokeWidth="1.5"
-  stroke="currentColor"
-  className={`size-5 ${mailSending ? 'text-gray-400 cursor-not-allowed' : 'hover:text-orange-500'}`}
-  onClick={() => {
-    if (!mailSending) {
-      handleSendMail(task?.id);
-    }
-  }}
->
-  <path
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    d="M6 12 3.269 3.125A59.769 59.769 0 0 1 21.485 12 59.768 59.768 0 0 1 3.27 20.875L5.999 12Zm0 0h7.5"
-  />
-</svg>
-
-
-                 
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth="1.5"
+                      stroke="currentColor"
+                      className={`size-5 ${
+                        mailSending && mailSendingId ===task?.id 
+                          ? "text-gray-400 cursor-not-allowed"
+                          : "hover:text-orange-500"
+                      }`}
+                      onClick={() => {
+                        if (!mailSending) {
+                          handleSendMail(task?.id);
+                          setMailSendingId(task?.id)
+                          
+                        }
+                      }}
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M6 12 3.269 3.125A59.769 59.769 0 0 1 21.485 12 59.768 59.768 0 0 1 3.27 20.875L5.999 12Zm0 0h7.5"
+                      />
+                    </svg>
                   </td>
                   {/* <td className="border py-1.5 px-3 text-sm text-gray-600 cursor-pointer" style={{width :"3rem"}} >
                     <svg
