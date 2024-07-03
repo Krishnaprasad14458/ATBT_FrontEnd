@@ -601,6 +601,7 @@ const Tasks = () => {
   const queryString = createQueryString(Qparams);
   console.log(queryString, "queryString");
   let [mailSending, setMailSending] = useState(false);
+
   let [mailSendingId, setMailSendingId] = useState(null);
   const handleSendMail = async (id) => {
     return await toast.promise(atbtApi.post(`sendbyemail/${id}`), {
@@ -632,6 +633,7 @@ const Tasks = () => {
         },
     });
 };
+
 
   console.log("mailSending", mailSending);
 
@@ -1349,20 +1351,25 @@ const Tasks = () => {
                   <td className="border py-1 px-2 text-sm text-gray-600 ">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
+
                       fill="none"
                       viewBox="0 0 24 24"
                       strokeWidth="1.5"
                       stroke="currentColor"
                       className={`size-5 ${
+
                         mailSending && mailSendingId ===task?.id 
+
                           ? "text-gray-400 cursor-not-allowed"
                           : "hover:text-orange-500"
                       }`}
                       onClick={() => {
                         if (!mailSending) {
                           handleSendMail(task?.id);
+
                           setMailSendingId(task?.id)
                           
+
                         }
                       }}
                     >
@@ -1371,7 +1378,9 @@ const Tasks = () => {
                         strokeLinejoin="round"
                         d="M6 12 3.269 3.125A59.769 59.769 0 0 1 21.485 12 59.768 59.768 0 0 1 3.27 20.875L5.999 12Zm0 0h7.5"
                       />
+
                     </svg>
+
                   </td>
                   {/* <td className="border py-1.5 px-3 text-sm text-gray-600 cursor-pointer" style={{width :"3rem"}} >
                     <svg
