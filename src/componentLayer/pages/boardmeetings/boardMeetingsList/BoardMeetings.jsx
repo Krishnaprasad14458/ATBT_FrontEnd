@@ -429,7 +429,7 @@ function BoardMeetings() {
               />
             </div>
             <div className="col-span-1 text-end">
-              <div className="lg:flex justify-end">
+              <div className="flex justify-end">
                 <button
                   onClick={() => {
                     let Qprms = { ...Qparams };

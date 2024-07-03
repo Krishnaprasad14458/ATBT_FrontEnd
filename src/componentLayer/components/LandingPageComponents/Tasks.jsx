@@ -25,7 +25,6 @@ import TasksFilter from "../tableCustomization/TasksFilter";
 
 import { toast } from "react-toastify";
 
-
 import mailsent from "../../../assets/Images/mailsent.svg";
 
 let status = [
@@ -601,41 +600,37 @@ const Tasks = () => {
   };
   const queryString = createQueryString(Qparams);
   console.log(queryString, "queryString");
-  let [mailSending,setMailSending]= useState(false)
+  let [mailSending, setMailSending] = useState(false);
 
   const handleSendMail = async (id) => {
-    return await toast.promise(
-      atbtApi.post(`sendbyemail/${id}`),
-      {
-        pending: {
-          render({ data }) {
-            setMailSending(true)
-            return  "Sending Mail...";
-          },
+    return await toast.promise(atbtApi.post(`sendbyemail/${id}`), {
+      pending: {
+        render({ data }) {
+          setMailSending(true);
+          return "Sending Mail...";
         },
-        success: {
-          render({ data }) {
-            setMailSending(false)
+      },
+      success: {
+        render({ data }) {
+          setMailSending(false);
 
-            return `Mail Sent`;
-          },
+          return `Mail Sent`;
         },
-        // error: 'Check user details 🤯',
-        error: {
-          render({
-            data: {
-              
-              response: { data },
-            },
-          }) {
-            console.log(data, "creating user user");
-            // When the promise reject, data will contains the error
-            return `error: ${data}`;
-            // return <MyErrorComponent message={data.message} />;
+      },
+      // error: 'Check user details 🤯',
+      error: {
+        render({
+          data: {
+            response: { data },
           },
+        }) {
+          console.log(data, "creating user user");
+          // When the promise reject, data will contains the error
+          return `error: ${data}`;
+          // return <MyErrorComponent message={data.message} />;
         },
-      }
-    );
+      },
+    });
     // try {
     //   const response = await atbtApi.post(`sendbyemail/${id}`);
     //   console.log("response", response);
@@ -647,7 +642,7 @@ const Tasks = () => {
     //   console.log("An error occurred while deleting the attachment.");
     // }
   };
-  console.log("mailSending",mailSending)
+  console.log("mailSending", mailSending);
 
   return (
     <div className={` ${parentPath === "tasks" ? "p-3" : ""}`}>
@@ -1361,28 +1356,51 @@ const Tasks = () => {
                     {task?.updatedbyuser}
                   </td>
                   <td className="border py-1 px-2 text-sm text-gray-600 ">
-                  <svg
-  xmlns="http://www.w3.org/2000/svg"
-  fill="none"
-  viewBox="0 0 24 24"
-  strokeWidth="1.5"
-  stroke="currentColor"
-  className={`size-5 ${mailSending ? 'text-gray-400 cursor-not-allowed' : 'hover:text-orange-500'}`}
-  onClick={() => {
-    if (!mailSending) {
-      handleSendMail(task?.id);
-    }
-  }}
->
-  <path
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    d="M6 12 3.269 3.125A59.769 59.769 0 0 1 21.485 12 59.768 59.768 0 0 1 3.27 20.875L5.999 12Zm0 0h7.5"
-  />
-</svg>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                      className={`size-4 ${
+                        mailSending
+                          ? "text-gray-400 cursor-not-allowed"
+                          : "hover:text-orange-500"
+                      }`}
+                      onClick={() => {
+                        if (!mailSending) {
+                          handleSendMail(task?.id);
+                        }
+                      }}
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M2.106 6.447A2 2 0 0 0 1 8.237V16a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V8.236a2 2 0 0 0-1.106-1.789l-7-3.5a2 2 0 0 0-1.788 0l-7 3.5Zm1.48 4.007a.75.75 0 0 0-.671 1.342l5.855 2.928a2.75 2.75 0 0 0 2.46 0l5.852-2.927a.75.75 0 1 0-.67-1.341l-5.853 2.926a1.25 1.25 0 0 1-1.118 0l-5.856-2.928Z"
+                        clip-rule="evenodd"
+                      />
+                    </svg>
 
-
-                 
+                    {/* <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth="1.5"
+                      stroke="currentColor"
+                      className={`size-5 ${
+                        mailSending
+                          ? "text-gray-400 cursor-not-allowed"
+                          : "hover:text-orange-500"
+                      }`}
+                      onClick={() => {
+                        if (!mailSending) {
+                          handleSendMail(task?.id);
+                        }
+                      }}
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M6 12 3.269 3.125A59.769 59.769 0 0 1 21.485 12 59.768 59.768 0 0 1 3.27 20.875L5.999 12Zm0 0h7.5"
+                      />
+                    </svg> */}
                   </td>
                   {/* <td className="border py-1.5 px-3 text-sm text-gray-600 cursor-pointer" style={{width :"3rem"}} >
                     <svg
