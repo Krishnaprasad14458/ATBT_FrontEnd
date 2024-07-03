@@ -682,8 +682,8 @@ function UserForm() {
                       </div>
                     )}
                   {item.type === "email" &&
-                    item.inputname == "email" &&
-                    item.field == "predefined" && (
+                    item.inputname === "email" &&
+                    item.field === "predefined" && (
                       <div>
                         <label
                           htmlFor={item.label}
@@ -722,8 +722,8 @@ function UserForm() {
                       </div>
                     )}
                   {item.type === "phonenumber" &&
-                    item.inputname == "phonenumber" &&
-                    item.field == "predefined" && (
+                    item.inputname === "phonenumber" &&
+                    item.field === "predefined" && (
                       <div>
                         <label
                           htmlFor={item.label}
@@ -859,8 +859,8 @@ function UserForm() {
                       </div>
                     )}
                   {item.type === "select" &&
-                    item.inputname == "role" &&
-                    item.field == "predefined" && (
+                    item.inputname === "role" &&
+                    item.field === "predefined" && (
                       <div>
                         <label
                           htmlFor={item.label}
@@ -992,7 +992,7 @@ function UserForm() {
                       </div>
                     )}
                   {/* custom fields */}
-                  {item.type === "text" && item.field == "custom" && (
+                  {item.type === "text" && item.field === "custom" && (
                     <div>
                       <label
                         htmlFor={item.label}
@@ -1025,7 +1025,7 @@ function UserForm() {
                       </div>
                     </div>
                   )}
-                  {item.type === "email" && item.field == "custom" && (
+                  {item.type === "email" && item.field === "custom" && (
                     <div>
                       <label
                         htmlFor={item.label}
@@ -1129,7 +1129,7 @@ function UserForm() {
                     </div>
                   )}
 
-                  {item.type === "number" && item.field == "custom" && (
+                  {item.type === "number" && item.field === "custom" && (
                     <div>
                       <label
                         htmlFor={item.label}
@@ -1162,7 +1162,7 @@ function UserForm() {
                       </div>
                     </div>
                   )}
-                  {item.type === "phonenumber" && item.field == "custom" && (
+                  {item.type === "phonenumber" && item.field === "custom" && (
                     <div>
                       <label
                         htmlFor={item.label}
@@ -1198,7 +1198,7 @@ function UserForm() {
                       </div>
                     </div>
                   )}
-                  {item.type === "checkbox" && item.field == "custom" && (
+                  {item.type === "checkbox" && item.field === "custom" && (
                     <div>
                       <div className="flex gap-2 mt-3">
                         <input
@@ -1235,7 +1235,7 @@ function UserForm() {
                       </div>
                     </div>
                   )}
-                  {item.type === "date" && item.field == "custom" && (
+                  {item.type === "date" && item.field === "custom" && (
                     <div>
                       <label
                         htmlFor={item.label}
@@ -1301,7 +1301,7 @@ function UserForm() {
                       </div>
                     </div>
                   )}
-                  {item.type === "file" && item.field == "custom" && (
+                  {item.type === "file" && item.field === "custom" && (
                     <div>
                       <label
                         htmlFor={item.label}
@@ -1333,7 +1333,7 @@ function UserForm() {
                       </div>
                     </div>
                   )}
-                  {item.type === "range" && item.field == "custom" && (
+                  {item.type === "range" && item.field === "custom" && (
                     <div>
                       <label
                         htmlFor={item.label}
@@ -1364,7 +1364,7 @@ function UserForm() {
                       </div>
                     </div>
                   )}
-                  {item.type === "textarea" && item.field == "custom" && (
+                  {item.type === "textarea" && item.field === "custom" && (
                     <div>
                       <label
                         htmlFor={item.label}
@@ -1396,7 +1396,7 @@ function UserForm() {
                       </div>
                     </div>
                   )}
-                  {item.type === "select" && item.field == "custom" && (
+                  {item.type === "select" && item.field === "custom" && (
                     <div>
                       <label
                         htmlFor={item.label}
