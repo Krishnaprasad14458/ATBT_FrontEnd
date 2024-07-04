@@ -246,6 +246,13 @@ function Teams() {
                   scope="col"
                   className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200"
                 >
+                 On-Hold Decisions
+                </th>
+
+                <th
+                  scope="col"
+                  className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200"
+                >
                   Completed Decisions
                 </th>
                 <th
@@ -382,6 +389,16 @@ function Teams() {
                         {row?.taskCounts?.overDueCount}
                       </p>
                     </td>
+                    <td
+                      className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden`}
+                      title=""
+                    >
+                      <p className="truncate text-xs">
+                        {" "}
+                        {row?.taskCounts?.onHoldCount}
+                      </p>
+                    </td>
+
                     <td
                       className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden`}
                       title=""
