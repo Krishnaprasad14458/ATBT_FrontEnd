@@ -605,35 +605,35 @@ const Tasks = () => {
   let [mailSendingId, setMailSendingId] = useState(null);
   const handleSendMail = async (id) => {
     return await toast.promise(atbtApi.post(`sendbyemail/${id}`), {
-        pending: {
-            render() {
-                setMailSending(true);
-                return "Sending Mail...";
-            },
+      pending: {
+        render() {
+          setMailSending(true);
+          return "Sending Mail...";
         },
-        success: {
-            render() {
-                setMailSending(false);
-                setMailSendingId(null);
-                return "Mail Sent";
-            },
+      },
+      success: {
+        render() {
+          setMailSending(false);
+          setMailSendingId(null);
+          return "Mail Sent";
         },
-        error: {
-            render({ data }) {
-                setMailSending(false);
-                setMailSendingId(null);
-                // Extracting the error message from the response
-                const errorMessage = data?.response?.data?.message || "Error occurred";
-                console.log(data?.response?.data, "Error sending email");
-                // Returning the error message for the toast notification
-                return `Error: ${errorMessage}`;
-                // Optionally, you can use a custom component here instead
-                // return <MyErrorComponent message={errorMessage} />;
-            },
+      },
+      error: {
+        render({ data }) {
+          setMailSending(false);
+          setMailSendingId(null);
+          // Extracting the error message from the response
+          const errorMessage =
+            data?.response?.data?.message || "Error occurred";
+          console.log(data?.response?.data, "Error sending email");
+          // Returning the error message for the toast notification
+          return `Error: ${errorMessage}`;
+          // Optionally, you can use a custom component here instead
+          // return <MyErrorComponent message={errorMessage} />;
         },
+      },
     });
-};
-
+  };
 
   console.log("mailSending", mailSending);
 
@@ -1349,17 +1349,14 @@ const Tasks = () => {
                     {task?.updatedbyuser}
                   </td>
                   <td className="border py-1 px-2 text-sm text-gray-600 ">
-                    <svg
+                    {/* <svg
                       xmlns="http://www.w3.org/2000/svg"
-
                       fill="none"
                       viewBox="0 0 24 24"
                       strokeWidth="1.5"
                       stroke="currentColor"
                       className={`size-5 ${
-
-                        mailSending && mailSendingId ===task?.id 
-
+                        mailSending && mailSendingId === task?.id
                           ? "text-gray-400 cursor-not-allowed"
                           : "hover:text-orange-500"
                       }`}
@@ -1367,9 +1364,7 @@ const Tasks = () => {
                         if (!mailSending) {
                           handleSendMail(task?.id);
 
-                          setMailSendingId(task?.id)
-                          
-
+                          setMailSendingId(task?.id);
                         }
                       }}
                     >
@@ -1378,9 +1373,29 @@ const Tasks = () => {
                         strokeLinejoin="round"
                         d="M6 12 3.269 3.125A59.769 59.769 0 0 1 21.485 12 59.768 59.768 0 0 1 3.27 20.875L5.999 12Zm0 0h7.5"
                       />
+                    </svg> */}
 
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                      className={`size-5 ${
+                        mailSending && mailSendingId === task?.id
+                          ? "text-gray-400 cursor-not-allowed"
+                          : "hover:text-orange-500"
+                      }`}
+                      onClick={() => {
+                        if (!mailSending) {
+                          handleSendMail(task?.id);
+
+                          setMailSendingId(task?.id);
+                        }
+                      }}
+                    >
+                    
+                      <path d="M3 4a2 2 0 0 0-2 2v1.161l8.441 4.221a1.25 1.25 0 0 0 1.118 0L19 7.162V6a2 2 0 0 0-2-2H3Z" />
+                      <path d="m19 8.839-7.77 3.885a2.75 2.75 0 0 1-2.46 0L1 8.839V14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V8.839Z" />
                     </svg>
-
                   </td>
                   {/* <td className="border py-1.5 px-3 text-sm text-gray-600 cursor-pointer" style={{width :"3rem"}} >
                     <svg
