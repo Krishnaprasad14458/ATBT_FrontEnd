@@ -38,6 +38,7 @@ export async function boardmeetingFormLoader({ params, request }) {
       image: item.image,
       name: item.name,
     }));
+    console.log("boardmeetingResponse",boardmeetingResponse)
     // to
     if (boardmeetingFor === "user" && boardmeetingForID) {
       usersList = usersList.filter((user) => user.value !== boardmeetingForID);
