@@ -4,7 +4,7 @@ import { dateFormat, formatDateandTime } from "../../../../utils/utils";
 
 const ActivityLogs = ({ task }) => {
   let logs =task?.activeLog?.changes
-  
+  logs = logs?.filter((log)=>log.oldValue !==null)
   console.log("tasksks", logs);
   const [displayAllLogs, setDisplayAllLogs] = useState(true);
   console.log("displayAllLogs", displayAllLogs);
@@ -22,10 +22,10 @@ const ActivityLogs = ({ task }) => {
           className="text-sm p-3 text-end text-blue-500 hover:underline"
         >
           {displayAllComments
-            ? "Hide earlier comments"
+            ? "Hide earlier Logs"
             : logs.length === 6
-            ? "One more comment"
-            : logs.length - 5 + " more comments"}
+            ? "One more Log"
+            : logs.length - 5 + " more Logs"}
         </p>
       )}
       {task &&
