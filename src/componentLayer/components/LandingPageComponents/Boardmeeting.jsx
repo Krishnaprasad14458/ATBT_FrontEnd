@@ -84,7 +84,7 @@ function Boardmeeting() {
   let fetcher = useFetcher();
   const data = useLoaderData();
   const { meetings, tableViewData, fieldsDropDownData, customForm } = data;
-  console.log("customForm",customForm,tableViewData)
+  console.log("customForm",customForm,tableViewData,meetings)
   const [Qparams, setQParams] = useState({
     search: "",
     page: 1,
@@ -508,12 +508,12 @@ function Boardmeeting() {
               <option value="500">500</option>
             </select>
             <button
-              disabled={meetings?.currentPage === 1}
+              disabled={meetings?.currentPage == 1}
               onClick={() => handlePage(meetings?.currentPage - 1)}
               className={`relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${
                 meetings?.loading
                   ? "cursor-wait"
-                  : meetings?.currentPage === 1
+                  : meetings?.currentPage == 1
                   ? "cursor-not-allowed"
                   : "cursor-auto"
               }`}
@@ -537,12 +537,12 @@ function Boardmeeting() {
               {meetings?.currentPage}
             </button> */}
             <button
-              disabled={meetings?.currentPage === meetings?.totalPages}
+              disabled={meetings?.currentPage == meetings?.totalPages}
               onClick={() => handlePage(meetings?.currentPage + 1)}
               className={`relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${
                 meetings?.loading
                   ? "cursor-wait"
-                  : meetings?.currentPage === meetings?.totalPages
+                  : meetings?.currentPage == meetings?.totalPages
                   ? "cursor-not-allowed"
                   : "cursor-auto"
               }`}

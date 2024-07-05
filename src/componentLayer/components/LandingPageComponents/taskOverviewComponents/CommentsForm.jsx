@@ -81,6 +81,8 @@ let [uploadStatus,setUploadStatus] = useState()
         } catch (error) {
           console.error("Error during file upload:", error);
           // setMsg("Error In Uploading File");
+        } finally {
+          setUploadStatus("");
         }
       } else if (!file) {
         let CommentData = {
@@ -174,9 +176,19 @@ let [uploadStatus,setUploadStatus] = useState()
           id="fileInput"
           type="file"
           className="hidden"
+          // onChange={(e) => {
+          //   setFile(e.target.files[0]);
+          //   setFileName(e.target?.files[0]?.name);
+          // }}
           onChange={(e) => {
-            setFile(e.target.files[0]);
-            setFileName(e.target.files[0].name);
+            const selectedFile = e.target.files[0];
+            if (selectedFile) {
+              setFile(selectedFile);
+              setFileName(selectedFile.name);
+          
+              // Clear the file input value to allow re-upload of the same file
+              e.target.value = null;
+            }
           }}
         />
       </div>

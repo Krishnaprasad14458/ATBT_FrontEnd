@@ -4,7 +4,13 @@ import { dateFormat, formatDateandTime } from "../../../../utils/utils";
 
 const ActivityLogs = ({ task }) => {
   let logs =task?.activeLog?.changes
-  logs = logs?.filter((log)=>log.oldValue !==null)
+  // logs = logs?.filter((log)=> log.action === "added")
+  logs = logs?.filter(item => {
+    if (item.action === 'added') {
+      return true;
+    }
+    return item.oldValue !== null; 
+  });
   console.log("tasksks", logs);
   const [displayAllLogs, setDisplayAllLogs] = useState(true);
   console.log("displayAllLogs", displayAllLogs);
@@ -28,88 +34,88 @@ const ActivityLogs = ({ task }) => {
             : logs.length - 5 + " more Logs"}
         </p>
       )}
-      {task &&
-        logs &&
-        Array.isArray(logs) &&
-        logs.map((change, changeIndex) => (
-          <React.Fragment>
-            {displayAllComments ||
-            changeIndex >= logs.length - 5 ? (
-              <div key={changeIndex} className="px-3 py-1">
-                {change.oldValue && (
-                  <div>
-                    <span className="font-semibold block md:inline text-sm">
-                      {change.changedBy} &nbsp;
-                    </span>
-                    <span className="text-sm text-gray-500">
-                      {formatDateandTime(change.changeDate)}
-                    </span>
-                    <div>
-                      {change.fieldChanged === "decision" && (
-                        <p className="text-sm">
-                          Decision Taken updated from {change.oldValue} to
-                          &nbsp;
-                          {change.newValue}
-                        </p>
-                      )}
+     {task &&
+  logs &&
+  Array.isArray(logs) &&
+  logs.map((change, changeIndex) => (
+    <React.Fragment key={changeIndex}>
+         
 
-                      {change.fieldChanged === "members" && (
-                        <p className="text-sm">
-                          Person responsible updated from {change.oldValue} to
-                          &nbsp;
-                          {change.newValue}
-                        </p>
-                      )}
-
-                      {change.fieldChanged === "dueDate" && (
-                        <p className="text-sm">
-                          Due Date updated from {dateFormat(change.oldValue)} to &nbsp;
-                          {dateFormat(change.newValue)}
-                        </p>
-                      )}
-
-                      {change.fieldChanged === "collaborators" && (
-                        <p className="text-sm">
-                          {change.oldValue} removed from collaborators
-                        </p>
-                      )}
-                      {change.fieldChanged === "priority" && (
-                        <p className="text-sm">
-                          Priority updated from {change.oldValue} to &nbsp;
-                          {change.newValue}
-                        </p>
-                      )}
-
-                      {change.fieldChanged === "status" && (
-                        <p className="text-sm">
-                          Status updated from {change.oldValue} to &nbsp;
-                          {change.newValue}
-                        </p>
-                      )}
-                    </div>
-                  </div>
+      {(displayAllComments || changeIndex >= logs.length - 5) && (
+        <div className="px-3 py-1">
+          {change.oldValue !== undefined && change?.action !== "added" && (
+            <div>
+              <span className="font-semibold block md:inline text-sm">
+                {change.changedBy} &nbsp;
+              </span>
+              <span className="text-sm text-gray-500">
+                {formatDateandTime(change.changeDate)}
+              </span>
+              <div>
+                {change.fieldChanged === "decision" && (
+                  <p className="text-sm">
+                    Decision Taken updated from {change.oldValue} to &nbsp;
+                    {change.newValue}
+                  </p>
                 )}
 
-                {change.action === "added" && (
-                  <div>
-                    <span className="font-semibold block md:inline text-sm">
-                      {change.changedBy} &nbsp;
-                    </span>
-                    <span className="text-sm text-gray-500">
-                      {formatDateandTime(change.changeDate)}
-                    </span>
+                {change.fieldChanged === "members" && (
+                  <p className="text-sm">
+                    Person responsible updated from {change.oldValue} to &nbsp;
+                    {change.newValue}
+                  </p>
+                )}
 
-                    {change.fieldChanged === "collaborators" && (
-                      <p className="text-sm">
-                        {change.newValue} added as a collaborator
-                      </p>
-                    )}
-                  </div>
+                {change.fieldChanged === "dueDate" && (
+                  <p className="text-sm">
+                    Due Date updated from {dateFormat(change.oldValue)} to &nbsp;
+                    {dateFormat(change.newValue)}
+                  </p>
+                )}
+
+                {change.fieldChanged === "collaborators" && (
+                  <p className="text-sm">
+                    {change.oldValue} removed from collaborators
+                  </p>
+                )}
+
+                {change.fieldChanged === "priority" && (
+                  <p className="text-sm">
+                    Priority updated from {change.oldValue} to &nbsp;
+                    {change.newValue}
+                  </p>
+                )}
+
+                {change.fieldChanged === "status" && (
+                  <p className="text-sm">
+                    Status updated from {change.oldValue} to &nbsp;
+                    {change.newValue}
+                  </p>
                 )}
               </div>
-            ) : null}
-          </React.Fragment>
-        ))}
+            </div>
+          )}
+          
+          {change.action === "added" && (
+            <div>
+              <span className="font-semibold block md:inline text-sm">
+                {change.changedBy} &nbsp;
+              </span>
+              <span className="text-sm text-gray-500">
+                {formatDateandTime(change.changeDate)}
+              </span>
+              {change.fieldChanged === "collaborators" && (
+                <p className="text-sm">
+                  {change.newValue} added as a collaborator
+                </p>
+              )}
+            </div>
+          )}
+        </div>
+      )}
+    </React.Fragment>
+  ))}
+
     </div>
   );
 };
