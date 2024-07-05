@@ -1057,17 +1057,23 @@ const Tasks = () => {
               >
                 Decision Status
               </th>
-              <th className="sticky top-0  bg-orange-600 text-white text-sm text-left px-2 py-2 border-l-2 border-gray-200 "
-              style={{width:"28rem"}}>
+              <th
+                className="sticky top-0  bg-orange-600 text-white text-sm text-left px-2 py-2 border-l-2 border-gray-200 "
+                style={{ width: "28rem" }}
+              >
                 Latest Decision Update
               </th>
               {/* <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2 border-l-2 border-gray-200">
                 Decision Updated of Admin
               </th> */}
-            {(authState?.user?.role === "super admin" || authState?.user?.role === "Super Admin" || authState?.user?.role === "admin" || authState?.user?.role === "Admin") &&
-              <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2 border-l-2 border-gray-200">
-                Actions
-              </th>}
+              {(authState?.user?.role === "super admin" ||
+                authState?.user?.role === "Super Admin" ||
+                authState?.user?.role === "admin" ||
+                authState?.user?.role === "Admin") && (
+                <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2 border-l-2 border-gray-200">
+                  Actions
+                </th>
+              )}
             </tr>
           </thead>
           <tbody className="">
@@ -1347,13 +1353,15 @@ const Tasks = () => {
                       menuPlacement="auto"
                     /> */}
                   </td>
-                  <td className="border py-1 px-2 text-sm text-gray-600"  >
+                  <td className="border py-1 px-2 text-sm text-gray-600">
                     {task?.updatedbyuser}
                   </td>
-                  {(authState?.user?.role === "super admin" || authState?.user?.role === "Super Admin" || authState?.user?.role === "admin" || authState?.user?.role === "Admin") &&
-
-                <td className="border py-1 px-2 text-sm text-gray-600 ">
-                    {/* <svg
+                  {(authState?.user?.role === "super admin" ||
+                    authState?.user?.role === "Super Admin" ||
+                    authState?.user?.role === "admin" ||
+                    authState?.user?.role === "Admin") && (
+                    <td className="border py-1 px-2 text-sm text-gray-600 ">
+                      {/* <svg
                       xmlns="http://www.w3.org/2000/svg"
                       fill="none"
                       viewBox="0 0 24 24"
@@ -1378,29 +1386,29 @@ const Tasks = () => {
                         d="M6 12 3.269 3.125A59.769 59.769 0 0 1 21.485 12 59.768 59.768 0 0 1 3.27 20.875L5.999 12Zm0 0h7.5"
                       />
                     </svg> */}
+                      {/* <p> Send Mail</p> */}
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                        className={`size-5 ${
+                          mailSending && mailSendingId === task?.id
+                            ? "text-gray-400 cursor-not-allowed"
+                            : "hover:text-orange-500"
+                        }`}
+                        onClick={() => {
+                          if (!mailSending) {
+                            handleSendMail(task?.id);
 
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                      className={`size-5 ${
-                        mailSending && mailSendingId === task?.id
-                          ? "text-gray-400 cursor-not-allowed"
-                          : "hover:text-orange-500"
-                      }`}
-                      onClick={() => {
-                        if (!mailSending) {
-                          handleSendMail(task?.id);
-
-                          setMailSendingId(task?.id);
-                        }
-                      }}
-                    >
-                    
-                      <path d="M3 4a2 2 0 0 0-2 2v1.161l8.441 4.221a1.25 1.25 0 0 0 1.118 0L19 7.162V6a2 2 0 0 0-2-2H3Z" />
-                      <path d="m19 8.839-7.77 3.885a2.75 2.75 0 0 1-2.46 0L1 8.839V14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V8.839Z" />
-                    </svg>
-                  </td>}
+                            setMailSendingId(task?.id);
+                          }
+                        }}
+                      >
+                        <path d="M3 4a2 2 0 0 0-2 2v1.161l8.441 4.221a1.25 1.25 0 0 0 1.118 0L19 7.162V6a2 2 0 0 0-2-2H3Z" />
+                        <path d="m19 8.839-7.77 3.885a2.75 2.75 0 0 1-2.46 0L1 8.839V14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V8.839Z" />
+                      </svg>
+                    </td>
+                  )}
                   {/* <td className="border py-1.5 px-3 text-sm text-gray-600 cursor-pointer" style={{width :"3rem"}} >
                     <svg
                       onClick={() => handleDeleteTask(task.id)}

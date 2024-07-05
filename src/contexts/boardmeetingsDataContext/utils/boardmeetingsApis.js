@@ -93,7 +93,7 @@ export const createBoardMeeting = async (
       pending: "verifying data",
       success: {
         render(data) {
-          return `BoardMeeting created`;
+          return `Board Meeting created`;
         },
       },
       error: "Error in creating BoardMeeting 🤯",
