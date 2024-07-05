@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import login_bg from "../../../assets/Images/login_bg.jpg";
-import logo from "../../../assets/Images/logo.png";
+import logo from "../../../assets/Images/Kapil-Logo.png";
 import { AuthContext } from "../../../contexts/authContext/authContext";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -116,20 +116,22 @@ function ChangePassword() {
         className="absolute w-screen h-screen"
       />
       <div className="relative flex justify-center h-screen items-center">
-        <div className="w-96 rounded-lg overflow-hidden shadow-2xl p-8">
-          <div className="sm:mx-auto sm:w-full sm:max-w-sm">
+        <div className="w-96 rounded-lg overflow-hidden shadow-2xl ">
+          <div className="sm:mx-auto sm:w-full sm:max-w-sm pt-8">
             <img
-              className="mx-auto h-10 w-auto"
+              className="mx-auto h-16 w-auto"
               src={logo}
               alt="Company Logo"
             />
-            <h2 className="mt-4 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900 ">
+              <p className="text-xs text-center p-1 font-semibold mb-1"> Creating Value || Cultivating Trust</p>
+              <hr className="p-1"/>
+            <h2 className=" text-center text-2xl font-bold leading-9 tracking-tight text-gray-900 ">
               Change Password
             </h2>
           </div>
 
-          <div className="mt-4 sm:mx-auto sm:w-full sm:max-w-sm">
-            <form className="space-y-6" action="#" method="POST">
+          <div className="mt-4 sm:mx-auto sm:w-full sm:max-w-sm px-8 pb-8">
+            <form className="space-y-2" action="#" method="POST">
               {authState?.user?.id && authState?.token && (
                 <div>
                   <label

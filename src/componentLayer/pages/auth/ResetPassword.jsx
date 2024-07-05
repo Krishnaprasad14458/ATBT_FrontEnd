@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import login_bg from "../../../assets/Images/login_bg.jpg";
-import logo from "../../../assets/Images/logo.png";
+import logo from "../../../assets/Images/Kapil-Logo.png";
 import { AuthContext } from "../../../contexts/authContext/authContext";
 import reset_gif from "../../../assets/Images/05 Mail delivery.gif";
 function ResetPassword() {
@@ -36,22 +36,24 @@ function ResetPassword() {
         className="absolute w-screen h-screen"
       />
       <div className="relative flex justify-center h-screen items-center">
-        <div className="w-96 rounded-lg overflow-hidden shadow-2xl p-8">
-          <div className="sm:mx-auto sm:w-full sm:max-w-sm">
+        <div className="w-96 rounded-lg overflow-hidden shadow-2xl ">
+          <div className="sm:mx-auto sm:w-full sm:max-w-sm p-8">
             <img
-              className="mx-auto h-12 w-auto mb-5"
+              className="mx-auto h-16 w-auto mb-5"
               src={logo}
               alt="Company Logo"
             />
+              <p className="text-xs text-center p-1 font-semibold mb-1"> Creating Value || Cultivating Trust</p>
+              <hr className="p-1"/>
             <h2 className="mb-3 text-center text-lg font-semibold text-gray-900">
               Reset your Password
             </h2>
-            <p className="mb-3 text-center text-sm">
+            <p className=" text-center text-sm">
               Enter your email id to reset your password.
             </p>
           </div>
           <img src={reset_gif} className="h-24 mx-auto w-auto rounded-md " />
-          <div className=" sm:mx-auto sm:w-full sm:max-w-sm">
+          <div className=" sm:mx-auto sm:w-full sm:max-w-sm px-8 pb-8">
             <form className="space-y-6" action="#" method="POST">
               <div>
                 <label

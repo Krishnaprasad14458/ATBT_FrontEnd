@@ -380,8 +380,10 @@ const Tasks = () => {
   const { authState } = useContext(AuthContext);
   const { permissions, loading } = useContext(PermissionsContext);
 
-let meetingPermission = permissions?.find((permission=>permission.module ==="task"))
-console.log(meetingPermission,"meetingPermission")
+  let meetingPermission = permissions?.find(
+    (permission) => permission.module === "task"
+  );
+  console.log(meetingPermission, "meetingPermission");
   console.log("authState authState", authState);
   let submit = useSubmit();
   let location = useLocation();
@@ -1124,10 +1126,14 @@ console.log(meetingPermission,"meetingPermission")
                         isInputActiveID === null) && (
                         <p
                           className="text-sm break-words"
-                          onClick={meetingPermission.canUpdate ? () => {
-                            setIsInputActive(task.id);
-                            setAutoFocusID(task.id);
-                          } : null}
+                          onClick={
+                            meetingPermission.canUpdate
+                              ? () => {
+                                  setIsInputActive(task.id);
+                                  setAutoFocusID(task.id);
+                                }
+                              : null
+                          }
                           style={{
                             width: "21rem",
                             height: decisionHeight,
@@ -1177,7 +1183,7 @@ console.log(meetingPermission,"meetingPermission")
 
                   <td className="border py-1 px-2">
                     <Select
-          isDisabled={!meetingPermission.canUpdate}
+                      isDisabled={!meetingPermission.canUpdate}
                       options={members}
                       menuPortalTarget={document.body}
                       closeMenuOnScroll={() => true}
@@ -1192,7 +1198,7 @@ console.log(meetingPermission,"meetingPermission")
                           boxShadow: state.isFocused
                             ? "none"
                             : provided.boxShadow,
-                            cursor:"pointer",
+                          cursor: "pointer",
                           fontSize: "16px",
                           height: "36px", // Adjust the height here
                           "&:hover": {
@@ -1213,7 +1219,7 @@ console.log(meetingPermission,"meetingPermission")
                           ...provided,
                           color: state.isFocused ? "#fff" : "#000000",
                           fontSize: "12px",
-                          cursor:"pointer",
+                          cursor: "pointer",
                           backgroundColor: state.isFocused
                             ? "#ea580c"
                             : "transparent",
@@ -1248,15 +1254,22 @@ console.log(meetingPermission,"meetingPermission")
                           primary: "#fb923c",
                         },
                       })}
-                      onChange={meetingPermission.canUpdate ? (selectedOption) => {
-                        handleSubmit(task?.id, "members", selectedOption.value);
-                        handleTaskChange(
-                          index,
-                          "members",
-                          selectedOption.value
-                        );
-                      }: null}
-                     
+                      onChange={
+                        meetingPermission.canUpdate
+                          ? (selectedOption) => {
+                              handleSubmit(
+                                task?.id,
+                                "members",
+                                selectedOption.value
+                              );
+                              handleTaskChange(
+                                index,
+                                "members",
+                                selectedOption.value
+                              );
+                            }
+                          : null
+                      }
                       value={
                         task?.members === null ||
                         task?.members === "" ||
@@ -1282,11 +1295,19 @@ console.log(meetingPermission,"meetingPermission")
                         WebkitAppearance: "none",
                       }}
                       min={getCurrentDate()}
-                      onChange={meetingPermission.canUpdate ?  (e) => {
-                        handleSubmit(task?.id, "dueDate", e.target.value);
-                        handleTaskChange(index, "dueDate", e.target.value);
-                      } : null}
-                     disabled={!meetingPermission.canUpdate}
+                      onChange={
+                        meetingPermission.canUpdate
+                          ? (e) => {
+                              handleSubmit(task?.id, "dueDate", e.target.value);
+                              handleTaskChange(
+                                index,
+                                "dueDate",
+                                e.target.value
+                              );
+                            }
+                          : null
+                      }
+                      disabled={!meetingPermission.canUpdate}
                     />
                   </td>
 
@@ -1363,7 +1384,7 @@ console.log(meetingPermission,"meetingPermission")
                       menuPlacement="auto"
                     /> */}
                   </td>
-                  <td className="border py-1 px-2 text-sm text-gray-600" >
+                  <td className="border py-1 px-2 text-sm text-gray-600 ">
                     {task?.updatedbyuser}
                   </td>
                   {(authState?.user?.role === "super admin" ||
@@ -1371,8 +1392,8 @@ console.log(meetingPermission,"meetingPermission")
                     authState?.user?.role === "admin" ||
                     authState?.user?.role === "Admin") && (
                     <td className="border py-1 px-2 text-sm text-gray-600 ">
-                 
-                      <p className={`text-sm ${
+                      <p
+                        className={`text-sm flex  ${
                           mailSending && mailSendingId === task?.id
                             ? "text-gray-400 cursor-not-allowed"
                             : "hover:text-orange-500 cursor-pointer"
@@ -1383,7 +1404,32 @@ console.log(meetingPermission,"meetingPermission")
 
                             setMailSendingId(task?.id);
                           }
-                        }}> Send Mail</p>
+                        }}
+                      >
+               
+
+                        {/* <svg
+                          height="650pt"
+                          viewBox="-20 -149 650.66601 650"
+                          width="650pt"
+                          xmlns="http://www.w3.org/2000/svg"
+                          class="size-5 hover:text-orange-500"
+                          id="fi_1334160"
+                          
+                        >
+                          <path d="m500.414062 60.027344c-2.5-2.492188-6.253906-3.230469-9.519531-1.875-3.257812 1.355468-5.382812 4.539062-5.382812 8.070312v55.371094c-6.558594.210938-12.746094.726562-18.601563 1.453125v-72.644531c0-1.160156-.042968-2.3125-.109375-3.453125.222657-1.449219.078125-2.929688-.421875-4.304688-3.914062-29.125-28.753906-50.875-58.140625-50.925781l-349.566406-.007812c-29.484375.042968-54.371094 21.933593-58.175781 51.171874-.4609378 1.335938-.597656 2.757813-.394532 4.152344-.0624995 1.113282-.101562 2.226563-.101562 3.351563v233.992187c-.015625 13.683594 4.777344 26.941406 13.539062 37.449219.421876.816406.972657 1.5625 1.632813 2.203125.390625.382812.820313.726562 1.273437 1.027344 11.035157 11.503906 26.289063 18.007812 42.226563 18.003906l349.566406.007812c15.917969 0 31.148438-6.484374 42.179688-17.960937 1.234375-.8125 2.242187-1.929687 2.921875-3.242187 8.777344-10.515626 13.578125-23.777344 13.566406-37.472657v-61.058593c6.179688-.636719 12.402344-.753907 18.605469-.34375v57.257812c0 3.535156 2.132812 6.71875 5.402343 8.070312 3.269532 1.351563 7.027344.59375 9.527344-1.910156l107.015625-107.542968c3.402344-3.425782 3.386719-8.960938-.03125-12.363282zm-441.742187-50.839844 349.566406.011719c19.605469.027343 36.488281 13.84375 40.390625 33.054687l-191.699218 162.570313c-13.484376 11.503906-33.324219 11.511719-46.820313.019531l-191.851563-162.464844c3.847657-19.277344 20.757813-33.167968 40.414063-33.191406zm-.007813 316.394531c-8.921874.011719-17.601562-2.890625-24.722656-8.257812l105.4375-107.832031c3.375-3.453126 3.3125-8.984376-.140625-12.359376-3.449219-3.375-8.984375-3.316406-12.359375.136719l-104.410156 106.78125c-3.292969-6.03125-5.015625-12.792969-5.003906-19.667969l.007812-219.765624 181.34375 153.566406c20.007813 17.035156 49.421875 17.023437 69.414063-.027344l181.207031-153.675781v61.574219c-32.691406 7.277343-50.800781 20.945312-54.289062 23.800781l-.019532-.027344c-19.320312 15.875-34.453125 36.246094-44.066406 59.332031l-11.699219-11.898437c-3.382812-3.445313-8.914062-3.492188-12.355469-.109375-3.445312 3.386718-3.492187 8.921875-.109374 12.359375l17.839843 18.15625c-.957031 3.527343-1.824219 7.085937-2.539062 10.710937-3.394531 16.769532-4.003907 33.980469-1.800781 50.945313l.011718.078125c.019532.132812.039063.269531.0625.40625l2.148438 12.367187c.625 3.597657 3.425781 6.425781 7.015625 7.09375 3.585937.667969 7.214843-.964843 9.09375-4.09375l6.445312-10.75c5.589844-9.378906 12.003907-18.234375 19.171875-26.464843l48.5625 49.40625c-7.109375 5.34375-15.769531 8.226562-24.664062 8.214843zm390.765626-41.1875c.003906 6.902344-1.730469 13.6875-5.046876 19.734375l-47.804687-48.644531c14.980469-13.84375 33.128906-23.808594 52.851563-29.011719zm53.554687-25.320312v-43.894531c0-4.289063-3.109375-7.945313-7.34375-8.628907-12.839844-1.84375-25.890625-1.671875-38.675781.515625-.226563.035156-.457032.070313-.675782.117188-28.878906 4.867187-67.664062 20.980468-99.621093 68.089844-.414063-11.230469.480469-22.476563 2.667969-33.503907 6.222656-31.4375 22.011718-57.839843 46.941406-78.476562.125-.097657.230468-.199219.34375-.300781 1.175781-.960938 30.324218-24.039063 86.019531-24.039063h1.617187c4.820313 0 8.738282-3.914063 8.738282-8.738281v-42.96875l85.90625 85.484375zm0 0"></path>
+                        </svg> */}
+                        <svg
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                          id="fi_10747263"
+                          xmlns="http://www.w3.org/2000/svg"
+                          class="size-5 hover:text-orange-500"
+                        >
+                          <path d="m19 1.75h-14c-2.07 0-3.75 1.68-3.75 3.75v10c0 2.07 1.68 3.75 3.75 3.75h3c.41 0 .75-.34.75-.75s-.34-.75-.75-.75h-3c-1.24 0-2.25-1.01-2.25-2.25v-9.66l8.35 5c.28.17.59.25.9.25s.62-.08.9-.25l8.35-5v7c0 .41.34.75.75.75s.75-.34.75-.75v-7.34c0-2.07-1.68-3.75-3.75-3.75zm-6.87 7.8c-.08.05-.17.05-.26 0l-8.77-5.25c.4-.63 1.1-1.05 1.9-1.05h14c.8 0 1.5.42 1.9 1.05zm10.4 8.42c.29.29.29.77 0 1.06l-3 3c-.15.15-.34.22-.53.22s-.38-.07-.53-.22c-.29-.29-.29-.77 0-1.06l1.72-1.72h-8.19c-.41 0-.75-.34-.75-.75s.34-.75.75-.75h8.19l-1.72-1.72c-.29-.29-.29-.77 0-1.06s.77-.29 1.06 0z"></path>
+                        </svg>
+                        {/* Email */}
+                      </p>
                       {/* <svg
                         xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 20 20"
