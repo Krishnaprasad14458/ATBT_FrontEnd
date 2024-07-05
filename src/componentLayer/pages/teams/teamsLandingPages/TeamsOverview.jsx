@@ -236,9 +236,12 @@ const TeamsOverview = () => {
                                       className=" flex items-center md:items-start xl:items-center  overflow-hidden"
                                      
                                     >
+                                      {/* \nDesignation : ${designation} */}
                                       <div
                                         className=""
-                                        title={`Name : ${username}\nEmail : ${mail}\nDesignation : ${designation}`}
+                                        title={`Name : ${username}\nEmail : ${mail}
+                                      
+                                        `}
                                       >
                                         {index < 11 &&   <div>
                                 <p className="truncate w-64 text-sm">{username}</p>{" "}
