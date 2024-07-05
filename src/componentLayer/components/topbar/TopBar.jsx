@@ -55,7 +55,7 @@ export default function TopBar({ open, setOpen }) {
       <nav className="bg-white shadow-md ">
         <div className="mx-auto max-w-screen pe-2 sm:px-6 lg:px-2">
           <div
-            className={`flex h-16 items-center justify-between gap-3 ${
+            className={`flex h-16 items-center justify-between gap-3 cursor-pointer ${
               open ? "expand" : "close"
             }`}
           >

@@ -135,7 +135,7 @@ const Documents = ({ belongsTo }) => {
                   <tr className="hover:bg-slate-100 dark:hover:bg-gray-700">
                     {id && !BMid && (
                       <td className="px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium overflow-hidden">
-                        {attachment?.MeetingId}
+                        {attachment?.meetingnumber}
                       </td>
                     )}
                     <td className="px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium overflow-hidden">

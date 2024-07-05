@@ -4,6 +4,7 @@ import { Link, useParams, redirect, useLoaderData } from "react-router-dom";
 
 import atbtApi from "../../../../serviceLayer/interceptor";
 import { dateFormat, formatTime } from "../../../../utils/utils";
+import GateKeeper from "../../../../rbac/GateKeeper";
 export const teamLandingLoader = async ({ params }) => {
   try {
     const [data] = await Promise.all([atbtApi.get(`/team/list/${params?.id}`)]);
@@ -25,11 +26,16 @@ const TeamsOverview = () => {
   return (
     <div className="p-4 bg-[#f8fafc]">
       <div className="flex justify-end gap-3 pb-5 md:pb-0">
+      <GateKeeper
+              permissionCheck={(permission) =>
+                permission.module === "team" && permission.canUpdate
+              }
+            >
         <Link to={`../${id}/edit`} relative="path">
           <button className=" flex  justify-center rounded-md bg-orange-600 px-3 py-2 text-sm font-medium leading-6 text-white shadow-sm  focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600">
             Edit
           </button>
-        </Link>
+        </Link>       </GateKeeper>
       </div>
       <div className=" flex justify-center mt-5">
         <div className="w-full md:w-full  lg:w-11/12 xl:11/12 shadow-md border-2 rounded-md bg-[#f8fafc] px-4 pb-4">

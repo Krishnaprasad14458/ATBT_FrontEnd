@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Select from "react-select";
 
-const Collaborators = ({ task, handleSubmit }) => {
+const Collaborators = ({ task, handleSubmit, meetingPermission }) => {
   console.log("task", task, task?.collaborators);
 
   let CollaboratorsId = task?.collaborators?.map((collaborat) => collaborat.id);
@@ -45,7 +45,11 @@ const Collaborators = ({ task, handleSubmit }) => {
                     strokeWidth="1.5"
                     stroke="currentColor"
                     className="w-6 h-6 text-white hover:bg-black cursor-pointer"
-                    onClick={() => handleRemoveCollaborator(collaborator.id)}
+                    onClick={
+                      meetingPermission.canUpdate
+                        ? () => handleRemoveCollaborator(collaborator.id)
+                        : null
+                    }
                   >
                     <path
                       strokeLinecap="round"
@@ -132,19 +136,23 @@ const Collaborators = ({ task, handleSubmit }) => {
                 primary: "#fb923c",
               },
             })}
-            onChange={async (selectedOption) => {
-              let updatedCollaborators = [
-                ...CollaboratorsId,
-                selectedOption.value,
-              ];
-              console.log("first", updatedCollaborators, CollaboratorsId);
-              await handleSubmit(
-                task?.id,
-                "collaborators",
-                updatedCollaborators
-              );
-              setIsCollaboratorsEditing(false);
-            }}
+            onChange={
+              meetingPermission.canUpdate
+                ? async (selectedOption) => {
+                    let updatedCollaborators = [
+                      ...CollaboratorsId,
+                      selectedOption.value,
+                    ];
+                    console.log("first", updatedCollaborators, CollaboratorsId);
+                    await handleSubmit(
+                      task?.id,
+                      "collaborators",
+                      updatedCollaborators
+                    );
+                    setIsCollaboratorsEditing(false);
+                  }
+                : null
+            }
             menuPlacement="auto"
             className="date_type"
           />
@@ -152,21 +160,25 @@ const Collaborators = ({ task, handleSubmit }) => {
 
         <p>
           {/* add collaborators icon */}
-          <svg
+         {meetingPermission.canUpdate && <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 24 24"
             strokeWidth={1.5}
             stroke="currentColor"
             className="w-4 h-4 mt-2"
-            onClick={() => setIsCollaboratorsEditing(!isCollaboratorsEditing)}
+            onClick={
+              meetingPermission.canUpdate
+                ? () => setIsCollaboratorsEditing(!isCollaboratorsEditing)
+                : null
+            }
           >
             <path
               strokeLinecap="round"
               strokeLinejoin="round"
               d="M12 4.5v15m7.5-7.5h-15"
             />
-          </svg>
+          </svg>}
         </p>
       </div>
     </div>

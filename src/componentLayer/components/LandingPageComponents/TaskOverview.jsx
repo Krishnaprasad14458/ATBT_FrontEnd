@@ -8,7 +8,7 @@ import CommentsView from "./taskOverviewComponents/CommentsView";
 import CommentsForm from "./taskOverviewComponents/CommentsForm";
 import ActivityLogs from "./taskOverviewComponents/ActivityLogs";
 import LogsCommentBar from "./taskOverviewComponents/LogsCommentBar";
-const TaskOverview = ({
+const TaskOverview = ({meetingPermission,
   setAutoFocussubTaskID,
   isSubTaskInputActiveID,
   setIsSubTaskInputActive,
@@ -134,10 +134,12 @@ const TaskOverview = ({
                 setDisplayOverviewTask={setDisplayOverviewTask}
                 setDisplayOverviewSubTask={setDisplayOverviewSubTask}
                 displayOverviewSubTask={displayOverviewSubTask}
+                meetingPermission={meetingPermission}
               />
             </div>
             {displayOverviewTask && (
               <SubTasksList
+              meetingPermission={meetingPermission}
               
                 task={task}
                 handleAddSubTask={handleAddSubTask}
@@ -189,6 +191,8 @@ const TaskOverview = ({
 
         />}
       {displayOverviewTask &&  <Collaborators
+
+meetingPermission={meetingPermission}
         handleOverviewTaskChange={
           displayOverviewTask
             ? handleOverviewTaskChange

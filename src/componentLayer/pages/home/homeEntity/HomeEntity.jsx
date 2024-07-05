@@ -113,7 +113,7 @@ function HomeEntity() {
               data?.Entities?.map((entity) => (
                 <li
                   className="py-2 md:px-5  hover:bg-slate-100"
-                  title={caseLetter(entity?.name ?? "none")}
+                  
                   key={entity.id}
                 >
                   <Link to={`/entities/${entity.id}`}>

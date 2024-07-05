@@ -26,6 +26,7 @@ import TasksFilter from "../tableCustomization/TasksFilter";
 import { toast } from "react-toastify";
 
 import mailsent from "../../../assets/Images/mailsent.svg";
+import { PermissionsContext } from "../../../rbac/PermissionsProvider";
 
 let status = [
   { label: "To-Do", value: "To-Do" },
@@ -379,7 +380,11 @@ export async function TasksActions({ request, params }) {
 }
 const Tasks = () => {
   const { authState } = useContext(AuthContext);
-  console.log("authState authState", authState?.user?.id);
+  const { permissions, loading } = useContext(PermissionsContext);
+
+let meetingPermission = permissions?.find((permission=>permission.module ==="task"))
+console.log(meetingPermission,"meetingPermission")
+  console.log("authState authState", authState);
   let submit = useSubmit();
   let location = useLocation();
   let matches = useMatches();
@@ -739,7 +744,7 @@ const Tasks = () => {
                     viewBox="0 0 24 24"
                     stroke-width="1.5"
                     stroke="currentColor"
-                    class="size-4"
+                    class="size-4 cursor-pointer hover:text-orange-500"
                   >
                     <path
                       stroke-linecap="round"
@@ -1059,15 +1064,23 @@ const Tasks = () => {
               >
                 Decision Status
               </th>
-              <th className="sticky top-0  bg-orange-600 text-white text-sm text-left px-2 py-2 border-l-2 border-gray-200 ">
+              <th
+                className="sticky top-0  bg-orange-600 text-white text-sm text-left px-2 py-2 border-l-2 border-gray-200 "
+                style={{ width: "28rem" }}
+              >
                 Latest Decision Update
               </th>
               {/* <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2 border-l-2 border-gray-200">
                 Decision Updated of Admin
               </th> */}
-              <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2 border-l-2 border-gray-200">
-                Actions
-              </th>
+              {(authState?.user?.role === "super admin" ||
+                authState?.user?.role === "Super Admin" ||
+                authState?.user?.role === "admin" ||
+                authState?.user?.role === "Admin") && (
+                <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2 border-l-2 border-gray-200">
+                  Actions
+                </th>
+              )}
             </tr>
           </thead>
           <tbody className="">
@@ -1113,10 +1126,10 @@ const Tasks = () => {
                         isInputActiveID === null) && (
                         <p
                           className="text-sm break-words"
-                          onClick={() => {
+                          onClick={meetingPermission.canUpdate ? () => {
                             setIsInputActive(task.id);
                             setAutoFocusID(task.id);
-                          }}
+                          } : null}
                           style={{
                             width: "21rem",
                             height: decisionHeight,
@@ -1166,6 +1179,7 @@ const Tasks = () => {
 
                   <td className="border py-1 px-2">
                     <Select
+          isDisabled={!meetingPermission.canUpdate}
                       options={members}
                       menuPortalTarget={document.body}
                       closeMenuOnScroll={() => true}
@@ -1180,6 +1194,7 @@ const Tasks = () => {
                           boxShadow: state.isFocused
                             ? "none"
                             : provided.boxShadow,
+                            cursor:"pointer",
                           fontSize: "16px",
                           height: "36px", // Adjust the height here
                           "&:hover": {
@@ -1200,6 +1215,7 @@ const Tasks = () => {
                           ...provided,
                           color: state.isFocused ? "#fff" : "#000000",
                           fontSize: "12px",
+                          cursor:"pointer",
                           backgroundColor: state.isFocused
                             ? "#ea580c"
                             : "transparent",
@@ -1234,14 +1250,15 @@ const Tasks = () => {
                           primary: "#fb923c",
                         },
                       })}
-                      onChange={(selectedOption) => {
+                      onChange={meetingPermission.canUpdate ? (selectedOption) => {
                         handleSubmit(task?.id, "members", selectedOption.value);
                         handleTaskChange(
                           index,
                           "members",
                           selectedOption.value
                         );
-                      }}
+                      }: null}
+                     
                       value={
                         task?.members === null ||
                         task?.members === "" ||
@@ -1267,10 +1284,11 @@ const Tasks = () => {
                         WebkitAppearance: "none",
                       }}
                       min={getCurrentDate()}
-                      onChange={(e) => {
+                      onChange={meetingPermission.canUpdate ?  (e) => {
                         handleSubmit(task?.id, "dueDate", e.target.value);
                         handleTaskChange(index, "dueDate", e.target.value);
-                      }}
+                      } : null}
+                     disabled={!meetingPermission.canUpdate}
                     />
                   </td>
 
@@ -1347,58 +1365,49 @@ const Tasks = () => {
                       menuPlacement="auto"
                     /> */}
                   </td>
-                  <td className="border py-1 px-2 text-sm text-gray-600">
+                  <td className="border py-1 px-2 text-sm text-gray-600" >
                     {task?.updatedbyuser}
                   </td>
-                  <td className="border py-1 px-2 text-sm text-gray-600 ">
-                    {/* <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      strokeWidth="1.5"
-                      stroke="currentColor"
-                      className={`size-5 ${
-                        mailSending && mailSendingId === task?.id
-                          ? "text-gray-400 cursor-not-allowed"
-                          : "hover:text-orange-500"
-                      }`}
-                      onClick={() => {
-                        if (!mailSending) {
-                          handleSendMail(task?.id);
+                  {(authState?.user?.role === "super admin" ||
+                    authState?.user?.role === "Super Admin" ||
+                    authState?.user?.role === "admin" ||
+                    authState?.user?.role === "Admin") && (
+                    <td className="border py-1 px-2 text-sm text-gray-600 ">
+                 
+                      <p className={`text-sm ${
+                          mailSending && mailSendingId === task?.id
+                            ? "text-gray-400 cursor-not-allowed"
+                            : "hover:text-orange-500 cursor-pointer"
+                        }`}
+                        onClick={() => {
+                          if (!mailSending) {
+                            handleSendMail(task?.id);
 
-                          setMailSendingId(task?.id);
-                        }
-                      }}
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M6 12 3.269 3.125A59.769 59.769 0 0 1 21.485 12 59.768 59.768 0 0 1 3.27 20.875L5.999 12Zm0 0h7.5"
-                      />
-                    </svg> */}
+                            setMailSendingId(task?.id);
+                          }
+                        }}> Send Mail</p>
+                      {/* <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                        className={`size-5 ${
+                          mailSending && mailSendingId === task?.id
+                            ? "text-gray-400 cursor-not-allowed"
+                            : "hover:text-orange-500"
+                        }`}
+                        onClick={() => {
+                          if (!mailSending) {
+                            handleSendMail(task?.id);
 
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                      className={`size-5 ${
-                        mailSending && mailSendingId === task?.id
-                          ? "text-gray-400 cursor-not-allowed"
-                          : "hover:text-orange-500"
-                      }`}
-                      onClick={() => {
-                        if (!mailSending) {
-                          handleSendMail(task?.id);
-
-                          setMailSendingId(task?.id);
-                        }
-                      }}
-                    >
-                    
-                      <path d="M3 4a2 2 0 0 0-2 2v1.161l8.441 4.221a1.25 1.25 0 0 0 1.118 0L19 7.162V6a2 2 0 0 0-2-2H3Z" />
-                      <path d="m19 8.839-7.77 3.885a2.75 2.75 0 0 1-2.46 0L1 8.839V14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V8.839Z" />
-                    </svg>
-                  </td>
+                            setMailSendingId(task?.id);
+                          }
+                        }}
+                      >
+                        <path d="M3 4a2 2 0 0 0-2 2v1.161l8.441 4.221a1.25 1.25 0 0 0 1.118 0L19 7.162V6a2 2 0 0 0-2-2H3Z" />
+                        <path d="m19 8.839-7.77 3.885a2.75 2.75 0 0 1-2.46 0L1 8.839V14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V8.839Z" />
+                      </svg> */}
+                    </td>
+                  )}
                   {/* <td className="border py-1.5 px-3 text-sm text-gray-600 cursor-pointer" style={{width :"3rem"}} >
                     <svg
                       onClick={() => handleDeleteTask(task.id)}
@@ -1447,6 +1456,7 @@ const Tasks = () => {
         setAutoFocussubTaskID={setAutoFocussubTaskID}
         setSubTask={setSubTask}
         handleSendComment={handleSendComment}
+        meetingPermission={meetingPermission}
       />
       {/* pagination */}
       <div className="inset-x-0 bottom-0 mt-5">

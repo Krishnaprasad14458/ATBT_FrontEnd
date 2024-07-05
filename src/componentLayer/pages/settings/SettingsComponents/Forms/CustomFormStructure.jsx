@@ -23,13 +23,13 @@ const CustomFormStructure = () => {
     mandatory: false,
     field: "custom",
   });
-  console.log("newInputField",newInputField)
+  console.log("newInputField", newInputField);
   useEffect(() => {
     axios
       .get(`https://atbtmain.infozit.com/form/list?name=${formName}`)
       .then((response) => {
         // Handle the successful response
-        setCustomForm(response.data.Data); 
+        setCustomForm(response.data.Data);
         setTableView(response.data.Tableview);
       })
       .catch((error) => {
@@ -198,11 +198,12 @@ const CustomFormStructure = () => {
         const updatedForm = [...customForm];
         updatedForm[editIndex] = newInputField;
         setCustomForm(updatedForm);
-        if (newInputField.type &&
+        if (
+          newInputField.type &&
           newInputField.type !== "checkbox" &&
           newInputField.type !== "password" &&
           newInputField.type !== "textarea" &&
-          newInputField.type !== "multiselect" 
+          newInputField.type !== "multiselect"
         ) {
           setTableView((prevState) => {
             const updatedState = { ...prevState };
@@ -232,13 +233,12 @@ const CustomFormStructure = () => {
           let newField = { ...newInputField };
           delete newField.options;
           setCustomForm((prev) => [...prev, newField]);
-          if (newInputField.type &&
+          if (
+            newInputField.type &&
             newInputField.type !== "checkbox" &&
             newInputField.type !== "password" &&
             newInputField.type !== "textarea" &&
             newInputField.type !== "multiselect"
-
-          
           ) {
             setTableView((prevState) => {
               const updatedState = { ...prevState };
@@ -252,14 +252,12 @@ const CustomFormStructure = () => {
           }
         } else {
           setCustomForm((prev) => [...prev, newInputField]);
-          if (newInputField.type &&
+          if (
+            newInputField.type &&
             newInputField.type !== "checkbox" &&
             newInputField.type !== "password" &&
             newInputField.type !== "textarea" &&
             newInputField.type !== "multiselect"
-
-
-            
           ) {
             setTableView((prevState) => {
               const updatedState = { ...prevState };
@@ -401,7 +399,7 @@ const CustomFormStructure = () => {
           )}
           {formName === "boardmeetingform" && (
             <span className="text-lg md:text-xl lg:text-xl xl:text-xl font-semibold">
-               Meeting Form
+              Meeting Form
             </span>
           )}
           {formName === "teamform" && (
@@ -1198,15 +1196,6 @@ export default CustomFormStructure;
 //       "type": "predefined", "value": "users"
 //     }
 //   },
-//   {
-//         "label": "Attachment",
-//         "inputname": "image",
-//         "type": "file",
-//         "value": "",
-//         "field": "predefined",
-//         "mandatory": false,
-//         "filterable": false
-//       },
 
 // ],
 
