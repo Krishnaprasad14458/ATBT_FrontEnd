@@ -26,6 +26,7 @@ import TasksFilter from "../tableCustomization/TasksFilter";
 import { toast } from "react-toastify";
 
 import mailsent from "../../../assets/Images/mailsent.svg";
+import { PermissionsContext } from "../../../rbac/PermissionsProvider";
 
 let status = [
   { label: "To-Do", value: "To-Do" },
@@ -107,7 +108,7 @@ export async function tasksLoader({ request, params }) {
         const enteredDate = new Date(updatedTasks?.tasks[i]?.createdAt);
         const differenceInMilliseconds = currentDate - enteredDate;
         const differenceInDays = differenceInMilliseconds / (1000 * 3600 * 24);
-        updatedTasks.tasks[i].age = Math.floor(differenceInDays);
+        // updatedTasks.tasks[i].age = Math.floor(differenceInDays);
       }
     }
     if (updatedTask) {
@@ -116,7 +117,7 @@ export async function tasksLoader({ request, params }) {
       const differenceInMilliseconds = currentDate - enteredDate;
       const differenceInDays = differenceInMilliseconds / (1000 * 3600 * 24);
       taskAge = Math.floor(differenceInDays);
-      updatedTask.age = taskAge;
+      // updatedTask.age = taskAge;
     }
     if (updatedSubTask) {
       const currentDate = new Date();
@@ -124,7 +125,7 @@ export async function tasksLoader({ request, params }) {
       const differenceInMilliseconds = currentDate - enteredDate;
       const differenceInDays = differenceInMilliseconds / (1000 * 3600 * 24);
       subTaskAge = Math.floor(differenceInDays);
-      updatedSubTask.age = subTaskAge;
+      // updatedSubTask.age = subTaskAge;
     }
     const combinedResponse = {
       tasks: updatedTasks,
@@ -377,6 +378,10 @@ export async function TasksActions({ request, params }) {
 }
 const Tasks = () => {
   const { authState } = useContext(AuthContext);
+  const { permissions, loading } = useContext(PermissionsContext);
+
+let meetingPermission = permissions?.find((permission=>permission.module ==="task"))
+console.log(meetingPermission,"meetingPermission")
   console.log("authState authState", authState);
   let submit = useSubmit();
   let location = useLocation();
@@ -1032,7 +1037,7 @@ const Tasks = () => {
               )}
               <th
                 className="sticky top-0  bg-orange-600 text-white text-sm text-left px-2 py-2 border-l-2 border-gray-200"
-                style={{ width: "20rem" }}
+                style={{ width: "15rem" }}
               >
                 Initial Decision Taken
               </th>
@@ -1059,7 +1064,7 @@ const Tasks = () => {
               </th>
               <th
                 className="sticky top-0  bg-orange-600 text-white text-sm text-left px-2 py-2 border-l-2 border-gray-200 "
-                style={{ width: "28rem" }}
+                style={{ width: "15rem" }}
               >
                 Latest Decision Update
               </th>
@@ -1119,10 +1124,10 @@ const Tasks = () => {
                         isInputActiveID === null) && (
                         <p
                           className="text-sm break-words"
-                          onClick={() => {
+                          onClick={meetingPermission.canUpdate ? () => {
                             setIsInputActive(task.id);
                             setAutoFocusID(task.id);
-                          }}
+                          } : null}
                           style={{
                             width: "21rem",
                             height: decisionHeight,
@@ -1172,6 +1177,7 @@ const Tasks = () => {
 
                   <td className="border py-1 px-2">
                     <Select
+          isDisabled={!meetingPermission.canUpdate}
                       options={members}
                       menuPortalTarget={document.body}
                       closeMenuOnScroll={() => true}
@@ -1242,14 +1248,15 @@ const Tasks = () => {
                           primary: "#fb923c",
                         },
                       })}
-                      onChange={(selectedOption) => {
+                      onChange={meetingPermission.canUpdate ? (selectedOption) => {
                         handleSubmit(task?.id, "members", selectedOption.value);
                         handleTaskChange(
                           index,
                           "members",
                           selectedOption.value
                         );
-                      }}
+                      }: null}
+                     
                       value={
                         task?.members === null ||
                         task?.members === "" ||
@@ -1275,10 +1282,11 @@ const Tasks = () => {
                         WebkitAppearance: "none",
                       }}
                       min={getCurrentDate()}
-                      onChange={(e) => {
+                      onChange={meetingPermission.canUpdate ?  (e) => {
                         handleSubmit(task?.id, "dueDate", e.target.value);
                         handleTaskChange(index, "dueDate", e.target.value);
-                      }}
+                      } : null}
+                     disabled={!meetingPermission.canUpdate}
                     />
                   </td>
 
@@ -1446,6 +1454,7 @@ const Tasks = () => {
         setAutoFocussubTaskID={setAutoFocussubTaskID}
         setSubTask={setSubTask}
         handleSendComment={handleSendComment}
+        meetingPermission={meetingPermission}
       />
       {/* pagination */}
       <div className="inset-x-0 bottom-0 mt-5">
