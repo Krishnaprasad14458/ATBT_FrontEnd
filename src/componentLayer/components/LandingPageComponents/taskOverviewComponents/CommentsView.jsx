@@ -109,9 +109,9 @@ const CommentsView = ({
                 {displayAllComments || index >= comments.length - 5 ? (
                   <div className=" pe-5 md:pe-3  py-2 grid grid-cols-11 sm:grid-cols-11 md:grid-cols-11 xl:grid-cols-11 lg:grid-ols-11  items-start">
                     <div className="md:col-span-1 text-center  flex justify-center">
-                      <p className="hidden md:block  w-9 h-9 rounded-full ">
+                      <p className="hidden md:block  w-8 h-9 rounded-full ">
                         <span className="flex justify-center text-white text-sm">
-                          <img src={comment.senderImage} className="mt-3" />
+                          <img src={comment.senderImage} className="mt-3   w-9 h-9 rounded-md" />
                         </span>
                       </p>
                     </div>
