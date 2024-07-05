@@ -144,6 +144,7 @@ const BoardMeetingOverview = () => {
                             if (index < usersGroupData.length) {
                               username =  usersGroupData[index].name
                               mail = usersGroupData[index].email
+                              designation = usersGroupData[index].designation;
                               if (username.includes(" ")) {
                                 first = username.split(" ")[0];
                                 second = username.split(" ")[1];
@@ -261,16 +262,25 @@ const BoardMeetingOverview = () => {
                                     </h5>
                                     <div
                                       className=" flex items-center md:items-start xl:items-center  overflow-hidden"
-                                      style={{ width: "150px" }}
+                                     
                                     >
                                       <div
-                                        className="  lg:w-48  truncate"
+                                        className="  "
                                         title={`Name : ${username}\nEmail : ${mail}`}
                                       >
-                                        {index < 11 &&username}
+                                        {index < 11 &&
+                                           <div>
+                                           <p className="truncate w-64 text-sm">{username}</p>{" "}
+                                           <p className="truncate w-64 text-sm"> {mail}</p>
+                                           <p className="truncate w-64 text-sm"> {designation}</p>
+                                         </div>}
                                         {index == 11 &&
                                           usersGroupData.length == 12 &&
-                                          username}
+                                          <div>
+                                <p className="truncate w-64 text-sm">{username}</p>{" "}
+                                <p className="truncate w-64 text-sm"> {mail}</p>
+                                <p className="truncate w-64 text-sm"> {designation}</p>
+                              </div>}
                                         {index == 11 &&
                                           usersGroupData.length > 12 && (
                                             <span>
