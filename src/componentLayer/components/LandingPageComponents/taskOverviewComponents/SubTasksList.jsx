@@ -154,6 +154,7 @@ const SubTasksList = ({
                     >
                       <Select
                         options={members}
+                        isDisabled={!meetingPermission.canUpdate}
                         styles={{
                           control: (provided, state) => ({
                             ...provided,
@@ -249,6 +250,7 @@ const SubTasksList = ({
                       <input
                         className=" border border-transparent text-black px-1.5 py-2 rounded-md  bg-white-50 focus:outline-none text-sm focus:border-orange-400  date_type"
                         type="date"
+                        disabled={!meetingPermission.canUpdate}
                         style={{
                           fontSize: "0.8rem",
                           WebkitAppearance: "none",
@@ -278,6 +280,7 @@ const SubTasksList = ({
                       style={{ width: "8rem" }}
                     >
                       <Select
+                        isDisabled={!meetingPermission.canUpdate}
                         options={status}
                         styles={{
                           control: (provided, state) => ({

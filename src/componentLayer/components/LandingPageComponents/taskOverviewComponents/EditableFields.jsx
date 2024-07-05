@@ -22,27 +22,25 @@ const EditableFields = ({
     <>
       <div className="mb-2">
         {displayOverviewSubTask && (
-       <div className="flex items-center">
-       <span
-         className="text-xs text-orange-500 hover:underline cursor-pointer"
-         onClick={() => {
-           setSubTask({
-             decision: "",
-             members: "",
-             dueDate: "",
-             status: "",
-           });
-           setDisplayOverviewSubTask(false);
-           setDisplayOverviewTask(true);
-         }}
-       >
-         Back to Main Decision Overview
-       </span>
-       <span className="mx-2 arrow_breadcrumbs"></span> 
-       <span className="text-xs text-orange-500 ">
-         Sub Decision
-       </span>
-     </div>
+          <div className="flex items-center">
+            <span
+              className="text-xs text-orange-500 hover:underline cursor-pointer"
+              onClick={() => {
+                setSubTask({
+                  decision: "",
+                  members: "",
+                  dueDate: "",
+                  status: "",
+                });
+                setDisplayOverviewSubTask(false);
+                setDisplayOverviewTask(true);
+              }}
+            >
+              Back to Main Decision Overview
+            </span>
+            <span className="mx-2 arrow_breadcrumbs"></span>
+            <span className="text-xs text-orange-500 ">Sub Decision</span>
+          </div>
         )}
         <label className="block text-xs font-medium leading-6 my-1 text-[1e1f21]">
           Decision Taken
@@ -51,9 +49,16 @@ const EditableFields = ({
           className="px-2 py-2 text-sm block w-full resize-none h-24 overflow-auto rounded-md bg-white-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder:text-[13px] placeholder:text-[#A0AEC0]"
           placeholder="Type Decision Taken"
           value={task?.decision === null ? "" : task?.decision}
-          onChange={meetingPermission.canUpdate ? (e) => handleOverviewTaskChange("decision", e.target.value) : null}
-          onBlur={meetingPermission.canUpdate ? (e) => handleSubmit(task?.id, "decision", e.target.value) : null}
-  
+          onChange={
+            meetingPermission.canUpdate
+              ? (e) => handleOverviewTaskChange("decision", e.target.value)
+              : null
+          }
+          onBlur={
+            meetingPermission.canUpdate
+              ? (e) => handleSubmit(task?.id, "decision", e.target.value)
+              : null
+          }
         />
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3 xl:grid-col-3 items-center mb-3 gap-3">
@@ -63,6 +68,7 @@ const EditableFields = ({
           </label>
           <Select
             options={members}
+            isDisabled={!meetingPermission.canUpdate}
             styles={{
               control: (provided, state) => ({
                 ...provided,
@@ -104,10 +110,14 @@ const EditableFields = ({
                 primary: "#fb923c",
               },
             })}
-            onChange={meetingPermission.canUpdate ? (selectedOption) => {
-              handleOverviewTaskChange("members", selectedOption.value);
-              handleSubmit(task?.id, "members", selectedOption.value);
-            } : null}
+            onChange={
+              meetingPermission.canUpdate
+                ? (selectedOption) => {
+                    handleOverviewTaskChange("members", selectedOption.value);
+                    handleSubmit(task?.id, "members", selectedOption.value);
+                  }
+                : null
+            }
             value={
               task?.members === null ||
               task?.members === "" ||
@@ -127,12 +137,17 @@ const EditableFields = ({
           <input
             className={`border border-[#d1d5db] text-black px-1.5 py-2 rounded-md  bg-white-50 focus:outline-none text-sm focus:border-orange-400 w-full date_type`}
             type="date"
+            disabled={!meetingPermission.canUpdate}
             min={getCurrentDate()}
             value={task?.dueDate ? task.dueDate : ""}
-            onChange={meetingPermission.canUpdate ? (e) => {
-              handleSubmit(task?.id, "dueDate", e.target.value);
-              handleOverviewTaskChange("dueDate", e.target.value);
-            } : null}
+            onChange={
+              meetingPermission.canUpdate
+                ? (e) => {
+                    handleSubmit(task?.id, "dueDate", e.target.value);
+                    handleOverviewTaskChange("dueDate", e.target.value);
+                  }
+                : null
+            }
           />
         </div>
         <div className="col-span-1">
@@ -140,6 +155,7 @@ const EditableFields = ({
             Priority
           </label>
           <Select
+            isDisabled={!meetingPermission.canUpdate}
             options={priority}
             className="custom-select"
             styles={{
@@ -185,10 +201,14 @@ const EditableFields = ({
                 primary: "#fb923c",
               },
             })}
-            onChange={meetingPermission.canUpdate ? (selectedOption) => {
-              handleSubmit(task?.id, "priority", selectedOption.value);
-              handleOverviewTaskChange("priority", selectedOption.value);
-            } : null}
+            onChange={
+              meetingPermission.canUpdate
+                ? (selectedOption) => {
+                    handleSubmit(task?.id, "priority", selectedOption.value);
+                    handleOverviewTaskChange("priority", selectedOption.value);
+                  }
+                : null
+            }
             value={
               task?.priority
                 ? {
