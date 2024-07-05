@@ -15,7 +15,7 @@ function HomeUsersList({ user }) {
         />
       </div>
       <div className="flex-1 min-w-0 ms-4">
-        <p className="text-sm font-medium text-gray-900 text-start truncate dark:text-white">
+        <p className="text-sm font-medium text-gray-900 text-start truncate dark:text-white"  title={caseLetter(user.userName || user.name)}>
           {caseLetter(user.userName || user.name)}
         </p>
       </div>

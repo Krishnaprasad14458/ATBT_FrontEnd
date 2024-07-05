@@ -212,7 +212,7 @@ function BoardMeetings() {
   }, [selectedModule]);
   console.log(selectedModuleList, "selectedModuleList");
   return (
-    <div className="overflow-x-auto p-3">
+    <div className=" p-3">
       {/* search & filter */}
       <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-6 xl:grid-col-6 gap-2 mt-2 items-center">
         <h1 className="font-semibold text-lg col-span-1">
@@ -324,6 +324,7 @@ function BoardMeetings() {
                     backgroundColor: "#f9fafb",
                     borderWidth: state.isFocused ? "1px" : "1px",
                     borderColor: state.isFocused ? "#orange-400" : "#d1d5db",
+                    cursor:"pointer",
                     boxShadow: state.isFocused ? "none" : provided.boxShadow,
                     width: "100%", // Default width for small screens
                     "@media (min-width: 640px)": {
@@ -341,6 +342,7 @@ function BoardMeetings() {
                     ...provided,
                     color: state.isFocused ? "#fff" : "#000000",
                     fontSize: "12px",
+                    cursor:"pointer",
                     backgroundColor: state.isFocused
                       ? "#ea580c"
                       : "transparent",
@@ -369,6 +371,7 @@ function BoardMeetings() {
                 maxMenuHeight={170}
                 options={ModuleListOptions}
                 value={selectedModuleList}
+                 classNamePrefix="select"
                 onChange={(selectedOption) => {
                   setSelectedModuleList(selectedOption);
                   // setSelectedMeeting(null)
@@ -389,6 +392,7 @@ function BoardMeetings() {
                     borderWidth: state.isFocused ? "1px" : "1px",
                     borderColor: state.isFocused ? "#orange-400" : "#d1d5db",
                     boxShadow: state.isFocused ? "none" : provided.boxShadow,
+                    cursor:"pointer",
                     width: "100%", // Default width for small screens
                     "@media (min-width: 640px)": {
                       // Media query for medium screens and above
@@ -405,6 +409,7 @@ function BoardMeetings() {
                     ...provided,
                     color: state.isFocused ? "#fff" : "#000000",
                     fontSize:"12px",
+                    cursor: "pointer",  // Ensure cursor pointer is here
                     backgroundColor: state.isFocused
                       ? "#ea580c"
                       : "transparent",
@@ -452,7 +457,7 @@ function BoardMeetings() {
                     viewBox="0 0 24 24"
                     stroke-width="1.5"
                     stroke="currentColor"
-                    class="size-4"
+                    class="size-4 cursor-pointer hover:text-orange-600"
                   >
                     <path
                       stroke-linecap="round"

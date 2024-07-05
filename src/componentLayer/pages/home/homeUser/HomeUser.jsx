@@ -119,7 +119,7 @@ function HomeUser() {
               data?.users?.map((user) => (
                 <li
                   className="py-2 md:px-5  hover:bg-slate-100 "
-                  title={caseLetter(user.userName || user.name)}
+                 
                   key={user.id}
                 >
                   <Link to={`/users/${user.id}`}>

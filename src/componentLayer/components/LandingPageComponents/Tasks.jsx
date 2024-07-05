@@ -737,7 +737,7 @@ const Tasks = () => {
                     viewBox="0 0 24 24"
                     stroke-width="1.5"
                     stroke="currentColor"
-                    class="size-4"
+                    class="size-4 cursor-pointer hover:text-orange-500"
                   >
                     <path
                       stroke-linecap="round"
@@ -1186,6 +1186,7 @@ const Tasks = () => {
                           boxShadow: state.isFocused
                             ? "none"
                             : provided.boxShadow,
+                            cursor:"pointer",
                           fontSize: "16px",
                           height: "36px", // Adjust the height here
                           "&:hover": {
@@ -1206,6 +1207,7 @@ const Tasks = () => {
                           ...provided,
                           color: state.isFocused ? "#fff" : "#000000",
                           fontSize: "12px",
+                          cursor:"pointer",
                           backgroundColor: state.isFocused
                             ? "#ea580c"
                             : "transparent",
@@ -1353,7 +1355,7 @@ const Tasks = () => {
                       menuPlacement="auto"
                     /> */}
                   </td>
-                  <td className="border py-1 px-2 text-sm text-gray-600">
+                  <td className="border py-1 px-2 text-sm text-gray-600" >
                     {task?.updatedbyuser}
                   </td>
                   {(authState?.user?.role === "super admin" ||
@@ -1361,33 +1363,20 @@ const Tasks = () => {
                     authState?.user?.role === "admin" ||
                     authState?.user?.role === "Admin") && (
                     <td className="border py-1 px-2 text-sm text-gray-600 ">
-                      {/* <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      strokeWidth="1.5"
-                      stroke="currentColor"
-                      className={`size-5 ${
-                        mailSending && mailSendingId === task?.id
-                          ? "text-gray-400 cursor-not-allowed"
-                          : "hover:text-orange-500"
-                      }`}
-                      onClick={() => {
-                        if (!mailSending) {
-                          handleSendMail(task?.id);
+                 
+                      <p className={`text-sm ${
+                          mailSending && mailSendingId === task?.id
+                            ? "text-gray-400 cursor-not-allowed"
+                            : "hover:text-orange-500 cursor-pointer"
+                        }`}
+                        onClick={() => {
+                          if (!mailSending) {
+                            handleSendMail(task?.id);
 
-                          setMailSendingId(task?.id);
-                        }
-                      }}
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M6 12 3.269 3.125A59.769 59.769 0 0 1 21.485 12 59.768 59.768 0 0 1 3.27 20.875L5.999 12Zm0 0h7.5"
-                      />
-                    </svg> */}
-                      {/* <p> Send Mail</p> */}
-                      <svg
+                            setMailSendingId(task?.id);
+                          }
+                        }}> Send Mail</p>
+                      {/* <svg
                         xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 20 20"
                         fill="currentColor"
@@ -1406,7 +1395,7 @@ const Tasks = () => {
                       >
                         <path d="M3 4a2 2 0 0 0-2 2v1.161l8.441 4.221a1.25 1.25 0 0 0 1.118 0L19 7.162V6a2 2 0 0 0-2-2H3Z" />
                         <path d="m19 8.839-7.77 3.885a2.75 2.75 0 0 1-2.46 0L1 8.839V14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V8.839Z" />
-                      </svg>
+                      </svg> */}
                     </td>
                   )}
                   {/* <td className="border py-1.5 px-3 text-sm text-gray-600 cursor-pointer" style={{width :"3rem"}} >
