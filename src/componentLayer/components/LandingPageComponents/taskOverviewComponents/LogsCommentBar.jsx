@@ -23,7 +23,7 @@ const LogsCommentBar = ({ ActiveBar, setActiveBar }) => {
             ActiveBar === "Comments" ? "border-b-2 border-orange-500" : ""
           }`}
       >
-        Comments
+        Decision Update
       </span>
 
     </div>
