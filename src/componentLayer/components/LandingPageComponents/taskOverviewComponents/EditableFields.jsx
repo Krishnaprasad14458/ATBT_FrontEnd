@@ -5,7 +5,7 @@ const EditableFields = ({
   task,
   handleOverviewTaskChange,
   handleSubmit,
-
+  meetingPermission,
   priority,
   taskDecision,
   setSubTask,
@@ -51,8 +51,9 @@ const EditableFields = ({
           className="px-2 py-2 text-sm block w-full resize-none h-24 overflow-auto rounded-md bg-white-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder:text-[13px] placeholder:text-[#A0AEC0]"
           placeholder="Type Decision Taken"
           value={task?.decision === null ? "" : task?.decision}
-          onChange={(e) => handleOverviewTaskChange("decision", e.target.value)}
-          onBlur={(e) => handleSubmit(task?.id, "decision", e.target.value)}
+          onChange={meetingPermission.canUpdate ? (e) => handleOverviewTaskChange("decision", e.target.value) : null}
+          onBlur={meetingPermission.canUpdate ? (e) => handleSubmit(task?.id, "decision", e.target.value) : null}
+  
         />
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3 xl:grid-col-3 items-center mb-3 gap-3">
@@ -103,10 +104,10 @@ const EditableFields = ({
                 primary: "#fb923c",
               },
             })}
-            onChange={(selectedOption) => {
+            onChange={meetingPermission.canUpdate ? (selectedOption) => {
               handleOverviewTaskChange("members", selectedOption.value);
               handleSubmit(task?.id, "members", selectedOption.value);
-            }}
+            } : null}
             value={
               task?.members === null ||
               task?.members === "" ||
@@ -128,10 +129,10 @@ const EditableFields = ({
             type="date"
             min={getCurrentDate()}
             value={task?.dueDate ? task.dueDate : ""}
-            onChange={(e) => {
+            onChange={meetingPermission.canUpdate ? (e) => {
               handleSubmit(task?.id, "dueDate", e.target.value);
               handleOverviewTaskChange("dueDate", e.target.value);
-            }}
+            } : null}
           />
         </div>
         <div className="col-span-1">
@@ -184,10 +185,10 @@ const EditableFields = ({
                 primary: "#fb923c",
               },
             })}
-            onChange={(selectedOption) => {
+            onChange={meetingPermission.canUpdate ? (selectedOption) => {
               handleSubmit(task?.id, "priority", selectedOption.value);
               handleOverviewTaskChange("priority", selectedOption.value);
-            }}
+            } : null}
             value={
               task?.priority
                 ? {
