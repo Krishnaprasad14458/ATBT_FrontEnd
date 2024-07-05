@@ -3,6 +3,7 @@ import { Link, Outlet, useLoaderData, useParams } from "react-router-dom";
 import axios from "axios";
 import atbtApi from "../../../../serviceLayer/interceptor";
 import { dateFormat, formatTime } from "../../../../utils/utils";
+import GateKeeper from "../../../../rbac/GateKeeper";
 let moduleName;
 let parentPath;
 let groupName;
@@ -52,7 +53,13 @@ const BoardMeetingOverview = () => {
   return (
     <div className=" p-4 bg-[#f8fafc]">
       <div className="flex justify-end gap-3 pb-5 md:pb-0">
-        {moduleName && id && (
+       
+        <GateKeeper
+              permissionCheck={(permission) =>
+                permission.module === "meeting" && permission.canUpdate
+              }
+            >
+ {moduleName && id && (
           <Link
             to={{
               pathname: `/boardmeetings/${BMid}/edit`,
@@ -64,6 +71,9 @@ const BoardMeetingOverview = () => {
             </button>
           </Link>
         )}
+
+
+            </GateKeeper>
  
       </div>
       <div className="mt-3 flex justify-center ">
