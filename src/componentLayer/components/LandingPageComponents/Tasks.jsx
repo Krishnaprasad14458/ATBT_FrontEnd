@@ -1177,6 +1177,7 @@ console.log(meetingPermission,"meetingPermission")
 
                   <td className="border py-1 px-2">
                     <Select
+          isDisabled={!meetingPermission.canUpdate}
                       options={members}
                       menuPortalTarget={document.body}
                       closeMenuOnScroll={() => true}
@@ -1285,7 +1286,7 @@ console.log(meetingPermission,"meetingPermission")
                         handleSubmit(task?.id, "dueDate", e.target.value);
                         handleTaskChange(index, "dueDate", e.target.value);
                       } : null}
-                     
+                     disabled={!meetingPermission.canUpdate}
                     />
                   </td>
 
