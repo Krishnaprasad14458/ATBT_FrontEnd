@@ -1037,7 +1037,7 @@ console.log(meetingPermission,"meetingPermission")
               )}
               <th
                 className="sticky top-0  bg-orange-600 text-white text-sm text-left px-2 py-2 border-l-2 border-gray-200"
-                style={{ width: "20rem" }}
+                style={{ width: "15rem" }}
               >
                 Initial Decision Taken
               </th>
@@ -1064,7 +1064,7 @@ console.log(meetingPermission,"meetingPermission")
               </th>
               <th
                 className="sticky top-0  bg-orange-600 text-white text-sm text-left px-2 py-2 border-l-2 border-gray-200 "
-                style={{ width: "28rem" }}
+                style={{ width: "15rem" }}
               >
                 Latest Decision Update
               </th>
