@@ -234,16 +234,24 @@ const TeamsOverview = () => {
                                     </h5>
                                     <div
                                       className=" flex items-center md:items-start xl:items-center  overflow-hidden"
-                                      style={{ width: "150px" }}
+                                     
                                     >
                                       <div
-                                        className=" lg:w-48  truncate"
+                                        className=""
                                         title={`Name : ${username}\nEmail : ${mail}\nDesignation : ${designation}`}
                                       >
-                                        {index < 11 && username}
+                                        {index < 11 &&   <div>
+                                <p className="truncate w-64 text-sm">{username}</p>{" "}
+                                <p className="truncate w-64 text-sm"> {mail}</p>
+                                <p className="truncate w-64 text-sm"> {designation}</p>
+                              </div>}
                                         {index == 11 &&
                                           UsersList.length == 12 &&
-                                          username}
+                                          <div>
+                                          <p className="truncate w-64 text-sm">{username}</p>{" "}
+                                          <p className="truncate w-64 text-sm"> {mail}</p>
+                                          <p className="truncate w-64 text-sm"> {designation}</p>
+                                        </div>}
                                         {index == 11 &&
                                           UsersList.length > 12 && (
                                             <span>
