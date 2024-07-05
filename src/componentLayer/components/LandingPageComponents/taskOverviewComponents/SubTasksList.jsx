@@ -2,6 +2,7 @@ import React from "react";
 import Select from "react-select";
 import { useFetcher } from "react-router-dom";
 import { getCurrentDate } from "../../../../utils/utils";
+import GateKeeper from "../../../../rbac/GateKeeper";
 const SubTasksList = ({
   task,
   handleAddSubTask,
@@ -18,6 +19,7 @@ const SubTasksList = ({
   setIsInputActive,
   setAutoFocusID,
   status,
+  meetingPermission,
 }) => {
   let fetcher = useFetcher();
   const handleDeleteSubTask = (subtaskID) => {
@@ -38,20 +40,26 @@ const SubTasksList = ({
   return (
     <div className=" ">
       <div className="flex justify-end pe-3">
-        <button
-          onClick={() => handleAddSubTask(task?.id)}
-          className=" px-3 py-2 inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white mb-4 mt-2"
+        <GateKeeper
+          permissionCheck={(permission) =>
+            permission.module === "task" && permission.canCreate
+          }
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-            className="w-5 h-5"
+          <button
+            onClick={() => handleAddSubTask(task?.id)}
+            className=" px-3 py-2 inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white mb-4 mt-2"
           >
-            <path d="M10.75 4.75a.75.75 0 0 0-1.5 0v4.5h-4.5a.75.75 0 0 0 0 1.5h4.5v4.5a.75.75 0 0 0 1.5 0v-4.5h4.5a.75.75 0 0 0 0-1.5h-4.5v-4.5Z" />
-          </svg>
-          Create Sub Decision
-        </button>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+              className="w-5 h-5"
+            >
+              <path d="M10.75 4.75a.75.75 0 0 0-1.5 0v4.5h-4.5a.75.75 0 0 0 0 1.5h4.5v4.5a.75.75 0 0 0 1.5 0v-4.5h4.5a.75.75 0 0 0 0-1.5h-4.5v-4.5Z" />
+            </svg>
+            Create Sub Decision
+          </button>
+        </GateKeeper>
       </div>
 
       <div className="overflow-auto lg:overflow-visible">
@@ -97,10 +105,14 @@ const SubTasksList = ({
                           isInputActiveID === null) && (
                           <p
                             className="text-sm"
-                            onClick={() => {
-                              setIsInputActive(task.id);
-                              setAutoFocusID(task.id);
-                            }}
+                            onClick={
+                              meetingPermission.canUpdate
+                                ? () => {
+                                    setIsInputActive(task.id);
+                                    setAutoFocusID(task.id);
+                                  }
+                                : null
+                            }
                             style={{
                               width: "15rem",
                               height: decisionHeight,
@@ -142,7 +154,6 @@ const SubTasksList = ({
                     >
                       <Select
                         options={members}
-                        
                         styles={{
                           control: (provided, state) => ({
                             ...provided,
@@ -202,18 +213,22 @@ const SubTasksList = ({
                             primary: "#fb923c",
                           },
                         })}
-                        onChange={(selectedOption) => {
-                          handleSubmit(
-                            task?.id,
-                            "members",
-                            selectedOption.value
-                          );
-                          handleTaskChange(
-                            index,
-                            "members",
-                            selectedOption.value
-                          );
-                        }}
+                        onChange={
+                          meetingPermission.canUpdate
+                            ? (selectedOption) => {
+                                handleSubmit(
+                                  task?.id,
+                                  "members",
+                                  selectedOption.value
+                                );
+                                handleTaskChange(
+                                  index,
+                                  "members",
+                                  selectedOption.value
+                                );
+                              }
+                            : null
+                        }
                         value={
                           task?.members === null ||
                           task?.members === "" ||
@@ -240,10 +255,22 @@ const SubTasksList = ({
                         }}
                         min={getCurrentDate()}
                         value={task?.dueDate}
-                        onChange={(e) => {
-                          handleSubmit(task?.id, "dueDate", e.target.value);
-                          handleTaskChange(index, "dueDate", e.target.value);
-                        }}
+                        onChange={
+                          meetingPermission.canUpdate
+                            ? (e) => {
+                                handleSubmit(
+                                  task?.id,
+                                  "dueDate",
+                                  e.target.value
+                                );
+                                handleTaskChange(
+                                  index,
+                                  "dueDate",
+                                  e.target.value
+                                );
+                              }
+                            : null
+                        }
                       />
                     </td>
                     <td
@@ -281,7 +308,7 @@ const SubTasksList = ({
                           option: (provided, state) => ({
                             ...provided,
                             color: state.isFocused ? "#fff" : "#000000",
-                            fontSize:"12px",
+                            fontSize: "12px",
                             backgroundColor: state.isFocused
                               ? "#ea580c"
                               : "transparent",
@@ -311,18 +338,22 @@ const SubTasksList = ({
                             primary: "#fb923c",
                           },
                         })}
-                        onChange={(selectedOption) => {
-                          handleSubmit(
-                            task?.id,
-                            "status",
-                            selectedOption.value
-                          );
-                          handleTaskChange(
-                            index,
-                            "status",
-                            selectedOption.value
-                          );
-                        }}
+                        onChange={
+                          meetingPermission.canUpdate
+                            ? (selectedOption) => {
+                                handleSubmit(
+                                  task?.id,
+                                  "status",
+                                  selectedOption.value
+                                );
+                                handleTaskChange(
+                                  index,
+                                  "status",
+                                  selectedOption.value
+                                );
+                              }
+                            : null
+                        }
                         className="basic-multi-select"
                         classNamePrefix="select"
                         value={{ label: task?.status, value: task?.status }}
