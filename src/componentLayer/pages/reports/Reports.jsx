@@ -155,6 +155,7 @@ function Reports() {
     { label: "Person Responsible for implementation", key: "memberdata" },
     { label: "DueDate", key: "dueDate" },
     { label: "Meeting ID", key: "meetingNumber" },
+    { label: "Collaborators", key: "collaborators" },
   ];
 
   const headerMaster = [
@@ -167,6 +168,7 @@ function Reports() {
     { label: "Ageing of the Decision as per Latest Board Meeting", key: "age" },
     { label: "Updated Decision", key: "updatedbyuser" },
     // { label: "Updated Person Responsible", key: "memberdata" },
+    { label: "Collabarators", key: "colabrators" },
   ];
 
   const headerATR = [
@@ -179,6 +181,7 @@ function Reports() {
     { label: "Ageing of the Decision as per Latest Board Meeting", key: "age" },
     { label: "Updated Decision", key: "updatedbyuser" },
     // { label: "Updated Person Responsible", key: "memberdata" },
+    { label: "Collabarators", key: "colabrators" },
   ];
 
   const reportdata = [
@@ -300,9 +303,14 @@ function Reports() {
   };
 
   const handleDownload = (data, headers) => {
+    const formattedData = data.map((row) => ({
+      ...row,
+      colabrators: row?.colabDetails?.map((colab) => colab.name).join(", "),
+    }));
     const worksheetData = [
+      
       headers.map((header) => header.label),
-      ...data.map((row) => headers.map((header) => row[header.key])),
+      ...formattedData.map((row) => headers.map((header) => row[header.key])),
     ];
     const worksheet = XLSX.utils.aoa_to_sheet(worksheetData);
     // Apply styles to the header row
