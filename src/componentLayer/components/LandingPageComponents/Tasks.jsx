@@ -108,7 +108,7 @@ export async function tasksLoader({ request, params }) {
         const enteredDate = new Date(updatedTasks?.tasks[i]?.createdAt);
         const differenceInMilliseconds = currentDate - enteredDate;
         const differenceInDays = differenceInMilliseconds / (1000 * 3600 * 24);
-        updatedTasks.tasks[i].age = Math.floor(differenceInDays);
+        // updatedTasks.tasks[i].age = Math.floor(differenceInDays);
       }
     }
     if (updatedTask) {
@@ -117,7 +117,7 @@ export async function tasksLoader({ request, params }) {
       const differenceInMilliseconds = currentDate - enteredDate;
       const differenceInDays = differenceInMilliseconds / (1000 * 3600 * 24);
       taskAge = Math.floor(differenceInDays);
-      updatedTask.age = taskAge;
+      // updatedTask.age = taskAge;
     }
     if (updatedSubTask) {
       const currentDate = new Date();
@@ -125,7 +125,7 @@ export async function tasksLoader({ request, params }) {
       const differenceInMilliseconds = currentDate - enteredDate;
       const differenceInDays = differenceInMilliseconds / (1000 * 3600 * 24);
       subTaskAge = Math.floor(differenceInDays);
-      updatedSubTask.age = subTaskAge;
+      // updatedSubTask.age = subTaskAge;
     }
     const combinedResponse = {
       tasks: updatedTasks,
@@ -382,8 +382,10 @@ const Tasks = () => {
   const { authState } = useContext(AuthContext);
   const { permissions, loading } = useContext(PermissionsContext);
 
-let meetingPermission = permissions?.find((permission=>permission.module ==="task"))
-console.log(meetingPermission,"meetingPermission")
+  let meetingPermission = permissions?.find(
+    (permission) => permission.module === "task"
+  );
+  console.log(meetingPermission, "meetingPermission");
   console.log("authState authState", authState);
   let submit = useSubmit();
   let location = useLocation();
@@ -1039,7 +1041,7 @@ console.log(meetingPermission,"meetingPermission")
               )}
               <th
                 className="sticky top-0  bg-orange-600 text-white text-sm text-left px-2 py-2 border-l-2 border-gray-200"
-                style={{ width: "20rem" }}
+                style={{ width: "15rem" }}
               >
                 Initial Decision Taken
               </th>
@@ -1056,7 +1058,7 @@ console.log(meetingPermission,"meetingPermission")
                 Due Date
               </th>
               <th className="sticky top-0 z-10 bg-orange-600 text-white text-sm text-left px-2 py-2 border-l-2 border-gray-200">
-                Age
+                Age (Days)
               </th>
               <th
                 className="sticky top-0 z-10 bg-orange-600 text-white text-sm text-left px-2 py-2 border-l-2 border-gray-200 "
@@ -1066,7 +1068,7 @@ console.log(meetingPermission,"meetingPermission")
               </th>
               <th
                 className="sticky top-0  bg-orange-600 text-white text-sm text-left px-2 py-2 border-l-2 border-gray-200 "
-                style={{ width: "28rem" }}
+                style={{ width: "15rem" }}
               >
                 Latest Decision Update
               </th>
@@ -1126,10 +1128,14 @@ console.log(meetingPermission,"meetingPermission")
                         isInputActiveID === null) && (
                         <p
                           className="text-sm break-words"
-                          onClick={meetingPermission.canUpdate ? () => {
-                            setIsInputActive(task.id);
-                            setAutoFocusID(task.id);
-                          } : null}
+                          onClick={
+                            meetingPermission.canUpdate
+                              ? () => {
+                                  setIsInputActive(task.id);
+                                  setAutoFocusID(task.id);
+                                }
+                              : null
+                          }
                           style={{
                             width: "21rem",
                             height: decisionHeight,
@@ -1179,7 +1185,7 @@ console.log(meetingPermission,"meetingPermission")
 
                   <td className="border py-1 px-2">
                     <Select
-          isDisabled={!meetingPermission.canUpdate}
+                      isDisabled={!meetingPermission.canUpdate}
                       options={members}
                       menuPortalTarget={document.body}
                       closeMenuOnScroll={() => true}
@@ -1194,7 +1200,7 @@ console.log(meetingPermission,"meetingPermission")
                           boxShadow: state.isFocused
                             ? "none"
                             : provided.boxShadow,
-                            cursor:"pointer",
+                          cursor: "pointer",
                           fontSize: "16px",
                           height: "36px", // Adjust the height here
                           "&:hover": {
@@ -1215,7 +1221,7 @@ console.log(meetingPermission,"meetingPermission")
                           ...provided,
                           color: state.isFocused ? "#fff" : "#000000",
                           fontSize: "12px",
-                          cursor:"pointer",
+                          cursor: "pointer",
                           backgroundColor: state.isFocused
                             ? "#ea580c"
                             : "transparent",
@@ -1250,15 +1256,22 @@ console.log(meetingPermission,"meetingPermission")
                           primary: "#fb923c",
                         },
                       })}
-                      onChange={meetingPermission.canUpdate ? (selectedOption) => {
-                        handleSubmit(task?.id, "members", selectedOption.value);
-                        handleTaskChange(
-                          index,
-                          "members",
-                          selectedOption.value
-                        );
-                      }: null}
-                     
+                      onChange={
+                        meetingPermission.canUpdate
+                          ? (selectedOption) => {
+                              handleSubmit(
+                                task?.id,
+                                "members",
+                                selectedOption.value
+                              );
+                              handleTaskChange(
+                                index,
+                                "members",
+                                selectedOption.value
+                              );
+                            }
+                          : null
+                      }
                       value={
                         task?.members === null ||
                         task?.members === "" ||
@@ -1284,11 +1297,19 @@ console.log(meetingPermission,"meetingPermission")
                         WebkitAppearance: "none",
                       }}
                       min={getCurrentDate()}
-                      onChange={meetingPermission.canUpdate ?  (e) => {
-                        handleSubmit(task?.id, "dueDate", e.target.value);
-                        handleTaskChange(index, "dueDate", e.target.value);
-                      } : null}
-                     disabled={!meetingPermission.canUpdate}
+                      onChange={
+                        meetingPermission.canUpdate
+                          ? (e) => {
+                              handleSubmit(task?.id, "dueDate", e.target.value);
+                              handleTaskChange(
+                                index,
+                                "dueDate",
+                                e.target.value
+                              );
+                            }
+                          : null
+                      }
+                      disabled={!meetingPermission.canUpdate}
                     />
                   </td>
 
@@ -1365,7 +1386,7 @@ console.log(meetingPermission,"meetingPermission")
                       menuPlacement="auto"
                     /> */}
                   </td>
-                  <td className="border py-1 px-2 text-sm text-gray-600" >
+                  <td className="border py-1 px-2 text-sm text-gray-600 ">
                     {task?.updatedbyuser}
                   </td>
                   {(authState?.user?.role === "super admin" ||
@@ -1373,19 +1394,29 @@ console.log(meetingPermission,"meetingPermission")
                     authState?.user?.role === "admin" ||
                     authState?.user?.role === "Admin") && (
                     <td className="border py-1 px-2 text-sm text-gray-600 ">
-                 
-                      <p className={`text-sm ${
-                          mailSending && mailSendingId === task?.id
-                            ? "text-gray-400 cursor-not-allowed"
-                            : "hover:text-orange-500 cursor-pointer"
-                        }`}
-                        onClick={() => {
-                          if (!mailSending) {
-                            handleSendMail(task?.id);
+                      <button title="Sent Mail">
+                        <svg
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                          id="fi_10747263"
+                          xmlns="http://www.w3.org/2000/svg"
+                          className={`text-sm flex  w-5 h-5  ${
+                            mailSending && mailSendingId === task?.id
+                              ? "text-gray-400 cursor-not-allowed"
+                              : "hover:text-orange-500 cursor-pointer"
+                          }`}
+                          onClick={() => {
+                            if (!mailSending) {
+                              handleSendMail(task?.id);
 
-                            setMailSendingId(task?.id);
-                          }
-                        }}> Send Mail</p>
+                              setMailSendingId(task?.id);
+                            }
+                          }}
+                        >
+                          <path d="m19 1.75h-14c-2.07 0-3.75 1.68-3.75 3.75v10c0 2.07 1.68 3.75 3.75 3.75h3c.41 0 .75-.34.75-.75s-.34-.75-.75-.75h-3c-1.24 0-2.25-1.01-2.25-2.25v-9.66l8.35 5c.28.17.59.25.9.25s.62-.08.9-.25l8.35-5v7c0 .41.34.75.75.75s.75-.34.75-.75v-7.34c0-2.07-1.68-3.75-3.75-3.75zm-6.87 7.8c-.08.05-.17.05-.26 0l-8.77-5.25c.4-.63 1.1-1.05 1.9-1.05h14c.8 0 1.5.42 1.9 1.05zm10.4 8.42c.29.29.29.77 0 1.06l-3 3c-.15.15-.34.22-.53.22s-.38-.07-.53-.22c-.29-.29-.29-.77 0-1.06l1.72-1.72h-8.19c-.41 0-.75-.34-.75-.75s.34-.75.75-.75h8.19l-1.72-1.72c-.29-.29-.29-.77 0-1.06s.77-.29 1.06 0z"></path>
+                        </svg>
+                        {/* Email */}
+                      </button>
                       {/* <svg
                         xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 20 20"

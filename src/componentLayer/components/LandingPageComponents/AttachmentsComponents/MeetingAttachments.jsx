@@ -35,16 +35,16 @@ const MeetingAttachments = ({
               className="cursor-pointer border border-gray-300 p-1 rounded-md w-full md:w-80"
             >
               {file && file?.name ? (
-                <p className="w-72 truncate">{file?.name}</p>
+                <p className="w-72 truncate text-sm py-1 ">{file?.name}</p>
               ) : (
-                <p className="pl-1 text-sm">Choose File to Upload</p>
+                <p className="pl-1 text-sm py-1 text-gray-400">Choose File to Upload less than 10mb</p>
               )}
             </label>
             <input
               name="image"
               id="fileInput"
               type="file"
-              className="hidden"
+              className="hidden py-1"
               onChange={(e) => setFile(e.target.files[0])}
             />
             <button

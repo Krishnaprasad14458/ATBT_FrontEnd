@@ -61,17 +61,18 @@ const EntityOverview = () => {
   return (
     <div className="p-4 bg-[#f8fafc]">
       <div className="flex justify-end gap-3 pb-5 md:pb-0">
-      <GateKeeper
-              permissionCheck={(permission) =>
-                permission.module === "entity" && permission.canUpdate
-              }
-            >
-        <Link to={`../${id}/edit`} relative="path">
-          <button className=" flex  justify-center rounded-md bg-orange-600 px-3 py-2 text-sm font-medium leading-6 text-white shadow-sm  focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600">
-            Edit
-          </button>
-        </Link>
-        </GateKeeper>      </div>
+        <GateKeeper
+          permissionCheck={(permission) =>
+            permission.module === "entity" && permission.canUpdate
+          }
+        >
+          <Link to={`../${id}/edit`} relative="path">
+            <button className=" flex  justify-center rounded-md bg-orange-600 px-3 py-2 text-sm font-medium leading-6 text-white shadow-sm  focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600">
+              Edit
+            </button>
+          </Link>
+        </GateKeeper>{" "}
+      </div>
       <div className="flex justify-center mt-3">
         <div className=" w-full md:w-full  lg:w-11/12 xl:11/12 shadow-md border-2 rounded-md bg-[#f8fafc] px-4 pb-4 pt-1">
           {customFormField &&
@@ -368,6 +369,7 @@ const EntityOverview = () => {
                 } else {
                   firstLetter = username[0];
                 }
+
                 if (username.includes(" ")) {
                   first = username.split(" ")[0];
                   second = username.split(" ")[1];
@@ -484,11 +486,22 @@ title={username}
 // title={`Name: ${username}\n mail ID :${mail}`} */}
 
                           <div
-                            className=" lg:w-48  truncate "
                             title={`Name : ${username}\nEmail : ${mail}\nDesignation : ${designation}`}
                           >
-                            {index < 11 && username}
-                            {index == 11 && UsersList.length == 12 && username}
+                            {index < 11 && (
+                              <div>
+                                <p className="truncate w-64 text-sm">{username}</p>{" "}
+                                <p className="truncate w-64 text-sm"> {mail}</p>
+                                <p className="truncate w-64 text-sm"> {designation}</p>
+                              </div>
+                            )}
+                            {index == 11 && UsersList.length == 12 && (
+                              <div>
+                                <p className="truncate w-64 text-sm">{username}</p>{" "}
+                                <p className="truncate w-64 text-sm"> {mail}</p>
+                                <p className="truncate w-64 text-sm"> {designation}</p>
+                              </div>
+                            )}
                             {index == 11 && UsersList.length > 12 && (
                               <span>+{UsersList.length - 11} more</span>
                             )}
