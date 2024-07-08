@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import defprop from "../../../../assets/Images/defprof.svg";
 import {
   Link,
@@ -58,6 +58,23 @@ const EntityOverview = () => {
     const formattedTime = `${formattedHours}:${formattedMinutes} ${ampm}`;
     return formattedTime;
   }
+
+  let [showAllMembers, setShowAllMembers] = useState(12);
+  const colors = [
+    "#818cf8",
+    "#fb923c",
+    "#f87171",
+    "#0891b2",
+    "#db2777",
+    "#f87171",
+    "#854d0e",
+    "#166534",
+  ];
+
+  const getRandomColor = (char) => {
+    const randomIndex = char?.charCodeAt(0) % colors.length;
+    return colors[randomIndex];
+  };
   return (
     <div className="p-4 bg-[#f8fafc]">
       <div className="flex justify-end gap-3 pb-5 md:pb-0">
@@ -345,181 +362,85 @@ const EntityOverview = () => {
                 </div>
               );
             })}
-          <div className=" grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-2 mt-5 ">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-2 mt-5">
             {UsersList &&
-              Array.from({ length: 12 }).map((_, index) => {
-                let first = "";
-                let second = "";
-                let firstLetter;
-                let secondLetter;
-                let username = "";
-                let mail = "";
-                let designation = "";
+              Array.from({ length: showAllMembers }).map((_, index) => {
+                let user = UsersList[index];
+                let initials = "";
+                let firstLetter = "";
+                let secondLetter = "";
 
-                if (index < UsersList.length) {
-                  username = UsersList[index].name;
-                  mail = UsersList[index].email;
-                  designation = UsersList[index].designation;
-                  if (username.includes(" ")) {
-                    first = username.split(" ")[0];
-                    second = username.split(" ")[1];
-                    firstLetter = first[0];
-                    secondLetter = second[0];
-                  }
-                } else {
-                  firstLetter = username[0];
+                if (user) {
+                  const username = user.name || "";
+                  const nameParts = username.split(" ");
+                  firstLetter = nameParts[0]?.[0] || "";
+                  secondLetter = nameParts[1]?.[0] || "";
+
+                  initials = `${firstLetter.toUpperCase()}${secondLetter.toUpperCase()}`;
                 }
-
-                if (username.includes(" ")) {
-                  first = username.split(" ")[0];
-                  second = username.split(" ")[1];
-                  firstLetter = first[0];
-                  secondLetter = second[0];
-                } else {
-                  firstLetter = username[0];
-                }
-
-                // if (index < UsersList.length) {
-                //   mail = UsersList[index].email.split("@")[0];
-                //   if (mail.includes(".")) {
-                //     first = mail.split(".")[0];
-
-                //     second = mail.split(".")[1];
-                //     firstLetter = first[0];
-                //     secondLetter = second[0];
-                //   } else {
-                //     firstLetter = mail[0];
-                //   }
-                // }
-
-                // if (mail.includes(".")) {
-                //   first = mail.split(".")[0];
-                //   second = mail.split(".")[1];
-                //   firstLetter = first[0];
-                //   secondLetter = second[0];
-                // } else {
-                //   firstLetter = mail[0];
-                // }
-                const colors = [
-                  "#818cf8",
-                  "#fb923c",
-                  "#f87171",
-                  "#0891b2",
-                  "#db2777",
-                  "#f87171",
-                  "#854d0e",
-                  "#166534",
-                ];
-                const getRandomColor = (firstLetter) => {
-                  const randomIndex =
-                    firstLetter?.charCodeAt(0) % colors.length;
-                  return colors[randomIndex];
-                };
 
                 return (
                   <div
-                    className="col-span-1 flex justify-start gap-3 items-center m-1 "
+                    className="col-span-1 flex justify-start gap-3 items-center m-1"
                     key={index}
                   >
-                    {index + 1 <= UsersList.length && (
+                    {user ? (
                       <>
                         <h5
                           style={{
-                            backgroundColor: UsersList[index].image
+                            backgroundColor: user.image
                               ? "transparent"
                               : getRandomColor(firstLetter),
                           }}
-                          className=" rounded-full w-10 h-10  md:h-8 xl:h-10 flex justify-center  text-xs items-center text-white  "
+                          className="rounded-full w-10 h-10 md:h-8 xl:h-10 flex justify-center items-center text-white text-xs"
                         >
-                          {(UsersList[index].image && index < 11) ||
-                          (index === 11 && UsersList.length === 12) ? (
+                          {user.image ? (
                             <img
                               src={
-                                typeof UsersList[index].image === "string"
-                                  ? UsersList[index].image
-                                  : URL.createObjectURL(UsersList[index].image)
+                                typeof user.image === "string"
+                                  ? user.image
+                                  : URL.createObjectURL(user.image)
                               }
-                              name="EntityPhoto"
                               alt="Entity Photo"
-                              className=" rounded-full w-10 h-10   flex justify-center  text-xs items-center text-white"
+                              className="rounded-full w-10 h-10"
                             />
                           ) : (
-                            <span>
-                              {firstLetter?.toUpperCase()}
-                              {secondLetter && secondLetter?.toUpperCase()}
-                            </span>
-                          )}
-
-                          {index == 11 && UsersList.length > 12 && (
-                            <span>
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke-width="1.5"
-                                stroke="currentColor"
-                                className="w-6 h-6"
-                              >
-                                <path
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  d="M18 18.72a9.094 9.094 0 0 0 3.741-.479 3 3 0 0 0-4.682-2.72m.94 3.198.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0 1 12 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 0 1 6 18.719m12 0a5.971 5.971 0 0 0-.941-3.197m0 0A5.995 5.995 0 0 0 12 12.75a5.995 5.995 0 0 0-5.058 2.772m0 0a3 3 0 0 0-4.681 2.72 8.986 8.986 0 0 0 3.74.477m.94-3.197a5.971 5.971 0 0 0-.94 3.197M15 6.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm6 3a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Zm-13.5 0a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Z"
-                                />
-                              </svg>
-                            </span>
+                            <span>{initials}</span>
                           )}
                         </h5>
-                        <div className=" flex items-center md:items-start xl:items-center  overflow-hidden  ">
-                          {/* <div
-                          className=" md:w-28 lg:w-48  truncate"
-                          title={mail}
-                        >
-
-                          {index < 11 && mail}
-                          {index == 11 && UsersList.length == 12 && mail}
-                          {index == 11 && UsersList.length > 12 && (
-                            <span>+{UsersList.length - 11} more</span>
-                          )}
-                        </div> */}
-                          {/* 
-title={username}
-// title={`Name: ${username}\n mail ID :${mail}`} */}
-
+                        <div className="flex items-center md:items-start xl:items-center overflow-hidden">
                           <div
-                            title={`Name : ${username}\nEmail : ${mail}\nDesignation : ${designation}`}
+                            title={`Name: ${user.name}\nEmail: ${user.email}\nDesignation: ${user.designation}`}
                           >
-                            {index < 11 && (
-                              <div>
-                                <p className="truncate w-64 text-sm">{username}</p>{" "}
-                                <p className="truncate w-64 text-sm"> {mail}</p>
-                                <p className="truncate w-64 text-sm"> {designation}</p>
-                              </div>
-                            )}
-                            {index == 11 && UsersList.length == 12 && (
-                              <div>
-                                <p className="truncate w-64 text-sm">{username}</p>{" "}
-                                <p className="truncate w-64 text-sm"> {mail}</p>
-                                <p className="truncate w-64 text-sm"> {designation}</p>
-                              </div>
-                            )}
-                            {index == 11 && UsersList.length > 12 && (
-                              <span>+{UsersList.length - 11} more</span>
-                            )}
+                            <div>
+                              <p className="truncate w-64 text-sm">
+                                {user.name}
+                              </p>
+                              <p className="truncate w-64 text-sm">
+                                {user.email}
+                              </p>
+                              <p className="truncate w-64 text-sm">
+                                {user.designation}
+                              </p>
+                            </div>
+                            {index === showAllMembers - 1 &&
+                              UsersList.length > showAllMembers && (
+                                <span
+                                  onClick={() =>
+                                    setShowAllMembers(UsersList.length)
+                                  }
+                                >
+                                  +{UsersList.length - showAllMembers} more
+                                </span>
+                              )}
                           </div>
-                          {/* <div className="absolute top-0 left-10 w-full p-2 bg-white border border-gray-200 shadow-lg rounded-lg  opacity-0 group-hover:opacity-100 group-hover:translate-y-0 transition duration-300 z-10">
-    <div className="bhavi">
-      <div>hsdfhsdf</div>
-      <div>dsgdgdfgdfgfd</div>
-    </div>
-  </div> */}
                         </div>
                       </>
-                    )}
-                    {index + 1 > UsersList.length && (
+                    ) : (
                       <>
-                        <h5 className="bg-[#e5e7eb] rounded-full w-10 h-10  flex justify-center text-xs items-center text-white"></h5>
-                        <div className=" flex items-center">
-                          <div className=" rounded-md  bg-[#e5e7eb] h-2 w-28"></div>
+                        <h5 className="bg-[#e5e7eb] rounded-full w-10 h-10 flex justify-center items-center text-white"></h5>
+                        <div className="flex items-center">
+                          <div className="rounded-md bg-[#e5e7eb] h-2 w-28"></div>
                         </div>
                       </>
                     )}

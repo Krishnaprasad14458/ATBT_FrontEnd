@@ -10,7 +10,7 @@ const LogsCommentBar = ({ ActiveBar, setActiveBar }) => {
           setActiveBar("Logs");
         }}
         className={` ${
-          ActiveBar === "Logs" ? "border-b-2 border-orange-500" : ""
+          ActiveBar === "Logs" ? "border-b-2 border-orange-500 cursor-pointer" : " cursor-pointer"
         }`}
       >
         Logs{" "}
@@ -20,7 +20,7 @@ const LogsCommentBar = ({ ActiveBar, setActiveBar }) => {
           setActiveBar("Comments");
         }}
         className={` ${
-            ActiveBar === "Comments" ? "border-b-2 border-orange-500" : ""
+            ActiveBar === "Comments" ? "border-b-2 border-orange-500 cursor-pointer" : "cursor-pointer"
           }`}
       >
         Decision Update
