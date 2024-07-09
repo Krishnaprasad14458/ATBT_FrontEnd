@@ -34,6 +34,7 @@ const TaskOverview = ({meetingPermission,
   setDisplayOverviewSubTask,
   setSubTask,
   handleSendComment,
+  
 }) => {
   console.log("firsxxxt",displayOverviewTask,displayOverviewSubTask)
   // -------full screen----
@@ -65,13 +66,14 @@ const TaskOverview = ({meetingPermission,
   };
   const [fileName,setFileName] = useState(null)
   const [ActiveBar,setActiveBar] = useState("Logs")
-
+  let [updateDecisionToggle, setUpdateDecisionToggle] = useState(false);
+  
   return (
     <div
       className={`fixed inset-0  bg-gray-800 bg-opacity-50 z-40  ${
         overViewTask ? "" : "opacity-0 pointer-events-none "
       }`}
-      style={{ transition: "opacity 0.3s ease-in-out" }}
+      style={{ transition: "opacity 0.3s ease-in-out" }} 
     >
       <div
         className={` fixed inset-y-0 right-0  w-full bg-white shadow-lg transform translate-x-full transition-transform duration-200 ease-in-out ${
@@ -105,6 +107,8 @@ const TaskOverview = ({meetingPermission,
           }
           setDisplayOverviewTask={setDisplayOverviewTask}
           setDisplayOverviewSubTask={setDisplayOverviewSubTask}
+     
+          setUpdateDecisionToggle={setUpdateDecisionToggle}
         />
         <hr />
         <div
@@ -135,6 +139,9 @@ const TaskOverview = ({meetingPermission,
                 setDisplayOverviewSubTask={setDisplayOverviewSubTask}
                 displayOverviewSubTask={displayOverviewSubTask}
                 meetingPermission={meetingPermission}
+                updateDecisionToggle={updateDecisionToggle}
+          setUpdateDecisionToggle={setUpdateDecisionToggle}
+
               />
             </div>
             {displayOverviewTask && (

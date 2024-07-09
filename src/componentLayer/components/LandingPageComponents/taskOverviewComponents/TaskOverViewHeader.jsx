@@ -15,6 +15,7 @@ const TaskOverViewHeader = ({
   setOverViewTask,
   setDisplayOverviewTask,
   setDisplayOverviewSubTask,
+  setUpdateDecisionToggle
 }) => {
   // const isSmallScreen = useMediaQuery({ query: '(max-width: 768px)' });
   return (
@@ -154,6 +155,7 @@ const TaskOverViewHeader = ({
               setDisplayOverviewTask(false);
               setDisplayOverviewSubTask(false);
               setOverViewTask(!overViewTask);
+              setUpdateDecisionToggle(false)
               let updatedQparams = { ...Qparams };
               delete updatedQparams.taskID;
               delete updatedQparams.subTaskID;
