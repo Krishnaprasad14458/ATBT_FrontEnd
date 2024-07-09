@@ -15,6 +15,17 @@ const LogsCommentBar = ({ ActiveBar, setActiveBar }) => {
       >
         Logs{" "}
       </span>
+    
+      <span
+        onClick={() => {
+          setActiveBar("Logs");
+        }}
+        className={` ${
+          ActiveBar === "Updates" ? "border-b-2 border-orange-500 cursor-pointer" : " cursor-pointer"
+        }`}
+      >
+Updates
+      </span>
       <span
         onClick={() => {
           setActiveBar("Comments");
@@ -23,7 +34,7 @@ const LogsCommentBar = ({ ActiveBar, setActiveBar }) => {
             ActiveBar === "Comments" ? "border-b-2 border-orange-500 cursor-pointer" : "cursor-pointer"
           }`}
       >
-        Decision Update
+        Comments
       </span>
 
     </div>
