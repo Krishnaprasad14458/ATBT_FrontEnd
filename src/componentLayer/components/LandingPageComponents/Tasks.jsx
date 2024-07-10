@@ -1196,7 +1196,7 @@ const Tasks = () => {
                         fontSize: "0.8rem",
                         WebkitAppearance: "none",
                       }}
-                      min={getCurrentDate()}
+                      // min={getCurrentDate()}
                       onChange={
                         meetingPermission.canUpdate
                           ? (e) => {
