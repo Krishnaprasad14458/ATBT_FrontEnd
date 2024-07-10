@@ -20,7 +20,7 @@ const Updates = () => {
             }
         };
 
-        fetchStatus(); // Call the async function
+        fetchStatus(); 
     }, []);
 
     return (
