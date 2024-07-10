@@ -443,6 +443,7 @@ const Tasks = () => {
   const [overViewTask, setOverViewTask] = useState(false);
   const [displayOverviewTask, setDisplayOverviewTask] = useState(false);
   const [displayOverviewSubTask, setDisplayOverviewSubTask] = useState(false);
+
   const handleOverViewTask = (taskId) => {
     setOverViewTask(!overViewTask);
     setDisplayOverviewTask(!displayOverviewTask);
@@ -643,9 +644,7 @@ const Tasks = () => {
   };
 
   console.log("mailSending", mailSending);
-  
 
-   
   return (
     <div className={` ${parentPath === "tasks" ? "p-3" : ""}`}>
       <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-col-4 items-center gap-2 mt-2">
@@ -1201,7 +1200,11 @@ const Tasks = () => {
                       onChange={
                         meetingPermission.canUpdate
                           ? (e) => {
-                              handleSubmit(task?.id, "dateOfDecision", e.target.value);
+                              handleSubmit(
+                                task?.id,
+                                "dateOfDecision",
+                                e.target.value
+                              );
                               handleTaskChange(
                                 index,
                                 "dateOfDecision",
@@ -1492,6 +1495,7 @@ const Tasks = () => {
       </div>
 
       <TaskOverview
+        
         task={task}
         subTasks={subTasks}
         subTask={subTask}
@@ -1518,7 +1522,6 @@ const Tasks = () => {
         setSubTask={setSubTask}
         handleSendComment={handleSendComment}
         meetingPermission={meetingPermission}
-    
       />
       {/* pagination */}
       <div className="inset-x-0 bottom-0 mt-5">
