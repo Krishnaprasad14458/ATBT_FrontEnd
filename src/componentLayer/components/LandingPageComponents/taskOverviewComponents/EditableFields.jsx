@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Select from "react-select";
 import { getCurrentDate } from "../../../../utils/utils";
+import atbtApi from "../../../../serviceLayer/interceptor";
 const EditableFields = ({
   task,
   handleOverviewTaskChange,
@@ -13,16 +14,35 @@ const EditableFields = ({
   setDisplayOverviewSubTask,
   displayOverviewSubTask,
   updateDecisionToggle,
-  setUpdateDecisionToggle
-
+  setUpdateDecisionToggle,
 }) => {
   let members = task?.group?.map((user) => ({
     label: user.name,
     value: user.id,
   }));
-  console.log("taskDecision", taskDecision);
+  let [updateDecisionForm, setUpdateDecisionForm] = useState({senderId:23,message:"",Date:"",TaskId:23});
+  console.log("taskDecision", updateDecisionForm);
 
- 
+  const handleSubmitUpdateDecision = async () => {
+    try {
+      const response = await atbtApi.post("task/addStaus", updateDecisionForm);
+      
+      if (response.status === 201) {
+        
+        console.log("Status updated successfully:", response.data);
+        setUpdateDecisionForm({senderId:null,message:"",Date:"",TaskId:null})
+      } else {
+      
+        console.error("Unexpected response status:", response.status);
+
+      }
+    } catch (error) {
+  
+      console.error("Error updating status:", error);
+      
+    }
+  };
+  
   return (
     <>
       <div className="mb-2">
@@ -107,17 +127,19 @@ const EditableFields = ({
             <input
               className={`border border-[#d1d5db] text-black px-1.5 py-2 rounded-md  bg-white-50 focus:outline-none text-sm focus:border-orange-400 w-full date_type`}
               type="text"
-              // disabled={!meetingPermission.canUpdate}
-
-              // value={task?.dateOfDecision ? task.dateOfDecision : ""}
-              // onChange={
-              //   meetingPermission.canUpdate
-              //     ? (e) => {
-              //         handleSubmit(task?.id, "dateOfDecision", e.target.value);
-              //         handleOverviewTaskChange("dateOfDecision", e.target.value);
-              //       }
-              //     : null
-              // }
+              disabled={!meetingPermission.canUpdate}
+              value={updateDecisionForm.message}
+              onChange={
+                meetingPermission.canUpdate
+                  ? (e) => {
+                    setUpdateDecisionForm((prev)=>(
+                      {...prev,message:e.target.value}
+                    ))
+                      // handleSubmit(task?.id, "dateOfDecision", e.target.value);
+                      // handleOverviewTaskChange("dateOfDecision", e.target.value);
+                    }
+                  : null
+              }
             />
           </div>
           <div className="col-span-2">
@@ -127,32 +149,32 @@ const EditableFields = ({
             <input
               className={`border border-[#d1d5db] text-black px-1.5 py-2 rounded-md  bg-white-50 focus:outline-none text-sm focus:border-orange-400 w-full date_type`}
               type="date"
-              // disabled={!meetingPermission.canUpdate}
+              disabled={!meetingPermission.canUpdate}
 
-              // value={task?.dateOfDecision ? task.dateOfDecision : ""}
-              // onChange={
-              //   meetingPermission.canUpdate
-              //     ? (e) => {
-              //         handleSubmit(task?.id, "dateOfDecision", e.target.value);
-              //         handleOverviewTaskChange("dateOfDecision", e.target.value);
-              //       }
-              //     : null
-              // }
+              value={updateDecisionForm.Date}
+              onChange={
+                meetingPermission.canUpdate
+                  ? (e) => {
+                    setUpdateDecisionForm((prev)=>(
+                      {...prev,Date:e.target.value}
+                    ))
+                      // handleSubmit(task?.id, "dateOfDecision", e.target.value);
+                      // handleOverviewTaskChange("dateOfDecision", e.target.value);
+                    }
+                  : null
+              }
             />
           </div>
 
           <div className="col-span-1 ">
             <button
-              onClick={() => setUpdateDecisionToggle(false)}
+              onClick={() =>{ setUpdateDecisionToggle(false)
+                handleSubmitUpdateDecision()
+              }}
               className=" px-1.5 py-2 inline-flex items-center justify-end whitespace-nowrap rounded-md text-xs font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white mt-8 ms-3"
-              // // type="submit"
-              // onClick={handleSubmit}
-              // disabled={newComment.message.length < 2}
-              // className={
-              //   newComment.message.length >= 2
-              //     ? ""
-              //     : "text-gray-300 cursor-not-allowed"
-              // }
+             
+              
+            
             >
               Update
             </button>
