@@ -8,7 +8,8 @@ import CommentsView from "./taskOverviewComponents/CommentsView";
 import CommentsForm from "./taskOverviewComponents/CommentsForm";
 import ActivityLogs from "./taskOverviewComponents/ActivityLogs";
 import LogsCommentBar from "./taskOverviewComponents/LogsCommentBar";
-const TaskOverview = ({meetingPermission,
+const TaskOverview = ({
+  meetingPermission,
   setAutoFocussubTaskID,
   isSubTaskInputActiveID,
   setIsSubTaskInputActive,
@@ -35,7 +36,7 @@ const TaskOverview = ({meetingPermission,
   setSubTask,
   handleSendComment,
 }) => {
-  console.log("firsxxxt",displayOverviewTask,displayOverviewSubTask)
+  
   // -------full screen----
   const [expand, setExpand] = useState(false);
   const handleExpand = () => {
@@ -63,13 +64,50 @@ const TaskOverview = ({meetingPermission,
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
-  const [fileName,setFileName] = useState(null)
-  const [ActiveBar,setActiveBar] = useState("Logs")
+  const [fileName, setFileName] = useState(null);
+  const [ActiveBar, setActiveBar] = useState("Logs");
+  let [updateDecisionToggle, setUpdateDecisionToggle] = useState(false);
+  const popupRef = useRef(null);
+  const overViewTaskRef = useRef(overViewTask);
 
+  useEffect(() => {
+    overViewTaskRef.current = overViewTask;
+  }, [overViewTask]);
+
+  const handleClickOutside = (event) => {
+    if (
+      overViewTaskRef.current &&
+      popupRef.current &&
+      !popupRef.current.contains(event.target)
+    ) {
+      setTask({ decision: "", members: "", dueDate: "", status: "" });
+      setSubTask({
+        decision: "",
+        members: "",
+        dueDate: "",
+        status: "",
+      });
+      setDisplayOverviewTask(false);
+      setDisplayOverviewSubTask(false);
+      setOverViewTask(false);
+      setUpdateDecisionToggle(false);
+      let updatedQparams = { ...Qparams };
+      delete updatedQparams.taskID;
+      delete updatedQparams.subTaskID;
+      setQParams(updatedQparams);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
   return (
     <div
       className={`fixed inset-0  bg-gray-800 bg-opacity-50 z-40  ${
-        overViewTask ? "" : "opacity-0 pointer-events-none "
+        overViewTask ? "" : "opacity-0 pointer-events-none"
       }`}
       style={{ transition: "opacity 0.3s ease-in-out" }}
     >
@@ -83,6 +121,7 @@ const TaskOverview = ({meetingPermission,
           transform: `translateX(${overViewTask ? "0%" : "100%"})`,
           transition: "transform 0.3s ease-in-out",
         }}
+        ref={popupRef}
       >
         <TaskOverViewHeader
           Qparams={Qparams}
@@ -105,10 +144,13 @@ const TaskOverview = ({meetingPermission,
           }
           setDisplayOverviewTask={setDisplayOverviewTask}
           setDisplayOverviewSubTask={setDisplayOverviewSubTask}
+          setUpdateDecisionToggle={setUpdateDecisionToggle}
         />
         <hr />
         <div
-          className={` overflow-y-scroll content  bg-[#f8fafc] ${ActiveBar === "Comments" ? "max-h-comment" : "max-h-logs"}`}
+          className={` overflow-y-scroll content  bg-[#f8fafc] ${
+            ActiveBar === "Comments" ? "max-h-comment" : "max-h-logs"
+          }`}
           // style={{ maxHeight: "calc(100vh - 12rem)" }}
         >
           <div className="bg-white">
@@ -128,19 +170,19 @@ const TaskOverview = ({meetingPermission,
                 handleSubmit={
                   displayOverviewTask ? handleSubmit : handleSubTaskSubmit
                 }
-             
                 priority={priority}
                 setSubTask={setSubTask}
                 setDisplayOverviewTask={setDisplayOverviewTask}
                 setDisplayOverviewSubTask={setDisplayOverviewSubTask}
                 displayOverviewSubTask={displayOverviewSubTask}
                 meetingPermission={meetingPermission}
+                updateDecisionToggle={updateDecisionToggle}
+                setUpdateDecisionToggle={setUpdateDecisionToggle}
               />
             </div>
             {displayOverviewTask && (
               <SubTasksList
-              meetingPermission={meetingPermission}
-              
+                meetingPermission={meetingPermission}
                 task={task}
                 handleAddSubTask={handleAddSubTask}
                 subTasks={subTasks}
@@ -160,52 +202,51 @@ const TaskOverview = ({meetingPermission,
             )}
           </div>
           <div className="bg-white">
-            <LogsCommentBar ActiveBar={ActiveBar}  setActiveBar={setActiveBar}/>
-           {ActiveBar === "Comments" && <CommentsView
-              setIsCommentEditing={setIsCommentEditing}
-              setNewComment={setNewComment}
-              messagesEndRef={messagesEndRef}
-              comments={
-                displayOverviewTask ? task?.comments : subTask?.comments
-              }
-              fileName={fileName}
-              setFileName={setFileName}
-             
-            />}
-          { ActiveBar === "Logs" && <ActivityLogs   task={task}/>}
+            <LogsCommentBar ActiveBar={ActiveBar} setActiveBar={setActiveBar} />
+            {ActiveBar === "Comments" && (
+              <CommentsView
+                setIsCommentEditing={setIsCommentEditing}
+                setNewComment={setNewComment}
+                messagesEndRef={messagesEndRef}
+                comments={
+                  displayOverviewTask ? task?.comments : subTask?.comments
+                }
+                fileName={fileName}
+                setFileName={setFileName}
+              />
+            )}
+            {ActiveBar === "Logs" && <ActivityLogs task={task} />}
           </div>
         </div>
         <hr />
-        {ActiveBar === "Comments" &&
-        <CommentsForm
-          isCommentEditing={isCommentEditing}
-          setIsCommentEditing={setIsCommentEditing}
-          newComment={newComment}
-          setNewComment={setNewComment}
-          scrollToBottom={scrollToBottom}
-          displayOverviewTask={displayOverviewTask}
-          taskID={displayOverviewTask ? task?.id : subTask?.id}
-          fileName={fileName}
-          setFileName={setFileName}
-
-
-        />}
-      {displayOverviewTask &&  <Collaborators
-
-meetingPermission={meetingPermission}
-        handleOverviewTaskChange={
-          displayOverviewTask
-            ? handleOverviewTaskChange
-            : handleOverviewSubTaskChange
-        }
-        handleSubmit={
-          displayOverviewTask ? handleSubmit : handleSubTaskSubmit
-        }
-          // members={members}
-          task={
-            displayOverviewTask ? task : subTask
-          }
-        />}
+        {ActiveBar === "Comments" && (
+          <CommentsForm
+            isCommentEditing={isCommentEditing}
+            setIsCommentEditing={setIsCommentEditing}
+            newComment={newComment}
+            setNewComment={setNewComment}
+            scrollToBottom={scrollToBottom}
+            displayOverviewTask={displayOverviewTask}
+            taskID={displayOverviewTask ? task?.id : subTask?.id}
+            fileName={fileName}
+            setFileName={setFileName}
+          />
+        )}
+        {displayOverviewTask && (
+          <Collaborators
+            meetingPermission={meetingPermission}
+            handleOverviewTaskChange={
+              displayOverviewTask
+                ? handleOverviewTaskChange
+                : handleOverviewSubTaskChange
+            }
+            handleSubmit={
+              displayOverviewTask ? handleSubmit : handleSubTaskSubmit
+            }
+            // members={members}
+            task={displayOverviewTask ? task : subTask}
+          />
+        )}
       </div>
     </div>
   );

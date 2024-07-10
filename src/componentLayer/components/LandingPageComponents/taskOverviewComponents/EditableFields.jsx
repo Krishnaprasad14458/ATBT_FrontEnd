@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Select from "react-select";
 import { getCurrentDate } from "../../../../utils/utils";
 const EditableFields = ({
@@ -12,12 +12,17 @@ const EditableFields = ({
   setDisplayOverviewTask,
   setDisplayOverviewSubTask,
   displayOverviewSubTask,
+  updateDecisionToggle,
+  setUpdateDecisionToggle
+
 }) => {
   let members = task?.group?.map((user) => ({
     label: user.name,
     value: user.id,
   }));
   console.log("taskDecision", taskDecision);
+
+ 
   return (
     <>
       <div className="mb-2">
@@ -61,7 +66,122 @@ const EditableFields = ({
           }
         />
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3 xl:grid-col-3 items-center mb-3 gap-3">
+
+      <div className="flex justify-end gap-3">
+        <button
+          onClick={() => setUpdateDecisionToggle(!updateDecisionToggle)}
+          className=" px-1 py-1.5 inline-flex items-center justify-center whitespace-nowrap rounded-md text-xs font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white mb-4 mt-2"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+            className="w-3 h-3"
+          >
+            <path d="M10.75 4.75a.75.75 0 0 0-1.5 0v4.5h-4.5a.75.75 0 0 0 0 1.5h4.5v4.5a.75.75 0 0 0 1.5 0v-4.5h4.5a.75.75 0 0 0 0-1.5h-4.5v-4.5Z" />
+          </svg>{" "}
+          &nbsp; Update Decision
+        </button>
+        <button
+          // onClick={() => handleAddSubTask(task?.id)}
+          className=" px-1 py-1.5 inline-flex items-center justify-center whitespace-nowrap rounded-md text-xs font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white mb-4 mt-2"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+            className="w-3 h-3"
+          >
+            <path d="M10.75 4.75a.75.75 0 0 0-1.5 0v4.5h-4.5a.75.75 0 0 0 0 1.5h4.5v4.5a.75.75 0 0 0 1.5 0v-4.5h4.5a.75.75 0 0 0 0-1.5h-4.5v-4.5Z" />
+          </svg>{" "}
+          &nbsp; Update Status
+        </button>
+      </div>
+
+      {updateDecisionToggle && (
+        <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-4 lg:grid-cols-7 xl:grid-col-7 items-center mb-3 gap-3 justify-center">
+          <div className="col-span-4">
+            <label className="block text-xs font-medium leading-6 my-1 text-[1e1f21]">
+              Update Decision
+            </label>
+            <input
+              className={`border border-[#d1d5db] text-black px-1.5 py-2 rounded-md  bg-white-50 focus:outline-none text-sm focus:border-orange-400 w-full date_type`}
+              type="text"
+              // disabled={!meetingPermission.canUpdate}
+
+              // value={task?.dateOfDecision ? task.dateOfDecision : ""}
+              // onChange={
+              //   meetingPermission.canUpdate
+              //     ? (e) => {
+              //         handleSubmit(task?.id, "dateOfDecision", e.target.value);
+              //         handleOverviewTaskChange("dateOfDecision", e.target.value);
+              //       }
+              //     : null
+              // }
+            />
+          </div>
+          <div className="col-span-2">
+            <label className="block text-xs font-medium leading-6 my-1 text-[1e1f21]">
+              Date of Update Decision
+            </label>
+            <input
+              className={`border border-[#d1d5db] text-black px-1.5 py-2 rounded-md  bg-white-50 focus:outline-none text-sm focus:border-orange-400 w-full date_type`}
+              type="date"
+              // disabled={!meetingPermission.canUpdate}
+
+              // value={task?.dateOfDecision ? task.dateOfDecision : ""}
+              // onChange={
+              //   meetingPermission.canUpdate
+              //     ? (e) => {
+              //         handleSubmit(task?.id, "dateOfDecision", e.target.value);
+              //         handleOverviewTaskChange("dateOfDecision", e.target.value);
+              //       }
+              //     : null
+              // }
+            />
+          </div>
+
+          <div className="col-span-1 ">
+            <button
+              onClick={() => setUpdateDecisionToggle(false)}
+              className=" px-1.5 py-2 inline-flex items-center justify-end whitespace-nowrap rounded-md text-xs font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white mt-8 ms-3"
+              // // type="submit"
+              // onClick={handleSubmit}
+              // disabled={newComment.message.length < 2}
+              // className={
+              //   newComment.message.length >= 2
+              //     ? ""
+              //     : "text-gray-300 cursor-not-allowed"
+              // }
+            >
+              Update
+            </button>
+          </div>
+        </div>
+      )}
+
+      <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-col-4 items-center mb-3 gap-3">
+        <div className="col-span-1">
+          <label className="block text-xs font-medium leading-6 my-1 text-[1e1f21]">
+            Initial Date of Decision
+          </label>
+          <input
+            className={`border border-[#d1d5db] text-black px-1.5 py-2 rounded-md  bg-white-50 focus:outline-none text-sm focus:border-orange-400 w-full date_type`}
+            type="date"
+            disabled={!meetingPermission.canUpdate}
+            min={getCurrentDate()}
+            value={task?.dateOfDecision ? task.dateOfDecision : ""}
+            onChange={
+              meetingPermission.canUpdate
+                ? (e) => {
+                    handleSubmit(task?.id, "dateOfDecision", e.target.value);
+                    handleOverviewTaskChange("dateOfDecision", e.target.value);
+                  }
+                : null
+            }
+          />
+        </div>
+
         <div className="col-span-1">
           <label className="block text-xs font-medium leading-6 my-1 text-[1e1f21]">
             Person Responsible

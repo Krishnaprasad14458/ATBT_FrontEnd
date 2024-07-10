@@ -443,6 +443,7 @@ const Tasks = () => {
   const [overViewTask, setOverViewTask] = useState(false);
   const [displayOverviewTask, setDisplayOverviewTask] = useState(false);
   const [displayOverviewSubTask, setDisplayOverviewSubTask] = useState(false);
+
   const handleOverViewTask = (taskId) => {
     setOverViewTask(!overViewTask);
     setDisplayOverviewTask(!displayOverviewTask);
@@ -1044,6 +1045,12 @@ const Tasks = () => {
                 Initial Decision Taken
               </th>
               <th
+                className="sticky top-0 z-10 bg-orange-600 text-white text-sm text-left px-2 py-2 border-l-2 border-gray-200 "
+                style={{ width: "6rem" }}
+              >
+                Initial Date of Decision
+              </th>
+              <th
                 className="sticky top-0 z-10  bg-orange-600 text-white text-sm text-left px-2 py-2 border-l-2 border-gray-200 "
                 style={{ width: "13rem" }}
               >
@@ -1180,7 +1187,35 @@ const Tasks = () => {
                       </div>
                     </div>
                   </td>
-
+                  <td className="border py-1 px-2">
+                    <input
+                      className=" border border-transparent text-black px-1.5 py-2 rounded-md  bg-[#f9fafb] focus:outline-none text-sm focus:border-orange-400  date_type"
+                      type="date"
+                      value={task?.dateOfDecision}
+                      style={{
+                        fontSize: "0.8rem",
+                        WebkitAppearance: "none",
+                      }}
+                      min={getCurrentDate()}
+                      onChange={
+                        meetingPermission.canUpdate
+                          ? (e) => {
+                              handleSubmit(
+                                task?.id,
+                                "dateOfDecision",
+                                e.target.value
+                              );
+                              handleTaskChange(
+                                index,
+                                "dateOfDecision",
+                                e.target.value
+                              );
+                            }
+                          : null
+                      }
+                      disabled={!meetingPermission.canUpdate}
+                    />
+                  </td>
                   <td className="border py-1 px-2">
                     <Select
                       isDisabled={!meetingPermission.canUpdate}
@@ -1460,6 +1495,7 @@ const Tasks = () => {
       </div>
 
       <TaskOverview
+        
         task={task}
         subTasks={subTasks}
         subTask={subTask}

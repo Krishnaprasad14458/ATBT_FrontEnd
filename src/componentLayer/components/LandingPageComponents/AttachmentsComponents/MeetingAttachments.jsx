@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 const MeetingAttachments = ({
   handleDownload,
@@ -15,8 +15,7 @@ const MeetingAttachments = ({
   handleDelete,
   MeetingData,
 }) => {
-
-  
+  const [errorMsg, setErrorMsg] = useState("");
   return (
     <div className=" overflow-y-auto">
       {belongsTo === "boardMeeting" && (
@@ -30,6 +29,9 @@ const MeetingAttachments = ({
               ></progress>
             )}
             {msg && <span style={{ color: msgColor }}>{msg}</span>}
+            {errorMsg && (
+              <span className="text-red-600 text-sm">{errorMsg}</span>
+            )}
             <label
               htmlFor="fileInput"
               className="cursor-pointer border border-gray-300 p-1 rounded-md w-full md:w-80"
@@ -37,7 +39,10 @@ const MeetingAttachments = ({
               {file && file?.name ? (
                 <p className="w-72 truncate text-sm py-1 ">{file?.name}</p>
               ) : (
-                <p className="pl-1 text-sm py-1 text-gray-400">Choose File to Upload less than 10mb</p>
+                <p className="w-72 pl-1 text-sm py-1 text-gray-400">
+                  Click here to Upload file
+                  <span className="text-xs"> ( size  &lt; 10MB ) </span>
+                </p>
               )}
             </label>
             <input
@@ -45,11 +50,23 @@ const MeetingAttachments = ({
               id="fileInput"
               type="file"
               className="hidden py-1"
-              onChange={(e) => setFile(e.target.files[0])}
+              onChange={(e) => {
+                const selectedFile = e.target.files[0];
+
+                if (selectedFile && selectedFile.size > 10 * 1024 * 1024) {
+                  setErrorMsg("File size should be less than 10MB.");
+                  setFile(null); // Reset file state
+                } else {
+                  setErrorMsg("");
+                  setFile(selectedFile);
+                }
+              }}
             />
+           
             <button
               onClick={handleUpload}
               className="rounded-md bg-orange-600 px-2 py-1.5 text-sm font-medium leading-6 text-white shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600"
+              disabled={!file}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -136,7 +153,7 @@ const MeetingAttachments = ({
                         viewBox="0 0 20 20"
                         fill="currentColor"
                         class="size-4 cursor-pointer"
-                        onClick={()=> handleDelete(attachment.id)}
+                        onClick={() => handleDelete(attachment.id)}
                       >
                         <path
                           fill-rule="evenodd"
