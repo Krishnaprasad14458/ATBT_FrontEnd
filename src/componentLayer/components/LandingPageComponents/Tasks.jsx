@@ -22,9 +22,7 @@ import { caseLetter, debounce, getCurrentDate } from "../../../utils/utils";
 import GateKeeper from "../../../rbac/GateKeeper";
 import { AuthContext } from "../../../contexts/authContext/authContext";
 import TasksFilter from "../tableCustomization/TasksFilter";
-
 import { toast } from "react-toastify";
-
 import mailsent from "../../../assets/Images/mailsent.svg";
 import { PermissionsContext } from "../../../rbac/PermissionsProvider";
 
