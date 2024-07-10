@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import atbtApi from "../../../../serviceLayer/interceptor";
+import { dateFormat} from "../../../../utils/utils";
 
 const Updates = ({ fetchStatus, updates }) => {
   useEffect(() => {
@@ -7,35 +8,22 @@ const Updates = ({ fetchStatus, updates }) => {
   }, []);
 
   return (
-    <div>
-      <h1>Updates</h1>
+    <div >
+
       {updates.length > 0 ? (
-        <table>
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Sender ID</th>
-              <th>Message</th>
-              <th>Task ID</th>
-              <th>Date</th>
-              <th>Created At</th>
-              <th>Updated At</th>
-            </tr>
-          </thead>
-          <tbody>
-            {updates.map((update) => (
-              <tr key={update.id}>
-                <td>{update.id}</td>
-                <td>{update.senderId}</td>
-                <td>{update.message}</td>
-                <td>{update.TaskId}</td>
-                <td>{update.Date}</td>
-                <td>{update.createdAt}</td>
-                <td>{update.updatedAt}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+         updates.map((update) => (
+            <div className="px-3 py-1 ">
+      
+            <span className="font-semibold block md:inline text-sm">
+            {update.senderId} &nbsp;
+                </span>
+                <span className="text-sm text-gray-500">
+                  {dateFormat(update.Date)}
+                </span>
+                <p className="text-xs"> {update.message}</p>
+          </div>
+                ))
+    
       ) : (
         <p>No updates available</p>
       )}
