@@ -8,6 +8,7 @@ import CommentsView from "./taskOverviewComponents/CommentsView";
 import CommentsForm from "./taskOverviewComponents/CommentsForm";
 import ActivityLogs from "./taskOverviewComponents/ActivityLogs";
 import LogsCommentBar from "./taskOverviewComponents/LogsCommentBar";
+import Updates from "./taskOverviewComponents/Updates";
 const TaskOverview = ({
   meetingPermission,
   setAutoFocussubTaskID,
@@ -215,6 +216,7 @@ const TaskOverview = ({
                 setFileName={setFileName}
               />
             )}
+              {ActiveBar === "Updates" && <Updates  />}
             {ActiveBar === "Logs" && <ActivityLogs task={task} />}
           </div>
         </div>
