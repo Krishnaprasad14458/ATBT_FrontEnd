@@ -15,6 +15,7 @@ const EditableFields = ({
   displayOverviewSubTask,
   updateDecisionToggle,
   setUpdateDecisionToggle,
+  fetchStatus
 }) => {
   let members = task?.group?.map((user) => ({
     label: user.name,
@@ -31,6 +32,7 @@ const EditableFields = ({
         
         console.log("Status updated successfully:", response.data);
         setUpdateDecisionForm({senderId:null,message:"",Date:"",TaskId:null})
+        fetchStatus()
       } else {
       
         console.error("Unexpected response status:", response.status);

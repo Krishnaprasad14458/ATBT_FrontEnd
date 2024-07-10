@@ -9,6 +9,7 @@ import CommentsForm from "./taskOverviewComponents/CommentsForm";
 import ActivityLogs from "./taskOverviewComponents/ActivityLogs";
 import LogsCommentBar from "./taskOverviewComponents/LogsCommentBar";
 import Updates from "./taskOverviewComponents/Updates";
+import atbtApi from "../../../serviceLayer/interceptor";
 const TaskOverview = ({
   meetingPermission,
   setAutoFocussubTaskID,
@@ -37,7 +38,6 @@ const TaskOverview = ({
   setSubTask,
   handleSendComment,
 }) => {
-  
   // -------full screen----
   const [expand, setExpand] = useState(false);
   const handleExpand = () => {
@@ -105,6 +105,22 @@ const TaskOverview = ({
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+  const [updates, setUpdates] = useState([]);
+
+  const fetchStatus = async () => {
+    try {
+      const response = await atbtApi.get("task/ListStatus");
+      console.log("response", response);
+      if (response.status === 200) {
+        setUpdates(response.data);
+        console.log("Status updated successfully:", response.data);
+      } else {
+        console.error("Unexpected response status:", response.status);
+      }
+    } catch (error) {
+      console.error("Error updating status:", error);
+    }
+  };
   return (
     <div
       className={`fixed inset-0  bg-gray-800 bg-opacity-50 z-40  ${
@@ -179,6 +195,7 @@ const TaskOverview = ({
                 meetingPermission={meetingPermission}
                 updateDecisionToggle={updateDecisionToggle}
                 setUpdateDecisionToggle={setUpdateDecisionToggle}
+                fetchStatus={fetchStatus}
               />
             </div>
             {displayOverviewTask && (
@@ -216,7 +233,13 @@ const TaskOverview = ({
                 setFileName={setFileName}
               />
             )}
-              {ActiveBar === "Updates" && <Updates  />}
+            {ActiveBar === "Updates" && (
+              <Updates
+                fetchStatus={fetchStatus}
+                updates={updates}
+                setUpdates={setUpdates}
+              />
+            )}
             {ActiveBar === "Logs" && <ActivityLogs task={task} />}
           </div>
         </div>
