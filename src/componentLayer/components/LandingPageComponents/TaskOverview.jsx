@@ -98,7 +98,7 @@ const TaskOverview = ({
       setQParams(updatedQparams);
     }
   };
-
+console.log("task irshad",task)
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
@@ -109,7 +109,7 @@ const TaskOverview = ({
 
   const fetchStatus = async () => {
     try {
-      const response = await atbtApi.get("task/ListStatus");
+      const response = await atbtApi.get(`task/ListStatus/${task.id}`);
       console.log("response", response);
       if (response.status === 200) {
         setUpdates(response.data);
