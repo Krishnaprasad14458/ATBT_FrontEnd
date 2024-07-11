@@ -22,9 +22,7 @@ import { caseLetter, debounce, getCurrentDate } from "../../../utils/utils";
 import GateKeeper from "../../../rbac/GateKeeper";
 import { AuthContext } from "../../../contexts/authContext/authContext";
 import TasksFilter from "../tableCustomization/TasksFilter";
-
 import { toast } from "react-toastify";
-
 import mailsent from "../../../assets/Images/mailsent.svg";
 import { PermissionsContext } from "../../../rbac/PermissionsProvider";
 
@@ -34,7 +32,7 @@ let status = [
   { label: "Completed", value: "Completed" },
   { label: "On-Hold", value: "On-Hold" },
 ];
-
+ 
 let parentPath;
 // let groupName;
 let idOF;
@@ -1196,7 +1194,7 @@ const Tasks = () => {
                         fontSize: "0.8rem",
                         WebkitAppearance: "none",
                       }}
-                      min={getCurrentDate()}
+                      // min={getCurrentDate()}
                       onChange={
                         meetingPermission.canUpdate
                           ? (e) => {
