@@ -68,6 +68,10 @@ const TaskOverview = ({
   const [fileName, setFileName] = useState(null);
   const [ActiveBar, setActiveBar] = useState("Logs");
   let [updateDecisionToggle, setUpdateDecisionToggle] = useState(false);
+  let [updateStatusToggle, setUpdateStatusToggle] = useState(false);
+
+
+  
   const popupRef = useRef(null);
   const overViewTaskRef = useRef(overViewTask);
 
@@ -195,6 +199,8 @@ console.log("task irshad",task)
                 meetingPermission={meetingPermission}
                 updateDecisionToggle={updateDecisionToggle}
                 setUpdateDecisionToggle={setUpdateDecisionToggle}
+                updateStatusToggle={updateStatusToggle}
+  setUpdateStatusToggle={setUpdateStatusToggle}
                 fetchStatus={fetchStatus}
               />
             </div>

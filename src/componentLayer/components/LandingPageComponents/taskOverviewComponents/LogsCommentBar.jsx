@@ -28,7 +28,7 @@ const LogsCommentBar = ({ ActiveBar, setActiveBar }) => {
               : " cursor-pointer"
           }`}
         >
-          Updates
+         Decision Updates
         </span>
         <span
           onClick={() => {
