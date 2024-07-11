@@ -21,7 +21,7 @@ const EditableFields = ({
     label: user.name,
     value: user.id,
   }));
-  let [updateDecisionForm, setUpdateDecisionForm] = useState({senderId:23,message:"",Date:"",TaskId:task.id});
+  let [updateDecisionForm, setUpdateDecisionForm] = useState({senderId:23,message:"",Date:"",TaskId:task?.id});
   console.log("taskDecision", updateDecisionForm);
 
   const handleSubmitUpdateDecision = async () => {
