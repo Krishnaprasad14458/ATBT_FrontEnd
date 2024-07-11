@@ -1466,34 +1466,33 @@ function TeamsForm() {
                                             title={`Name: ${user.name}\nEmail: ${user.email}\nDesignation: ${user.designation}`}
                                           >
                                             <div>
-                                              <p className="truncate w-64 text-sm">
+                                              <p className="truncate w-40 text-sm">
                                                 {user.name}
                                               </p>
-                                              <p className="truncate w-64 text-sm">
+                                              <p className="truncate w-40 text-sm">
                                                 {user.email}
                                               </p>
-                                              <p className="truncate w-64 text-sm">
+                                              <p className="truncate w-40 text-sm">
                                                 {user.designation}
                                               </p>
                                             </div>
-                                            {index === showAllMembers - 1 &&
+                                           
+                                          </div>
+                                        </div>
+                                        {index === showAllMembers - 1 &&
                                               item.value.length >
                                                 showAllMembers && (
-                                                <span
+                                                <span className="text-xs border border-gray-200 p-2 bg-orange-500 rounded-md text-white cursor-pointer"
                                                   onClick={() =>
                                                     setShowAllMembers(
                                                       item.value.length
                                                     )
                                                   }
                                                 >
-                                                  +
-                                                  {item.value.length -
-                                                    showAllMembers}{" "}
-                                                  more
+                                                  +{item.value.length -
+                                                    showAllMembers}more
                                                 </span>
                                               )}
-                                          </div>
-                                        </div>
                                       </>
                                     ) : (
                                       <>

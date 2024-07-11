@@ -206,18 +206,19 @@ const BoardMeetingOverview = () => {
                                           {user.designation}
                                         </p>
                                       </div>
-                                      {index === showAllMembers - 1 &&
+                                    
+                                    </div>
+                                  </div>
+                                  {index === showAllMembers - 1 &&
                                         UsersList.length > showAllMembers && (
-                                          <span
+                                          <span className="text-xs border border-gray-200 p-2 bg-orange-500 rounded-md text-white cursor-pointer"
                                             onClick={() =>
                                               setShowAllMembers(UsersList.length)
                                             }
                                           >
-                                            +{UsersList.length - showAllMembers} more
+                                            + {UsersList.length - showAllMembers} more
                                           </span>
                                         )}
-                                    </div>
-                                  </div>
                                 </>
                               ) : (
                                 <>
