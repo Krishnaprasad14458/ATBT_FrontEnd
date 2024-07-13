@@ -174,14 +174,28 @@ function Reports() {
   const headerATR = [
     { label: "S.NO", key: "serialNO" },
     { label: "Date of Board meeting", key: "date" },
+    { label: "Initial Date of Decision", key: "dateOfDecision" },
+
     { label: "Initial Decision Taken", key: "decision" },
-    { label: "Person Responsible for implementation", key: "memberdata" },
+    { label: "Person Responsible for implementation", key: "initialPerson" }, 
+    { label: "Date of Previous meeting", key: "dateOfPreviosMeeting" }, 
+
+    { label: "Updated decision in previous meeting", key: "updatedDecisionInPreviosMeeting" }, 
+    { label: "Updated Person Responsible", key: "updatedPerson" }, 
+
     { label: "DueDate", key: "dueDate" },
+    { label: "Status as on", key: "statusAsOn" },
+
+    { label: "Status", key: "status" },
+
+  
     { label: "Meeting ID", key: "meetingNumber" },
     { label: "Ageing of the Decision as per Latest Board Meeting", key: "age" },
     { label: "Updated Decision", key: "updatedbyuser" },
     // { label: "Updated Person Responsible", key: "memberdata" },
     { label: "Collabarators", key: "colabrators" },
+    { label: "Collabarators", key: "colabrators" },
+
   ];
 
   const reportdata = [
@@ -305,10 +319,19 @@ function Reports() {
   const handleDownload = (data, headers) => {
     const formattedData = data.map((row) => ({
       ...row,
+    
+      initialPerson : row?.activeLog.changes?.filter((log)=> log.fieldChanged === "members"   && log.oldValue === null).map((member) => member.newValue).join(", "),
+      updatedPerson : row?.activeLog.changes?.filter((log)=> log.fieldChanged === "members" &&   log.oldValue !== null).map((member) => member.newValue).join(", "),
+   
+      dateOfPreviosMeeting : row?.taskStatus?.filter((status)=>status.isDecisionUpdate === 1).map((date)=>date.Date)[0],
+      updatedDecisionInPreviosMeeting : row?.taskStatus?.filter((status)=>status.isDecisionUpdate === 1).map((date)=>date.message)[0],
+      statusAsOn : row?.taskStatus?.filter((status)=>status.isStatusUpdate === 1).map((date)=>date.Date)[0],
+      status : row?.taskStatus?.filter((status)=>status.isStatusUpdate === 1).map((date)=>date.message)[0],
+  
+   
       colabrators: row?.colabDetails?.map((colab) => colab.name).join(", "),
     }));
     const worksheetData = [
-      
       headers.map((header) => header.label),
       ...formattedData.map((row) => headers.map((header) => row[header.key])),
     ];
@@ -698,7 +721,7 @@ function Reports() {
                       className=" inline-flex items-center gap-x-1 text-sm font-semibold  border  border-gray-500 rounded-md hover:bg-orange-500 hover:border-white p-1.5 me-4 text-[#475569] hover:text-white disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
                       onClick={() => handleDownload(ReportData, headerATR)}
                     >
-                     <svg
+                      <svg
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
                         viewBox="0 0 24 24"
@@ -711,7 +734,8 @@ function Reports() {
                           stroke-linejoin="round"
                           d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3"
                         />
-                      </svg> <p className="text-xs">XLSX</p>
+                      </svg>{" "}
+                      <p className="text-xs">XLSX</p>
                     </button>
 
                     <button
@@ -733,7 +757,8 @@ function Reports() {
                           stroke-linejoin="round"
                           d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3"
                         />
-                      </svg>  <p className="text-xs">PDF</p>
+                      </svg>{" "}
+                      <p className="text-xs">PDF</p>
                     </button>
                   </>
                 ) : report?.selectedReport?.value == "Master" &&
@@ -759,7 +784,8 @@ function Reports() {
                           stroke-linejoin="round"
                           d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3"
                         />
-                      </svg> <p className="text-xs">XLSX</p>
+                      </svg>{" "}
+                      <p className="text-xs">XLSX</p>
                     </button>
                     <button
                       type="button"
@@ -767,7 +793,7 @@ function Reports() {
                       className=" inline-flex items-center gap-x-1 text-sm font-semibold  border  border-gray-500 rounded-md hover:bg-orange-500 hover:border-white p-1.5 text-[#475569] hover:text-white disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
                       onClick={handlePrint}
                     >
-                     <svg
+                      <svg
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
                         viewBox="0 0 24 24"
@@ -780,7 +806,8 @@ function Reports() {
                           stroke-linejoin="round"
                           d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3"
                         />
-                      </svg>  <p className="text-xs">PDF</p>
+                      </svg>{" "}
+                      <p className="text-xs">PDF</p>
                     </button>
                   </>
                 ) : (
