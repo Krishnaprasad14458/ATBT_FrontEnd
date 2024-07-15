@@ -151,8 +151,9 @@ function Reports() {
   const headersAtbt = [
     { label: "S.NO", key: "serialNO" },
     { label: "Date of Board meeting", key: "date" },
+    { label: "Initial Date of Decision", key: "dateOfDecision" },
     { label: "Initial Decision Taken", key: "decision" },
-    { label: "Person Responsible for implementation", key: "memberdata" },
+    { label: "Person Responsible for implementation", key: "initialPerson" },
     { label: "DueDate", key: "dueDate" },
     { label: "Meeting ID", key: "meetingNumber" },
     { label: "Collaborators", key: "collaborators" },
@@ -161,12 +162,23 @@ function Reports() {
   const headerMaster = [
     { label: "S.NO", key: "serialNO" },
     { label: "Date of Board meeting", key: "date" },
-    { label: "Decision Taken", key: "decision" },
-    { label: "Person Responsible for implementation", key: "memberdata" },
+    { label: "Initial Date of Decision", key: "dateOfDecision" },
+    { label: "Initial Decision Taken", key: "decision" },
+    { label: "Person Responsible for implementation", key: "initialPerson" },
+
+    { label: "Date of Previous meeting", key: "dateOfPreviosMeeting" },
+    {
+      label: "Updated decision in previous meeting",
+      key: "updatedDecisionInPreviosMeeting",
+    },
+    { label: "Updated Person Responsible", key: "updatedPerson" },
     { label: "DueDate", key: "dueDate" },
+    { label: "Status as on", key: "statusAsOn" },
+
+    { label: "Status", key: "status" },
     { label: "Meeting ID", key: "meetingNumber" },
     { label: "Ageing of the Decision as per Latest Board Meeting", key: "age" },
-    { label: "Updated Decision", key: "updatedbyuser" },
+    // { label: "Updated Decision", key: "updatedbyuser" },
     // { label: "Updated Person Responsible", key: "memberdata" },
     { label: "Collabarators", key: "colabrators" },
   ];
@@ -175,27 +187,26 @@ function Reports() {
     { label: "S.NO", key: "serialNO" },
     { label: "Date of Board meeting", key: "date" },
     { label: "Initial Date of Decision", key: "dateOfDecision" },
-
     { label: "Initial Decision Taken", key: "decision" },
-    { label: "Person Responsible for implementation", key: "initialPerson" }, 
-    { label: "Date of Previous meeting", key: "dateOfPreviosMeeting" }, 
-
-    { label: "Updated decision in previous meeting", key: "updatedDecisionInPreviosMeeting" }, 
-    { label: "Updated Person Responsible", key: "updatedPerson" }, 
+    { label: "Person Responsible for implementation", key: "initialPerson" },
+    { label: "Date of Previous meeting", key: "dateOfPreviosMeeting" },
+    {
+      label: "Updated decision in previous meeting",
+      key: "updatedDecisionInPreviosMeeting",
+    },
+    { label: "Updated Person Responsible", key: "updatedPerson" },
 
     { label: "DueDate", key: "dueDate" },
     { label: "Status as on", key: "statusAsOn" },
 
     { label: "Status", key: "status" },
 
-  
     { label: "Meeting ID", key: "meetingNumber" },
     { label: "Ageing of the Decision as per Latest Board Meeting", key: "age" },
-    { label: "Updated Decision", key: "updatedbyuser" },
+    // { label: "Updated Decision", key: "updatedbyuser" },
     // { label: "Updated Person Responsible", key: "memberdata" },
     { label: "Collabarators", key: "colabrators" },
-    { label: "Collabarators", key: "colabrators" },
-
+    // { label: "Collabarators", key: "colabrators" },
   ];
 
   const reportdata = [
@@ -319,16 +330,33 @@ function Reports() {
   const handleDownload = (data, headers) => {
     const formattedData = data.map((row) => ({
       ...row,
-    
-      initialPerson : row?.activeLog.changes?.filter((log)=> log.fieldChanged === "members"   && log.oldValue === null).map((member) => member.newValue).join(", "),
-      updatedPerson : row?.activeLog.changes?.filter((log)=> log.fieldChanged === "members" &&   log.oldValue !== null).map((member) => member.newValue).join(", "),
-   
-      dateOfPreviosMeeting : row?.taskStatus?.filter((status)=>status.isDecisionUpdate === 1).map((date)=>date.Date)[0],
-      updatedDecisionInPreviosMeeting : row?.taskStatus?.filter((status)=>status.isDecisionUpdate === 1).map((date)=>date.message)[0],
-      statusAsOn : row?.taskStatus?.filter((status)=>status.isStatusUpdate === 1).map((date)=>date.Date)[0],
-      status : row?.taskStatus?.filter((status)=>status.isStatusUpdate === 1).map((date)=>date.message)[0],
-  
-   
+
+      initialPerson: row?.activeLog.changes
+        ?.filter(
+          (log) => log.fieldChanged === "members" && log.oldValue === null
+        )
+        .map((member) => member.newValue)
+        .join(", "),
+      updatedPerson: row?.activeLog.changes
+        ?.filter(
+          (log) => log.fieldChanged === "members" && log.oldValue !== null
+        )
+        .map((member) => member.newValue)
+        .join(", "),
+
+      dateOfPreviosMeeting: row?.taskStatus
+        ?.filter((status) => status.isDecisionUpdate === 1)
+        .map((date) => date.Date)[0],
+      updatedDecisionInPreviosMeeting: row?.taskStatus
+        ?.filter((status) => status.isDecisionUpdate === 1)
+        .map((date) => date.message)[0],
+      statusAsOn: row?.taskStatus
+        ?.filter((status) => status.isStatusUpdate === 1)
+        .map((date) => date.Date)[0],
+      status: row?.taskStatus
+        ?.filter((status) => status.isStatusUpdate === 1)
+        .map((date) => date.message)[0],
+
       colabrators: row?.colabDetails?.map((colab) => colab.name).join(", "),
     }));
     const worksheetData = [
