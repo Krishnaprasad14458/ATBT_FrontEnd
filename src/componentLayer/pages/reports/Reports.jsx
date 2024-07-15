@@ -341,8 +341,9 @@ function Reports() {
         ?.filter(
           (log) => log.fieldChanged === "members" && log.oldValue !== null
         )
-         .map((member) => member.newValue).slice(-1)[0],
-        // .join(", "),
+        .map((member) => member.newValue)
+        .slice(-1)[0],
+      // .join(", "),
 
       dateOfPreviosMeeting: row?.taskStatus
         ?.filter((status) => status.isDecisionUpdate === 1)
@@ -849,7 +850,18 @@ function Reports() {
 
       {/*  table for reports printing */}
 
-      <div style={{ display: "none", "@media print": { display: "block" } }}>
+      {/* { label: "S.NO", key: "serialNO" },
+    { label: "Date of Board meeting", key: "date" },
+    { label: "Initial Date of Decision", key: "dateOfDecision" },
+    { label: "Initial Decision Taken", key: "decision" },
+    { label: "Person Responsible for implementation", key: "initialPerson" },
+    { label: "DueDate", key: "dueDate" },
+    { label: "Meeting ID", key: "meetingNumber" },
+    { label: "Collaborators", key: "collaborators" }, */}
+
+      <div
+      //  style={{ display: "none", "@media print": { display: "block" } }}
+      >
         <div className=" mt-5" ref={componentRef}>
           <div className="m-5">
             <h1>{ReportData && ReportData[0]?.blongsTo}</h1>
@@ -887,7 +899,7 @@ function Reports() {
                     Due Date
                   </th>
                   <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200">
-                    Meetin Id
+                    Meeting Id
                   </th>
 
                   {report &&
