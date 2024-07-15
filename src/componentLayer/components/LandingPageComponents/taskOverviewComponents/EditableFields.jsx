@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import Select from "react-select";
 import { getCurrentDate } from "../../../../utils/utils";
 import atbtApi from "../../../../serviceLayer/interceptor";
+import { AuthContext } from "../../../../contexts/authContext/authContext";
 const EditableFields = ({
   task,
   handleOverviewTaskChange,
@@ -15,19 +16,32 @@ const EditableFields = ({
   displayOverviewSubTask,
   updateDecisionToggle,
   setUpdateDecisionToggle,
+  updateStatusToggle,
+  setUpdateStatusToggle,
   fetchStatus
 }) => {
   let members = task?.group?.map((user) => ({
     label: user.name,
     value: user.id,
   }));
-  let [updateDecisionForm, setUpdateDecisionForm] = useState({senderId:23,message:"",Date:"",TaskId:task?.id});
-  console.log("taskDecision", updateDecisionForm);
+  let [updateDecisionForm, setUpdateDecisionForm] = useState({});
+  let [updateStatusForm, setUpdateStatusForm] = useState({});
+  const { authState } = useContext(AuthContext);
+console.log("fsdfsF",authState?.user?.id)
+  
 
+console.log("firsthu",task)
   const handleSubmitUpdateDecision = async () => {
     try {
-      const response = await atbtApi.post("task/addStaus", updateDecisionForm);
       
+      let updatedDecisionForm = {...updateDecisionForm}
+      updatedDecisionForm.TaskId = task?.id
+      updatedDecisionForm.senderId =authState?.user?.id
+      updatedDecisionForm.isDecisionUpdate =true
+      updatedDecisionForm.isStatusUpdate =false
+
+
+      const response = await atbtApi.post("task/addStaus", updatedDecisionForm);
       if (response.status === 201) {
         
         console.log("Status updated successfully:", response.data);
@@ -44,7 +58,31 @@ const EditableFields = ({
       
     }
   };
+  const handleSubmitUpdateStatus = async () => {
+    try {
+      
+      let updatedStatusForm = {...updateStatusForm}
+      updatedStatusForm.TaskId = task?.id
+      updatedStatusForm.senderId =authState?.user?.id
+      updatedStatusForm.isDecisionUpdate =false
+      updatedStatusForm.isStatusUpdate =true
+      const response = await atbtApi.post("task/addStaus", updatedStatusForm);
+      if (response.status === 201) {
+        
+        console.log("Status updated successfully:", response.data);
+        setUpdateStatusForm({})
+        fetchStatus()
+      } else {
+      
+        console.error("Unexpected response status:", response.status);
+
+      }
+    } catch (error) {
   
+      console.error("Error updating status:", error);
+      
+    }
+  };
   return (
     <>
       <div className="mb-2">
@@ -90,8 +128,10 @@ const EditableFields = ({
       </div>
 
       <div className="flex justify-end gap-3">
-        <button
-          onClick={() => setUpdateDecisionToggle(!updateDecisionToggle)}
+      {task?.createdby && task?.createdby == authState?.user?.id  && <button
+          onClick={() => {setUpdateDecisionToggle(!updateDecisionToggle)
+            setUpdateStatusToggle(false)
+          }}
           className=" px-1 py-1.5 inline-flex items-center justify-center whitespace-nowrap rounded-md text-xs font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white mb-4 mt-2"
         >
           <svg
@@ -103,9 +143,12 @@ const EditableFields = ({
             <path d="M10.75 4.75a.75.75 0 0 0-1.5 0v4.5h-4.5a.75.75 0 0 0 0 1.5h4.5v4.5a.75.75 0 0 0 1.5 0v-4.5h4.5a.75.75 0 0 0 0-1.5h-4.5v-4.5Z" />
           </svg>{" "}
           &nbsp; Update Decision
-        </button>
+        </button>}
         <button
-          // onClick={() => handleAddSubTask(task?.id)}
+          onClick={() => {setUpdateStatusToggle(!updateStatusToggle)
+            setUpdateDecisionToggle(false)
+          }}
+      
           className=" px-1 py-1.5 inline-flex items-center justify-center whitespace-nowrap rounded-md text-xs font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white mb-4 mt-2"
         >
           <svg
@@ -172,6 +215,68 @@ const EditableFields = ({
             <button
               onClick={() =>{ setUpdateDecisionToggle(false)
                 handleSubmitUpdateDecision()
+              }}
+              className=" px-1.5 py-2 inline-flex items-center justify-end whitespace-nowrap rounded-md text-xs font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white mt-8 ms-3"
+             
+              
+            
+            >
+              Update
+            </button>
+          </div>
+        </div>
+      )}
+      {updateStatusToggle && (
+        <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-4 lg:grid-cols-7 xl:grid-col-7 items-center mb-3 gap-3 justify-center">
+          <div className="col-span-4">
+            <label className="block text-xs font-medium leading-6 my-1 text-[1e1f21]">
+              Update Status
+            </label>
+            <input
+              className={`border border-[#d1d5db] text-black px-1.5 py-2 rounded-md  bg-white-50 focus:outline-none text-sm focus:border-orange-400 w-full date_type`}
+              type="text"
+              disabled={!meetingPermission.canUpdate}
+              value={updateStatusForm.message}
+              onChange={
+                meetingPermission.canUpdate
+                  ? (e) => {
+                    setUpdateStatusForm((prev)=>(
+                      {...prev,message:e.target.value}
+                    ))
+                   
+                    }
+                  : null
+              }
+            />
+          </div>
+          <div className="col-span-2">
+            <label className="block text-xs font-medium leading-6 my-1 text-[1e1f21]">
+              Date of Update Status
+            </label>
+            <input
+              className={`border border-[#d1d5db] text-black px-1.5 py-2 rounded-md  bg-white-50 focus:outline-none text-sm focus:border-orange-400 w-full date_type`}
+              type="date"
+              disabled={!meetingPermission.canUpdate}
+
+              value={updateStatusForm.Date}
+              onChange={
+                meetingPermission.canUpdate
+                  ? (e) => {
+                    setUpdateStatusForm((prev)=>(
+                      {...prev,Date:e.target.value}
+                    ))
+                      // handleSubmit(task?.id, "dateOfDecision", e.target.value);
+                      // handleOverviewTaskChange("dateOfDecision", e.target.value);
+                    }
+                  : null
+              }
+            />
+          </div>
+
+          <div className="col-span-1 ">
+            <button
+              onClick={() =>{ setUpdateStatusToggle(false)
+                handleSubmitUpdateStatus()
               }}
               className=" px-1.5 py-2 inline-flex items-center justify-end whitespace-nowrap rounded-md text-xs font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white mt-8 ms-3"
              
