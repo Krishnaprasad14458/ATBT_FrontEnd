@@ -40,22 +40,22 @@ export async function loader({ request, params }) {
       meetingId !== "all" && reportType !== "Master"
         ? atbtApi.get(`task/list?meetingId=${meetingId}&status=${reportType}`)
         : meetingId !== "all" && reportType === "Master"
-        ? atbtApi.get(`task/list?meetingId=${meetingId}`)
-        : meetingId === "all" && reportType !== "Master"
-        ? atbtApi.get(`task/list?${idOF}=${listID}&status=${reportType}`)
-        : meetingId === "all" && reportType === "Master"
-        ? atbtApi.get(`task/list?${idOF}=${listID}`)
-        : null,
+          ? atbtApi.get(`task/list?meetingId=${meetingId}`)
+          : meetingId === "all" && reportType !== "Master"
+            ? atbtApi.get(`task/list?${idOF}=${listID}&status=${reportType}`)
+            : meetingId === "all" && reportType === "Master"
+              ? atbtApi.get(`task/list?${idOF}=${listID}`)
+              : null,
       moduleName === "user"
         ? atbtApi.post(`public/list/user`)
         : moduleName === "entity"
-        ? atbtApi.post(`public/list/entity`)
-        : moduleName === "team"
-        ? atbtApi.post(`public/list/team`)
-        : null,
+          ? atbtApi.post(`public/list/entity`)
+          : moduleName === "team"
+            ? atbtApi.post(`public/list/team`)
+            : null,
       moduleName &&
-        listID &&
-        atbtApi.get(`boardmeeting/list?${moduleName}=${listID}`),
+      listID &&
+      atbtApi.get(`boardmeeting/list?${moduleName}=${listID}`),
     ]);
     console.log("selectedModuleList890", reportsData);
     let selectedModuleLists;
@@ -165,7 +165,6 @@ function Reports() {
     { label: "Initial Date of Decision", key: "dateOfDecision" },
     { label: "Initial Decision Taken", key: "decision" },
     { label: "Person Responsible for implementation", key: "initialPerson" },
-
     { label: "Date of Previous meeting", key: "dateOfPreviosMeeting" },
     {
       label: "Updated decision in previous meeting",
@@ -178,8 +177,6 @@ function Reports() {
     { label: "Status", key: "status" },
     { label: "Meeting ID", key: "meetingNumber" },
     { label: "Ageing of the Decision as per Latest Board Meeting", key: "age" },
-    // { label: "Updated Decision", key: "updatedbyuser" },
-    // { label: "Updated Person Responsible", key: "memberdata" },
     { label: "Collabarators", key: "colabrators" },
   ];
 
@@ -265,11 +262,11 @@ function Reports() {
   const masterPersonResHeaders =
     ReportData && ReportData.length > 0
       ? ReportData?.flatMap((data, index) => [
-          {
-            label: `Person Responsible for implementation`,
-            key: `PersonResponce${index + 1}`,
-          },
-        ])
+        {
+          label: `Person Responsible for implementation`,
+          key: `PersonResponce${index + 1}`,
+        },
+      ])
       : [];
 
   // Extract dynamic headers
@@ -337,6 +334,7 @@ function Reports() {
         )
         .map((member) => member.newValue)
         .join(", "),
+
       updatedPerson: row?.activeLog.changes
         ?.filter(
           (log) => log.fieldChanged === "members" && log.oldValue !== null
@@ -691,8 +689,8 @@ function Reports() {
                 className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium overflow-hidden`}
               >
                 {report?.selectedReport?.value == "To-Do" &&
-                ReportData &&
-                ReportData.length > 0 ? (
+                  ReportData &&
+                  ReportData.length > 0 ? (
                   <>
                     <button
                       type="button"
@@ -850,18 +848,9 @@ function Reports() {
 
       {/*  table for reports printing */}
 
-      {/* { label: "S.NO", key: "serialNO" },
-    { label: "Date of Board meeting", key: "date" },
-    { label: "Initial Date of Decision", key: "dateOfDecision" },
-    { label: "Initial Decision Taken", key: "decision" },
-    { label: "Person Responsible for implementation", key: "initialPerson" },
-    { label: "DueDate", key: "dueDate" },
-    { label: "Meeting ID", key: "meetingNumber" },
-    { label: "Collaborators", key: "collaborators" }, */}
+  
 
-      <div
-      //  style={{ display: "none", "@media print": { display: "block" } }}
-      >
+      <div  style={{ display: "none", "@media print": { display: "block" } }}>
         <div className=" mt-5" ref={componentRef}>
           <div className="m-5">
             <h1>{ReportData && ReportData[0]?.blongsTo}</h1>
@@ -884,6 +873,12 @@ function Reports() {
                     className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200"
                     style={{ width: "12rem" }}
                   >
+                    Initial Date of Decision
+                  </th>
+                  <th
+                    className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200"
+                    style={{ width: "12rem" }}
+                  >
                     Initial Decision Taken
                   </th>
                   <th
@@ -892,13 +887,51 @@ function Reports() {
                   >
                     Person Responsible for implementation
                   </th>
+
+                  {report &&
+                    (report?.selectedReport.label === "ATR" ||
+                      report?.selectedReport.label === "ATBT MASTER") && (
+                      <>
+                        <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200">
+                          Date of Previous meeting
+                        </th>
+                        <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200">
+                          Updated decision in previous meeting
+                        </th>
+                        <th
+                          className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200"
+                          style={{ width: "12rem" }}
+                        >
+                          Updated Person Responsible
+                        </th>
+                      </>
+                    )}
+
                   <th
                     className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200"
                     style={{ width: "12rem" }}
                   >
                     Due Date
                   </th>
-                  <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200">
+
+                  {report &&
+                    (report?.selectedReport.label === "ATR" ||
+                      report?.selectedReport.label === "ATBT MASTER") && (
+                      <>
+                        <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200">
+                          Status as on
+                        </th>
+                        <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200">
+                          Status
+                        </th>
+                      </>
+                    )}
+
+
+                  <th
+                    className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200"
+                    style={{ width: "12rem" }}
+                  >
                     Meeting Id
                   </th>
 
@@ -909,11 +942,18 @@ function Reports() {
                         <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200">
                           Ageing of the Decision as per Latest Board Meeting
                         </th>
-                        <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200">
-                          Latest Updated Decision
-                        </th>
                       </>
                     )}
+
+
+                  <th
+                    className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200"
+                    style={{ width: "12rem" }}
+                  >
+                    Collabarators
+                  </th>
+
+
                 </tr>
               </thead>
               <tbody className=" divide-gray-200 dark:divide-gray-700">
@@ -921,57 +961,101 @@ function Reports() {
                   ReportData?.length > 0 &&
                   ReportData?.map((item, index) => {
                     return (
-                      <tr
-                        className={`hover:bg-slate-100 dark:hover:bg-gray-700 `}
-                      >
-                        <td
-                          className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium   overflow-hidden`}
-                        >
+                      <tr className={`hover:bg-slate-100 dark:hover:bg-gray-700 `}>
+
+                        <td className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium   overflow-hidden`} >
                           {index + 1}
                         </td>
-                        <td
-                          className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium   overflow-hidden`}
-                        >
-                          {item.date}
+
+                        {/* date of Boardmetting */}
+                        <td className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium   overflow-hidden`} >
+                          {item?.date}
                         </td>
-                        <td
-                          className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium   overflow-hidden`}
-                        >
-                          {item.decision}
-                        </td>
-                        <td
-                          className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium   overflow-hidden`}
-                        >
-                          {item.memberdata}
-                        </td>
-                        <td
-                          className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium   overflow-hidden`}
-                        >
-                          {item.dueDate}
+                        {/* intial date of decision */}
+                        <td className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium   overflow-hidden`}>
+                          {item?.dateOfDecision}
                         </td>
 
+
+                        {/* decision */}
+                        <td className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium   overflow-hidden`}>
+                          {item.decision}
+                        </td>
+                        {/* person responsible */}
                         <td
                           className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium   overflow-hidden`}
                         >
-                          {item.meetingNumber}
+                          {item?.activeLog?.changes?.filter((log) => log?.fieldChanged === "members" && log?.oldValue === null).map((member) => member?.newValue).join(", ")}
                         </td>
 
                         {report &&
                           (report?.selectedReport.label === "ATR" ||
                             report?.selectedReport.label === "ATBT MASTER") && (
                             <>
-                              <td
-                                className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium   overflow-hidden`}
-                              >
-                                {item.age}
+                              {/* dateOfPreviosMeeting */}
+                              <td className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium   overflow-hidden`}>
+                                {item?.taskStatus?.filter((status) => status.isDecisionUpdate === 1).map((date) => date.Date)[0]}
                               </td>
-                              <td
-                                className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium   overflow-hidden`}
-                              >
-                                {item.updatedbyuser}
+
+                              {/* updatedDecisionInPreviosMeeting */}
+                              <td className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium   overflow-hidden`}>
+                                {item?.taskStatus?.filter((status) => status?.isDecisionUpdate === 1).map((date) => date?.message)[0]}
+                              </td>
+
+                              {/* updatedPerson */}
+                              <td className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium   overflow-hidden`}>
+                                {item?.activeLog?.changes?.filter((log) => log?.fieldChanged === "members" && log?.oldValue !== null).map((member) => member?.newValue).slice(-1)[0]}
                               </td>
                             </>
                           )}
+
+
+
+                        {/* dueDate */}
+                        <td className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium   overflow-hidden`}>
+                          {item?.dueDate}
+                        </td>
+
+
+                        {report &&
+                          (report?.selectedReport.label === "ATR" ||
+                            report?.selectedReport.label === "ATBT MASTER") && (
+                            <>
+                              {/* statusAsOn */}
+                              <td className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium   overflow-hidden`}>
+                                {item?.taskStatus?.filter((status) => status.isStatusUpdate === 1).map((date) => date.Date)[0]}
+                              </td>
+                              {/* status */}
+                              <td className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium   overflow-hidden`}>
+                                {item?.taskStatus?.filter((status) => status.isStatusUpdate === 1).map((date) => date.message)[0]}
+                              </td>
+                            </>
+                          )}
+
+
+                        {/* meetingNumber */}
+                        <td className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium   overflow-hidden`}>
+                          {item?.meetingNumber}
+                        </td>
+
+
+                        {report &&
+                          (report?.selectedReport.label === "ATR" ||
+                            report?.selectedReport.label === "ATBT MASTER") && (
+                            <>
+                              {/* age */}
+                              <td className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium   overflow-hidden`}>
+                                {item?.age}
+                              </td>
+                            </>
+                          )}
+
+
+                        {/* colabrators */}
+                        <td className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium   overflow-hidden`}>
+                          {item?.colabDetails?.map((colab) => colab.name).join(", ")}
+                        </td>
+
                       </tr>
                     );
                   })}
