@@ -341,8 +341,8 @@ function Reports() {
         ?.filter(
           (log) => log.fieldChanged === "members" && log.oldValue !== null
         )
-        .map((member) => member.newValue)
-        .join(", "),
+         .map((member) => member.newValue).slice(-1)[0],
+        // .join(", "),
 
       dateOfPreviosMeeting: row?.taskStatus
         ?.filter((status) => status.isDecisionUpdate === 1)
