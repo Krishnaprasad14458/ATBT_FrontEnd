@@ -643,6 +643,30 @@ const Tasks = () => {
 
   console.log("mailSending", mailSending);
 
+
+  const [maxMenuHeight, setMaxMenuHeight] = useState(getMaxMenuHeight());
+
+  function getMaxMenuHeight() {
+    if (window.matchMedia("(max-width: 639px)").matches) {
+      return 150; // Small screens
+    } else if (window.matchMedia("(min-width: 640px) and (max-width: 1023px)").matches) {
+      return 250; // Medium screens
+    } else {
+      return 350; // Large screens and above
+    }
+  }
+
+  useEffect(() => {
+    const handleResize = () => {
+      setMaxMenuHeight(getMaxMenuHeight());
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
   return (
     <div className={` ${parentPath === "tasks" ? "p-3" : ""}`}>
       <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-col-4 items-center gap-2 mt-2">
@@ -1313,7 +1337,7 @@ const Tasks = () => {
                             )
                       }
                       menuPlacement="auto"
-                      maxMenuHeight={150}
+                      maxMenuHeight={maxMenuHeight}
                       // closeMenuOnSelect={()=> true}
                       // menuIsOpen = {()=> true}
                     />
