@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { Fragment, useRef, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
@@ -8,7 +8,14 @@ import Swal from "sweetalert2";
 import { Link } from "react-router-dom";
 import $ from "jquery";
 import GateKeeper from "../../../../../rbac/GateKeeper";
+import { PermissionsContext } from "../../../../../rbac/PermissionsProvider";
 const CustomFormStructure = () => {
+  const { permissions, loading } = useContext(PermissionsContext);
+  
+  let settingPermission = permissions?.find(
+    (permission) => permission.module === "setting"
+  );
+console.log("first permissions",permissions)
   let { formName } = useParams();
   const [open, setOpen] = useState(false);
   const [editIndex, setEditIndex] = useState(null);
@@ -656,18 +663,31 @@ const CustomFormStructure = () => {
                     </div>
                     <div className="flex justify-end w-full pb-2">
                       <div className="mr-4">
-                        <button
-                          className="flex  justify-center rounded-md  border-2 border-orange-600 px-3 py-2 text-sm font-medium leading-6 text-orange-600 shadow-sm  focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600"
-                          onClick={() => {
-                            setNewInputField(input);
-                            setEditIndex(index);
-                            setOpen(true);
-                          }}
+                        <GateKeeper
+                          permissionCheck={(permission) =>
+                            permission.module === "setting" &&
+                            permission.canUpdate
+                          }
                         >
-                          Edit
-                        </button>
+                          <button
+                            className="flex  justify-center rounded-md  border-2 border-orange-600 px-3 py-2 text-sm font-medium leading-6 text-orange-600 shadow-sm  focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600"
+                            onClick={() => {
+                              setNewInputField(input);
+                              setEditIndex(index);
+                              setOpen(true);
+                            }}
+                          >
+                            Edit
+                          </button>
+                        </GateKeeper>
                       </div>
                       <div className="mr-4">
+                      <GateKeeper
+                          permissionCheck={(permission) =>
+                            permission.module === "setting" &&
+                            permission.canDelete
+                          }
+                        >
                         <button
                           className={`flex w-full justify-center rounded-md bg-[#dc2626] px-3 py-2.5 text-sm font-medium leading-6 text-white shadow-sm  focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600 ${
                             input.field === "custom"
@@ -680,6 +700,7 @@ const CustomFormStructure = () => {
                         >
                           Delete
                         </button>
+                        </GateKeeper>
                       </div>
                     </div>
                   </div>
@@ -980,18 +1001,17 @@ const CustomFormStructure = () => {
         </Dialog>
       </Transition.Root>
       <div className="  mt-2 flex justify-end">
-      <GateKeeper
-            permissionCheck={(permission) =>
-              permission.module === "setting" && permission.canCreate
-            }
-          >
-        <button
-          className="flex justify-end rounded-md bg-orange-600 px-3 py-2.5 text-sm font-medium leading-6 text-white shadow-sm  focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600"
-          onClick={handleSubmitCustomForm}
-        >
-          Save
-        </button>
-        </GateKeeper>
+      {/* {permissions} */}
+      {(settingPermission.canUpdate || settingPermission.canCreate || settingPermission.canDelete)  && 
+       <button
+       className="flex justify-end rounded-md bg-orange-600 px-3 py-2.5 text-sm font-medium leading-6 text-white shadow-sm  focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600"
+       onClick={handleSubmitCustomForm}
+     >
+       Save
+     </button> }
+         
+     
+ 
       </div>
     </div>
   );
