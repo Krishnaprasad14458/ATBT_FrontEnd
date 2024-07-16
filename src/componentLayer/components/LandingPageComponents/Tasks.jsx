@@ -1130,6 +1130,12 @@ const Tasks = () => {
               >
                 Latest Decision Update
               </th>
+              <th
+                className="sticky top-0  bg-orange-600 text-white text-sm text-left px-2 py-2 border-l-2 border-gray-200 "
+                style={{ width: "15rem" }}
+              >
+                Latest Status Update
+              </th>
               {/* <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2 border-l-2 border-gray-200">
                 Decision Updated of Admin
               </th> */}
@@ -1473,7 +1479,7 @@ const Tasks = () => {
                     /> */}
                   </td>
                   <td className="border py-1 px-2 text-sm text-gray-600 ">
-                    {task?.updatedbyuser}
+                    {task?.updatedbyuser} kl
                   </td>
                   {(authState?.user?.role === "super admin" ||
                     authState?.user?.role === "Super Admin" ||
