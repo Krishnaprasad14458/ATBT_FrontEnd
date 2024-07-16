@@ -226,17 +226,16 @@ const EditableFields = ({
                 decisionErrors.message ? "border-red-500" : ""
               }`}
               type="text"
-              disabled={!meetingPermission.canUpdate}
+             
               value={updateDecisionForm.message}
               onChange={
-                meetingPermission.canUpdate
-                  ? (e) => {
+                 (e) => {
                       setUpdateDecisionForm((prev) => ({
                         ...prev,
                         message: e.target.value,
                       }));
                     }
-                  : null
+                  
               }
             />
             {decisionErrors.message && (
@@ -254,17 +253,16 @@ const EditableFields = ({
                 decisionErrors.Date ? "border-red-500" : ""
               }`}
               type="date"
-              disabled={!meetingPermission.canUpdate}
+        
               value={updateDecisionForm.Date}
               onChange={
-                meetingPermission.canUpdate
-                  ? (e) => {
+                (e) => {
                       setUpdateDecisionForm((prev) => ({
                         ...prev,
                         Date: e.target.value,
                       }));
                     }
-                  : null
+              
               }
             />
             {decisionErrors.Date && (
@@ -294,17 +292,16 @@ const EditableFields = ({
               className={`border border-[#d1d5db] text-black px-1.5 py-2 rounded-md  bg-white-50 focus:outline-none text-sm focus:border-orange-400 w-full ${
                 statusErrors.message ? "border-red-500" : ""
               }`} type="text"
-              disabled={!meetingPermission.canUpdate}
+              
               value={updateStatusForm.message}
               onChange={
-                meetingPermission.canUpdate
-                  ? (e) => {
+                (e) => {
                       setUpdateStatusForm((prev) => ({
                         ...prev,
                         message: e.target.value,
                       }));
                     }
-                  : null
+              
               }
             />
             {statusErrors.message && (
@@ -321,17 +318,16 @@ const EditableFields = ({
              className={`border border-[#d1d5db] text-black px-1.5 py-2 rounded-md  bg-white-50 focus:outline-none text-sm focus:border-orange-400 w-full ${
               statusErrors.Date ? "border-red-500" : ""
             }`}  type="date"
-              disabled={!meetingPermission.canUpdate}
+          
               value={updateStatusForm.Date}
               onChange={
-                meetingPermission.canUpdate
-                  ? (e) => {
+               (e) => {
                       setUpdateStatusForm((prev) => ({
                         ...prev,
                         Date: e.target.value,
                       }));
                     }
-                  : null
+            
               }
             />
             {statusErrors.Date && (
