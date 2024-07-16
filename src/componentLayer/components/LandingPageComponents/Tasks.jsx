@@ -25,6 +25,7 @@ import TasksFilter from "../tableCustomization/TasksFilter";
 import { toast } from "react-toastify";
 import mailsent from "../../../assets/Images/mailsent.svg";
 import { PermissionsContext } from "../../../rbac/PermissionsProvider";
+import Swal from "sweetalert2";
 
 let status = [
   { label: "To-Do", value: "To-Do" },
@@ -528,19 +529,49 @@ const Tasks = () => {
     });
   }
 
-  const handleDeleteTask = async (deleteId) => {
-    let UpdateData = {
-      id: deleteId,
-      type: "DELETE_TASK",
-    };
+  // const handleDeleteTask = async (deleteId) => {
+  //   let UpdateData = {
+  //     id: deleteId,
+  //     type: "DELETE_TASK",
+  //   };
 
-    try {
-      fetcher.submit(UpdateData, {
-        method: "DELETE",
-        encType: "application/json",
-      });
-    } catch (error) {
-      console.log(error, "which error");
+  //   try {
+  //     fetcher.submit(UpdateData, {
+  //       method: "DELETE",
+  //       encType: "application/json",
+  //     });
+  //   } catch (error) {
+  //     console.log(error, "which error");
+  //   }
+  // };
+  const handleDeleteTask = async (deleteId) => {
+    const confirmDelete = await Swal.fire({
+      title: "Are you sure?",
+      text: "Once the Decision is deleted, you cannot revert it back.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#ea580c",
+      cancelButtonColor: "#fff",
+      confirmButtonText: "Delete",
+      customClass: {
+        popup: "custom-swal2-popup",
+        title: "custom-swal2-title",
+        content: "custom-swal2-content",
+      },
+    });
+    if (confirmDelete.isConfirmed) {
+      let UpdateData = {
+        id: deleteId,
+        type: "DELETE_TASK",
+      };
+      try {
+        fetcher.submit(UpdateData, {
+          method: "DELETE",
+          encType: "application/json",
+        });
+      } catch (error) {
+        console.log(error, "which error");
+      }
     }
   };
   const handleSendComment = async () => {
