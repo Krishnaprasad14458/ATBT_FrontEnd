@@ -7,6 +7,7 @@ import { toast } from "react-toastify";
 import Swal from "sweetalert2";
 import { Link } from "react-router-dom";
 import $ from "jquery";
+import GateKeeper from "../../../../../rbac/GateKeeper";
 const CustomFormStructure = () => {
   let { formName } = useParams();
   const [open, setOpen] = useState(false);
@@ -409,26 +410,33 @@ const CustomFormStructure = () => {
           )}
         </p>
         {/* sm:text-start md:text-end lg:text-end xl:text-end */}
+
         <div className="col-span-1 text-end mt-4 sm:mt-0">
-          <button
-            type="submit"
-            onClick={(e) => {
-              setEditIndex(null);
-              setNewInputField({
-                label: "",
-                type: "",
-                inputname: "",
-                value: "",
-                filterable: false,
-                mandatory: false,
-                field: "custom",
-              });
-              setOpen(true);
-            }}
-            className="mr-3 px-3 py-2 inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white"
+          <GateKeeper
+            permissionCheck={(permission) =>
+              permission.module === "setting" && permission.canCreate
+            }
           >
-            + Add Field
-          </button>
+            <button
+              type="submit"
+              onClick={(e) => {
+                setEditIndex(null);
+                setNewInputField({
+                  label: "",
+                  type: "",
+                  inputname: "",
+                  value: "",
+                  filterable: false,
+                  mandatory: false,
+                  field: "custom",
+                });
+                setOpen(true);
+              }}
+              className="mr-3 px-3 py-2 inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white"
+            >
+              + Add Field
+            </button>
+          </GateKeeper>
           <Link to="/settings/forms">
             <button
               type="submit"
@@ -972,12 +980,18 @@ const CustomFormStructure = () => {
         </Dialog>
       </Transition.Root>
       <div className="  mt-2 flex justify-end">
+      <GateKeeper
+            permissionCheck={(permission) =>
+              permission.module === "setting" && permission.canCreate
+            }
+          >
         <button
           className="flex justify-end rounded-md bg-orange-600 px-3 py-2.5 text-sm font-medium leading-6 text-white shadow-sm  focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600"
           onClick={handleSubmitCustomForm}
         >
           Save
         </button>
+        </GateKeeper>
       </div>
     </div>
   );
