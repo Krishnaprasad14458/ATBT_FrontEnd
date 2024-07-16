@@ -72,6 +72,13 @@ const ActivityLogs = ({ task }) => {
                     {dateFormat(change.newValue)}
                   </p>
                 )}
+                
+                {change.fieldChanged === "dateOfDecision" && (
+                  <p className="text-sm">
+                    Due Date updated from {dateFormat(change.oldValue)} to &nbsp;
+                    {dateFormat(change.newValue)}
+                  </p>
+                )}
 
                 {change.fieldChanged === "collaborators" && (
                   <p className="text-sm">
