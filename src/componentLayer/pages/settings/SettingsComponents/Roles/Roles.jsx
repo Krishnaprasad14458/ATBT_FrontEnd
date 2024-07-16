@@ -6,6 +6,7 @@ import Swal from "sweetalert2";
 import atbtApi from "../../../../../serviceLayer/interceptor";
 
 import { debounce } from "../../../../../utils/utils";
+import GateKeeper from "../../../../../rbac/GateKeeper";
 function deleteRole(id) {
   return axios.delete(`https://atbtbeta.infozit.com/rbac/deleteRole/${id}`);
 }
@@ -127,6 +128,12 @@ const Roles = () => {
           </div>
         </div>
         <div className="grid1-item  sm:text-start md:text-end lg:text-end xl:text-end flex justify-end gap-3">
+        <GateKeeper
+            permissionCheck={(permission) =>
+              permission.module === "setting" && permission.canCreate
+            }
+          >
+        
           <Link to="upsert">
             <button className="mt-1 px-3 py-2 inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white ">
               <svg
@@ -141,6 +148,8 @@ const Roles = () => {
             </button>
        
           </Link>
+       
+          </GateKeeper>
           <Link to="/settings">
             <button
               type="submit"
@@ -203,6 +212,13 @@ const Roles = () => {
                     </td>
                     {
                       <td className="px-3 py-2 whitespace-nowrap text-left  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]  ">
+                    
+                    <GateKeeper
+            permissionCheck={(permission) =>
+              permission.module === "setting" && permission.canUpdate
+            }
+          >
+                    
                         <button
                           type="submit"
                           disabled={userRoleId == role.id ? true : false}
@@ -230,8 +246,16 @@ const Roles = () => {
                             <path d="m2.695 14.762-1.262 3.155a.5.5 0 0 0 .65.65l3.155-1.262a4 4 0 0 0 1.343-.886L17.5 5.501a2.121 2.121 0 0 0-3-3L3.58 13.419a4 4 0 0 0-.885 1.343Z" />
                           </svg>
                         </button>
+                        </GateKeeper>
                         {role.name !== 'admin' && role.name !== 'Managing Director' &&  role.name !== 'user' && role.name !== 'super admin'&&(
-                          <button
+                       
+                       <GateKeeper
+                       permissionCheck={(permission) =>
+                         permission.module === "setting" && permission.canDelete
+                       }
+                     >
+                    
+                    <button
                             type="button"
                             disabled={userRoleId == role.id ? true : false}
                             className={` ${
@@ -254,6 +278,7 @@ const Roles = () => {
                               />
                             </svg>
                           </button>
+                          </GateKeeper>
                         )}
                       </td>
                     }
