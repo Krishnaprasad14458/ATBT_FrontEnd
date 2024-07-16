@@ -378,6 +378,7 @@ export async function TasksActions({ request, params }) {
 const Tasks = () => {
   const { authState } = useContext(AuthContext);
   const { permissions, loading } = useContext(PermissionsContext);
+  console.log("first permissions",permissions)
 
   let meetingPermission = permissions?.find(
     (permission) => permission.module === "task"
