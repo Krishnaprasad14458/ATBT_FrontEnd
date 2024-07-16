@@ -157,7 +157,7 @@ const EditableFields = ({
           </div>
         )}
         <label className="block text-xs font-medium leading-6 my-1 text-[1e1f21]">
-         Inital  Decision Taken
+          Inital Decision Taken
         </label>
         <textarea
           className="px-2 py-2 text-sm block w-full resize-none h-24 overflow-auto rounded-md bg-white-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder:text-[13px] placeholder:text-[#A0AEC0]"
@@ -173,6 +173,7 @@ const EditableFields = ({
               ? (e) => handleSubmit(task?.id, "decision", e.target.value)
               : null
           }
+          disabled={!meetingPermission.canUpdate}
         />
       </div>
 
@@ -226,17 +227,13 @@ const EditableFields = ({
                 decisionErrors.message ? "border-red-500" : ""
               }`}
               type="text"
-             
               value={updateDecisionForm.message}
-              onChange={
-                 (e) => {
-                      setUpdateDecisionForm((prev) => ({
-                        ...prev,
-                        message: e.target.value,
-                      }));
-                    }
-                  
-              }
+              onChange={(e) => {
+                setUpdateDecisionForm((prev) => ({
+                  ...prev,
+                  message: e.target.value,
+                }));
+              }}
             />
             {decisionErrors.message && (
               <p className="text-red-500 text-xs mt-1">
@@ -253,17 +250,13 @@ const EditableFields = ({
                 decisionErrors.Date ? "border-red-500" : ""
               }`}
               type="date"
-        
               value={updateDecisionForm.Date}
-              onChange={
-                (e) => {
-                      setUpdateDecisionForm((prev) => ({
-                        ...prev,
-                        Date: e.target.value,
-                      }));
-                    }
-              
-              }
+              onChange={(e) => {
+                setUpdateDecisionForm((prev) => ({
+                  ...prev,
+                  Date: e.target.value,
+                }));
+              }}
             />
             {decisionErrors.Date && (
               <p className="text-red-500 text-xs mt-1">{decisionErrors.Date}</p>
@@ -291,18 +284,15 @@ const EditableFields = ({
             <input
               className={`border border-[#d1d5db] text-black px-1.5 py-2 rounded-md  bg-white-50 focus:outline-none text-sm focus:border-orange-400 w-full ${
                 statusErrors.message ? "border-red-500" : ""
-              }`} type="text"
-              
+              }`}
+              type="text"
               value={updateStatusForm.message}
-              onChange={
-                (e) => {
-                      setUpdateStatusForm((prev) => ({
-                        ...prev,
-                        message: e.target.value,
-                      }));
-                    }
-              
-              }
+              onChange={(e) => {
+                setUpdateStatusForm((prev) => ({
+                  ...prev,
+                  message: e.target.value,
+                }));
+              }}
             />
             {statusErrors.message && (
               <p className="text-red-500 text-xs mt-1">
@@ -315,20 +305,17 @@ const EditableFields = ({
               Date of Update Status
             </label>
             <input
-             className={`border border-[#d1d5db] text-black px-1.5 py-2 rounded-md  bg-white-50 focus:outline-none text-sm focus:border-orange-400 w-full ${
-              statusErrors.Date ? "border-red-500" : ""
-            }`}  type="date"
-          
+              className={`border border-[#d1d5db] text-black px-1.5 py-2 rounded-md  bg-white-50 focus:outline-none text-sm focus:border-orange-400 w-full ${
+                statusErrors.Date ? "border-red-500" : ""
+              }`}
+              type="date"
               value={updateStatusForm.Date}
-              onChange={
-               (e) => {
-                      setUpdateStatusForm((prev) => ({
-                        ...prev,
-                        Date: e.target.value,
-                      }));
-                    }
-            
-              }
+              onChange={(e) => {
+                setUpdateStatusForm((prev) => ({
+                  ...prev,
+                  Date: e.target.value,
+                }));
+              }}
             />
             {statusErrors.Date && (
               <p className="text-red-500 text-xs mt-1">{statusErrors.Date}</p>
@@ -336,9 +323,9 @@ const EditableFields = ({
           </div>
           <div className="col-span-1">
             <button
-             onClick={() => {
-              handleSubmitUpdateStatus();
-            }}
+              onClick={() => {
+                handleSubmitUpdateStatus();
+              }}
               className="px-1.5 py-2 inline-flex items-center justify-end whitespace-nowrap rounded-md text-xs font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white mt-8 ms-3"
             >
               Update
