@@ -742,7 +742,7 @@ const Tasks = () => {
         {parentPath === "tasks" && (
           <div className="col-span-2 ">
             <div className=" md:flex gap-2 items-center md:justify-end">
-              <label className="text-sm text-gray-400"> From:</label>
+              <label className="text-sm text-gray-400">Duedate&nbsp;From&nbsp;:</label>
 
               <input
                 className=" border border-gray-200 text-black px-1.5 py-2 rounded-md bg-[#f9fafb] focus:outline-none text-sm focus:border-orange-400 date_type w-full"
@@ -762,7 +762,7 @@ const Tasks = () => {
                   // handleTaskChange(index, "dueDate", e.target.value);
                 }}
               />
-              <label className="text-sm text-gray-400"> To:</label>
+              <label className="text-sm text-gray-400">Duedate&nbsp;To&nbsp;:</label>
               <input
                 className=" border border-gray-200 text-black px-1.5 py-2 rounded-md  bg-[#f9fafb] focus:outline-none text-sm focus:border-orange-400 date_type w-full"
                 type="date"
