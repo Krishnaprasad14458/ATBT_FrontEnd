@@ -572,7 +572,7 @@ function BoardMeetings() {
                                 permission.canRead
                               }
                             >
-                              <Link to={`${row.id}/tasks`}>
+                              <Link to={`${row.id}/tasks?search=&page=1&pageSize=10`}>
                                 <p className="truncate text-xs"> {value}</p>
                               </Link>
                             </GateKeeper>

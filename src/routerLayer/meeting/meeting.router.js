@@ -31,7 +31,6 @@ export const meetingRouter = [
   },
   {
     path: ":BMid",
-
     children: [
       {
         path: "edit",
