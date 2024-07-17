@@ -212,7 +212,7 @@ const EditableFields = ({
           >
             <path d="M10.75 4.75a.75.75 0 0 0-1.5 0v4.5h-4.5a.75.75 0 0 0 0 1.5h4.5v4.5a.75.75 0 0 0 1.5 0v-4.5h4.5a.75.75 0 0 0 0-1.5h-4.5v-4.5Z" />
           </svg>{" "}
-          &nbsp; Update Status
+          &nbsp; Decision Status
         </button>
       </div>
 
@@ -285,7 +285,7 @@ const EditableFields = ({
         <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-4 lg:grid-cols-7 xl:grid-col-7 items-center mb-3 gap-3 justify-center">
           <div className="col-span-4">
             <label className="block text-xs font-medium leading-6 my-1 text-[1e1f21]">
-              Update Status
+            Decision Status
             </label>
             <input
               className={`border border-[#d1d5db] text-black px-1.5 py-2 rounded-md  bg-white-50 focus:outline-none text-sm focus:border-orange-400 w-full ${
@@ -311,7 +311,7 @@ const EditableFields = ({
           </div>
           <div className="col-span-2">
             <label className="block text-xs font-medium leading-6 my-1 text-[1e1f21]">
-              Date of Update Status
+              Date of Decision Status
             </label>
             <input
               className={`border border-[#d1d5db] text-black px-1.5 py-2 rounded-md  bg-white-50 focus:outline-none text-sm focus:border-orange-400 w-full ${
@@ -443,7 +443,7 @@ const EditableFields = ({
             className={`border border-[#d1d5db] text-black px-1.5 py-2 rounded-md  bg-white-50 focus:outline-none text-sm focus:border-orange-400 w-full date_type`}
             type="date"
             disabled={!meetingPermission.canUpdate}
-            min={getCurrentDate()}
+            // min={getCurrentDate()}
             value={task?.dueDate ? task.dueDate : ""}
             onChange={
               meetingPermission.canUpdate

@@ -1311,7 +1311,7 @@ const Tasks = () => {
                             xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 20 20"
                             fill="currentColor"
-                            className="w-4 h-4 hover:border hover:border-gray-500 hover:rounded-sm hover:bg-gray-100"
+                            className="w-6 h-6 hover:border hover:border-gray-500 hover:rounded-sm hover:bg-gray-100"
                           >
                             <path
                               fillRule="evenodd"
@@ -1465,7 +1465,7 @@ const Tasks = () => {
                         fontSize: "0.8rem",
                         WebkitAppearance: "none",
                       }}
-                      min={getCurrentDate()}
+                      // min={getCurrentDate()}
                       onChange={
                         meetingPermission.canUpdate
                           ? (e) => {
