@@ -378,7 +378,7 @@ export async function TasksActions({ request, params }) {
 const Tasks = () => {
   const { authState } = useContext(AuthContext);
   const { permissions, loading } = useContext(PermissionsContext);
-  console.log("first permissions",permissions)
+  console.log("first permissions", permissions);
 
   let meetingPermission = permissions?.find(
     (permission) => permission.module === "task"
@@ -675,13 +675,14 @@ const Tasks = () => {
 
   console.log("mailSending", mailSending);
 
-
   const [maxMenuHeight, setMaxMenuHeight] = useState(getMaxMenuHeight());
 
   function getMaxMenuHeight() {
     if (window.matchMedia("(max-width: 639px)").matches) {
       return 150; // Small screens
-    } else if (window.matchMedia("(min-width: 640px) and (max-width: 1023px)").matches) {
+    } else if (
+      window.matchMedia("(min-width: 640px) and (max-width: 1023px)").matches
+    ) {
       return 250; // Medium screens
     } else {
       return 350; // Large screens and above
@@ -693,11 +694,31 @@ const Tasks = () => {
       setMaxMenuHeight(getMaxMenuHeight());
     };
 
-    window.addEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
     return () => {
-      window.removeEventListener('resize', handleResize);
+      window.removeEventListener("resize", handleResize);
     };
   }, []);
+
+  const handleBulkSendMail = async () => {
+    await sendBulkMail(BMid);
+  };
+
+  const sendBulkMail = async (id) => {
+    toast.promise(atbtApi.post(`send-emails/${id}`), {
+      pending: "Sending Mails...",
+      success: {
+        render({ data }) {
+          // let formData = {
+          //   arrayOfObjects: customForm,
+          // };
+
+          return `Mails Sent`;
+        },
+      },
+      error: "Unable to send mails 🤯",
+    });
+  };
 
   return (
     <div className={` ${parentPath === "tasks" ? "p-3" : ""}`}>
@@ -708,8 +729,8 @@ const Tasks = () => {
           )}
         </div>
 
-        <div className="col-span-1 text-start">
-        <div className="relative">
+        {/* <div className="col-span-1 text-start">
+          <div className="relative">
             <div className="absolute inset-y-0 start-0 flex items-center p-3 pointer-events-none">
               <svg
                 className="w-3 h-3 text-gray-500 dark:text-gray-400"
@@ -736,8 +757,8 @@ const Tasks = () => {
               placeholder="Search here with initial decision taken..."
               required
             />
-          </div> 
-        </div>
+          </div>
+        </div> */}
 
         {parentPath === "tasks" && (
           <div className="col-span-2 ">
@@ -816,32 +837,83 @@ const Tasks = () => {
         )}
       </div>
 
-      <div className="flex justify-end">
-        {BMid &&
-          (parentPath === "users" ||
-            parentPath === "entities" ||
-            parentPath === "teams") && (
-            <GateKeeper
-              permissionCheck={(permission) =>
-                permission.module === "task" && permission.canCreate
-              }
-            >
-              <button
-                className=" ms-2  mt-3 inline-flex items-center  whitespace-nowrap rounded-2xl text-sm font-medium  transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50  text-orange-foreground shadow hover:bg-orange/90 h-9 px-3 py-1 shrink-0 bg-orange-600 text-white gap-1"
-                onClick={handleAddNewTask}
+      <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-3 xl:grid-cols-3 lg:grid-cols-3  items-center">
+        <div className="col-span-1 "></div>
+        <div className="col-span-1 ">
+          <div className="relative">
+            <div className="absolute inset-y-0 start-0 flex items-center p-3 pointer-events-none">
+              <svg
+                className="w-3 h-3 text-gray-500 dark:text-gray-400"
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 20 20"
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                  className="w-5 h-5"
+                <path
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
+                />
+              </svg>
+            </div>
+            <input
+              onChange={handleSearch}
+              value={Qparams?.search}
+              type="search"
+              id="default-search"
+              className="block w-full px-4 py-2 ps-8 text-sm border-2 border-gray-200  rounded-2xl bg-gray-50  focus:outline-none placeholder:text-sm"
+              placeholder="Search here with initial decision taken..."
+              required
+            />
+          </div>
+        </div>
+        <div className="col-span-1 ">
+          <div className="flex justify-end">
+            {BMid &&
+              (parentPath === "users" ||
+                parentPath === "entities" ||
+                parentPath === "teams") && (
+                <GateKeeper
+                  permissionCheck={(permission) =>
+                    permission.module === "task" && permission.canCreate
+                  }
                 >
-                  <path d="M10.75 4.75a.75.75 0 0 0-1.5 0v4.5h-4.5a.75.75 0 0 0 0 1.5h4.5v4.5a.75.75 0 0 0 1.5 0v-4.5h4.5a.75.75 0 0 0 0-1.5h-4.5v-4.5Z" />
-                </svg>
-                Create
-              </button>
-            </GateKeeper>
-          )}
+                  <button
+                    className=" ms-2  mt-3 inline-flex items-center  whitespace-nowrap rounded-2xl text-sm font-medium  transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50  text-orange-foreground shadow hover:bg-orange/90 h-9 px-3 py-1 shrink-0 bg-orange-600 text-white gap-1"
+                    onClick={handleAddNewTask}
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                      className="w-5 h-5"
+                    >
+                      <path d="M10.75 4.75a.75.75 0 0 0-1.5 0v4.5h-4.5a.75.75 0 0 0 0 1.5h4.5v4.5a.75.75 0 0 0 1.5 0v-4.5h4.5a.75.75 0 0 0 0-1.5h-4.5v-4.5Z" />
+                    </svg>
+                    Create
+                  </button>
+                  <button
+                    className=" ms-2  mt-3 inline-flex items-center  whitespace-nowrap rounded-2xl text-sm font-medium  transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50  text-orange-foreground shadow hover:bg-orange/90 h-9 px-3 py-1 shrink-0 bg-orange-600 text-white gap-1"
+                    onClick={handleBulkSendMail}
+                  >
+                    <svg
+                      viewBox="0 0 24 24"
+                      stroke="white"
+                      fill="white"
+                      id="fi_10747263"
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="text-sm flex w-5 h-5 "
+                    >
+                      <path d="m19 1.75h-14c-2.07 0-3.75 1.68-3.75 3.75v10c0 2.07 1.68 3.75 3.75 3.75h3c.41 0 .75-.34.75-.75s-.34-.75-.75-.75h-3c-1.24 0-2.25-1.01-2.25-2.25v-9.66l8.35 5c.28.17.59.25.9.25s.62-.08.9-.25l8.35-5v7c0 .41.34.75.75.75s.75-.34.75-.75v-7.34c0-2.07-1.68-3.75-3.75-3.75zm-6.87 7.8c-.08.05-.17.05-.26 0l-8.77-5.25c.4-.63 1.1-1.05 1.9-1.05h14c.8 0 1.5.42 1.9 1.05zm10.4 8.42c.29.29.29.77 0 1.06l-3 3c-.15.15-.34.22-.53.22s-.38-.07-.53-.22c-.29-.29-.29-.77 0-1.06l1.72-1.72h-8.19c-.41 0-.75-.34-.75-.75s.34-.75.75-.75h8.19l-1.72-1.72c-.29-.29-.29-.77 0-1.06s.77-.29 1.06 0z"></path>
+                    </svg>
+                    Send Mail
+                  </button>
+                </GateKeeper>
+              )}
+          </div>
+        </div>
       </div>
       <div>
         <div className="flex overflow-x-auto my-2">
@@ -1098,10 +1170,7 @@ const Tasks = () => {
               >
                 Initial Decision Taken
               </th>
-              <th
-                className="sticky top-0 z-10 bg-orange-600 text-white text-sm text-left px-2 py-2 border-l-2 border-gray-200 "
-                style={{ width: "6rem" }}
-              >
+              <th className="sticky top-0 z-10 bg-orange-600 text-white text-sm text-left px-2 py-2 border-l-2 border-gray-200 ">
                 Initial Date of Decision
               </th>
               <th
@@ -1110,10 +1179,7 @@ const Tasks = () => {
               >
                 Person Responsible
               </th>
-              <th
-                className="sticky top-0 z-10 bg-orange-600 text-white text-sm text-left px-2 py-2 border-l-2 border-gray-200 "
-                style={{ width: "6rem" }}
-              >
+              <th className="sticky top-0 z-10 bg-orange-600 text-white text-sm text-left px-2 py-2 border-l-2 border-gray-200 ">
                 Due Date
               </th>
               <th className="sticky top-0 z-10 bg-orange-600 text-white text-sm text-left px-2 py-2 border-l-2 border-gray-200">
@@ -1158,24 +1224,22 @@ const Tasks = () => {
                 label: user.name,
                 value: user.id,
               }));
-              let Module = ""
-              if(task?.createdBy.name === "entities"){
-                Module = "Entity"
-              }else if(task?.createdBy.name === "teams"){
-                Module ="Team"
+              let Module = "";
+              if (task?.createdBy.name === "entities") {
+                Module = "Entity";
+              } else if (task?.createdBy.name === "teams") {
+                Module = "Team";
               }
               let updatedDecisionInPreviosMeeting = task?.taskStatus
-        ?.filter((status) => status.isDecisionUpdate === 1)
-        .map((date) => date.message)[0]
-       let  updatedStatusInPreviosMeeting = task?.taskStatus
-        ?.filter((status) => status.isStatusUpdate === 1)
-        .map((date) => date.message)[0]
+                ?.filter((status) => status.isDecisionUpdate === 1)
+                .map((date) => date.message)[0];
+              let updatedStatusInPreviosMeeting = task?.taskStatus
+                ?.filter((status) => status.isStatusUpdate === 1)
+                .map((date) => date.message)[0];
               return (
                 <tr key={task.id} className="border-b border-gray-200 ">
                   {parentPath === "tasks" && (
-                    <td className="border py-1 px-2 text-sm">
-                      {Module}
-                    </td>
+                    <td className="border py-1 px-2 text-sm">{Module}</td>
                   )}
                   {parentPath === "tasks" && (
                     <td className="border py-1 px-2 text-sm">
@@ -1494,7 +1558,7 @@ const Tasks = () => {
                   <td className="border py-1 px-2 text-sm">
                     {updatedDecisionInPreviosMeeting}
                   </td>
-                  <td className="border py-1 px-2 text-sm" >
+                  <td className="border py-1 px-2 text-sm">
                     {updatedStatusInPreviosMeeting}
                   </td>
                   {/* <td className="border py-1 px-2 text-sm text-gray-600 ">
@@ -1506,29 +1570,35 @@ const Tasks = () => {
                     authState?.user?.role === "Admin") && (
                     <td className="border py-1 px-2 text-sm text-gray-600  ">
                       <div className="flex  gap-4">
-                        <button title="Sent Mail">
-                          <svg
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                            id="fi_10747263"
-                            xmlns="http://www.w3.org/2000/svg"
-                            className={`text-sm flex  w-5 h-5  ${
-                              mailSending && mailSendingId === task?.id
-                                ? "text-gray-400 cursor-not-allowed"
-                                : "hover:text-orange-500 cursor-pointer"
-                            }`}
-                            onClick={() => {
-                              if (!mailSending) {
-                                handleSendMail(task?.id);
+                        <GateKeeper
+                          permissionCheck={(permission) =>
+                            permission.module === "task" && permission.canCreate
+                          }
+                        >
+                          <button title="Sent Mail">
+                            <svg
+                              viewBox="0 0 24 24"
+                              stroke="currentColor"
+                              id="fi_10747263"
+                              xmlns="http://www.w3.org/2000/svg"
+                              className={`text-sm flex  w-5 h-5  ${
+                                mailSending && mailSendingId === task?.id
+                                  ? "text-gray-400 cursor-not-allowed"
+                                  : "hover:text-orange-500 cursor-pointer"
+                              }`}
+                              onClick={() => {
+                                if (!mailSending) {
+                                  handleSendMail(task?.id);
 
-                                setMailSendingId(task?.id);
-                              }
-                            }}
-                          >
-                            <path d="m19 1.75h-14c-2.07 0-3.75 1.68-3.75 3.75v10c0 2.07 1.68 3.75 3.75 3.75h3c.41 0 .75-.34.75-.75s-.34-.75-.75-.75h-3c-1.24 0-2.25-1.01-2.25-2.25v-9.66l8.35 5c.28.17.59.25.9.25s.62-.08.9-.25l8.35-5v7c0 .41.34.75.75.75s.75-.34.75-.75v-7.34c0-2.07-1.68-3.75-3.75-3.75zm-6.87 7.8c-.08.05-.17.05-.26 0l-8.77-5.25c.4-.63 1.1-1.05 1.9-1.05h14c.8 0 1.5.42 1.9 1.05zm10.4 8.42c.29.29.29.77 0 1.06l-3 3c-.15.15-.34.22-.53.22s-.38-.07-.53-.22c-.29-.29-.29-.77 0-1.06l1.72-1.72h-8.19c-.41 0-.75-.34-.75-.75s.34-.75.75-.75h8.19l-1.72-1.72c-.29-.29-.29-.77 0-1.06s.77-.29 1.06 0z"></path>
-                          </svg>
-                          {/* Email */}
-                        </button>
+                                  setMailSendingId(task?.id);
+                                }
+                              }}
+                            >
+                              <path d="m19 1.75h-14c-2.07 0-3.75 1.68-3.75 3.75v10c0 2.07 1.68 3.75 3.75 3.75h3c.41 0 .75-.34.75-.75s-.34-.75-.75-.75h-3c-1.24 0-2.25-1.01-2.25-2.25v-9.66l8.35 5c.28.17.59.25.9.25s.62-.08.9-.25l8.35-5v7c0 .41.34.75.75.75s.75-.34.75-.75v-7.34c0-2.07-1.68-3.75-3.75-3.75zm-6.87 7.8c-.08.05-.17.05-.26 0l-8.77-5.25c.4-.63 1.1-1.05 1.9-1.05h14c.8 0 1.5.42 1.9 1.05zm10.4 8.42c.29.29.29.77 0 1.06l-3 3c-.15.15-.34.22-.53.22s-.38-.07-.53-.22c-.29-.29-.29-.77 0-1.06l1.72-1.72h-8.19c-.41 0-.75-.34-.75-.75s.34-.75.75-.75h8.19l-1.72-1.72c-.29-.29-.29-.77 0-1.06s.77-.29 1.06 0z"></path>
+                            </svg>
+                            {/* Email */}
+                          </button>
+                        </GateKeeper>
 
                         <button title="Delete">
                           <GateKeeper
