@@ -20,7 +20,7 @@ const BoardMeetingLandingPage = () => {
           }
         >
              <NavLink
-            to={`tasks`}
+            to={`tasks?search=&page=1&pageSize=10`}
             end
             // isActive={(match, location) =>
             //   match ||
