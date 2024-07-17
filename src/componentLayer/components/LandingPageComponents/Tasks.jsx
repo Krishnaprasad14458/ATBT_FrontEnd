@@ -378,6 +378,7 @@ export async function TasksActions({ request, params }) {
 const Tasks = () => {
   const { authState } = useContext(AuthContext);
   const { permissions, loading } = useContext(PermissionsContext);
+  console.log("first permissions",permissions)
 
   let meetingPermission = permissions?.find(
     (permission) => permission.module === "task"
@@ -708,7 +709,7 @@ const Tasks = () => {
         </div>
 
         <div className="col-span-1 text-start">
-          {/* <div className="relative">
+        <div className="relative">
             <div className="absolute inset-y-0 start-0 flex items-center p-3 pointer-events-none">
               <svg
                 className="w-3 h-3 text-gray-500 dark:text-gray-400"
@@ -732,10 +733,10 @@ const Tasks = () => {
               type="search"
               id="default-search"
               className="block w-full px-4 py-2 ps-8 text-sm border-2 border-gray-200  rounded-2xl bg-gray-50  focus:outline-none placeholder:text-sm"
-              placeholder="Search here..."
+              placeholder="Search here with initial decision taken..."
               required
             />
-          </div> */}
+          </div> 
         </div>
 
         {parentPath === "tasks" && (
@@ -1124,12 +1125,18 @@ const Tasks = () => {
               >
                 Decision Status
               </th>
-              {/* <th
+              <th
                 className="sticky top-0  bg-orange-600 text-white text-sm text-left px-2 py-2 border-l-2 border-gray-200 "
                 style={{ width: "15rem" }}
               >
                 Latest Decision Update
-              </th> */}
+              </th>
+              <th
+                className="sticky top-0  bg-orange-600 text-white text-sm text-left px-2 py-2 border-l-2 border-gray-200 "
+                style={{ width: "15rem" }}
+              >
+                Latest Decision Status
+              </th>
               {/* <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2 border-l-2 border-gray-200">
                 Decision Updated of Admin
               </th> */}
@@ -1151,11 +1158,23 @@ const Tasks = () => {
                 label: user.name,
                 value: user.id,
               }));
+              let Module = ""
+              if(task?.createdBy.name === "entities"){
+                Module = "Entity"
+              }else if(task?.createdBy.name === "teams"){
+                Module ="Team"
+              }
+              let updatedDecisionInPreviosMeeting = task?.taskStatus
+        ?.filter((status) => status.isDecisionUpdate === 1)
+        .map((date) => date.message)[0]
+       let  updatedStatusInPreviosMeeting = task?.taskStatus
+        ?.filter((status) => status.isStatusUpdate === 1)
+        .map((date) => date.message)[0]
               return (
                 <tr key={task.id} className="border-b border-gray-200 ">
                   {parentPath === "tasks" && (
                     <td className="border py-1 px-2 text-sm">
-                      {caseLetter(task?.createdBy.name)}
+                      {Module}
                     </td>
                   )}
                   {parentPath === "tasks" && (
@@ -1471,6 +1490,12 @@ const Tasks = () => {
                       value={{ label: task?.status, value: task?.status }}
                       menuPlacement="auto"
                     /> */}
+                  </td>
+                  <td className="border py-1 px-2 text-sm">
+                    {updatedDecisionInPreviosMeeting}
+                  </td>
+                  <td className="border py-1 px-2 text-sm" >
+                    {updatedStatusInPreviosMeeting}
                   </td>
                   {/* <td className="border py-1 px-2 text-sm text-gray-600 ">
                     {task?.updatedbyuser}
