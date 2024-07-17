@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Select from "react-select";
 import { getCurrentDate } from "../../../../utils/utils";
 import atbtApi from "../../../../serviceLayer/interceptor";
@@ -132,6 +132,19 @@ const EditableFields = ({
       console.error("Error updating status:", error);
     }
   };
+  useEffect(() => {
+    const today = new Date();
+    const formattedToday = today.toISOString().split('T')[0];
+    setUpdateDecisionForm((prev) => ({
+      ...prev,
+      Date: formattedToday,
+    }));
+    setUpdateStatusForm((prev) => ({
+      ...prev,
+      Date: formattedToday,
+    }));
+
+  }, []);
   return (
     <>
       <div className="mb-2">

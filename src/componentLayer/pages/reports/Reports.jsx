@@ -155,8 +155,8 @@ function Reports() {
     { label: "Initial Decision Taken", key: "decision" },
     { label: "Person Responsible for implementation", key: "initialPerson" },
     { label: "DueDate", key: "dueDate" },
-    { label: "Meeting ID", key: "meetingNumber" },
     { label: "Collaborators", key: "collaborators" },
+    { label: "Meeting ID", key: "meetingNumber" },
   ];
 
   const headerMaster = [
@@ -173,11 +173,11 @@ function Reports() {
     { label: "Updated Person Responsible", key: "updatedPerson" },
     { label: "DueDate", key: "dueDate" },
     { label: "Status as on", key: "statusAsOn" },
-
     { label: "Status", key: "status" },
-    { label: "Meeting ID", key: "meetingNumber" },
     { label: "Ageing of the Decision as per Latest Board Meeting", key: "age" },
     { label: "Collabarators", key: "colabrators" },
+    { label: "Meeting ID", key: "meetingNumber" },
+
   ];
 
   const headerATR = [
@@ -192,17 +192,14 @@ function Reports() {
       key: "updatedDecisionInPreviosMeeting",
     },
     { label: "Updated Person Responsible", key: "updatedPerson" },
-
     { label: "DueDate", key: "dueDate" },
     { label: "Status as on", key: "statusAsOn" },
-
     { label: "Status", key: "status" },
-
-    { label: "Meeting ID", key: "meetingNumber" },
     { label: "Ageing of the Decision as per Latest Board Meeting", key: "age" },
     // { label: "Updated Decision", key: "updatedbyuser" },
     // { label: "Updated Person Responsible", key: "memberdata" },
     { label: "Collabarators", key: "colabrators" },
+    { label: "Meeting ID", key: "meetingNumber" },
     // { label: "Collabarators", key: "colabrators" },
   ];
 
@@ -388,8 +385,8 @@ function Reports() {
           const cellTextLength = cell.v ? cell.v.toString().length : 0;
           const cellWidth = wscols[c].wch;
           const lines = Math.ceil(cellTextLength / cellWidth);
-          const cellHeight = lines * 20;
-          maxCellHeight = Math.max(maxCellHeight, cellHeight);
+          // const cellHeight = lines * 20;
+          // maxCellHeight = Math.max(maxCellHeight, cellHeight);
           cell.s = cell.s || {};
           cell.s.alignment = cell.s.alignment || {};
           cell.s.alignment.wrapText = true;
