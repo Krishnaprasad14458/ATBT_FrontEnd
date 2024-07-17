@@ -1125,12 +1125,18 @@ const Tasks = () => {
               >
                 Decision Status
               </th>
-              {/* <th
+              <th
                 className="sticky top-0  bg-orange-600 text-white text-sm text-left px-2 py-2 border-l-2 border-gray-200 "
                 style={{ width: "15rem" }}
               >
                 Latest Decision Update
-              </th> */}
+              </th>
+              <th
+                className="sticky top-0  bg-orange-600 text-white text-sm text-left px-2 py-2 border-l-2 border-gray-200 "
+                style={{ width: "15rem" }}
+              >
+                Latest Decision Status
+              </th>
               {/* <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2 border-l-2 border-gray-200">
                 Decision Updated of Admin
               </th> */}
@@ -1158,6 +1164,12 @@ const Tasks = () => {
               }else if(task?.createdBy.name === "teams"){
                 Module ="Team"
               }
+              let updatedDecisionInPreviosMeeting = task?.taskStatus
+        ?.filter((status) => status.isDecisionUpdate === 1)
+        .map((date) => date.message)[0]
+       let  updatedStatusInPreviosMeeting = task?.taskStatus
+        ?.filter((status) => status.isStatusUpdate === 1)
+        .map((date) => date.message)[0]
               return (
                 <tr key={task.id} className="border-b border-gray-200 ">
                   {parentPath === "tasks" && (
@@ -1478,6 +1490,12 @@ const Tasks = () => {
                       value={{ label: task?.status, value: task?.status }}
                       menuPlacement="auto"
                     /> */}
+                  </td>
+                  <td className="border py-1 px-2 text-sm">
+                    {updatedDecisionInPreviosMeeting}
+                  </td>
+                  <td className="border py-1 px-2 text-sm" >
+                    {updatedStatusInPreviosMeeting}
                   </td>
                   {/* <td className="border py-1 px-2 text-sm text-gray-600 ">
                     {task?.updatedbyuser}
