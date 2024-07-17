@@ -49,7 +49,7 @@ const EntityLandingPage = () => {
         )}
         {BMid && (
           <NavLink
-            to={`entityboardmeetings/${BMid}/tasks`}
+            to={`entityboardmeetings/${BMid}/tasks?search=&page=1&pageSize=10`}
             end
             isActive={(match, location) =>
               match ||
