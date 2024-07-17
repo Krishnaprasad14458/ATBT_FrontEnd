@@ -18,7 +18,7 @@ import {
 import Select from "react-select";
 import TaskOverview from "./TaskOverview";
 import atbtApi from "../../../serviceLayer/interceptor";
-import { caseLetter, debounce, getCurrentDate } from "../../../utils/utils";
+import { caseLetter, debounce, getCurrentDate, truncateText } from "../../../utils/utils";
 import GateKeeper from "../../../rbac/GateKeeper";
 import { AuthContext } from "../../../contexts/authContext/authContext";
 import TasksFilter from "../tableCustomization/TasksFilter";
@@ -688,6 +688,7 @@ const Tasks = () => {
       return 350; // Large screens and above
     }
   }
+ 
 
   useEffect(() => {
     const handleResize = () => {
@@ -1291,7 +1292,7 @@ const Tasks = () => {
                             cursor: "pointer",
                           }}
                         >
-                          {task.decision}
+                           {task?.decision && truncateText(task.decision, 200)}
                         </p>
                       )}
                       <div className="flex">
@@ -1496,78 +1497,14 @@ const Tasks = () => {
                   <td className="border py-1 px-2 text-sm" title={task?.status}>
                     {task?.status}
 
-                    {/* <Select
-                      options={status}
-                      menuPortalTarget={document.body}
-                      closeMenuOnScroll={() => true}
-                      styles={{
-                        control: (provided, state) => ({
-                          ...provided,
-                          backgroundColor: "#f9fafb",
-                          borderWidth: "1px",
-                          borderColor: state.isFocused
-                            ? "#orange-400"
-                            : "transparent", // Changed borderColor
-                          boxShadow: state.isFocused
-                            ? "none"
-                            : provided.boxShadow,
-                          fontSize: "16px",
-                          height: "36px", // Adjust the height here
-                          "&:hover": {
-                            borderColor: state.isFocused
-                              ? "#fb923c"
-                              : "transparent",
-                          },
-                          "&:focus": {
-                            borderColor: "#fb923c",
-                          },
-                          "&:focus-within": {
-                            borderColor: "#fb923c",
-                          },
-                          width: "8rem",
-                        }),
-                        option: (provided, state) => ({
-                          ...provided,
-                          color: state.isFocused ? "#fff" : "#000000",
-                          backgroundColor: state.isFocused
-                            ? "#ea580c"
-                            : "transparent",
-                          "&:hover": {
-                            color: "#fff",
-                            backgroundColor: "#ea580c",
-                          },
-                        }),
-                        indicatorSeparator: (provided, state) => ({
-                          ...provided,
-                          display: state.isFocused ? "visible" : "none",
-                        }),
-                        dropdownIndicator: (provided, state) => ({
-                          ...provided,
-                          display: state.isFocused ? "visible" : "none",
-                        }),
-                      }}
-                      theme={(theme) => ({
-                        ...theme,
-                        borderRadius: 5,
-                        colors: {
-                          ...theme.colors,
-                          primary: "#fb923c",
-                        },
-                      })}
-                      onChange={(selectedOption) => {
-                        handleSubmit(task?.id, "status", selectedOption.value);
-                        handleTaskChange(index, "status", selectedOption.value);
-                      }}
-                      classNamePrefix="select"
-                      value={{ label: task?.status, value: task?.status }}
-                      menuPlacement="auto"
-                    /> */}
                   </td>
                   <td className="border py-1 px-2 text-sm">
-                    {updatedDecisionInPreviosMeeting}
+                  {updatedDecisionInPreviosMeeting && truncateText(updatedDecisionInPreviosMeeting, 100)}
+                    {/* {updatedDecisionInPreviosMeeting} */}
                   </td>
                   <td className="border py-1 px-2 text-sm">
-                    {updatedStatusInPreviosMeeting}
+                  {updatedStatusInPreviosMeeting && truncateText(updatedStatusInPreviosMeeting, 100)}
+                    {/* {updatedStatusInPreviosMeeting} */}
                   </td>
                   {/* <td className="border py-1 px-2 text-sm text-gray-600 ">
                     {task?.updatedbyuser}
