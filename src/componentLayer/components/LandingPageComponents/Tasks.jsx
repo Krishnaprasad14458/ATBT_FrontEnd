@@ -728,8 +728,9 @@ const Tasks = () => {
             <p className="text-md font-semibold">Decisions</p>
           )}
         </div>
-
-        {/* <div className="col-span-1 text-start">
+ {parentPath === "tasks" && (
+  <>
+      <div className="col-span-1 text-start">
           <div className="relative">
             <div className="absolute inset-y-0 start-0 flex items-center p-3 pointer-events-none">
               <svg
@@ -758,9 +759,9 @@ const Tasks = () => {
               required
             />
           </div>
-        </div> */}
+        </div> 
 
-        {parentPath === "tasks" && (
+       
           <div className="col-span-2 ">
             <div className=" md:flex gap-2 items-center md:justify-end">
               <label className="text-sm text-gray-400">Duedate&nbsp;From&nbsp;:</label>
@@ -834,11 +835,17 @@ const Tasks = () => {
               </div>
             </div>
           </div>
-        )}
+          </>  )}
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-3 xl:grid-cols-3 lg:grid-cols-3  items-center">
         <div className="col-span-1 "></div>
+        {BMid &&
+              (parentPath === "users" ||
+                parentPath === "entities" ||
+                parentPath === "teams") && (
+               
+                
         <div className="col-span-1 ">
           <div className="relative">
             <div className="absolute inset-y-0 start-0 flex items-center p-3 pointer-events-none">
@@ -869,6 +876,7 @@ const Tasks = () => {
             />
           </div>
         </div>
+                )}
         <div className="col-span-1 ">
           <div className="flex justify-end">
             {BMid &&
