@@ -1,7 +1,7 @@
 import React from "react";
 import Select from "react-select";
 import { useFetcher } from "react-router-dom";
-import { getCurrentDate } from "../../../../utils/utils";
+import { getCurrentDate, truncateText } from "../../../../utils/utils";
 import GateKeeper from "../../../../rbac/GateKeeper";
 const SubTasksList = ({
   task,
@@ -119,7 +119,7 @@ const SubTasksList = ({
                               cursor: "pointer",
                             }}
                           >
-                            {task.decision}
+                               {task?.decision && truncateText(task.decision, 200)}
                           </p>
                         )}
                         <span
