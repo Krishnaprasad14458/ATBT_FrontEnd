@@ -44,12 +44,12 @@ const Updates = ({ fetchStatus, updates }) => {
                   <p className="text-sm">
                     {update?.isDecisionUpdate && (
                       <span className="text-sm ">
-                        Date of Updated Decision :{" "}
+                        Date of Updated Decision :
                       </span>
                     )}
                     {update?.isStatusUpdate && (
                       <span className="text-sm ">
-                        Date of Updated Status :{" "}
+                        Date of Updated Status :
                       </span>
                     )}
                     {dateFormat(update.Date)}
