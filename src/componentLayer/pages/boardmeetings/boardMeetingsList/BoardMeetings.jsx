@@ -15,7 +15,7 @@ import CustomFilter from "../../../components/tableCustomization/CustomFilter";
 import atbtApi from "../../../../serviceLayer/interceptor";
 import BreadCrumbs from "../../../components/breadcrumbs/BreadCrumbs";
 let moduleOptions = [
-  { label: "User", value: "user" },
+  // { label: "User", value: "user" },
   { label: "Entity", value: "entity" },
   { label: "Team", value: "team" },
 ];

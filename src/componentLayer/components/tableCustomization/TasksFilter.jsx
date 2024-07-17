@@ -80,7 +80,7 @@ function TasksFilter({
     setFilterDrawerOpen(!filterDrawerOpen);
   };
   let moduleOptions = [
-    { label: "User", value: "user" },
+    // { label: "User", value: "user" },
     { label: "Entity", value: "entity" },
     { label: "Team", value: "team" },
   ];

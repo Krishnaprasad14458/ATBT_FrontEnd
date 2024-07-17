@@ -654,7 +654,7 @@ function UserForm() {
                                   color: "#fff",
                                   backgroundColor: "#ea580c",
                                 },
-                                fontSize: "14px",
+                                fontSize: "12px",
                               }),
                             }}
                             theme={(theme) => ({
@@ -813,19 +813,19 @@ function UserForm() {
                                     }),
                                     option: (provided, state) => ({
                                       ...provided,
-                                      color: state.isFocused
-                                        ? "#fff"
-                                        : "#000000",
+                                      color: state.isFocused ? "#fff" : "#000000",
+                                      fontSize: "12px",
+                                      cursor:"pointer",
                                       backgroundColor: state.isFocused
                                         ? "#ea580c"
                                         : "transparent",
-
+                  
                                       "&:hover": {
                                         color: "#fff",
                                         backgroundColor: "#ea580c",
                                       },
                                     }),
-                                    fontSize: "14px",
+                                   
                                   }}
                                   theme={(theme) => ({
                                     ...theme,
@@ -908,16 +908,18 @@ function UserForm() {
                               option: (provided, state) => ({
                                 ...provided,
                                 color: state.isFocused ? "#fff" : "#000000",
+                                fontSize: "12px",
+                                cursor:"pointer",
                                 backgroundColor: state.isFocused
                                   ? "#ea580c"
                                   : "transparent",
-
+            
                                 "&:hover": {
                                   color: "#fff",
                                   backgroundColor: "#ea580c",
                                 },
                               }),
-                              fontSize: "14px",
+                             
                             }}
                             theme={(theme) => ({
                               ...theme,

@@ -238,11 +238,14 @@ const EditableFields = ({
                   
               }
             />
+            <div className="h-5">
             {decisionErrors.message && (
               <p className="text-red-500 text-xs mt-1">
                 {decisionErrors.message}
               </p>
             )}
+            </div>
+          
           </div>
           <div className="col-span-2">
             <label className="block text-xs font-medium leading-6 my-1 text-[1e1f21]">
@@ -265,9 +268,12 @@ const EditableFields = ({
               
               }
             />
+                   <div className="h-5">
             {decisionErrors.Date && (
               <p className="text-red-500 text-xs mt-1">{decisionErrors.Date}</p>
             )}
+            </div>
+        
           </div>
 
           <div className="col-span-1 ">
@@ -275,7 +281,7 @@ const EditableFields = ({
               onClick={() => {
                 handleSubmitUpdateDecision();
               }}
-              className=" px-1.5 py-2 inline-flex items-center justify-end whitespace-nowrap rounded-md text-xs font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white mt-8 ms-3"
+              className=" px-1.5 py-2 inline-flex items-center justify-end whitespace-nowrap rounded-md text-xs font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white mt-2 ms-3"
             >
               Update
             </button>
@@ -304,11 +310,14 @@ const EditableFields = ({
               
               }
             />
+              <div className="h-5">
             {statusErrors.message && (
               <p className="text-red-500 text-xs mt-1">
                 {statusErrors.message}
               </p>
             )}
+          </div>
+       
           </div>
           <div className="col-span-2">
             <label className="block text-xs font-medium leading-6 my-1 text-[1e1f21]">
@@ -330,16 +339,18 @@ const EditableFields = ({
             
               }
             />
+              <div className="h-5">
             {statusErrors.Date && (
               <p className="text-red-500 text-xs mt-1">{statusErrors.Date}</p>
             )}
-          </div>
+</div>
+            </div>
           <div className="col-span-1">
             <button
              onClick={() => {
               handleSubmitUpdateStatus();
             }}
-              className="px-1.5 py-2 inline-flex items-center justify-end whitespace-nowrap rounded-md text-xs font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white mt-8 ms-3"
+              className="px-1.5 py-2 inline-flex items-center justify-end whitespace-nowrap rounded-md text-xs font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white mt-2 ms-3"
             >
               Update
             </button>
