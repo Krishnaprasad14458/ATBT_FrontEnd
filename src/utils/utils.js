@@ -174,3 +174,11 @@ export const getCurrentDate = () => {
 
   return `${year}-${month}-${day}`;
 };
+
+//  for long text only 500 characters display
+export const truncateText = (text, maxLength) => {
+  if (text.length > maxLength) {
+    return text.slice(0, maxLength) + '...';
+  }
+  return text;
+};
