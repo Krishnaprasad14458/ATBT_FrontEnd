@@ -43,8 +43,8 @@ export async function loader({ request, params }) {
         atbtApi.post(`public/list/role`),
         atbtApi.get(`form/list?name=boardmeetingform`),
       ]
-    ); 
-    console.log(meetings, meetingFormData,"meetings loader");
+    );
+    console.log(meetings, meetingFormData, "meetings loader");
     const combinedResponse = {
       meetings: meetings?.data,
       fieldsDropDownData: {
@@ -84,14 +84,14 @@ function Boardmeeting() {
   let fetcher = useFetcher();
   const data = useLoaderData();
   const { meetings, tableViewData, fieldsDropDownData, customForm } = data;
-  console.log("customForm",customForm,tableViewData,meetings)
+  console.log("customForm", customForm, tableViewData, meetings);
   const [Qparams, setQParams] = useState({
     search: "",
     page: 1,
     pageSize: 10,
   });
   const isFirstRender = useRef(true);
-  
+
   useEffect(() => {
     if (isFirstRender.current) {
       isFirstRender.current = false;
@@ -134,27 +134,50 @@ function Boardmeeting() {
     }
   }, [fetcher, navigation]);
   const handleDeleteUser = async (id) => {
-    const confirmDelete = await Swal.fire({
-      title: "Are you sure?",
-      text: "Once deleted, you will not be able to recover this Board Meeting!",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#ea580c",
-      cancelButtonColor: "#fff",
-      confirmButtonText: "Delete",
-      customClass: {
-        popup: "custom-swal2-popup",
-        title: "custom-swal2-title",
-        content: "custom-swal2-content",
-      },
-    });
-    if (confirmDelete.isConfirmed) {
-      try {
-        fetcher.submit(id, { method: "DELETE", encType: "application/json" });
-      } catch (error) {
-        Swal.fire("Error", "Unable to delete board meeting 🤯", "error");
+    let BmTasks = await atbtApi.get(`task/list?meetingId=${id}`);
+    let BMlength = BmTasks.data.tasks.length;
+    if (BMlength === 0) {
+      const confirmDelete = await Swal.fire({
+        title: "Are you sure?",
+        text: "Once deleted, you will not be able to recover this Meeting!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#ea580c",
+        cancelButtonColor: "#fff",
+        confirmButtonText: "Delete",
+        customClass: {
+          popup: "custom-swal2-popup",
+          title: "custom-swal2-title",
+          content: "custom-swal2-content",
+        },
+      });
+      if (confirmDelete.isConfirmed) {
+        try {
+          fetcher.submit(id, { method: "DELETE", encType: "application/json" });
+        } catch (error) {
+          Swal.fire("Error", "Unable to delete board meeting 🤯", "error");
+        }
       }
     }
+    else {
+      const confirmDelete = await Swal.fire({
+        title: "Meeting can't be deleted",
+        text: `You cannot delete meeting because there are ${
+          BMlength
+        } tasks are present`,
+        icon: "warning",
+        showCancelButton: false,
+        confirmButtonColor: "#ea580c",
+        cancelButtonColor: "#fff",
+        confirmButtonText: "Ok",
+        customClass: {
+          popup: "custom-swal2-popup",
+          title: "custom-swal2-title",
+          content: "custom-swal2-content",
+        },
+      });
+    }
+   
   };
   const [tableView, setTableView] = useState(tableViewData);
   const [visibleColumns, setvisibleColumns] = useState();
@@ -207,7 +230,7 @@ function Boardmeeting() {
             form="boardmeetingform"
           />
           <CustomFilter
-          className="mt-2"
+            className="mt-2"
             fieldsDropDownData={fieldsDropDownData}
             Qparams={Qparams}
             setQParams={setQParams}
@@ -309,7 +332,7 @@ function Boardmeeting() {
                         value = row[key].join(", ");
                       }
                       if (tableView[key].type === "date" && row[key]) {
-                        value = dateFormat(row[key])
+                        value = dateFormat(row[key]);
                       }
                       if (key === "meetingnumber") {
                         return (
@@ -325,7 +348,9 @@ function Boardmeeting() {
                                 permission.canRead
                               }
                             >
-                              <Link to={`${row.id}/tasks?search=&page=1&pageSize=10`}>
+                              <Link
+                                to={`${row.id}/tasks?search=&page=1&pageSize=10`}
+                              >
                                 <p className="truncate text-xs"> {value}</p>
                               </Link>
                             </GateKeeper>
