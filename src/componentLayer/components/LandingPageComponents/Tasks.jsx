@@ -1152,11 +1152,17 @@ const Tasks = () => {
                 label: user.name,
                 value: user.id,
               }));
+              let Module = ""
+              if(task?.createdBy.name === "entities"){
+                Module = "Entity"
+              }else if(task?.createdBy.name === "teams"){
+                Module ="Team"
+              }
               return (
                 <tr key={task.id} className="border-b border-gray-200 ">
                   {parentPath === "tasks" && (
                     <td className="border py-1 px-2 text-sm">
-                      {caseLetter(task?.createdBy.name)}
+                      {Module}
                     </td>
                   )}
                   {parentPath === "tasks" && (

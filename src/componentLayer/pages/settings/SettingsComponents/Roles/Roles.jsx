@@ -1,16 +1,15 @@
 import axios from "axios";
 import React, { useContext } from "react";
-import {Link,useFetcher,useLoaderData,useSubmit,} from "react-router-dom";
+import { Link, useFetcher, useLoaderData, useSubmit } from "react-router-dom";
 import { AuthContext } from "../../../../../contexts/authContext/authContext";
 import Swal from "sweetalert2";
 import atbtApi from "../../../../../serviceLayer/interceptor";
-
 import { debounce } from "../../../../../utils/utils";
 import GateKeeper from "../../../../../rbac/GateKeeper";
 function deleteRole(id) {
   return axios.delete(`https://atbtbeta.infozit.com/rbac/deleteRole/${id}`);
 }
-export async function action() {}
+// export async function action() {}
 const Roles = () => {
   const { data } = useLoaderData();
   console.log(data, "data");
@@ -22,68 +21,62 @@ const Roles = () => {
     console.log(search);
     params(search);
   }, 500);
-  console.log(data.roles , "userroleid")
+  console.log(data.roles, "userroleid");
   const fetcher = useFetcher();
   const onDelete = async (data) => {
-    let usersResponse = await atbtApi.post(`public/list/user`)
-    let users = usersResponse.data.users  
+    let usersResponse = await atbtApi.post(`public/list/user`);
+    let users = usersResponse.data.users;
     let roleUsers = users?.filter(
       (user) => user.RoleId === parseInt(data.roleId)
     );
-   if(roleUsers?.length === 0){
-    const confirmDelete = await Swal.fire({
-      title: "Are you sure?",
-      text: "Once deleted, you will not be able to recover this role!",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#ea580c",
-      cancelButtonColor: "#fff",
-      confirmButtonText: "Delete",
-      customClass: {
-        popup: "custom-swal2-popup",
-        title: "custom-swal2-title",
-        content: "custom-swal2-content",
-      },
-    });
-    if (confirmDelete.isConfirmed) {
-      try {
-        fetcher.submit(
-          {
-            serialized: JSON.stringify(data),
-          },
-          { method: "delete" }
-        );
-      } catch (error) {
-        Swal.fire("Error", "Unable to delete role 🤯", "error");
+    if (roleUsers?.length === 0) {
+      const confirmDelete = await Swal.fire({
+        title: "Are you sure?",
+        text: "Once deleted, you will not be able to recover this role!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#ea580c",
+        cancelButtonColor: "#fff",
+        confirmButtonText: "Delete",
+        customClass: {
+          popup: "custom-swal2-popup",
+          title: "custom-swal2-title",
+          content: "custom-swal2-content",
+        },
+      });
+      if (confirmDelete.isConfirmed) {
+        try {
+          fetcher.submit(
+            {
+              serialized: JSON.stringify(data),
+            },
+            { method: "delete" }
+          );
+        } catch (error) {
+          Swal.fire("Error", "Unable to delete role 🤯", "error");
+        }
       }
-    }
-   }else{
-    const confirmDelete = await Swal.fire({
-      title: "Role can't be deleted",
-      text: `You cannot delete role because there are  ${
-        roleUsers?.length
-      }                   
-      ${
-        roleUsers?.length > 1 ? `users` : `user`
-      }    
+    } else {
+      const confirmDelete = await Swal.fire({
+        title: "Role can't be deleted",
+        text: `You cannot delete role because there are  ${
+          roleUsers?.length
+        }                   
+      ${roleUsers?.length > 1 ? `users` : `user`}    
       
-       (${roleUsers?.map((user) => user.name)
-        .join(", ")}) are present `,
-      icon: "warning",
-      showCancelButton: false,
-      confirmButtonColor: "#ea580c",
-      cancelButtonColor: "#fff",
-      confirmButtonText: "ok",
-      customClass: {
-        popup: "custom-swal2-popup",
-        title: "custom-swal2-title",
-        content: "custom-swal2-content",
-      },
-    });
-   
-
-   }
-   
+       (${roleUsers?.map((user) => user.name).join(", ")}) are present `,
+        icon: "warning",
+        showCancelButton: false,
+        confirmButtonColor: "#ea580c",
+        cancelButtonColor: "#fff",
+        confirmButtonText: "ok",
+        customClass: {
+          popup: "custom-swal2-popup",
+          title: "custom-swal2-title",
+          content: "custom-swal2-content",
+        },
+      });
+    }
   };
   function handleSearch(event) {
     debouncedSearchParams(`search=${event.target.value}`);
@@ -128,27 +121,24 @@ const Roles = () => {
           </div>
         </div>
         <div className="grid1-item  sm:text-start md:text-end lg:text-end xl:text-end flex justify-end gap-3">
-        <GateKeeper
+          <GateKeeper
             permissionCheck={(permission) =>
               permission.module === "setting" && permission.canCreate
             }
           >
-        
-          <Link to="upsert">
-            <button className="mt-1 px-3 py-2 inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white ">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-                className="w-5 h-5 "
-              >
-                <path d="M10.75 4.75a.75.75 0 0 0-1.5 0v4.5h-4.5a.75.75 0 0 0 0 1.5h4.5v4.5a.75.75 0 0 0 1.5 0v-4.5h4.5a.75.75 0 0 0 0-1.5h-4.5v-4.5Z" />
-              </svg>
-              Add Roles
-            </button>
-       
-          </Link>
-       
+            <Link to="upsert">
+              <button className="mt-1 px-3 py-2 inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white ">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                  className="w-5 h-5 "
+                >
+                  <path d="M10.75 4.75a.75.75 0 0 0-1.5 0v4.5h-4.5a.75.75 0 0 0 0 1.5h4.5v4.5a.75.75 0 0 0 1.5 0v-4.5h4.5a.75.75 0 0 0 0-1.5h-4.5v-4.5Z" />
+                </svg>
+                Add Roles
+              </button>
+            </Link>
           </GateKeeper>
           <Link to="/settings">
             <button
@@ -212,58 +202,29 @@ const Roles = () => {
                     </td>
                     {
                       <td className="px-3 py-2 whitespace-nowrap text-left  text-xs font-medium text-gray-800 border-collapse border border-[#e5e7eb]  ">
-                    
-                    <GateKeeper
-            permissionCheck={(permission) =>
-              permission.module === "setting" && permission.canUpdate
-            }
-          >
-                    
-                        <button
-                          type="submit"
-                          disabled={userRoleId == role.id ? true : false}
-                          className={` ${
-                            userRoleId == role.id
-                              ? "text-gray-500 bg-gray-50 cursor-not-allowed"
-                              : "bg-gray-50 text-[#475569] hover:text-orange-500"
-                          } mr-5 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent   disabled:opacity-40  dark:text-blue-500 dark:hover:text-blue-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600 `}
-                          onClick={() =>
-                            submit(
-                              { id: `${role.id}` },
-                              {
-                                method: "get",
-                                action: "upsert",
-                              }
-                            )
+                        <GateKeeper
+                          permissionCheck={(permission) =>
+                            permission.module === "setting" &&
+                            permission.canUpdate
                           }
                         >
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 20 20"
-                            fill="currentColor"
-                            className="w-4 h-4"
-                          >
-                            <path d="m2.695 14.762-1.262 3.155a.5.5 0 0 0 .65.65l3.155-1.262a4 4 0 0 0 1.343-.886L17.5 5.501a2.121 2.121 0 0 0-3-3L3.58 13.419a4 4 0 0 0-.885 1.343Z" />
-                          </svg>
-                        </button>
-                        </GateKeeper>
-                        {role.name !== 'admin' && role.name !== 'Managing Director' &&  role.name !== 'user' && role.name !== 'super admin'&&(
-                       
-                       <GateKeeper
-                       permissionCheck={(permission) =>
-                         permission.module === "setting" && permission.canDelete
-                       }
-                     >
-                    
-                    <button
-                            type="button"
+                          <button
+                            type="submit"
                             disabled={userRoleId == role.id ? true : false}
                             className={` ${
                               userRoleId == role.id
                                 ? "text-gray-500 bg-gray-50 cursor-not-allowed"
                                 : "bg-gray-50 text-[#475569] hover:text-orange-500"
                             } mr-5 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent   disabled:opacity-40  dark:text-blue-500 dark:hover:text-blue-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600 `}
-                            onClick={() => onDelete({ roleId: `${role.id}` })}
+                            onClick={() =>
+                              submit(
+                                { id: `${role.id}` },
+                                {
+                                  method: "get",
+                                  action: "upsert",
+                                }
+                              )
+                            }
                           >
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
@@ -271,15 +232,47 @@ const Roles = () => {
                               fill="currentColor"
                               className="w-4 h-4"
                             >
-                              <path
-                                fill-rule="evenodd"
-                                d="M8.75 1A2.75 2.75 0 0 0 6 3.75v.443c-.795.077-1.584.176-2.365.298a.75.75 0 1 0 .23 1.482l.149-.022.841 10.518A2.75 2.75 0 0 0 7.596 19h4.807a2.75 2.75 0 0 0 2.742-2.53l.841-10.52.149.023a.75.75 0 0 0 .23-1.482A41.03 41.03 0 0 0 14 4.193V3.75A2.75 2.75 0 0 0 11.25 1h-2.5ZM10 4c.84 0 1.673.025 2.5.075V3.75c0-.69-.56-1.25-1.25-1.25h-2.5c-.69 0-1.25.56-1.25 1.25v.325C8.327 4.025 9.16 4 10 4ZM8.58 7.72a.75.75 0 0 0-1.5.06l.3 7.5a.75.75 0 1 0 1.5-.06l-.3-7.5Zm4.34.06a.75.75 0 1 0-1.5-.06l-.3 7.5a.75.75 0 1 0 1.5.06l.3-7.5Z"
-                                clip-rule="evenodd"
-                              />
+                              <path d="m2.695 14.762-1.262 3.155a.5.5 0 0 0 .65.65l3.155-1.262a4 4 0 0 0 1.343-.886L17.5 5.501a2.121 2.121 0 0 0-3-3L3.58 13.419a4 4 0 0 0-.885 1.343Z" />
                             </svg>
                           </button>
-                          </GateKeeper>
-                        )}
+                        </GateKeeper>
+                        {role.name !== "admin" &&
+                          role.name !== "Managing Director" &&
+                          role.name !== "user" &&
+                          role.name !== "super admin" && (
+                            <GateKeeper
+                              permissionCheck={(permission) =>
+                                permission.module === "setting" &&
+                                permission.canDelete
+                              }
+                            >
+                              <button
+                                type="button"
+                                disabled={userRoleId == role.id ? true : false}
+                                className={` ${
+                                  userRoleId == role.id
+                                    ? "text-gray-500 bg-gray-50 cursor-not-allowed"
+                                    : "bg-gray-50 text-[#475569] hover:text-orange-500"
+                                } mr-5 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent   disabled:opacity-40  dark:text-blue-500 dark:hover:text-blue-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600 `}
+                                onClick={() =>
+                                  onDelete({ roleId: `${role.id}` })
+                                }
+                              >
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  viewBox="0 0 20 20"
+                                  fill="currentColor"
+                                  className="w-4 h-4"
+                                >
+                                  <path
+                                    fill-rule="evenodd"
+                                    d="M8.75 1A2.75 2.75 0 0 0 6 3.75v.443c-.795.077-1.584.176-2.365.298a.75.75 0 1 0 .23 1.482l.149-.022.841 10.518A2.75 2.75 0 0 0 7.596 19h4.807a2.75 2.75 0 0 0 2.742-2.53l.841-10.52.149.023a.75.75 0 0 0 .23-1.482A41.03 41.03 0 0 0 14 4.193V3.75A2.75 2.75 0 0 0 11.25 1h-2.5ZM10 4c.84 0 1.673.025 2.5.075V3.75c0-.69-.56-1.25-1.25-1.25h-2.5c-.69 0-1.25.56-1.25 1.25v.325C8.327 4.025 9.16 4 10 4ZM8.58 7.72a.75.75 0 0 0-1.5.06l.3 7.5a.75.75 0 1 0 1.5-.06l-.3-7.5Zm4.34.06a.75.75 0 1 0-1.5-.06l-.3 7.5a.75.75 0 1 0 1.5.06l.3-7.5Z"
+                                    clip-rule="evenodd"
+                                  />
+                                </svg>
+                              </button>
+                            </GateKeeper>
+                          )}
                       </td>
                     }
                   </tr>
