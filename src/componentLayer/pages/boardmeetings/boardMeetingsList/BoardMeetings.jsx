@@ -555,7 +555,6 @@ function BoardMeetings() {
                         value = row[key].join(", ");
                       }
                       if (tableView[key].type === "date" && row[key]) {
-
                         value = dateFormat(row[key])
                       }
                       if (key === "meetingnumber") {
