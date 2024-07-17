@@ -709,7 +709,7 @@ const Tasks = () => {
         </div>
 
         <div className="col-span-1 text-start">
-          {/* <div className="relative">
+        <div className="relative">
             <div className="absolute inset-y-0 start-0 flex items-center p-3 pointer-events-none">
               <svg
                 className="w-3 h-3 text-gray-500 dark:text-gray-400"
@@ -736,7 +736,7 @@ const Tasks = () => {
               placeholder="Search here..."
               required
             />
-          </div> */}
+          </div> 
         </div>
 
         {parentPath === "tasks" && (
