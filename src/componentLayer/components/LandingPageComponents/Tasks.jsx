@@ -247,7 +247,7 @@ export async function AllTasksLoader({ request, params }) {
         const enteredDate = new Date(updatedTasks?.tasks[i]?.createdAt);
         const differenceInMilliseconds = currentDate - enteredDate;
         const differenceInDays = differenceInMilliseconds / (1000 * 3600 * 24);
-        updatedTasks.tasks[i].age = Math.floor(differenceInDays);
+        // updatedTasks.tasks[i].age = Math.floor(differenceInDays);
       }
     }
     if (updatedTask) {
@@ -256,7 +256,7 @@ export async function AllTasksLoader({ request, params }) {
       const differenceInMilliseconds = currentDate - enteredDate;
       const differenceInDays = differenceInMilliseconds / (1000 * 3600 * 24);
       taskAge = Math.floor(differenceInDays);
-      updatedTask.age = taskAge;
+      // updatedTask.age = taskAge;
     }
     if (updatedSubTask) {
       const currentDate = new Date();
@@ -264,7 +264,7 @@ export async function AllTasksLoader({ request, params }) {
       const differenceInMilliseconds = currentDate - enteredDate;
       const differenceInDays = differenceInMilliseconds / (1000 * 3600 * 24);
       subTaskAge = Math.floor(differenceInDays);
-      updatedSubTask.age = subTaskAge;
+      // updatedSubTask.age = subTaskAge;
     }
     const combinedResponse = {
       tasks: updatedTasks,
