@@ -547,17 +547,17 @@ function BoardMeetingForm() {
         console.log("data is 201");
         if (boardmeetingFor === "user") {
           navigate(
-            `/users/${boardmeetingForID}/userboardmeetings/${response.data}/tasks`
+            `/users/${boardmeetingForID}/userboardmeetings/${response.data}/tasks?search=&page=1&pageSize=10`
           );
         }
         if (boardmeetingFor === "entity") {
           navigate(
-            `/entities/${boardmeetingForID}/entityboardmeetings/${response.data}/tasks`
+            `/entities/${boardmeetingForID}/entityboardmeetings/${response.data}/tasks?search=&page=1&pageSize=10`
           );
         }
         if (boardmeetingFor === "team") {
           navigate(
-            `/teams/${boardmeetingForID}/teamboardmeetings/${response.data}/tasks`
+            `/teams/${boardmeetingForID}/teamboardmeetings/${response.data}/tasks?search=&page=1&pageSize=10`
           );
         }
       }
