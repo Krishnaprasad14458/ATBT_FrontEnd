@@ -134,7 +134,7 @@ export async function tasksLoader({ request, params }) {
       threadName: params.BMid ? ` Decisions` : `Decisions`,
       threadPath: params.BMid
         ? `/${parentPath}/${params.id}/${params.boardmeetings}/${params.BMid}/tasks`
-        : `/${parentPath}/${params.id}/tasks/To-Do`,
+        : `/${parentPath}/${params.id}/tasks/runningdecisions`,
       threadPathForOutsideBM: `/boardmeetings/${params.BMid}/tasks`,
     };
 
