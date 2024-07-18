@@ -4,7 +4,43 @@ import atbtApi from "../../../serviceLayer/interceptor";
 import MeetingAttachments from "./AttachmentsComponents/MeetingAttachments";
 import TaskAttachments from "./AttachmentsComponents/TaskAttachments";
 import Swal from "sweetalert2";
+let parentPath;
 
+export async function MeetingWiseloader({ request, params }) {
+  try {
+    const url = new URL(request.url);
+    if (url.pathname.split("/")[1] === "users") {
+      parentPath = "users";
+  
+    }
+    if (url.pathname.split("/")[1] === "entities") {
+      parentPath = "entities";
+    
+    }
+    if (url.pathname.split("/")[1] === "teams") {
+      parentPath = "teams";
+    
+    }
+    if (url.pathname.split("/")[1] === "tasks") {
+      parentPath = "tasks";
+    }
+    if (url.pathname.split("/")[1] === "boardmeetings") {
+      parentPath = "boardmeetings";
+    }
+    
+    const combinedResponse = {
+   
+      threadPath:  `/${parentPath}/${params.id}/${params.boardmeetings}/${params.BMid}/documents`
+       
+    
+    };
+   
+    return combinedResponse;
+  } catch (error) {
+    console.error("Error occurred:", error);
+    throw error;
+  }
+}
 const MeetingWiseDocuments = ({ belongsTo }) => {
   const { id, BMid } = useParams();
   console.log("id, BMID", id, BMid);
