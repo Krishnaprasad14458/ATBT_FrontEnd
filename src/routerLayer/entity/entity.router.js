@@ -76,10 +76,9 @@ export const entityRouter = [
                 <Link 
                 to={{
                   pathname: data?.threadPath,
-                  // search: `?status=To-Do`,
+                  search: `?search=&page=1&pageSize=10`,
                 }}
-                
-          
+                         
                 >{data?.threadName}</Link>
               ),
             },
@@ -129,7 +128,11 @@ export const entityRouter = [
                     element:  <Tasks NameModule="entities" tasksWithBm = "true" />,
                     handle: {
                       crumb: (data) => (
-                        <Link to={data?.threadPath}>{data?.threadName}</Link>
+                        <Link   to={{
+                          pathname: data?.threadPath,
+                          search: `?search=&page=1&pageSize=10`,
+                        }}>{data?.threadName}</Link>
+                       
                       ),
                     },
                   },

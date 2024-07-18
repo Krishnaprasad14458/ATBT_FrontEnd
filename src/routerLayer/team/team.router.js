@@ -78,10 +78,10 @@ export const teamRouter = [
             handle: {
               crumb: (data) => (
                 <Link
-                  to={{
-                    pathname: data?.threadPath,
-                    // search: `?status=To-Do`,
-                  }}
+                to={{
+                  pathname: data?.threadPath,
+                  search: `?search=&page=1&pageSize=10`,
+                }}
                 >
                   {data?.threadName}
                 </Link>
@@ -135,7 +135,10 @@ export const teamRouter = [
                     element: <Tasks NameModule="teams" tasksWithBm="true" />,
                     handle: {
                       crumb: (data) => (
-                        <Link to={data?.threadPath}>{data?.threadName}</Link>
+                        <Link  to={{
+                          pathname: data?.threadPath,
+                          search: `?search=&page=1&pageSize=10`,
+                        }}>{data?.threadName}</Link>
                       ),
                     },
                   },
