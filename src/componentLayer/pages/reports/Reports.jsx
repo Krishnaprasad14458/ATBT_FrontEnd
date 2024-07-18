@@ -338,7 +338,9 @@ function Reports() {
         )
         .map((member) => member.newValue)
         .slice(-1)[0],
-      // .join(", "),
+     
+
+
 
       dateOfPreviosMeeting: row?.taskStatus
         ?.filter((status) => status.isDecisionUpdate === 1)
