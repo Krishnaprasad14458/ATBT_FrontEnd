@@ -2,10 +2,11 @@ import EntityForm, {
   entityFormLoader,
 } from "../../componentLayer/pages/entities/createEntityForm/EntityForm";
 import Boardmeeting, {
+  loader,
   action as MeetingAction,
   loader as MeetingLoader,
 } from "../../componentLayer/components/LandingPageComponents/Boardmeeting";
-import Documents, { attachmentsLoader, uploadAttachmentActions } from "../../componentLayer/components/LandingPageComponents/Documents";
+import Documents, { attachmentsLoader, Documentsloader, uploadAttachmentActions } from "../../componentLayer/components/LandingPageComponents/Documents";
 import EntityLandingPage from "../../componentLayer/pages/entities/entityLandingPage/EntityLandingPage";
 import EntityOverview, {
 
@@ -22,7 +23,7 @@ import Tasks, {
   tasksLoader,
 } from "../../componentLayer/components/LandingPageComponents/Tasks";
 import BoardMeetingOverview, { boardMeetingOverviewLoader } from "../../componentLayer/pages/boardmeetings/boardMeetingLandingPage/BoardMeetingOverview";
-import MeetingWiseDocuments from "../../componentLayer/components/LandingPageComponents/MeetingWiseDocuments";
+import MeetingWiseDocuments, { MeetingWiseloader } from "../../componentLayer/components/LandingPageComponents/MeetingWiseDocuments";
 
 export const entityRouter = [
   {
@@ -76,10 +77,9 @@ export const entityRouter = [
                 <Link 
                 to={{
                   pathname: data?.threadPath,
-                  // search: `?status=To-Do`,
+                  search: `?search=&page=1&pageSize=10`,
                 }}
-                
-          
+                         
                 >{data?.threadName}</Link>
               ),
             },
@@ -129,18 +129,31 @@ export const entityRouter = [
                     element:  <Tasks NameModule="entities" tasksWithBm = "true" />,
                     handle: {
                       crumb: (data) => (
-                        <Link to={data?.threadPath}>{data?.threadName}</Link>
+                        <Link   to={{
+                          pathname: data?.threadPath,
+                          search: `?search=&page=1&pageSize=10`,
+                        }}>{data?.threadName}</Link>
+                       
                       ),
                     },
                   },
                   {
                     path: "documents",
                     element: <MeetingWiseDocuments belongsTo ="boardMeeting" />,
-                    // loader: attachmentsLoader,
+                    loader: MeetingWiseloader,
                     // action : uploadAttachmentActions,
+                    // handle: {
+                    //   crumb: (data) => (
+                    //     <Link to=""> Attachments</Link>
+                    //   ),
+                    // },
                     handle: {
                       crumb: (data) => (
-                        <Link to=""> Attachments</Link>
+                        <Link   to={{
+                          pathname: data?.threadPath,
+                          // search: `?search=&page=1&pageSize=10`,
+                        }}>Attachments</Link>
+                       
                       ),
                     },
                   },
@@ -152,8 +165,15 @@ export const entityRouter = [
           {
             path: "documents",
             element: <Documents  belongsTo ="entity"  />,
+            loader: Documentsloader,
             handle: {
-              crumb: () => <Link to="">Attachments</Link>,
+              crumb: (data) => (
+                <Link   to={{
+                  pathname: data?.threadPath,
+                  // search: `?search=&page=1&pageSize=10`,
+                }}>Attachments</Link>
+               
+              ),
             },
           },
         ],

@@ -547,17 +547,17 @@ function BoardMeetingForm() {
         console.log("data is 201");
         if (boardmeetingFor === "user") {
           navigate(
-            `/users/${boardmeetingForID}/userboardmeetings/${response.data}/tasks`
+            `/users/${boardmeetingForID}/userboardmeetings/${response.data}/tasks?search=&page=1&pageSize=10`
           );
         }
         if (boardmeetingFor === "entity") {
           navigate(
-            `/entities/${boardmeetingForID}/entityboardmeetings/${response.data}/tasks`
+            `/entities/${boardmeetingForID}/entityboardmeetings/${response.data}/tasks?search=&page=1&pageSize=10`
           );
         }
         if (boardmeetingFor === "team") {
           navigate(
-            `/teams/${boardmeetingForID}/teamboardmeetings/${response.data}/tasks`
+            `/teams/${boardmeetingForID}/teamboardmeetings/${response.data}/tasks?search=&page=1&pageSize=10`
           );
         }
       }
@@ -1464,7 +1464,7 @@ function BoardMeetingForm() {
                     {item.type === "multiselect" &&
                       item.inputname == "members" &&
                       item.field == "predefined" && (
-                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-2 mt-5">
+                        <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-2 mt-5">
                         {item.value && allboardMeetingMembers &&
                           Array.from({ length: showAllMembers }).map((_, index) => {
                             let UsersList = allboardMeetingMembers
@@ -1488,6 +1488,7 @@ function BoardMeetingForm() {
                                 key={index}
                               >
                                 {user ? (
+                          <>
                                   <>
                                     <h5
                                       style={{
@@ -1516,28 +1517,31 @@ function BoardMeetingForm() {
                                         title={`Name: ${user.name}\nEmail: ${user.email}\nDesignation: ${user.designation}`}
                                       >
                                         <div>
-                                          <p className="truncate w-64 text-sm">
+                                          <p className="truncate w-40 text-sm">
                                             {user.name}
                                           </p>
-                                          <p className="truncate w-64 text-sm">
+                                          <p className="truncate w-40 text-sm">
                                             {user.email}
                                           </p>
-                                          <p className="truncate w-64 text-sm">
+                                          <p className="truncate w-40 text-sm">
                                             {user.designation}
                                           </p>
                                         </div>
-                                        {index === showAllMembers - 1 &&
+                                     
+                                      </div>
+                                    </div>
+                                    
+                                  </>
+                                  {index === showAllMembers - 1 &&
                                           UsersList.length > showAllMembers && (
-                                            <span
+                                            <span   className="text-xs border border-gray-200 p-2 bg-orange-500 rounded-md text-white cursor-pointer"
                                               onClick={() =>
                                                 setShowAllMembers(UsersList.length)
                                               }
                                             >
-                                              +{UsersList.length - showAllMembers} more
+                                              +{UsersList.length - showAllMembers}more
                                             </span>
                                           )}
-                                      </div>
-                                    </div>
                                   </>
                                 ) : (
                                   <>

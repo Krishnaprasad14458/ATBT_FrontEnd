@@ -37,27 +37,30 @@ const Collaborators = ({ task, handleSubmit, meetingPermission }) => {
                   {collaborator?.name.split("")[0]}
                 </span>
                 {/* Remove icon */}
-                <span className="absolute top-0 left-4 p-1 hidden group-hover:flex items-center">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth="1.5"
-                    stroke="currentColor"
-                    className="w-6 h-6 text-white hover:bg-black cursor-pointer"
-                    onClick={
-                      meetingPermission.canUpdate
-                        ? () => handleRemoveCollaborator(collaborator.id)
-                        : null
-                    }
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M6 18 18 6M6 6l12 12"
-                    />
-                  </svg>
-                </span>
+
+                {meetingPermission.canUpdate && (
+                  <span className="absolute top-0 left-4 p-1 hidden group-hover:flex items-center">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth="1.5"
+                      stroke="currentColor"
+                      className="w-6 h-6 text-white hover:bg-black cursor-pointer"
+                      onClick={
+                        meetingPermission.canUpdate
+                          ? () => handleRemoveCollaborator(collaborator.id)
+                          : null
+                      }
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M6 18 18 6M6 6l12 12"
+                      />
+                    </svg>
+                  </span>
+                )}
               </div>
 
               <div className="absolute -top-5 bottom-0 right-4 ml-4 mt-2 w-52 h-20 p-2 bg-white border border-gray-200 shadow-lg rounded-lg opacity-0 pointer-events-none transition-opacity duration-300 ease-in-out transform translate-x-1/2 -translate-y-full group-hover:opacity-100 group-hover:-translate-y-full z-10 text-black">
@@ -160,25 +163,27 @@ const Collaborators = ({ task, handleSubmit, meetingPermission }) => {
 
         <p>
           {/* add collaborators icon */}
-         {meetingPermission.canUpdate && <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={1.5}
-            stroke="currentColor"
-            className="w-4 h-4 mt-2"
-            onClick={
-              meetingPermission.canUpdate
-                ? () => setIsCollaboratorsEditing(!isCollaboratorsEditing)
-                : null
-            }
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M12 4.5v15m7.5-7.5h-15"
-            />
-          </svg>}
+          {meetingPermission.canUpdate && (
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="w-4 h-4 mt-2"
+              onClick={
+                meetingPermission.canUpdate
+                  ? () => setIsCollaboratorsEditing(!isCollaboratorsEditing)
+                  : null
+              }
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M12 4.5v15m7.5-7.5h-15"
+              />
+            </svg>
+          )}
         </p>
       </div>
     </div>

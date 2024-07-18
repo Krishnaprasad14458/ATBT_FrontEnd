@@ -18,15 +18,14 @@ import {
 import Select from "react-select";
 import TaskOverview from "./TaskOverview";
 import atbtApi from "../../../serviceLayer/interceptor";
-import { caseLetter, debounce, getCurrentDate } from "../../../utils/utils";
+import { caseLetter, debounce, getCurrentDate, truncateText } from "../../../utils/utils";
 import GateKeeper from "../../../rbac/GateKeeper";
 import { AuthContext } from "../../../contexts/authContext/authContext";
 import TasksFilter from "../tableCustomization/TasksFilter";
-
 import { toast } from "react-toastify";
-
 import mailsent from "../../../assets/Images/mailsent.svg";
 import { PermissionsContext } from "../../../rbac/PermissionsProvider";
+import Swal from "sweetalert2";
 
 let status = [
   { label: "To-Do", value: "To-Do" },
@@ -135,7 +134,7 @@ export async function tasksLoader({ request, params }) {
       threadName: params.BMid ? ` Decisions` : `Decisions`,
       threadPath: params.BMid
         ? `/${parentPath}/${params.id}/${params.boardmeetings}/${params.BMid}/tasks`
-        : `/${parentPath}/${params.id}/tasks/To-Do`,
+        : `/${parentPath}/${params.id}/tasks/runningdecisions`,
       threadPathForOutsideBM: `/boardmeetings/${params.BMid}/tasks`,
     };
 
@@ -381,6 +380,7 @@ export async function TasksActions({ request, params }) {
 const Tasks = () => {
   const { authState } = useContext(AuthContext);
   const { permissions, loading } = useContext(PermissionsContext);
+  console.log("first permissions", permissions);
 
   let meetingPermission = permissions?.find(
     (permission) => permission.module === "task"
@@ -445,6 +445,7 @@ const Tasks = () => {
   const [overViewTask, setOverViewTask] = useState(false);
   const [displayOverviewTask, setDisplayOverviewTask] = useState(false);
   const [displayOverviewSubTask, setDisplayOverviewSubTask] = useState(false);
+
   const handleOverViewTask = (taskId) => {
     setOverViewTask(!overViewTask);
     setDisplayOverviewTask(!displayOverviewTask);
@@ -531,19 +532,49 @@ const Tasks = () => {
     });
   }
 
-  const handleDeleteTask = async (deleteId) => {
-    let UpdateData = {
-      id: deleteId,
-      type: "DELETE_TASK",
-    };
+  // const handleDeleteTask = async (deleteId) => {
+  //   let UpdateData = {
+  //     id: deleteId,
+  //     type: "DELETE_TASK",
+  //   };
 
-    try {
-      fetcher.submit(UpdateData, {
-        method: "DELETE",
-        encType: "application/json",
-      });
-    } catch (error) {
-      console.log(error, "which error");
+  //   try {
+  //     fetcher.submit(UpdateData, {
+  //       method: "DELETE",
+  //       encType: "application/json",
+  //     });
+  //   } catch (error) {
+  //     console.log(error, "which error");
+  //   }
+  // };
+  const handleDeleteTask = async (deleteId) => {
+    const confirmDelete = await Swal.fire({
+      title: "Are you sure?",
+      text: "Once the Decision is deleted, you cannot revert it back.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#ea580c",
+      cancelButtonColor: "#fff",
+      confirmButtonText: "Delete",
+      customClass: {
+        popup: "custom-swal2-popup",
+        title: "custom-swal2-title",
+        content: "custom-swal2-content",
+      },
+    });
+    if (confirmDelete.isConfirmed) {
+      let UpdateData = {
+        id: deleteId,
+        type: "DELETE_TASK",
+      };
+      try {
+        fetcher.submit(UpdateData, {
+          method: "DELETE",
+          encType: "application/json",
+        });
+      } catch (error) {
+        console.log(error, "which error");
+      }
     }
   };
   const handleSendComment = async () => {
@@ -646,6 +677,52 @@ const Tasks = () => {
 
   console.log("mailSending", mailSending);
 
+  const [maxMenuHeight, setMaxMenuHeight] = useState(getMaxMenuHeight());
+
+  function getMaxMenuHeight() {
+    if (window.matchMedia("(max-width: 639px)").matches) {
+      return 150; // Small screens
+    } else if (
+      window.matchMedia("(min-width: 640px) and (max-width: 1023px)").matches
+    ) {
+      return 250; // Medium screens
+    } else {
+      return 350; // Large screens and above
+    }
+  }
+ 
+
+  useEffect(() => {
+    const handleResize = () => {
+      setMaxMenuHeight(getMaxMenuHeight());
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
+  const handleBulkSendMail = async () => {
+    await sendBulkMail(BMid);
+  };
+
+  const sendBulkMail = async (id) => {
+    toast.promise(atbtApi.post(`send-emails/${id}`), {
+      pending: "Sending Mails...",
+      success: {
+        render({ data }) {
+          // let formData = {
+          //   arrayOfObjects: customForm,
+          // };
+
+          return `Mails Sent`;
+        },
+      },
+      error: "Unable to send mails 🤯",
+    });
+  };
+
   return (
     <div className={` ${parentPath === "tasks" ? "p-3" : ""}`}>
       <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-col-4 items-center gap-2 mt-2">
@@ -654,9 +731,10 @@ const Tasks = () => {
             <p className="text-md font-semibold">Decisions</p>
           )}
         </div>
-
-        <div className="col-span-1 text-start">
-          {/* <div className="relative">
+ {parentPath === "tasks" && (
+  <>
+      <div className="col-span-1 text-start">
+          <div className="relative">
             <div className="absolute inset-y-0 start-0 flex items-center p-3 pointer-events-none">
               <svg
                 className="w-3 h-3 text-gray-500 dark:text-gray-400"
@@ -680,16 +758,16 @@ const Tasks = () => {
               type="search"
               id="default-search"
               className="block w-full px-4 py-2 ps-8 text-sm border-2 border-gray-200  rounded-2xl bg-gray-50  focus:outline-none placeholder:text-sm"
-              placeholder="Search here..."
+              placeholder="Search here with initial decision taken..."
               required
             />
-          </div> */}
-        </div>
+          </div>
+        </div> 
 
-        {parentPath === "tasks" && (
+       
           <div className="col-span-2 ">
             <div className=" md:flex gap-2 items-center md:justify-end">
-              <label className="text-sm text-gray-400"> From:</label>
+              <label className="text-sm text-gray-400">Duedate&nbsp;From&nbsp;:</label>
 
               <input
                 className=" border border-gray-200 text-black px-1.5 py-2 rounded-md bg-[#f9fafb] focus:outline-none text-sm focus:border-orange-400 date_type w-full"
@@ -709,7 +787,7 @@ const Tasks = () => {
                   // handleTaskChange(index, "dueDate", e.target.value);
                 }}
               />
-              <label className="text-sm text-gray-400"> To:</label>
+              <label className="text-sm text-gray-400">Duedate&nbsp;To&nbsp;:</label>
               <input
                 className=" border border-gray-200 text-black px-1.5 py-2 rounded-md  bg-[#f9fafb] focus:outline-none text-sm focus:border-orange-400 date_type w-full"
                 type="date"
@@ -760,35 +838,93 @@ const Tasks = () => {
               </div>
             </div>
           </div>
-        )}
+          </>  )}
       </div>
 
-      <div className="flex justify-end">
+      <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-3 xl:grid-cols-3 lg:grid-cols-3  items-center">
+        <div className="col-span-1 "></div>
         {BMid &&
-          (parentPath === "users" ||
-            parentPath === "entities" ||
-            parentPath === "teams") && (
-            <GateKeeper
-              permissionCheck={(permission) =>
-                permission.module === "task" && permission.canCreate
-              }
-            >
-              <button
-                className=" ms-2  mt-3 inline-flex items-center  whitespace-nowrap rounded-2xl text-sm font-medium  transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50  text-orange-foreground shadow hover:bg-orange/90 h-9 px-3 py-1 shrink-0 bg-orange-600 text-white gap-1"
-                onClick={handleAddNewTask}
+              (parentPath === "users" ||
+                parentPath === "entities" ||
+                parentPath === "teams") && (
+               
+                
+        <div className="col-span-1 ">
+          <div className="relative">
+            <div className="absolute inset-y-0 start-0 flex items-center p-3 pointer-events-none">
+              <svg
+                className="w-3 h-3 text-gray-500 dark:text-gray-400"
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 20 20"
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                  className="w-5 h-5"
+                <path
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
+                />
+              </svg>
+            </div>
+            <input
+              onChange={handleSearch}
+              value={Qparams?.search}
+              type="search"
+              id="default-search"
+              className="block w-full px-4 py-2 ps-8 text-sm border-2 border-gray-200  rounded-2xl bg-gray-50  focus:outline-none placeholder:text-sm"
+              placeholder="Search here with initial decision taken..."
+              required
+            />
+          </div>
+        </div>
+                )}
+        <div className="col-span-1 ">
+          <div className="flex justify-end">
+            {BMid &&
+              (parentPath === "users" ||
+                parentPath === "entities" ||
+                parentPath === "teams") && (
+                <GateKeeper
+                  permissionCheck={(permission) =>
+                    permission.module === "task" && permission.canCreate
+                  }
                 >
-                  <path d="M10.75 4.75a.75.75 0 0 0-1.5 0v4.5h-4.5a.75.75 0 0 0 0 1.5h4.5v4.5a.75.75 0 0 0 1.5 0v-4.5h4.5a.75.75 0 0 0 0-1.5h-4.5v-4.5Z" />
-                </svg>
-                Create
-              </button>
-            </GateKeeper>
-          )}
+                  <button
+                    className=" ms-2  mt-3 inline-flex items-center  whitespace-nowrap rounded-2xl text-sm font-medium  transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50  text-orange-foreground shadow hover:bg-orange/90 h-9 px-3 py-1 shrink-0 bg-orange-600 text-white gap-1"
+                    onClick={handleAddNewTask}
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                      className="w-5 h-5"
+                    >
+                      <path d="M10.75 4.75a.75.75 0 0 0-1.5 0v4.5h-4.5a.75.75 0 0 0 0 1.5h4.5v4.5a.75.75 0 0 0 1.5 0v-4.5h4.5a.75.75 0 0 0 0-1.5h-4.5v-4.5Z" />
+                    </svg>
+                    Create
+                  </button>
+                  <button
+                    className=" ms-2  mt-3 inline-flex items-center  whitespace-nowrap rounded-2xl text-sm font-medium  transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50  text-orange-foreground shadow hover:bg-orange/90 h-9 px-3 py-1 shrink-0 bg-orange-600 text-white gap-1"
+                    onClick={handleBulkSendMail}
+                  >
+                    <svg
+                      viewBox="0 0 24 24"
+                      stroke="white"
+                      fill="white"
+                      id="fi_10747263"
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="text-sm flex w-5 h-5 "
+                    >
+                      <path d="m19 1.75h-14c-2.07 0-3.75 1.68-3.75 3.75v10c0 2.07 1.68 3.75 3.75 3.75h3c.41 0 .75-.34.75-.75s-.34-.75-.75-.75h-3c-1.24 0-2.25-1.01-2.25-2.25v-9.66l8.35 5c.28.17.59.25.9.25s.62-.08.9-.25l8.35-5v7c0 .41.34.75.75.75s.75-.34.75-.75v-7.34c0-2.07-1.68-3.75-3.75-3.75zm-6.87 7.8c-.08.05-.17.05-.26 0l-8.77-5.25c.4-.63 1.1-1.05 1.9-1.05h14c.8 0 1.5.42 1.9 1.05zm10.4 8.42c.29.29.29.77 0 1.06l-3 3c-.15.15-.34.22-.53.22s-.38-.07-.53-.22c-.29-.29-.29-.77 0-1.06l1.72-1.72h-8.19c-.41 0-.75-.34-.75-.75s.34-.75.75-.75h8.19l-1.72-1.72c-.29-.29-.29-.77 0-1.06s.77-.29 1.06 0z"></path>
+                    </svg>
+                    Send Mail
+                  </button>
+                </GateKeeper>
+              )}
+          </div>
+        </div>
       </div>
       <div>
         <div className="flex overflow-x-auto my-2">
@@ -1045,16 +1181,16 @@ const Tasks = () => {
               >
                 Initial Decision Taken
               </th>
+              <th className="sticky top-0 z-10 bg-orange-600 text-white text-sm text-left px-2 py-2 border-l-2 border-gray-200 ">
+                Initial Date of Decision
+              </th>
               <th
                 className="sticky top-0 z-10  bg-orange-600 text-white text-sm text-left px-2 py-2 border-l-2 border-gray-200 "
-                style={{ width: "13rem" }}
+                style={{ width: "11rem" }}
               >
                 Person Responsible
               </th>
-              <th
-                className="sticky top-0 z-10 bg-orange-600 text-white text-sm text-left px-2 py-2 border-l-2 border-gray-200 "
-                style={{ width: "6rem" }}
-              >
+              <th className="sticky top-0 z-10 bg-orange-600 text-white text-sm text-left px-2 py-2 border-l-2 border-gray-200 ">
                 Due Date
               </th>
               <th className="sticky top-0 z-10 bg-orange-600 text-white text-sm text-left px-2 py-2 border-l-2 border-gray-200">
@@ -1071,6 +1207,12 @@ const Tasks = () => {
                 style={{ width: "15rem" }}
               >
                 Latest Decision Update
+              </th>
+              <th
+                className="sticky top-0  bg-orange-600 text-white text-sm text-left px-2 py-2 border-l-2 border-gray-200 "
+                style={{ width: "15rem" }}
+              >
+                Latest Decision Status
               </th>
               {/* <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2 border-l-2 border-gray-200">
                 Decision Updated of Admin
@@ -1093,12 +1235,22 @@ const Tasks = () => {
                 label: user.name,
                 value: user.id,
               }));
+              let Module = "";
+              if (task?.createdBy.name === "entities") {
+                Module = "Entity";
+              } else if (task?.createdBy.name === "teams") {
+                Module = "Team";
+              }
+              let updatedDecisionInPreviosMeeting = task?.taskStatus
+                ?.filter((status) => status.isDecisionUpdate === 1)
+                .map((date) => date.message)[0];
+              let updatedStatusInPreviosMeeting = task?.taskStatus
+                ?.filter((status) => status.isStatusUpdate === 1)
+                .map((date) => date.message)[0];
               return (
                 <tr key={task.id} className="border-b border-gray-200 ">
                   {parentPath === "tasks" && (
-                    <td className="border py-1 px-2 text-sm">
-                      {caseLetter(task?.createdBy.name)}
-                    </td>
+                    <td className="border py-1 px-2 text-sm">{Module}</td>
                   )}
                   {parentPath === "tasks" && (
                     <td className="border py-1 px-2 text-sm">
@@ -1142,7 +1294,7 @@ const Tasks = () => {
                             cursor: "pointer",
                           }}
                         >
-                          {task.decision}
+                           {task?.decision && truncateText(task.decision, 200)}
                         </p>
                       )}
                       <div className="flex">
@@ -1170,7 +1322,7 @@ const Tasks = () => {
                             xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 20 20"
                             fill="currentColor"
-                            className="w-4 h-4 hover:border hover:border-gray-500 hover:rounded-sm hover:bg-gray-100"
+                            className="w-6 h-6 hover:border hover:border-gray-500 hover:rounded-sm hover:bg-gray-100"
                           >
                             <path
                               fillRule="evenodd"
@@ -1182,7 +1334,35 @@ const Tasks = () => {
                       </div>
                     </div>
                   </td>
-
+                  <td className="border py-1 px-2">
+                    <input
+                      className=" border border-transparent text-black px-1.5 py-2 rounded-md  bg-[#f9fafb] focus:outline-none text-sm focus:border-orange-400  date_type"
+                      type="date"
+                      value={task?.dateOfDecision}
+                      style={{
+                        fontSize: "0.8rem",
+                        WebkitAppearance: "none",
+                      }}
+                      // min={getCurrentDate()}
+                      onChange={
+                        meetingPermission.canUpdate
+                          ? (e) => {
+                              handleSubmit(
+                                task?.id,
+                                "dateOfDecision",
+                                e.target.value
+                              );
+                              handleTaskChange(
+                                index,
+                                "dateOfDecision",
+                                e.target.value
+                              );
+                            }
+                          : null
+                      }
+                      disabled={!meetingPermission.canUpdate}
+                    />
+                  </td>
                   <td className="border py-1 px-2">
                     <Select
                       isDisabled={!meetingPermission.canUpdate}
@@ -1214,7 +1394,7 @@ const Tasks = () => {
                           "&:focus-within": {
                             borderColor: "#fb923c",
                           },
-                          width: "13rem",
+                          width: "11rem",
                         }),
 
                         option: (provided, state) => ({
@@ -1282,7 +1462,7 @@ const Tasks = () => {
                             )
                       }
                       menuPlacement="auto"
-                      maxMenuHeight={150}
+                      maxMenuHeight={maxMenuHeight}
                       // closeMenuOnSelect={()=> true}
                       // menuIsOpen = {()=> true}
                     />
@@ -1296,7 +1476,7 @@ const Tasks = () => {
                         fontSize: "0.8rem",
                         WebkitAppearance: "none",
                       }}
-                      min={getCurrentDate()}
+                      // min={getCurrentDate()}
                       onChange={
                         meetingPermission.canUpdate
                           ? (e) => {
@@ -1319,104 +1499,78 @@ const Tasks = () => {
                   <td className="border py-1 px-2 text-sm" title={task?.status}>
                     {task?.status}
 
-                    {/* <Select
-                      options={status}
-                      menuPortalTarget={document.body}
-                      closeMenuOnScroll={() => true}
-                      styles={{
-                        control: (provided, state) => ({
-                          ...provided,
-                          backgroundColor: "#f9fafb",
-                          borderWidth: "1px",
-                          borderColor: state.isFocused
-                            ? "#orange-400"
-                            : "transparent", // Changed borderColor
-                          boxShadow: state.isFocused
-                            ? "none"
-                            : provided.boxShadow,
-                          fontSize: "16px",
-                          height: "36px", // Adjust the height here
-                          "&:hover": {
-                            borderColor: state.isFocused
-                              ? "#fb923c"
-                              : "transparent",
-                          },
-                          "&:focus": {
-                            borderColor: "#fb923c",
-                          },
-                          "&:focus-within": {
-                            borderColor: "#fb923c",
-                          },
-                          width: "8rem",
-                        }),
-                        option: (provided, state) => ({
-                          ...provided,
-                          color: state.isFocused ? "#fff" : "#000000",
-                          backgroundColor: state.isFocused
-                            ? "#ea580c"
-                            : "transparent",
-                          "&:hover": {
-                            color: "#fff",
-                            backgroundColor: "#ea580c",
-                          },
-                        }),
-                        indicatorSeparator: (provided, state) => ({
-                          ...provided,
-                          display: state.isFocused ? "visible" : "none",
-                        }),
-                        dropdownIndicator: (provided, state) => ({
-                          ...provided,
-                          display: state.isFocused ? "visible" : "none",
-                        }),
-                      }}
-                      theme={(theme) => ({
-                        ...theme,
-                        borderRadius: 5,
-                        colors: {
-                          ...theme.colors,
-                          primary: "#fb923c",
-                        },
-                      })}
-                      onChange={(selectedOption) => {
-                        handleSubmit(task?.id, "status", selectedOption.value);
-                        handleTaskChange(index, "status", selectedOption.value);
-                      }}
-                      classNamePrefix="select"
-                      value={{ label: task?.status, value: task?.status }}
-                      menuPlacement="auto"
-                    /> */}
                   </td>
-                  <td className="border py-1 px-2 text-sm text-gray-600 ">
+                  <td className="border py-1 px-2 text-sm">
+                  {updatedDecisionInPreviosMeeting && truncateText(updatedDecisionInPreviosMeeting, 100)}
+                    {/* {updatedDecisionInPreviosMeeting} */}
+                  </td>
+                  <td className="border py-1 px-2 text-sm">
+                  {updatedStatusInPreviosMeeting && truncateText(updatedStatusInPreviosMeeting, 100)}
+                    {/* {updatedStatusInPreviosMeeting} */}
+                  </td>
+                  {/* <td className="border py-1 px-2 text-sm text-gray-600 ">
                     {task?.updatedbyuser}
-                  </td>
+                  </td> */}
                   {(authState?.user?.role === "super admin" ||
                     authState?.user?.role === "Super Admin" ||
                     authState?.user?.role === "admin" ||
                     authState?.user?.role === "Admin") && (
-                    <td className="border py-1 px-2 text-sm text-gray-600 ">
-                      <button title="Sent Mail">
-                        <svg
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                          id="fi_10747263"
-                          xmlns="http://www.w3.org/2000/svg"
-                          className={`text-sm flex  w-5 h-5  ${
-                            mailSending && mailSendingId === task?.id
-                              ? "text-gray-400 cursor-not-allowed"
-                              : "hover:text-orange-500 cursor-pointer"
-                          }`}
-                          onClick={() => {
-                            if (!mailSending) {
-                              handleSendMail(task?.id);
-
-                              setMailSendingId(task?.id);
-                            }
-                          }}
+                    <td className="border py-1 px-2 text-sm text-gray-600  ">
+                      <div className="flex  gap-4">
+                        <GateKeeper
+                          permissionCheck={(permission) =>
+                            permission.module === "task" && permission.canCreate
+                          }
                         >
-                          <path d="m19 1.75h-14c-2.07 0-3.75 1.68-3.75 3.75v10c0 2.07 1.68 3.75 3.75 3.75h3c.41 0 .75-.34.75-.75s-.34-.75-.75-.75h-3c-1.24 0-2.25-1.01-2.25-2.25v-9.66l8.35 5c.28.17.59.25.9.25s.62-.08.9-.25l8.35-5v7c0 .41.34.75.75.75s.75-.34.75-.75v-7.34c0-2.07-1.68-3.75-3.75-3.75zm-6.87 7.8c-.08.05-.17.05-.26 0l-8.77-5.25c.4-.63 1.1-1.05 1.9-1.05h14c.8 0 1.5.42 1.9 1.05zm10.4 8.42c.29.29.29.77 0 1.06l-3 3c-.15.15-.34.22-.53.22s-.38-.07-.53-.22c-.29-.29-.29-.77 0-1.06l1.72-1.72h-8.19c-.41 0-.75-.34-.75-.75s.34-.75.75-.75h8.19l-1.72-1.72c-.29-.29-.29-.77 0-1.06s.77-.29 1.06 0z"></path>
-                        </svg>
-                        {/* Email */}
-                      </button>
+                          <button title="Sent Mail">
+                            <svg
+                              viewBox="0 0 24 24"
+                              stroke="currentColor"
+                              id="fi_10747263"
+                              xmlns="http://www.w3.org/2000/svg"
+                              className={`text-sm flex  w-5 h-5  ${
+                                mailSending && mailSendingId === task?.id
+                                  ? "text-gray-400 cursor-not-allowed"
+                                  : "hover:text-orange-500 cursor-pointer"
+                              }`}
+                              onClick={() => {
+                                if (!mailSending) {
+                                  handleSendMail(task?.id);
+
+                                  setMailSendingId(task?.id);
+                                }
+                              }}
+                            >
+                              <path d="m19 1.75h-14c-2.07 0-3.75 1.68-3.75 3.75v10c0 2.07 1.68 3.75 3.75 3.75h3c.41 0 .75-.34.75-.75s-.34-.75-.75-.75h-3c-1.24 0-2.25-1.01-2.25-2.25v-9.66l8.35 5c.28.17.59.25.9.25s.62-.08.9-.25l8.35-5v7c0 .41.34.75.75.75s.75-.34.75-.75v-7.34c0-2.07-1.68-3.75-3.75-3.75zm-6.87 7.8c-.08.05-.17.05-.26 0l-8.77-5.25c.4-.63 1.1-1.05 1.9-1.05h14c.8 0 1.5.42 1.9 1.05zm10.4 8.42c.29.29.29.77 0 1.06l-3 3c-.15.15-.34.22-.53.22s-.38-.07-.53-.22c-.29-.29-.29-.77 0-1.06l1.72-1.72h-8.19c-.41 0-.75-.34-.75-.75s.34-.75.75-.75h8.19l-1.72-1.72c-.29-.29-.29-.77 0-1.06s.77-.29 1.06 0z"></path>
+                            </svg>
+                            {/* Email */}
+                          </button>
+                        </GateKeeper>
+
+                        <button title="Delete">
+                          <GateKeeper
+                            permissionCheck={(permission) =>
+                              permission.module === "task" &&
+                              permission.canDelete
+                            }
+                          >
+                            <svg
+                              onClick={() => handleDeleteTask(task.id)}
+                              xmlns="http://www.w3.org/2000/svg"
+                              viewBox="0 0 20 20"
+                              fill="currentColor"
+                              class="w-5 h-5 cursor-pointer hover:text-orange-500"
+                            >
+                              <path
+                                fill-rule="evenodd"
+                                d="M8.75 1A2.75 2.75 0 0 0 6 3.75v.443c-.795.077-1.584.176-2.365.298a.75.75 0 1 0 .23 1.482l.149-.022.841 10.518A2.75 2.75 0 0 0 7.596 19h4.807a2.75 2.75 0 0 0 2.742-2.53l.841-10.52.149.023a.75.75 0 0 0 .23-1.482A41.03 41.03 0 0 0 14 4.193V3.75A2.75 2.75 0 0 0 11.25 1h-2.5ZM10 4c.84 0 1.673.025 2.5.075V3.75c0-.69-.56-1.25-1.25-1.25h-2.5c-.69 0-1.25.56-1.25 1.25v.325C8.327 4.025 9.16 4 10 4ZM8.58 7.72a.75.75 0 0 0-1.5.06l.3 7.5a.75.75 0 1 0 1.5-.06l-.3-7.5Zm4.34.06a.75.75 0 1 0-1.5-.06l-.3 7.5a.75.75 0 1 0 1.5.06l.3-7.5Z"
+                                clip-rule="evenodd"
+                              />
+                            </svg>
+                          </GateKeeper>
+                        </button>
+                      </div>
+
                       {/* <svg
                         xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 20 20"
@@ -1439,21 +1593,6 @@ const Tasks = () => {
                       </svg> */}
                     </td>
                   )}
-                  {/* <td className="border py-1.5 px-3 text-sm text-gray-600 cursor-pointer" style={{width :"3rem"}} >
-                    <svg
-                      onClick={() => handleDeleteTask(task.id)}
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                      class="w-5 h-5"
-                    >
-                      <path
-                        fill-rule="evenodd"
-                        d="M8.75 1A2.75 2.75 0 0 0 6 3.75v.443c-.795.077-1.584.176-2.365.298a.75.75 0 1 0 .23 1.482l.149-.022.841 10.518A2.75 2.75 0 0 0 7.596 19h4.807a2.75 2.75 0 0 0 2.742-2.53l.841-10.52.149.023a.75.75 0 0 0 .23-1.482A41.03 41.03 0 0 0 14 4.193V3.75A2.75 2.75 0 0 0 11.25 1h-2.5ZM10 4c.84 0 1.673.025 2.5.075V3.75c0-.69-.56-1.25-1.25-1.25h-2.5c-.69 0-1.25.56-1.25 1.25v.325C8.327 4.025 9.16 4 10 4ZM8.58 7.72a.75.75 0 0 0-1.5.06l.3 7.5a.75.75 0 1 0 1.5-.06l-.3-7.5Zm4.34.06a.75.75 0 1 0-1.5-.06l-.3 7.5a.75.75 0 1 0 1.5.06l.3-7.5Z"
-                        clip-rule="evenodd"
-                      />
-                    </svg>
-                  </td> */}
                 </tr>
               );
             })}

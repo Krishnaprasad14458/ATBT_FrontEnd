@@ -58,7 +58,7 @@ const TeamsLandingPage = () => {
         )}
         {BMid && (
           <NavLink
-            to={`teamboardmeetings/${BMid}/tasks`}
+            to={`teamboardmeetings/${BMid}/tasks?search=&page=1&pageSize=10`}
             end
             isActive={(match, location) =>
               match ||

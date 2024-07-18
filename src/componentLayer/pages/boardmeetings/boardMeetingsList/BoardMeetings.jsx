@@ -15,7 +15,7 @@ import CustomFilter from "../../../components/tableCustomization/CustomFilter";
 import atbtApi from "../../../../serviceLayer/interceptor";
 import BreadCrumbs from "../../../components/breadcrumbs/BreadCrumbs";
 let moduleOptions = [
-  { label: "User", value: "user" },
+  // { label: "User", value: "user" },
   { label: "Entity", value: "entity" },
   { label: "Team", value: "team" },
 ];
@@ -555,7 +555,6 @@ function BoardMeetings() {
                         value = row[key].join(", ");
                       }
                       if (tableView[key].type === "date" && row[key]) {
-
                         value = dateFormat(row[key])
                       }
                       if (key === "meetingnumber") {
@@ -572,7 +571,7 @@ function BoardMeetings() {
                                 permission.canRead
                               }
                             >
-                              <Link to={`${row.id}/tasks`}>
+                              <Link to={`${row.id}/tasks?search=&page=1&pageSize=10`}>
                                 <p className="truncate text-xs"> {value}</p>
                               </Link>
                             </GateKeeper>

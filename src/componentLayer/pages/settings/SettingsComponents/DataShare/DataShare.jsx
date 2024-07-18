@@ -2,6 +2,7 @@ import { React, useEffect, useState, useContext } from "react";
 import { Link, useLoaderData, useFetcher } from "react-router-dom";
 import atbtApi from "../../../../../serviceLayer/interceptor";
 import Swal from "sweetalert2";
+import GateKeeper from "../../../../../rbac/GateKeeper";
 export async function DataShareloader() {
   try {
     const [dataShare] = await Promise.all([atbtApi.get(`access/view`)]);
@@ -93,6 +94,11 @@ const DataShare = () => {
           </div> */}
         </div>
         <div className="grid1-item  sm:text-start md:text-end lg:text-end xl:text-end flex justify-end gap-3">
+        <GateKeeper
+                       permissionCheck={(permission) =>
+                         permission.module === "setting" && permission.canCreate
+                       }
+                     >
           <Link to="adddatashare">
             <button className="mt-1 px-3 py-2 inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white ">
               <svg
@@ -106,6 +112,8 @@ const DataShare = () => {
               Add
             </button>
           </Link>
+          </GateKeeper>
+
           <Link to="/settings">
             <button className="mt-1 px-3 py-2 inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground shadow hover:bg-primary/90 shrink-0 text-white ">
           Back

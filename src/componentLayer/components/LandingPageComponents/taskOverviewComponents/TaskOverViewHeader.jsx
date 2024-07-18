@@ -15,6 +15,7 @@ const TaskOverViewHeader = ({
   setOverViewTask,
   setDisplayOverviewTask,
   setDisplayOverviewSubTask,
+  setUpdateDecisionToggle
 }) => {
   // const isSmallScreen = useMediaQuery({ query: '(max-width: 768px)' });
   return (
@@ -37,13 +38,19 @@ const TaskOverViewHeader = ({
             option: (provided, state) => ({
               ...provided,
               color: state.isFocused ? "#fff" : "#000000",
-              backgroundColor: state.isFocused ? "#ea580c" : "transparent",
+              fontSize: "12px",
+              cursor:"pointer",
+              backgroundColor: state.isFocused
+                ? "#ea580c"
+                : "transparent",
+
               "&:hover": {
                 color: "#fff",
                 backgroundColor: "#ea580c",
               },
-              fontSize: "16px",
             }),
+           
+        
           }}
           theme={(theme) => ({
             ...theme,
@@ -154,6 +161,7 @@ const TaskOverViewHeader = ({
               setDisplayOverviewTask(false);
               setDisplayOverviewSubTask(false);
               setOverViewTask(!overViewTask);
+              setUpdateDecisionToggle(false)
               let updatedQparams = { ...Qparams };
               delete updatedQparams.taskID;
               delete updatedQparams.subTaskID;

@@ -130,6 +130,10 @@ function ChangePassword() {
             </h2>
           </div>
 
+
+
+
+
           <div className="mt-4 sm:mx-auto sm:w-full sm:max-w-sm px-8 pb-8">
             <form className="space-y-2" action="#" method="POST">
               {authState?.user?.id && authState?.token && (
