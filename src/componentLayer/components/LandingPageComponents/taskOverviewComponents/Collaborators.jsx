@@ -86,9 +86,10 @@ const Collaborators = ({ task, handleSubmit, meetingPermission }) => {
             </div>
           ))}
 
-        {isCollaboratorsEditing && (
+        {meetingPermission.canUpdate  && (
           <Select
             options={members}
+            value ={null}
             styles={{
               control: (provided, state) => ({
                 ...provided,
@@ -163,7 +164,7 @@ const Collaborators = ({ task, handleSubmit, meetingPermission }) => {
 
         <p>
           {/* add collaborators icon */}
-          {meetingPermission.canUpdate && (
+          {/* {meetingPermission.canUpdate && (
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -183,7 +184,7 @@ const Collaborators = ({ task, handleSubmit, meetingPermission }) => {
                 d="M12 4.5v15m7.5-7.5h-15"
               />
             </svg>
-          )}
+          )} */}
         </p>
       </div>
     </div>
