@@ -1496,7 +1496,74 @@ const Tasks = () => {
                     {task?.age}{" "}
                   </td>
                   <td className="border py-1 px-2 text-sm" title={task?.status}>
-                    {task?.status}
+            
+                    <Select
+                      options={status}
+                      menuPortalTarget={document.body}
+                      closeMenuOnScroll={() => true}
+                      styles={{
+                        control: (provided, state) => ({
+                          ...provided,
+                          backgroundColor: "#f9fafb",
+                          borderWidth: "1px",
+                          borderColor: state.isFocused
+                            ? "#orange-400"
+                            : "transparent", // Changed borderColor
+                          boxShadow: state.isFocused
+                            ? "none"
+                            : provided.boxShadow,
+                          fontSize: "16px",
+                          height: "36px", // Adjust the height here
+                          "&:hover": {
+                            borderColor: state.isFocused
+                              ? "#fb923c"
+                              : "transparent",
+                          },
+                          "&:focus": {
+                            borderColor: "#fb923c",
+                          },
+                          "&:focus-within": {
+                            borderColor: "#fb923c",
+                          },
+                          width: "8rem",
+                        }),
+                        option: (provided, state) => ({
+                          ...provided,
+                          color: state.isFocused ? "#fff" : "#000000",
+                          backgroundColor: state.isFocused
+                            ? "#ea580c"
+                            : "transparent",
+                          "&:hover": {
+                            color: "#fff",
+                            backgroundColor: "#ea580c",
+                          },
+                        }),
+                        indicatorSeparator: (provided, state) => ({
+                          ...provided,
+                          display: state.isFocused ? "visible" : "none",
+                        }),
+                        dropdownIndicator: (provided, state) => ({
+                          ...provided,
+                          display: state.isFocused ? "visible" : "none",
+                        }),
+                      }}
+                      theme={(theme) => ({
+                        ...theme,
+                        borderRadius: 5,
+                        colors: {
+                          ...theme.colors,
+                          primary: "#fb923c",
+                        },
+                      })}
+                      onChange={(selectedOption) => {
+                        handleSubmit(task?.id, "status", selectedOption.value);
+                        handleTaskChange(index, "status", selectedOption.value);
+                      }}
+                      classNamePrefix="select"
+                      value={{ label: task?.status, value: task?.status }}
+                      menuPlacement="auto"
+                    />
+          
 
                   </td>
                   <td className="border py-1 px-2 text-sm">

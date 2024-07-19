@@ -442,7 +442,7 @@ const AddRoles = () => {
       console.log(permission , "perksdnfsdfds")
       const result = await toast.promise(
         axios.post(
-          'https://atbtbeta.infozit.com/rbac/create-role',
+          'https://atbtmain.infozit.com/rbac/create-role',
           // 'http://localhost:3000/rbac/create-role',
           {
             ...permission,
@@ -483,7 +483,7 @@ const AddRoles = () => {
     if (!!response?.response?.id) {
       const result = await toast.promise(
         axios.put(
-          `https://atbtbeta.infozit.com/rbac/update-role/${response?.response?.id}`,
+          `https://atbtmain.infozit.com/rbac/update-role/${response?.response?.id}`,
           {
             ...permission,
           },

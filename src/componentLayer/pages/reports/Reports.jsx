@@ -7,9 +7,9 @@ import { debounce } from "../../../utils/utils";
 import { useReactToPrint } from "react-to-print";
 
 let reportType = [
-  { label: "ATBT", value: "To-Do" },
+  // { label: "ATBT", value: "To-Do" },
+  { label: "ATBT", value: "Master" },
   { label: "ATR", value: "In-Progress" },
-  { label: "ATBT MASTER", value: "Master" },
 ];
 
 let moduleList = [
@@ -40,22 +40,22 @@ export async function loader({ request, params }) {
       meetingId !== "all" && reportType !== "Master"
         ? atbtApi.get(`task/list?meetingId=${meetingId}&status=${reportType}`)
         : meetingId !== "all" && reportType === "Master"
-          ? atbtApi.get(`task/list?meetingId=${meetingId}`)
-          : meetingId === "all" && reportType !== "Master"
-            ? atbtApi.get(`task/list?${idOF}=${listID}&status=${reportType}`)
-            : meetingId === "all" && reportType === "Master"
-              ? atbtApi.get(`task/list?${idOF}=${listID}`)
-              : null,
+        ? atbtApi.get(`task/list?meetingId=${meetingId}`)
+        : meetingId === "all" && reportType !== "Master"
+        ? atbtApi.get(`task/list?${idOF}=${listID}&status=${reportType}`)
+        : meetingId === "all" && reportType === "Master"
+        ? atbtApi.get(`task/list?${idOF}=${listID}`)
+        : null,
       moduleName === "user"
         ? atbtApi.post(`public/list/user`)
         : moduleName === "entity"
-          ? atbtApi.post(`public/list/entity`)
-          : moduleName === "team"
-            ? atbtApi.post(`public/list/team`)
-            : null,
+        ? atbtApi.post(`public/list/entity`)
+        : moduleName === "team"
+        ? atbtApi.post(`public/list/team`)
+        : null,
       moduleName &&
-      listID &&
-      atbtApi.get(`boardmeeting/list?${moduleName}=${listID}`),
+        listID &&
+        atbtApi.get(`boardmeeting/list?${moduleName}=${listID}`),
     ]);
     console.log("selectedModuleList890", reportsData);
     let selectedModuleLists;
@@ -150,7 +150,7 @@ function Reports() {
 
   const headersAtbt = [
     { label: "S.NO", key: "serialNO" },
-    { label: "Date of Board meeting", key: "date" },
+    // { label: "Date of Board meeting", key: "date" },
     { label: "Initial Date of Decision", key: "dateOfDecision" },
     { label: "Initial Decision Taken", key: "decision" },
     { label: "Person Responsible for implementation", key: "initialPerson" },
@@ -161,45 +161,45 @@ function Reports() {
 
   const headerMaster = [
     { label: "S.NO", key: "serialNO" },
-    { label: "Date of Board meeting", key: "date" },
+    // { label: "Date of Board meeting", key: "date" },
     { label: "Initial Date of Decision", key: "dateOfDecision" },
     { label: "Initial Decision Taken", key: "decision" },
     { label: "Person Responsible for implementation", key: "initialPerson" },
-    { label: "Date of Previous meeting", key: "dateOfPreviosMeeting" },
+    { label: "Collabarators", key: "colabrators" },
+    { label: "Date of Latest meeting", key: "dateOfPreviosMeeting" },
     {
-      label: "Updated decision in previous meeting",
+      label: "Updated decision in Latest meeting",
       key: "updatedDecisionInPreviosMeeting",
     },
     { label: "Updated Person Responsible", key: "updatedPerson" },
     { label: "DueDate", key: "dueDate" },
-    { label: "Status as on", key: "statusAsOn" },
-    { label: "Status", key: "status" },
+    // { label: "Status as on", key: "statusAsOn" },
+    // { label: "Status", key: "status" },
     { label: "Ageing of the Decision as per Latest Board Meeting", key: "age" },
-    { label: "Collabarators", key: "colabrators" },
-    { label: "Meeting ID", key: "meetingNumber" },
-
+    // { label: "Meeting ID", key: "meetingNumber" },
   ];
 
   const headerATR = [
     { label: "S.NO", key: "serialNO" },
-    { label: "Date of Board meeting", key: "date" },
+    // { label: "Date of Board meeting", key: "date" },
     { label: "Initial Date of Decision", key: "dateOfDecision" },
     { label: "Initial Decision Taken", key: "decision" },
     { label: "Person Responsible for implementation", key: "initialPerson" },
-    { label: "Date of Previous meeting", key: "dateOfPreviosMeeting" },
+    { label: "Collabarators", key: "colabrators" },
+
+    { label: "Date of Latest meeting", key: "dateOfPreviosMeeting" },
     {
-      label: "Updated decision in previous meeting",
+      label: "Updated decision in Latest meeting",
       key: "updatedDecisionInPreviosMeeting",
     },
     { label: "Updated Person Responsible", key: "updatedPerson" },
-    { label: "DueDate", key: "dueDate" },
+    // { label: "DueDate", key: "dueDate" },
     { label: "Status as on", key: "statusAsOn" },
     { label: "Status", key: "status" },
     { label: "Ageing of the Decision as per Latest Board Meeting", key: "age" },
     // { label: "Updated Decision", key: "updatedbyuser" },
     // { label: "Updated Person Responsible", key: "memberdata" },
-    { label: "Collabarators", key: "colabrators" },
-    { label: "Meeting ID", key: "meetingNumber" },
+    // { label: "Meeting ID", key: "meetingNumber" },
     // { label: "Collabarators", key: "colabrators" },
   ];
 
@@ -259,11 +259,11 @@ function Reports() {
   const masterPersonResHeaders =
     ReportData && ReportData.length > 0
       ? ReportData?.flatMap((data, index) => [
-        {
-          label: `Person Responsible for implementation`,
-          key: `PersonResponce${index + 1}`,
-        },
-      ])
+          {
+            label: `Person Responsible for implementation`,
+            key: `PersonResponce${index + 1}`,
+          },
+        ])
       : [];
 
   // Extract dynamic headers
@@ -322,41 +322,59 @@ function Reports() {
   };
 
   const handleDownload = (data, headers) => {
-    const formattedData = data.map((row) => ({
-      ...row,
+    const fillEmptyCells = (rowData) => {
+      const filledData = {};
+      headers.forEach((header) => {
+        filledData[header.key] = rowData[header.key] || "N/A";
+      });
+      return filledData;
+    };
+    const formattedData = data.map((row) => {
+      const rowWithFilledCells = fillEmptyCells({
+        ...row,
+        initialPerson: row?.activeLog.changes
+          ?.filter(
+            (log) => log.fieldChanged === "members" && log.oldValue === null
+          )
+          .map((member) => member.newValue)
+          .join(", "),
 
-      initialPerson: row?.activeLog.changes
-        ?.filter(
-          (log) => log.fieldChanged === "members" && log.oldValue === null
-        )
-        .map((member) => member.newValue)
-        .join(", "),
+        updatedPerson: row?.activeLog.changes
+          ?.filter(
+            (log) => log.fieldChanged === "members" && log.oldValue !== null
+          )
+          .map((member) => member.newValue)
+          .slice(-1)[0]
+          ? row?.activeLog.changes
+              ?.filter(
+                (log) => log.fieldChanged === "members" && log.oldValue !== null
+              )
+              .map((member) => member.newValue)
+              .slice(-1)[0]
+          : row?.activeLog.changes
+              ?.filter(
+                (log) => log.fieldChanged === "members" && log.oldValue === null
+              )
+              .map((member) => member.newValue)
+              .join(", "),
 
-      updatedPerson: row?.activeLog.changes
-        ?.filter(
-          (log) => log.fieldChanged === "members" && log.oldValue !== null
-        )
-        .map((member) => member.newValue)
-        .slice(-1)[0],
-     
+        dateOfPreviosMeeting: row?.taskStatus
+          ?.filter((status) => status.isDecisionUpdate === 1)
+          .map((date) => date.Date)[0],
+        updatedDecisionInPreviosMeeting: row?.taskStatus
+          ?.filter((status) => status.isDecisionUpdate === 1)
+          .map((date) => date.message)[0],
+        statusAsOn: row?.taskStatus
+          ?.filter((status) => status.isStatusUpdate === 1)
+          .map((date) => date.Date)[0],
+        status: row?.taskStatus
+          ?.filter((status) => status.isStatusUpdate === 1)
+          .map((date) => date.message)[0],
 
-
-
-      dateOfPreviosMeeting: row?.taskStatus
-        ?.filter((status) => status.isDecisionUpdate === 1)
-        .map((date) => date.Date)[0],
-      updatedDecisionInPreviosMeeting: row?.taskStatus
-        ?.filter((status) => status.isDecisionUpdate === 1)
-        .map((date) => date.message)[0],
-      statusAsOn: row?.taskStatus
-        ?.filter((status) => status.isStatusUpdate === 1)
-        .map((date) => date.Date)[0],
-      status: row?.taskStatus
-        ?.filter((status) => status.isStatusUpdate === 1)
-        .map((date) => date.message)[0],
-
-      colabrators: row?.colabDetails?.map((colab) => colab.name).join(", "),
-    }));
+        colabrators: row?.colabDetails?.map((colab) => colab.name).join(", "),
+      });
+      return rowWithFilledCells;
+    });
     const worksheetData = [
       headers.map((header) => header.label),
       ...formattedData.map((row) => headers.map((header) => row[header.key])),
@@ -688,8 +706,8 @@ function Reports() {
                 className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium overflow-hidden`}
               >
                 {report?.selectedReport?.value == "To-Do" &&
-                  ReportData &&
-                  ReportData.length > 0 ? (
+                ReportData &&
+                ReportData.length > 0 ? (
                   <>
                     <button
                       type="button"
@@ -713,8 +731,8 @@ function Reports() {
                       </svg>
                       <p className="text-xs">XLSX</p>
                     </button>
-
-                    <button
+                    
+                    {/* <button
                       type="button"
                       title="PDF file"
                       className=" inline-flex items-center gap-x-1 text-sm font-semibold  border  border-gray-500 rounded-md hover:bg-orange-500 hover:border-white p-1.5 text-[#475569] hover:text-white disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
@@ -735,8 +753,8 @@ function Reports() {
                         />
                       </svg>
                       <p className="text-xs">PDF</p>
-                    </button>
-                  </>
+                    </button> */}
+                                      </>
                 ) : report?.selectedReport?.value == "In-Progress" &&
                   ReportData &&
                   ReportData.length > 0 ? (
@@ -844,12 +862,12 @@ function Reports() {
           </tbody>
         </table>
       </div>
-
-      {/*  table for reports printing */}
+      
+        {/*  table for reports printing */}
 
   
 
-      <div  style={{ display: "none", "@media print": { display: "block" } }}>
+       <div  style={{ display: "none", "@media print": { display: "block" } }}>
         <div className=" mt-5" ref={componentRef}>
           <div className="m-5">
             <h1>{ReportData && ReportData[0]?.blongsTo}</h1>
