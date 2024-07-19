@@ -314,7 +314,8 @@ export async function TasksActions({ request, params }) {
             {
               createdby: requestBody.createdby,
               taskCreatedBy: { name: parentPath, id: parseInt(params.id) },
-              collaborators: [requestBody.createdby],
+              // collaborators: [requestBody.createdby],
+              collaborators: [],
             }
           );
         }
@@ -1222,8 +1223,8 @@ const Tasks = () => {
                 Latest Decision Status
               </th>
               {/* <th className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2 border-l-2 border-gray-200">
-                Decision Updated of Admin
-              </th> */}
+                  Decision Updated of Admin
+                </th> */}
               {(authState?.user?.role === "super admin" ||
                 authState?.user?.role === "Super Admin" ||
                 authState?.user?.role === "admin" ||
@@ -1279,6 +1280,11 @@ const Tasks = () => {
                           onBlur={(e) =>
                             handleSubmit(task?.id, "decision", e.target.value)
                           }
+                          onKeyDown={(e) => {
+                            if (e.key === "Enter") {
+                              handleSubmit(task?.id, "decision", e.target.value);
+                            }
+                          }}
                           autoFocus={autoFocusID === task.id ? true : false}
                         />
                       )}
@@ -1374,10 +1380,8 @@ const Tasks = () => {
                     <Select
                       isDisabled={!meetingPermission.canUpdate}
                       options={members}
-                      //   menuPlacement="auto"
-                      // maxMenuHeight="auto"
                       menuPortalTarget={document.body}
-                      // closeMenuOnScroll={() => true}
+                      closeMenuOnScroll={() => true}
                       styles={{
                         control: (provided, state) => ({
                           ...provided,
@@ -1470,7 +1474,8 @@ const Tasks = () => {
                               (person) => person.value === task?.members
                             )
                       }
-
+                      menuPlacement="auto"
+                      maxMenuHeight={maxMenuHeight}
                       // closeMenuOnSelect={()=> true}
                       // menuIsOpen = {()=> true}
                     />
@@ -1583,8 +1588,8 @@ const Tasks = () => {
                     {/* {updatedStatusInPreviosMeeting} */}
                   </td>
                   {/* <td className="border py-1 px-2 text-sm text-gray-600 ">
-                    {task?.updatedbyuser}
-                  </td> */}
+                      {task?.updatedbyuser}
+                    </td> */}
                   {(authState?.user?.role === "super admin" ||
                     authState?.user?.role === "Super Admin" ||
                     authState?.user?.role === "admin" ||
@@ -1596,7 +1601,7 @@ const Tasks = () => {
                             permission.module === "task" && permission.canCreate
                           }
                         >
-                          <button title="Send Mail">
+                          <button title="Sent Mail">
                             <svg
                               viewBox="0 0 24 24"
                               stroke="currentColor"
@@ -1646,25 +1651,25 @@ const Tasks = () => {
                       </div>
 
                       {/* <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 20 20"
-                        fill="currentColor"
-                        className={`size-5 ${
-                          mailSending && mailSendingId === task?.id
-                            ? "text-gray-400 cursor-not-allowed"
-                            : "hover:text-orange-500"
-                        }`}
-                        onClick={() => {
-                          if (!mailSending) {
-                            handleSendMail(task?.id);
-
-                            setMailSendingId(task?.id);
-                          }
-                        }}
-                      >
-                        <path d="M3 4a2 2 0 0 0-2 2v1.161l8.441 4.221a1.25 1.25 0 0 0 1.118 0L19 7.162V6a2 2 0 0 0-2-2H3Z" />
-                        <path d="m19 8.839-7.77 3.885a2.75 2.75 0 0 1-2.46 0L1 8.839V14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V8.839Z" />
-                      </svg> */}
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                          className={`size-5 ${
+                            mailSending && mailSendingId === task?.id
+                              ? "text-gray-400 cursor-not-allowed"
+                              : "hover:text-orange-500"
+                          }`}
+                          onClick={() => {
+                            if (!mailSending) {
+                              handleSendMail(task?.id);
+  
+                              setMailSendingId(task?.id);
+                            }
+                          }}
+                        >
+                          <path d="M3 4a2 2 0 0 0-2 2v1.161l8.441 4.221a1.25 1.25 0 0 0 1.118 0L19 7.162V6a2 2 0 0 0-2-2H3Z" />
+                          <path d="m19 8.839-7.77 3.885a2.75 2.75 0 0 1-2.46 0L1 8.839V14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V8.839Z" />
+                        </svg> */}
                     </td>
                   )}
                 </tr>
