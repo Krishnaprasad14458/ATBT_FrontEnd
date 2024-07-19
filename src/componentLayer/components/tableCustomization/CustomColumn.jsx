@@ -26,13 +26,13 @@ function CustomColumn({ tableView, setTableView, form }) {
       try {
         axios
           .put(
-            `https://atbtbeta.infozit.com/form/tableUpdate?name=${form}`,
+            `https://atbtmain.infozit.com/form/tableUpdate?name=${form}`,
             dupTableView
           )
           .then((response) => {
             console.log("Update successful:", response.data);
             axios
-              .get(`https://atbtbeta.infozit.com/form/list?name=${form}`)
+              .get(`https://atbtmain.infozit.com/form/list?name=${form}`)
               .then((response) => {
                 setTableView(response.data.Tableview);
                 setDupTableView(response.data.Tableview);
