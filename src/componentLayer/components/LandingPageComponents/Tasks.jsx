@@ -1365,8 +1365,10 @@ const Tasks = () => {
                     <Select
                       isDisabled={!meetingPermission.canUpdate}
                       options={members}
+                      //   menuPlacement="auto"
+                      // maxMenuHeight="auto"
                       menuPortalTarget={document.body}
-                      closeMenuOnScroll={() => true}
+                      // closeMenuOnScroll={() => true}
                       styles={{
                         control: (provided, state) => ({
                           ...provided,
@@ -1459,8 +1461,7 @@ const Tasks = () => {
                               (person) => person.value === task?.members
                             )
                       }
-                      menuPlacement="auto"
-                      maxMenuHeight={maxMenuHeight}
+                    
                       // closeMenuOnSelect={()=> true}
                       // menuIsOpen = {()=> true}
                     />
@@ -1587,7 +1588,7 @@ const Tasks = () => {
                             permission.module === "task" && permission.canCreate
                           }
                         >
-                          <button title="Sent Mail">
+                          <button title="Send Mail">
                             <svg
                               viewBox="0 0 24 24"
                               stroke="currentColor"
