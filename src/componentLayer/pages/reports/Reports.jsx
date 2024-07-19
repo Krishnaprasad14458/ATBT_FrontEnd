@@ -7,9 +7,9 @@ import { debounce } from "../../../utils/utils";
 import { useReactToPrint } from "react-to-print";
 
 let reportType = [
-  { label: "ATBT", value: "To-Do" },
+  // { label: "ATBT", value: "To-Do" },
+  { label: "ATBT", value: "Master" },
   { label: "ATR", value: "In-Progress" },
-  { label: "ATBT MASTER", value: "Master" },
 ];
 
 let moduleList = [
@@ -150,7 +150,7 @@ function Reports() {
 
   const headersAtbt = [
     { label: "S.NO", key: "serialNO" },
-    { label: "Date of Board meeting", key: "date" },
+    // { label: "Date of Board meeting", key: "date" },
     { label: "Initial Date of Decision", key: "dateOfDecision" },
     { label: "Initial Decision Taken", key: "decision" },
     { label: "Person Responsible for implementation", key: "initialPerson" },
@@ -161,45 +161,46 @@ function Reports() {
 
   const headerMaster = [
     { label: "S.NO", key: "serialNO" },
-    { label: "Date of Board meeting", key: "date" },
+    // { label: "Date of Board meeting", key: "date" },
     { label: "Initial Date of Decision", key: "dateOfDecision" },
     { label: "Initial Decision Taken", key: "decision" },
     { label: "Person Responsible for implementation", key: "initialPerson" },
-    { label: "Date of Previous meeting", key: "dateOfPreviosMeeting" },
+    { label: "Collabarators", key: "colabrators" },
+    { label: "Date of Latest meeting", key: "dateOfPreviosMeeting" },
     {
-      label: "Updated decision in previous meeting",
+      label: "Updated decision in Latest meeting",
       key: "updatedDecisionInPreviosMeeting",
     },
     { label: "Updated Person Responsible", key: "updatedPerson" },
     { label: "DueDate", key: "dueDate" },
-    { label: "Status as on", key: "statusAsOn" },
-    { label: "Status", key: "status" },
+    // { label: "Status as on", key: "statusAsOn" },
+    // { label: "Status", key: "status" },
     { label: "Ageing of the Decision as per Latest Board Meeting", key: "age" },
-    { label: "Collabarators", key: "colabrators" },
-    { label: "Meeting ID", key: "meetingNumber" },
+    // { label: "Meeting ID", key: "meetingNumber" },
 
   ];
 
   const headerATR = [
     { label: "S.NO", key: "serialNO" },
-    { label: "Date of Board meeting", key: "date" },
+    // { label: "Date of Board meeting", key: "date" },
     { label: "Initial Date of Decision", key: "dateOfDecision" },
     { label: "Initial Decision Taken", key: "decision" },
     { label: "Person Responsible for implementation", key: "initialPerson" },
-    { label: "Date of Previous meeting", key: "dateOfPreviosMeeting" },
+    { label: "Collabarators", key: "colabrators" },
+
+    { label: "Date of Latest meeting", key: "dateOfPreviosMeeting" },
     {
-      label: "Updated decision in previous meeting",
+      label: "Updated decision in Latest meeting",
       key: "updatedDecisionInPreviosMeeting",
     },
     { label: "Updated Person Responsible", key: "updatedPerson" },
-    { label: "DueDate", key: "dueDate" },
+    // { label: "DueDate", key: "dueDate" },
     { label: "Status as on", key: "statusAsOn" },
     { label: "Status", key: "status" },
     { label: "Ageing of the Decision as per Latest Board Meeting", key: "age" },
     // { label: "Updated Decision", key: "updatedbyuser" },
     // { label: "Updated Person Responsible", key: "memberdata" },
-    { label: "Collabarators", key: "colabrators" },
-    { label: "Meeting ID", key: "meetingNumber" },
+    // { label: "Meeting ID", key: "meetingNumber" },
     // { label: "Collabarators", key: "colabrators" },
   ];
 
@@ -714,7 +715,7 @@ function Reports() {
                       <p className="text-xs">XLSX</p>
                     </button>
 
-                    <button
+                    {/* <button
                       type="button"
                       title="PDF file"
                       className=" inline-flex items-center gap-x-1 text-sm font-semibold  border  border-gray-500 rounded-md hover:bg-orange-500 hover:border-white p-1.5 text-[#475569] hover:text-white disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
@@ -735,7 +736,7 @@ function Reports() {
                         />
                       </svg>
                       <p className="text-xs">PDF</p>
-                    </button>
+                    </button> */}
                   </>
                 ) : report?.selectedReport?.value == "In-Progress" &&
                   ReportData &&
