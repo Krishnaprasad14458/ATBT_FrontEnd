@@ -18,7 +18,12 @@ import {
 import Select from "react-select";
 import TaskOverview from "./TaskOverview";
 import atbtApi from "../../../serviceLayer/interceptor";
-import { caseLetter, debounce, getCurrentDate, truncateText } from "../../../utils/utils";
+import {
+  caseLetter,
+  debounce,
+  getCurrentDate,
+  truncateText,
+} from "../../../utils/utils";
 import GateKeeper from "../../../rbac/GateKeeper";
 import { AuthContext } from "../../../contexts/authContext/authContext";
 import TasksFilter from "../tableCustomization/TasksFilter";
@@ -688,7 +693,6 @@ const Tasks = () => {
       return 350; // Large screens and above
     }
   }
- 
 
   useEffect(() => {
     const handleResize = () => {
@@ -729,155 +733,160 @@ const Tasks = () => {
             <p className="text-md font-semibold">Decisions</p>
           )}
         </div>
- {parentPath === "tasks" && (
-  <>
-      <div className="col-span-1 text-start">
-          <div className="relative">
-            <div className="absolute inset-y-0 start-0 flex items-center p-3 pointer-events-none">
-              <svg
-                className="w-3 h-3 text-gray-500 dark:text-gray-400"
-                aria-hidden="true"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 20 20"
-              >
-                <path
-                  stroke="currentColor"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
-                />
-              </svg>
-            </div>
-            <input
-              onChange={handleSearch}
-              value={Qparams?.search}
-              type="search"
-              id="default-search"
-              className="block w-full px-4 py-2 ps-8 text-sm border-2 border-gray-200  rounded-2xl bg-gray-50  focus:outline-none placeholder:text-sm"
-              placeholder="Search here with initial decision taken..."
-              required
-            />
-          </div>
-        </div> 
-
-       
-          <div className="col-span-2 ">
-            <div className=" md:flex gap-2 items-center md:justify-end">
-              <label className="text-sm text-gray-400">Duedate&nbsp;From&nbsp;:</label>
-
-              <input
-                className=" border border-gray-200 text-black px-1.5 py-2 rounded-md bg-[#f9fafb] focus:outline-none text-sm focus:border-orange-400 date_type w-full"
-                type="date"
-                value={dueDateFilter.fromDate}
-                style={{
-                  fontSize: "0.8rem",
-                  WebkitAppearance: "none",
-                }}
-                onChange={(e) => {
-                  // handleSubmit(task?.id, "dueDate", e.target.value);
-                  setQParams((prev) => ({ ...prev, fromDate: e.target.value }));
-                  setDueDateFilter((prev) => ({
-                    ...prev,
-                    fromDate: e.target.value,
-                  }));
-                  // handleTaskChange(index, "dueDate", e.target.value);
-                }}
-              />
-              <label className="text-sm text-gray-400">Duedate&nbsp;To&nbsp;:</label>
-              <input
-                className=" border border-gray-200 text-black px-1.5 py-2 rounded-md  bg-[#f9fafb] focus:outline-none text-sm focus:border-orange-400 date_type w-full"
-                type="date"
-                value={dueDateFilter.toDate}
-                style={{
-                  fontSize: "0.8rem",
-                  WebkitAppearance: "none",
-                }}
-                onChange={(e) => {
-                  setQParams((prev) => ({
-                    ...prev,
-
-                    toDate: e.target.value,
-                  }));
-                  setDueDateFilter((prev) => ({
-                    ...prev,
-                    toDate: e.target.value,
-                  }));
-                }}
-              />
-              <div className="flex justify-end">
-                <button
-                  onClick={() => {
-                    let Qprms = { ...Qparams };
-                    delete Qprms.fromDate;
-                    delete Qprms.toDate;
-                    setQParams(Qprms);
-                    setDueDateFilter({ toDate: "", fromDate: "" });
-                  }}
-                >
+        {parentPath === "tasks" && (
+          <>
+            <div className="col-span-1 text-start">
+              <div className="relative">
+                <div className="absolute inset-y-0 start-0 flex items-center p-3 pointer-events-none">
                   <svg
+                    className="w-3 h-3 text-gray-500 dark:text-gray-400"
+                    aria-hidden="true"
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
-                    viewBox="0 0 24 24"
-                    stroke-width="1.5"
-                    stroke="currentColor"
-                    class="size-4 cursor-pointer hover:text-orange-500"
+                    viewBox="0 0 20 20"
                   >
                     <path
+                      stroke="currentColor"
                       stroke-linecap="round"
                       stroke-linejoin="round"
-                      d="M19.5 12c0-1.232-.046-2.453-.138-3.662a4.006 4.006 0 0 0-3.7-3.7 48.678 48.678 0 0 0-7.324 0 4.006 4.006 0 0 0-3.7 3.7c-.017.22-.032.441-.046.662M19.5 12l3-3m-3 3-3-3m-12 3c0 1.232.046 2.453.138 3.662a4.006 4.006 0 0 0 3.7 3.7 48.656 48.656 0 0 0 7.324 0 4.006 4.006 0 0 0 3.7-3.7c.017-.22.032-.441.046-.662M4.5 12l3 3m-3-3-3 3"
+                      stroke-width="2"
+                      d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
                     />
                   </svg>
-                </button>
-
-                <TasksFilter Qparams={Qparams} setQParams={setQParams} />
+                </div>
+                <input
+                  onChange={handleSearch}
+                  value={Qparams?.search}
+                  type="search"
+                  id="default-search"
+                  className="block w-full px-4 py-2 ps-8 text-sm border-2 border-gray-200  rounded-2xl bg-gray-50  focus:outline-none placeholder:text-sm"
+                  placeholder="Search here with initial decision taken..."
+                  required
+                />
               </div>
             </div>
-          </div>
-          </>  )}
+
+            <div className="col-span-2 ">
+              <div className=" md:flex gap-2 items-center md:justify-end">
+                <label className="text-sm text-gray-400">
+                  Duedate&nbsp;From&nbsp;:
+                </label>
+
+                <input
+                  className=" border border-gray-200 text-black px-1.5 py-2 rounded-md bg-[#f9fafb] focus:outline-none text-sm focus:border-orange-400 date_type w-full"
+                  type="date"
+                  value={dueDateFilter.fromDate}
+                  style={{
+                    fontSize: "0.8rem",
+                    WebkitAppearance: "none",
+                  }}
+                  onChange={(e) => {
+                    // handleSubmit(task?.id, "dueDate", e.target.value);
+                    setQParams((prev) => ({
+                      ...prev,
+                      fromDate: e.target.value,
+                    }));
+                    setDueDateFilter((prev) => ({
+                      ...prev,
+                      fromDate: e.target.value,
+                    }));
+                    // handleTaskChange(index, "dueDate", e.target.value);
+                  }}
+                />
+                <label className="text-sm text-gray-400">
+                  Duedate&nbsp;To&nbsp;:
+                </label>
+                <input
+                  className=" border border-gray-200 text-black px-1.5 py-2 rounded-md  bg-[#f9fafb] focus:outline-none text-sm focus:border-orange-400 date_type w-full"
+                  type="date"
+                  value={dueDateFilter.toDate}
+                  style={{
+                    fontSize: "0.8rem",
+                    WebkitAppearance: "none",
+                  }}
+                  onChange={(e) => {
+                    setQParams((prev) => ({
+                      ...prev,
+
+                      toDate: e.target.value,
+                    }));
+                    setDueDateFilter((prev) => ({
+                      ...prev,
+                      toDate: e.target.value,
+                    }));
+                  }}
+                />
+                <div className="flex justify-end">
+                  <button
+                    onClick={() => {
+                      let Qprms = { ...Qparams };
+                      delete Qprms.fromDate;
+                      delete Qprms.toDate;
+                      setQParams(Qprms);
+                      setDueDateFilter({ toDate: "", fromDate: "" });
+                    }}
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke-width="1.5"
+                      stroke="currentColor"
+                      class="size-4 cursor-pointer hover:text-orange-500"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M19.5 12c0-1.232-.046-2.453-.138-3.662a4.006 4.006 0 0 0-3.7-3.7 48.678 48.678 0 0 0-7.324 0 4.006 4.006 0 0 0-3.7 3.7c-.017.22-.032.441-.046.662M19.5 12l3-3m-3 3-3-3m-12 3c0 1.232.046 2.453.138 3.662a4.006 4.006 0 0 0 3.7 3.7 48.656 48.656 0 0 0 7.324 0 4.006 4.006 0 0 0 3.7-3.7c.017-.22.032-.441.046-.662M4.5 12l3 3m-3-3-3 3"
+                      />
+                    </svg>
+                  </button>
+
+                  <TasksFilter Qparams={Qparams} setQParams={setQParams} />
+                </div>
+              </div>
+            </div>
+          </>
+        )}
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-3 xl:grid-cols-3 lg:grid-cols-3  items-center">
         <div className="col-span-1 "></div>
         {BMid &&
-              (parentPath === "users" ||
-                parentPath === "entities" ||
-                parentPath === "teams") && (
-               
-                
-        <div className="col-span-1 ">
-          <div className="relative">
-            <div className="absolute inset-y-0 start-0 flex items-center p-3 pointer-events-none">
-              <svg
-                className="w-3 h-3 text-gray-500 dark:text-gray-400"
-                aria-hidden="true"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 20 20"
-              >
-                <path
-                  stroke="currentColor"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
+          (parentPath === "users" ||
+            parentPath === "entities" ||
+            parentPath === "teams") && (
+            <div className="col-span-1 ">
+              <div className="relative">
+                <div className="absolute inset-y-0 start-0 flex items-center p-3 pointer-events-none">
+                  <svg
+                    className="w-3 h-3 text-gray-500 dark:text-gray-400"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 20 20"
+                  >
+                    <path
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
+                    />
+                  </svg>
+                </div>
+                <input
+                  onChange={handleSearch}
+                  value={Qparams?.search}
+                  type="search"
+                  id="default-search"
+                  className="block w-full px-4 py-2 ps-8 text-sm border-2 border-gray-200  rounded-2xl bg-gray-50  focus:outline-none placeholder:text-sm"
+                  placeholder="Search here with initial decision taken..."
+                  required
                 />
-              </svg>
+              </div>
             </div>
-            <input
-              onChange={handleSearch}
-              value={Qparams?.search}
-              type="search"
-              id="default-search"
-              className="block w-full px-4 py-2 ps-8 text-sm border-2 border-gray-200  rounded-2xl bg-gray-50  focus:outline-none placeholder:text-sm"
-              placeholder="Search here with initial decision taken..."
-              required
-            />
-          </div>
-        </div>
-                )}
+          )}
         <div className="col-span-1 ">
           <div className="flex justify-end">
             {BMid &&
@@ -1292,7 +1301,7 @@ const Tasks = () => {
                             cursor: "pointer",
                           }}
                         >
-                           {task?.decision && truncateText(task.decision, 200)}
+                          {task?.decision && truncateText(task.decision, 200)}
                         </p>
                       )}
                       <div className="flex">
@@ -1461,7 +1470,7 @@ const Tasks = () => {
                               (person) => person.value === task?.members
                             )
                       }
-                    
+
                       // closeMenuOnSelect={()=> true}
                       // menuIsOpen = {()=> true}
                     />
@@ -1496,7 +1505,6 @@ const Tasks = () => {
                     {task?.age}{" "}
                   </td>
                   <td className="border py-1 px-2 text-sm" title={task?.status}>
-            
                     <Select
                       options={status}
                       menuPortalTarget={document.body}
@@ -1563,15 +1571,15 @@ const Tasks = () => {
                       value={{ label: task?.status, value: task?.status }}
                       menuPlacement="auto"
                     />
-          
-
                   </td>
                   <td className="border py-1 px-2 text-sm">
-                  {updatedDecisionInPreviosMeeting && truncateText(updatedDecisionInPreviosMeeting, 100)}
+                    {updatedDecisionInPreviosMeeting &&
+                      truncateText(updatedDecisionInPreviosMeeting, 100)}
                     {/* {updatedDecisionInPreviosMeeting} */}
                   </td>
                   <td className="border py-1 px-2 text-sm">
-                  {updatedStatusInPreviosMeeting && truncateText(updatedStatusInPreviosMeeting, 100)}
+                    {updatedStatusInPreviosMeeting &&
+                      truncateText(updatedStatusInPreviosMeeting, 100)}
                     {/* {updatedStatusInPreviosMeeting} */}
                   </td>
                   {/* <td className="border py-1 px-2 text-sm text-gray-600 ">
