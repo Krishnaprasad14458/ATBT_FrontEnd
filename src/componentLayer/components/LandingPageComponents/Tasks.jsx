@@ -309,7 +309,9 @@ export async function TasksActions({ request, params }) {
             {
               createdby: requestBody.createdby,
               taskCreatedBy: { name: parentPath, id: parseInt(params.id) },
-              collaborators: [requestBody.createdby],
+              // collaborators: [requestBody.createdby],
+              collaborators: [],
+
             }
           );
         }

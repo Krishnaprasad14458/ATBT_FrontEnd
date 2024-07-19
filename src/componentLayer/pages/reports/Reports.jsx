@@ -147,7 +147,7 @@ function Reports() {
       );
     }
   }, [reportsData]);
-
+/// removed
   const headersAtbt = [
     { label: "S.NO", key: "serialNO" },
     // { label: "Date of Board meeting", key: "date" },
@@ -165,7 +165,7 @@ function Reports() {
     { label: "Initial Date of Decision", key: "dateOfDecision" },
     { label: "Initial Decision Taken", key: "decision" },
     { label: "Person Responsible for implementation", key: "initialPerson" },
-    { label: "Collabarators", key: "colabrators" },
+    // { label: "Collabarators", key: "colabrators" },
     { label: "Date of Latest meeting", key: "dateOfPreviosMeeting" },
     {
       label: "Updated decision in Latest meeting",
@@ -185,7 +185,7 @@ function Reports() {
     { label: "Initial Date of Decision", key: "dateOfDecision" },
     { label: "Initial Decision Taken", key: "decision" },
     { label: "Person Responsible for implementation", key: "initialPerson" },
-    { label: "Collabarators", key: "colabrators" },
+    // { label: "Collabarators", key: "colabrators" },
 
     { label: "Date of Latest meeting", key: "dateOfPreviosMeeting" },
     {
@@ -332,12 +332,19 @@ function Reports() {
     const formattedData = data.map((row) => {
       const rowWithFilledCells = fillEmptyCells({
         ...row,
-        initialPerson: row?.activeLog.changes
-          ?.filter(
-            (log) => log.fieldChanged === "members" && log.oldValue === null
-          )
-          .map((member) => member.newValue)
-          .join(", "),
+        initialPerson: [
+          ...(row?.activeLog?.changes
+            ?.filter((log) => log.fieldChanged === "members" && log.oldValue === null)
+            ?.map((member) => member.newValue) || []),
+          ...(row?.colabDetails?.map((colab) => colab.name) || [])
+        ].join(', '),
+        // initialPerson: row?.activeLog.changes
+        //   ?.filter(
+        //     (log) => log.fieldChanged === "members" && log.oldValue === null
+        //   )
+        //   .map((member) => member.newValue)
+        //   .join(", "),
+          // colabrators: row?.colabDetails?.map((colab) => colab.name).join(", "),
 
         updatedPerson: row?.activeLog.changes
           ?.filter(
@@ -371,7 +378,6 @@ function Reports() {
           ?.filter((status) => status.isStatusUpdate === 1)
           .map((date) => date.message)[0],
 
-        colabrators: row?.colabDetails?.map((colab) => colab.name).join(", "),
       });
       return rowWithFilledCells;
     });
