@@ -38,7 +38,7 @@ export async function boardmeetingFormLoader({ params, request }) {
       image: item.image,
       name: item.name,
     }));
-    console.log("boardmeetingResponse",boardmeetingResponse)
+    console.log("boardmeetingResponse", boardmeetingResponse);
     // to
     if (boardmeetingFor === "user" && boardmeetingForID) {
       usersList = usersList.filter((user) => user.value !== boardmeetingForID);
@@ -594,7 +594,7 @@ function BoardMeetingForm() {
 
   // end the time function
   // for previous dates defult
- 
+
   let [showAllMembers, setShowAllMembers] = useState(12);
   const colors = [
     "#818cf8",
@@ -849,6 +849,129 @@ function BoardMeetingForm() {
                         </div>
                       </div>
                     )}
+
+                    <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-2 gap-5">
+                      <div className="col-span-1">
+                      <Select
+                    // id={item.inputname}
+                    // name={item.inputname}
+                    // isDisabled={
+                    //   !!id && !!data?.userData && parseInt(id) === loggedInUser
+                    //     ? true
+                    //     : false
+                    // }
+                    // menuPlacement="auto"
+                    // maxMenuHeight={170}
+                    // options={data?.fieldsDropDownData?.role}
+                    styles={{
+                      control: (provided, state) => ({
+                        ...provided,
+                        backgroundColor: "#f9fafb", // Change the background color of the select input
+                        borderWidth: state.isFocused ? "1px" : "1px", // Decrease border width when focused
+                        borderColor: state.isFocused
+                          ? "#orange-400"
+                          : "#d1d5db", // Change border color when focused
+                        boxShadow: state.isFocused
+                          ? "none"
+                          : provided.boxShadow, // Optionally remove box shadow when focused
+                      }),
+                      placeholder: (provided) => ({
+                        ...provided,
+                        fontSize: "12px", // Adjust the font size of the placeholder text
+                        color: "#a9a9a9",
+                      }),
+                      option: (provided, state) => ({
+                        ...provided,
+                        color: state.isFocused ? "#fff" : "#000000",
+                        fontSize: "12px",
+                        cursor: "pointer",
+                        backgroundColor: state.isFocused
+                          ? "#ea580c"
+                          : "transparent",
+
+                        "&:hover": {
+                          color: "#fff",
+                          backgroundColor: "#ea580c",
+                        },
+                      }),
+                    }}
+                    theme={(theme) => ({
+                      ...theme,
+                      borderRadius: 5,
+                      colors: {
+                        ...theme.colors,
+
+                        primary: "#fb923c",
+                      },
+                    })}
+                    // value={selectedRoleOption}
+                    // onChange={(selectedOption) => {
+                    //   handleRoleName(selectedOption, index);
+                    // }}
+                  />
+                      </div>
+                      <div className="col-span-1">
+                      <Select
+                    // id={item.inputname}
+                    // name={item.inputname}
+                    // isDisabled={
+                    //   !!id && !!data?.userData && parseInt(id) === loggedInUser
+                    //     ? true
+                    //     : false
+                    // }
+                    // menuPlacement="auto"
+                    // maxMenuHeight={170}
+                    // options={data?.fieldsDropDownData?.role}
+                    styles={{
+                      control: (provided, state) => ({
+                        ...provided,
+                        backgroundColor: "#f9fafb", // Change the background color of the select input
+                        borderWidth: state.isFocused ? "1px" : "1px", // Decrease border width when focused
+                        borderColor: state.isFocused
+                          ? "#orange-400"
+                          : "#d1d5db", // Change border color when focused
+                        boxShadow: state.isFocused
+                          ? "none"
+                          : provided.boxShadow, // Optionally remove box shadow when focused
+                      }),
+                      placeholder: (provided) => ({
+                        ...provided,
+                        fontSize: "12px", // Adjust the font size of the placeholder text
+                        color: "#a9a9a9",
+                      }),
+                      option: (provided, state) => ({
+                        ...provided,
+                        color: state.isFocused ? "#fff" : "#000000",
+                        fontSize: "12px",
+                        cursor: "pointer",
+                        backgroundColor: state.isFocused
+                          ? "#ea580c"
+                          : "transparent",
+
+                        "&:hover": {
+                          color: "#fff",
+                          backgroundColor: "#ea580c",
+                        },
+                      }),
+                    }}
+                    theme={(theme) => ({
+                      ...theme,
+                      borderRadius: 5,
+                      colors: {
+                        ...theme.colors,
+
+                        primary: "#fb923c",
+                      },
+                    })}
+                    // value={selectedRoleOption}
+                    // onChange={(selectedOption) => {
+                    //   handleRoleName(selectedOption, index);
+                    // }}
+                  />
+                      </div>
+                    </div>
+                
+
                   {/* custom fields */}
                   {item.type === "text" && item.field == "custom" && (
                     <div>
@@ -1465,96 +1588,105 @@ function BoardMeetingForm() {
                       item.inputname == "members" &&
                       item.field == "predefined" && (
                         <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-2 mt-5">
-                        {item.value && allboardMeetingMembers &&
-                          Array.from({ length: showAllMembers }).map((_, index) => {
-                            let UsersList = allboardMeetingMembers
-                            let user = UsersList[index];
-                            let initials = "";
-                            let firstLetter = "";
-                            let secondLetter = "";
-            
-                            if (user) {
-                              const username = user.name || "";
-                              const nameParts = username.split(" ");
-                              firstLetter = nameParts[0]?.[0] || "";
-                              secondLetter = nameParts[1]?.[0] || "";
-            
-                              initials = `${firstLetter.toUpperCase()}${secondLetter.toUpperCase()}`;
-                            }
-            
-                            return (
-                              <div
-                                className="col-span-1 flex justify-start gap-3 items-center m-1"
-                                key={index}
-                              >
-                                {user ? (
-                          <>
-                                  <>
-                                    <h5
-                                      style={{
-                                        backgroundColor: user.image
-                                          ? "transparent"
-                                          : getRandomColor(firstLetter),
-                                      }}
-                                      className="rounded-full w-10 h-10 md:h-8 xl:h-10 flex justify-center items-center text-white text-xs"
-                                    >
-                                      {user.image ? (
-                                        <img
-                                          src={
-                                            typeof user.image === "string"
-                                              ? user.image
-                                              : URL.createObjectURL(user.image)
-                                          }
-                                          alt="Entity Photo"
-                                          className="rounded-full w-10 h-10"
-                                        />
-                                      ) : (
-                                        <span>{initials}</span>
-                                      )}
-                                    </h5>
-                                    <div className="flex items-center md:items-start xl:items-center overflow-hidden">
-                                      <div
-                                        title={`Name: ${user.name}\nEmail: ${user.email}\nDesignation: ${user.designation}`}
-                                      >
-                                        <div>
-                                          <p className="truncate w-40 text-sm">
-                                            {user.name}
-                                          </p>
-                                          <p className="truncate w-40 text-sm">
-                                            {user.email}
-                                          </p>
-                                          <p className="truncate w-40 text-sm">
-                                            {user.designation}
-                                          </p>
-                                        </div>
-                                     
-                                      </div>
-                                    </div>
-                                    
-                                  </>
-                                  {index === showAllMembers - 1 &&
+                          {item.value &&
+                            allboardMeetingMembers &&
+                            Array.from({ length: showAllMembers }).map(
+                              (_, index) => {
+                                let UsersList = allboardMeetingMembers;
+                                let user = UsersList[index];
+                                let initials = "";
+                                let firstLetter = "";
+                                let secondLetter = "";
+
+                                if (user) {
+                                  const username = user.name || "";
+                                  const nameParts = username.split(" ");
+                                  firstLetter = nameParts[0]?.[0] || "";
+                                  secondLetter = nameParts[1]?.[0] || "";
+
+                                  initials = `${firstLetter.toUpperCase()}${secondLetter.toUpperCase()}`;
+                                }
+
+                                return (
+                                  <div
+                                    className="col-span-1 flex justify-start gap-3 items-center m-1"
+                                    key={index}
+                                  >
+                                    {user ? (
+                                      <>
+                                        <>
+                                          <h5
+                                            style={{
+                                              backgroundColor: user.image
+                                                ? "transparent"
+                                                : getRandomColor(firstLetter),
+                                            }}
+                                            className="rounded-full w-10 h-10 md:h-8 xl:h-10 flex justify-center items-center text-white text-xs"
+                                          >
+                                            {user.image ? (
+                                              <img
+                                                src={
+                                                  typeof user.image === "string"
+                                                    ? user.image
+                                                    : URL.createObjectURL(
+                                                        user.image
+                                                      )
+                                                }
+                                                alt="Entity Photo"
+                                                className="rounded-full w-10 h-10"
+                                              />
+                                            ) : (
+                                              <span>{initials}</span>
+                                            )}
+                                          </h5>
+                                          <div className="flex items-center md:items-start xl:items-center overflow-hidden">
+                                            <div
+                                              title={`Name: ${user.name}\nEmail: ${user.email}\nDesignation: ${user.designation}`}
+                                            >
+                                              <div>
+                                                <p className="truncate w-40 text-sm">
+                                                  {user.name}
+                                                </p>
+                                                <p className="truncate w-40 text-sm">
+                                                  {user.email}
+                                                </p>
+                                                <p className="truncate w-40 text-sm">
+                                                  {user.designation}
+                                                </p>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </>
+                                        {index === showAllMembers - 1 &&
                                           UsersList.length > showAllMembers && (
-                                            <span   className="text-xs border border-gray-200 p-2 bg-orange-500 rounded-md text-white cursor-pointer"
+                                            <span
+                                              className="text-xs border border-gray-200 p-2 bg-orange-500 rounded-md text-white cursor-pointer"
                                               onClick={() =>
-                                                setShowAllMembers(UsersList.length)
+                                                setShowAllMembers(
+                                                  UsersList.length
+                                                )
                                               }
                                             >
-                                              +{UsersList.length - showAllMembers}more
+                                              +
+                                              {UsersList.length -
+                                                showAllMembers}
+                                              more
                                             </span>
                                           )}
-                                  </>
-                                ) : (
-                                  <>
-                                    <h5 className="bg-[#e5e7eb] rounded-full w-10 h-10 flex justify-center items-center text-white"></h5>
-                                    <div className="flex items-center">
-                                      <div className="rounded-md bg-[#e5e7eb] h-2 w-28"></div>
-                                    </div>
-                                  </>
-                                )}
-                              </div>
-                            );
-                          })}
-                      </div>
+                                      </>
+                                    ) : (
+                                      <>
+                                        <h5 className="bg-[#e5e7eb] rounded-full w-10 h-10 flex justify-center items-center text-white"></h5>
+                                        <div className="flex items-center">
+                                          <div className="rounded-md bg-[#e5e7eb] h-2 w-28"></div>
+                                        </div>
+                                      </>
+                                    )}
+                                  </div>
+                                );
+                              }
+                            )}
+                        </div>
                       )}{" "}
                     {/* customfields */}
                     {item.type === "text" && item.field == "custom" && (
