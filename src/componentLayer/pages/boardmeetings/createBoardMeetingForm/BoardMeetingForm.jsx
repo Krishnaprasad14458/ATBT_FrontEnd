@@ -10,28 +10,31 @@ import atbtApi from "../../../../serviceLayer/interceptor";
 import Select from "react-select";
 import { AuthContext } from "../../../../contexts/authContext/authContext";
 import { getCurrentDate } from "../../../../utils/utils";
-// const userData = JSON.parse(localStorage.getItem("data"));
-// const token = userData?.token;
-// const role = userData?.role?.name;
+
 export async function boardmeetingFormLoader({ params, request }) {
   const url = new URL(request.url);
   const boardmeetingFor = url.searchParams.get("boardmeetingFor");
   const boardmeetingForID = parseInt(url.searchParams.get("boardmeetingForID"));
-
   try {
-    let [formResponse, boardmeetingResponse, usersList, displayMembers] =
-      await Promise.all([
-        atbtApi.get(`form/list?name=boardmeetingform`),
-        params.BMid ? atbtApi.get(`boardmeeting/getByid/${params.BMid}`) : null, //Api for edit
-        atbtApi.post(`public/list/user`),
-        boardmeetingFor === "user"
-          ? atbtApi.get(`user/list/${boardmeetingForID}`)
-          : boardmeetingFor === "entity"
-          ? atbtApi.post(`entity/User/list/${boardmeetingForID}`)
-          : boardmeetingFor === "team"
-          ? atbtApi.get(`/team/list/${boardmeetingForID}`)
-          : null,
-      ]);
+    let [
+      formResponse,
+      boardmeetingResponse,
+      usersList,
+      displayMembers,
+      meetingList,
+    ] = await Promise.all([
+      atbtApi.get(`form/list?name=boardmeetingform`),
+      params.BMid ? atbtApi.get(`boardmeeting/getByid/${params.BMid}`) : null, //Api for edit
+      atbtApi.post(`public/list/user`),
+      boardmeetingFor === "user"
+        ? atbtApi.get(`user/list/${boardmeetingForID}`)
+        : boardmeetingFor === "entity"
+        ? atbtApi.post(`entity/User/list/${boardmeetingForID}`)
+        : boardmeetingFor === "team"
+        ? atbtApi.get(`/team/list/${boardmeetingForID}`)
+        : null,
+      atbtApi.get(`boardmeeting/list?${boardmeetingFor}=${boardmeetingForID}`),
+    ]);
     usersList = usersList?.data?.users?.map((item) => ({
       value: item.id,
       label: item.email,
@@ -64,8 +67,18 @@ export async function boardmeetingFormLoader({ params, request }) {
 
     const formData = formResponse.data.Data;
     console.log("formData", formData, "boardmeetingData", boardmeetingData);
-
-    return { boardmeetingData, formData, usersList, displayMembers };
+    let meetingListForSelect = meetingList?.data?.Meetings.map((list) => ({
+      label: list?.meetingnumber,
+      value: list?.id,
+    }));
+    return {
+      boardmeetingData,
+      formData,
+      usersList,
+      displayMembers,
+      meetingList,
+      meetingListForSelect,
+    };
   } catch (error) {
     if (error.response) {
       throw new Error(`Failed to fetch data: ${error.response.status}`);
@@ -79,7 +92,6 @@ export async function boardmeetingFormLoader({ params, request }) {
 function BoardMeetingForm() {
   const { authState } = useContext(AuthContext);
   let createdBy = authState?.user?.id;
-
   const urlParams = new URLSearchParams(window.location.search);
   const boardmeetingFor = urlParams.get("boardmeetingFor");
   const boardmeetingForID = urlParams.get("boardmeetingForID");
@@ -129,10 +141,7 @@ function BoardMeetingForm() {
     return response;
   }
   const navigate = useNavigate();
-  // const {
-  //   usersState: { users, dashboard },
-  //   usersDispatch,
-  // } = useContext(UserDataContext);
+  
   const { createBoardMeeting, updateBoardMeeting } = useContext(
     BoardMeetingsDataContext
   );
@@ -740,6 +749,134 @@ function BoardMeetingForm() {
                     item.inputname == "members" &&
                     item.field == "predefined" && (
                       <div className="relative">
+                        <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-2 gap-5">
+                          <div className="col-span-1">
+                            <label className="block text-sm font-medium leading-6 mt-1 text-gray-900">
+                              {item.label} from meetings
+                            </label>
+                            <Select
+                              className="mb-3"
+                              // id={item.inputname}
+                              // name={item.inputname}
+                              // isDisabled={
+                              //   !!id && !!data?.userData && parseInt(id) === loggedInUser
+                              //     ? true
+                              //     : false
+                              // }
+                              // menuPlacement="auto"
+                              // maxMenuHeight={170}
+                              options={boardmeeting?.meetingListForSelect}
+                              styles={{
+                                control: (provided, state) => ({
+                                  ...provided,
+                                  backgroundColor: "#f9fafb", // Change the background color of the select input
+                                  borderWidth: state.isFocused ? "1px" : "1px", // Decrease border width when focused
+                                  borderColor: state.isFocused
+                                    ? "#orange-400"
+                                    : "#d1d5db", // Change border color when focused
+                                  boxShadow: state.isFocused
+                                    ? "none"
+                                    : provided.boxShadow, // Optionally remove box shadow when focused
+                                }),
+                                placeholder: (provided) => ({
+                                  ...provided,
+                                  fontSize: "12px", // Adjust the font size of the placeholder text
+                                  color: "#a9a9a9",
+                                }),
+                                option: (provided, state) => ({
+                                  ...provided,
+                                  color: state.isFocused ? "#fff" : "#000000",
+                                  fontSize: "12px",
+                                  cursor: "pointer",
+                                  backgroundColor: state.isFocused
+                                    ? "#ea580c"
+                                    : "transparent",
+
+                                  "&:hover": {
+                                    color: "#fff",
+                                    backgroundColor: "#ea580c",
+                                  },
+                                }),
+                              }}
+                              theme={(theme) => ({
+                                ...theme,
+                                borderRadius: 5,
+                                colors: {
+                                  ...theme.colors,
+
+                                  primary: "#fb923c",
+                                },
+                              })}
+                              // value={selectedRoleOption}
+                              // onChange={(selectedOption) => {
+                              //   handleRoleName(selectedOption, index);
+                              // }}
+                            />
+                          </div>
+                          <div className="col-span-1">
+                            <label className="block text-sm font-medium leading-6 mt-1 text-gray-900">
+                              {item.label} from Teams
+                            </label>
+                            <Select
+                              className="mb-3"
+                              // id={item.inputname}
+                              // name={item.inputname}
+                              // isDisabled={
+                              //   !!id && !!data?.userData && parseInt(id) === loggedInUser
+                              //     ? true
+                              //     : false
+                              // }
+                              // menuPlacement="auto"
+                              // maxMenuHeight={170}
+                              // options={data?.fieldsDropDownData?.role}
+                              styles={{
+                                control: (provided, state) => ({
+                                  ...provided,
+                                  backgroundColor: "#f9fafb", // Change the background color of the select input
+                                  borderWidth: state.isFocused ? "1px" : "1px", // Decrease border width when focused
+                                  borderColor: state.isFocused
+                                    ? "#orange-400"
+                                    : "#d1d5db", // Change border color when focused
+                                  boxShadow: state.isFocused
+                                    ? "none"
+                                    : provided.boxShadow, // Optionally remove box shadow when focused
+                                }),
+                                placeholder: (provided) => ({
+                                  ...provided,
+                                  fontSize: "12px", // Adjust the font size of the placeholder text
+                                  color: "#a9a9a9",
+                                }),
+                                option: (provided, state) => ({
+                                  ...provided,
+                                  color: state.isFocused ? "#fff" : "#000000",
+                                  fontSize: "12px",
+                                  cursor: "pointer",
+                                  backgroundColor: state.isFocused
+                                    ? "#ea580c"
+                                    : "transparent",
+
+                                  "&:hover": {
+                                    color: "#fff",
+                                    backgroundColor: "#ea580c",
+                                  },
+                                }),
+                              }}
+                              theme={(theme) => ({
+                                ...theme,
+                                borderRadius: 5,
+                                colors: {
+                                  ...theme.colors,
+
+                                  primary: "#fb923c",
+                                },
+                              })}
+                              // value={selectedRoleOption}
+                              // onChange={(selectedOption) => {
+                              //   handleRoleName(selectedOption, index);
+                              // }}
+                            />
+                          </div>
+                        </div>
                         <label
                           htmlFor="email"
                           className="block text-sm  font-medium leading-6  text-gray-900"
@@ -849,128 +986,6 @@ function BoardMeetingForm() {
                         </div>
                       </div>
                     )}
-
-                    <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-2 gap-5">
-                      <div className="col-span-1">
-                      <Select
-                    // id={item.inputname}
-                    // name={item.inputname}
-                    // isDisabled={
-                    //   !!id && !!data?.userData && parseInt(id) === loggedInUser
-                    //     ? true
-                    //     : false
-                    // }
-                    // menuPlacement="auto"
-                    // maxMenuHeight={170}
-                    // options={data?.fieldsDropDownData?.role}
-                    styles={{
-                      control: (provided, state) => ({
-                        ...provided,
-                        backgroundColor: "#f9fafb", // Change the background color of the select input
-                        borderWidth: state.isFocused ? "1px" : "1px", // Decrease border width when focused
-                        borderColor: state.isFocused
-                          ? "#orange-400"
-                          : "#d1d5db", // Change border color when focused
-                        boxShadow: state.isFocused
-                          ? "none"
-                          : provided.boxShadow, // Optionally remove box shadow when focused
-                      }),
-                      placeholder: (provided) => ({
-                        ...provided,
-                        fontSize: "12px", // Adjust the font size of the placeholder text
-                        color: "#a9a9a9",
-                      }),
-                      option: (provided, state) => ({
-                        ...provided,
-                        color: state.isFocused ? "#fff" : "#000000",
-                        fontSize: "12px",
-                        cursor: "pointer",
-                        backgroundColor: state.isFocused
-                          ? "#ea580c"
-                          : "transparent",
-
-                        "&:hover": {
-                          color: "#fff",
-                          backgroundColor: "#ea580c",
-                        },
-                      }),
-                    }}
-                    theme={(theme) => ({
-                      ...theme,
-                      borderRadius: 5,
-                      colors: {
-                        ...theme.colors,
-
-                        primary: "#fb923c",
-                      },
-                    })}
-                    // value={selectedRoleOption}
-                    // onChange={(selectedOption) => {
-                    //   handleRoleName(selectedOption, index);
-                    // }}
-                  />
-                      </div>
-                      <div className="col-span-1">
-                      <Select
-                    // id={item.inputname}
-                    // name={item.inputname}
-                    // isDisabled={
-                    //   !!id && !!data?.userData && parseInt(id) === loggedInUser
-                    //     ? true
-                    //     : false
-                    // }
-                    // menuPlacement="auto"
-                    // maxMenuHeight={170}
-                    // options={data?.fieldsDropDownData?.role}
-                    styles={{
-                      control: (provided, state) => ({
-                        ...provided,
-                        backgroundColor: "#f9fafb", // Change the background color of the select input
-                        borderWidth: state.isFocused ? "1px" : "1px", // Decrease border width when focused
-                        borderColor: state.isFocused
-                          ? "#orange-400"
-                          : "#d1d5db", // Change border color when focused
-                        boxShadow: state.isFocused
-                          ? "none"
-                          : provided.boxShadow, // Optionally remove box shadow when focused
-                      }),
-                      placeholder: (provided) => ({
-                        ...provided,
-                        fontSize: "12px", // Adjust the font size of the placeholder text
-                        color: "#a9a9a9",
-                      }),
-                      option: (provided, state) => ({
-                        ...provided,
-                        color: state.isFocused ? "#fff" : "#000000",
-                        fontSize: "12px",
-                        cursor: "pointer",
-                        backgroundColor: state.isFocused
-                          ? "#ea580c"
-                          : "transparent",
-
-                        "&:hover": {
-                          color: "#fff",
-                          backgroundColor: "#ea580c",
-                        },
-                      }),
-                    }}
-                    theme={(theme) => ({
-                      ...theme,
-                      borderRadius: 5,
-                      colors: {
-                        ...theme.colors,
-
-                        primary: "#fb923c",
-                      },
-                    })}
-                    // value={selectedRoleOption}
-                    // onChange={(selectedOption) => {
-                    //   handleRoleName(selectedOption, index);
-                    // }}
-                  />
-                      </div>
-                    </div>
-                
 
                   {/* custom fields */}
                   {item.type === "text" && item.field == "custom" && (
