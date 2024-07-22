@@ -888,7 +888,7 @@ const Tasks = () => {
               </div>
             </div>
           )}
-        <div className="col-span-1 ">
+        <div className="col-span-1  ">
           <div className="flex justify-end">
             {BMid &&
               (parentPath === "users" ||
@@ -1206,7 +1206,7 @@ const Tasks = () => {
               </th>
               <th
                 className="sticky top-0 z-10 bg-orange-600 text-white text-sm text-left px-2 py-2 border-l-2 border-gray-200 "
-                style={{ width: "8rem" }}
+                style={{ width: "6rem" }}
               >
                 Decision Status
               </th>
@@ -1381,8 +1381,14 @@ const Tasks = () => {
                       isDisabled={!meetingPermission.canUpdate}
                       options={members}
                       menuPortalTarget={document.body}
-                      closeMenuOnScroll={() => true}
+             maxMenuHeight={200}
+                      menuPlacement="auto"
+                      onMenuScrollToTop={()=> false}
                       styles={{
+                        menuPortal: base => {
+                          const { zIndex, ...rest } = base;
+                          return { ...rest, zIndex: 15 };
+                      },
                         control: (provided, state) => ({
                           ...provided,
                           backgroundColor: "#f9fafb",
@@ -1474,10 +1480,8 @@ const Tasks = () => {
                               (person) => person.value === task?.members
                             )
                       }
-                      menuPlacement="auto"
-                      maxMenuHeight={maxMenuHeight}
-                      // closeMenuOnSelect={()=> true}
-                      // menuIsOpen = {()=> true}
+             
+                     
                     />
                   </td>
                   <td className="border py-1 px-2">
@@ -1521,10 +1525,11 @@ const Tasks = () => {
                           borderWidth: "1px",
                           borderColor: state.isFocused
                             ? "#orange-400"
-                            : "transparent", // Changed borderColor
+                            : "transparent",
                           boxShadow: state.isFocused
                             ? "none"
                             : provided.boxShadow,
+                          cursor: "pointer",
                           fontSize: "16px",
                           height: "36px", // Adjust the height here
                           "&:hover": {
@@ -1538,11 +1543,14 @@ const Tasks = () => {
                           "&:focus-within": {
                             borderColor: "#fb923c",
                           },
-                          width: "8rem",
+                          width: "6rem",
                         }),
+
                         option: (provided, state) => ({
                           ...provided,
                           color: state.isFocused ? "#fff" : "#000000",
+                          fontSize: "12px",
+                          cursor: "pointer",
                           backgroundColor: state.isFocused
                             ? "#ea580c"
                             : "transparent",
