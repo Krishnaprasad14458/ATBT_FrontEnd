@@ -39,7 +39,7 @@ export async function boardmeetingFormLoader({ params, request }) {
     ]);
     usersList = usersList?.data?.users?.map((item) => ({
       value: item.id,
-      label: item.email,
+      label: item.name,
       image: item.image,
       name: item.name,
     }));
@@ -119,7 +119,7 @@ function BoardMeetingForm() {
       const updatedMembersForSelect = boardmeeting.boardmeetingData.members.map(
         (member) => ({
           value: member.id,
-          label: member.email,
+          label: member.name,
           image: member.image,
           name: member.name,
         })
@@ -132,7 +132,7 @@ function BoardMeetingForm() {
         setSelected(
           boardmeeting?.moduleMembers?.data?.map((item) => ({
             value: item.id,
-            label: item.email,
+            label: item.name,
             image: item.image,
             name: item.name,
           }))
@@ -142,7 +142,7 @@ function BoardMeetingForm() {
         setSelected(
           boardmeeting?.moduleMembers?.data?.members?.map((item) => ({
             value: item.id,
-            label: item.email,
+            label: item.name,
             image: item.image,
             name: item.name,
           }))
