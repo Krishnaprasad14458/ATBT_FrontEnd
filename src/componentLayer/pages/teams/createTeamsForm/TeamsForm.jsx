@@ -27,7 +27,7 @@ export async function teamFormLoader({ params }) {
     }
     usersList = usersList?.data?.users?.map((item) => ({
       value: item.id,
-      label: item.email,
+      label: item.name,
       image: item.image,
       name: item.name,
     }));
@@ -68,7 +68,7 @@ function TeamsForm() {
     if (id && team?.teamData?.members) {
       const updatedMembersForSelect = team?.teamData?.members.map((member) => ({
         value: member.id,
-        label: member.email,
+        label: member.name,
         image: member.image,
         name: member.name,
       }));
