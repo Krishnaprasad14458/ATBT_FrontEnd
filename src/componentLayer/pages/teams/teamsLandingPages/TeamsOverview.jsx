@@ -52,7 +52,7 @@ const TeamsOverview = () => {
           </button>
         </Link>       </GateKeeper>
       </div>
-      <div className=" flex justify-center mt-5">
+      <div className=" flex justify-center mt-3">
         <div className="w-full md:w-full  lg:w-11/12 xl:11/12 shadow-md border-2 rounded-md bg-[#f8fafc] px-4 pb-4">
           {customFormField &&
             customFormField.length > 0 &&

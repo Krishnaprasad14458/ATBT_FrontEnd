@@ -362,9 +362,9 @@ function Boardmeeting() {
                             key={key}
                             className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden `}
                             style={{ maxWidth: "160px" }}
-                            title={row[key]}
+                            title={value}
                           >
-                            <p className="truncate text-xs"> {value}</p>
+                            <p className="truncate text-xs">{value} </p>
                           </td>
                         );
                       }
@@ -438,6 +438,7 @@ function Boardmeeting() {
                           <button
                             type="button"
                             className=" inline-flex items-center gap-x-1 text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
+                            title="View"
                           >
                             <Link to={`${row.id}`}>
                               <svg
@@ -465,6 +466,7 @@ function Boardmeeting() {
                           <button
                             type="button"
                             className="inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
+                           title="Edit"
                           >
                             <Link
                               to={{
@@ -493,6 +495,7 @@ function Boardmeeting() {
                             type="button"
                             onClick={() => handleDeleteUser(row.id)}
                             className=" inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none  dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600 cursor-pointer"
+                             title="Delete"
                           >
                             <svg
                               xmlns="http://www.w3.org/2000/svg"

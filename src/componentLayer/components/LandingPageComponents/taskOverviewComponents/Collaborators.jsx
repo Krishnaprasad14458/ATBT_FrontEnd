@@ -97,7 +97,7 @@ const Collaborators = ({ task, handleSubmit, meetingPermission }) => {
                 borderWidth: "1px",
                 borderColor: state.isFocused ? "#orange-400" : "transparent",
                 boxShadow: state.isFocused ? "none" : provided.boxShadow,
-                fontSize: "16px",
+                fontSize: "12px",
                 height: "36px", // Adjust the height here
                 "&:hover": {
                   borderColor: state.isFocused ? "#fb923c" : "transparent",
@@ -118,7 +118,11 @@ const Collaborators = ({ task, handleSubmit, meetingPermission }) => {
               option: (provided, state) => ({
                 ...provided,
                 color: state.isFocused ? "#fff" : "#000000",
-                backgroundColor: state.isFocused ? "#ea580c" : "transparent",
+                fontSize: "12px",
+                cursor: "pointer",
+                backgroundColor: state.isFocused
+                  ? "#ea580c"
+                  : "transparent",
 
                 "&:hover": {
                   color: "#fff",
