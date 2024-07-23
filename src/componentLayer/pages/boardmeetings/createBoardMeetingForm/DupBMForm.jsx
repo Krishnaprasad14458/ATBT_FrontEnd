@@ -20,9 +20,8 @@ export async function boardmeetingFormLoader({ params, request }) {
       formResponse,
       boardmeetingResponse,
       usersList,
-      moduleMembers,
+      displayMembers,
       meetingList,
-      teamsList,
     ] = await Promise.all([
       atbtApi.get(`form/list?name=boardmeetingform`),
       params.BMid ? atbtApi.get(`boardmeeting/getByid/${params.BMid}`) : null, //Api for edit
@@ -35,7 +34,6 @@ export async function boardmeetingFormLoader({ params, request }) {
         ? atbtApi.get(`/team/list/${boardmeetingForID}`)
         : null,
       atbtApi.get(`boardmeeting/list?${boardmeetingFor}=${boardmeetingForID}`),
-      atbtApi.post(`team/list`, {}),
     ]);
     usersList = usersList?.data?.users?.map((item) => ({
       value: item.id,
@@ -47,16 +45,18 @@ export async function boardmeetingFormLoader({ params, request }) {
     // to
     if (boardmeetingFor === "user" && boardmeetingForID) {
       usersList = usersList.filter((user) => user.value !== boardmeetingForID);
+      displayMembers = [displayMembers?.data?.user];
     }
     if (boardmeetingFor === "entity" && boardmeetingForID) {
-      const entityIds = moduleMembers?.data.map((entity) => entity.id);
+      const entityIds = displayMembers?.data.map((entity) => entity.id);
       usersList = usersList.filter((user) => !entityIds.includes(user.value));
+      displayMembers = displayMembers?.data;
     }
     if (boardmeetingFor === "team" && boardmeetingForID) {
-      const teamIds = moduleMembers?.data?.members.map((team) => team.id);
+      const teamIds = displayMembers?.data?.members.map((team) => team.id);
       usersList = usersList.filter((user) => !teamIds.includes(user.value));
+      displayMembers = displayMembers?.data?.members;
     }
-
     let boardmeetingData = null;
     if (params && params.BMid) {
       console.log(boardmeetingResponse, "loader boardmeeting data");
@@ -69,23 +69,14 @@ export async function boardmeetingFormLoader({ params, request }) {
     let meetingListForSelect = meetingList?.data?.Meetings.map((list) => ({
       label: list?.meetingnumber,
       value: list?.id,
-      members: list?.members,
-    }));
-    let teamsListForSelect = teamsList?.data?.Teams.map((list) => ({
-      label: list?.name,
-      value: list?.id,
-      members: list?.members,
-
     }));
     return {
       boardmeetingData,
       formData,
       usersList,
-      moduleMembers,
+      displayMembers,
       meetingList,
       meetingListForSelect,
-      teamsList,
-      teamsListForSelect,
     };
   } catch (error) {
     if (error.response) {
@@ -126,16 +117,6 @@ function BoardMeetingForm() {
       );
       setSelected(updatedMembersForSelect);
     }
-    if (!BMid) {
-      setSelected(
-        boardmeeting?.moduleMembers?.data?.map((item) => ({
-          value: item.id,
-          label: item.email,
-          image: item.image,
-          name: item.name,
-        }))
-      );
-    }
   }, [BMid, boardmeeting]);
   function setInitialForm() {
     console.log("boardmeeting", boardmeeting);
@@ -159,6 +140,7 @@ function BoardMeetingForm() {
     return response;
   }
   const navigate = useNavigate();
+  
   const { createBoardMeeting, updateBoardMeeting } = useContext(
     BoardMeetingsDataContext
   );
@@ -166,7 +148,6 @@ function BoardMeetingForm() {
   console.log("selected selected", selected);
   const [usersEmails, setUsersEmails] = useState(boardmeeting.usersList);
 
-  console.log("selected", selected);
   useEffect(() => {
     const filteredEmails = boardmeeting.usersList.filter(
       (mainObj) =>
@@ -182,12 +163,11 @@ function BoardMeetingForm() {
   let [customFormFields, setCustomFormFields] = useState(() =>
     setInitialForm()
   );
-  console.log("customFormFields", customFormFields);
   useEffect(() => {
     setCustomFormFields(setInitialForm());
-    // if (!BMid) {
-    //   setSelected([]);
-    // }
+    if (!BMid) {
+      setSelected([]);
+    }
   }, [BMid]);
 
   const handleOpenOptions = (name) => {
@@ -198,23 +178,50 @@ function BoardMeetingForm() {
       setopenOptions(name);
     }
   };
+  const [defaultboardMeetingMembers, setDefaultBoardMeetingMembers] = useState(
+    []
+  );
+  const [allboardMeetingMembers, setAllBoardMeetingMembers] = useState([]);
 
+  useEffect(() => {
+    let defaultBMMembers = [...boardmeeting?.displayMembers];
+    // defaultBMMembers.push();
+    setDefaultBoardMeetingMembers(defaultBMMembers);
+
+    if (BMid) {
+      for (let y = 0; y < customFormFields.length; y++) {
+        if (customFormFields[y].inputname === "members") {
+          let members = customFormFields[y].value;
+          setAllBoardMeetingMembers([...defaultBMMembers, ...members]);
+          customFormFields[y].value = customFormFields[y].value.map(
+            (item) => item.id
+          );
+          // console.log("first",customFormFields[y].value)
+        }
+      }
+    } else if (!BMid) {
+      setAllBoardMeetingMembers(defaultBMMembers);
+    }
+  }, [BMid, boardmeeting]);
   const handleClick = (value, index) => {
     console.log("value", value);
     setSelected(value);
-    // let formatChange = value.map((item) => ({
-    //   name: item.name,
-    //   id: item.value,
-    //   image: item.image,
-    //   email: item.label,
-    // }));
-    // setAllBoardMeetingMembers([...defaultboardMeetingMembers, ...formatChange]);
+    let formatChange = value.map((item) => ({
+      name: item.name,
+      id: item.value,
+      image: item.image,
+      email: item.label,
+    }));
+    setAllBoardMeetingMembers([...defaultboardMeetingMembers, ...formatChange]);
     const updatedFormData = [...customFormFields];
     let members = value.map((item) => item.value);
     updatedFormData[index].value = members;
     setCustomFormFields(updatedFormData);
   };
 
+  useEffect(() => {
+    console.log(searchTerm, "clear");
+  }, [searchTerm]);
   const handleRemove = (selectedIndex, index) => {
     const updatedSelected = [
       ...selected.slice(0, selectedIndex),
@@ -516,22 +523,12 @@ function BoardMeetingForm() {
     if (!checkValidation()) {
       console.log(customFormFields, "submitcustomFormFields");
       const formData = new FormData(e.target);
-      console.log("selecedsd", selected);
-      let mapppp = selected.map((item) => item.value);
       for (let i = 0; i < customFormFields.length; i++) {
         if (Array.isArray(customFormFields[i].value)) {
-          if (customFormFields[i].inputname === "members") {
-            formData.set(
-              customFormFields[i].inputname,
-
-              JSON.stringify(selected.map((item) => item.value))
-            );
-          } else {
-            formData.set(
-              customFormFields[i].inputname,
-              JSON.stringify(customFormFields[i].value)
-            );
-          }
+          formData.set(
+            customFormFields[i].inputname,
+            JSON.stringify(customFormFields[i].value)
+          );
         }
       }
       formData.set("customFieldsData", JSON.stringify(customFormFields));
@@ -540,7 +537,7 @@ function BoardMeetingForm() {
       formData.forEach((value, key) => {
         formDataObj[key] = value;
       });
-      console.log("formDataObj", formDataObj, mapppp);
+      console.log("formDataObj", formDataObj);
       let response;
       if (!!BMid && !!boardmeeting?.boardmeetingData) {
         console.log("updating");
@@ -622,37 +619,6 @@ function BoardMeetingForm() {
     const randomIndex = char?.charCodeAt(0) % colors.length;
     return colors[randomIndex];
   };
-
-  const addPreviousMeetingMemberstoThisMeeting = (selectedOption) => {
-    if (!boardmeeting?.usersList || !selectedOption?.members) return;
-  
-    const existingValues = new Set(selected.map(user => user.value));
-    
-    const newMembers = boardmeeting.usersList.filter(user => 
-      selectedOption.members.includes(user.value) && !existingValues.has(user.value)
-    );
-  
-    const updatedSelectedMembers = [...selected, ...newMembers];
-    setSelected(updatedSelectedMembers);
-  
-    console.log("Updated Selected Members", updatedSelectedMembers);
-  };
-  
-  const addPreviousTeamMemberstoThisMeeting = (selectedOption) => {
-    if (!boardmeeting?.usersList || !selectedOption?.members) return;
-      
-    const existingValues = new Set(selected.map(user => user.value));
-    const newMembers = boardmeeting?.usersList?.filter(user =>
-      selectedOption?.members?.includes(user.value) && !existingValues.has(user.value)
-    );
-    
-    const updatedSelectedMembers = [...selected, ...newMembers];
-    
-    console.log("uniqueMembers", updatedSelectedMembers);
-    setSelected(updatedSelectedMembers);
-  };
-  
-  console.log("selected", selected);
   return (
     <div className=" p-4 bg-[#f8fafc]">
       {/* <p className="font-lg font-semibold p-3">Entity Form</p> */}
@@ -789,6 +755,15 @@ function BoardMeetingForm() {
                             </label>
                             <Select
                               className="mb-3"
+                              // id={item.inputname}
+                              // name={item.inputname}
+                              // isDisabled={
+                              //   !!id && !!data?.userData && parseInt(id) === loggedInUser
+                              //     ? true
+                              //     : false
+                              // }
+                              // menuPlacement="auto"
+                              // maxMenuHeight={170}
                               options={boardmeeting?.meetingListForSelect}
                               styles={{
                                 control: (provided, state) => ({
@@ -832,11 +807,9 @@ function BoardMeetingForm() {
                                 },
                               })}
                               // value={selectedRoleOption}
-                              onChange={(selectedOption) => {
-                                addPreviousMeetingMemberstoThisMeeting(
-                                  selectedOption
-                                );
-                              }}
+                              // onChange={(selectedOption) => {
+                              //   handleRoleName(selectedOption, index);
+                              // }}
                             />
                           </div>
                           <div className="col-span-1">
@@ -845,7 +818,16 @@ function BoardMeetingForm() {
                             </label>
                             <Select
                               className="mb-3"
-                              options={boardmeeting?.teamsListForSelect}
+                              // id={item.inputname}
+                              // name={item.inputname}
+                              // isDisabled={
+                              //   !!id && !!data?.userData && parseInt(id) === loggedInUser
+                              //     ? true
+                              //     : false
+                              // }
+                              // menuPlacement="auto"
+                              // maxMenuHeight={170}
+                              // options={data?.fieldsDropDownData?.role}
                               styles={{
                                 control: (provided, state) => ({
                                   ...provided,
@@ -888,9 +870,9 @@ function BoardMeetingForm() {
                                 },
                               })}
                               // value={selectedRoleOption}
-                              onChange={(selectedOption) => {
-                                addPreviousTeamMemberstoThisMeeting(selectedOption);
-                              }}
+                              // onChange={(selectedOption) => {
+                              //   handleRoleName(selectedOption, index);
+                              // }}
                             />
                           </div>
                         </div>
@@ -1621,9 +1603,10 @@ function BoardMeetingForm() {
                       item.field == "predefined" && (
                         <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-2 mt-5">
                           {item.value &&
+                            allboardMeetingMembers &&
                             Array.from({ length: showAllMembers }).map(
                               (_, index) => {
-                                let UsersList = selected;
+                                let UsersList = allboardMeetingMembers;
                                 let user = UsersList[index];
                                 let initials = "";
                                 let firstLetter = "";
