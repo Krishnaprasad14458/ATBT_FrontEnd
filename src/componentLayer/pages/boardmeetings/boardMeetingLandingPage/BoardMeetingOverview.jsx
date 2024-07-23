@@ -45,7 +45,7 @@ const BoardMeetingOverview = () => {
   const { id, BMid, boardmeetings } = useParams();
   let data = useLoaderData();
   let customFormField = data?.data?.data?.customFieldsData;
-  let usersGroupData = data?.data?.data?.allMembers;
+  let usersGroupData = data?.data?.data?.members;
   console.log("usersGroupData" , usersGroupData)
   console.log("data" , data)
 
