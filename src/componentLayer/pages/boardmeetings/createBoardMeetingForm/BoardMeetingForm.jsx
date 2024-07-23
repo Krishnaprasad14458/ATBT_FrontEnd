@@ -127,14 +127,28 @@ function BoardMeetingForm() {
       setSelected(updatedMembersForSelect);
     }
     if (!BMid) {
-      setSelected(
-        boardmeeting?.moduleMembers?.data?.map((item) => ({
-          value: item.id,
-          label: item.email,
-          image: item.image,
-          name: item.name,
-        }))
-      );
+      console.log("werty",boardmeeting?.moduleMembers)
+      if(boardmeetingFor ==="entity"){
+        setSelected(
+          boardmeeting?.moduleMembers?.data?.map((item) => ({
+            value: item.id,
+            label: item.email,
+            image: item.image,
+            name: item.name,
+          }))
+        );
+      }
+      if(boardmeetingFor ==="team"){
+        setSelected(
+          boardmeeting?.moduleMembers?.data?.members?.map((item) => ({
+            value: item.id,
+            label: item.email,
+            image: item.image,
+            name: item.name,
+          }))
+        );
+      }
+    
     }
   }, [BMid, boardmeeting]);
   function setInitialForm() {
