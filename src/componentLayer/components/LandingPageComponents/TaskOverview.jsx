@@ -74,11 +74,16 @@ const TaskOverview = ({
   
   const popupRef = useRef(null);
   const overViewTaskRef = useRef(overViewTask);
+  const QparamsRef = useRef(Qparams);
+
 
   useEffect(() => {
     overViewTaskRef.current = overViewTask;
   }, [overViewTask]);
 
+  useEffect(() => {
+    QparamsRef.current = Qparams;
+  }, [Qparams]);
   const handleClickOutside = (event) => {
     if (
       overViewTaskRef.current &&
@@ -96,7 +101,7 @@ const TaskOverview = ({
       setDisplayOverviewSubTask(false);
       setOverViewTask(false);
       setUpdateDecisionToggle(false);
-      let updatedQparams = { ...Qparams };
+      let updatedQparams = { ...QparamsRef.current };
       delete updatedQparams.taskID;
       delete updatedQparams.subTaskID;
       setQParams(updatedQparams);
