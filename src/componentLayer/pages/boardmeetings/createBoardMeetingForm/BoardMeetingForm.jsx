@@ -113,7 +113,7 @@ function BoardMeetingForm() {
   useEffect(() => {
     if(BMid){
       let updatedMeetingListForSelect = boardmeeting?.meetingListForSelect
-      updatedMeetingListForSelect = updatedMeetingListForSelect.filter((item)=>item.value !== parseInt(BMid))
+      updatedMeetingListForSelect = updatedMeetingListForSelect?.filter((item)=>item.value !== parseInt(BMid))
       boardmeeting.meetingListForSelect = updatedMeetingListForSelect
 
     }
