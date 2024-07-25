@@ -80,7 +80,7 @@ const BoardMeetingOverview = () => {
           <Link
             to={{
               pathname: `/boardmeetings/${BMid}/edit`,
-              search: `?boardmeetingFor=${moduleName}&boardmeetingForID=${id}`,
+              search: `?boardmeetingFor=${moduleName}&boardmeetingForID=${id}&search=&page=1&pageSize=10`,
             }}
           >
             <button className=" flex  justify-center rounded-md bg-orange-600 px-3 py-2 text-sm font-medium leading-6 text-white shadow-sm  focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600">
