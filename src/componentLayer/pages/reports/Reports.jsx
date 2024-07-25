@@ -17,7 +17,7 @@ let moduleList = [
   { label: "Entity", value: "entity" },
   { label: "Team", value: "team" },
 ];
-
+let search=""
 export async function loader({ request, params }) {
   try {
     let url = new URL(request.url);
@@ -26,6 +26,8 @@ export async function loader({ request, params }) {
     const listID = url.searchParams.get("listID");
     const meetingId = url.searchParams.get("meetingId");
     const reportType = url.searchParams.get("reportType");
+    const meetingSearch = url.searchParams.get("meetingSearch") ? url.searchParams.get("meetingSearch") : "";
+
     const userData = JSON.parse(localStorage.getItem("data"));
     const userId = userData?.user?.id;
     let idOF;
@@ -55,7 +57,7 @@ export async function loader({ request, params }) {
         : null,
       moduleName &&
         listID &&
-        atbtApi.get(`boardmeeting/list?${moduleName}=${listID}`),
+        atbtApi.get(`boardmeeting/list?${moduleName}=${listID}&search=${meetingSearch}&page=1&pageSize=10`),
     ]);
     console.log("selectedModuleList890", reportsData);
     let selectedModuleLists;
@@ -453,6 +455,14 @@ function Reports() {
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
   });
+  function handleMeetingSearch(value) {
+    if (Qparams.meetingSearch !== value) {
+      setQParams({
+        ...Qparams,
+        meetingSearch: value,
+      });
+    }
+  }
 
   return (
     <div className="overflow-x-auto p-3">
@@ -726,6 +736,10 @@ function Reports() {
                       listID: Qparams.listID,
                       meetingId: selectedOption.value,
                     }));
+                  }}
+                
+                  onInputChange={(inputValue) => {
+                    handleMeetingSearch(inputValue);
                   }}
                 />
               </td>
