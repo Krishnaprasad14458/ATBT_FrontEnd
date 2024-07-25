@@ -106,11 +106,17 @@ function BoardMeetingForm() {
   const [showPassword, setShowPassword] = useState(false);
   document.title = "ATBT | Meeting";
   let { BMid } = useParams();
-  const boardmeeting = useLoaderData();
+  let boardmeeting = useLoaderData();
   console.log(boardmeeting, "cmp loader data");
 
   /// for edit to bind selected memebers
   useEffect(() => {
+    if(BMid){
+      let updatedMeetingListForSelect = boardmeeting?.meetingListForSelect
+      updatedMeetingListForSelect = updatedMeetingListForSelect?.filter((item)=>item.value !== parseInt(BMid))
+      boardmeeting.meetingListForSelect = updatedMeetingListForSelect
+
+    }
     if (BMid && boardmeeting?.boardmeetingData?.members) {
       console.log(
         "boardmeeting.boardmeetingData.members",
