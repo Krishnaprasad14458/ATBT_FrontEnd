@@ -706,7 +706,7 @@ function BoardMeetingForm() {
     boardmeetingForID: boardmeetingForID,
     search: "",
     page: 1,
-    pageSize: 5,
+    pageSize: 10,
    
   });
 
