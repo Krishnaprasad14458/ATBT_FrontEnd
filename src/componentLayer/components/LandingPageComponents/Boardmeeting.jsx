@@ -246,7 +246,7 @@ function Boardmeeting() {
               className=" px-1 inline-flex items-center  whitespace-nowrap rounded-full  transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground  hover:bg-primary/90 shrink-0 text-white  "
               to={{
                 pathname: "/boardmeetings/new",
-                search: `?boardmeetingFor=${moduleName}&boardmeetingForID=${id}`,
+                search: `?boardmeetingFor=${moduleName}&boardmeetingForID=${id}&search=&page=1&pageSize=10`,
               }}
             >
               <button className=" px-1 py-2 inline-flex items-center justify-center  rounded-full  font-medium  gap-1 ">
@@ -471,7 +471,7 @@ function Boardmeeting() {
                             <Link
                               to={{
                                 pathname: `/boardmeetings/${row.id}/edit`,
-                                search: `?boardmeetingFor=${moduleName}&boardmeetingForID=${id}`,
+                                search: `?boardmeetingFor=${moduleName}&boardmeetingForID=${id}&search=&page=1&pageSize=10`,
                               }}
                             >
                               <svg
