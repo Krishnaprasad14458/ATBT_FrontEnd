@@ -1,20 +1,32 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext, useEffect, useCallback, useRef } from "react";
 import axios from "axios";
 import defprop from "../../../../assets/Images/defprof.svg";
 import useDebounce from "../../../../hooks/debounce/useDebounce";
 import { UserDataContext } from "../../../../contexts/usersDataContext/usersDataContext";
 import { BoardMeetingsDataContext } from "../../../../contexts/boardmeetingsDataContext/boardmeetingsDataContext";
 import $ from "jquery";
-import { useNavigate, useLoaderData, useParams } from "react-router-dom";
+import {
+  useNavigate,
+  useLoaderData,
+  useParams,
+  useSubmit,
+  useFetcher,
+  useNavigation,
+} from "react-router-dom";
 import atbtApi from "../../../../serviceLayer/interceptor";
 import Select from "react-select";
 import { AuthContext } from "../../../../contexts/authContext/authContext";
 import { getCurrentDate } from "../../../../utils/utils";
+import { debounce } from "../../../../utils/utils";
 
 export async function boardmeetingFormLoader({ params, request }) {
   const url = new URL(request.url);
   const boardmeetingFor = url.searchParams.get("boardmeetingFor");
   const boardmeetingForID = parseInt(url.searchParams.get("boardmeetingForID"));
+  const searchParams = new URLSearchParams(url.search);
+  searchParams.delete("boardmeetingFor");
+  searchParams.delete("boardmeetingForID");
+  url.search = searchParams.toString();
   try {
     let [
       formResponse,
@@ -34,8 +46,16 @@ export async function boardmeetingFormLoader({ params, request }) {
         : boardmeetingFor === "team"
         ? atbtApi.get(`/team/list/${boardmeetingForID}`)
         : null,
-      atbtApi.get(`boardmeeting/list?${boardmeetingFor}=${boardmeetingForID}`),
-      atbtApi.post(`team/list`, {}),
+      boardmeetingFor && boardmeetingForID
+        ? 
+        atbtApi.get(
+            `boardmeeting/list?${boardmeetingFor}=${boardmeetingForID}${
+              url && url.search ? "&" + url.search.substring(1) : ""
+            }`
+          ): null,
+     
+      atbtApi.post(`team/list${url?.search ? url?.search : ""}`, {}),
+
     ]);
     usersList = usersList?.data?.users?.map((item) => ({
       value: item.id,
@@ -75,7 +95,6 @@ export async function boardmeetingFormLoader({ params, request }) {
       label: list?.name,
       value: list?.id,
       members: list?.members,
-
     }));
     return {
       boardmeetingData,
@@ -108,14 +127,22 @@ function BoardMeetingForm() {
   let { BMid } = useParams();
   let boardmeeting = useLoaderData();
   console.log(boardmeeting, "cmp loader data");
-
+  let submit = useSubmit();
+  let fetcher = useFetcher();
+  const navigation = useNavigation();
+  useEffect(() => {
+    if (fetcher.state === "idle" && !fetcher.data) {
+      fetcher.load(".");
+    }
+  }, [fetcher, navigation]);
   /// for edit to bind selected memebers
   useEffect(() => {
-    if(BMid){
-      let updatedMeetingListForSelect = boardmeeting?.meetingListForSelect
-      updatedMeetingListForSelect = updatedMeetingListForSelect?.filter((item)=>item.value !== parseInt(BMid))
-      boardmeeting.meetingListForSelect = updatedMeetingListForSelect
-
+    if (BMid) {
+      let updatedMeetingListForSelect = boardmeeting?.meetingListForSelect;
+      updatedMeetingListForSelect = updatedMeetingListForSelect?.filter(
+        (item) => item.value !== parseInt(BMid)
+      );
+      boardmeeting.meetingListForSelect = updatedMeetingListForSelect;
     }
     if (BMid && boardmeeting?.boardmeetingData?.members) {
       console.log(
@@ -133,8 +160,8 @@ function BoardMeetingForm() {
       setSelected(updatedMembersForSelect);
     }
     if (!BMid) {
-      console.log("werty",boardmeeting?.moduleMembers)
-      if(boardmeetingFor ==="entity"){
+      console.log("werty", boardmeeting?.moduleMembers);
+      if (boardmeetingFor === "entity") {
         setSelected(
           boardmeeting?.moduleMembers?.data?.map((item) => ({
             value: item.id,
@@ -144,7 +171,7 @@ function BoardMeetingForm() {
           }))
         );
       }
-      if(boardmeetingFor ==="team"){
+      if (boardmeetingFor === "team") {
         setSelected(
           boardmeeting?.moduleMembers?.data?.members?.map((item) => ({
             value: item.id,
@@ -154,7 +181,6 @@ function BoardMeetingForm() {
           }))
         );
       }
-    
     }
   }, [BMid, boardmeeting]);
   function setInitialForm() {
@@ -645,33 +671,71 @@ function BoardMeetingForm() {
 
   const addPreviousMeetingMemberstoThisMeeting = (selectedOption) => {
     if (!boardmeeting?.usersList || !selectedOption?.members) return;
-  
-    const existingValues = new Set(selected.map(user => user.value));
-    
-    const newMembers = boardmeeting.usersList.filter(user => 
-      selectedOption.members.includes(user.value) && !existingValues.has(user.value)
+
+    const existingValues = new Set(selected.map((user) => user.value));
+
+    const newMembers = boardmeeting.usersList.filter(
+      (user) =>
+        selectedOption.members.includes(user.value) &&
+        !existingValues.has(user.value)
     );
-  
+
     const updatedSelectedMembers = [...selected, ...newMembers];
     setSelected(updatedSelectedMembers);
-  
+
     console.log("Updated Selected Members", updatedSelectedMembers);
   };
-  
+
   const addPreviousTeamMemberstoThisMeeting = (selectedOption) => {
     if (!boardmeeting?.usersList || !selectedOption?.members) return;
-      
-    const existingValues = new Set(selected.map(user => user.value));
-    const newMembers = boardmeeting?.usersList?.filter(user =>
-      selectedOption?.members?.includes(user.value) && !existingValues.has(user.value)
+
+    const existingValues = new Set(selected.map((user) => user.value));
+    const newMembers = boardmeeting?.usersList?.filter(
+      (user) =>
+        selectedOption?.members?.includes(user.value) &&
+        !existingValues.has(user.value)
     );
-    
+
     const updatedSelectedMembers = [...selected, ...newMembers];
-    
+
     console.log("uniqueMembers", updatedSelectedMembers);
     setSelected(updatedSelectedMembers);
   };
+  const [Qparams, setQParams] = useState({
+    boardmeetingFor: boardmeetingFor,
+    boardmeetingForID: boardmeetingForID,
+    search: "",
+    page: 1,
+    pageSize: 5,
+   
+  });
+
+  const isFirstRender = useRef(true);
+
+  useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
+    debouncedParams(Qparams);
+  }, [Qparams]);
+  const debouncedParams = useCallback(
+    debounce((param) => {
+      console.log(param);
+      submit(param, { method: "get", action: "." });
+    }, 500),
+    []
+  );
+  function handleSearch(value) {
+    if (Qparams.search !== value) {
+      setQParams({
+        ...Qparams,
+        search: value,
+      });
+    }
+  }
   
+
   console.log("selected", selected);
   return (
     <div className=" p-4 bg-[#f8fafc]">
@@ -857,6 +921,9 @@ function BoardMeetingForm() {
                                   selectedOption
                                 );
                               }}
+                              onInputChange={(inputValue) => {
+                                handleSearch(inputValue);
+                              }}
                             />
                           </div>
                           <div className="col-span-1">
@@ -909,7 +976,12 @@ function BoardMeetingForm() {
                               })}
                               // value={selectedRoleOption}
                               onChange={(selectedOption) => {
-                                addPreviousTeamMemberstoThisMeeting(selectedOption);
+                                addPreviousTeamMemberstoThisMeeting(
+                                  selectedOption
+                                );
+                              }}
+                              onInputChange={(inputValue) => {
+                                handleSearch(inputValue);
                               }}
                             />
                           </div>
