@@ -7,9 +7,9 @@ import { debounce } from "../../../utils/utils";
 import { useReactToPrint } from "react-to-print";
 
 let reportType = [
-  { label: "ATBT", value: "To-Do" },
+  // { label: "ATBT", value: "To-Do" },
+  { label: "ATBT", value: "Master" },
   { label: "ATR", value: "In-Progress" },
-  { label: "ATBT MASTER", value: "Master" },
 ];
 
 let moduleList = [
@@ -17,7 +17,7 @@ let moduleList = [
   { label: "Entity", value: "entity" },
   { label: "Team", value: "team" },
 ];
-
+let search=""
 export async function loader({ request, params }) {
   try {
     let url = new URL(request.url);
@@ -26,6 +26,8 @@ export async function loader({ request, params }) {
     const listID = url.searchParams.get("listID");
     const meetingId = url.searchParams.get("meetingId");
     const reportType = url.searchParams.get("reportType");
+    const meetingSearch = url.searchParams.get("meetingSearch") ? url.searchParams.get("meetingSearch") : "";
+
     const userData = JSON.parse(localStorage.getItem("data"));
     const userId = userData?.user?.id;
     let idOF;
@@ -40,22 +42,22 @@ export async function loader({ request, params }) {
       meetingId !== "all" && reportType !== "Master"
         ? atbtApi.get(`task/list?meetingId=${meetingId}&status=${reportType}`)
         : meetingId !== "all" && reportType === "Master"
-          ? atbtApi.get(`task/list?meetingId=${meetingId}`)
-          : meetingId === "all" && reportType !== "Master"
-            ? atbtApi.get(`task/list?${idOF}=${listID}&status=${reportType}`)
-            : meetingId === "all" && reportType === "Master"
-              ? atbtApi.get(`task/list?${idOF}=${listID}`)
-              : null,
+        ? atbtApi.get(`task/list?meetingId=${meetingId}`)
+        : meetingId === "all" && reportType !== "Master"
+        ? atbtApi.get(`task/list?${idOF}=${listID}&status=${reportType}`)
+        : meetingId === "all" && reportType === "Master"
+        ? atbtApi.get(`task/list?${idOF}=${listID}`)
+        : null,
       moduleName === "user"
         ? atbtApi.post(`public/list/user`)
         : moduleName === "entity"
-          ? atbtApi.post(`public/list/entity`)
-          : moduleName === "team"
-            ? atbtApi.post(`public/list/team`)
-            : null,
+        ? atbtApi.post(`public/list/entity`)
+        : moduleName === "team"
+        ? atbtApi.post(`public/list/team`)
+        : null,
       moduleName &&
-      listID &&
-      atbtApi.get(`boardmeeting/list?${moduleName}=${listID}`),
+        listID &&
+        atbtApi.get(`boardmeeting/list?${moduleName}=${listID}&search=${meetingSearch}&page=1&pageSize=10`),
     ]);
     console.log("selectedModuleList890", reportsData);
     let selectedModuleLists;
@@ -85,14 +87,38 @@ export async function loader({ request, params }) {
     }
 
     console.log(selectedModuleLists, meetingsLists, "EntitiesListuoi");
+    const processData = (tasks) => {
+      return tasks.map(task => {
+        const memberData = task.group.find(member => member.id === task.members);
+        return {
+          ...task,
+          membersIDsData: memberData || null,
+        };
+      });
+    };
+    let updatedReportsData  = reportsData?.data?.tasks
+     updatedReportsData  = processData(updatedReportsData)
+
+     const sortedData = updatedReportsData.sort((a, b) => {
+      const nameA = a.membersIDsData?.name?.toLowerCase() || '';
+      const nameB = b.membersIDsData?.name?.toLowerCase() || '';
+
+      if (nameA < nameB) return -1;
+      if (nameA > nameB) return 1;
+
+      // Names are equal, sort by createdAt
+      const dateA = new Date(a.createdAt);
+      const dateB = new Date(b.createdAt);
+
+      return dateA - dateB;
+    });
+    updatedReportsData = sortedData
     const CombinedResponse = {
-      reportsData: reportsData.data.tasks,
+      reportsData: updatedReportsData,
       selectedModuleList: selectedModuleLists,
       meetingsList: meetingsLists,
     };
-
     console.log(userId, CombinedResponse, "jdskfsjf");
-
     return CombinedResponse;
   } catch (error) {
     console.error("Error occurred:", error);
@@ -102,11 +128,9 @@ export async function loader({ request, params }) {
 
 function Reports() {
   document.title = "ATBT | Report";
-
   let fetcher = useFetcher();
   const [Qparams, setQParams] = useState({});
   console.log(Qparams, "Qparams");
-
   useEffect(() => {
     debouncedParams(Qparams);
   }, [Qparams]);
@@ -147,10 +171,10 @@ function Reports() {
       );
     }
   }, [reportsData]);
-
+  /// removed
   const headersAtbt = [
     { label: "S.NO", key: "serialNO" },
-    { label: "Date of Board meeting", key: "date" },
+    // { label: "Date of Board meeting", key: "date" },
     { label: "Initial Date of Decision", key: "dateOfDecision" },
     { label: "Initial Decision Taken", key: "decision" },
     { label: "Person Responsible for implementation", key: "initialPerson" },
@@ -161,45 +185,47 @@ function Reports() {
 
   const headerMaster = [
     { label: "S.NO", key: "serialNO" },
-    { label: "Date of Board meeting", key: "date" },
+    // { label: "Date of Board meeting", key: "date" },
     { label: "Initial Date of Decision", key: "dateOfDecision" },
     { label: "Initial Decision Taken", key: "decision" },
     { label: "Person Responsible for implementation", key: "initialPerson" },
-    { label: "Date of Previous meeting", key: "dateOfPreviosMeeting" },
+    // { label: "Collabarators", key: "colabrators" },
+    { label: "Date of Latest meeting", key: "dateOfPreviosMeeting" },
     {
-      label: "Updated decision in previous meeting",
+      label: "Updated decision in Latest meeting",
       key: "updatedDecisionInPreviosMeeting",
     },
     { label: "Updated Person Responsible", key: "updatedPerson" },
-    { label: "DueDate", key: "dueDate" },
-    { label: "Status as on", key: "statusAsOn" },
-    { label: "Status", key: "status" },
-    { label: "Ageing of the Decision as per Latest Board Meeting", key: "age" },
     { label: "Collabarators", key: "colabrators" },
-    { label: "Meeting ID", key: "meetingNumber" },
-
+    { label: "DueDate", key: "dueDate" },
+    // { label: "Status as on", key: "statusAsOn" },
+    // { label: "Status", key: "status" },
+    { label: "Ageing of the Decision as per Latest Board Meeting", key: "age" },
+    // { label: "Meeting ID", key: "meetingNumber" },
   ];
 
   const headerATR = [
     { label: "S.NO", key: "serialNO" },
-    { label: "Date of Board meeting", key: "date" },
+    // { label: "Date of Board meeting", key: "date" },
     { label: "Initial Date of Decision", key: "dateOfDecision" },
     { label: "Initial Decision Taken", key: "decision" },
     { label: "Person Responsible for implementation", key: "initialPerson" },
-    { label: "Date of Previous meeting", key: "dateOfPreviosMeeting" },
+    // { label: "Collabarators", key: "colabrators" },
+
+    { label: "Date of Latest meeting", key: "dateOfPreviosMeeting" },
     {
-      label: "Updated decision in previous meeting",
+      label: "Updated decision in Latest meeting",
       key: "updatedDecisionInPreviosMeeting",
     },
     { label: "Updated Person Responsible", key: "updatedPerson" },
-    { label: "DueDate", key: "dueDate" },
+    { label: "Collabarators", key: "colabrators" },
+    // { label: "DueDate", key: "dueDate" },
     { label: "Status as on", key: "statusAsOn" },
     { label: "Status", key: "status" },
     { label: "Ageing of the Decision as per Latest Board Meeting", key: "age" },
     // { label: "Updated Decision", key: "updatedbyuser" },
     // { label: "Updated Person Responsible", key: "memberdata" },
-    { label: "Collabarators", key: "colabrators" },
-    { label: "Meeting ID", key: "meetingNumber" },
+    // { label: "Meeting ID", key: "meetingNumber" },
     // { label: "Collabarators", key: "colabrators" },
   ];
 
@@ -259,11 +285,11 @@ function Reports() {
   const masterPersonResHeaders =
     ReportData && ReportData.length > 0
       ? ReportData?.flatMap((data, index) => [
-        {
-          label: `Person Responsible for implementation`,
-          key: `PersonResponce${index + 1}`,
-        },
-      ])
+          {
+            label: `Person Responsible for implementation`,
+            key: `PersonResponce${index + 1}`,
+          },
+        ])
       : [];
 
   // Extract dynamic headers
@@ -322,41 +348,63 @@ function Reports() {
   };
 
   const handleDownload = (data, headers) => {
-    const formattedData = data.map((row) => ({
-      ...row,
+    const fillEmptyCells = (rowData) => {
+      const filledData = {};
+      headers.forEach((header) => {
+        filledData[header.key] = rowData[header.key] || "N/A";
+      });
+      return filledData;
+    };
+    const formattedData = data.map((row) => {
+      const rowWithFilledCells = fillEmptyCells({
+        ...row,
+        // initialPerson: [
+        //   ...(row?.activeLog?.changes
+        //     ?.filter((log) => log.fieldChanged === "members" && log.oldValue === null)
+        //     ?.map((member) => member.newValue) || []),
+        //   ...(row?.colabDetails?.map((colab) => colab.name) || [])
+        // ].join(', '),
+        initialPerson: row?.activeLog.changes
+          ?.filter(
+            (log) => log.fieldChanged === "members" && log.oldValue === null
+          )
+          .map((member) => member.newValue)
+          .join(", "),
+        colabrators: row?.colabDetails?.map((colab) => colab.name).join(", "),
+        updatedPerson: row?.activeLog.changes
+          ?.filter(
+            (log) => log.fieldChanged === "members" && log.oldValue !== null
+          )
+          .map((member) => member.newValue)
+          .slice(-1)[0]
+          ? row?.activeLog.changes
+              ?.filter(
+                (log) => log.fieldChanged === "members" && log.oldValue !== null
+              )
+              .map((member) => member.newValue)
+              .slice(-1)[0]
+          : row?.activeLog.changes
+              ?.filter(
+                (log) => log.fieldChanged === "members" && log.oldValue === null
+              )
+              .map((member) => member.newValue)
+              .join(", "),
 
-      initialPerson: row?.activeLog.changes
-        ?.filter(
-          (log) => log.fieldChanged === "members" && log.oldValue === null
-        )
-        .map((member) => member.newValue)
-        .join(", "),
-
-      updatedPerson: row?.activeLog.changes
-        ?.filter(
-          (log) => log.fieldChanged === "members" && log.oldValue !== null
-        )
-        .map((member) => member.newValue)
-        .slice(-1)[0],
-     
-
-
-
-      dateOfPreviosMeeting: row?.taskStatus
-        ?.filter((status) => status.isDecisionUpdate === 1)
-        .map((date) => date.Date)[0],
-      updatedDecisionInPreviosMeeting: row?.taskStatus
-        ?.filter((status) => status.isDecisionUpdate === 1)
-        .map((date) => date.message)[0],
-      statusAsOn: row?.taskStatus
-        ?.filter((status) => status.isStatusUpdate === 1)
-        .map((date) => date.Date)[0],
-      status: row?.taskStatus
-        ?.filter((status) => status.isStatusUpdate === 1)
-        .map((date) => date.message)[0],
-
-      colabrators: row?.colabDetails?.map((colab) => colab.name).join(", "),
-    }));
+        dateOfPreviosMeeting: row?.taskStatus
+          ?.filter((status) => status.isDecisionUpdate === 1)
+          .map((date) => date.Date)[0],
+        updatedDecisionInPreviosMeeting: row?.taskStatus
+          ?.filter((status) => status.isDecisionUpdate === 1)
+          .map((date) => date.message)[0],
+        statusAsOn: row?.taskStatus
+          ?.filter((status) => status.isStatusUpdate === 1)
+          .map((date) => date.Date)[0],
+        status: row?.taskStatus
+          ?.filter((status) => status.isStatusUpdate === 1)
+          .map((date) => date.message)[0],
+      });
+      return rowWithFilledCells;
+    });
     const worksheetData = [
       headers.map((header) => header.label),
       ...formattedData.map((row) => headers.map((header) => row[header.key])),
@@ -407,6 +455,14 @@ function Reports() {
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
   });
+  function handleMeetingSearch(value) {
+    if (Qparams.meetingSearch !== value) {
+      setQParams({
+        ...Qparams,
+        meetingSearch: value,
+      });
+    }
+  }
 
   return (
     <div className="overflow-x-auto p-3">
@@ -681,6 +737,10 @@ function Reports() {
                       meetingId: selectedOption.value,
                     }));
                   }}
+                
+                  onInputChange={(inputValue) => {
+                    handleMeetingSearch(inputValue);
+                  }}
                 />
               </td>
 
@@ -688,8 +748,8 @@ function Reports() {
                 className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium overflow-hidden`}
               >
                 {report?.selectedReport?.value == "To-Do" &&
-                  ReportData &&
-                  ReportData.length > 0 ? (
+                ReportData &&
+                ReportData.length > 0 ? (
                   <>
                     <button
                       type="button"
@@ -714,7 +774,7 @@ function Reports() {
                       <p className="text-xs">XLSX</p>
                     </button>
 
-                    <button
+                    {/* <button
                       type="button"
                       title="PDF file"
                       className=" inline-flex items-center gap-x-1 text-sm font-semibold  border  border-gray-500 rounded-md hover:bg-orange-500 hover:border-white p-1.5 text-[#475569] hover:text-white disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
@@ -735,7 +795,7 @@ function Reports() {
                         />
                       </svg>
                       <p className="text-xs">PDF</p>
-                    </button>
+                    </button> */}
                   </>
                 ) : report?.selectedReport?.value == "In-Progress" &&
                   ReportData &&
@@ -764,7 +824,7 @@ function Reports() {
                       <p className="text-xs">XLSX</p>
                     </button>
 
-                    <button
+                    {/* <button
                       type="button"
                       title="PDF file"
                       className=" inline-flex items-center gap-x-1 text-sm font-semibold  border  border-gray-500 rounded-md hover:bg-orange-500 hover:border-white p-1.5 text-[#475569] hover:text-white disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
@@ -785,7 +845,7 @@ function Reports() {
                         />
                       </svg>{" "}
                       <p className="text-xs">PDF</p>
-                    </button>
+                    </button> */}
                   </>
                 ) : report?.selectedReport?.value == "Master" &&
                   ReportData &&
@@ -813,7 +873,7 @@ function Reports() {
                       </svg>{" "}
                       <p className="text-xs">XLSX</p>
                     </button>
-                    <button
+                    {/* <button
                       type="button"
                       title="PDF file"
                       className=" inline-flex items-center gap-x-1 text-sm font-semibold  border  border-gray-500 rounded-md hover:bg-orange-500 hover:border-white p-1.5 text-[#475569] hover:text-white disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
@@ -834,7 +894,7 @@ function Reports() {
                         />
                       </svg>{" "}
                       <p className="text-xs">PDF</p>
-                    </button>
+                    </button> */}
                   </>
                 ) : (
                   "No Reports Found"
@@ -847,9 +907,7 @@ function Reports() {
 
       {/*  table for reports printing */}
 
-  
-
-      <div  style={{ display: "none", "@media print": { display: "block" } }}>
+      <div style={{ display: "none", "@media print": { display: "block" } }}>
         <div className=" mt-5" ref={componentRef}>
           <div className="m-5">
             <h1>{ReportData && ReportData[0]?.blongsTo}</h1>
@@ -926,7 +984,6 @@ function Reports() {
                       </>
                     )}
 
-
                   <th
                     className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200"
                     style={{ width: "12rem" }}
@@ -944,15 +1001,12 @@ function Reports() {
                       </>
                     )}
 
-
                   <th
                     className="sticky top-0 bg-orange-600 text-white text-sm text-left px-3 py-2.5 border-l-2 border-gray-200"
                     style={{ width: "12rem" }}
                   >
                     Collabarators
                   </th>
-
-
                 </tr>
               </thead>
               <tbody className=" divide-gray-200 dark:divide-gray-700">
@@ -960,31 +1014,46 @@ function Reports() {
                   ReportData?.length > 0 &&
                   ReportData?.map((item, index) => {
                     return (
-                      <tr className={`hover:bg-slate-100 dark:hover:bg-gray-700 `}>
-
-                        <td className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium   overflow-hidden`} >
+                      <tr
+                        className={`hover:bg-slate-100 dark:hover:bg-gray-700 `}
+                      >
+                        <td
+                          className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium   overflow-hidden`}
+                        >
                           {index + 1}
                         </td>
 
                         {/* date of Boardmetting */}
-                        <td className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium   overflow-hidden`} >
+                        <td
+                          className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium   overflow-hidden`}
+                        >
                           {item?.date}
                         </td>
                         {/* intial date of decision */}
-                        <td className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium   overflow-hidden`}>
+                        <td
+                          className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium   overflow-hidden`}
+                        >
                           {item?.dateOfDecision}
                         </td>
 
-
                         {/* decision */}
-                        <td className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium   overflow-hidden`}>
+                        <td
+                          className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium   overflow-hidden`}
+                        >
                           {item.decision}
                         </td>
                         {/* person responsible */}
                         <td
                           className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium   overflow-hidden`}
                         >
-                          {item?.activeLog?.changes?.filter((log) => log?.fieldChanged === "members" && log?.oldValue === null).map((member) => member?.newValue).join(", ")}
+                          {item?.activeLog?.changes
+                            ?.filter(
+                              (log) =>
+                                log?.fieldChanged === "members" &&
+                                log?.oldValue === null
+                            )
+                            .map((member) => member?.newValue)
+                            .join(", ")}
                         </td>
 
                         {report &&
@@ -992,69 +1061,115 @@ function Reports() {
                             report?.selectedReport.label === "ATBT MASTER") && (
                             <>
                               {/* dateOfPreviosMeeting */}
-                              <td className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium   overflow-hidden`}>
-                                {item?.taskStatus?.filter((status) => status.isDecisionUpdate === 1).map((date) => date.Date)[0]}
+                              <td
+                                className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium   overflow-hidden`}
+                              >
+                                {
+                                  item?.taskStatus
+                                    ?.filter(
+                                      (status) => status.isDecisionUpdate === 1
+                                    )
+                                    .map((date) => date.Date)[0]
+                                }
                               </td>
 
                               {/* updatedDecisionInPreviosMeeting */}
-                              <td className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium   overflow-hidden`}>
-                                {item?.taskStatus?.filter((status) => status?.isDecisionUpdate === 1).map((date) => date?.message)[0]}
+                              <td
+                                className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium   overflow-hidden`}
+                              >
+                                {
+                                  item?.taskStatus
+                                    ?.filter(
+                                      (status) => status?.isDecisionUpdate === 1
+                                    )
+                                    .map((date) => date?.message)[0]
+                                }
                               </td>
 
                               {/* updatedPerson */}
-                              <td className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium   overflow-hidden`}>
-                                {item?.activeLog?.changes?.filter((log) => log?.fieldChanged === "members" && log?.oldValue !== null).map((member) => member?.newValue).slice(-1)[0]}
+                              <td
+                                className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium   overflow-hidden`}
+                              >
+                                {
+                                  item?.activeLog?.changes
+                                    ?.filter(
+                                      (log) =>
+                                        log?.fieldChanged === "members" &&
+                                        log?.oldValue !== null
+                                    )
+                                    .map((member) => member?.newValue)
+                                    .slice(-1)[0]
+                                }
                               </td>
                             </>
                           )}
 
-
-
                         {/* dueDate */}
-                        <td className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium   overflow-hidden`}>
+                        <td
+                          className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium   overflow-hidden`}
+                        >
                           {item?.dueDate}
                         </td>
-
 
                         {report &&
                           (report?.selectedReport.label === "ATR" ||
                             report?.selectedReport.label === "ATBT MASTER") && (
                             <>
                               {/* statusAsOn */}
-                              <td className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium   overflow-hidden`}>
-                                {item?.taskStatus?.filter((status) => status.isStatusUpdate === 1).map((date) => date.Date)[0]}
+                              <td
+                                className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium   overflow-hidden`}
+                              >
+                                {
+                                  item?.taskStatus
+                                    ?.filter(
+                                      (status) => status.isStatusUpdate === 1
+                                    )
+                                    .map((date) => date.Date)[0]
+                                }
                               </td>
                               {/* status */}
-                              <td className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium   overflow-hidden`}>
-                                {item?.taskStatus?.filter((status) => status.isStatusUpdate === 1).map((date) => date.message)[0]}
+                              <td
+                                className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium   overflow-hidden`}
+                              >
+                                {
+                                  item?.taskStatus
+                                    ?.filter(
+                                      (status) => status.isStatusUpdate === 1
+                                    )
+                                    .map((date) => date.message)[0]
+                                }
                               </td>
                             </>
                           )}
 
-
                         {/* meetingNumber */}
-                        <td className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium   overflow-hidden`}>
+                        <td
+                          className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium   overflow-hidden`}
+                        >
                           {item?.meetingNumber}
                         </td>
-
 
                         {report &&
                           (report?.selectedReport.label === "ATR" ||
                             report?.selectedReport.label === "ATBT MASTER") && (
                             <>
                               {/* age */}
-                              <td className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium   overflow-hidden`}>
+                              <td
+                                className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium   overflow-hidden`}
+                              >
                                 {item?.age}
                               </td>
                             </>
                           )}
 
-
                         {/* colabrators */}
-                        <td className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium   overflow-hidden`}>
-                          {item?.colabDetails?.map((colab) => colab.name).join(", ")}
+                        <td
+                          className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium   overflow-hidden`}
+                        >
+                          {item?.colabDetails
+                            ?.map((colab) => colab.name)
+                            .join(", ")}
                         </td>
-
                       </tr>
                     );
                   })}

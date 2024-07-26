@@ -1,46 +1,83 @@
 import React, { useState, useContext, useEffect } from "react";
+import axios from "axios";
 import defprop from "../../../../assets/Images/defprof.svg";
 import useDebounce from "../../../../hooks/debounce/useDebounce";
 import { UserDataContext } from "../../../../contexts/usersDataContext/usersDataContext";
-import { TeamsDataContext } from "../../../../contexts/teamsDataContext/teamsDataContext";
+import { BoardMeetingsDataContext } from "../../../../contexts/boardmeetingsDataContext/boardmeetingsDataContext";
+import $ from "jquery";
 import { useNavigate, useLoaderData, useParams } from "react-router-dom";
 import atbtApi from "../../../../serviceLayer/interceptor";
-import BreadCrumbs from "../../../components/breadcrumbs/BreadCrumbs";
 import Select from "react-select";
 import { AuthContext } from "../../../../contexts/authContext/authContext";
+import { getCurrentDate } from "../../../../utils/utils";
 
-const userData = JSON.parse(localStorage.getItem("data"));
-// let createdBy = userData?.user?.id;
-const token = userData?.token;
-const role = userData?.role?.name;
-export async function teamFormLoader({ params }) {
+export async function boardmeetingFormLoader({ params, request }) {
+  const url = new URL(request.url);
+  const boardmeetingFor = url.searchParams.get("boardmeetingFor");
+  const boardmeetingForID = parseInt(url.searchParams.get("boardmeetingForID"));
   try {
-    let [formResponse, teamResponse, usersList] = await Promise.all([
-      atbtApi.get(`form/list?name=teamform`),
-      params.id ? atbtApi.get(`team/list/${params.id}`) : null, //Api for edit
+    let [
+      formResponse,
+      boardmeetingResponse,
+      usersList,
+      displayMembers,
+      meetingList,
+    ] = await Promise.all([
+      atbtApi.get(`form/list?name=boardmeetingform`),
+      params.BMid ? atbtApi.get(`boardmeeting/getByid/${params.BMid}`) : null, //Api for edit
       atbtApi.post(`public/list/user`),
+      boardmeetingFor === "user"
+        ? atbtApi.get(`user/list/${boardmeetingForID}`)
+        : boardmeetingFor === "entity"
+        ? atbtApi.post(`entity/User/list/${boardmeetingForID}`)
+        : boardmeetingFor === "team"
+        ? atbtApi.get(`/team/list/${boardmeetingForID}`)
+        : null,
+      atbtApi.get(`boardmeeting/list?${boardmeetingFor}=${boardmeetingForID}`),
     ]);
-    let teamData = null;
-    if (params && params.id) {
-      console.log(teamResponse, "loader team data");
-      teamData = teamResponse?.data;
-    }
     usersList = usersList?.data?.users?.map((item) => ({
       value: item.id,
-      label: item.name,
+      label: item.email,
       image: item.image,
       name: item.name,
     }));
-
-    console.log(teamData, "teamData");
-    const formData = formResponse.data.Data;
-    if (userData) {
-      let threadName = teamData?.name;
-      let threadPath = `/teams/${params.id}/edit`;
-      return { teamData, formData, usersList, threadName, threadPath };
-    } else {
-      return { teamData, formData, usersList };
+    console.log("boardmeetingResponse", boardmeetingResponse);
+    // to
+    if (boardmeetingFor === "user" && boardmeetingForID) {
+      usersList = usersList.filter((user) => user.value !== boardmeetingForID);
+      displayMembers = [displayMembers?.data?.user];
     }
+    if (boardmeetingFor === "entity" && boardmeetingForID) {
+      const entityIds = displayMembers?.data.map((entity) => entity.id);
+      usersList = usersList.filter((user) => !entityIds.includes(user.value));
+      displayMembers = displayMembers?.data;
+    }
+    if (boardmeetingFor === "team" && boardmeetingForID) {
+      const teamIds = displayMembers?.data?.members.map((team) => team.id);
+      usersList = usersList.filter((user) => !teamIds.includes(user.value));
+      displayMembers = displayMembers?.data?.members;
+    }
+    let boardmeetingData = null;
+    if (params && params.BMid) {
+      console.log(boardmeetingResponse, "loader boardmeeting data");
+      boardmeetingData = boardmeetingResponse?.data;
+      console.log(boardmeetingResponse, "loader boardmeeting data updated");
+    }
+
+    const formData = formResponse.data.Data;
+    console.log("formData", formData, "boardmeetingData", boardmeetingData);
+    let meetingListForSelect = meetingList?.data?.Meetings.map((list) => ({
+      label: list?.meetingnumber,
+      value: list?.id,
+    }));
+    return {
+      boardmeetingData,
+      formData,
+      usersList,
+      displayMembers,
+      meetingList,
+      meetingListForSelect,
+    };
   } catch (error) {
     if (error.response) {
       throw new Error(`Failed to fetch data: ${error.response.status}`);
@@ -51,84 +88,88 @@ export async function teamFormLoader({ params }) {
     }
   }
 }
-function TeamsForm() {
+function BoardMeetingForm() {
   const { authState } = useContext(AuthContext);
-
+  let createdBy = authState?.user?.id;
+  const urlParams = new URLSearchParams(window.location.search);
+  const boardmeetingFor = urlParams.get("boardmeetingFor");
+  const boardmeetingForID = urlParams.get("boardmeetingForID");
   const [showPassword, setShowPassword] = useState(false);
-  document.title = "ATBT | Team";
-  let { id } = useParams();
-  const team = useLoaderData();
-  console.log(team, "cmp loader data");
-  useEffect(() => {
-    if (id && team?.teamData?.members) {
-      setSelected(team.teamData.members);
-    }
-  }, [id, team]);
-  useEffect(() => {
-    if (id && team?.teamData?.members) {
-      const updatedMembersForSelect = team?.teamData?.members.map((member) => ({
-        value: member.id,
-        label: member.name,
-        image: member.image,
-        name: member.name,
-      }));
+  document.title = "ATBT | Meeting";
+  let { BMid } = useParams();
+  const boardmeeting = useLoaderData();
+  console.log(boardmeeting, "cmp loader data");
 
+  /// for edit to bind selected memebers
+  useEffect(() => {
+    if (BMid && boardmeeting?.boardmeetingData?.members) {
+      console.log(
+        "boardmeeting.boardmeetingData.members",
+        boardmeeting.boardmeetingData.members
+      );
+      const updatedMembersForSelect = boardmeeting.boardmeetingData.members.map(
+        (member) => ({
+          value: member.id,
+          label: member.email,
+          image: member.image,
+          name: member.name,
+        })
+      );
       setSelected(updatedMembersForSelect);
     }
-  }, [id, team]);
+  }, [BMid, boardmeeting]);
   function setInitialForm() {
-    console.log("teammmm", team);
-    let response = team?.formData;
-    if (!!id && !!team?.teamData) {
-      let teamData = team?.teamData;
+    console.log("boardmeeting", boardmeeting);
+    let response = boardmeeting?.formData;
+    if (!!BMid && !!boardmeeting?.boardmeetingData) {
+      let boardmeetingData = boardmeeting?.boardmeetingData;
       response.forEach((input) => {
-        if (teamData.hasOwnProperty(input.inputname)) {
-          if (teamData[input.inputname] !== null) {
-            input.value = teamData[input.inputname];
+        console.log("input", input);
+        if (boardmeetingData.hasOwnProperty(input.inputname)) {
+          if (boardmeetingData[input.inputname] !== null) {
+            input.value = boardmeetingData[input.inputname];
           }
+          // if (boardmeetingData[input.inputname] !== null && input.type === "multiselect") {
+          //   input.value = boardmeetingData[input.inputname]?.map((item)=>item.id);
+
+          // }
         }
       });
     }
+    console.log("response", response);
     return response;
   }
-
   const navigate = useNavigate();
-  const {
-    usersState: { users, dashboard },
-    usersDispatch,
-  } = useContext(UserDataContext);
-  const { createTeam, updateTeam } = useContext(TeamsDataContext);
+  
+  const { createBoardMeeting, updateBoardMeeting } = useContext(
+    BoardMeetingsDataContext
+  );
   const [selected, setSelected] = useState([]);
-  const [usersEmails, setUsersEmails] = useState(team.usersList);
+  console.log("selected selected", selected);
+  const [usersEmails, setUsersEmails] = useState(boardmeeting.usersList);
+
   useEffect(() => {
-    const filteredEmails = team.usersList.filter(
+    const filteredEmails = boardmeeting.usersList.filter(
       (mainObj) =>
         !selected.some((selectedObj) => selectedObj.value === mainObj.value)
     );
     setUsersEmails(filteredEmails);
-  }, [selected, team.usersList]);
-  const { debouncedSetPage, debouncedSetSearch } = useDebounce(usersDispatch);
+  }, [selected, boardmeeting.usersList]);
+
+  // const { debouncedSetPage, debouncedSetSearch } = useDebounce(usersDispatch);
   let [openOptions, setopenOptions] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
-
+  // const [showUsers, setShowUsers] = useState(false);
   let [customFormFields, setCustomFormFields] = useState(() =>
     setInitialForm()
   );
   useEffect(() => {
     setCustomFormFields(setInitialForm());
-    if (!id) {
+    if (!BMid) {
       setSelected([]);
     }
-  }, [id]);
+  }, [BMid]);
 
-  const handleInputChange = (e) => {
-    // setShowUsers(true);
-    setSearchTerm(e.target.value);
-    debouncedSetSearch({
-      context: "DASHBOARD",
-      data: e.target.value,
-    });
-  };
   const handleOpenOptions = (name) => {
     if (openOptions == name) {
       setopenOptions("");
@@ -137,23 +178,47 @@ function TeamsForm() {
       setopenOptions(name);
     }
   };
+  const [defaultboardMeetingMembers, setDefaultBoardMeetingMembers] = useState(
+    []
+  );
+  const [allboardMeetingMembers, setAllBoardMeetingMembers] = useState([]);
+
+  useEffect(() => {
+    let defaultBMMembers = [...boardmeeting?.displayMembers];
+    // defaultBMMembers.push();
+    setDefaultBoardMeetingMembers(defaultBMMembers);
+
+    if (BMid) {
+      for (let y = 0; y < customFormFields.length; y++) {
+        if (customFormFields[y].inputname === "members") {
+          let members = customFormFields[y].value;
+          setAllBoardMeetingMembers([...defaultBMMembers, ...members]);
+          customFormFields[y].value = customFormFields[y].value.map(
+            (item) => item.id
+          );
+          // console.log("first",customFormFields[y].value)
+        }
+      }
+    } else if (!BMid) {
+      setAllBoardMeetingMembers(defaultBMMembers);
+    }
+  }, [BMid, boardmeeting]);
   const handleClick = (value, index) => {
     console.log("value", value);
     setSelected(value);
-    const updatedFormData = [...customFormFields];
-    let members = value;
-    console.log("members", members);
-    members = members?.map((item) => ({
+    let formatChange = value.map((item) => ({
       name: item.name,
       id: item.value,
       image: item.image,
       email: item.label,
     }));
+    setAllBoardMeetingMembers([...defaultboardMeetingMembers, ...formatChange]);
+    const updatedFormData = [...customFormFields];
+    let members = value.map((item) => item.value);
     updatedFormData[index].value = members;
     setCustomFormFields(updatedFormData);
-    setSearchTerm("");
-    // setShowUsers(false);
   };
+
   useEffect(() => {
     console.log(searchTerm, "clear");
   }, [searchTerm]);
@@ -171,7 +236,6 @@ function TeamsForm() {
     updatedFormData[index].value = updatedMembers;
     setCustomFormFields(updatedFormData);
   };
-
   const handleChange = (index, newValue) => {
     const updatedFormData = [...customFormFields];
     if (updatedFormData[index].type != "multiselect") {
@@ -179,7 +243,6 @@ function TeamsForm() {
       setCustomFormFields(updatedFormData);
     }
     if (updatedFormData[index].type == "multiselect") {
-      // { item.value.includes(option) }
       let selectedoptions = updatedFormData[index].value;
       if (selectedoptions.includes(newValue)) {
         selectedoptions = selectedoptions.filter(
@@ -199,6 +262,8 @@ function TeamsForm() {
     setCustomFormFields(updatedFormData);
     const name = event.target.name;
   };
+
+  console.log("customFormFields", customFormFields);
   const [errors, setErrors] = useState({});
   const [isErrorspresent, setIsErrorspresent] = useState(false);
   const checkValidation = () => {
@@ -274,7 +339,6 @@ function TeamsForm() {
             [customFormFields[i]
               .inputname]: `Please Enter ${customFormFields[i].label}`,
           }));
-
           isErrorspresent = true;
         } else {
           setErrors((prev) => ({
@@ -347,7 +411,6 @@ function TeamsForm() {
             [customFormFields[i]
               .inputname]: `Please Enter ${customFormFields[i].label}`,
           }));
-
           isErrorspresent = true;
         } else {
           setErrors((prev) => ({
@@ -363,7 +426,6 @@ function TeamsForm() {
             [customFormFields[i]
               .inputname]: `Please Enter ${customFormFields[i].label}`,
           }));
-
           isErrorspresent = true;
         } else {
           setErrors((prev) => ({
@@ -382,7 +444,6 @@ function TeamsForm() {
             [customFormFields[i]
               .inputname]: `Please Enter ${customFormFields[i].label}`,
           }));
-
           isErrorspresent = true;
         } else {
           setErrors((prev) => ({
@@ -401,7 +462,6 @@ function TeamsForm() {
             [customFormFields[i]
               .inputname]: `Please Enter ${customFormFields[i].label}`,
           }));
-
           isErrorspresent = true;
         } else {
           setErrors((prev) => ({
@@ -417,7 +477,6 @@ function TeamsForm() {
             [customFormFields[i]
               .inputname]: `Please Enter ${customFormFields[i].label}`,
           }));
-
           isErrorspresent = true;
         } else {
           setErrors((prev) => ({
@@ -458,60 +517,64 @@ function TeamsForm() {
       checkValidation();
     }
   }, [customFormFields]);
+
   async function handleFormSubmit(e) {
     e.preventDefault();
-
     if (!checkValidation()) {
       console.log(customFormFields, "submitcustomFormFields");
-
       const formData = new FormData(e.target);
       for (let i = 0; i < customFormFields.length; i++) {
         if (Array.isArray(customFormFields[i].value)) {
-          if (customFormFields[i].inputname === "members") {
-            let updatedMembers = [];
-            for (let z = 0; z < customFormFields[i].value.length; z++) {
-              let id = customFormFields[i].value[z].id;
-              updatedMembers.push(id);
-            }
-
-            formData.set(
-              customFormFields[i].inputname,
-              JSON.stringify(updatedMembers)
-            );
-          } else {
-            formData.set(
-              customFormFields[i].inputname,
-              JSON.stringify(customFormFields[i].value)
-            );
-          }
+          formData.set(
+            customFormFields[i].inputname,
+            JSON.stringify(customFormFields[i].value)
+          );
         }
       }
-
       formData.set("customFieldsData", JSON.stringify(customFormFields));
-      formData.set("createdBy", authState?.user?.id);
+      formData.set("createdBy", createdBy);
       const formDataObj = {};
       formData.forEach((value, key) => {
         formDataObj[key] = value;
       });
-      // Log form data
-
-      console.log(formDataObj, "foj");
-
+      console.log("formDataObj", formDataObj);
       let response;
-      if (!!id && !!team?.teamData) {
+      if (!!BMid && !!boardmeeting?.boardmeetingData) {
         console.log("updating");
-        response = await updateTeam(formData, id);
+        response = await updateBoardMeeting(formData, BMid);
       } else {
         console.log("creating");
-        response = await createTeam(formData);
+        response = await createBoardMeeting(
+          formData,
+          boardmeetingFor,
+          boardmeetingForID
+        );
       }
       console.log("jsonData submitted", response);
       if (response?.status === 201) {
         console.log("data is 201");
-        navigate(`/teams/${response.data}`);
+        if (boardmeetingFor === "user") {
+          navigate(
+            `/users/${boardmeetingForID}/userboardmeetings/${response.data}/tasks?search=&page=1&pageSize=10`
+          );
+        }
+        if (boardmeetingFor === "entity") {
+          navigate(
+            `/entities/${boardmeetingForID}/entityboardmeetings/${response.data}/tasks?search=&page=1&pageSize=10`
+          );
+        }
+        if (boardmeetingFor === "team") {
+          navigate(
+            `/teams/${boardmeetingForID}/teamboardmeetings/${response.data}/tasks?search=&page=1&pageSize=10`
+          );
+        }
       }
     }
   }
+  //for number scrolling stop
+  $("input[type=number]").on("mousewheel", function (e) {
+    $(e.target).blur();
+  });
 
   // to set the time in 12hours
   function formatTime(timeString) {
@@ -526,16 +589,20 @@ function TeamsForm() {
     if (isNaN(hours) || isNaN(minutes)) {
       return "Invalid time";
     }
+
     // Converting hours to 12-hour format and determining AM/PM
     const ampm = hours >= 12 ? "PM" : "AM";
     const formattedHours = hours % 12 || 12; // Handles midnight
     const formattedMinutes = minutes < 10 ? "0" + minutes : minutes; // Ensures minutes are two digits
+
     // Constructing the formatted time string
     const formattedTime = `${formattedHours}:${formattedMinutes} ${ampm}`;
     return formattedTime;
   }
 
   // end the time function
+  // for previous dates defult
+
   let [showAllMembers, setShowAllMembers] = useState(12);
   const colors = [
     "#818cf8",
@@ -553,21 +620,20 @@ function TeamsForm() {
     return colors[randomIndex];
   };
   return (
-    <div className="container p-4 bg-[#f8fafc]">
-      <p className="text-lg font-semibold">
-        <BreadCrumbs />
-      </p>
-      <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-3 xl:grid-cols-3  gap-4 mt-2 ">
-        <div className="col-span-1 ">
-          <form className=" " method="POST" onSubmit={handleFormSubmit}>
+    <div className=" p-4 bg-[#f8fafc]">
+      {/* <p className="font-lg font-semibold p-3">Entity Form</p> */}
+      <p className="text-lg font-semibold">Meeting Form</p>
+      <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-3 xl:grid-cols-3  gap-4 mt-2  ">
+        <div className="col-span-1">
+          <form method="POST" onSubmit={handleFormSubmit}>
             {customFormFields &&
               customFormFields.length > 0 &&
               customFormFields.map((item, index) => (
                 <div key={index}>
                   {/* predefined fields */}
                   {item.type === "text" &&
-                    item.inputname == "name" &&
-                    item.field === "predefined" && (
+                    item.inputname == "meetingnumber" &&
+                    item.field == "predefined" && (
                       <div>
                         <label
                           htmlFor={item.label}
@@ -584,12 +650,14 @@ function TeamsForm() {
                         <input
                           type="text"
                           name={item.inputname}
+                          placeholder="Enter Meeting Id"
                           id={item.inputname}
-                          placeholder="Enter Team Name"
-                          value={customFormFields[index].value || ""}
-                          className="px-2 py-2 text-sm block w-full rounded-md bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder:text-xs"
-                          onChange={(e) => handleChange(index, e.target.value)}
                           style={{ fontSize: "0.8rem" }}
+                          value={customFormFields[index].value || ""}
+                          onChange={(e) => {
+                            handleChange(index, e.target.value);
+                          }}
+                          className="px-2 py-2 text-sm block w-full rounded-md bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder:text-xs"
                         />
                         <div className="h-2 text-[#dc2626]">
                           {errors[item.inputname] && (
@@ -600,8 +668,8 @@ function TeamsForm() {
                         </div>
                       </div>
                     )}
-                  {item.type === "file" &&
-                    item.inputname == "image" &&
+                  {item.type === "date" &&
+                    item.inputname === "date" &&
                     item.field === "predefined" && (
                       <div>
                         <label
@@ -617,13 +685,20 @@ function TeamsForm() {
                           )}
                         </label>
                         <input
-                          type="file"
+                          type="date"
                           name={item.inputname}
                           id={item.inputname}
-                          className="px-2 py-1 md:py-1 lg:py-1 xl:py-1 text-sm block w-full rounded-md bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder:text-xs"
-                          onChange={(event) => handleFileChange(event, index)}
-                          accept="image/*"
-                          style={{ fontSize: "0.8rem" }}
+                          style={{
+                            fontSize: "0.8rem",
+                            WebkitAppearance: "none",
+                          }}
+                          // min={
+                          //   (BMid === null || BMid === undefined) &&
+                          //   getCurrentDate()
+                          // }
+                          className="px-2 py-2 text-sm block w-full rounded-md bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder:text-xs"
+                          value={customFormFields[index].value || ""}
+                          onChange={(e) => handleChange(index, e.target.value)}
                         />
                         <div className="h-2 text-[#dc2626]">
                           {errors[item.inputname] && (
@@ -634,9 +709,10 @@ function TeamsForm() {
                         </div>
                       </div>
                     )}
+
                   {item.type === "textarea" &&
                     item.inputname == "description" &&
-                    item.field === "predefined" && (
+                    item.field == "predefined" && (
                       <div>
                         <label
                           htmlFor={item.label}
@@ -652,7 +728,7 @@ function TeamsForm() {
                         </label>
                         <textarea
                           name={item.inputname}
-                          placeholder="Type here...."
+                          placeholder="Type here..."
                           id={item.inputname}
                           value={customFormFields[index].value || ""}
                           className="bg-gray-50 rounded-md text-xs p-2 w-full h-20 border-2 border-gray-200 focus:outline-none focus:border-orange-400 placeholder:text-xs"
@@ -672,9 +748,137 @@ function TeamsForm() {
                     item.inputname == "members" &&
                     item.field == "predefined" && (
                       <div className="relative">
+                        <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-2 gap-5">
+                          <div className="col-span-1">
+                            <label className="block text-sm font-medium leading-6 mt-1 text-gray-900">
+                              {item.label} from meetings
+                            </label>
+                            <Select
+                              className="mb-3"
+                              // id={item.inputname}
+                              // name={item.inputname}
+                              // isDisabled={
+                              //   !!id && !!data?.userData && parseInt(id) === loggedInUser
+                              //     ? true
+                              //     : false
+                              // }
+                              // menuPlacement="auto"
+                              // maxMenuHeight={170}
+                              options={boardmeeting?.meetingListForSelect}
+                              styles={{
+                                control: (provided, state) => ({
+                                  ...provided,
+                                  backgroundColor: "#f9fafb", // Change the background color of the select input
+                                  borderWidth: state.isFocused ? "1px" : "1px", // Decrease border width when focused
+                                  borderColor: state.isFocused
+                                    ? "#orange-400"
+                                    : "#d1d5db", // Change border color when focused
+                                  boxShadow: state.isFocused
+                                    ? "none"
+                                    : provided.boxShadow, // Optionally remove box shadow when focused
+                                }),
+                                placeholder: (provided) => ({
+                                  ...provided,
+                                  fontSize: "12px", // Adjust the font size of the placeholder text
+                                  color: "#a9a9a9",
+                                }),
+                                option: (provided, state) => ({
+                                  ...provided,
+                                  color: state.isFocused ? "#fff" : "#000000",
+                                  fontSize: "12px",
+                                  cursor: "pointer",
+                                  backgroundColor: state.isFocused
+                                    ? "#ea580c"
+                                    : "transparent",
+
+                                  "&:hover": {
+                                    color: "#fff",
+                                    backgroundColor: "#ea580c",
+                                  },
+                                }),
+                              }}
+                              theme={(theme) => ({
+                                ...theme,
+                                borderRadius: 5,
+                                colors: {
+                                  ...theme.colors,
+
+                                  primary: "#fb923c",
+                                },
+                              })}
+                              // value={selectedRoleOption}
+                              // onChange={(selectedOption) => {
+                              //   handleRoleName(selectedOption, index);
+                              // }}
+                            />
+                          </div>
+                          <div className="col-span-1">
+                            <label className="block text-sm font-medium leading-6 mt-1 text-gray-900">
+                              {item.label} from Teams
+                            </label>
+                            <Select
+                              className="mb-3"
+                              // id={item.inputname}
+                              // name={item.inputname}
+                              // isDisabled={
+                              //   !!id && !!data?.userData && parseInt(id) === loggedInUser
+                              //     ? true
+                              //     : false
+                              // }
+                              // menuPlacement="auto"
+                              // maxMenuHeight={170}
+                              // options={data?.fieldsDropDownData?.role}
+                              styles={{
+                                control: (provided, state) => ({
+                                  ...provided,
+                                  backgroundColor: "#f9fafb", // Change the background color of the select input
+                                  borderWidth: state.isFocused ? "1px" : "1px", // Decrease border width when focused
+                                  borderColor: state.isFocused
+                                    ? "#orange-400"
+                                    : "#d1d5db", // Change border color when focused
+                                  boxShadow: state.isFocused
+                                    ? "none"
+                                    : provided.boxShadow, // Optionally remove box shadow when focused
+                                }),
+                                placeholder: (provided) => ({
+                                  ...provided,
+                                  fontSize: "12px", // Adjust the font size of the placeholder text
+                                  color: "#a9a9a9",
+                                }),
+                                option: (provided, state) => ({
+                                  ...provided,
+                                  color: state.isFocused ? "#fff" : "#000000",
+                                  fontSize: "12px",
+                                  cursor: "pointer",
+                                  backgroundColor: state.isFocused
+                                    ? "#ea580c"
+                                    : "transparent",
+
+                                  "&:hover": {
+                                    color: "#fff",
+                                    backgroundColor: "#ea580c",
+                                  },
+                                }),
+                              }}
+                              theme={(theme) => ({
+                                ...theme,
+                                borderRadius: 5,
+                                colors: {
+                                  ...theme.colors,
+
+                                  primary: "#fb923c",
+                                },
+                              })}
+                              // value={selectedRoleOption}
+                              // onChange={(selectedOption) => {
+                              //   handleRoleName(selectedOption, index);
+                              // }}
+                            />
+                          </div>
+                        </div>
                         <label
                           htmlFor="email"
-                          className="block text-sm  font-medium leading-6 mt-2 text-gray-900"
+                          className="block text-sm  font-medium leading-6  text-gray-900"
                         >
                           {item.label}
                           {item.mandatory ? (
@@ -736,85 +940,6 @@ function TeamsForm() {
                             handleClick(selectedOption, index);
                           }}
                         />
-
-                        {/* <div
-                          className=" 
-                       flex flex-wrap gap-1 px-2 py-2 text-sm  w-full  bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 selected-users-container relative  rounded-md"
-                        >
-                          {selected &&
-                            selected.length > 0 &&
-                            selected.map((result, selectedIndex) => {
-                              let mail = result.email.split("@")[0];
-                              return (
-                                <span className="flex gap-1 text-xs mt-1 border-2 border-gray-200 rounded-md  focus:border-orange-600">
-                                  {result.image ? (
-                                    <img
-                                      src={
-                                        typeof result.image === "string"
-                                          ? result.image
-                                          : URL.createObjectURL(result.image)
-                                      }
-                                      name="EntityPhoto"
-                                      alt="Entity Photo"
-                                      className="rounded-lg w-4 h-4 "
-                                    />
-                                  ) : (
-                                    <img
-                                      className="w-4 h-4 rounded-lg "
-                                      src={defprop}
-                                      alt="default image"
-                                    />
-                                  )}
-                                  {mail}
-                                  <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    viewBox="0 0 16 16"
-                                    fill="currentColor"
-                                    className="w-4 h-4 "
-                                    onClick={() =>
-                                      handleRemove(selectedIndex, index)
-                                    }
-                                  >
-                                    <path d="M5.28 4.22a.75.75 0 0 0-1.06 1.06L6.94 8l-2.72 2.72a.75.75 0 1 0 1.06 1.06L8 9.06l2.72 2.72a.75.75 0 1 0 1.06-1.06L9.06 8l2.72-2.72a.75.75 0 0 0-1.06-1.06L8 6.94 5.28 4.22Z" />
-                                  </svg>
-                                </span>
-                              );
-                            })}
-                          <input
-                            type="text"
-                            placeholder="Type email id"
-                            tabindex="0"
-                            aria-describedby="lui_5891"
-                            aria-invalid="false"
-                            style={{ border: "none" }}
-                            className="bg-[#f8fafc]   focus:outline-none  placeholder:text-xs"
-                            value={searchTerm}
-                            onChange={handleInputChange}
-                          />
-                        </div>
-
-                        {showUsers && searchTerm.length > 0 && (
-                          <ul className="user-list z-10 absolute top-full left-0 bg-gray-50 border border-1 border-gray-200 w-full">
-                            {usersEmails
-                              .filter(
-                                (mainObj) =>
-                                  !selected.some(
-                                    (selectedObj) =>
-                                      selectedObj.id === mainObj.id
-                                  )
-                              )
-                              .map((user, ind) => (
-                                <li
-                                  key={ind}
-                                  className="px-3 py-1 text-sm hover:bg-gray-200"
-                                  onClick={() => handleClick(user, index)}
-                                >
-                                  {user.email}
-                                </li>
-                              ))}
-                          </ul>
-                        )} */}
-
                         <div className="h-2 text-[#dc2626]">
                           {errors[item.inputname] && (
                             <span className="text-xs">
@@ -824,12 +949,49 @@ function TeamsForm() {
                         </div>
                       </div>
                     )}
+                  {item.type === "file" &&
+                    item.inputname === "image" &&
+                    item.field === "predefined" && (
+                      <div>
+                        <label
+                          htmlFor={item.label}
+                          className="block text-sm font-medium leading-6 mt-2 text-gray-900"
+                        >
+                          {item.label.charAt(0).toUpperCase() +
+                            item.label.slice(1)}
+                          {item.mandatory ? (
+                            <span className="text-red-600">*</span>
+                          ) : (
+                            <span> </span>
+                          )}
+                        </label>
+                        <input
+                          type="file"
+                          name={item.inputname}
+                          id={item.inputname}
+                          className="px-2 py-1 md:py-1 lg:py-1 xl:py-1 text-sm block w-full rounded-md bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder:text-xs"
+                          onChange={(event) =>
+                            handleFileChange(event, index, item.inputname)
+                          }
+                          accept="image/*"
+                          style={{ fontSize: "0.8rem" }}
+                        />
+                        <div className="h-2 text-red-500">
+                          {errors[item.inputname] && (
+                            <span className="text-xs">
+                              {errors[item.inputname]}
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                    )}
+
                   {/* custom fields */}
                   {item.type === "text" && item.field == "custom" && (
                     <div>
                       <label
                         htmlFor={item.label}
-                        className="block text-sm font-medium leading-6 mt-2 text-gray-900"
+                        className="block text-sm font-medium leading-6 my-2 text-gray-900"
                       >
                         {item.label.charAt(0).toUpperCase() +
                           item.label.slice(1)}
@@ -862,7 +1024,7 @@ function TeamsForm() {
                     <div>
                       <label
                         htmlFor={item.label}
-                        className="block text-sm font-medium leading-6 mt-2 text-gray-900"
+                        className="block text-sm font-medium leading-6 my-2 text-gray-900"
                       >
                         {item.label.charAt(0).toUpperCase() +
                           item.label.slice(1)}
@@ -895,7 +1057,7 @@ function TeamsForm() {
                     <div className="relative">
                       <label
                         htmlFor={item.label}
-                        className="block text-sm font-medium leading-6 mt-2 text-gray-900"
+                        className="block text-sm font-medium leading-6 my-2 text-gray-900"
                       >
                         {item.label.charAt(0).toUpperCase() +
                           item.label.slice(1)}
@@ -965,7 +1127,7 @@ function TeamsForm() {
                     <div>
                       <label
                         htmlFor={item.label}
-                        className="block text-sm font-medium leading-6 mt-2 text-gray-900"
+                        className="block text-sm font-medium leading-6 my-2 text-gray-900"
                       >
                         {item.label.charAt(0).toUpperCase() +
                           item.label.slice(1)}
@@ -998,7 +1160,7 @@ function TeamsForm() {
                     <div>
                       <label
                         htmlFor={item.label}
-                        className="block text-sm font-medium leading-6 mt-2 text-gray-900"
+                        className="block text-sm font-medium leading-6 my-2 text-gray-900"
                       >
                         {item.label.charAt(0).toUpperCase() +
                           item.label.slice(1)}
@@ -1071,7 +1233,7 @@ function TeamsForm() {
                     <div>
                       <label
                         htmlFor={item.label}
-                        className="block text-sm font-medium leading-6 mt-2 text-gray-900"
+                        className="block text-sm font-medium leading-6 my-2 text-gray-900"
                       >
                         {item.label.charAt(0).toUpperCase() +
                           item.label.slice(1)}
@@ -1087,7 +1249,6 @@ function TeamsForm() {
                         className="px-2 py-2 text-sm block w-full rounded-md bg-gray-50 border border-gray-300 text-gray-900 focus:outline-none focus:border-orange-400 placeholder:text-xs"
                         id={item.inputname}
                         value={customFormFields[index].value || ""}
-                        s
                         onChange={(e) => handleChange(index, e.target.value)}
                         style={{ fontSize: "0.8rem" }}
                       />
@@ -1104,7 +1265,7 @@ function TeamsForm() {
                     <div>
                       <label
                         htmlFor={item.label}
-                        className="block text-sm font-medium leading-6 mt-2 text-gray-900"
+                        className="block text-sm font-medium leading-6 my-2 text-gray-900"
                       >
                         {item.label.charAt(0).toUpperCase() +
                           item.label.slice(1)}
@@ -1137,7 +1298,7 @@ function TeamsForm() {
                     <div>
                       <label
                         htmlFor={item.label}
-                        className="block text-sm font-medium leading-6 mt-2 text-gray-900"
+                        className="block text-sm font-medium leading-6 my-2 text-gray-900"
                       >
                         {item.label.charAt(0).toUpperCase() +
                           item.label.slice(1)}
@@ -1169,7 +1330,7 @@ function TeamsForm() {
                     <div>
                       <label
                         htmlFor={item.label}
-                        className="block text-sm font-medium leading-6 mt-2 text-gray-900"
+                        className="block text-sm font-medium leading-6 my-2 text-gray-900"
                       >
                         {item.label.charAt(0).toUpperCase() +
                           item.label.slice(1)}
@@ -1200,7 +1361,7 @@ function TeamsForm() {
                     <div>
                       <label
                         htmlFor={item.label}
-                        className="block text-sm font-medium leading-6 mt-2 text-gray-900"
+                        className="block text-sm font-medium leading-6 my-2 text-gray-900"
                       >
                         {item.label.charAt(0).toUpperCase() +
                           item.label.slice(1)}
@@ -1232,7 +1393,7 @@ function TeamsForm() {
                     <div>
                       <label
                         htmlFor={item.label}
-                        className="block text-sm font-medium leading-6 mt-2 text-gray-900"
+                        className="block text-sm font-medium leading-6 my-2 text-gray-900"
                       >
                         {item.label.charAt(0).toUpperCase() +
                           item.label.slice(1)}
@@ -1272,7 +1433,7 @@ function TeamsForm() {
                     <div className="relative">
                       <label
                         htmlFor={item.label}
-                        className="block text-sm font-medium leading-6 mt-2 text-gray-900"
+                        className="block text-sm font-medium leading-6 my-2 text-gray-900"
                       >
                         {item.label.charAt(0).toUpperCase() +
                           item.label.slice(1)}
@@ -1345,78 +1506,108 @@ function TeamsForm() {
                 type="submit"
                 className="mt-4 flex w-full justify-center rounded-md bg-orange-600 px-3 py-2.5 text-sm font-medium leading-6 text-white shadow-sm  focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600"
               >
-                {id ? "Update Team" : "Create Team"}
+                {BMid ? "Update Board Meeting" : "Create Board Meeting"}
               </button>
             </div>
           </form>
         </div>
         {/* preview */}
         <div className="col-span-2 hidden sm:block md:block">
-          <div className="shadow-md px-6 py-4 mt-4 border-2 rounded-md bg-[#f8fafc] ">
+          <div className=" shadow-md px-6 py-4 mt-4 border-2 rounded-md bg-[#f8fafc] ">
             {customFormFields &&
               customFormFields.length > 0 &&
               customFormFields.map((item) => {
                 return (
-                  <div className="relative">
+                  <div className="relative ">
                     {/* predefined fields*/}
-                    {item.type === "text" &&
-                      item.inputname == "name" &&
-                      item.field === "predefined" && (
-                        <div>
-                          {item.value ? (
-                            <p className="text-sm font-black text-gray-800 mt-2 absolute left-12">
-                              {" "}
-                              {item.value.toUpperCase()}
-                            </p>
-                          ) : (
-                            <p className="text-sm font-black text-gray-800 mt-2 absolute left-12">
-                              {" "}
-                              TEAM NAME
-                            </p>
+                    <div className="flex justify-between my-1 ">
+                      <span>
+                        {item.type === "text" &&
+                          item.inputname == "meetingnumber" &&
+                          item.field == "predefined" && (
+                            <div>
+                              {item.value ? (
+                                <p className="text-lg">{item.value}</p>
+                              ) : (
+                                <p className="text-lg text-gray-400">
+                                  Meeting Id
+                                </p>
+                              )}
+                            </div>
                           )}
-                        </div>
-                      )}
-                    {item.type === "file" &&
-                      item.inputname == "image" &&
-                      item.field == "predefined" && (
-                        <div className="flex gap-4">
-                          <div className="group h-10 ">
-                            {item.value ? (
-                              <img
-                                src={
-                                  typeof item.value === "string"
-                                    ? item.value
-                                    : URL.createObjectURL(item.value)
-                                }
-                                name="EntityPhoto"
-                                alt="Entity Photo"
-                                className="rounded-lg w-10 h-10 mr-4"
-                              />
-                            ) : (
-                              <img
-                                className="w-10 h-10 rounded-lg "
-                                src={defprop}
-                                alt="default image"
-                              />
-                            )}
-                          </div>
-                        </div>
-                      )}
+                      </span>
+                      <span>
+                        {item.type === "date" &&
+                          item.inputname === "date" &&
+                          item.field === "predefined" &&
+                          (() => {
+                            let date = new Date(item.value);
+                            const day = date.getUTCDate();
+                            const monthIndex = date.getUTCMonth();
+                            const year = date.getUTCFullYear();
+
+                            const monthAbbreviations = [
+                              "January",
+                              "February",
+                              "March",
+                              "April",
+                              "May",
+                              "June",
+                              "July",
+                              "August",
+                              "September",
+                              "October",
+                              "November",
+                              "December",
+                            ];
+                            let ordinalsText = "";
+                            if (day == 1 || day == 21 || day == 31) {
+                              ordinalsText = "st";
+                            } else if (day == 2 || day == 22) {
+                              ordinalsText = "nd";
+                            } else if (day == 3 || day == 23) {
+                              ordinalsText = "rd";
+                            } else {
+                              ordinalsText = "th";
+                            }
+
+                            // Formatting the date
+                            date = ` ${monthAbbreviations[monthIndex]} ${
+                              day < 10 ? "0" : ""
+                            }${day}${ordinalsText}, ${year}`;
+                            return (
+                              <div>
+                                {item.value ? (
+                                  <p className="text-sm absolute bottom-2 right-2">
+                                    Date : {date ? date : "No Date"}
+                                  </p>
+                                ) : (
+                                  <p className="text-sm text-gray-400 absolute bottom-2 right-2">
+                                    Date : month date, year
+                                  </p>
+                                )}
+                              </div>
+                            );
+                          })()}
+                      </span>
+                    </div>
                     {item.type === "textarea" &&
                       item.inputname == "description" &&
                       item.field == "predefined" && (
-                        <div className="h-28 overflow-auto border border-1 border-gray-200 rounded-md p-2 bg-[#f8fafc] text-sm w-full mt-4">
+                        <div className="  h-28 overflow-auto border border-1 border-gray-200 rounded-md p-2 bg-[#f8fafc] text-sm w-full ">
                           {item.value}
                         </div>
                       )}
                     {item.type === "multiselect" &&
                       item.inputname == "members" &&
                       item.field == "predefined" && (
-                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-2 mt-5">
+                        <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-2 mt-5">
                           {item.value &&
+                            allboardMeetingMembers &&
                             Array.from({ length: showAllMembers }).map(
                               (_, index) => {
-                                let user = item.value[index];
+                                let UsersList = allboardMeetingMembers;
+                                let user = UsersList[index];
                                 let initials = "";
                                 let firstLetter = "";
                                 let secondLetter = "";
@@ -1437,62 +1628,65 @@ function TeamsForm() {
                                   >
                                     {user ? (
                                       <>
-                                        <h5
-                                          style={{
-                                            backgroundColor: user.image
-                                              ? "transparent"
-                                              : getRandomColor(firstLetter),
-                                          }}
-                                          className="rounded-full w-10 h-10 md:h-8 xl:h-10 flex justify-center items-center text-white text-xs"
-                                        >
-                                          {user.image ? (
-                                            <img
-                                              src={
-                                                typeof user.image === "string"
-                                                  ? user.image
-                                                  : URL.createObjectURL(
-                                                      user.image
-                                                    )
-                                              }
-                                              alt="Entity Photo"
-                                              className="rounded-full w-10 h-10"
-                                            />
-                                          ) : (
-                                            <span>{initials}</span>
-                                          )}
-                                        </h5>
-                                        <div className="flex items-center md:items-start xl:items-center overflow-hidden">
-                                          <div
-                                            title={`Name: ${user.name}\nEmail: ${user.email}\nDesignation: ${user.designation}`}
+                                        <>
+                                          <h5
+                                            style={{
+                                              backgroundColor: user.image
+                                                ? "transparent"
+                                                : getRandomColor(firstLetter),
+                                            }}
+                                            className="rounded-full w-10 h-10 md:h-8 xl:h-10 flex justify-center items-center text-white text-xs"
                                           >
-                                            <div>
-                                              <p className="truncate w-40 text-sm">
-                                                {user.name}
-                                              </p>
-                                              <p className="truncate w-40 text-sm">
-                                                {user.email}
-                                              </p>
-                                              <p className="truncate w-40 text-sm">
-                                                {user.designation}
-                                              </p>
+                                            {user.image ? (
+                                              <img
+                                                src={
+                                                  typeof user.image === "string"
+                                                    ? user.image
+                                                    : URL.createObjectURL(
+                                                        user.image
+                                                      )
+                                                }
+                                                alt="Entity Photo"
+                                                className="rounded-full w-10 h-10"
+                                              />
+                                            ) : (
+                                              <span>{initials}</span>
+                                            )}
+                                          </h5>
+                                          <div className="flex items-center md:items-start xl:items-center overflow-hidden">
+                                            <div
+                                              title={`Name: ${user.name}\nEmail: ${user.email}\nDesignation: ${user.designation}`}
+                                            >
+                                              <div>
+                                                <p className="truncate w-40 text-sm">
+                                                  {user.name}
+                                                </p>
+                                                <p className="truncate w-40 text-sm">
+                                                  {user.email}
+                                                </p>
+                                                <p className="truncate w-40 text-sm">
+                                                  {user.designation}
+                                                </p>
+                                              </div>
                                             </div>
-                                           
                                           </div>
-                                        </div>
+                                        </>
                                         {index === showAllMembers - 1 &&
-                                              item.value.length >
-                                                showAllMembers && (
-                                                <span className="text-xs border border-gray-200 p-2 bg-orange-500 rounded-md text-white cursor-pointer"
-                                                  onClick={() =>
-                                                    setShowAllMembers(
-                                                      item.value.length
-                                                    )
-                                                  }
-                                                >
-                                                  +{item.value.length -
-                                                    showAllMembers}more
-                                                </span>
-                                              )}
+                                          UsersList.length > showAllMembers && (
+                                            <span
+                                              className="text-xs border border-gray-200 p-2 bg-orange-500 rounded-md text-white cursor-pointer"
+                                              onClick={() =>
+                                                setShowAllMembers(
+                                                  UsersList.length
+                                                )
+                                              }
+                                            >
+                                              +
+                                              {UsersList.length -
+                                                showAllMembers}
+                                              more
+                                            </span>
+                                          )}
                                       </>
                                     ) : (
                                       <>
@@ -1507,10 +1701,10 @@ function TeamsForm() {
                               }
                             )}
                         </div>
-                      )}
-                    {/* custom fields*/}
+                      )}{" "}
+                    {/* customfields */}
                     {item.type === "text" && item.field == "custom" && (
-                      <div className="my-2 mx-2 ">
+                      <div className=" mx-2 ">
                         {item.value && item.value.length > 0 && (
                           <p className="flex  gap-2">
                             <span className="w-2/6 truncate text-[#727a85] ">
@@ -1518,18 +1712,18 @@ function TeamsForm() {
                                 item.label.slice(1)}
                             </span>
                             <span className=" flex gap-2 w-4/6">
-                              <span> : </span>{" "}
+                              <span> : </span>
                               <span className="text-md font-[600]  ">
                                 {item.value}
                               </span>
                             </span>
                           </p>
                         )}
-                        {item.value && <hr className="mt-2" />}{" "}
+                        {item.value && <hr className="my-2" />}
                       </div>
                     )}
                     {item.type === "email" && item.field == "custom" && (
-                      <div className="my-2 mx-2 ">
+                      <div className=" mx-2 ">
                         {item.value && item.value.length > 0 && (
                           <p className="flex  gap-2">
                             <span className="w-2/6 truncate text-[#727a85] ">
@@ -1537,18 +1731,18 @@ function TeamsForm() {
                                 item.label.slice(1)}
                             </span>
                             <span className="  flex gap-2 w-4/6 ">
-                              <span> : </span>{" "}
+                              <span> : </span>
                               <span className="text-md font-[600] break-all">
                                 {item.value}
                               </span>
                             </span>
                           </p>
                         )}
-                        {item.value && <hr className="mt-2" />}
+                        {item.value && <hr className="my-2" />}
                       </div>
                     )}
                     {item.type === "phonenumber" && item.field == "custom" && (
-                      <div className="my-2 mx-2  flex-wrap">
+                      <div className=" mx-2  flex-wrap">
                         {item.value && item.value.length > 0 && (
                           <p className="flex  gap-2">
                             <span className="w-2/6 truncate text-[#727a85] ">
@@ -1556,7 +1750,7 @@ function TeamsForm() {
                                 item.label.slice(1)}
                             </span>
                             <span className="  flex gap-2 w-4/6">
-                              <span> : </span>{" "}
+                              <span> : </span>
                               <span className="text-md font-[600] ">
                                 {item.value.slice(0, 3)}&nbsp;
                                 {item.value.slice(3, 6)}&nbsp;
@@ -1565,11 +1759,11 @@ function TeamsForm() {
                             </span>
                           </p>
                         )}
-                        {item.value && <hr className="mt-2" />}{" "}
+                        {item.value && <hr className="my-2" />}
                       </div>
                     )}
                     {item.type === "number" && item.field == "custom" && (
-                      <div className="my-2 mx-2  flex-wrap">
+                      <div className=" mx-2  flex-wrap">
                         {item.value && item.value.length > 0 && (
                           <p className="flex  gap-2">
                             <span className="w-2/6 truncate text-[#727a85] ">
@@ -1577,19 +1771,18 @@ function TeamsForm() {
                                 item.label.slice(1)}
                             </span>
                             <span className="  flex gap-2 w-4/6">
-                              <span> : </span>{" "}
+                              <span> : </span>
                               <span className="text-md font-[600]  break-all">
                                 {item.value}
                               </span>
                             </span>
                           </p>
                         )}
-                        {item.value && <hr className="mt-2" />}{" "}
+                        {item.value && <hr className="my-2" />}
                       </div>
                     )}
                     {item.type === "textarea" && item.field == "custom" && (
-                      // mb-1 ps-6 flex flex-wrap
-                      <div className="my-2 mx-2  ">
+                      <div className=" mx-2  ">
                         {item.value && item.value.length > 0 && (
                           <p className="flex  gap-2">
                             <span className="w-2/6 text-[#727a85] truncate ">
@@ -1597,14 +1790,14 @@ function TeamsForm() {
                                 item.label.slice(1)}
                             </span>
                             <span className=" flex gap-2 w-4/6">
-                              <span> : </span>{" "}
+                              <span> : </span>
                               <span className="text-md font-[600]  ">
                                 {item.value}
                               </span>
                             </span>
                           </p>
                         )}
-                        {item.value && <hr className="mt-2" />}{" "}
+                        {item.value && <hr className="my-2" />}
                       </div>
                     )}
                     {item.type === "date" &&
@@ -1636,7 +1829,7 @@ function TeamsForm() {
                         }-${year}`;
 
                         return (
-                          <div className="my-2 mx-2">
+                          <div className=" mx-2">
                             {item.value && item.value.length > 0 && (
                               <p className="flex gap-2">
                                 <span className="w-2/6 text-[#727a85] truncate">
@@ -1651,12 +1844,12 @@ function TeamsForm() {
                                 </span>
                               </p>
                             )}
-                            {item.value && <hr className="mt-2" />}
+                            {item.value && <hr className="my-2" />}
                           </div>
                         );
                       })()}
                     {item.type === "select" && item.field == "custom" && (
-                      <div className="my-2 mx-2 ">
+                      <div className=" mx-2 ">
                         {item.value && item.value.length > 0 && (
                           <p className="flex  gap-2">
                             <span className="w-2/6 text-[#727a85] truncate  ">
@@ -1664,18 +1857,18 @@ function TeamsForm() {
                                 item.label.slice(1)}
                             </span>
                             <span className="  flex gap-2 w-4/6">
-                              <span> : </span>{" "}
+                              <span> : </span>
                               <span className="text-md font-[600] ">
                                 {item.value}
                               </span>
                             </span>
                           </p>
                         )}
-                        {item.value && <hr className="mt-2" />}{" "}
+                        {item.value && <hr className="my-2" />}
                       </div>
                     )}
                     {item.type === "multiselect" && item.field == "custom" && (
-                      <div className="my-2 mx-2 ">
+                      <div className="mx-2 ">
                         {item.value && item.value.length > 0 && (
                           <p className="flex  gap-2">
                             <span className="w-2/6 text-[#727a85]  truncate ">
@@ -1683,18 +1876,18 @@ function TeamsForm() {
                                 item.label.slice(1)}
                             </span>
                             <span className="  flex gap-2 w-4/6">
-                              <span> : </span>{" "}
+                              <span> : </span>
                               <span className="text-md font-[600] ">
                                 {item.value.join(", ")}
                               </span>
                             </span>
                           </p>
                         )}
-                        {item.value.join(", ") && <hr className="mt-2" />}
+                        {item.value.join(", ") && <hr className="my-2" />}
                       </div>
                     )}
                     {item.type === "range" && item.field == "custom" && (
-                      <div className="my-2 mx-2 ">
+                      <div className=" mx-2 ">
                         {item.value && item.value.length > 0 && (
                           <p className="flex  gap-2">
                             <span className="w-2/6 text-[#727a85] truncate ">
@@ -1702,18 +1895,18 @@ function TeamsForm() {
                                 item.label.slice(1)}
                             </span>
                             <span className="  flex gap-2 w-4/6">
-                              <span> : </span>{" "}
+                              <span> : </span>
                               <span className="text-md font-[600] ">
                                 {item.value}
                               </span>
                             </span>
                           </p>
                         )}
-                        {item.value && <hr className="mt-2" />}
+                        {item.value && <hr className="my-2" />}
                       </div>
                     )}
                     {item.type === "time" && item.field == "custom" && (
-                      <div className="my-2 mx-2 ">
+                      <div className=" mx-2 ">
                         {item.value && item.value.length > 0 && (
                           <p className="flex gap-2">
                             <span className="w-2/6 text-[#727a85] truncate  ">
@@ -1721,14 +1914,14 @@ function TeamsForm() {
                                 item.label.slice(1)}
                             </span>
                             <span className="  flex gap-2 w-4/6">
-                              <span> : </span>{" "}
+                              <span> : </span>
                               <span className="text-md font-[600] ">
                                 {formatTime(item.value)}
                               </span>
                             </span>
                           </p>
                         )}
-                        {item.value && <hr className="mt-2" />}
+                        {item.value && <hr className="my-2" />}
                       </div>
                     )}
                   </div>
@@ -1740,4 +1933,5 @@ function TeamsForm() {
     </div>
   );
 }
-export default TeamsForm;
+
+export default BoardMeetingForm;

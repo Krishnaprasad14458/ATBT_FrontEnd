@@ -140,6 +140,32 @@ function TasksFilter({
 
     fetchData();
   }, [selectedModule]);
+  let [search,setSearch] = useState("")
+ 
+  const fetchData = async () => {
+    try {
+      let response;
+      response = await atbtApi.get(
+        `boardmeeting/list?${selectedModule.value}=${selectedModuleList.value}&search=${search}&page=1&pageSize=5`
+      );
+
+      response = await response?.data?.Meetings?.map((meeting) => ({
+        label: meeting.meetingnumber,
+        value: meeting.id,
+      }));
+      if(response?.length>0){
+        response?.unshift({label:"All Meetings",value:"all"})
+
+      }
+      console.log(response,"response b")
+
+      // Update state with the data from the API response
+      setMeetingList(response);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+      // Handle error appropriately, e.g., set an error state or show a message
+    }
+  };
   useEffect(() => {
     // Ensure selectedModule exists before making the API call
     if (
@@ -149,34 +175,22 @@ function TasksFilter({
       !selectedModule.value
     )
       return;
-
-    const fetchData = async () => {
-      try {
-        let response;
-        response = await atbtApi.get(
-          `boardmeeting/list?${selectedModule.value}=${selectedModuleList.value}`
-        );
-
-        response = await response?.data?.Meetings?.map((meeting) => ({
-          label: meeting.meetingnumber,
-          value: meeting.id,
-        }));
-        if(response?.length>0){
-          response?.unshift({label:"All Meetings",value:"all"})
-
-        }
-        console.log(response,"response b")
-
-        // Update state with the data from the API response
-        setMeetingList(response);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-        // Handle error appropriately, e.g., set an error state or show a message
-      }
-    };
-
     fetchData();
   }, [selectedModuleList]);
+  useEffect(() => {
+    if (
+      !selectedModuleList ||
+      !selectedModuleList.value ||
+      !selectedModule ||
+      !selectedModule.value
+    )
+      return;
+    const delayDebounceFn = setTimeout(() => {
+      fetchData();
+    }, 500);
+
+    return () => clearTimeout(delayDebounceFn);
+  }, [search]);
 
   return (
     <div className="mt-1 z-20">
@@ -448,8 +462,12 @@ function TasksFilter({
 
                     
                   }
+                
                    
                   }
+                  onInputChange={(inputValue) => {
+                    setSearch(inputValue);
+                  }}
                 />
 
 

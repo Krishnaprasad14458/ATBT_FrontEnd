@@ -9,7 +9,6 @@ const EditableFields = ({
   handleSubmit,
   meetingPermission,
   priority,
-  taskDecision,
   setSubTask,
   setDisplayOverviewTask,
   setDisplayOverviewSubTask,

@@ -86,9 +86,10 @@ const Collaborators = ({ task, handleSubmit, meetingPermission }) => {
             </div>
           ))}
 
-        {isCollaboratorsEditing && (
+        {meetingPermission.canUpdate  && (
           <Select
             options={members}
+            value ={null}
             styles={{
               control: (provided, state) => ({
                 ...provided,
@@ -96,7 +97,7 @@ const Collaborators = ({ task, handleSubmit, meetingPermission }) => {
                 borderWidth: "1px",
                 borderColor: state.isFocused ? "#orange-400" : "transparent",
                 boxShadow: state.isFocused ? "none" : provided.boxShadow,
-                fontSize: "16px",
+                fontSize: "12px",
                 height: "36px", // Adjust the height here
                 "&:hover": {
                   borderColor: state.isFocused ? "#fb923c" : "transparent",
@@ -117,7 +118,11 @@ const Collaborators = ({ task, handleSubmit, meetingPermission }) => {
               option: (provided, state) => ({
                 ...provided,
                 color: state.isFocused ? "#fff" : "#000000",
-                backgroundColor: state.isFocused ? "#ea580c" : "transparent",
+                fontSize: "12px",
+                cursor: "pointer",
+                backgroundColor: state.isFocused
+                  ? "#ea580c"
+                  : "transparent",
 
                 "&:hover": {
                   color: "#fff",
@@ -163,7 +168,7 @@ const Collaborators = ({ task, handleSubmit, meetingPermission }) => {
 
         <p>
           {/* add collaborators icon */}
-          {meetingPermission.canUpdate && (
+          {/* {meetingPermission.canUpdate && (
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -183,7 +188,7 @@ const Collaborators = ({ task, handleSubmit, meetingPermission }) => {
                 d="M12 4.5v15m7.5-7.5h-15"
               />
             </svg>
-          )}
+          )} */}
         </p>
       </div>
     </div>

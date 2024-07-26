@@ -15,12 +15,12 @@ export const roleRouter = [
             console.log(data, "roles data")
             return data
         },
-        // https://atbtbeta.infozit.com/rbac/getroles
+        // https://atbtmain.infozit.com/rbac/getroles
         action: async ({ request }) => {
 
             let formData = await request.formData();
             let { roleId } = JSON.parse(formData.get("serialized"));
-            // const data = await axios.delete(`https://atbtbeta.infozit.com/rbac/deleteRole/${roleId}`);
+            // const data = await axios.delete(`https://atbtmain.infozit.com/rbac/deleteRole/${roleId}`);
             return await toast.promise(
                 axios.delete(`https://atbtmain.infozit.com/rbac/deleteRole/${roleId}`, {
                     headers: {

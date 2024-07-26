@@ -246,7 +246,7 @@ function Boardmeeting() {
               className=" px-1 inline-flex items-center  whitespace-nowrap rounded-full  transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-orange-600 text-primary-foreground  hover:bg-primary/90 shrink-0 text-white  "
               to={{
                 pathname: "/boardmeetings/new",
-                search: `?boardmeetingFor=${moduleName}&boardmeetingForID=${id}`,
+                search: `?boardmeetingFor=${moduleName}&boardmeetingForID=${id}&search=&page=1&pageSize=10`,
               }}
             >
               <button className=" px-1 py-2 inline-flex items-center justify-center  rounded-full  font-medium  gap-1 ">
@@ -362,9 +362,9 @@ function Boardmeeting() {
                             key={key}
                             className={`px-3 py-2 text-left border border-[#e5e7eb] text-xs font-medium  overflow-hidden `}
                             style={{ maxWidth: "160px" }}
-                            title={row[key]}
+                            title={value}
                           >
-                            <p className="truncate text-xs"> {value}</p>
+                            <p className="truncate text-xs">{value} </p>
                           </td>
                         );
                       }
@@ -438,6 +438,7 @@ function Boardmeeting() {
                           <button
                             type="button"
                             className=" inline-flex items-center gap-x-1 text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
+                            title="View"
                           >
                             <Link to={`${row.id}`}>
                               <svg
@@ -465,11 +466,12 @@ function Boardmeeting() {
                           <button
                             type="button"
                             className="inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
+                           title="Edit"
                           >
                             <Link
                               to={{
                                 pathname: `/boardmeetings/${row.id}/edit`,
-                                search: `?boardmeetingFor=${moduleName}&boardmeetingForID=${id}`,
+                                search: `?boardmeetingFor=${moduleName}&boardmeetingForID=${id}&search=&page=1&pageSize=10`,
                               }}
                             >
                               <svg
@@ -493,6 +495,7 @@ function Boardmeeting() {
                             type="button"
                             onClick={() => handleDeleteUser(row.id)}
                             className=" inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg  text-[#475569] hover:text-orange-500 disabled:opacity-50 disabled:pointer-events-none  dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600 cursor-pointer"
+                             title="Delete"
                           >
                             <svg
                               xmlns="http://www.w3.org/2000/svg"

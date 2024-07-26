@@ -1,58 +1,80 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext, useEffect, useCallback, useRef } from "react";
 import axios from "axios";
 import defprop from "../../../../assets/Images/defprof.svg";
 import useDebounce from "../../../../hooks/debounce/useDebounce";
 import { UserDataContext } from "../../../../contexts/usersDataContext/usersDataContext";
 import { BoardMeetingsDataContext } from "../../../../contexts/boardmeetingsDataContext/boardmeetingsDataContext";
 import $ from "jquery";
-import { useNavigate, useLoaderData, useParams } from "react-router-dom";
+import {
+  useNavigate,
+  useLoaderData,
+  useParams,
+  useSubmit,
+  useFetcher,
+  useNavigation,
+} from "react-router-dom";
 import atbtApi from "../../../../serviceLayer/interceptor";
 import Select from "react-select";
 import { AuthContext } from "../../../../contexts/authContext/authContext";
 import { getCurrentDate } from "../../../../utils/utils";
-// const userData = JSON.parse(localStorage.getItem("data"));
-// const token = userData?.token;
-// const role = userData?.role?.name;
+import { debounce } from "../../../../utils/utils";
+
 export async function boardmeetingFormLoader({ params, request }) {
   const url = new URL(request.url);
   const boardmeetingFor = url.searchParams.get("boardmeetingFor");
   const boardmeetingForID = parseInt(url.searchParams.get("boardmeetingForID"));
-
+  const searchParams = new URLSearchParams(url.search);
+  searchParams.delete("boardmeetingFor");
+  searchParams.delete("boardmeetingForID");
+  url.search = searchParams.toString();
   try {
-    let [formResponse, boardmeetingResponse, usersList, displayMembers] =
-      await Promise.all([
-        atbtApi.get(`form/list?name=boardmeetingform`),
-        params.BMid ? atbtApi.get(`boardmeeting/getByid/${params.BMid}`) : null, //Api for edit
-        atbtApi.post(`public/list/user`),
-        boardmeetingFor === "user"
-          ? atbtApi.get(`user/list/${boardmeetingForID}`)
-          : boardmeetingFor === "entity"
-          ? atbtApi.post(`entity/User/list/${boardmeetingForID}`)
-          : boardmeetingFor === "team"
-          ? atbtApi.get(`/team/list/${boardmeetingForID}`)
-          : null,
-      ]);
+    let [
+      formResponse,
+      boardmeetingResponse,
+      usersList,
+      moduleMembers,
+      meetingList,
+      teamsList,
+    ] = await Promise.all([
+      atbtApi.get(`form/list?name=boardmeetingform`),
+      params.BMid ? atbtApi.get(`boardmeeting/getByid/${params.BMid}`) : null, //Api for edit
+      atbtApi.post(`public/list/user`),
+      boardmeetingFor === "user"
+        ? atbtApi.get(`user/list/${boardmeetingForID}`)
+        : boardmeetingFor === "entity"
+        ? atbtApi.post(`entity/User/list/${boardmeetingForID}`)
+        : boardmeetingFor === "team"
+        ? atbtApi.get(`/team/list/${boardmeetingForID}`)
+        : null,
+      boardmeetingFor && boardmeetingForID
+        ? 
+        atbtApi.get(
+            `boardmeeting/list?${boardmeetingFor}=${boardmeetingForID}${
+              url && url.search ? "&" + url.search.substring(1) : ""
+            }`
+          ): null,
+     
+      atbtApi.post(`team/list${url?.search ? url?.search : ""}`, {}),
+
+    ]);
     usersList = usersList?.data?.users?.map((item) => ({
       value: item.id,
-      label: item.email,
+      label: item.name,
       image: item.image,
       name: item.name,
     }));
-    console.log("boardmeetingResponse",boardmeetingResponse)
+    console.log("boardmeetingResponse", boardmeetingResponse);
     // to
     if (boardmeetingFor === "user" && boardmeetingForID) {
       usersList = usersList.filter((user) => user.value !== boardmeetingForID);
-      displayMembers = [displayMembers?.data?.user];
     }
     if (boardmeetingFor === "entity" && boardmeetingForID) {
-      const entityIds = displayMembers?.data.map((entity) => entity.id);
+      const entityIds = moduleMembers?.data.map((entity) => entity.id);
       usersList = usersList.filter((user) => !entityIds.includes(user.value));
-      displayMembers = displayMembers?.data;
     }
     if (boardmeetingFor === "team" && boardmeetingForID) {
-      const teamIds = displayMembers?.data?.members.map((team) => team.id);
+      const teamIds = moduleMembers?.data?.members.map((team) => team.id);
       usersList = usersList.filter((user) => !teamIds.includes(user.value));
-      displayMembers = displayMembers?.data?.members;
     }
 
     let boardmeetingData = null;
@@ -64,8 +86,26 @@ export async function boardmeetingFormLoader({ params, request }) {
 
     const formData = formResponse.data.Data;
     console.log("formData", formData, "boardmeetingData", boardmeetingData);
-
-    return { boardmeetingData, formData, usersList, displayMembers };
+    let meetingListForSelect = meetingList?.data?.Meetings.map((list) => ({
+      label: list?.meetingnumber,
+      value: list?.id,
+      members: list?.members,
+    }));
+    let teamsListForSelect = teamsList?.data?.Teams.map((list) => ({
+      label: list?.name,
+      value: list?.id,
+      members: list?.members,
+    }));
+    return {
+      boardmeetingData,
+      formData,
+      usersList,
+      moduleMembers,
+      meetingList,
+      meetingListForSelect,
+      teamsList,
+      teamsListForSelect,
+    };
   } catch (error) {
     if (error.response) {
       throw new Error(`Failed to fetch data: ${error.response.status}`);
@@ -79,18 +119,31 @@ export async function boardmeetingFormLoader({ params, request }) {
 function BoardMeetingForm() {
   const { authState } = useContext(AuthContext);
   let createdBy = authState?.user?.id;
-
   const urlParams = new URLSearchParams(window.location.search);
   const boardmeetingFor = urlParams.get("boardmeetingFor");
   const boardmeetingForID = urlParams.get("boardmeetingForID");
   const [showPassword, setShowPassword] = useState(false);
   document.title = "ATBT | Meeting";
   let { BMid } = useParams();
-  const boardmeeting = useLoaderData();
+  let boardmeeting = useLoaderData();
   console.log(boardmeeting, "cmp loader data");
-
+  let submit = useSubmit();
+  let fetcher = useFetcher();
+  const navigation = useNavigation();
+  useEffect(() => {
+    if (fetcher.state === "idle" && !fetcher.data) {
+      fetcher.load(".");
+    }
+  }, [fetcher, navigation]);
   /// for edit to bind selected memebers
   useEffect(() => {
+    if (BMid) {
+      let updatedMeetingListForSelect = boardmeeting?.meetingListForSelect;
+      updatedMeetingListForSelect = updatedMeetingListForSelect?.filter(
+        (item) => item.value !== parseInt(BMid)
+      );
+      boardmeeting.meetingListForSelect = updatedMeetingListForSelect;
+    }
     if (BMid && boardmeeting?.boardmeetingData?.members) {
       console.log(
         "boardmeeting.boardmeetingData.members",
@@ -99,12 +152,35 @@ function BoardMeetingForm() {
       const updatedMembersForSelect = boardmeeting.boardmeetingData.members.map(
         (member) => ({
           value: member.id,
-          label: member.email,
+          label: member.name,
           image: member.image,
           name: member.name,
         })
       );
       setSelected(updatedMembersForSelect);
+    }
+    if (!BMid) {
+      console.log("werty", boardmeeting?.moduleMembers);
+      if (boardmeetingFor === "entity") {
+        setSelected(
+          boardmeeting?.moduleMembers?.data?.map((item) => ({
+            value: item.id,
+            label: item.name,
+            image: item.image,
+            name: item.name,
+          }))
+        );
+      }
+      if (boardmeetingFor === "team") {
+        setSelected(
+          boardmeeting?.moduleMembers?.data?.members?.map((item) => ({
+            value: item.id,
+            label: item.name,
+            image: item.image,
+            name: item.name,
+          }))
+        );
+      }
     }
   }, [BMid, boardmeeting]);
   function setInitialForm() {
@@ -129,10 +205,6 @@ function BoardMeetingForm() {
     return response;
   }
   const navigate = useNavigate();
-  // const {
-  //   usersState: { users, dashboard },
-  //   usersDispatch,
-  // } = useContext(UserDataContext);
   const { createBoardMeeting, updateBoardMeeting } = useContext(
     BoardMeetingsDataContext
   );
@@ -140,6 +212,7 @@ function BoardMeetingForm() {
   console.log("selected selected", selected);
   const [usersEmails, setUsersEmails] = useState(boardmeeting.usersList);
 
+  console.log("selected", selected);
   useEffect(() => {
     const filteredEmails = boardmeeting.usersList.filter(
       (mainObj) =>
@@ -155,11 +228,12 @@ function BoardMeetingForm() {
   let [customFormFields, setCustomFormFields] = useState(() =>
     setInitialForm()
   );
+  console.log("customFormFields", customFormFields);
   useEffect(() => {
     setCustomFormFields(setInitialForm());
-    if (!BMid) {
-      setSelected([]);
-    }
+    // if (!BMid) {
+    //   setSelected([]);
+    // }
   }, [BMid]);
 
   const handleOpenOptions = (name) => {
@@ -170,50 +244,23 @@ function BoardMeetingForm() {
       setopenOptions(name);
     }
   };
-  const [defaultboardMeetingMembers, setDefaultBoardMeetingMembers] = useState(
-    []
-  );
-  const [allboardMeetingMembers, setAllBoardMeetingMembers] = useState([]);
 
-  useEffect(() => {
-    let defaultBMMembers = [...boardmeeting?.displayMembers];
-    // defaultBMMembers.push();
-    setDefaultBoardMeetingMembers(defaultBMMembers);
-
-    if (BMid) {
-      for (let y = 0; y < customFormFields.length; y++) {
-        if (customFormFields[y].inputname === "members") {
-          let members = customFormFields[y].value;
-          setAllBoardMeetingMembers([...defaultBMMembers, ...members]);
-          customFormFields[y].value = customFormFields[y].value.map(
-            (item) => item.id
-          );
-          // console.log("first",customFormFields[y].value)
-        }
-      }
-    } else if (!BMid) {
-      setAllBoardMeetingMembers(defaultBMMembers);
-    }
-  }, [BMid, boardmeeting]);
   const handleClick = (value, index) => {
     console.log("value", value);
     setSelected(value);
-    let formatChange = value.map((item) => ({
-      name: item.name,
-      id: item.value,
-      image: item.image,
-      email: item.label,
-    }));
-    setAllBoardMeetingMembers([...defaultboardMeetingMembers, ...formatChange]);
+    // let formatChange = value.map((item) => ({
+    //   name: item.name,
+    //   id: item.value,
+    //   image: item.image,
+    //   email: item.label,
+    // }));
+    // setAllBoardMeetingMembers([...defaultboardMeetingMembers, ...formatChange]);
     const updatedFormData = [...customFormFields];
     let members = value.map((item) => item.value);
     updatedFormData[index].value = members;
     setCustomFormFields(updatedFormData);
   };
 
-  useEffect(() => {
-    console.log(searchTerm, "clear");
-  }, [searchTerm]);
   const handleRemove = (selectedIndex, index) => {
     const updatedSelected = [
       ...selected.slice(0, selectedIndex),
@@ -515,12 +562,22 @@ function BoardMeetingForm() {
     if (!checkValidation()) {
       console.log(customFormFields, "submitcustomFormFields");
       const formData = new FormData(e.target);
+      console.log("selecedsd", selected);
+      let mapppp = selected.map((item) => item.value);
       for (let i = 0; i < customFormFields.length; i++) {
         if (Array.isArray(customFormFields[i].value)) {
-          formData.set(
-            customFormFields[i].inputname,
-            JSON.stringify(customFormFields[i].value)
-          );
+          if (customFormFields[i].inputname === "members") {
+            formData.set(
+              customFormFields[i].inputname,
+
+              JSON.stringify(selected.map((item) => item.value))
+            );
+          } else {
+            formData.set(
+              customFormFields[i].inputname,
+              JSON.stringify(customFormFields[i].value)
+            );
+          }
         }
       }
       formData.set("customFieldsData", JSON.stringify(customFormFields));
@@ -529,7 +586,7 @@ function BoardMeetingForm() {
       formData.forEach((value, key) => {
         formDataObj[key] = value;
       });
-      console.log("formDataObj", formDataObj);
+      console.log("formDataObj", formDataObj, mapppp);
       let response;
       if (!!BMid && !!boardmeeting?.boardmeetingData) {
         console.log("updating");
@@ -594,7 +651,7 @@ function BoardMeetingForm() {
 
   // end the time function
   // for previous dates defult
- 
+
   let [showAllMembers, setShowAllMembers] = useState(12);
   const colors = [
     "#818cf8",
@@ -611,6 +668,75 @@ function BoardMeetingForm() {
     const randomIndex = char?.charCodeAt(0) % colors.length;
     return colors[randomIndex];
   };
+
+  const addPreviousMeetingMemberstoThisMeeting = (selectedOption) => {
+    if (!boardmeeting?.usersList || !selectedOption?.members) return;
+
+    const existingValues = new Set(selected.map((user) => user.value));
+
+    const newMembers = boardmeeting.usersList.filter(
+      (user) =>
+        selectedOption.members.includes(user.value) &&
+        !existingValues.has(user.value)
+    );
+
+    const updatedSelectedMembers = [...selected, ...newMembers];
+    setSelected(updatedSelectedMembers);
+
+    console.log("Updated Selected Members", updatedSelectedMembers);
+  };
+
+  const addPreviousTeamMemberstoThisMeeting = (selectedOption) => {
+    if (!boardmeeting?.usersList || !selectedOption?.members) return;
+
+    const existingValues = new Set(selected.map((user) => user.value));
+    const newMembers = boardmeeting?.usersList?.filter(
+      (user) =>
+        selectedOption?.members?.includes(user.value) &&
+        !existingValues.has(user.value)
+    );
+
+    const updatedSelectedMembers = [...selected, ...newMembers];
+
+    console.log("uniqueMembers", updatedSelectedMembers);
+    setSelected(updatedSelectedMembers);
+  };
+  const [Qparams, setQParams] = useState({
+    boardmeetingFor: boardmeetingFor,
+    boardmeetingForID: boardmeetingForID,
+    search: "",
+    page: 1,
+    pageSize: 10,
+   
+  });
+
+  const isFirstRender = useRef(true);
+
+  useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
+    debouncedParams(Qparams);
+  }, [Qparams]);
+  const debouncedParams = useCallback(
+    debounce((param) => {
+      console.log(param);
+      submit(param, { method: "get", action: "." });
+    }, 500),
+    []
+  );
+  function handleSearch(value) {
+    if (Qparams.search !== value) {
+      setQParams({
+        ...Qparams,
+        search: value,
+      });
+    }
+  }
+  
+
+  console.log("selected", selected);
   return (
     <div className=" p-4 bg-[#f8fafc]">
       {/* <p className="font-lg font-semibold p-3">Entity Form</p> */}
@@ -740,6 +866,126 @@ function BoardMeetingForm() {
                     item.inputname == "members" &&
                     item.field == "predefined" && (
                       <div className="relative">
+                        <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-2 gap-5">
+                          <div className="col-span-1">
+                            <label className="block text-sm font-medium leading-6 mt-1 text-gray-900">
+                              {item.label} from meetings
+                            </label>
+                            <Select
+                              className="mb-3"
+                              options={boardmeeting?.meetingListForSelect}
+                              styles={{
+                                control: (provided, state) => ({
+                                  ...provided,
+                                  backgroundColor: "#f9fafb", // Change the background color of the select input
+                                  borderWidth: state.isFocused ? "1px" : "1px", // Decrease border width when focused
+                                  borderColor: state.isFocused
+                                    ? "#orange-400"
+                                    : "#d1d5db", // Change border color when focused
+                                  boxShadow: state.isFocused
+                                    ? "none"
+                                    : provided.boxShadow, // Optionally remove box shadow when focused
+                                }),
+                                placeholder: (provided) => ({
+                                  ...provided,
+                                  fontSize: "12px", // Adjust the font size of the placeholder text
+                                  color: "#a9a9a9",
+                                }),
+                                option: (provided, state) => ({
+                                  ...provided,
+                                  color: state.isFocused ? "#fff" : "#000000",
+                                  fontSize: "12px",
+                                  cursor: "pointer",
+                                  backgroundColor: state.isFocused
+                                    ? "#ea580c"
+                                    : "transparent",
+
+                                  "&:hover": {
+                                    color: "#fff",
+                                    backgroundColor: "#ea580c",
+                                  },
+                                }),
+                              }}
+                              theme={(theme) => ({
+                                ...theme,
+                                borderRadius: 5,
+                                colors: {
+                                  ...theme.colors,
+
+                                  primary: "#fb923c",
+                                },
+                              })}
+                              // value={selectedRoleOption}
+                              onChange={(selectedOption) => {
+                                addPreviousMeetingMemberstoThisMeeting(
+                                  selectedOption
+                                );
+                              }}
+                              onInputChange={(inputValue) => {
+                                handleSearch(inputValue);
+                              }}
+                            />
+                          </div>
+                          <div className="col-span-1">
+                            <label className="block text-sm font-medium leading-6 mt-1 text-gray-900">
+                              {item.label} from Teams
+                            </label>
+                            <Select
+                              className="mb-3"
+                              options={boardmeeting?.teamsListForSelect}
+                              styles={{
+                                control: (provided, state) => ({
+                                  ...provided,
+                                  backgroundColor: "#f9fafb", // Change the background color of the select input
+                                  borderWidth: state.isFocused ? "1px" : "1px", // Decrease border width when focused
+                                  borderColor: state.isFocused
+                                    ? "#orange-400"
+                                    : "#d1d5db", // Change border color when focused
+                                  boxShadow: state.isFocused
+                                    ? "none"
+                                    : provided.boxShadow, // Optionally remove box shadow when focused
+                                }),
+                                placeholder: (provided) => ({
+                                  ...provided,
+                                  fontSize: "12px", // Adjust the font size of the placeholder text
+                                  color: "#a9a9a9",
+                                }),
+                                option: (provided, state) => ({
+                                  ...provided,
+                                  color: state.isFocused ? "#fff" : "#000000",
+                                  fontSize: "12px",
+                                  cursor: "pointer",
+                                  backgroundColor: state.isFocused
+                                    ? "#ea580c"
+                                    : "transparent",
+
+                                  "&:hover": {
+                                    color: "#fff",
+                                    backgroundColor: "#ea580c",
+                                  },
+                                }),
+                              }}
+                              theme={(theme) => ({
+                                ...theme,
+                                borderRadius: 5,
+                                colors: {
+                                  ...theme.colors,
+
+                                  primary: "#fb923c",
+                                },
+                              })}
+                              // value={selectedRoleOption}
+                              onChange={(selectedOption) => {
+                                addPreviousTeamMemberstoThisMeeting(
+                                  selectedOption
+                                );
+                              }}
+                              onInputChange={(inputValue) => {
+                                handleSearch(inputValue);
+                              }}
+                            />
+                          </div>
+                        </div>
                         <label
                           htmlFor="email"
                           className="block text-sm  font-medium leading-6  text-gray-900"
@@ -849,6 +1095,7 @@ function BoardMeetingForm() {
                         </div>
                       </div>
                     )}
+
                   {/* custom fields */}
                   {item.type === "text" && item.field == "custom" && (
                     <div>
@@ -1465,96 +1712,104 @@ function BoardMeetingForm() {
                       item.inputname == "members" &&
                       item.field == "predefined" && (
                         <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-2 mt-5">
-                        {item.value && allboardMeetingMembers &&
-                          Array.from({ length: showAllMembers }).map((_, index) => {
-                            let UsersList = allboardMeetingMembers
-                            let user = UsersList[index];
-                            let initials = "";
-                            let firstLetter = "";
-                            let secondLetter = "";
-            
-                            if (user) {
-                              const username = user.name || "";
-                              const nameParts = username.split(" ");
-                              firstLetter = nameParts[0]?.[0] || "";
-                              secondLetter = nameParts[1]?.[0] || "";
-            
-                              initials = `${firstLetter.toUpperCase()}${secondLetter.toUpperCase()}`;
-                            }
-            
-                            return (
-                              <div
-                                className="col-span-1 flex justify-start gap-3 items-center m-1"
-                                key={index}
-                              >
-                                {user ? (
-                          <>
-                                  <>
-                                    <h5
-                                      style={{
-                                        backgroundColor: user.image
-                                          ? "transparent"
-                                          : getRandomColor(firstLetter),
-                                      }}
-                                      className="rounded-full w-10 h-10 md:h-8 xl:h-10 flex justify-center items-center text-white text-xs"
-                                    >
-                                      {user.image ? (
-                                        <img
-                                          src={
-                                            typeof user.image === "string"
-                                              ? user.image
-                                              : URL.createObjectURL(user.image)
-                                          }
-                                          alt="Entity Photo"
-                                          className="rounded-full w-10 h-10"
-                                        />
-                                      ) : (
-                                        <span>{initials}</span>
-                                      )}
-                                    </h5>
-                                    <div className="flex items-center md:items-start xl:items-center overflow-hidden">
-                                      <div
-                                        title={`Name: ${user.name}\nEmail: ${user.email}\nDesignation: ${user.designation}`}
-                                      >
-                                        <div>
-                                          <p className="truncate w-40 text-sm">
-                                            {user.name}
-                                          </p>
-                                          <p className="truncate w-40 text-sm">
-                                            {user.email}
-                                          </p>
-                                          <p className="truncate w-40 text-sm">
-                                            {user.designation}
-                                          </p>
-                                        </div>
-                                     
-                                      </div>
-                                    </div>
-                                    
-                                  </>
-                                  {index === showAllMembers - 1 &&
+                          {item.value &&
+                            Array.from({ length: showAllMembers }).map(
+                              (_, index) => {
+                                let UsersList = selected;
+                                let user = UsersList[index];
+                                let initials = "";
+                                let firstLetter = "";
+                                let secondLetter = "";
+
+                                if (user) {
+                                  const username = user.name || "";
+                                  const nameParts = username.split(" ");
+                                  firstLetter = nameParts[0]?.[0] || "";
+                                  secondLetter = nameParts[1]?.[0] || "";
+
+                                  initials = `${firstLetter.toUpperCase()}${secondLetter.toUpperCase()}`;
+                                }
+
+                                return (
+                                  <div
+                                    className="col-span-1 flex justify-start gap-3 items-center m-1"
+                                    key={index}
+                                  >
+                                    {user ? (
+                                      <>
+                                        <>
+                                          <h5
+                                            style={{
+                                              backgroundColor: user.image
+                                                ? "transparent"
+                                                : getRandomColor(firstLetter),
+                                            }}
+                                            className="rounded-full w-10 h-10 md:h-8 xl:h-10 flex justify-center items-center text-white text-xs"
+                                          >
+                                            {user.image ? (
+                                              <img
+                                                src={
+                                                  typeof user.image === "string"
+                                                    ? user.image
+                                                    : URL.createObjectURL(
+                                                        user.image
+                                                      )
+                                                }
+                                                alt="Entity Photo"
+                                                className="rounded-full w-10 h-10"
+                                              />
+                                            ) : (
+                                              <span>{initials}</span>
+                                            )}
+                                          </h5>
+                                          <div className="flex items-center md:items-start xl:items-center overflow-hidden">
+                                            <div
+                                              title={`Name: ${user.name}\nEmail: ${user.email}\nDesignation: ${user.designation}`}
+                                            >
+                                              <div>
+                                                <p className="truncate w-40 text-sm">
+                                                  {user.name}
+                                                </p>
+                                                <p className="truncate w-40 text-sm">
+                                                  {user.email}
+                                                </p>
+                                                <p className="truncate w-40 text-sm">
+                                                  {user.designation}
+                                                </p>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </>
+                                        {index === showAllMembers - 1 &&
                                           UsersList.length > showAllMembers && (
-                                            <span   className="text-xs border border-gray-200 p-2 bg-orange-500 rounded-md text-white cursor-pointer"
+                                            <span
+                                              className="text-xs border border-gray-200 p-2 bg-orange-500 rounded-md text-white cursor-pointer"
                                               onClick={() =>
-                                                setShowAllMembers(UsersList.length)
+                                                setShowAllMembers(
+                                                  UsersList.length
+                                                )
                                               }
                                             >
-                                              +{UsersList.length - showAllMembers}more
+                                              +
+                                              {UsersList.length -
+                                                showAllMembers}
+                                              more
                                             </span>
                                           )}
-                                  </>
-                                ) : (
-                                  <>
-                                    <h5 className="bg-[#e5e7eb] rounded-full w-10 h-10 flex justify-center items-center text-white"></h5>
-                                    <div className="flex items-center">
-                                      <div className="rounded-md bg-[#e5e7eb] h-2 w-28"></div>
-                                    </div>
-                                  </>
-                                )}
-                              </div>
-                            );
-                          })}
-                      </div>
+                                      </>
+                                    ) : (
+                                      <>
+                                        <h5 className="bg-[#e5e7eb] rounded-full w-10 h-10 flex justify-center items-center text-white"></h5>
+                                        <div className="flex items-center">
+                                          <div className="rounded-md bg-[#e5e7eb] h-2 w-28"></div>
+                                        </div>
+                                      </>
+                                    )}
+                                  </div>
+                                );
+                              }
+                            )}
+                        </div>
                       )}{" "}
                     {/* customfields */}
                     {item.type === "text" && item.field == "custom" && (

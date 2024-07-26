@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import atbtApi from "../../../../serviceLayer/interceptor";
 import { dateFormat, formatDateandTime } from "../../../../utils/utils";
 
 const Updates = ({ fetchStatus, updates }) => {
