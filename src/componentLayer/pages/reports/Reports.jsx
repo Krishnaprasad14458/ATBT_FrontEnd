@@ -17,7 +17,7 @@ let moduleList = [
   { label: "Entity", value: "entity" },
   { label: "Team", value: "team" },
 ];
-let search=""
+
 export async function loader({ request, params }) {
   try {
     let url = new URL(request.url);
