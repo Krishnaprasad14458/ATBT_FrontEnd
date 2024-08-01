@@ -8,11 +8,11 @@ import integration from '../../../assets/Images/integrations.svg';
 import datashare from '../../../assets/Images/Data_Share_01.svg'
 const Settings = () => {
   const settingsData = [
-    // {
-    //   name: "Organization Profile",
-    //   icon: organization,
-    //   link: "organizationprofile"
-    // },
+    {
+      name: "Organization Profile",
+      icon: organization,
+      link: "organizationprofile"
+    },
     {
       name: "Forms",
       icon: forms,

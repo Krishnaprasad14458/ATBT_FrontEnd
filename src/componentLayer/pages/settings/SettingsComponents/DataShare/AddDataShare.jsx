@@ -48,7 +48,6 @@ useEffect(()=>{
   const handleValidationsErrors = () => {
     let isErrorsPresent = false;
     const newErrors = {};
-
     if (dataShareName.length === 0) {
       newErrors.dataShareName = "Name is Required";
       isErrorsPresent = true;
@@ -56,12 +55,10 @@ useEffect(()=>{
       newErrors.dataShareName = "Name should be greater than 3 characters";
       isErrorsPresent = true;
     }
-
     if (selectedDataShareofUsers.length === 0) {
       newErrors.selectedDataShareofUsers = "Select at least one user";
       isErrorsPresent = true;
     }
-
     setErrors(newErrors);
     return isErrorsPresent;
   };
@@ -188,7 +185,7 @@ useEffect(()=>{
           />
         </div>
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-2 gap-5 mt-2">
+      <div className  ="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-2 gap-5 mt-2">
         <div className="col-span-1">
           <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-3 xl:grid-cols-3 gap-5">
             <div className="col-span-1">
@@ -247,7 +244,7 @@ useEffect(()=>{
             </div>
           </div>
         </div>
-        <div className="col-span-1">
+        <div className="col-span-1" >
           <div className="lg:gap-5 gap-y-5">
             <div className="col-span-1">
               <label className="block text-sm font-medium leading-6 lg:mt-2 text-gray-900 mb-1">
