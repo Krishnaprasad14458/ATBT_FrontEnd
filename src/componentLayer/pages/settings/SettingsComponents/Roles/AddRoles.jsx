@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import {useLoaderData,useSubmit,useNavigation,useFetcher,Link,} from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { caseLetter } from '../../../../../utils/utils';
+import atbtApi from '../../../../../serviceLayer/interceptor';
 const AddRoles = () => {
   const submit = useSubmit();
   const response = useLoaderData();
@@ -441,8 +442,8 @@ const AddRoles = () => {
       
       console.log(permission , "perksdnfsdfds")
       const result = await toast.promise(
-        axios.post(
-          'https://atbtmain.infozit.com/rbac/create-role',
+        atbtApi.post(
+          '/rbac/create-role',
           // 'http://localhost:3000/rbac/create-role',
           {
             ...permission,
@@ -482,8 +483,8 @@ const AddRoles = () => {
     }
     if (!!response?.response?.id) {
       const result = await toast.promise(
-        axios.put(
-          `https://atbtmain.infozit.com/rbac/update-role/${response?.response?.id}`,
+        atbtApi.put(
+          `/rbac/update-role/${response?.response?.id}`,
           {
             ...permission,
           },

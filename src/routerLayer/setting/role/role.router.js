@@ -3,6 +3,7 @@ import AddRoles from "../../../componentLayer/pages/settings/SettingsComponents/
 import Roles from "../../../componentLayer/pages/settings/SettingsComponents/Roles/Roles"
 import { redirect } from "react-router-dom"
 import { toast } from "react-toastify"
+import atbtApi from "../../../serviceLayer/interceptor"
 
 export const roleRouter = [
     {
@@ -11,18 +12,18 @@ export const roleRouter = [
             let url = new URL(request.url);
             let searchTerm = url.searchParams.get("search") || "";
             console.log(searchTerm, "role params")
-            const data = await axios.get(`https://atbtmain.infozit.com/rbac/getroles?search=${searchTerm}`)
+            const data = await atbtApi.get(`/rbac/getroles?search=${searchTerm}`)
             console.log(data, "roles data")
             return data
         },
-        // https://atbtmain.infozit.com/rbac/getroles
+
         action: async ({ request }) => {
 
             let formData = await request.formData();
             let { roleId } = JSON.parse(formData.get("serialized"));
             // const data = await axios.delete(`https://atbtmain.infozit.com/rbac/deleteRole/${roleId}`);
             return await toast.promise(
-                axios.delete(`https://atbtmain.infozit.com/rbac/deleteRole/${roleId}`, {
+                atbtApi.delete(`/rbac/deleteRole/${roleId}`, {
                     headers: {
                         authorization: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEzMiwicm9sZUlkIjoyNSwiaWF0IjoxNzA5NjM0MDgwLCJleHAiOjIwMjQ5OTQwODB9.Mdk2PIIOnMqPX06ol5DKbSqp_CStWs3oFqLGqmFBhgo",
                     }
@@ -50,7 +51,7 @@ export const roleRouter = [
             }
             try {
                 // const { data, status } = await axios.get(`http://localhost:3000/rbac/getrolebyid/${searchTerm}`);
-                const { data, status } = await axios.get(`https://atbtmain.infozit.com/rbac/getrolebyid/${searchTerm}`);
+                const { data, status } = await atbtApi.get(`/rbac/getrolebyid/${searchTerm}`);
                 // Check if the response is successful and return the data
                 if (status === 200) {
                     return { response: data?.role };

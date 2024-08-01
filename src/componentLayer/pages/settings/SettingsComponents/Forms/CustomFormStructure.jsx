@@ -9,6 +9,7 @@ import { Link } from "react-router-dom";
 import $ from "jquery";
 import GateKeeper from "../../../../../rbac/GateKeeper";
 import { PermissionsContext } from "../../../../../rbac/PermissionsProvider";
+import atbtApi from "../../../../../serviceLayer/interceptor";
 const CustomFormStructure = () => {
   const { permissions, loading } = useContext(PermissionsContext);
 
@@ -33,8 +34,8 @@ const CustomFormStructure = () => {
   });
   console.log("newInputField", newInputField);
   useEffect(() => {
-    axios
-      .get(`https://atbtmain.infozit.com/form/list?name=${formName}`)
+    atbtApi
+      .get(`/form/list?name=${formName}`)
       .then((response) => {
         // Handle the successful response
         setCustomForm(response.data.Data);
@@ -350,7 +351,7 @@ const CustomFormStructure = () => {
   };
   const saveCustomForm = async (formData) => {
     toast.promise(
-      axios.put(`https://atbtmain.infozit.com/form/${formName}`, formData),
+      atbtApi.put(`/form/${formName}`, formData),
       {
         pending: "Updating Form",
         success: {
