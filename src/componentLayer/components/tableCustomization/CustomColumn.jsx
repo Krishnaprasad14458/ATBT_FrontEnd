@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import atbtApi from "../../../serviceLayer/interceptor";
 function CustomColumn({ tableView, setTableView, form }) {
   console.log(tableView, "custom tableView");
   const [dupTableView, setDupTableView] = useState(tableView);
@@ -24,15 +25,15 @@ function CustomColumn({ tableView, setTableView, form }) {
   const handleColumnsSave = () => {
     if (true) {
       try {
-        axios
+        atbtApi
           .put(
-            `https://atbtmain.infozit.com/form/tableUpdate?name=${form}`,
+            `/form/tableUpdate?name=${form}`,
             dupTableView
           )
           .then((response) => {
             console.log("Update successful:", response.data);
-            axios
-              .get(`https://atbtmain.infozit.com/form/list?name=${form}`)
+            atbtApi
+              .get(`/form/list?name=${form}`)
               .then((response) => {
                 setTableView(response.data.Tableview);
                 setDupTableView(response.data.Tableview);

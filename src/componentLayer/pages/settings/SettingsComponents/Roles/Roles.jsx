@@ -7,7 +7,7 @@ import atbtApi from "../../../../../serviceLayer/interceptor";
 import { debounce } from "../../../../../utils/utils";
 import GateKeeper from "../../../../../rbac/GateKeeper";
 function deleteRole(id) {
-  return axios.delete(`https://atbtmain.infozit.com/rbac/deleteRole/${id}`);
+  return atbtApi.delete(`/rbac/deleteRole/${id}`);
 }
 // export async function action() {}
 const Roles = () => {
