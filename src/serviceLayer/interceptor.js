@@ -3,6 +3,8 @@ import axios from 'axios';
 const atbtApi = axios.create({
     // baseURL: 'https://atbtmain.infozit.com/',
     baseURL: 'https://atbtbeta.infozit.com/',
+    baseURL: 'https://atbtkapilbeta.infozit.com/',
+
 
     // baseURL: 'http://localhost:3000/',
 
