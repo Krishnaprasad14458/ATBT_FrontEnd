@@ -15,18 +15,20 @@ export const settingRouter = [
             ...formRouter,
         ]
     },
-    ...organizationRouter,
+    {
+        path: 'organizationprofile', children: [
+            ...organizationRouter,
+        ]
+    },
     ...communicationRouter,
-
-
     {
         path: 'roles', children: [
-            ...roleRouter, ,
+            ...roleRouter, 
         ]
     },
     {
         path: 'datashare', children: [
-            ...datasharerouter, ,
+            ...datasharerouter, 
         ]
     },
     ...itegrationRoutes,
